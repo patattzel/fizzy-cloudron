@@ -3,13 +3,11 @@
 }
 
 .windshield {
-  background-color: var(--color-selected);
-  border-radius: 2em;
+  background-color: var(--color-bg);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-block: clamp(var(--block-space), 3%, calc(var(--block-space) * 2));
-  padding-inline: clamp(var(--inline-space), 5%, calc(var(--inline-space) * 3));
 
   > * {
     flex-shrink: 1;
@@ -21,27 +19,35 @@
   --splat-color: var(--color-ink);
   --splat-rotate: 20deg;
 
+  animation: float-up-left 400ms normal forwards ease-out;
   aspect-ratio: 1;
   block-size: var(--splat-size);
-  color: var(--color-ink-reversed);
+  color: var(--splat-color, currentColor);
   container-type: inline-size;
   display: grid;
   place-items: center;
   position: relative;
+  transition: all 0.2s ease;
 
-  .windshield & {
-    animation: float-up-left 400ms normal forwards ease-in-out;
+  &:nth-of-type(2n) {
+    animation-delay: 50ms;
+    animation: float-down-right 400ms normal forwards ease-out;
+  }
 
-    &:nth-of-type(2n) {
-      animation-delay: 50ms;
-      animation: float-up-right 400ms normal forwards ease-in-out;
+  &:nth-of-type(4n) {
+    animation-delay: 150ms;
+  }
+
+  [data-turbo-preview] & { animation: none; }
+
+  @media (hover: hover) {
+    .windshield &:hover {
+      scale: 1.1;
+
+      .splat__svg {
+        transform: rotate(calc(var(--splat-rotate) + 10deg));
+      }
     }
-
-    &:nth-of-type(4n) {
-      animation-delay: 150ms;
-    }
-
-    [data-turbo-preview] & { animation: none; }
   }
 
   > * {
@@ -54,27 +60,28 @@
 }
 
 .splat__link {
-  color: var(--color-ink-reversed);
+  content: "";
+  inset: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 .splat__svg {
-  fill: var(--splat-color);
+  fill: var(--color-bg);
   position: absolute;
-  scale: 1;
+  scale: 1.1;
+  stroke: var(--splat-color);
+  stroke-width: 1.1rem;
   transform: rotate(var(--splat-rotate));
+  transition: all 200ms ease-out;
   z-index: -1;
 }
 
 .splat__bubble {
-  aspect-ratio: 1 / 0.96;
   background-color: var(--splat-color);
-  background-position: 0;
-  background-size: 100%;
-  block-size: 95%;
-  border: 4px solid var(--splat-color);
+  border: 0.3em solid var(--splat-color);
   border-radius: 50%;
   position: absolute;
-  transform: rotate(var(--splat-rotate));
   z-index: -1;
 
   a {
@@ -82,19 +89,24 @@
   }
 
   &.splat__category {
-    inset: auto auto 3cqi 3cqi;
+    inset: auto auto 10cqi 0cqi;
 
     + & {
-      inset: auto auto -5cqi 26cqi;
+      inset: auto auto -2cqi 16cqi;
 
       + & {
-        inset: auto auto -5cqi 52cqi;
+        inset: auto auto -10cqi 32cqi;
       }
+    }
+
+    .windshield &:has(.splat__category--new) {
+      display: none;
     }
   }
 
   &.splat__date {
-    inset: 10cqi 5cqi auto auto;
+    aspect-ratio: 1;
+    inset: 2cqi 2cqi auto auto;
   }
 
   &.splat__meta {
@@ -105,29 +117,44 @@
     font-size: 5cqi;
     font-weight: 800;
     line-height: 1;
+    max-inline-size: 18ch;
     padding: 1em;
     place-items: center;
     position: absolute;
     scale: 1;
+    text-overflow: ellipsis;
     transform: none;
+    transition: all 200ms ease-out;
+    white-space: nowrap;
   }
 
-  &.splat__category-new {
-    .windshield & {
-      display: none;
+  @media (hover: hover) {
+    .windshield .splat:hover & {
+      transform: translate(1rem, 1rem);
+    }
+
+    .windshield .splat:hover & + & {
+      transform: translate(1rem, -1rem);
+    }
+
+    .windshield .splat:hover & + & + & {
+      transform: translate(-1rem, -1rem);
     }
   }
 }
 
 .splat__title {
-  font-size: 10cqi;
-  line-height: 1.2;
-  margin: 12cqi 14cqi;
-
-  -webkit-line-clamp: var(--lines, 3);
+  -webkit-line-clamp: var(--lines, 5);
   -webkit-box-orient: vertical;
   display: -webkit-box;
+  font-size: 8cqi;
+  hyphens: auto;
+  line-height: 1.2;
+  margin: auto;
+  max-block-size: 75cqi;
+  max-inline-size: 75cqi;
   overflow: hidden;
+  pointer-events: none;
   text-overflow: clip;
   white-space: normal;
 }
@@ -135,7 +162,7 @@
 .splats-list {
   --hover-size: 0;
 
-  a {
+  .splat__title-link {
     color: var(--color-txt);
     text-decoration: none;
   }
@@ -144,7 +171,7 @@
     border-radius: 0.6em;
     list-style: none;
     padding: 0.5em 1em;
-    transition: background-color 0.2s ease;
+    transition: background-color 200ms ease;
 
     &:hover{
       background-color: var(--color-selected);
