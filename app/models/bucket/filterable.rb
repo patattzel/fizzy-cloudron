@@ -1,9 +1,5 @@
 module Bucket::Filterable
-  extend ActiveSupport::Concern
-
-  included do
-    attr_accessor :tag_filters, :assignee_filters
-  end
+  attr_accessor :tag_filters, :assignee_filters
 
   def filtered_bubbles(params = {})
     result = bubbles

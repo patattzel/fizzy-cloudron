@@ -11,7 +11,7 @@
     </menu>
   </dialog>
 
-  <% if tag_filters %>
+  <% if bucket.tag_filters %>
     <%= link_to bucket_bubbles_path(bucket, view_filter_params.without(:tag_ids)), class: "btn", style: "font-size: 0.4em;" do %>
       <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Clear</span>

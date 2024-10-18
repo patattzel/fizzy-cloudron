@@ -5,11 +5,11 @@
 </h1>
 
 <h2 class="txt-medium flex align-center justify-center gap-half">
-  <%= tag_filters ? "Tagged" : "with" %>
-  <%= render "bubbles/filters/tags", bucket: bucket, tag_filters: tag_filters %>
+  <%= bucket.tag_filters ? "Tagged" : "with" %>
+  <%= render "bubbles/filters/tags", bucket: bucket %>
 
   <% unless unassigned_filter_activated? %>
-    and <%= render "bubbles/filters/assignees", bucket: bucket, assignee_filters: assignee_filters %>
+    and <%= render "bubbles/filters/assignees", bucket: bucket %>
   <% end %>
 </h2>
 
