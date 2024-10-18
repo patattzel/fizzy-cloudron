@@ -8,7 +8,7 @@
     <% end %>
 
     <header class="txt-align-center">
-      <%= render "bubbles/filters", bucket: @bucket, view: @view %>
+      <%= render "bubbles/filters", bucket: @bucket, view: @view, filter: @filter %>
     </header>
 
     <%= button_to bucket_bubbles_path(@bucket), method: :post, class: "btn btn--plain", form_class: "flex-item-justify-end" do %>
