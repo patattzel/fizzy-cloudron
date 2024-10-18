@@ -3,15 +3,9 @@ class BubblesController < ApplicationController
 
   before_action :set_bubble, only: %i[ show edit update ]
   before_action :clear_assignees, only: :index
-  before_action :set_view, :set_tag_filters, :set_assignee_filters, only: :index
+  before_action :set_view, :set_bubbles, only: :index
 
   def index
-    @bubbles = @bucket.bubbles
-    @bubbles = @bubbles.ordered_by(params[:order_by] || Bubble.default_order_by)
-    @bubbles = @bubbles.with_status(params[:status] || Bubble.default_status)
-    @bubbles = @bubbles.tagged_with(@tag_filters) if @tag_filters
-    @bubbles = @bubbles.assigned_to(@assignee_filters) if @assignee_filters
-    @bubbles = @bubbles.mentioning(params[:term]) if params[:term]
   end
 
   def new
@@ -53,15 +47,7 @@ class BubblesController < ApplicationController
       params[:view_id] = @view&.id
     end
 
-    def set_tag_filters
-      if params[:tag_ids]
-        @tag_filters = Current.account.tags.where id: params[:tag_ids]
-      end
-    end
-
-    def set_assignee_filters
-      if params[:assignee_ids]
-        @assignee_filters = Current.account.users.where id: params[:assignee_ids]
-      end
+    def set_bubbles
+      @bubbles = @bucket.filtered_bubbles helpers.view_filter_params
     end
 end

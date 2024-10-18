@@ -14,6 +14,10 @@ class Bucket::View < ApplicationRecord
     end
   end
 
+  def filtered_bubbles
+    bucket.filtered_bubbles filters
+  end
+
   private
     def must_not_be_the_default_view
       if filters.values.all?(&:blank?) || filters == self.class.default_filters

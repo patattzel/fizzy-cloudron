@@ -4,16 +4,16 @@ module FiltersHelper
   end
 
   def tag_filter_text
-    if @tag_filters
-      @tag_filters.map(&:hashtag).to_choice_sentence
+    if @bucket&.tag_filters
+      @bucket.tag_filters.map(&:hashtag).to_choice_sentence
     else
       "any tag"
     end
   end
 
   def assignee_filter_text
-    if @assignee_filters
-      "assigned to #{@assignee_filters.map(&:name).to_choice_sentence}"
+    if @bucket&.assignee_filters
+      "assigned to #{@bucket.assignee_filters.map(&:name).to_choice_sentence}"
     else
       "assigned to anyone"
     end
