@@ -35,3 +35,8 @@
   50% { transform: translateX(-0.2rem); }
   75% { transform: translateX(0.2rem); }
 }
+
+@keyframes appear-then-fade {
+  0%,100% { opacity: 0; }
+  5%,60%  { opacity: 1; }
+}

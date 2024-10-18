@@ -6,20 +6,36 @@ class Bubble < ApplicationRecord
 
   has_one_attached :image, dependent: :purge_later
 
-  searchable_by :title, using: :bubbles_search_index
-
   before_save :set_default_title
 
-  scope :reverse_chronologically, -> { order(created_at: :desc, id: :desc) }
+  scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
+  scope :chronologically, -> { order created_at: :asc, id: :asc }
+
   scope :ordered_by_activity, -> { left_joins(:comments).group(:id).order(Arel.sql("COUNT(comments.id) + boost_count DESC")) }
 
-  scope :mentioning, ->(query) do
-    bubbles = search(query).select(:id).to_sql
-    comments = Comment.search(query).select(:bubble_id).to_sql
+  scope :with_status, ->(status) do
+    status = status.presence_in %w[ popped not_popped unassigned ]
+    public_send(status) if status
+  end
 
-    left_joins(:comments)
-      .where("bubbles.id in (#{bubbles}) or comments.bubble_id in (#{comments})")
-      .distinct
+  scope :ordered_by, ->(order) do
+    case order
+    when "most_active"    then ordered_by_activity
+    when "most_discussed" then ordered_by_comments
+    when "most_boosted"   then ordered_by_boosts
+    when "newest"         then reverse_chronologically
+    when "oldest"         then chronologically
+    end
+  end
+
+  class << self
+    def default_order_by
+      "most_active"
+    end
+
+    def default_status
+      "not_popped"
+    end
   end
 
   private

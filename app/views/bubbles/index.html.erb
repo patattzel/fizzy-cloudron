@@ -8,7 +8,7 @@
     <% end %>
 
     <header class="txt-align-center">
-      <%= render "bubbles/filters", bucket: @bucket, tag: @tag, assignee: @assignee %>
+      <%= render "bubbles/filters", bucket: @bucket, view: @view, tag_filters: @tag_filters, assignee_filters: @assignee_filters %>
     </header>
 
     <%= button_to bucket_bubbles_path(@bucket), method: :post, class: "btn btn--plain", form_class: "flex-item-justify-end" do %>
@@ -19,8 +19,8 @@
 <% end %>
 
 <section class="windshield flex-inline flex-wrap gap justify-center align-end" style="view-transition-name: windshield_<%= @bucket.id %>">
-  <% if @bubbles.ordered_by_activity.any? %>
-    <%= render partial: "bubbles/bubble", collection: @bubbles.ordered_by_activity.limit(10) %>
+  <% if @bubbles.any? %>
+    <%= render partial: "bubbles/bubble", collection: @bubbles.limit(10) %>
   <% else %>
     <p><strong>Nothing here.</strong></p>
   <% end %>
@@ -28,15 +28,12 @@
 
 <section class="bubbles-list unpad-inline center margin-block-start">
   <header class="flex-inline align-center gap txt-small margin-block-end-half center">
-    <form class="flex-item-no-shrink">
+    <%= bubble_filter_form_tag bucket_bubbles_path(@bucket), method: :get do %>
       <%= search_field_tag :term, params[:term], class: "input center flex-inline", placeholder: "Type to filter…" %>
-      <% bubble_filter_params.without(:term).each do |name, value| %>
-        <%= hidden_field_tag name, value %>
-      <% end %>
-    </form>
+    <% end %>
   </header>
 
   <ul class="unpad margin-none flex flex-column txt-align-start center">
-    <%= render partial: "bubbles/list/bubble", collection: @bubbles.ordered_by_activity %>
+    <%= render partial: "bubbles/list/bubble", collection: @bubbles %>
   </ul>
 </section>
