@@ -2,7 +2,7 @@ class BucketsController < ApplicationController
   before_action :set_bucket, except: %i[ index new create ]
 
   def index
-    @buckets = (Current.user.buckets.all + Current.user.bucket_views.all).sort_by(&:updated_at)
+    @buckets = (Current.user.buckets.all + Current.user.bucket_views.all).sort_by(&:updated_at).reverse!
   end
 
   def new
