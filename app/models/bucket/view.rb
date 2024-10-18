@@ -14,8 +14,8 @@ class Bucket::View < ApplicationRecord
     end
   end
 
-  def filtered_bubbles
-    bucket.filtered_bubbles filters
+  def bubbles
+    @bubbles ||= bucket.bubble_filter_from(filters).bubbles
   end
 
   private

@@ -3,9 +3,10 @@ class BubblesController < ApplicationController
 
   before_action :set_bubble, only: %i[ show edit update ]
   before_action :clear_assignees, only: :index
-  before_action :set_view, :set_bubbles, only: :index
+  before_action :set_view, :set_filter, only: :index
 
   def index
+    @bubbles = @filter.bubbles
   end
 
   def new
@@ -47,7 +48,7 @@ class BubblesController < ApplicationController
       params[:view_id] = @view&.id
     end
 
-    def set_bubbles
-      @bubbles = @bucket.filtered_bubbles helpers.view_filter_params
+    def set_filter
+      @filter = @bucket.bubble_filter_from helpers.view_filter_params
     end
 end
