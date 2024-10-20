@@ -1,3 +1,4 @@
+<%# FIXME: Can't use a Current.user reference in a partial that must be cached. Needs to convert to use Stimulus controller pulling from a meta current-id %>
 <%= tag.div id: dom_id(comment), class: [ "comment flex align-start full-width", { "comment--mine": Current.user == comment.creator } ] do %>
   <figure class="comment__avatar flex-item-no-shrink">
     <%= avatar_tag comment.creator, loading: :lazy %>
