@@ -24,6 +24,7 @@
 
   <small class="flex align-center gap flex-item-no-shrink">
     <% bubble.tags.each do |tag| %>
+      <%# FIXME: This is not going to work, this partial must be cacheable, so it can't mutate a changeable view filter live. Need a JS solution. %>
       <%= link_to "##{tag.title}", bucket_bubbles_path(bubble.bucket, view_filter_params.merge(tag_ids: tag.id)), style: "color: #{bubble.color}" %>
     <% end %>
 
