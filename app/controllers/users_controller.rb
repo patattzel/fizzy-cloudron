@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
     user = @account.users.create!(user_params)
     start_new_session_for user
-    redirect_to root_url
+    redirect_to root_path
   end
 
   private

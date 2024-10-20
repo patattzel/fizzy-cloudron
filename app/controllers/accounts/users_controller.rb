@@ -8,7 +8,7 @@ class Accounts::UsersController < ApplicationController
 
   def destroy
     @user.deactivate
-    redirect_to users_url
+    redirect_to users_path
   end
 
   private

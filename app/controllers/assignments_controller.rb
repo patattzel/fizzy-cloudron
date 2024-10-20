@@ -3,7 +3,7 @@ class AssignmentsController < ApplicationController
 
   def create
     @bubble.assign(find_assignee)
-    redirect_to bucket_bubble_url(@bucket, @bubble)
+    redirect_to bucket_bubble_path(@bucket, @bubble)
   end
 
   private

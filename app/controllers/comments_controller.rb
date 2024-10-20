@@ -3,6 +3,6 @@ class CommentsController < ApplicationController
 
   def create
     @bubble.comment! params.expect(comment: [ :body ])
-    redirect_to bucket_bubble_url(@bucket, @bubble)
+    redirect_to bucket_bubble_path(@bucket, @bubble)
   end
 end

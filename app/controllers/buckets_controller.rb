@@ -11,7 +11,7 @@ class BucketsController < ApplicationController
 
   def create
     @bucket = Current.account.buckets.create! bucket_params
-    redirect_to bucket_bubbles_url(@bucket)
+    redirect_to bucket_bubbles_path(@bucket)
   end
 
   def edit
@@ -25,12 +25,12 @@ class BucketsController < ApplicationController
       @bucket.accesses.revise granted: grantees, revoked: revokees
     end
 
-    redirect_to bucket_bubbles_url(@bucket)
+    redirect_to bucket_bubbles_path(@bucket)
   end
 
   def destroy
     @bucket.destroy
-    redirect_to buckets_url
+    redirect_to buckets_path
   end
 
   private

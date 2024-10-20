@@ -12,7 +12,7 @@ class Accounts::JoinCodesController < ApplicationController
 
   private
     def qr_code_svg
-      join_url(Current.account.join_code).then do |url|
+      join_path(Current.account.join_code).then do |url|
         RQRCode::QRCode.new(url).as_svg(viewbox: true, fill: :white, color: :black)
       end
     end

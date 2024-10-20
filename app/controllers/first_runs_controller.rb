@@ -9,12 +9,12 @@ class FirstRunsController < ApplicationController
   def create
     user = FirstRun.create!(user_params)
     start_new_session_for user
-    redirect_to root_url
+    redirect_to root_path
   end
 
   private
     def prevent_repeats
-      redirect_to root_url unless Account.none?
+      redirect_to root_path unless Account.none?
     end
 
     def user_params
