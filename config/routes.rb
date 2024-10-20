@@ -28,6 +28,10 @@ Rails.application.routes.draw do
     resources :tags, only: :index
   end
 
+  resolve "Bubble" do |bubble, options|
+    route_for :bucket_bubble, bubble.bucket, bubble, options
+  end
+
   resource :first_run
   resource :session
 

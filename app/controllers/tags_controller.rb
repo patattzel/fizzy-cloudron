@@ -13,7 +13,7 @@ class TagsController < ApplicationController
 
   def create
     @bubble.tags << Current.account.tags.find_or_create_by!(tag_params)
-    redirect_to bucket_bubble_path(@bucket, @bubble)
+    redirect_to @bubble
   end
 
   def destroy

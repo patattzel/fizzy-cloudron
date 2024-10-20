@@ -3,6 +3,6 @@ class Bubbles::ImagesController < ApplicationController
 
   def destroy
     @bubble.image.purge_later
-    redirect_to bucket_bubble_path(@bubble.bucket, @bubble)
+    redirect_to @bubble
   end
 end

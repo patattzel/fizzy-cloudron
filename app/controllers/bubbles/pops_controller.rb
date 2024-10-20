@@ -3,11 +3,11 @@ class Bubbles::PopsController < ApplicationController
 
   def create
     @bubble.pop!
-    redirect_to bucket_bubble_path(@bubble.bucket, @bubble)
+    redirect_to @bubble
   end
 
   def destroy
     @bubble.unpop
-    redirect_to bucket_bubble_path(@bubble.bucket, @bubble)
+    redirect_to @bubble
   end
 end
