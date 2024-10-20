@@ -7,4 +7,8 @@ module Bubble::Taggable
 
     scope :tagged_with, ->(tags) { joins(:taggings).where(taggings: { tag: tags }) }
   end
+
+  def tag(title)
+    taggings.create! tag: bucket.account.tags.find_or_create_by!(title: title)
+  end
 end

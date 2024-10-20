@@ -11,21 +11,13 @@ class TagsController < ApplicationController
   def new
   end
 
+  # FIXME: Should move this to a taggings controller to separate tag administration from applying
   def create
-    @bubble.tags << Current.account.tags.find_or_create_by!(tag_params)
+    @bubble.tag(params.require(:tag).expect(:title))
     redirect_to @bubble
   end
 
-  def destroy
-    Current.account.tags.find(params[:id]).destroy
-    redirect_to root_path
-  end
-
   private
-    def tag_params
-      params.expect(tag: [ :title ])
-    end
-
     def set_bubble
       @bubble = @bucket.bubbles.find(params[:bubble_id])
     end
