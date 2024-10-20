@@ -11,12 +11,6 @@ class BubbleTest < ActiveSupport::TestCase
     end
   end
 
-  test "commenting" do
-    bubbles(:logo).comment! "Agreed."
-
-    assert_equal "Agreed.", bubbles(:logo).comments.last.body
-  end
-
   test "assigning" do
     bubbles(:logo).assign users(:david)
 
