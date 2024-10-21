@@ -1,0 +1,25 @@
+<%= turbo_frame_tag dom_id(@bubble, :stage_picker) do %>
+  <% if @selected_workflow %>
+    <article class="border txt-large" style="position: absolute; top: 5rem; right: 1rem;" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+      <button class="btn btn--plain filter__button" data-action="click->dialog#toggle" data-dialog-modal-value="true">
+        <%= @selected_workflow.name %>
+      </button>
+
+      <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
+        <menu class="filter__menu unpad margin-none">
+          <% @workflows.each do |workflow| %>
+            <li><%= link_to_stage_picker @bubble, workflow %></li>
+          <% end %>
+        </menu>
+      </dialog>
+
+      <div class="border-top flex flex-column pad gap">
+        <menu class="filter__menu unpad margin-none">
+          <% @selected_workflow.stages.each do |stage| %>
+            <li><%= button_to_set_stage @bubble, stage %></li>
+          <% end %>
+        </menu>
+      </div>
+    </article>
+  <% end %>
+<% end %>

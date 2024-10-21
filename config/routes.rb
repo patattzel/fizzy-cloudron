@@ -8,28 +8,30 @@ Rails.application.routes.draw do
     end
   end
 
+  resolve "Bubble" do |bubble, options|
+    route_for :bucket_bubble, bubble.bucket, bubble, options
+  end
+
   resources :buckets do
-    scope module: :buckets do
-      resources :views
-    end
-
     resources :bubbles do
-      scope module: :bubbles do
-        resource :image
-        resource :pop
-      end
-
       resources :assignments
       resources :boosts
       resources :comments
       resources :tags, shallow: true
+
+      scope module: :bubbles do
+        resource :image
+        resource :pop
+        resource :stage_picker
+        resources :stagings
+      end
     end
 
     resources :tags, only: :index
-  end
 
-  resolve "Bubble" do |bubble, options|
-    route_for :bucket_bubble, bubble.bucket, bubble, options
+    scope module: :buckets do
+      resources :views
+    end
   end
 
   resource :first_run
@@ -39,6 +41,10 @@ Rails.application.routes.draw do
     scope module: :users do
       resource :avatar
     end
+  end
+
+  resources :workflows do
+    resources :stages, module: :workflows
   end
 
   get "join/:join_code", to: "users#new", as: :join

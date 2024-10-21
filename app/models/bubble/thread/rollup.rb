@@ -25,9 +25,10 @@ class Bubble::Thread::Rollup
     def sorted_entries
       entries.sort_by do |entry|
         case entry.action
-        when "created"  then [ 1, entry.created_at ]
-        when "assigned" then [ 2, entry.created_at ]
-        when "boosted"  then [ 3, entry.creator, entry.created_at ]
+        when "created"            then [ 1, entry.created_at ]
+        when "assigned"           then [ 2, entry.created_at ]
+        when "staged", "unstaged" then [ 3, entry.created_at ]
+        when "boosted"            then [ 4, entry.creator, entry.created_at ]
         end
       end
     end
@@ -41,9 +42,13 @@ class Bubble::Thread::Rollup
       when "created"
         "added by #{entry.creator.name} #{time_ago_in_words(entry.created_at)} ago"
       when "assigned"
-        summary = "assigned to #{entry.assignee_names.to_sentence}"
+        summary = "assigned to #{entry.assignees.map(&:name).to_sentence}"
         summary += " #{time_ago_in_words(entry.created_at)} ago" unless first_position?
         summary
+      when "staged"
+        "#{entry.creator.name} moved this to '#{entry.stage.name}'"
+      when "unstaged"
+        "#{entry.creator.name} removed this from '#{entry.stage.name}'"
       when "boosted"
         "#{entry.creator.name} +#{chunk_size}"
       end

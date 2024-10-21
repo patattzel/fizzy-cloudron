@@ -18,8 +18,8 @@
     <span class="txt-small">Update</span>
   <% end %>
 
-  <%= button_tag type: :submit, form: dom_id(view, :delete_form), class: "btn", style: "font-size: 0.4em;" do %>
-    <%= image_tag "alert.svg", aria: { hidden: true }, size: 24 %>
+  <%= button_tag type: :submit, form: dom_id(view, :delete_form), class: "btn", style: "font-size: 0.4em;", data: { turbo_confirm: "Are you sure you want to delete this filter?" } do %>
+    <%= image_tag "minus.svg", aria: { hidden: true }, size: 24 %>
     <span class="txt-small">Delete</span>
   <% end %>
 <% end %>

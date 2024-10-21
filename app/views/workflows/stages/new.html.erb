@@ -1,0 +1,6 @@
+<%= turbo_frame_tag dom_id(@stage.workflow, :stages) do %>
+  <%= form_with model: @stage, url: account_workflow_stages_path(@stage.workflow) do |form| %>
+    <%= form.text_field :name, required: true, autofocus: true %>
+    <%= form.submit %>
+  <% end %>
+<% end %>
