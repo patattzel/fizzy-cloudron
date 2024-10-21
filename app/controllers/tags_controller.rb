@@ -2,7 +2,6 @@ class TagsController < ApplicationController
   include BucketScoped
 
   before_action :set_bubble, only: %i[ new create ]
-  skip_before_action :set_bucket, only: :destroy
 
   def index
     @tags = Current.account.tags.order(:title)
