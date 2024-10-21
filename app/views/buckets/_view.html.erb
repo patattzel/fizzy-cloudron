@@ -14,10 +14,9 @@
     </div>
   <% end %>
 
-  <div class="flex align-center justify-center flex-column center">
-    <%= link_to path, class: "txt-ink" do %>
-      <strong class="txt-x-large"><%= view.bucket.name %></strong>
-      <p class="margin-none"><%= view.summary %></p>
+  <div class="flex align-center justify-center flex-column flex-wrap center">
+    <%= link_to path, class: "txt-ink flex flex-column" do %>
+      <strong class="txt-x-large"><%= view.summary %> in <%= view.bucket.name %></strong>
     <% end %>
   </div>
 </li>
