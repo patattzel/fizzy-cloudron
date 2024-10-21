@@ -13,7 +13,7 @@ class WorkflowsController < ApplicationController
     @workflow = Current.account.workflows.create! workflow_params
     # FIXME: this should definitely change.
     %w[ Triage WIP On-hold ].each { |name| @workflow.stages.create! name: name }
-    redirect_to account_workflows_path
+    redirect_to workflows_path
   end
 
   def show
@@ -24,12 +24,12 @@ class WorkflowsController < ApplicationController
 
   def update
     @workflow.update! workflow_params
-    redirect_to account_workflow_path(@workflow)
+    redirect_to workflow_path(@workflow)
   end
 
   def destroy
     @workflow.destroy
-    redirect_to account_workflows_path
+    redirect_to workflows_path
   end
 
   private
