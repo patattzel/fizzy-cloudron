@@ -38,6 +38,6 @@ class WorkflowsController < ApplicationController
     end
 
     def workflow_params
-      params.expect(workflow: [ :name ])
+      params.expect workflow: [ :name ]
     end
 end
