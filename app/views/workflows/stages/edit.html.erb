@@ -8,7 +8,7 @@
           <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
         <% end %>
 
-        <%= link_to workflow_path(@workflow), class: "btn btn--small", data: { turbo_frame: dom_id(@workflow), turbo_confirm: "Are you sure you want to delete this workflow?" } do %>
+        <%= link_to workflow_path(@workflow), class: "btn btn--small", data: { turbo_frame: dom_id(@workflow) } do %>
           <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
         <% end %>
       </div>
