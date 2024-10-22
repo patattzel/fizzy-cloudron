@@ -1,0 +1,6 @@
+<%= turbo_frame_tag :workflows do %>
+  <%= form_with model: @workflow, url: workflows_path do |form| %>
+    <%= form.text_field :name, required: true, autofocus: true %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

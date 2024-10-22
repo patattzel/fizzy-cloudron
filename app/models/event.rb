@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
-  THREADABLE_ACTIONS = %w[ assigned boosted created ]
+  THREADABLE_ACTIONS = %w[ assigned boosted created staged unstaged ]
 
-  include Assignments
+  include Assignments, Stages
 
   belongs_to :creator, class_name: "User"
   belongs_to :bubble, touch: true

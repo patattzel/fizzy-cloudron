@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_17_202003) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_18_223027) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -77,7 +77,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_17_202003) do
     t.date "due_on"
     t.integer "bucket_id", null: false
     t.integer "boost_count", default: 0, null: false
+    t.integer "stage_id"
     t.index ["bucket_id"], name: "index_bubbles_on_bucket_id"
+    t.index ["stage_id"], name: "index_bubbles_on_stage_id"
   end
 
   create_table "bucket_views", force: :cascade do |t|
@@ -166,14 +168,33 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_17_202003) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "workflow_stages", force: :cascade do |t|
+    t.integer "workflow_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workflow_id"], name: "index_workflow_stages_on_workflow_id"
+  end
+
+  create_table "workflows", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_workflows_on_account_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "taggings", "bubbles"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
+  add_foreign_key "workflow_stages", "workflows"
+  add_foreign_key "workflows", "accounts"
 
   # Virtual tables defined in this database.
   # Note that virtual tables may not work with other database engines. Be careful if changing database.

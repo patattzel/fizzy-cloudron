@@ -1,0 +1,11 @@
+<% if bubble.popped? %>
+  <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), method: :delete, class: "btn" do %>
+    <%= image_tag "pop.svg", aria: { hidden: true }, size: 24 %>
+    <span>Un-pop</span>
+  <% end %>
+<% else %>
+  <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), class: "btn" do %>
+    <%= image_tag "pop.svg", aria: { hidden: true }, size: 24 %>
+    <span>Pop</span>
+  <% end %>
+<% end %>
