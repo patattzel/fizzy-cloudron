@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  include Searchable
+  include Searchable, Threadable
 
   belongs_to :bubble, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
