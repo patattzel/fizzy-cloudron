@@ -2,7 +2,7 @@ module Bubble::Eventable
   extend ActiveSupport::Concern
 
   included do
-    has_many :events, dependent: :delete_all
+    has_many :events
 
     after_create -> { track_event :created }
   end

@@ -3,5 +3,5 @@ class Rollup < ApplicationRecord
 
   belongs_to :bubble
 
-  has_many :events, -> { chronologically }
+  has_many :events, -> { chronologically }, dependent: :delete_all
 end
