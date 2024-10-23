@@ -9,6 +9,7 @@ export default class extends Controller {
 
   #summarizeBoosts() {
     const el = document.createElement("span")
+    el.dataset.turboTemporary = ""
     el.textContent = this.#boostSumaries.toSentence()
     this.element.appendChild(el)
   }
