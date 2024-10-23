@@ -14,8 +14,13 @@
   </nav>
 <% end %>
 
-<div class="bubble__perma flex justify-center center margin-block-end-double">
-  <%= render "bubbles/bubble", bubble: @bubble %>
-</div>
+<%= cache @bubble do %>
+  <div class="bubble__perma flex justify-center center margin-block-end-double">
+    <%= render "bubbles/bubble", bubble: @bubble %>
+  </div>
 
-<%= render @bubble.thread %>
+  <section id="<%= dom_id(@bubble, :thread) %>" class="comments align-center center borderless margin flex flex-column gap-half" style="--bubble-color: <%= @bubble.color %>;">
+    <%= render partial: "thread_entries/thread_entry", collection: @bubble.thread.entries, cache: true %>
+    <%= render "comments/new", bubble: @bubble %>
+  </section>
+<% end %>

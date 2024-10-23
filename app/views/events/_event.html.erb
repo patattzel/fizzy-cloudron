@@ -1,0 +1,5 @@
+<%= cache event do %>
+  <%# Template Dependency: events/actions/* %>
+  <%= render "events/actions/#{event.action}", event: event %>
+<% end %>
+
