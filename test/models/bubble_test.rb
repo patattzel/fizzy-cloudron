@@ -6,7 +6,7 @@ class BubbleTest < ActiveSupport::TestCase
   end
 
   test "boosting" do
-    assert_difference %w[ bubbles(:logo).boost_count bubbles(:logo).events.count ], +1 do
+    assert_difference %w[ bubbles(:logo).boost_count Event.count ], +1 do
       bubbles(:logo).boost!
     end
   end
@@ -16,7 +16,7 @@ class BubbleTest < ActiveSupport::TestCase
 
     assert_equal users(:kevin, :jz, :david), bubbles(:logo).assignees
     assert_equal users(:david, :kevin), bubbles(:logo).assigners.uniq
-    assert_equal [ "David" ], bubbles(:logo).events.last.assignee_names
+    assert_equal [ "David" ], Event.last.assignee_names
   end
 
   test "searchable by title" do
