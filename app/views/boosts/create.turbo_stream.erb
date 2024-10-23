@@ -3,5 +3,5 @@
 <% end %>
 
 <%= turbo_stream.replace dom_id(@bubble, :thread) do %>
-  <%= render @bubble.thread %>
+  <%= render "bubbles/thread", bubble: @bubble %>
 <% end %>
