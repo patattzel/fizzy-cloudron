@@ -3,7 +3,6 @@ logo_created:
   bubble: logo
   action: created
   rollup: logo_initial_activity
-  particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago %>
 
 logo_assignment_jz:
@@ -11,7 +10,7 @@ logo_assignment_jz:
   bubble: logo
   action: assigned
   rollup: logo_initial_activity
-  particulars: <%= { assignee_names: [ "JZ" ], creator_name: "David" }.to_json %>
+  particulars: <%= { assignee_ids: [ ActiveRecord::FixtureSet.identify(:jz) ] }.to_json %>
   created_at: <%= 1.week.ago + 1.hour %>
 
 logo_boost_dhh:
@@ -19,7 +18,6 @@ logo_boost_dhh:
   bubble: logo
   action: boosted
   rollup: logo_initial_activity
-  particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago + 2.hours %>
 
 logo_assignment_km:
@@ -27,7 +25,7 @@ logo_assignment_km:
   bubble: logo
   action: assigned
   rollup: logo_second_activity
-  particulars: <%= { assignee_names: [ "Kevin" ], creator_name: "David" }.to_json %>
+  particulars: <%= { assignee_ids: [ ActiveRecord::FixtureSet.identify(:kevin) ] }.to_json %>
   created_at: <%= 1.day.ago %>
 
 logo_boost_km1:
@@ -35,7 +33,6 @@ logo_boost_km1:
   bubble: logo
   action: boosted
   rollup: logo_second_activity
-  particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.day.ago + 1.hour %>
 
 logo_boost_km2:
@@ -43,7 +40,6 @@ logo_boost_km2:
   bubble: logo
   action: boosted
   rollup: logo_second_activity
-  particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.day.ago + 2.hours %>
 
 logo_boost_jz1:
@@ -51,7 +47,6 @@ logo_boost_jz1:
   bubble: logo
   action: boosted
   rollup: logo_second_activity
-  particulars: <%= { creator_name: "JZ" }.to_json %>
   created_at: <%= 1.day.ago + 3.hours %>
 
 logo_boost_jz2:
@@ -59,7 +54,6 @@ logo_boost_jz2:
   bubble: logo
   action: boosted
   rollup: logo_third_activity
-  particulars: <%= { creator_name: "JZ" }.to_json %>
   created_at: <%= 1.hour.ago %>
 
 layout_created:
@@ -67,7 +61,6 @@ layout_created:
   bubble: layout
   action: created
   rollup: layout_initial_activity
-  particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago %>
 
 layout_assignment_jz:
@@ -75,7 +68,7 @@ layout_assignment_jz:
   bubble: layout
   action: assigned
   rollup: layout_initial_activity
-  particulars: <%= { assignee_names: [ "JZ" ], creator_name: "David" }.to_json %>
+  particulars: <%= { assignee_ids: [ ActiveRecord::FixtureSet.identify(:jz) ] }.to_json %>
   created_at: <%= 1.hour.ago %>
 
 text_created:
@@ -83,7 +76,6 @@ text_created:
   bubble: text
   action: created
   rollup: text_initial_activity
-  particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.week.ago %>
 
 shipping_created:
@@ -91,5 +83,4 @@ shipping_created:
   bubble: shipping
   action: created
   rollup: shipping_initial_activity
-  particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.week.ago %>

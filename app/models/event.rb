@@ -7,7 +7,5 @@ class Event < ApplicationRecord
 
   has_one :account, through: :creator
 
-  store_accessor :particulars, :creator_name
-
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 end
