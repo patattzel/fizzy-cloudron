@@ -2,7 +2,7 @@ require "test_helper"
 
 class BubbleTest < ActiveSupport::TestCase
   setup do
-    Current.user = users(:kevin)
+    Current.session = sessions(:david)
   end
 
   test "boosting" do
@@ -15,7 +15,6 @@ class BubbleTest < ActiveSupport::TestCase
     bubbles(:logo).assign users(:david)
 
     assert_equal users(:kevin, :jz, :david), bubbles(:logo).assignees
-    assert_equal users(:david, :kevin), bubbles(:logo).assigners.uniq
     assert_equal [ "David" ], Event.last.assignee_names
   end
 

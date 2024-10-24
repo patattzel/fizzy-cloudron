@@ -3,9 +3,7 @@ module Bubble::Assignable
 
   included do
     has_many :assignments, dependent: :delete_all
-
     has_many :assignees, through: :assignments
-    has_many :assigners, through: :assignments
 
     scope :unassigned, -> { where.missing :assignments }
     scope :assigned_to, ->(users) { joins(:assignments).where(assignments: { assignee: users }) }
