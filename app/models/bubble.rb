@@ -14,7 +14,7 @@ class Bubble < ApplicationRecord
   scope :ordered_by_activity, -> { left_joins(:comments).group(:id).order(Arel.sql("COUNT(comments.id) + boost_count DESC")) }
 
   scope :with_status, ->(status) do
-    status = status.presence_in %w[ popped not_popped unassigned ]
+    status = status.presence_in %w[ popped active unassigned ]
     public_send(status) if status
   end
 
@@ -34,7 +34,7 @@ class Bubble < ApplicationRecord
     end
 
     def default_status
-      "not_popped"
+      "active"
     end
   end
 

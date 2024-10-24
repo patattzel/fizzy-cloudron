@@ -3,7 +3,7 @@ require "test_helper"
 class Bubble::PoppableTest < ActiveSupport::TestCase
   test "popped scope" do
     assert_equal [ bubbles(:shipping) ], Bubble.popped
-    assert_not_includes Bubble.not_popped, bubbles(:shipping)
+    assert_not_includes Bubble.active, bubbles(:shipping)
   end
 
   test "popping" do
