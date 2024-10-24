@@ -1,6 +1,7 @@
 logo_created:
   creator: david
   action: created
+  bubble: logo
   rollup: logo_initial_activity
   particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago %>
@@ -8,6 +9,7 @@ logo_created:
 logo_assignment_jz:
   creator: david
   action: assigned
+  bubble: logo
   rollup: logo_initial_activity
   particulars: <%= { assignee_names: [ "JZ" ], creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago + 1.hour %>
@@ -15,6 +17,7 @@ logo_assignment_jz:
 logo_boost_dhh:
   creator: david
   action: boosted
+  bubble: logo
   rollup: logo_initial_activity
   particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago + 2.hours %>
@@ -22,6 +25,7 @@ logo_boost_dhh:
 logo_assignment_km:
   creator: david
   action: assigned
+  bubble: logo
   rollup: logo_second_activity
   particulars: <%= { assignee_names: [ "Kevin" ], creator_name: "David" }.to_json %>
   created_at: <%= 1.day.ago %>
@@ -29,6 +33,7 @@ logo_assignment_km:
 logo_boost_km1:
   creator: kevin
   action: boosted
+  bubble: logo
   rollup: logo_second_activity
   particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.day.ago + 1.hour %>
@@ -36,6 +41,7 @@ logo_boost_km1:
 logo_boost_km2:
   creator: kevin
   action: boosted
+  bubble: logo
   rollup: logo_second_activity
   particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.day.ago + 2.hours %>
@@ -43,6 +49,7 @@ logo_boost_km2:
 logo_boost_jz1:
   creator: jz
   action: boosted
+  bubble: logo
   rollup: logo_second_activity
   particulars: <%= { creator_name: "JZ" }.to_json %>
   created_at: <%= 1.day.ago + 3.hours %>
@@ -50,6 +57,7 @@ logo_boost_jz1:
 logo_boost_jz2:
   creator: jz
   action: boosted
+  bubble: logo
   rollup: logo_third_activity
   particulars: <%= { creator_name: "JZ" }.to_json %>
   created_at: <%= 1.hour.ago %>
@@ -57,6 +65,7 @@ logo_boost_jz2:
 layout_created:
   creator: david
   action: created
+  bubble: layout
   rollup: layout_initial_activity
   particulars: <%= { creator_name: "David" }.to_json %>
   created_at: <%= 1.week.ago %>
@@ -64,6 +73,7 @@ layout_created:
 layout_assignment_jz:
   creator: david
   action: assigned
+  bubble: layout
   rollup: layout_initial_activity
   particulars: <%= { assignee_names: [ "JZ" ], creator_name: "David" }.to_json %>
   created_at: <%= 1.hour.ago %>
@@ -71,6 +81,7 @@ layout_assignment_jz:
 text_created:
   creator: kevin
   action: created
+  bubble: text
   rollup: text_initial_activity
   particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.week.ago %>
@@ -78,6 +89,7 @@ text_created:
 shipping_created:
   creator: kevin
   action: created
+  bubble: shipping
   rollup: shipping_initial_activity
   particulars: <%= { creator_name: "Kevin" }.to_json %>
   created_at: <%= 1.week.ago %>

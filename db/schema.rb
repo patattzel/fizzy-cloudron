@@ -111,12 +111,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
   end
 
   create_table "events", force: :cascade do |t|
+    t.integer "bubble_id", null: false
     t.integer "creator_id", null: false
     t.json "particulars", default: {}
     t.string "action", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rollup_id"
+    t.index ["bubble_id", "action"], name: "index_events_on_bubble_id_and_action"
     t.index ["creator_id"], name: "index_events_on_creator_id"
     t.index ["rollup_id"], name: "index_events_on_rollup_id"
   end
@@ -202,6 +204,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
+  add_foreign_key "events", "bubbles"
   add_foreign_key "events", "rollups"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
