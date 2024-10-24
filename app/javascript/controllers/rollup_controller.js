@@ -8,7 +8,7 @@ export default class extends Controller {
   }
 
   #summarizeBoosts() {
-    if (this.hasBoostEventTargets) {
+    if (this.hasBoostEventTarget) {
       const el = document.createElement("span")
       el.dataset.turboTemporary = ""
       el.textContent = this.#boostSumaries.toSentence()
