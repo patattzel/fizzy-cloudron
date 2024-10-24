@@ -1,4 +1,8 @@
-<section id="<%= dom_id(bubble, :thread) %>" class="comments align-center center borderless margin flex flex-column gap-half" style="--bubble-color: <%= bubble.color %>;">
+<section id="<%= dom_id(bubble, :thread) %>"
+  class="comments align-center center borderless margin flex flex-column gap-half"
+  style="--bubble-color: <%= bubble.color %>"
+  data-controller="thread"
+  data-thread-my-comment-class="comment--mine">
   <%= render partial: "thread_entries/thread_entry", collection: bubble.thread.entries, cache: true %>
   <%= render "comments/new", bubble: bubble %>
 </section>
