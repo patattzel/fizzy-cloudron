@@ -7,7 +7,7 @@ module Bubble::Commentable
     scope :ordered_by_comments, -> { left_joins(:comments).group(:id).order("COUNT(comments.id) DESC") }
   end
 
-  def comment!(body)
+  def comment(body)
     thread_entries.create! threadable: Comment.new(body: body, bubble: self)
   end
 end
