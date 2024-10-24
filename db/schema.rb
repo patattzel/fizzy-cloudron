@@ -68,6 +68,23 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.index ["bubble_id"], name: "index_assignments_on_bubble_id"
   end
 
+  create_table "bubble_thread_entries", force: :cascade do |t|
+    t.integer "thread_id", null: false
+    t.string "threadable_type", null: false
+    t.integer "threadable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thread_id"], name: "index_bubble_thread_entries_on_thread_id"
+    t.index ["threadable_type", "threadable_id"], name: "index_bubble_thread_entries_on_threadable", unique: true
+  end
+
+  create_table "bubble_threads", force: :cascade do |t|
+    t.integer "bubble_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bubble_id"], name: "index_bubble_threads_on_bubble_id"
+  end
+
   create_table "bubbles", force: :cascade do |t|
     t.string "title"
     t.string "color"
@@ -110,6 +127,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "event_rollups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.integer "bubble_id", null: false
     t.integer "creator_id", null: false
@@ -130,11 +152,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.datetime "updated_at", null: false
     t.index ["bubble_id"], name: "index_pops_on_bubble_id", unique: true
     t.index ["user_id"], name: "index_pops_on_user_id"
-  end
-
-  create_table "rollups", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -161,16 +178,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.datetime "updated_at", null: false
     t.integer "account_id", null: false
     t.index ["account_id"], name: "index_tags_on_account_id"
-  end
-
-  create_table "thread_entries", force: :cascade do |t|
-    t.integer "bubble_id", null: false
-    t.string "threadable_type", null: false
-    t.integer "threadable_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bubble_id"], name: "index_thread_entries_on_bubble_id"
-    t.index ["threadable_type", "threadable_id"], name: "index_thread_entries_on_threadable", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -203,15 +210,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bubble_thread_entries", "bubble_threads", column: "thread_id"
+  add_foreign_key "bubble_threads", "bubbles"
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
-  add_foreign_key "events", "bubbles"
-  add_foreign_key "events", "rollups"
+  add_foreign_key "events", "event_rollups", column: "rollup_id"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "taggings", "bubbles"
   add_foreign_key "taggings", "tags"
-  add_foreign_key "thread_entries", "bubbles"
   add_foreign_key "users", "accounts"
   add_foreign_key "workflow_stages", "workflows"
   add_foreign_key "workflows", "accounts"

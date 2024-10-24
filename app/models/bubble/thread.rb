@@ -1,16 +1,13 @@
-class Bubble::Thread
-  def initialize(bubble)
-    @bubble = bubble
-  end
+class Bubble::Thread < ApplicationRecord
+  belongs_to :bubble, touch: true
 
-  def entries
-    @entries ||= bubble.thread_entries
-  end
+  has_many :entries, -> { chronologically }, dependent: :destroy
 
   def latest_rollup
-    entries.last&.rollup || Rollup.new(bubble: bubble)
+    entries.last&.event_rollup || Event::Rollup.new(thread: self)
   end
 
-  private
-    attr_reader :bubble
+  def to_partial_path
+    "bubbles/threads/thread"
+  end
 end

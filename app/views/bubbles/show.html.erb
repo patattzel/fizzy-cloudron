@@ -14,10 +14,8 @@
   </nav>
 <% end %>
 
-<%= cache @bubble do %>
-  <div class="bubble__perma flex justify-center center margin-block-end-double">
-    <%= render "bubbles/bubble", bubble: @bubble %>
-  </div>
+<div class="bubble__perma flex justify-center center margin-block-end-double">
+  <%= render "bubbles/bubble", bubble: @bubble %>
+</div>
 
-  <%= render "bubbles/thread", bubble: @bubble %>
-<% end %>
+<%= render @bubble.thread %>

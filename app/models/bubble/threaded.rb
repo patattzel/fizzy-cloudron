@@ -2,12 +2,8 @@ module Bubble::Threaded
   extend ActiveSupport::Concern
 
   included do
-    has_many :thread_entries, -> { chronologically }, dependent: :destroy
+    has_one :thread, dependent: :destroy
 
-    delegate :latest_rollup, to: :thread
-  end
-
-  def thread
-    @thread ||= Bubble::Thread.new self
+    after_create -> { create_thread! }
   end
 end
