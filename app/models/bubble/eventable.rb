@@ -6,12 +6,7 @@ module Bubble::Eventable
   end
 
   private
-    def track_event(action, rollup: latest_rollup, creator: Current.user, **particulars)
-      transaction do
-        Event.create! action: action, creator: creator, rollup: rollup, particulars: { creator_name: creator.name }.merge(particulars)
-        thread_entries.create! threadable: rollup
-      end
-    rescue ActiveRecord::RecordNotUnique
-      # rollup has already been threaded
+    def track_event(action, creator: Current.user, **particulars)
+      Event.create! action: action, creator: creator, rollup: latest_rollup, particulars: { creator_name: creator.name }.merge(particulars)
     end
 end
