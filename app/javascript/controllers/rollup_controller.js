@@ -8,12 +8,16 @@ export default class extends Controller {
   }
 
   #summarizeBoosts() {
-    if (this.hasBoostEventTarget) {
+    if (this.#isBoosted) {
       const el = document.createElement("span")
       el.dataset.turboTemporary = ""
       el.textContent = this.#boostSumaries.toSentence()
       this.element.appendChild(el)
     }
+  }
+
+  get #isBoosted() {
+    return this.hasBoostEventTarget
   }
 
   get #boostSumaries() {
