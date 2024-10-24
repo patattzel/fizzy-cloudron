@@ -7,5 +7,7 @@ module Threadable
     has_one :thread_entry, as: :threadable, class_name: "Bubble::Thread::Entry"
 
     after_create -> { create_thread_entry! thread: thread }
+    after_update -> { thread_entry.touch }
+    after_touch -> { thread_entry.touch }
   end
 end
