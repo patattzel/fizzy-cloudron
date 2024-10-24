@@ -15,10 +15,10 @@ module Bucket::View::Summarized
     end
 
     def assignee_summary
-      "assigned to <mark>#{assignee_names.to_choice_sentence}</mark>" if assignee_names.any?
+      "assigned to <mark>#{assignees.map(&:name).to_choice_sentence}</mark>" if assignees.any?
     end
 
     def tag_summary
-      "tagged <mark>#{tag_names.to_choice_sentence}</mark>" if tag_names.any?
+      "tagged <mark>#{tags.map(&:hashtag).to_choice_sentence}</mark>" if tags.any?
     end
 end
