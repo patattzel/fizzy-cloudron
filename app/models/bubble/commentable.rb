@@ -8,9 +8,6 @@ module Bubble::Commentable
   end
 
   def comment!(body)
-    transaction do
-      comment = comments.create! body: body
-      thread_entries.create! threadable: comment
-    end
+    thread_entries.create! threadable: Comment.new(body: body, bubble: self)
   end
 end
