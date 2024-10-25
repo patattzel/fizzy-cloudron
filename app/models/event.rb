@@ -8,4 +8,6 @@ class Event < ApplicationRecord
   has_one :account, through: :creator
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
+  scope :unfurled, -> { where.not action: :boosted }
+  scope :furled, -> { where action: :boosted }
 end
