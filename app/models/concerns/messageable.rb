@@ -4,10 +4,8 @@ module Messageable
   TYPES = %w[ Comment EventSummary ]
 
   included do
-    has_one :message, as: :messageable
+    has_one :message, as: :messageable, touch: true
 
     after_create -> { create_message! bubble: bubble }
-    after_update -> { message.touch }
-    after_touch -> { message.touch }
   end
 end
