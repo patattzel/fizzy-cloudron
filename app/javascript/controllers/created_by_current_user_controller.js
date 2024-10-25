@@ -9,10 +9,6 @@ export default class extends Controller {
   }
 
   get #createdElements() {
-    return this.element.querySelectorAll(this.#selector)
-  }
-
-  get #selector() {
-    return `${this.selectorValue}[data-creator-id='${Current.user.id}']`
+    return this.element.querySelectorAll(`${this.selectorValue}[data-creator-id='${Current.user.id}']`)
   }
 }
