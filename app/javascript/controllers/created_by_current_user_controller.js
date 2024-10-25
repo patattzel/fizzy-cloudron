@@ -2,10 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = { selector: String }
-  static classes = [ "differentiator" ]
+  static classes = [ "mine" ]
 
   connect() {
-    this.#createdElements.forEach(el => el.classList.add(this.differentiatorClass))
+    this.#createdElements.forEach(el => el.classList.add(this.mineClass))
   }
 
   get #createdElements() {
