@@ -2,6 +2,6 @@
   <%= render "boosts/boosts", bubble: @bubble %>
 <% end %>
 
-<%= turbo_stream.replace dom_id(@bubble.thread) do %>
-  <%= render @bubble.thread %>
+<%= turbo_stream.replace dom_id(@bubble, :thread) do %>
+  <%= render "bubbles/thread", bubble: @bubble %>
 <% end %>

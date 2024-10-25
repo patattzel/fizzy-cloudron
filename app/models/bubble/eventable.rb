@@ -9,6 +9,6 @@ module Bubble::Eventable
 
   private
     def track_event(action, creator: Current.user, **particulars)
-      events.create! action: action, creator: creator, rollup: thread.latest_rollup, particulars: particulars
+      events.create! action: action, creator: creator, summary: latest_event_summary, particulars: particulars
     end
 end

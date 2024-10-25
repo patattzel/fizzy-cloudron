@@ -3,7 +3,7 @@ class Event < ApplicationRecord
 
   belongs_to :creator, class_name: "User"
   belongs_to :bubble, touch: true
-  belongs_to :rollup, touch: true
+  belongs_to :summary, touch: true, class_name: "EventSummary"
 
   has_one :account, through: :creator
 

@@ -68,23 +68,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.index ["bubble_id"], name: "index_assignments_on_bubble_id"
   end
 
-  create_table "bubble_thread_entries", force: :cascade do |t|
-    t.integer "thread_id", null: false
-    t.string "threadable_type", null: false
-    t.integer "threadable_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["thread_id"], name: "index_bubble_thread_entries_on_thread_id"
-    t.index ["threadable_type", "threadable_id"], name: "index_bubble_thread_entries_on_threadable", unique: true
-  end
-
-  create_table "bubble_threads", force: :cascade do |t|
-    t.integer "bubble_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bubble_id"], name: "index_bubble_threads_on_bubble_id"
-  end
-
   create_table "bubbles", force: :cascade do |t|
     t.string "title"
     t.string "color"
@@ -127,7 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "event_rollups", force: :cascade do |t|
+  create_table "event_summaries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -139,10 +122,20 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
     t.string "action", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "rollup_id"
+    t.integer "summary_id"
     t.index ["bubble_id", "action"], name: "index_events_on_bubble_id_and_action"
     t.index ["creator_id"], name: "index_events_on_creator_id"
-    t.index ["rollup_id"], name: "index_events_on_rollup_id"
+    t.index ["summary_id"], name: "index_events_on_summary_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "bubble_id", null: false
+    t.string "messageable_type", null: false
+    t.integer "messageable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bubble_id"], name: "index_messages_on_bubble_id"
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable", unique: true
   end
 
   create_table "pops", force: :cascade do |t|
@@ -210,10 +203,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_180133) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "bubble_thread_entries", "bubble_threads", column: "thread_id"
-  add_foreign_key "bubble_threads", "bubbles"
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
-  add_foreign_key "events", "event_rollups", column: "rollup_id"
+  add_foreign_key "events", "event_summaries", column: "summary_id"
+  add_foreign_key "messages", "bubbles"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"
