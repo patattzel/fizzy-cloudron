@@ -6,7 +6,7 @@ class BubbleTest < ActiveSupport::TestCase
   end
 
   test "boosting" do
-    assert_difference %w[ bubbles(:logo).boost_count bubbles(:logo).events.count ], +1 do
+    assert_difference %w[ bubbles(:logo).boost_count Event.count ], +1 do
       bubbles(:logo).boost!
     end
   end
@@ -15,7 +15,7 @@ class BubbleTest < ActiveSupport::TestCase
     bubbles(:logo).assign users(:david)
 
     assert_equal users(:kevin, :jz, :david), bubbles(:logo).assignees
-    assert_equal [ users(:david) ], bubbles(:logo).events.last.assignees
+    assert_equal [ users(:david) ], Event.last.assignees
   end
 
   test "searchable by title" do
@@ -26,8 +26,8 @@ class BubbleTest < ActiveSupport::TestCase
 
   test "mentioning" do
     bubble = buckets(:writebook).bubbles.create! title: "Insufficient haggis", creator: users(:kevin)
-    bubbles(:logo).comments.create! body: "I hate haggis", creator: users(:kevin)
-    bubbles(:text).comments.create! body: "I love haggis", creator: users(:kevin)
+    bubbles(:logo).comment "I hate haggis"
+    bubbles(:text).comment "I love haggis"
 
     assert_equal [ bubble, bubbles(:logo), bubbles(:text) ].sort, Bubble.mentioning("haggis").sort
   end
