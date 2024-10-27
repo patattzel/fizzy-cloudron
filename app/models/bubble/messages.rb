@@ -5,7 +5,7 @@ module Bubble::Messages
     has_many :messages, -> { chronologically }, dependent: :destroy
   end
 
-  def latest_event_summary
-    messages.last&.event_summary || EventSummary.new(bubble: self)
+  def capture(messageable)
+    messages.create! messageable: messageable
   end
 end

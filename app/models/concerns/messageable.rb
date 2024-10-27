@@ -5,7 +5,6 @@ module Messageable
 
   included do
     has_one :message, as: :messageable, touch: true
-
-    after_create -> { create_message! bubble: bubble }
+    has_one :bubble, through: :message
   end
 end
