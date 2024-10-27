@@ -1,9 +1,39 @@
 class EventSummary < ApplicationRecord
   include Messageable
 
-  has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary do
-    def tallied_boosts
-      boosts.group(:creator).count
-    end
+  has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary
+
+  def body
+    "#{main_summary} #{boosts_summary}"
   end
+
+  private
+    delegate :time_ago_in_words, to: "ApplicationController.helpers"
+
+    def main_summary
+      events.non_boosts.map { |event| summarize(event) }.join(" ")
+    end
+
+    def summarize(event)
+      case event.action
+      when "created"
+        "Added by #{event.creator.name} #{time_ago_in_words(event.created_at)} ago."
+      when "assigned"
+        "Assigned to #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+      when "staged"
+        "#{event.creator.name} moved this to '#{event.stage_name}'."
+      when "unstaged"
+        "#{event.creator.name} removed this from '#{event.stage_name}'."
+      end
+    end
+
+    def boosts_summary
+      tallied_boosts.map do |creator, count|
+        "#{creator.name} +#{count}"
+      end.to_sentence + "."
+    end
+
+    def tallied_boosts
+      events.boosts.group(:creator).count
+    end
 end
