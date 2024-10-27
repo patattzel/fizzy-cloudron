@@ -4,7 +4,7 @@ class EventSummary < ApplicationRecord
   has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary
 
   def body
-    "#{main_summary} #{boosts_summary}"
+    "#{main_summary} #{boosts_summary}".squish
   end
 
   private
@@ -28,9 +28,11 @@ class EventSummary < ApplicationRecord
     end
 
     def boosts_summary
-      tallied_boosts.map do |creator, count|
-        "#{creator.name} +#{count}"
-      end.to_sentence + "."
+      if (tally = tallied_boosts.presence)
+        tally.map do |creator, count|
+          "#{creator.name} +#{count}"
+        end.to_sentence + "."
+      end
     end
 
     def tallied_boosts
