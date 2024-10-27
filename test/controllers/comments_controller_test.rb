@@ -6,7 +6,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create" do
-    assert_difference "bubbles(:logo).comments.count", +1 do
+    assert_difference "bubbles(:logo).messages.comments.count", +1 do
       post bucket_bubble_comments_url(buckets(:writebook), bubbles(:logo), params: { comment: { body: "Agreed." } })
     end
 

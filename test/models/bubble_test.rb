@@ -26,8 +26,8 @@ class BubbleTest < ActiveSupport::TestCase
 
   test "mentioning" do
     bubble = buckets(:writebook).bubbles.create! title: "Insufficient haggis", creator: users(:kevin)
-    bubbles(:logo).comment "I hate haggis"
-    bubbles(:text).comment "I love haggis"
+    bubbles(:logo).capture Comment.new(body: "I hate haggis")
+    bubbles(:text).capture Comment.new(body: "I love haggis")
 
     assert_equal [ bubble, bubbles(:logo), bubbles(:text) ].sort, Bubble.mentioning("haggis").sort
   end

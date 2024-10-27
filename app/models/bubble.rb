@@ -1,5 +1,5 @@
 class Bubble < ApplicationRecord
-  include Assignable, Boostable, Colored, Commentable, Eventable, Messages, Poppable, Searchable, Staged, Taggable
+  include Assignable, Boostable, Colored, Eventable, Messages, Poppable, Searchable, Staged, Taggable
 
   belongs_to :bucket
   belongs_to :creator, class_name: "User", default: -> { Current.user }
@@ -11,7 +11,12 @@ class Bubble < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
 
-  scope :ordered_by_activity, -> { left_joins(:comments).group(:id).order(Arel.sql("COUNT(comments.id) + boost_count DESC")) }
+  scope :ordered_by_activity, -> do
+    left_joins(:messages).merge(Message.comments).group(:id).order(Arel.sql("COUNT(messages.id) + boost_count DESC"))
+  end
+  scope :ordered_by_comments, -> do
+    left_joins(:messages).merge(Message.comments).group(:id).order("COUNT(messages.id) DESC")
+  end
 
   scope :with_status, ->(status) do
     status = status.presence_in %w[ popped active unassigned ]

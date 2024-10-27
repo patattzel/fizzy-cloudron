@@ -2,7 +2,12 @@ class CommentsController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def create
-    @bubble.comment params.require(:comment).expect(:body)
+    @bubble.capture new_comment
     redirect_to @bubble
   end
+
+  private
+    def new_comment
+      Comment.new params.expect(comment: [ :body ])
+    end
 end
