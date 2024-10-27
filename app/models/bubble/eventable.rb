@@ -11,11 +11,11 @@ module Bubble::Eventable
   private
     def track_event(action, creator: Current.user, **particulars)
       transaction do
-        find_or_create_next_summary.events << Event.new(action: action, creator: creator, particulars: particulars)
+        find_or_create_active_summary.events << Event.new(action: action, creator: creator, particulars: particulars)
       end
     end
 
-    def find_or_create_next_summary
+    def find_or_create_active_summary
       messages.last&.event_summary || capture(event_summaries.build).messageable
     end
 end
