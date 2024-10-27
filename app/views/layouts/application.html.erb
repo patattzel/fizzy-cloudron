@@ -9,9 +9,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <% if Current.user %>
-      <meta name="current-user-id" content="<%= Current.user.id %>">
-    <% end %>
+    <%= tag.meta name: "current-user-id", content: Current.user.id if Current.user %>
 
     <%= yield :head %>
 
