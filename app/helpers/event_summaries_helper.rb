@@ -13,8 +13,8 @@ module EventSummariesHelper
   end
 
   def tallied_boosts_for(event_summary)
-    event_summary.events.tallied_boosts.map do |creator, count|
-      "#{creator.name} +#{count}"
-    end.to_sentence + "."
+    if (tally = event_summary.events.tallied_boosts.presence)
+      tally.map { |creator, count| "#{creator.name} +#{count}" }.to_sentence + "."
+    end
   end
 end
