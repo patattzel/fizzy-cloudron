@@ -3,6 +3,7 @@ class EventSummary < ApplicationRecord
 
   has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary
 
+  # FIXME: Consider persisting the body and compute at write time.
   def body
     "#{main_summary} #{boosts_summary}".squish
   end
