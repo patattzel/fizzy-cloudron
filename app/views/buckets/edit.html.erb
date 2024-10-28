@@ -16,7 +16,7 @@
   </nav>
 <% end %>
 
-<div class="panel shadow center" style="--panel-size: 55ch; view-transition-name: new-bucket">
+<div class="panel shadow center" style="--panel-size: 55ch;">
   <%= form_with model: @bucket, class: "flex flex-column gap txt-large", controller: "form" do |form| %>
     <%= image_tag "bubbles.svg", aria: { hidden: "true" }, size: 150, class: "colorize--black center" %>
 
@@ -24,14 +24,14 @@
       <%= translation_button(:bucket_name) %>
 
       <label class="flex-item-grow txt-large">
-        <%= form.text_field :name, name: "bucket[name]", class: "input full-width",
+        <strong><%= form.text_field :name, name: "bucket[name]", class: "input full-width",
               required: true, autofocus: true, placeholder: "Give it a name…",
-              data: { action: "keydown.enter->form#submit:prevent" } %>
+              data: { action: "keydown.enter->form#submit:prevent" } %></strong>
       </label>
     </div>
 
     <section class="margin-block pad-inline fill-shade border-radius">
-      <menu class="flex flex-column gap margin-none pad overflow-y constrain-height" data-controller="filter" data-filter-active-class="filter--active" data-filter-selected-class="selected">
+      <menu class="flex flex-column gap margin-none pad txt-medium" data-controller="filter" data-filter-active-class="filter--active" data-filter-selected-class="selected">
         <% if User.active.count > 20 %>
           <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-action="input->filter#filter">
         <% end %>

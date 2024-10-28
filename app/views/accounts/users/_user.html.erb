@@ -5,7 +5,7 @@
     <%= user.name %>
   </strong>
 
-  <hr class="flex-item-grow margin-none" aria-hidden="true">
+  <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
 
   <%# FIXME: Move this Current.user check to a stimulus controller that just checks for admin? or the like we so we can cache user list %>
   <%= button_to account_user_path(user), method: :delete, class: "btn btn--small btn--negative flex-item-no-shrink",
