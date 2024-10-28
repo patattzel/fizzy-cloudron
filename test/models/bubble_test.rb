@@ -5,6 +5,14 @@ class BubbleTest < ActiveSupport::TestCase
     Current.session = sessions(:david)
   end
 
+  test "capturing messages" do
+    assert_difference "bubbles(:logo).messages.count", +1 do
+      bubbles(:logo).capture Comment.new(body: "Agreed.")
+    end
+
+    assert_equal "Agreed.", bubbles(:logo).messages.last.messageable.body
+  end
+
   test "boosting" do
     assert_difference %w[ bubbles(:logo).boost_count Event.count ], +1 do
       bubbles(:logo).boost!
