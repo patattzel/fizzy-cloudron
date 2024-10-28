@@ -11,11 +11,16 @@ class Bubble < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
 
-  scope :ordered_by_activity, -> do
-    left_joins(:messages).merge(Message.comments).group(:id).order(Arel.sql("COUNT(messages.id) + boost_count DESC"))
+  scope :left_joins_comments, -> do
+    left_joins(:messages).merge(Message.left_joins_messageable(:comments))
   end
+
+  scope :ordered_by_activity, -> do
+    left_joins_comments.select("bubbles.*, COUNT(comments.id) + boost_count AS activity").group(:id).order("activity DESC")
+  end
+
   scope :ordered_by_comments, -> do
-    left_joins(:messages).merge(Message.comments).group(:id).order("COUNT(messages.id) DESC")
+    left_joins_comments.select("bubbles.*, COUNT(comments.id) AS comment_count").group(:id).order("comment_count DESC")
   end
 
   scope :with_status, ->(status) do

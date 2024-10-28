@@ -24,6 +24,15 @@ class BubbleTest < ActiveSupport::TestCase
     assert_includes Bubble.search("haggis"), bubble
   end
 
+  test "ordering by activity" do
+    bubbles(:layout).update! boost_count: 1_000
+    assert_equal bubbles(:layout, :logo, :shipping, :text), Bubble.ordered_by_activity.to_a
+  end
+
+  test "ordering by comments" do
+    assert_equal bubbles(:logo, :layout, :shipping, :text), Bubble.ordered_by_comments.to_a
+  end
+
   test "mentioning" do
     bubble = buckets(:writebook).bubbles.create! title: "Insufficient haggis", creator: users(:kevin)
     bubbles(:logo).capture Comment.new(body: "I hate haggis")

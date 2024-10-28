@@ -4,4 +4,8 @@ class Message < ApplicationRecord
   delegated_type :messageable, types: Messageable::TYPES, inverse_of: :message, dependent: :destroy
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
+
+  scope :left_joins_messageable, ->(messageable_type) do
+    joins "LEFT OUTER JOIN #{messageable_type} ON messages.messageable_id = #{messageable_type}.id"
+  end
 end
