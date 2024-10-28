@@ -8,9 +8,8 @@ module BubblesHelper
   end
 
   def bubble_size(bubble)
-    activity = bubble.boost_count + bubble.messages.comments.size
     rank =
-      case activity
+      case bubble.activity_count
       when 0..5   then "one"
       when 6..10  then "two"
       when 11..25 then "three"

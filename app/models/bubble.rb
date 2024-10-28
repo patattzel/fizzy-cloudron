@@ -48,6 +48,10 @@ class Bubble < ApplicationRecord
     end
   end
 
+  def activity_count
+    boost_count + messages.comments.size
+  end
+
   private
     def set_default_title
       self.title = title.presence || "Untitled"
