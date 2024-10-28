@@ -9,6 +9,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= tag.meta name: "current-user-id", content: Current.user.id if Current.user %>
+
     <%= yield :head %>
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>

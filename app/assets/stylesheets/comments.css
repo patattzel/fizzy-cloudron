@@ -44,7 +44,7 @@
     margin-inline: var(--avatar-size) 0;
   }
 
-  .comment:has(+ .comment--upvotes) & {
+  .comment:has(+ .event-summary) & {
     padding-block-end: calc(var(--comment-padding-block) * 1.5);
   }
 }
@@ -73,8 +73,9 @@
   opacity: 0.5;
 }
 
-.comment--upvotes {
+.event-summary {
   font-weight: 600;
   margin-block: calc(var(--comment-padding-block) * -1);
   padding: calc(var(--comment-padding-block) * 0.5) var(--comment-padding-inline);
+  gap: 0.5ch;
 }

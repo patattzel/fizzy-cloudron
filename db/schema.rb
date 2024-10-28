@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_18_223027) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_25_224942) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -105,20 +105,34 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_18_223027) do
   create_table "comments", force: :cascade do |t|
     t.text "body", null: false
     t.integer "creator_id", null: false
-    t.integer "bubble_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "event_summaries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
-    t.integer "bubble_id", null: false
     t.integer "creator_id", null: false
     t.json "particulars", default: {}
     t.string "action", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["bubble_id", "action"], name: "index_events_on_bubble_id_and_action"
+    t.integer "summary_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
+    t.index ["summary_id", "action"], name: "index_events_on_summary_id_and_action"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "bubble_id", null: false
+    t.string "messageable_type", null: false
+    t.integer "messageable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bubble_id"], name: "index_messages_on_bubble_id"
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable", unique: true
   end
 
   create_table "pops", force: :cascade do |t|
@@ -187,6 +201,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_18_223027) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
+  add_foreign_key "events", "event_summaries", column: "summary_id"
+  add_foreign_key "messages", "bubbles"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"

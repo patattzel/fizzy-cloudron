@@ -2,11 +2,19 @@ require "test_helper"
 
 class BubbleTest < ActiveSupport::TestCase
   setup do
-    Current.user = users(:kevin)
+    Current.session = sessions(:david)
+  end
+
+  test "capturing messages" do
+    assert_difference "bubbles(:logo).messages.count", +1 do
+      bubbles(:logo).capture Comment.new(body: "Agreed.")
+    end
+
+    assert_equal "Agreed.", bubbles(:logo).messages.last.messageable.body
   end
 
   test "boosting" do
-    assert_difference %w[ bubbles(:logo).boost_count bubbles(:logo).events.count ], +1 do
+    assert_difference %w[ bubbles(:logo).boost_count Event.count ], +1 do
       bubbles(:logo).boost!
     end
   end
@@ -15,9 +23,7 @@ class BubbleTest < ActiveSupport::TestCase
     bubbles(:logo).assign users(:david)
 
     assert_equal users(:kevin, :jz, :david), bubbles(:logo).assignees
-    assert_equal users(:david, :kevin), bubbles(:logo).assigners.uniq
-    assert_equal [ users(:david).id ], bubbles(:logo).events.last.assignee_ids
-    assert_equal [ "David" ], bubbles(:logo).events.last.assignees.map(&:name)
+    assert_equal [ users(:david) ], Event.last.assignees
   end
 
   test "searchable by title" do
@@ -26,10 +32,19 @@ class BubbleTest < ActiveSupport::TestCase
     assert_includes Bubble.search("haggis"), bubble
   end
 
+  test "ordering by activity" do
+    bubbles(:layout).update! boost_count: 1_000
+    assert_equal bubbles(:layout, :logo, :shipping, :text), Bubble.ordered_by_activity.to_a
+  end
+
+  test "ordering by comments" do
+    assert_equal bubbles(:logo, :layout, :shipping, :text), Bubble.ordered_by_comments.to_a
+  end
+
   test "mentioning" do
     bubble = buckets(:writebook).bubbles.create! title: "Insufficient haggis", creator: users(:kevin)
-    bubbles(:logo).comments.create! body: "I hate haggis", creator: users(:kevin)
-    bubbles(:text).comments.create! body: "I love haggis", creator: users(:kevin)
+    bubbles(:logo).capture Comment.new(body: "I hate haggis")
+    bubbles(:text).capture Comment.new(body: "I love haggis")
 
     assert_equal [ bubble, bubbles(:logo), bubbles(:text) ].sort, Bubble.mentioning("haggis").sort
   end
