@@ -28,14 +28,10 @@ class EventSummary < ApplicationRecord
     end
 
     def boosts_summary
-      if (tally = tallied_boosts.presence)
+      if tally = events.boosts.group(:creator).count.presence
         tally.map do |creator, count|
           "#{creator.name} +#{count}"
         end.to_sentence + "."
       end
-    end
-
-    def tallied_boosts
-      events.boosts.group(:creator).count
     end
 end
