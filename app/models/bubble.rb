@@ -23,6 +23,7 @@ class Bubble < ApplicationRecord
     left_joins_comments.select("bubbles.*, COUNT(comments.id) AS comment_count").group(:id).order("comment_count DESC")
   end
 
+  # FIXME: `status` implies an enum. Consider a name change.
   scope :with_status, ->(status) do
     status = status.presence_in %w[ popped active unassigned ]
     public_send(status) if status
