@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_25_224942) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_28_183212) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -120,7 +120,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_25_224942) do
     t.string "action", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "summary_id"
+    t.integer "summary_id", null: false
     t.index ["creator_id"], name: "index_events_on_creator_id"
     t.index ["summary_id", "action"], name: "index_events_on_summary_id_and_action"
   end
