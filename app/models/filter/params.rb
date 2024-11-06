@@ -35,10 +35,12 @@ module Filter::Params
   end
 
   def indexed_by
-    (params["indexed_by"] || self.class.default_params["indexed_by"]).inquiry
+    (params["indexed_by"] || default_params["indexed_by"]).inquiry
   end
 
   private
+    delegate :default_params, to: :class, private: true
+
     def sanitize_params
       denormalize_resource_ids
       self.params = non_default_params
@@ -46,6 +48,6 @@ module Filter::Params
     end
 
     def non_default_params
-      params.reject { |k, v| self.class.default_params[k] == v }
+      params.reject { |k, v| default_params[k] == v }
     end
 end
