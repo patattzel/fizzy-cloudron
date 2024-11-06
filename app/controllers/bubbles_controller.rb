@@ -11,10 +11,6 @@ class BubblesController < ApplicationController
     @bubbles = @bubbles.mentioning(params[:term]) if params[:term].present?
   end
 
-  def new
-    @bubble = @bucket.bubbles.build
-  end
-
   def create
     @bubble = @bucket.bubbles.create!
     redirect_to @bubble

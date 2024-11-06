@@ -1,9 +1,4 @@
 module FiltersHelper
-  def bubble_filters_heading(filter, &)
-    tag.h1 class: "txt-large flex align-center gap-half",
-      style: token_list("margin-inline-end: calc(var(--btn-size) / -2);": filter.savable?), &
-  end
-
   def buckets_filter_text(filter)
     if filter.buckets.present?
       filter.buckets.map(&:name).to_choice_sentence

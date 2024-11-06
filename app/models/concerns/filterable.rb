@@ -10,8 +10,6 @@ module Filterable
 
   private
     def remove_from_filters
-      filters.each do |filter|
-        filter.resource_removed kind: self.class.name.downcase, id: id
-      end
+      filters.each { |filter| filter.resource_removed self }
     end
 end

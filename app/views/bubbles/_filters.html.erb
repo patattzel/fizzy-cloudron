@@ -1,11 +1,11 @@
 <div class="flex flex-column gap-half align-center">
-  <%= bubble_filters_heading filter do %>
+  <h1 class="txt-large flex align-center gap-half">
     <%= render "bubbles/filters/index", filter: filter %>
     in
     <%= render "bubbles/filters/buckets", filter: filter %>
 
-    <%= render "bubbles/filters/bookmark", filter: filter if filter.savable? %>
-  <% end %>
+    <%= render "bubbles/filters/bookmark", filter: filter %>
+  </h1>
 
   <h2 class="txt-medium flex align-center justify-center gap-half">
     <%= filter.tags.present? ? "Tagged" : "with" %>
