@@ -38,7 +38,7 @@ module FiltersHelper
   end
 
   def bubble_filter_form_tag(path, method:, id: nil)
-    form_tag path, method: method, id: id do
+    form_tag path, method: method, id: id, class: "full-width" do
       yield if block_given?
 
       if params[:order_by].present?

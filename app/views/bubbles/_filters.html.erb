@@ -1,28 +1,185 @@
-<div class="flex flex-column gap-half align-center">
-  <h1 class="txt-large flex align-center gap-half" style="margin-inline-end: calc(var(--btn-size) / -2);">
-    <%= render "bubbles/filters/main", bucket: bucket %>
-    in
-    <%= render "bubbles/filters/bucket", bucket: bucket %>
-
-  <% if false %>
-    <%= button_tag type: :submit, class: "btn txt-small borderless" do %>
-      <%= image_tag "bookmark.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Save this filter</span>
-    <% end %>
-  <% else %>
-    <%= button_tag type: :submit, class: "btn txt-small borderless" do %>
-        <%= image_tag "bookmark-outline.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Save this filter</span>
-      <% end %>
-  <% end %>
+<div class="flex flex-column gap-half align-center" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+  <h1 class="txt-large flex align-center gap-half">
+    Writebook
   </h1>
 
-  <h2 class="txt-medium flex align-center justify-center gap-half">
-    <%= filter.tags ? "Tagged" : "with" %>
-    <%= render "bubbles/filters/tags", bucket: bucket, filter: filter %>
+  <div class="filters flex-inline align-center gap-half">
+    <button class="btn btn--plain txt-small" data-action="click->dialog#toggle">
+      <%= image_tag "filter.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Filter</span>
+    </button>
 
-    <% unless unassigned_filter_activated? %>
-      and <%= render "bubbles/filters/assignees", bucket: bucket, filter: filter %>
-    <% end %>
-  </h2>
+    <button class="btn txt-small btn--remove">
+      <span>"Basecamp"</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+
+    <button class="btn txt-small btn--remove">
+      <span>Newest</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+
+    <button class="btn txt-small btn--remove">
+      <span>Writebook</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+
+    <button class="btn txt-small btn--remove">
+      <span>Mobile</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+
+    <button class="btn txt-small btn--remove">
+      <span>for Kevin</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+
+    <button class="btn txt-small btn--remove">
+      <span>from David</span>
+      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+    </button>
+  </div>
+
+  <dialog class="panel fill-white shadow" style="--panel-padding: var(--block-space); --panel-size: 90ch;" data-dialog-target="dialog">
+    <div class="flex flex-column gap-half">
+      <div class="flex align-center gap-half justify-space-between">
+        <span class="btn btn--placeholder txt-small" aria-hidden="true"></span>
+
+        <h1 class="txt-large flex gap-half margin-none">
+          Writebook
+        </h1>
+
+        <form method="dialog">
+          <button class="btn panel__close txt-small" title="Close (esc)">
+            <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
+            <span class="for-screen-reader">Close</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="flex-inline center align-center gap-half margin-block-half">
+        <button class="btn btn--plain txt-small" data-action="click->dialog#toggle">
+          <%= image_tag "filter.svg", aria: { hidden: true }, size: 24 %>
+          <span class="for-screen-reader">Filter</span>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>"Basecamp"</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>Newest</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>Writebook</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>Mobile</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>for Kevin</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+
+        <button class="btn txt-small btn--remove fill-selected">
+          <span>from David</span>
+          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+      </div>
+
+      <div class="flex gap flex-item-grow align-center justify-center full-width center margin-block">
+        <input type="text" class="input full-width" placeholder="Type to match words…" autocomplete="off" />
+
+        <button class="btn txt-small" type="submit">
+          <span class="for-screen-reader">Submit text filter</span>
+          <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+      </div>
+
+      <div class="flex flex-column gap full-width" style="--border-color: var(--color-subtle)">
+        <div class="flex gap">
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">Sort by</strong></li>
+              <% Bucket::View::ORDERS.each do |key, value| %>
+                <li><%= link_to value.humanize, bucket_bubbles_path(bucket, view_filter_params.merge(order_by: key, status: nil)), class: "filter__button" %></li>
+              <% end %>
+            </menu>
+          </div>
+
+          <hr class="separator" />
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">In Project</strong></li>
+              <li><a href="">All projects</a></li>
+              <% Current.user.buckets.order(:name).each do |bucket| %>
+                <li><%= link_to bucket.name, bucket_bubbles_path(bucket, view_filter_params), class: "filter__button" %></li>
+              <% end %>
+            </menu>
+          </div>
+
+          <hr class="separator" />
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">Tagged</strong></li>
+              <% bucket.tags.order(:title).each do |tag| %>
+                <li><%= link_to tag.title, bucket_bubbles_path(bucket, view_filter_params.merge(tag_ids: [ tag.id ])) %></li>
+              <% end %>
+            </menu>
+          </div>
+
+          <hr class="separator" />
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">Assigned to…</strong></li>
+              <li><a href="">No one</a></li>
+              <% bucket.users.active.order(:name).each do |user| %>
+                <li><%= link_to user.name, bucket_bubbles_path(bucket, view_filter_params.merge(assignee_ids: [ user.id ])) %></li>
+              <% end %>
+            </menu>
+          </div>
+
+          <hr class="separator" />
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">Assigned by…</strong></li>
+              <li><a href="">Me</a></li>
+              <% bucket.users.active.order(:name).each do |user| %>
+                <li><%= link_to user.name, bucket_bubbles_path(bucket, view_filter_params.merge(assignee_ids: [ user.id ])) %></li>
+              <% end %>
+            </menu>
+          </div>
+
+          <hr class="separator" />
+          <div class="flex gap flex-item-grow">
+            <menu class="filter__menu unpad margin-none">
+              <li><strong class="filter__label">Status</strong></li>
+              <% Bucket::View::STATUSES.each do |key, value| %>
+                <li><%= link_to value.humanize, bucket_bubbles_path(bucket, view_filter_params.merge(order_by: nil, status: key)), class: "filter__button" %></li>
+              <% end %>
+            </menu>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex align-center txt-align-center justify-space-between gap-half margin-block-start">
+        <button class="btn">
+          <%= image_tag "bubbles.svg", aria: { hidden: true }, size: 24 %>
+          <span>Save to home</span>
+        </button>
+
+        <button class="btn btn--reversed">
+          <span>Apply</span>
+          <%= image_tag "arrow-right.svg", aria: { hidden: true }, size: 24 %>
+        </button>
+      </div>
+    </div>
+  </dialog>
 </div>

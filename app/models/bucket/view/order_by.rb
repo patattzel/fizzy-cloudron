@@ -7,9 +7,8 @@ module Bucket::View::OrderBy
 
   private
     ORDERS = {
-      "most_active" => "most active",
-      "most_discussed" => "most discussed",
-      "most_boosted" => "most boosted",
+      "most_discussed" => "most comments",
+      "most_boosted" => "most boosts",
       "newest" => "newest",
       "oldest" => "oldest" }
 end
