@@ -15,10 +15,8 @@ module Filter::Params
   end
 
   def to_params
-    params.merge(tag_ids: tags.ids.presence, assignee_ids: assignees.ids.presence, bucket_ids: buckets.ids.presence).then do |params|
-      ActionController::Parameters.new(params).permit(*KNOWN_PARAMS).tap do |params|
-        params[:filter_id] = id if persisted?
-      end
+    ActionController::Parameters.new(params).permit(*KNOWN_PARAMS).tap do |params|
+      params[:filter_id] = id if persisted?
     end
   end
 
