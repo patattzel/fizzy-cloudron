@@ -2,7 +2,6 @@ class Filter < ApplicationRecord
   include Params, Resources, Summarized
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
-
   has_one :account, through: :creator
 
   class << self
