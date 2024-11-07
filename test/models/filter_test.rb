@@ -13,11 +13,20 @@ class FilterTest < ActiveSupport::TestCase
 
   test "bubbles" do
     Current.set session: sessions(:david) do
-      @inaccessible_bucket = accounts("37s").buckets.create! name: "Inaccessible Bucket"
-      @inaccessible_bubble = @inaccessible_bucket.bubbles.create!
+      @new_bucket = accounts("37s").buckets.create! name: "Inaccessible Bucket"
+      @new_bubble = @new_bucket.bubbles.create!
     end
 
-    assert_not_includes users(:kevin).filters.new.bubbles, @inaccessible_bubble
+    assert_not_includes users(:kevin).filters.new.bubbles, @new_bubble
+
+    filter = users(:david).filters.new indexed_by: "most_discussed", assignee_ids: [ users(:jz).id ], tag_ids: [ tags(:mobile).id ]
+    assert_equal [ bubbles(:layout) ], filter.bubbles
+
+    filter = users(:david).filters.new assignments: "unassigned", bucket_ids: [ @new_bucket.id ]
+    assert_equal [ @new_bubble ], filter.bubbles
+
+    filter = users(:david).filters.new indexed_by: "popped"
+    assert_equal [ bubbles(:shipping) ], filter.bubbles
   end
 
   test "turning into params" do
