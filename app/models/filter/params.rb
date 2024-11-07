@@ -41,11 +41,11 @@ module Filter::Params
 
     def sanitize_params
       denormalize_resource_ids
-      self.params = non_default_params
+      strip_default_params
       params.compact_blank!
     end
 
-    def non_default_params
-      params.reject { |k, v| default_params[k] == v }
+    def strip_default_params
+      self.params = params.reject { |k, v| default_params[k] == v }
     end
 end
