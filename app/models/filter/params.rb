@@ -23,6 +23,7 @@ module Filter::Params
       derive_params_from_fields
       params.compact_blank!
     end
+    alias_method :derived_params, :derive_params
 
     def derive_params_from_resource_ids
       params["tag_ids"] = tags.ids
