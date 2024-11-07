@@ -108,8 +108,8 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Sort by</strong></li>
-              <% Bucket::View::ORDERS.each do |key, value| %>
-                <li><%= link_to value.humanize, bucket_bubbles_path(bucket, view_filter_params.merge(order_by: key, status: nil)), class: "filter__button" %></li>
+              <% Filter::INDEXES.each do |index| %>
+                <li><%= link_to index.humanize, bubbles_path(filter.to_params.merge(indexed_by: index)), class: "filter__button" %></li>
               <% end %>
             </menu>
           </div>
@@ -118,9 +118,9 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">In Project</strong></li>
-              <li><a href="">All projects</a></li>
+              <li><%= link_to "All projects", bubbles_path(filter.to_params.merge(bucket_ids: nil)), class: "filter__button" %></li>
               <% Current.user.buckets.order(:name).each do |bucket| %>
-                <li><%= link_to bucket.name, bucket_bubbles_path(bucket, view_filter_params), class: "filter__button" %></li>
+                <li><%= link_to bucket.name, bubbles_path(filter.to_params.merge(bucket_ids: [ bucket.id ])), class: "filter__button" %></li>
               <% end %>
             </menu>
           </div>
@@ -129,8 +129,8 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Tagged</strong></li>
-              <% bucket.tags.order(:title).each do |tag| %>
-                <li><%= link_to tag.title, bucket_bubbles_path(bucket, view_filter_params.merge(tag_ids: [ tag.id ])) %></li>
+              <% Current.account.tags.order(:title).each do |tag| %>
+                <li><%= link_to tag.title, bubbles_path(filter.to_params.merge(tag_ids: [ tag.id ])) %></li>
               <% end %>
             </menu>
           </div>
@@ -139,9 +139,9 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Assigned to…</strong></li>
-              <li><a href="">No one</a></li>
-              <% bucket.users.active.order(:name).each do |user| %>
-                <li><%= link_to user.name, bucket_bubbles_path(bucket, view_filter_params.merge(assignee_ids: [ user.id ])) %></li>
+              <li><%= link_to "No one", bubbles_path(filter.to_params.merge(assignments: :unassigned, assignee_ids: [])), class: "filter__button" %></li>
+              <% Current.account.users.active.order(:name).each do |user| %>
+                <li><%= link_to user.name, bubbles_path(filter.to_params.merge(assignments: nil, assignee_ids: [ user.id ])) %></li>
               <% end %>
             </menu>
           </div>
@@ -151,18 +151,8 @@
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Assigned by…</strong></li>
               <li><a href="">Me</a></li>
-              <% bucket.users.active.order(:name).each do |user| %>
-                <li><%= link_to user.name, bucket_bubbles_path(bucket, view_filter_params.merge(assignee_ids: [ user.id ])) %></li>
-              <% end %>
-            </menu>
-          </div>
-
-          <hr class="separator" />
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
-              <li><strong class="filter__label">Status</strong></li>
-              <% Bucket::View::STATUSES.each do |key, value| %>
-                <li><%= link_to value.humanize, bucket_bubbles_path(bucket, view_filter_params.merge(order_by: nil, status: key)), class: "filter__button" %></li>
+              <% Current.account.users.active.order(:name).each do |user| %>
+                <li><%= link_to user.name, bubbles_path(filter.to_params.merge(assignments: nil, assignee_ids: [ user.id ])) %></li>
               <% end %>
             </menu>
           </div>
