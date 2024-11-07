@@ -9,7 +9,7 @@ module Filter::Resources
 
   def resource_removed(resource)
     kind = resource.class.model_name.plural
-    send("#{kind}=", send(kind).without(resource))
+    send "#{kind}=", send(kind).without(resource)
     sanitize_params
     params.blank? ? destroy! : save!
   end
