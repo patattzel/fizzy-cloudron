@@ -2,17 +2,9 @@ module Filter::Params
   extend ActiveSupport::Concern
 
   KNOWN_PARAMS = [ :indexed_by, :assignments, bucket_ids: [], assignee_ids: [], tag_ids: [] ]
-  INDEXES = %w[ most_active most_discussed most_boosted newest oldest popped ]
-
-  class_methods do
-    def default_params
-      { "indexed_by" => "most_active" }
-    end
-  end
 
   included do
-    after_initialize :sanitize_params
-    before_validation :sanitize_params
+    after_initialize :derive_params
   end
 
   def to_params
@@ -21,32 +13,24 @@ module Filter::Params
     end
   end
 
-  def assignments=(value)
-    params["assignments"] = value
-  end
-
-  def assignments
-    params["assignments"].to_s.inquiry
-  end
-
-  def indexed_by=(value)
-    params["indexed_by"] = value
-  end
-
-  def indexed_by
-    (params["indexed_by"] || default_params["indexed_by"]).inquiry
-  end
-
   private
-    delegate :default_params, to: :class, private: true
-
-    def sanitize_params
-      denormalize_resource_ids
-      strip_default_params
+    # `derive_params` stores a denormalized version of the filter in `params` to
+    #    1) Enforce uniqueness via db constraints
+    #    2) Look up identical filters by a single column
+    #    3) Easily turn all filter params into a query string
+    def derive_params
+      derive_params_from_resource_ids
+      derive_params_from_fields
       params.compact_blank!
     end
 
-    def strip_default_params
-      self.params = params.reject { |k, v| default_params[k] == v }
+    def derive_params_from_resource_ids
+      params["tag_ids"] = tags.ids
+      params["bucket_ids"] = buckets.ids
+      params["assignee_ids"] = assignees.ids
+    end
+
+    def derive_params_from_fields
+      self.params.merge! fields.reject { |k, v| default_fields[k] == v }
     end
 end

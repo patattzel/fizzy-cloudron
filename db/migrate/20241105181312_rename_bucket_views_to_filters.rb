@@ -5,9 +5,11 @@ class RenameBucketViewsToFilters < ActiveRecord::Migration[8.0]
     remove_index :filters, %i[ bucket_id creator_id filters ], unique: true
     remove_index :filters, :creator_id
 
-    remove_column :filters, :bucket_id
+    remove_reference :filters, :bucket
 
     rename_column :filters, :filters, :params
+
+    add_column :filters, :fields, :jsonb, null: false, default: {}
 
     add_index :filters, %i[ creator_id params ], unique: true
   end

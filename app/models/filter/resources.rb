@@ -10,18 +10,6 @@ module Filter::Resources
   def resource_removed(resource)
     kind = resource.class.model_name.plural
     send "#{kind}=", send(kind).without(resource)
-    sanitize_params
-    params.blank? ? destroy! : save!
+    derived_params.blank? ? destroy! : save!
   end
-
-  private
-    # `denormalize_resource_ids` stores resource ids in the params column to
-    #    1) Enforce uniqueness via db constraints
-    #    2) Look up identical filters by a single column
-    #    3) Easily turn all filter params into a query string
-    def denormalize_resource_ids
-      params["bucket_ids"] = buckets.ids
-      params["tag_ids"] = tags.ids
-      params["assignee_ids"] = assignees.ids
-    end
 end

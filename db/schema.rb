@@ -134,6 +134,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_05_224305) do
     t.json "params", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "fields", default: {}, null: false
     t.index ["creator_id", "params"], name: "index_filters_on_creator_id_and_params", unique: true
   end
 
