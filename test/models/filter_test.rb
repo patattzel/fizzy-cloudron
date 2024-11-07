@@ -25,6 +25,12 @@ class FilterTest < ActiveSupport::TestCase
     assert_equal expected.stringify_keys, filters(:jz_assignments).to_params.to_h
   end
 
+  test "param sanitization" do
+    filter = users(:david).filters.new indexed_by: "most_active", tag_ids: "", assignee_ids: [ users(:jz).id ], bucket_ids: [ buckets(:writebook).id ]
+    expected = { assignee_ids: [ users(:jz).id ], bucket_ids: [ buckets(:writebook).id ] }
+    assert_equal expected.stringify_keys, filter.params
+  end
+
   test "cacheable" do
     assert_not filters(:jz_assignments).cacheable?
     assert users(:david).filters.create!(bucket_ids: [ buckets(:writebook).id ]).cacheable?
