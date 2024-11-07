@@ -25,10 +25,9 @@ class FiltersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
-    params = filters(:jz_assignments).to_params
     assert_difference "Filter.count", -1 do
       delete filter_url(filters(:jz_assignments))
     end
-    assert_redirected_to bubbles_path(params)
+    assert_redirected_to bubbles_path(filters(:jz_assignments).params)
   end
 end
