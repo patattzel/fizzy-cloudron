@@ -13,13 +13,13 @@ module Filter::Summarized
     end
 
     def tag_summary
-      if tags.exists?
+      if tags.any?
         "tagged <mark>#{tags.map(&:hashtag).to_choice_sentence}</mark>"
       end
     end
 
     def assignee_summary
-      if assignees.exists?
+      if assignees.any?
         "assigned to <mark>#{assignees.pluck(:name).to_choice_sentence}</mark>"
       elsif assignments.unassigned?
         "assigned to no one"
@@ -27,7 +27,7 @@ module Filter::Summarized
     end
 
     def bucket_summary
-      if buckets.exists?
+      if buckets.any?
         "in <mark>#{buckets.pluck(:name).to_choice_sentence}</mark>"
       else
         "in <mark>all projects</mark>"
