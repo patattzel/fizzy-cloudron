@@ -38,12 +38,16 @@ class FilterTest < ActiveSupport::TestCase
 
   test "resource removal" do
     filter = users(:david).filters.create! tag_ids: [ tags(:mobile).id ], bucket_ids: [ buckets(:writebook).id ]
+
+    assert_includes filter.params["tag_ids"], tags(:mobile).id
     assert_includes filter.tags, tags(:mobile)
+    assert_includes filter.params["bucket_ids"], buckets(:writebook).id
     assert_includes filter.buckets, buckets(:writebook)
 
     assert_changes "filter.reload.updated_at" do
       tags(:mobile).destroy!
     end
+    assert_nil filter.reload.params["tag_ids"]
 
     assert_changes "Filter.exists?(filter.id)" do
       buckets(:writebook).destroy!
