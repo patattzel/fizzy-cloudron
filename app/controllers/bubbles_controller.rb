@@ -8,7 +8,10 @@ class BubblesController < ApplicationController
 
   def index
     @bubbles = @filter.bubbles
-    @bubbles = @bubbles.mentioning(params[:term]) if params[:term].present?
+
+    Array.wrap(params[:terms]).each do |term|
+      @bubbles = @bubbles.mentioning(term)
+    end
   end
 
   def create

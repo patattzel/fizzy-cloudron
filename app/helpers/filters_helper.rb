@@ -3,10 +3,16 @@ module FiltersHelper
     "#{name}_filter--#{value}"
   end
 
-  def filter_buttons(filter, **)
-    filter.to_h.map do |kind, object|
+  def filter_buttons(filter, terms, **)
+    filters = filter.to_h.map do |kind, object|
       filter_button_from kind, object, **
-    end.join.html_safe
+    end
+
+    terms = Array.wrap(terms).map do |term|
+      filter_button_from :terms, term, **
+    end
+
+    safe_join filters + terms
   end
 
   def filter_button_tag(display:, value:, name:, **options)
@@ -50,6 +56,8 @@ module FiltersHelper
         [ object.humanize, object, "indexed_by" ]
       when :assignments
         [ object.humanize, object, "assignments" ]
+      when :terms
+        [ %Q("#{object}"), object, "terms[]" ]
       end.then do |display, value, name|
         { display: display, value: value, name: name }
       end

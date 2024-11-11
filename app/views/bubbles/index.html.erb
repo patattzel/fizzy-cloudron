@@ -8,7 +8,7 @@
     <% end %>
 
     <header class="txt-align-center">
-      <%= render "bubbles/filters", filter: @filter %>
+      <%= render "bubbles/filters", filter: @filter, terms: params[:terms] %>
     </header>
 
     <% if @filter.buckets.any? %>

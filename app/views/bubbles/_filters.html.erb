@@ -10,7 +10,7 @@
     </button>
 
     <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
-      <%= filter_buttons filter %>
+      <%= filter_buttons filter, terms %>
     <% end %>
   </div>
 
@@ -38,18 +38,19 @@
         </button>
 
         <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex-inline center align-center gap-half" do %>
-          <%= filter_buttons filter, class: "fill-selected" %>
+          <%= filter_buttons filter, terms, class: "fill-selected" %>
         <% end %>
       </div>
 
-      <div class="flex gap flex-item-grow align-center justify-center full-width center margin-block">
-        <input type="text" class="input full-width" placeholder="Type to match words…" autocomplete="off" />
+      <%= form_with url: filter_buttons_path, method: :post, class: "flex gap flex-item-grow align-center justify-center full-width center margin-block" do %>
+        <%= hidden_field_tag :name, "terms[]" %>
+        <input name="value" type="text" class="input full-width" placeholder="Type to match words…" autocomplete="off" />
 
         <button class="btn txt-small" type="submit">
           <span class="for-screen-reader">Submit text filter</span>
           <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
         </button>
-      </div>
+      <% end %>
 
       <div class="flex flex-column gap full-width" style="--border-color: var(--color-subtle)">
         <div class="flex gap">
