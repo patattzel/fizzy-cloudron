@@ -1,0 +1,22 @@
+.workflow-stage {
+  --btn-border-radius: 0.5em;
+  --hover-size: 0;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: color(from var(--bubble-color) srgb r g b / 0.15);
+    }
+  }
+}
+
+.workflow-stage--current {
+  --btn-background: var(--bubble-color);
+
+  color: var(--color-ink-reversed);
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: color(from var(--bubble-color) srgb r g b / 0.65);
+    }
+  }
+}
