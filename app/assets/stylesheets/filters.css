@@ -5,27 +5,25 @@
   }
 }
 
-.filter__label {
+.filter__button {
+  border-radius: 0.5em;
+  color: var(--color-ink);
+  display: block;
+  overflow: hidden;
   padding: 0.3em 0.7em;
-}
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-.filter__menu {
-  a {
-    border-radius: 0.5em;
-    color: var(--color-ink);
-    display: block;
-    overflow: hidden;
-    padding: 0.3em 0.7em;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    @media (hover: hover) {
-      &:hover {
-        background-color: var(--color-selected);
-      }
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-selected);
     }
   }
+}
+
+.filter__label {
+  padding: 0.3em 0.7em;
 }
 
 .filter__popup {

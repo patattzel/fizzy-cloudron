@@ -55,7 +55,7 @@
       <div class="flex flex-column gap full-width" style="--border-color: var(--color-subtle)">
         <div class="flex gap">
           <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
+            <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">Sort by</strong></li>
               <% Filter::INDEXES.each do |index| %>
                 <li><%= button_to_filter index.humanize, kind: :indexed_by, object: index, data: { action: "filter-form#clearCategory", filter_form_name_param: "indexed_by" } %></li>
@@ -65,7 +65,7 @@
 
           <hr class="separator" />
           <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
+            <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">In Project</strong></li>
               <li><%= button_to_filter "All projects", kind: :buckets, object: nil, data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %></li>
               <% Current.user.buckets.order(:name).each do |bucket| %>
@@ -76,7 +76,7 @@
 
           <hr class="separator" />
           <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
+            <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">Tagged</strong></li>
               <% Current.account.tags.order(:title).each do |tag| %>
                 <li><%= button_to_filter tag.title, kind: :tags, object: tag %></li>
@@ -86,7 +86,7 @@
 
           <hr class="separator" />
           <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
+            <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">Assigned to…</strong></li>
               <li><%= button_to_filter "No one", kind: :assignments, object: "unassigned", data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[]" } %></li>
               <li><%= button_to_filter "Me", kind: :assignees, object: Current.user, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %></li>
@@ -98,7 +98,7 @@
 
           <hr class="separator" />
           <div class="flex gap flex-item-grow">
-            <menu class="filter__menu unpad margin-none">
+            <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">Assigned by…</strong></li>
               <li><%= button_to_filter "Me", kind: :assigners, object: Current.user %></li>
               <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>

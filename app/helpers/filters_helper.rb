@@ -27,9 +27,9 @@ module FiltersHelper
 
   def button_to_filter(text, kind:, object:, data: {})
     if object
-      button_to text, filter_buttons_path, method: :post, class: "btn btn--plain", params: filter_attrs(kind, object), data: data
+      button_to text, filter_buttons_path, method: :post, class: "btn btn--plain filter__button", params: filter_attrs(kind, object), data: data
     else
-      button_tag text, type: :button, class: "btn btn--plain", data: data
+      button_tag text, type: :button, class: "btn btn--plain filter__button", data: data
     end
   end
 
