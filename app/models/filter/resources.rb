@@ -10,6 +10,6 @@ module Filter::Resources
   def resource_removed(resource)
     kind = resource.class.model_name.plural
     send "#{kind}=", send(kind).without(resource)
-    as_params.blank? ? destroy! : save!
+    empty? ? destroy! : save!
   end
 end

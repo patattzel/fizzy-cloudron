@@ -6,12 +6,18 @@ class Filter < ApplicationRecord
 
   class << self
     def persist!(attrs)
-      filter = new(attrs)
-      filter.save!
-      filter
+      create!(attrs)
     rescue ActiveRecord::RecordNotUnique
-      find_by!(params_digest: filter.hashed_params).tap(&:touch)
+      find_by!(params_digest: digest_params(attrs)).tap(&:touch)
     end
+
+    def digest_params(params)
+      Digest::MD5.hexdigest params.to_json
+    end
+  end
+
+  def empty?
+    as_params.blank?
   end
 
   def bubbles
