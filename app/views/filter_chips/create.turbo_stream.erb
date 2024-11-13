@@ -1,0 +1,7 @@
+<% text = params[:text] || %Q("#{params[:value]}") %>
+
+<%= turbo_stream.remove filter_chip_id(params[:name], params[:value]) %>
+
+<%= turbo_stream.append params[:frame] do %>
+  <%= filter_chip_tag text, name: params[:name], value: params[:value], class: "fill-selected" %>
+<% end %>

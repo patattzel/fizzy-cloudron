@@ -8,7 +8,6 @@ class BubblesController < ApplicationController
 
   def index
     @bubbles = @filter.bubbles
-    @bubbles = @bubbles.mentioning(params[:term]) if params[:term].present?
   end
 
   def create
@@ -30,7 +29,7 @@ class BubblesController < ApplicationController
 
   private
     def set_filter
-      @filter = Current.user.filters.build params.permit(*Filter::KNOWN_PARAMS)
+      @filter = Current.user.filters.build params.permit(*Filter::PERMITTED_PARAMS)
     end
 
     def set_bubble
