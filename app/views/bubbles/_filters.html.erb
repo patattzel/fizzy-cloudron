@@ -38,7 +38,7 @@
         </button>
 
         <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex-inline center align-center gap-half" do %>
-          <%= filter_chips filter, class: "fill-selected" %>
+          <%= filter_chips_for_editing filter, class: "fill-selected" %>
         <% end %>
       </div>
 

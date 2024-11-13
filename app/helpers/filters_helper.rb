@@ -4,9 +4,25 @@ module FiltersHelper
   end
 
   def filter_chips(filter, **)
-    filter.to_h.map do |kind, object|
-      filter_chip_from kind, object, **
-    end.join.html_safe
+    safe_join [
+      chips_for_filter_kind(filter, :indexed_by, **),
+      chips_for_filter_kind(filter, :tags, **),
+      chips_for_filter_kind(filter, :assignees, **),
+      chips_for_filter_kind(filter, :assigners, **),
+      chips_for_filter_kind(filter, :buckets, **),
+      chips_for_filter_kind(filter, :terms, **)
+    ]
+  end
+
+  def filter_chips_for_editing(filter, **)
+    safe_join [
+      frame_for_filter_kind(filter, :indexed_by, **),
+      frame_for_filter_kind(filter, :tags, **),
+      frame_for_filter_kind(filter, :assignees, **),
+      frame_for_filter_kind(filter, :assigners, **),
+      frame_for_filter_kind(filter, :buckets, **),
+      frame_for_filter_kind(filter, :terms, **)
+    ]
   end
 
   def filter_chip_tag(display:, value:, name:, **options)
@@ -28,11 +44,13 @@ module FiltersHelper
   end
 
   private
-    def filter_chip_from(kind, object, **)
-      if object.respond_to? :map
-        safe_join object.map { |o| filter_chip_tag(**chip_attrs(kind, o), **) }
-      else
-        filter_chip_tag(**chip_attrs(kind, object), **)
+    def chips_for_filter_kind(filter, kind, **)
+      Array(filter.to_h[kind]).map do |value|
+        if value.respond_to? :map
+          safe_join value.map { |v| filter_chip_tag(**chip_attrs(kind, v), **) }
+        else
+          filter_chip_tag(**chip_attrs(kind, value), **)
+        end
       end
     end
 
@@ -53,7 +71,19 @@ module FiltersHelper
       when :terms
         [ %Q("#{object}"), object, "terms[]" ]
       end.then do |display, value, name|
-        { display: display, value: value, name: name }
+        { display: display, value: value, name: name, frame: filter_chip_frame(kind) }
+      end
+    end
+
+    def filter_chip_frame(kind)
+      "#{kind}_chips"
+    end
+
+    def frame_for_filter_kind(filter, kind, **)
+      chips_for_filter_kind(filter, kind, **).then do |chips|
+        turbo_frame_tag filter_chip_frame(kind) do
+          safe_join chips
+        end
       end
     end
 end
