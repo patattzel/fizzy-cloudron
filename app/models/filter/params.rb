@@ -11,7 +11,6 @@ module Filter::Params
     @as_params ||= {
       terms: terms,
       tag_ids: tags.ids,
-      assignees: assignees,
       indexed_by: indexed_by,
       bucket_ids: buckets.ids,
       assignments: assignments,
