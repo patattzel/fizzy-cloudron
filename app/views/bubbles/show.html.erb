@@ -9,19 +9,7 @@
   </nav>
 <% end %>
 
-<div class="flex align-start justify-end">
-  <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
-</div>
-
-<div class="bubble__container">
-  <div class="bubble__perma flex justify-center center margin-block-end-double">
-    <%= render "bubbles/bubble", bubble: @bubble %>
-  </div>
-
-  <%= render "bubbles/messages", bubble: @bubble %>
-</div>
-
-<aside class="flex align-start justify-start" style="--bubble-color: <%= @bubble.color %>">
+<aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
   <div class="flex flex-column gap-half">
     <%= bubble_action_button('new-color', 'art', 'Color it') %>
     <%= link_to new_bucket_bubble_date_picker_path(@bubble.bucket, @bubble),
@@ -41,3 +29,15 @@
     <%= render "bubbles/pop_toggle", bubble: @bubble %>
   </div>
 </aside>
+
+<div class="bubble__container">
+  <div class="bubble__perma flex justify-center center margin-block-end-double">
+    <%= render "bubbles/bubble", bubble: @bubble %>
+  </div>
+
+  <%= render "bubbles/messages", bubble: @bubble %>
+</div>
+
+<div class="flex align-start justify-start">
+  <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
+</div>
