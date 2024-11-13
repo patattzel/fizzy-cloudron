@@ -19,7 +19,7 @@
     <%= render "bubbles/assignments", bubble: bubble %>
     <%= render "bubbles/boosts", bubble: bubble %>
     <%= render "bubbles/color", bubble: bubble %>
-    <%= render "bubbles/date", bubble: bubble %>
+    <%= turbo_frame_tag dom_id(bubble, :date_picker), src: bucket_bubble_date_picker_path(bubble.bucket, bubble) %>
     <%= render "bubbles/image", bubble: bubble %>
     <%= render "bubbles/tags", bubble: bubble %>
   </div>

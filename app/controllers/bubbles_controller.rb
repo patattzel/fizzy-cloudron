@@ -25,7 +25,16 @@ class BubblesController < ApplicationController
 
   def update
     @bubble.update! bubble_params
-    redirect_to @bubble
+
+    if turbo_frame_request?
+      if params[:bubble][:due_on].present?
+        render "bubbles/date_pickers/show"
+      else
+        render :show
+      end
+    else
+      redirect_to @bubble
+    end
   end
 
   private
