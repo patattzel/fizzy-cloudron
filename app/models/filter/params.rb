@@ -1,7 +1,7 @@
 module Filter::Params
   extend ActiveSupport::Concern
 
-  PERMITTED_PARAMS = [ :indexed_by, :assignments, bucket_ids: [], assignee_ids: [], tag_ids: [] ]
+  PERMITTED_PARAMS = [ :indexed_by, :assignments, bucket_ids: [], assignee_ids: [], tag_ids: [], terms: [] ]
 
   included do
     before_save { self.params_digest = self.class.digest_params(as_params) }
@@ -22,6 +22,7 @@ module Filter::Params
       h["assignees"] = assignees
       h["tags"] = tags
       h["buckets"] = buckets
+      h["terms"] = terms
     end.reject do |k, v|
       default_fields[k] == v
     end.compact_blank

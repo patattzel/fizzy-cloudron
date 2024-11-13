@@ -10,7 +10,7 @@
     </button>
 
     <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
-      <%= filter_chips filter, terms %>
+      <%= filter_chips filter %>
     <% end %>
   </div>
 
@@ -38,7 +38,7 @@
         </button>
 
         <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex-inline center align-center gap-half" do %>
-          <%= filter_chips filter, terms, class: "fill-selected" %>
+          <%= filter_chips filter, class: "fill-selected" %>
         <% end %>
       </div>
 

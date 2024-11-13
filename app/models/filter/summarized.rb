@@ -1,6 +1,6 @@
 module Filter::Summarized
   def summary
-    [ index_summary, tag_summary, assignee_summary ].compact.to_sentence + " #{bucket_summary}"
+    [ index_summary, tag_summary, assignee_summary, terms_summary ].compact.to_sentence + " #{bucket_summary}"
   end
 
   def plain_summary
@@ -31,6 +31,12 @@ module Filter::Summarized
         "in <mark>#{buckets.pluck(:name).to_choice_sentence}</mark>"
       else
         "in <mark>all projects</mark>"
+      end
+    end
+
+    def terms_summary
+      if terms.any?
+        "matching <mark>#{terms.map { |term| %Q("#{term}") }.to_sentence}</mark>"
       end
     end
 end

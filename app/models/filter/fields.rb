@@ -9,20 +9,20 @@ module Filter::Fields
     end
   end
 
-  def assignments=(value)
-    fields["assignments"] = value
-  end
+  included do
+    store_accessor :fields, :indexed_by, :assignments, :terms
 
-  def assignments
-    fields["assignments"].to_s.inquiry
-  end
+    def indexed_by
+      (super || default_fields["indexed_by"]).inquiry
+    end
 
-  def indexed_by=(value)
-    fields["indexed_by"] = value
-  end
+    def assignments
+      super.to_s.inquiry
+    end
 
-  def indexed_by
-    (fields["indexed_by"] || default_fields["indexed_by"]).inquiry
+    def terms
+      Array(super)
+    end
   end
 
   private

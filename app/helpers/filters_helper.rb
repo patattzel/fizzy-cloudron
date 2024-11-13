@@ -3,16 +3,10 @@ module FiltersHelper
     "#{name}_filter--#{value}"
   end
 
-  def filter_chips(filter, terms, **)
-    filters = filter.to_h.map do |kind, object|
+  def filter_chips(filter, **)
+    filter.to_h.map do |kind, object|
       filter_button_from kind, object, **
-    end
-
-    terms = Array.wrap(terms).map do |term|
-      filter_button_from :terms, term, **
-    end
-
-    safe_join filters + terms
+    end.join.html_safe
   end
 
   def filter_chip_tag(display:, value:, name:, **options)
