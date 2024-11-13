@@ -1,10 +1,10 @@
 module FiltersHelper
-  def filter_chip_id(value, name)
+  def filter_chip_id(name, value)
     "#{name}__filter--#{value}"
   end
 
   def filter_chip_tag(text, name:, value:, **options)
-    tag.button id: filter_chip_id(value, name), class: [ "btn txt-small btn--remove", options.delete(:class) ],
+    tag.button id: filter_chip_id(name, value), class: [ "btn txt-small btn--remove", options.delete(:class) ],
         data: { action: "filter-form#removeFilter form#submit", filter_form_target: "button" } do
       concat hidden_field_tag(name, value, id: nil)
       concat tag.span(text)
