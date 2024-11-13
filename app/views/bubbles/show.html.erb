@@ -6,6 +6,10 @@
       <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Back</span>
     <% end %>
+
+    <span class="flex-item-justify-end">
+      <%= render "bubbles/pop_toggle", bubble: @bubble %>
+    </span>
   </nav>
 <% end %>
 
@@ -26,7 +30,7 @@
     <% end %>
     <%= bubble_action_button('new-tag', 'tag', 'Tag this') %>
     <%= bubble_action_button('new-attachment', 'picture-add', 'Attach a file') %>
-    <%= render "bubbles/pop_toggle", bubble: @bubble %>
+    <%= bubble_action_button('new-boost', 'thumb-up', 'Boost this') %>
   </div>
 </aside>
 
