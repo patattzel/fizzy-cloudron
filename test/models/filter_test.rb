@@ -15,6 +15,9 @@ class FilterTest < ActiveSupport::TestCase
     Current.set session: sessions(:david) do
       @new_bucket = accounts("37s").buckets.create! name: "Inaccessible Bucket"
       @new_bubble = @new_bucket.bubbles.create!
+
+      bubbles(:layout).capture Comment.new(body: "I hate haggis")
+      bubbles(:logo).capture Comment.new(body: "I love haggis")
     end
 
     assert_not_includes users(:kevin).filters.new.bubbles, @new_bubble
@@ -27,6 +30,12 @@ class FilterTest < ActiveSupport::TestCase
 
     filter = users(:david).filters.new assignments: "unassigned", bucket_ids: [ @new_bucket.id ]
     assert_equal [ @new_bubble ], filter.bubbles
+
+    filter = users(:david).filters.new terms: [ "haggis" ]
+    assert_equal bubbles(:logo, :layout), filter.bubbles
+
+    filter = users(:david).filters.new terms: [ "haggis", "love" ]
+    assert_equal [ bubbles(:logo) ], filter.bubbles
 
     filter = users(:david).filters.new indexed_by: "popped"
     assert_equal [ bubbles(:shipping) ], filter.bubbles
