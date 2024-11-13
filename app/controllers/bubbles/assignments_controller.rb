@@ -1,9 +1,15 @@
-class AssignmentsController < ApplicationController
+class Bubbles::AssignmentsController < ApplicationController
   include BubbleScoped, BucketScoped
+
+  def new
+  end
+
+  def show
+  end
 
   def create
     @bubble.assign(find_assignee)
-    redirect_to @bubble
+    render :show
   end
 
   private
