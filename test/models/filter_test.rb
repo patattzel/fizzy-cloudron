@@ -57,6 +57,23 @@ class FilterTest < ActiveSupport::TestCase
     assert users(:david).filters.create!(bucket_ids: [ buckets(:writebook).id ]).cacheable?
   end
 
+  test "default fields" do
+    assert_equal "most_active", users(:david).filters.new.indexed_by
+  end
+
+  test "indexed by" do
+    assert_predicate users(:david).filters.new(indexed_by: "most_discussed").indexed_by, :most_discussed?
+  end
+
+  test "assignments" do
+    assert_predicate users(:david).filters.new(assignments: "unassigned").assignments, :unassigned?
+  end
+
+  test "terms" do
+    assert_empty users(:david).filters.new.terms
+    assert_includes users(:david).filters.new(terms: [ "haggis" ]).terms, "haggis"
+  end
+
   test "resource removal" do
     filter = users(:david).filters.create! tag_ids: [ tags(:mobile).id ], bucket_ids: [ buckets(:writebook).id ]
 
