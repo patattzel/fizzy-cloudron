@@ -22,6 +22,9 @@ class FilterTest < ActiveSupport::TestCase
     filter = users(:david).filters.new indexed_by: "most_discussed", assignee_ids: [ users(:jz).id ], tag_ids: [ tags(:mobile).id ]
     assert_equal [ bubbles(:layout) ], filter.bubbles
 
+    filter = users(:david).filters.new assigner_ids: [ users(:david).id ], tag_ids: [ tags(:mobile).id ]
+    assert_equal [ bubbles(:layout) ], filter.bubbles
+
     filter = users(:david).filters.new assignments: "unassigned", bucket_ids: [ @new_bucket.id ]
     assert_equal [ @new_bubble ], filter.bubbles
 

@@ -6,7 +6,8 @@ module Bubble::Assignable
     has_many :assignees, through: :assignments
 
     scope :unassigned, -> { where.missing :assignments }
-    scope :assigned_to, ->(users) { joins(:assignments).where(assignments: { assignee: users }) }
+    scope :assigned_to, ->(users) { joins(:assignments).where(assignments: { assignee: users }).distinct }
+    scope :assigned_by, ->(users) { joins(:assignments).where(assignments: { assigner: users }).distinct }
   end
 
   def assign(users, assigner: Current.user)
