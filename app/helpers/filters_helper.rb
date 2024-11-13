@@ -5,7 +5,7 @@ module FiltersHelper
 
   def filter_chips(filter, **)
     filter.to_h.map do |kind, object|
-      filter_button_from kind, object, **
+      filter_chip_from kind, object, **
     end.join.html_safe
   end
 
@@ -19,24 +19,24 @@ module FiltersHelper
     end
   end
 
-  def button_to_filter(text, kind:, object:, data: {})
+  def button_to_chip(text, kind:, object:, data: {})
     if object
-      button_to text, filter_chips_path, method: :post, class: "btn btn--plain filter__button", params: filter_attrs(kind, object), data: data
+      button_to text, filter_chips_path, method: :post, class: "btn btn--plain filter__button", params: chip_attrs(kind, object), data: data
     else
       button_tag text, type: :button, class: "btn btn--plain filter__button", data: data
     end
   end
 
   private
-    def filter_button_from(kind, object, **)
+    def filter_chip_from(kind, object, **)
       if object.respond_to? :map
-        safe_join object.map { |o| filter_chip_tag(**filter_attrs(kind, o), **) }
+        safe_join object.map { |o| filter_chip_tag(**chip_attrs(kind, o), **) }
       else
-        filter_chip_tag(**filter_attrs(kind, object), **)
+        filter_chip_tag(**chip_attrs(kind, object), **)
       end
     end
 
-    def filter_attrs(kind, object)
+    def chip_attrs(kind, object)
       case kind&.to_sym
       when :tags
         [ object.hashtag, object.id, "tag_ids[]" ]
