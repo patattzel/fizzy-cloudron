@@ -24,16 +24,7 @@ class BubblesController < ApplicationController
 
   def update
     @bubble.update! bubble_params
-
-    if turbo_frame_request?
-      if params[:bubble][:assignee_ids].present?
-        render "bubbles/assignments/show"
-      else
-        render :show
-      end
-    else
-      redirect_to @bubble
-    end
+    redirect_to @bubble
   end
 
   private

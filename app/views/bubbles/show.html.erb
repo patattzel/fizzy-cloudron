@@ -25,12 +25,17 @@
       </label>
     <% end %>
 
-    <%= link_to new_bucket_bubble_assignments_path(@bubble.bucket, @bubble),
-        class: "btn full-width justify-start borderless",
-        data: { turbo_frame: dom_id(@bubble, :assignments) } do %>
-      <%= image_tag "person.svg", aria: { hidden: true }, size: 24 %>
-      <span>Assign to someone</span>
+    <%= form_with url: bucket_bubble_assignments_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
+      <label class="btn full-width justify-start borderless">
+        <%= image_tag "person.svg", aria: { hidden: true }, size: 24 %>
+        <span>Assign to someone</span>
+        <%= form.collection_select :assignee_id, @bubble.bucket.users.active, :id, :name, { prompt: "Assign to…", selected: @bubble.assignees.pluck(:id) },
+              class: "input input--hidden txt-medium",
+              data: { action: "change->form#submit click->form#showPicker" } %>
+      </label>
     <% end %>
+
+
     <%= bubble_action_button('new-tag', 'tag', 'Tag this') %>
     <%= bubble_action_button('new-attachment', 'picture-add', 'Attach a file') %>
     <%= bubble_action_button('new-boost', 'thumb-up', 'Boost this') %>

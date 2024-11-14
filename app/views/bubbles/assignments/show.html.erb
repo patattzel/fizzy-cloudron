@@ -1,7 +1,7 @@
 <%= turbo_frame_tag dom_id(@bubble, :assignments) do %>
   <% if @bubble.assignments.any? %>
     <div class="bubble__bubble bubble__meta bubble__assignee">
-      <%= form_with url: bucket_bubble_assignments_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
+      <%= form_with url: bucket_bubble_assignments_path(@bubble.bucket, @bubble), data: { controller: "form", turbo_frame: "_top" } do |form| %>
         <label class="btn btn--plain position-relative fill-transparent" style="<%= "--btn-icon-size: 2em;" unless @bubble.assignees.any? %>">
           <% if @bubble.assignees.any? %>
             <% if @bubble.assignees.many? %>
@@ -20,8 +20,6 @@
                 data: { action: "change->form#submit click->form#showPicker" } %>
           <span class="for-screen-reader">Assign to…</span>
         </label>
-
-        <%= form.submit "Save", class: "btn", hidden: true %>
       <% end %>
     </div>
   <% end %>

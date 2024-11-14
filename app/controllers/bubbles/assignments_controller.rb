@@ -9,7 +9,7 @@ class Bubbles::AssignmentsController < ApplicationController
 
   def create
     @bubble.assign(find_assignee)
-    render :show
+    redirect_to @bubble
   end
 
   private
