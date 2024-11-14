@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :buckets do
     resources :bubbles do
+      resources :assignments
       resources :boosts
       resources :comments
       resources :tags, shallow: true
@@ -25,7 +26,6 @@ Rails.application.routes.draw do
         resource :pop
         resource :stage_picker
         resource :date_picker
-        resource :assignments
         resources :stagings
       end
     end
