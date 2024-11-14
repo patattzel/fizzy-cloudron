@@ -26,8 +26,8 @@ class BubblesController < ApplicationController
     @bubble.update! bubble_params
 
     if turbo_frame_request?
-      if params[:bubble][:due_on].present?
-        render "bubbles/date_pickers/show"
+      if params[:bubble][:assignee_ids].present?
+        render "bubbles/assignments/show"
       else
         render :show
       end

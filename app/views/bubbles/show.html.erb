@@ -16,12 +16,15 @@
 <aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
   <div class="flex flex-column gap-half">
     <%= bubble_action_button('new-color', 'art', 'Color it') %>
-    <%= link_to new_bucket_bubble_date_picker_path(@bubble.bucket, @bubble),
-        class: "btn full-width justify-start borderless",
-        data: { turbo_frame: dom_id(@bubble, :date_picker) } do %>
-      <%= image_tag "calendar-add.svg", aria: { hidden: true }, size: 24 %>
-      <span>Add a due date</span>
+
+    <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
+      <label class="btn full-width justify-start borderless">
+        <%= image_tag "calendar-add.svg", aria: { hidden: true }, size: 24 %>
+        <span><%= @bubble.due_on.present? ? "Change" : "Add a" %> due date</span>
+        <%= form.date_field :due_on, class: "input input--hidden", data: { action: "change->form#submit click->form#showPicker" } %>
+      </label>
     <% end %>
+
     <%= link_to new_bucket_bubble_assignments_path(@bubble.bucket, @bubble),
         class: "btn full-width justify-start borderless",
         data: { turbo_frame: dom_id(@bubble, :assignments) } do %>
