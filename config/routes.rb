@@ -25,7 +25,6 @@ Rails.application.routes.draw do
         resource :image
         resource :pop
         resource :stage_picker
-        resource :date_picker
         resources :stagings
       end
     end
