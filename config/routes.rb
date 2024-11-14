@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   resources :filters
+  resources :filter_chips
   resource :first_run
   resource :session
 

@@ -6,12 +6,18 @@ class Filter < ApplicationRecord
 
   class << self
     def persist!(attrs)
-      filter = new(attrs)
-      filter.save!
-      filter
+      create!(attrs)
     rescue ActiveRecord::RecordNotUnique
-      find_by!(params: filter.params).tap(&:touch)
+      find_by!(params_digest: digest_params(attrs)).tap(&:touch)
     end
+
+    def digest_params(params)
+      Digest::MD5.hexdigest params.sort.to_json
+    end
+  end
+
+  def empty?
+    as_params.blank?
   end
 
   def bubbles
@@ -20,8 +26,13 @@ class Filter < ApplicationRecord
       result = result.active unless indexed_by.popped?
       result = result.unassigned if assignments.unassigned?
       result = result.assigned_to(assignees.ids) if assignees.present?
+      result = result.assigned_by(assigners.ids) if assigners.present?
       result = result.in_bucket(buckets.ids) if buckets.present?
       result = result.tagged_with(tags.ids) if tags.present?
+      result = terms.reduce(result) do |result, term|
+        result.mentioning(term)
+      end
+
       result
     end
   end

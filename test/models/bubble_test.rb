@@ -62,6 +62,10 @@ class BubbleTest < ActiveSupport::TestCase
     assert_equal bubbles(:logo, :layout), Bubble.assigned_to(users(:jz))
   end
 
+  test "assigned by" do
+    assert_equal bubbles(:layout, :logo), Bubble.assigned_by(users(:david))
+  end
+
   test "in bucket" do
     new_bucket = accounts("37s").buckets.create! name: "New Bucket", creator: users(:david)
     assert_equal bubbles(:logo, :shipping, :layout, :text), Bubble.in_bucket(buckets(:writebook))
