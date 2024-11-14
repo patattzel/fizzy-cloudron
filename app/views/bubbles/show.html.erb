@@ -15,7 +15,7 @@
 
 <aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
   <div class="flex flex-column gap-half">
-    <%= bubble_action_button('new-color', 'art', 'Color it') %>
+    <%= render "bubbles/color", bubble: @bubble %>
 
     <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
       <label class="btn full-width justify-start borderless">
