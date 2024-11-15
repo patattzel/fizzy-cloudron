@@ -1,4 +1,5 @@
-<div class="flex flex-column gap-half align-center" data-controller="dialog filter-form" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside turbo:before-cache@document->dialog#close">
+<div class="flex flex-column gap-half align-center" data-controller="dialog filter-form"
+    data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside turbo:before-cache@document->dialog#close">
   <h1 class="txt-large flex align-center gap-half">
     <%= filter.buckets.first&.name || "All projects" %>
   </h1>
@@ -38,13 +39,14 @@
     <% end %>
   </div>
 
-  <dialog class="panel fill-white shadow" style="--panel-padding: var(--block-space); --panel-size: 90ch;" data-dialog-target="dialog">
+  <dialog class="filter__popup dialog panel fill-white shadow" data-dialog-target="dialog" data-dialog-modal-value="true">
     <div class="flex flex-column gap-half">
       <div class="flex align-center gap-half justify-space-between">
         <span class="btn btn--placeholder txt-small" aria-hidden="true"></span>
 
-        <h2 class="txt-large flex gap-half margin-none">
-          <%= filter.buckets.first&.name || "All projects" %>
+        <h2 class="txt-large flex align-center gap-half margin-none">
+          <%= image_tag "filter.svg", aria: { hidden: true }, size: 30 %>
+          <span>Filter</span>
         </h2>
 
         <form method="dialog">
@@ -55,101 +57,114 @@
         </form>
       </div>
 
-      <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width", style: "--border-color: var(--color-subtle)" do %>
+      <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width margin-block-start", style: "--border-color: var(--color-subtle)" do %>
         <% Array(params[:terms]).each do |term| %>
           <%= hidden_field_tag "terms[]", term, id: nil %>
         <% end %>
 
-        <div class="flex gap">
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu list-style-none unpad margin-none">
-              <li><strong class="filter__label">Sort by</strong></li>
-
-              <li>
+        <div class="filter__columns flex gap">
+          <menu class="filter__menu">
+            <li><strong class="filter__label">Sort by</strong></li>
+            <li>
+              <%= label_tag "indexed_by_#{filter.default_indexed_by}", class: "btn filter__button" do %>
                 <%= radio_button_tag "indexed_by", filter.default_indexed_by, filter.default_indexed_by?, hidden: true %>
-                <%= label_tag "indexed_by_#{filter.default_indexed_by}", "Default", class: "btn btn--plain filter__button" %>
-              </li>
+                <span>Most active</span>
+                <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+              <% end %>
+            </li>
 
-              <% Filter::INDEXES.each do |index| %>
-                <li>
+            <% Filter::INDEXES.each do |index| %>
+              <li>
+                <%= label_tag "indexed_by_#{index}", class: "btn filter__button" do %>
                   <%= radio_button_tag "indexed_by", index, filter.indexed_by == index, hidden: true %>
-                  <%= label_tag "indexed_by_#{index}", index.humanize, class: "btn btn--plain filter__button" %>
-                </li>
-              <% end %>
-            </menu>
-          </div>
-
-          <hr class="separator" />
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu list-style-none unpad margin-none">
-              <li><strong class="filter__label">In Project</strong></li>
-
-              <li>
-                <%= button_tag "All projects", type: :button, class: "btn btn--plain filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
+                  <span><%= index.humanize %></span>
+                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                <% end %>
               </li>
+            <% end %>
+          </menu>
 
-              <% Current.user.buckets.order(:name).each do |bucket| %>
-                <li>
+          <menu class="filter__menu">
+            <li><strong class="filter__label">In Project</strong></li>
+
+            <li>
+              <%= button_tag "All Projects", type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
+            </li>
+            <% Current.user.buckets.order(:name).each do |bucket| %>
+              <li>
+                <%= label_tag "bucket_ids_#{bucket.id}", class: "btn filter__button" do %>
                   <%= check_box_tag "bucket_ids[]", bucket.id, filter.buckets.include?(bucket), id: "bucket_ids_#{bucket.id}", hidden: true %>
-                  <%= label_tag "bucket_ids_#{bucket.id}", bucket.name, class: "btn btn--plain filter__button" %>
-                </li>
-              <% end %>
-            </menu>
-          </div>
+                  <span><%= bucket.name %></span>
+                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                <% end %>
+              </li>
+            <% end %>
+          </menu>
 
-          <hr class="separator" />
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu list-style-none unpad margin-none">
-              <li><strong class="filter__label">Tagged</strong></li>
-
-              <% Current.account.tags.order(:title).each do |tag| %>
-                <li>
+          <menu class="filter__menu">
+            <li><strong class="filter__label">Tagged</strong></li>
+            <% Current.account.tags.order(:title).each do |tag| %>
+              <li>
+                <%= label_tag "tag_ids_#{tag.id}", class: "btn filter__button" do %>
                   <%= check_box_tag "tag_ids[]", tag.id, filter.tags.include?(tag), id: "tag_ids_#{tag.id}", hidden: true %>
-                  <%= label_tag "tag_ids_#{tag.id}", tag.hashtag, class: "btn btn--plain filter__button" %>
-                </li>
-              <% end %>
-            </menu>
-          </div>
-
-          <hr class="separator" />
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu list-style-none unpad margin-none">
-              <li><strong class="filter__label">Assigned to…</strong></li>
-
-              <li>
-                <%= check_box_tag "assignments", "unassigned", filter.assignments.unassigned?, id: "assignments_unassigned", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[],assigner_ids[]" } %>
-                <%= label_tag "assignments_unassigned", "No one", class: "btn btn--plain filter__button" %>
+                  <span><%= tag.hashtag %></span>
+                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                <% end %>
               </li>
-              <li>
-                <%= check_box_tag "assignee_ids[]", Current.user.id, filter.assignees.include?(Current.user), id: "assignee_ids_me", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
-                <%= label_tag "assignee_ids_me", "Me", class: "btn btn--plain filter__button" %>
-              </li>
-              <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
-                <li>
-                  <%= check_box_tag "assignee_ids[]", user.id, filter.assignees.include?(user), id: "assignee_ids_#{user.id}", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
-                  <%= label_tag "assignee_ids_#{user.id}", user.name, class: "btn btn--plain filter__button" %>
-                </li>
-              <% end %>
-            </menu>
-          </div>
+            <% end %>
+          </menu>
 
-          <hr class="separator" />
-          <div class="flex gap flex-item-grow">
-            <menu class="filter__menu list-style-none unpad margin-none">
-              <li><strong class="filter__label">Assigned by…</strong></li>
-
-              <li>
-                <%= check_box_tag "assigner_ids[]", Current.user.id, filter.assigners.include?(Current.user), id: "assigner_ids_me", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
-                <%= label_tag "assigner_ids_me", "Me", class: "btn btn--plain filter__button" %>
-              </li>
-              <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
-                <li>
-                  <%= check_box_tag "assigner_ids[]", user.id, filter.assigners.include?(user), id: "assigner_ids_#{user.id}", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
-                  <%= label_tag "assigner_ids_#{user.id}", user.name, class: "btn btn--plain filter__button" %>
-                </li>
+          <menu class="filter__menu">
+            <li><strong class="filter__label">Assigned to…</strong></li>
+            <li>
+              <%= label_tag "assignments_unassigned", class: "btn filter__button" do %>
+                <%= check_box_tag "assignments", "unassigned", filter.assignments.unassigned?, id: "assignments_unassigned",
+                    hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[],assigner_ids[]" } %>
+                <span>No one</span>
+                <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
               <% end %>
-            </menu>
-          </div>
+            </li>
+            <li>
+              <%= label_tag "assignee_ids_me", class: "btn filter__button" do %>
+                <%= check_box_tag "assignee_ids[]", Current.user.id, filter.assignees.include?(Current.user), id: "assignee_ids_me",
+                    hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <span>Me</span>
+                <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+              <% end %>
+            </li>
+            <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
+              <li>
+                <%= label_tag "assignee_ids_#{user.id}", user.name, class: "btn filter__button" do %>
+                  <%= check_box_tag "assignee_ids[]", user.id, filter.assignees.include?(user), id: "assignee_ids_#{user.id}",
+                      hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <span><%= user.name %></span>
+                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                <% end %>
+              </li>
+            <% end %>
+          </menu>
+
+          <menu class="filter__menu">
+            <li><strong class="filter__label">Assigned by…</strong></li>
+            <li>
+              <%= label_tag "assigner_ids_me", class: "btn filter__button" do %>
+                <%= check_box_tag "assigner_ids[]", Current.user.id, filter.assigners.include?(Current.user), id: "assigner_ids_me",
+                    hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <span>Me</span>
+                <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+              <% end %>
+            </li>
+            <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
+              <li>
+                <%= label_tag "assigner_ids_#{user.id}", class: "btn filter__button" do %>
+                  <%= check_box_tag "assigner_ids[]", user.id, filter.assigners.include?(user), id: "assigner_ids_#{user.id}",
+                      hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <span><%= user.name %></span>
+                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                <% end %>
+              </li>
+            <% end %>
+          </menu>
         </div>
       <% end %>
 

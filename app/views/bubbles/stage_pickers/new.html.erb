@@ -11,8 +11,8 @@
         <hr class="separator--horizontal full-width" hidden />
       </div>
 
-      <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
-        <menu class="filter__menu list-style-none unpad margin-none">
+      <dialog class="workflow__popup panel fill-white shadow" data-dialog-target="dialog">
+        <menu class="list-style-none unpad margin-none">
           <% @workflows.each do |workflow| %>
             <li><%= link_to_stage_picker @bubble, workflow %></li>
           <% end %>
