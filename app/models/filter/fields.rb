@@ -13,7 +13,7 @@ module Filter::Fields
     store_accessor :fields, :indexed_by, :assignments, :terms
 
     def indexed_by
-      (super || default_fields[:indexed_by]).inquiry
+      (super || default_indexed_by).inquiry
     end
 
     def assignments
@@ -23,6 +23,14 @@ module Filter::Fields
     def terms
       Array(super)
     end
+  end
+
+  def default_indexed_by
+    default_fields[:indexed_by]
+  end
+
+  def default_indexed_by?
+    indexed_by == default_indexed_by
   end
 
   private

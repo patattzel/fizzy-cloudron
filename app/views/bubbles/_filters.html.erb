@@ -10,7 +10,7 @@
     </button>
 
     <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
-      <%= filter_chip_tag filter.indexed_by.humanize, name: "indexed_by", value: filter.indexed_by %>
+      <%= filter_chip_tag filter.indexed_by.humanize, name: "indexed_by", value: filter.indexed_by unless filter.default_indexed_by? %>
 
       <% filter.tags.each do |tag| %>
         <%= filter_chip_tag tag.hashtag, name: "tag_ids[]", value: tag.id %>
@@ -55,74 +55,25 @@
         </form>
       </div>
 
-      <div class="flex-inline center align-center gap-half margin-block-half">
-        <button class="btn btn--plain txt-small" data-action="click->dialog#toggle">
-          <%= image_tag "filter.svg", aria: { hidden: true }, size: 24 %>
-          <span class="for-screen-reader">Filter</span>
-        </button>
-
-        <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex-inline center align-center gap-half" do %>
-          <%= turbo_frame_tag :indexed_by_chips do %>
-            <%= filter_chip_tag filter.indexed_by.humanize, name: "indexed_by", value: filter.indexed_by, class: "fill-selected" %>
-          <% end %>
-
-          <%= turbo_frame_tag :tag_chips do %>
-            <% filter.tags.each do |tag| %>
-              <%= filter_chip_tag tag.hashtag, name: "tag_ids[]", value: tag.id, class: "fill-selected" %>
-            <% end %>
-          <% end %>
-
-          <%= turbo_frame_tag :assignee_chips do %>
-            <% filter.assignees.each do |assignee| %>
-              <%= filter_chip_tag "for #{assignee.name}", name: "assignee_ids[]", value: assignee.id, class: "fill-selected" %>
-            <% end %>
-
-            <% if filter.assignments.present? %>
-              <%= filter_chip_tag filter.assignments.humanize, name: "assignments", value: filter.assignments, class: "fill-selected" %>
-            <% end %>
-          <% end %>
-
-          <%= turbo_frame_tag :assigner_chips do %>
-            <% filter.assigners.each do |assigner| %>
-              <%= filter_chip_tag "by #{assigner.name}", name: "assigner_ids[]", value: assigner.id, class: "fill-selected" %>
-            <% end %>
-          <% end %>
-
-          <%= turbo_frame_tag :bucket_chips do %>
-            <% filter.buckets.each do |bucket| %>
-              <%= filter_chip_tag "in #{bucket.name}", name: "bucket_ids[]", value: bucket.id, class: "fill-selected" %>
-            <% end %>
-          <% end %>
-
-          <%= turbo_frame_tag :terms_chips do %>
-            <% filter.terms.each do |term| %>
-              <%= filter_chip_tag %Q("#{term}"), name: "terms[]", value: term, class: "fill-selected" %>
-            <% end %>
-          <% end %>
+      <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width", style: "--border-color: var(--color-subtle)" do %>
+        <% Array(params[:terms]).each do |term| %>
+          <%= hidden_field_tag "terms[]", term, id: nil %>
         <% end %>
-      </div>
 
-      <%= form_with url: filter_chips_path, method: :post, class: "flex gap flex-item-grow align-center justify-center full-width center margin-block" do %>
-        <%= hidden_field_tag :name, "terms[]" %>
-        <%= hidden_field_tag :frame, :terms_chips %>
-
-        <input name="value" type="text" class="input full-width" placeholder="Type to match words…" autocomplete="off" />
-
-        <button class="btn txt-small" type="submit">
-          <span class="for-screen-reader">Submit text filter</span>
-          <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-      <% end %>
-
-      <div class="flex flex-column gap full-width" style="--border-color: var(--color-subtle)">
         <div class="flex gap">
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu list-style-none unpad margin-none">
               <li><strong class="filter__label">Sort by</strong></li>
 
+              <li>
+                <%= radio_button_tag "indexed_by", filter.default_indexed_by, filter.default_indexed_by?, hidden: true %>
+                <%= label_tag "indexed_by_#{filter.default_indexed_by}", "Default", class: "btn btn--plain filter__button" %>
+              </li>
+
               <% Filter::INDEXES.each do |index| %>
                 <li>
-                  <%= button_to_chip index.humanize, params: { text: index.humanize, name: "indexed_by", value: index, frame: :indexed_by_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "indexed_by" } %>
+                  <%= radio_button_tag "indexed_by", index, filter.indexed_by == index, hidden: true %>
+                  <%= label_tag "indexed_by_#{index}", index.humanize, class: "btn btn--plain filter__button" %>
                 </li>
               <% end %>
             </menu>
@@ -134,12 +85,13 @@
               <li><strong class="filter__label">In Project</strong></li>
 
               <li>
-                <%= button_to_chip "All projects", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
+                <%= button_tag "All projects", type: :button, class: "btn btn--plain filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
               </li>
 
               <% Current.user.buckets.order(:name).each do |bucket| %>
                 <li>
-                  <%= button_to_chip bucket.name, params: { text: "in #{bucket.name}", name: "bucket_ids[]", value: bucket.id, frame: :bucket_chips } %>
+                  <%= check_box_tag "bucket_ids[]", bucket.id, filter.buckets.include?(bucket), id: "bucket_ids_#{bucket.id}", hidden: true %>
+                  <%= label_tag "bucket_ids_#{bucket.id}", bucket.name, class: "btn btn--plain filter__button" %>
                 </li>
               <% end %>
             </menu>
@@ -152,7 +104,8 @@
 
               <% Current.account.tags.order(:title).each do |tag| %>
                 <li>
-                  <%= button_to_chip tag.title, params: { text: tag.hashtag, name: "tag_ids[]", value: tag.id, frame: :tag_chips } %>
+                  <%= check_box_tag "tag_ids[]", tag.id, filter.tags.include?(tag), id: "tag_ids_#{tag.id}", hidden: true %>
+                  <%= label_tag "tag_ids_#{tag.id}", tag.hashtag, class: "btn btn--plain filter__button" %>
                 </li>
               <% end %>
             </menu>
@@ -164,14 +117,17 @@
               <li><strong class="filter__label">Assigned to…</strong></li>
 
               <li>
-                <%= button_to_chip "No one", params: { text: "Unassigned", name: "assignments", value: "unassigned", frame: :assignee_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[]" } %>
+                <%= check_box_tag "assignments", "unassigned", filter.assignments.unassigned?, id: "assignments_unassigned", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[],assigner_ids[]" } %>
+                <%= label_tag "assignments_unassigned", "No one", class: "btn btn--plain filter__button" %>
               </li>
               <li>
-                <%= button_to_chip "Me", params: { text: "for #{Current.user.name}", name: "assignee_ids[]", value: Current.user.id, frame: :assignee_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <%= check_box_tag "assignee_ids[]", Current.user.id, filter.assignees.include?(Current.user), id: "assignee_ids_me", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <%= label_tag "assignee_ids_me", "Me", class: "btn btn--plain filter__button" %>
               </li>
               <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
                 <li>
-                  <%= button_to_chip user.name, params: { text: "for #{user.name}", name: "assignee_ids[]", value: user.id, frame: :assignee_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <%= check_box_tag "assignee_ids[]", user.id, filter.assignees.include?(user), id: "assignee_ids_#{user.id}", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <%= label_tag "assignee_ids_#{user.id}", user.name, class: "btn btn--plain filter__button" %>
                 </li>
               <% end %>
             </menu>
@@ -183,17 +139,19 @@
               <li><strong class="filter__label">Assigned by…</strong></li>
 
               <li>
-                <%= button_to_chip "Me", params: { text: "by #{Current.user.name}", name: "assigner_ids[]", value: Current.user.id, frame: :assigner_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <%= check_box_tag "assigner_ids[]", Current.user.id, filter.assigners.include?(Current.user), id: "assigner_ids_me", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                <%= label_tag "assigner_ids_me", "Me", class: "btn btn--plain filter__button" %>
               </li>
               <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
                 <li>
-                  <%= button_to_chip user.name, params: { text: "by #{user.name}", name: "assigner_ids[]", value: user.id, frame: :assigner_chips }, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <%= check_box_tag "assigner_ids[]", user.id, filter.assigners.include?(user), id: "assigner_ids_#{user.id}", hidden: true, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %>
+                  <%= label_tag "assigner_ids_#{user.id}", user.name, class: "btn btn--plain filter__button" %>
                 </li>
               <% end %>
             </menu>
           </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="flex align-center txt-align-center justify-space-between gap-half margin-block-start">
         <%= tag.button class: "btn", form: :filter_form, formaction: filters_path, formmethod: :post do %>
