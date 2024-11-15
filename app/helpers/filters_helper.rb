@@ -8,8 +8,7 @@ module FiltersHelper
   end
 
   def filter_hidden_field_tag(key, value)
-    is_collection = ->(key) { !Filter::Params::PERMITTED_PARAMS.include?(key.to_sym) }
-    name = is_collection.(key) ? "#{key}[]" : key
+    name = params[key].is_a?(Array) ? "#{key}[]" : key
     hidden_field_tag name, value, id: nil
   end
 end
