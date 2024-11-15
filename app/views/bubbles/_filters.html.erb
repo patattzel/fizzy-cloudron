@@ -64,7 +64,7 @@
 
         <div class="filter__columns flex gap">
           <menu class="filter__menu">
-            <li><strong class="filter__label">Sort by</strong></li>
+            <li class="filter__label"><strong>Sort by</strong></li>
             <li>
               <%= label_tag "indexed_by_#{filter.default_indexed_by}", class: "btn filter__button" do %>
                 <%= radio_button_tag "indexed_by", filter.default_indexed_by, filter.default_indexed_by?, hidden: true %>
@@ -85,7 +85,7 @@
           </menu>
 
           <menu class="filter__menu">
-            <li><strong class="filter__label">In Project</strong></li>
+            <li class="filter__label"><strong>In Project</strong></li>
 
             <li>
               <%= button_tag "All Projects", type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
@@ -102,7 +102,7 @@
           </menu>
 
           <menu class="filter__menu">
-            <li><strong class="filter__label">Tagged</strong></li>
+            <li class="filter__label"><strong>Tagged</strong></li>
             <% Current.account.tags.order(:title).each do |tag| %>
               <li>
                 <%= label_tag "tag_ids_#{tag.id}", class: "btn filter__button" do %>
@@ -115,7 +115,7 @@
           </menu>
 
           <menu class="filter__menu">
-            <li><strong class="filter__label">Assigned to…</strong></li>
+            <li class="filter__label"><strong>Assigned to…</strong></li>
             <li>
               <%= label_tag "assignments_unassigned", class: "btn filter__button" do %>
                 <%= check_box_tag "assignments", "unassigned", filter.assignments.unassigned?, id: "assignments_unassigned",
@@ -145,7 +145,7 @@
           </menu>
 
           <menu class="filter__menu">
-            <li><strong class="filter__label">Assigned by…</strong></li>
+            <li class="filter__label"><strong>Assigned by…</strong></li>
             <li>
               <%= label_tag "assigner_ids_me", class: "btn filter__button" do %>
                 <%= check_box_tag "assigner_ids[]", Current.user.id, filter.assigners.include?(Current.user), id: "assigner_ids_me",

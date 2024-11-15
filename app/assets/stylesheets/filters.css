@@ -36,13 +36,16 @@
 }
 
 .filter__label {
+  display: flex;
+  inline-size: 100%;
   padding: 0.3em 0.7em;
-  overflow: hidden;
-  text-align: start;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
+
+  strong {
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .filter__menu {
