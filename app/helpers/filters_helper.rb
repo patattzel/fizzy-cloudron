@@ -1,22 +1,15 @@
 module FiltersHelper
-  def filter_chip_id(name, value)
-    "#{name}__filter--#{value}"
-  end
-
-  def filter_chip_tag(text, name:, value:, **options)
-    tag.button id: filter_chip_id(name, value), class: [ "btn txt-small btn--remove", options.delete(:class) ],
-        data: { action: "filter-form#removeFilter form#submit", filter_form_target: "button" } do
+  def filter_chip_tag(text, name:, value:)
+    tag.button class: "btn txt-small btn--remove", data: { action: "filter-form#removeFilter form#submit", filter_form_target: "chip" } do
       concat hidden_field_tag(name, value, id: nil)
       concat tag.span(text)
       concat image_tag("close.svg", aria: { hidden: true }, size: 24)
     end
   end
 
-  def button_to_chip(text, params: {}, data: {})
-    if params.present?
-      button_to text, filter_chips_path, method: :post, class: "btn btn--plain filter__button", params: params, data: data
-    else
-      button_tag text, type: :button, class: "btn btn--plain filter__button", data: data
-    end
+  def filter_hidden_field_tag(key, value)
+    is_collection = ->(key) { !Filter::Params::PERMITTED_PARAMS.include?(key.to_sym) }
+    name = is_collection.(key) ? "#{key}[]" : key
+    hidden_field_tag name, value, id: nil
   end
 end

@@ -1,27 +1,31 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "button" ]
+  static targets = [ "chip" ]
 
   connect() {
-    this.buttonTargets.forEach(button => this.#showButton(button))
+    this.chipTargets.forEach(button => this.#showChip(button))
   }
 
   removeFilter(event) {
     event.preventDefault()
-    this.#hideButton(event.target.closest("button"))
+    this.#hideChip(event.target.closest("button"))
   }
 
   clearCategory({ params: { name } }) {
-    this.element.querySelectorAll(`input[name="${name}"]`).forEach(input => this.#hideButton(input.closest("button")))
+    name.split(",").forEach(name => {
+      this.element.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+        input.checked = false
+      })
+    })
   }
 
-  #showButton(button) {
+  #showChip(button) {
     button.querySelector("input").disabled = false
     button.hidden = false
   }
 
-  #hideButton(button) {
+  #hideChip(button) {
     button.querySelector("input").disabled = true
     button.hidden = true
   }
