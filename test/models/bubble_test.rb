@@ -36,7 +36,7 @@ class BubbleTest < ActiveSupport::TestCase
 
   test "ordering by activity" do
     bubbles(:layout).tap { |b| b.update!(boost_count: 1_000) }.rescore
-    assert_equal bubbles(:layout, :logo, :shipping, :text).pluck(:title), Bubble.ordered_by_activity.pluck(:title)
+    assert_equal bubbles(:layout, :logo, :shipping, :text), Bubble.ordered_by_activity
   end
 
   test "ordering by comments" do
