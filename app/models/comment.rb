@@ -6,12 +6,10 @@ class Comment < ApplicationRecord
   searchable_by :body, using: :comments_search_index
 
   def captured_as(message)
-    message.bubble.increment! :comments_count
-    message.bubble.rescore
+    message.bubble.comment_captured
   end
 
   def uncaptured_as(message)
-    message.bubble.decrement! :comments_count
-    message.bubble.rescore
+    message.bubble.comment_uncaptured
   end
 end

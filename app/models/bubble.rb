@@ -1,5 +1,5 @@
 class Bubble < ApplicationRecord
-  include Assignable, Boostable, Colored, Eventable, Messages, Poppable, Searchable, Staged, Taggable
+  include Assignable, Boostable, Colored, Commentable, Eventable, Messages, Poppable, Searchable, Staged, Taggable
 
   belongs_to :bucket, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
@@ -11,7 +11,6 @@ class Bubble < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
   scope :ordered_by_activity, -> { order activity_score: :desc }
-  scope :ordered_by_comments, -> { order comments_count: :desc }
   scope :in_bucket, ->(bucket) { where bucket: bucket }
 
   scope :indexed_by, ->(index) do

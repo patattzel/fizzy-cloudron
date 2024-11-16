@@ -7,9 +7,9 @@ module Bubble::Boostable
 
   def boost!
     transaction do
+      track_event :boosted
       increment! :boost_count
       rescore
-      track_event :boosted
     end
   end
 end
