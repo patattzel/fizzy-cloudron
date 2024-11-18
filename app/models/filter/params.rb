@@ -24,4 +24,11 @@ module Filter::Params
       params[:filter_id] = id if persisted?
     end
   end
+
+  def params_without(key, value)
+    to_params.tap do |params|
+      params[key].delete(value) if params[key].is_a?(Array)
+      params.delete(key) if params[key] == value
+    end
+  end
 end

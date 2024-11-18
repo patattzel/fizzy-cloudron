@@ -99,4 +99,20 @@ class FilterTest < ActiveSupport::TestCase
   test "plain summary" do
     assert_equal "Most discussed, tagged #Mobile, and assigned to JZ in all projects", filters(:jz_assignments).plain_summary
   end
+
+  test "params without a key-value pair" do
+    filter = users(:david).filters.new indexed_by: "most_discussed", assignee_ids: [ users(:jz).id, users(:kevin).id ]
+
+    expected = { indexed_by: "most_discussed", assignee_ids: [ users(:kevin).id ] }
+    assert_equal expected.stringify_keys, filter.params_without(:assignee_ids, users(:jz).id).to_h
+
+    expected = { assignee_ids: [ users(:jz).id, users(:kevin).id ] }
+    assert_equal expected.stringify_keys, filter.params_without(:indexed_by, "most_discussed").to_h
+
+    expected = { indexed_by: "most_discussed", assignee_ids: [ users(:jz).id, users(:kevin).id ] }
+    assert_equal expected.stringify_keys, filter.params_without(:indexed_by, "most_active").to_h
+
+    expected = { indexed_by: "most_discussed", assignee_ids: [ users(:jz).id, users(:kevin).id ] }
+    assert_equal expected.stringify_keys, filter.params_without(:assignee_ids, users(:david).id).to_h
+  end
 end
