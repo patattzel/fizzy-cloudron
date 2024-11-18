@@ -73,13 +73,20 @@
     color: var(--bubble-color);
   }
 
-  &:is(.bubble__boosts) {
-    aspect-ratio: 1;
+  &.bubble__boosts {
+    --rotation: 45deg;
+
+    aspect-ratio: 6/9;
     display: flex;
-    inset: 75cqi 5cqi auto auto;
-    min-inline-size: 6ch;
+    inset: 70cqi 7cqi auto auto;
+    min-inline-size: 7ch;
     padding: 0;
     place-items: center;
+    transform: rotate(var(--rotation));
+
+    span {
+      transform: rotate(calc(var(--rotation) * -1));
+    }
 
     form {
       block-size: 100%;
@@ -95,12 +102,14 @@
       font-weight: 800;
     }
 
-    .windshield .bubble:hover & {
-      transform: translate(0, 1rem) !important;
-    }
-
     &.boosting {
       animation: bubble-up 500ms normal forwards ease-out;
+    }
+
+    @media (hover: hover) {
+      .windshield .bubble:hover & {
+        transform: rotate(calc(var(--rotation) + var(--bubble-shift) * 1)) translate(0rem, 1rem);
+      }
     }
   }
 
@@ -169,10 +178,17 @@
   }
 
   &.bubble__date {
-    aspect-ratio: 1;
+    --rotation: -45deg;
+
+    aspect-ratio: 5/7;
     cursor: pointer;
     font-size: 4.5cqi;
     inset: 1cqb 1cqi auto auto;
+    transform: rotate(var(--rotation));
+
+    .bubble__date-text {
+      transform: rotate(calc(var(--rotation) * -1));
+    }
 
     label {
       display: grid;
@@ -180,6 +196,12 @@
 
       > * {
         grid-area: 1/1;
+      }
+    }
+
+    @media (hover: hover) {
+      .windshield .bubble:hover & {
+        transform: rotate(calc(var(--rotation) + var(--bubble-shift) * 1)) translate(0rem, 0.5rem);
       }
     }
   }
