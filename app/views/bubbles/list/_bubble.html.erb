@@ -20,10 +20,8 @@
 
   <small class="flex align-center gap flex-item-no-shrink">
     <% bubble.tags.each do |tag| %>
-      <%= button_tag tag.hashtag, type: :button,
-            class: "btn btn--plain", style: "color: #{bubble.color}", data: {
-            controller: "query-merger", action: "query-merger#merge",
-            query_merger_key_param: "tag_ids", query_merger_value_param: tag.id } %>
+      <%= link_to tag.hashtag, bubbles_path(@filter.to_params.merge(tag_ids: [ tag.id ])),
+            class: "btn btn--plain", style: "color: #{bubble.color}" %>
     <% end %>
 
     <%= tag.time bubble.created_at, class: "txt-nowrap flex-item-justify-end" do %>
