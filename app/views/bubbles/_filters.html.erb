@@ -10,33 +10,33 @@
       <span class="for-screen-reader">Filter</span>
     </button>
 
-    <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
-      <%= filter_chip_tag filter.indexed_by.humanize, name: "indexed_by", value: filter.indexed_by unless filter.default_indexed_by? %>
+    <div class="flex-inline center align-center gap-half">
+      <%= filter_chip_tag filter.indexed_by.humanize, name: :indexed_by, value: filter.indexed_by, filter: filter unless filter.default_indexed_by? %>
 
       <% filter.tags.each do |tag| %>
-        <%= filter_chip_tag tag.hashtag, name: "tag_ids[]", value: tag.id %>
+        <%= filter_chip_tag tag.hashtag, name: :tag_ids, value: tag.id, filter: filter %>
       <% end %>
 
       <% filter.assignees.each do |assignee| %>
-        <%= filter_chip_tag "for #{assignee.name}", name: "assignee_ids[]", value: assignee.id %>
+        <%= filter_chip_tag "for #{assignee.name}", name: :assignee_ids, value: assignee.id, filter: filter %>
       <% end %>
 
       <% if filter.assignments.present? %>
-        <%= filter_chip_tag filter.assignments.humanize, name: "assignments", value: filter.assignments %>
+        <%= filter_chip_tag filter.assignments.humanize, name: :assignments, value: filter.assignments, filter: filter %>
       <% end %>
 
       <% filter.assigners.each do |assigner| %>
-        <%= filter_chip_tag "by #{assigner.name}", name: "assigner_ids[]", value: assigner.id %>
+        <%= filter_chip_tag "by #{assigner.name}", name: :assigner_ids, value: assigner.id, filter: filter %>
       <% end %>
 
       <% filter.buckets.each do |bucket| %>
-        <%= filter_chip_tag "in #{bucket.name}", name: "bucket_ids[]", value: bucket.id %>
+        <%= filter_chip_tag "in #{bucket.name}", name: :bucket_ids, value: bucket.id, filter: filter %>
       <% end %>
 
       <% filter.terms.each do |term| %>
-        <%= filter_chip_tag %Q("#{term}"), name: "terms[]", value: term %>
+        <%= filter_chip_tag %Q("#{term}"), name: :terms, value: term, filter: filter %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <dialog class="filter__popup dialog panel fill-white shadow" data-dialog-target="dialog" data-dialog-modal-value="true">
