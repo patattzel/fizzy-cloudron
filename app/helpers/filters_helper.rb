@@ -1,6 +1,6 @@
 module FiltersHelper
-  def filter_chip_tag(text, name:, value:, filter:)
-    link_to bubbles_path(**filter.params_without(name, value)), class: "btn txt-small btn--remove" do
+  def filter_chip_tag(text, **)
+    link_to bubbles_path(**), class: "btn txt-small btn--remove" do
       concat tag.span(text)
       concat image_tag("close.svg", aria: { hidden: true }, size: 24)
     end
