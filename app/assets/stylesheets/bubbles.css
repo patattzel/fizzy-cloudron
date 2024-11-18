@@ -20,8 +20,9 @@
 }
 
 .bubble {
-  --hover-size: 0;
+  --bubble-border-width: 0.2rem;
   --bubble-color: var(--color-ink);
+  --hover-size: 0;
 
   aspect-ratio: 1;
   block-size: var(--bubble-size);
@@ -56,6 +57,7 @@
   }
 
   .bubble__perma & {
+    --bubble-border-width: 0.3rem;
     --bubble-size: 100% !important;
 
     z-index: 1;
@@ -64,7 +66,7 @@
 
 .bubble__bubble {
   background-color: var(--color-bg);
-  border: max(3px, 0.2em) solid var(--bubble-color);
+  border: var(--bubble-border-width) solid var(--bubble-color);
   border-radius: var(--bubble-shape);
   position: absolute;
   z-index: -1;
@@ -409,17 +411,13 @@
 
   .bubble & {
     background-color: color(from var(--bubble-color) srgb r g b / 0.15);
-    border: 0.2em solid var(--bubble-color);
+    border: var(--bubble-border-width) solid var(--bubble-color);
     block-size: 100%;
     inline-size: 100%;
   }
 
   .bubble:has(.bubble__link) & {
     z-index: -1;
-  }
-
-  .bubble__perma & {
-    border-width: 0.4em;
   }
 
   :is(.windshield, .bubbles-list) .bubble--wobble & {
