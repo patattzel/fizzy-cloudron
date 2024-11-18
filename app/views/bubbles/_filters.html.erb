@@ -3,10 +3,10 @@
   <h1 class="txt-large flex align-center gap-half">
     <% if filter.buckets.none? %>
       All projects
-    <% elsif filter.buckets.many? %>
-      <%= pluralize(filter.buckets.size, "project") %>
-    <% else %>
+    <% elsif filter.buckets.one? %>
       <%= filter.buckets.first.name %>
+    <% else %>
+      <%= pluralize(filter.buckets.size, "project") %>
     <% end %>
   </h1>
 
