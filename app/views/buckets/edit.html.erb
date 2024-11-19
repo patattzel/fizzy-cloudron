@@ -7,8 +7,8 @@
       <span class="for-screen-reader">Go back</span>
     <% end %>
 
-    <%= form_with model: @bucket, class: "flex align-center gap-half", method: :delete do |form| %>
-      <%= form.button class: "btn btn--negative txt-small min-width", data: { turbo_confirm: "Are you sure you want to delete this?" } do %>
+    <%= form_with model: @bucket, class: "flex-item-justify-end", method: :delete do |form| %>
+      <%= form.button class: "btn btn--negative", data: { turbo_confirm: "Are you sure you want to delete this?" } do %>
         <%= image_tag "minus.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">Delete <%= @bucket.name %></span>
       <% end %>
@@ -18,8 +18,6 @@
 
 <div class="panel shadow center" style="--panel-size: 55ch;">
   <%= form_with model: @bucket, class: "flex flex-column gap txt-large", controller: "form" do |form| %>
-    <%= image_tag "bubbles.svg", aria: { hidden: "true" }, size: 150, class: "colorize--black center" %>
-
     <div class="flex align-center gap">
       <%= translation_button(:bucket_name) %>
 
