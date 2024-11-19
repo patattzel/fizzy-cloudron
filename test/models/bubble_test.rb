@@ -14,10 +14,8 @@ class BubbleTest < ActiveSupport::TestCase
   end
 
   test "boosting" do
-    assert_changes "bubbles(:logo).activity_score", +1 do
-      assert_difference %w[ bubbles(:logo).boost_count Event.count ], +1 do
-        bubbles(:logo).boost!
-      end
+    assert_difference %w[ bubbles(:logo).boost_count bubbles(:logo).activity_score Event.count ], +1 do
+      bubbles(:logo).boost!
     end
   end
 

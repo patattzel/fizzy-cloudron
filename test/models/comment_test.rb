@@ -12,16 +12,12 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test "updating bubble counter" do
-    assert_changes "bubbles(:logo).activity_score" do
-      assert_difference "bubbles(:logo).comments_count", 1 do
-        bubbles(:logo).capture Comment.new(body: "I'd prefer something more rustic")
-      end
+    assert_difference %w[ bubbles(:logo).comments_count bubbles(:logo).activity_score ], +1 do
+      bubbles(:logo).capture Comment.new(body: "I'd prefer something more rustic")
     end
 
-    assert_changes "bubbles(:logo).activity_score" do
-      assert_difference "bubbles(:logo).comments_count", -1 do
-        bubbles(:logo).messages.comments.last.destroy
-      end
+    assert_difference %w[ bubbles(:logo).comments_count bubbles(:logo).activity_score ], -1 do
+      bubbles(:logo).messages.comments.last.destroy
     end
   end
 end
