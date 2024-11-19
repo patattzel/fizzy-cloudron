@@ -30,6 +30,29 @@
 
     <section class="margin-block pad-inline fill-shade border-radius">
       <menu class="flex flex-column gap margin-none pad txt-medium" data-controller="filter" data-filter-active-class="filter--active" data-filter-selected-class="selected">
+        <li class="flex align-center gap margin-none">
+          <figure class="avatar flex-item-no-shrink" style="--avatar-border-radius: 0; --avatar-size: 4ch;">
+            <%= image_tag "everyone.svg", aria: { hidden: "true" }, class: "colorize--black" %>
+            <span class="for-screen-reader">Everyone</span>
+          </figure>
+
+          <div class="min-width">
+            <div class="overflow-ellipsis fill-shade"><strong>Everyone</strong></div>
+          </div>
+
+          <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true" />
+
+          <%= link_to nil, class: "btn--faux flex-inline", tabindex: "-1" do %>
+            <label class="switch">
+              <input type="checkbox" lass="switch__input">
+              <span class="switch__btn round"></span>
+              <span class="for-screen-reader">Give everyone access to this project</span>
+            </label>
+          <% end %>
+        </li>
+
+        <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle-dark);" aria-hidden="true" />
+
         <% if User.active.count > 20 %>
           <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-action="input->filter#filter">
         <% end %>
