@@ -195,14 +195,6 @@
   --btn-padding: 0;
   --hover-size: 0;
   --outline-size: 0;
-
-  @media (hover: hover) {
-    transition: scale 200ms ease-out;
-
-    &:has(img):hover {
-      scale: 1.2;
-    }
-  }
 }
 
 .btn--positive {

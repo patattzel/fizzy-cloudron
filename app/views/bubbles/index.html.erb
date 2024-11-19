@@ -2,9 +2,9 @@
 
 <% content_for :header do %>
   <nav class="align-start">
-    <%= link_to root_path, class: "btn btn--plain flex-item-justify-start" do %>
-      <%= image_tag "bubbles.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">All Projects</span>
+    <%= link_to root_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
     <% end %>
 
     <header class="txt-align-center">
@@ -12,8 +12,8 @@
     </header>
 
     <% if @filter.buckets.any? %>
-      <%= button_to bucket_bubbles_path(@filter.buckets.first), method: :post, class: "btn btn--plain", form_class: "flex-item-justify-end" do %>
-        <%= image_tag "bubble-add.svg", aria: { hidden: true }, size: 24 %>
+      <%= button_to bucket_bubbles_path(@filter.buckets.first), method: :post, class: "btn", form_class: "flex-item-justify-end" do %>
+        <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">Create a new bubble</span>
       <% end %>
     <% else %>
