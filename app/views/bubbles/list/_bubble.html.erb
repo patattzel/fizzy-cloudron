@@ -1,6 +1,6 @@
 <li class="flex align-center gap margin-none" style="--bubble-color: <%= bubble.color %>; <%= bubble_rotation(bubble) %>"
     data-controller="animation" data-animation-play-class="bubble--wobble" data-animation-play-on-load-value="true" data-action="mouseover->animation#play">
-  <div class="bubble__shape"></div>
+  <div class="bubble__shape flex-item-no-shrink"></div>
 
   <%= link_to bucket_bubble_path(bubble.bucket, bubble), class: "bubble__title-link flex align-center gap flex-item-grow min-width" do %>
     <strong class="bubble__title-text flex--inline gap-half overflow-ellipsis"><%= bubble.title %></strong>
@@ -14,16 +14,16 @@
 
   <div class="flex align-center gap flex-item-no-shrink">
     <% bubble.assignees.each do |assignee| %>
-      <span class="txt-small"><%= avatar_tag assignee, loading: :lazy %></span>
+      <%= link_to bubbles_path(@filter.to_params.merge(assignee_ids: [ assignee.id ])), class: "btn avatar txt-small" do %>
+        <%= avatar_image_tag assignee, loading: :lazy %>
+      <% end %>
     <% end %>
   </div>
 
   <small class="flex align-center gap flex-item-no-shrink">
     <% bubble.tags.each do |tag| %>
-      <%= button_tag tag.hashtag, type: :button,
-            class: "btn btn--plain", style: "color: #{bubble.color}", data: {
-            controller: "query-merger", action: "query-merger#merge",
-            query_merger_key_param: "tag_ids", query_merger_value_param: tag.id } %>
+      <%= link_to tag.hashtag, bubbles_path(@filter.to_params.merge(tag_ids: [ tag.id ])),
+            class: "btn btn--plain", style: "color: #{bubble.color}" %>
     <% end %>
 
     <%= tag.time bubble.created_at, class: "txt-nowrap flex-item-justify-end" do %>

@@ -1,7 +1,13 @@
 <div class="flex flex-column gap-half align-center" data-controller="dialog filter-form"
     data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside turbo:before-cache@document->dialog#close">
   <h1 class="txt-large flex align-center gap-half">
-    <%= filter.buckets.first&.name || "All projects" %>
+    <% if filter.buckets.none? %>
+      All projects
+    <% elsif filter.buckets.one? %>
+      <%= filter.buckets.first.name %>
+    <% else %>
+      <%= pluralize(filter.buckets.size, "project") %>
+    <% end %>
   </h1>
 
   <div class="filters flex-inline align-center gap-half">
@@ -10,33 +16,35 @@
       <span class="for-screen-reader">Filter</span>
     </button>
 
-    <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
-      <%= filter_chip_tag filter.indexed_by.humanize, name: "indexed_by", value: filter.indexed_by unless filter.default_indexed_by? %>
+    <div class="flex-inline center align-center gap-half">
+      <%= filter_chip_tag filter.indexed_by.humanize, filter.params_without(:indexed_by, filter.indexed_by) unless filter.default_indexed_by? %>
 
       <% filter.tags.each do |tag| %>
-        <%= filter_chip_tag tag.hashtag, name: "tag_ids[]", value: tag.id %>
+        <%= filter_chip_tag tag.hashtag, filter.params_without(:tag_ids, tag.id) %>
       <% end %>
 
       <% filter.assignees.each do |assignee| %>
-        <%= filter_chip_tag "for #{assignee.name}", name: "assignee_ids[]", value: assignee.id %>
+        <%= filter_chip_tag "for #{assignee.name}", filter.params_without(:assignee_ids, assignee.id) %>
       <% end %>
 
       <% if filter.assignments.present? %>
-        <%= filter_chip_tag filter.assignments.humanize, name: "assignments", value: filter.assignments %>
+        <%= filter_chip_tag filter.assignments.humanize, filter.params_without(:assignments, filter.assignments) %>
       <% end %>
 
       <% filter.assigners.each do |assigner| %>
-        <%= filter_chip_tag "by #{assigner.name}", name: "assigner_ids[]", value: assigner.id %>
+        <%= filter_chip_tag "by #{assigner.name}", filter.params_without(:assigner_ids, assigner.id) %>
       <% end %>
 
-      <% filter.buckets.each do |bucket| %>
-        <%= filter_chip_tag "in #{bucket.name}", name: "bucket_ids[]", value: bucket.id %>
+      <% if filter.buckets.many? %>
+        <% filter.buckets.each do |bucket| %>
+          <%= filter_chip_tag "in #{bucket.name}", filter.params_without(:bucket_ids, bucket.id) %>
+        <% end %>
       <% end %>
 
       <% filter.terms.each do |term| %>
-        <%= filter_chip_tag %Q("#{term}"), name: "terms[]", value: term %>
+        <%= filter_chip_tag %Q("#{term}"), filter.params_without(:terms, term) %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <dialog class="filter__popup dialog panel fill-white shadow" data-dialog-target="dialog" data-dialog-modal-value="true">
@@ -57,7 +65,22 @@
         </form>
       </div>
 
-      <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width margin-block-start", style: "--border-color: var(--color-subtle)" do %>
+      <div class="pad fill-shade border-radius margin-block-end">
+        <%= form_tag bubbles_path, class: "flex align-center gap input input--actor txt-small fill-white border-radius", method: :get do %>
+          <% @filter.to_params.each do |key, value| %>
+            <%= filter_hidden_field_tag key, value %>
+          <% end %>
+
+          <%= search_field_tag "terms[]", nil, class: "input full-width", placeholder: "By keyword…", id: nil %>
+
+          <button class="btn">
+            <span  class="for-screen-reader">Apply</span>
+            <%= image_tag "arrow-right.svg", aria: { hidden: true }, size: 24 %>
+          </button>
+        <% end %>
+      </div>
+
+      <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width", style: "--border-color: var(--color-subtle)" do %>
         <% Array(params[:terms]).each do |term| %>
           <%= hidden_field_tag "terms[]", term, id: nil %>
         <% end %>
