@@ -25,7 +25,7 @@ class Bubble < ApplicationRecord
   end
 
   def rescore
-    update! activity_score: boost_count + messages.comments.size
+    update! activity_score: boost_count + comments_count
   end
 
   private
