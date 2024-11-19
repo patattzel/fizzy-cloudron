@@ -5,12 +5,12 @@ module Bubble::Commentable
     scope :ordered_by_comments, -> { order comments_count: :desc }
   end
 
-  def comment_captured
+  def comment_created
     increment! :comments_count
     rescore
   end
 
-  def comment_uncaptured
+  def comment_destroyed
     decrement! :comments_count
     rescore
   end

@@ -5,15 +5,15 @@ class Message < ApplicationRecord
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  after_create :captured
-  after_destroy :uncaptured
+  after_create :created
+  after_destroy :destroyed
 
   private
-    def captured
-      messageable.captured_as(self)
+    def created
+      bubble.comment_created if comment?
     end
 
-    def uncaptured
-      messageable.uncaptured_as(self)
+    def destroyed
+      bubble.comment_destroyed if comment?
     end
 end
