@@ -31,16 +31,6 @@
 </section>
 
 <section class="bubbles-list unpad-inline center margin-block-start">
-  <header class="flex-inline align-center gap txt-small margin-block-end-half center">
-    <%= form_tag bubbles_path, method: :get do %>
-      <% @filter.to_params.each do |key, value| %>
-        <%= filter_hidden_field_tag key, value %>
-      <% end %>
-
-      <%= search_field_tag "terms[]", nil, class: "input center flex-inline", placeholder: "Type to filter…", id: nil %>
-    <% end %>
-  </header>
-
   <ul class="unpad margin-none flex flex-column txt-align-start center">
     <%= render partial: "bubbles/list/bubble", collection: @bubbles, cached: true %>
   </ul>
