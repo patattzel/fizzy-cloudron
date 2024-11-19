@@ -14,7 +14,9 @@
   </nav>
 <% end %>
 
-<menu class="buckets margin-none unpad align-center justify-center flex flex-wrap gap">
-  <%= render @filters %>
+<div class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap">
   <%= render @buckets, cached: true %>
-</menu>
+</div>
+<div class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap">
+  <%= render @filters %>
+</div>
