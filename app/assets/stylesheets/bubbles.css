@@ -266,9 +266,9 @@
   border-radius: var(--bubble-shape);
   block-size: 100cqi;
   inline-size: 100cqi;
-  overflow: clip;
+  overflow: hidden;
   pointer-events: none;
-  transform: rotate(var(--bubble-rotate)) scale(0.9);
+  transform: rotate(var(--bubble-rotate)) scale(0.92);
   transition: 0.2s ease;
 
   @media (hover: hover) {
@@ -280,12 +280,17 @@
   img {
     block-size: 100cqi;
     inline-size: 100cqi;
+    max-inline-size: none;
     object-fit: cover;
-    transform: rotate(calc(var(--bubble-rotate) * -1));
+    transform: rotate(calc(var(--bubble-rotate) * -1)) scale(1.1);
 
     &:is([src=""]) {
       display: none;
     }
+  }
+
+  :is(.windshield, .bubbles-list) .bubble--wobble & {
+    animation: wobble-img 1200ms normal forwards ease-out;
   }
 }
 
