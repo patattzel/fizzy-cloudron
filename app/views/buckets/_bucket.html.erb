@@ -14,6 +14,11 @@
       <%= link_to bubbles_path(bucket_ids: [ bucket ]), class: "txt-ink flex flex-column" do %>
         <strong class="txt-x-large">In <%= bucket.name %></strong>
       <% end %>
+
+      <%= link_to edit_bucket_path(bucket), class: "btn txt-small" do %>
+        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Settings for <%= bucket.name %></span>
+      <% end %>
     </div>
   </li>
 <% end %>
