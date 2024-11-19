@@ -36,7 +36,7 @@ module Filter::Summarized
       if buckets.any?
         "in #{buckets.pluck(:name).to_choice_sentence}"
       else
-        "in all projects</mark>"
+        "in all projects"
       end
     end
 
