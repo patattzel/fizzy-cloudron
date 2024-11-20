@@ -344,7 +344,7 @@
   --bubble-shift: 15deg;
   --hover-size: 0;
 
-  font-size: clamp(1rem, 1.8cqi, 2rem);
+  font-size: var(--text-medium);
   max-inline-size: 80ch;
 
   .bubble {

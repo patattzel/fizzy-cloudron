@@ -6,14 +6,23 @@
   --block-space: 1rem;
   --block-space-half: calc(var(--block-space) / 2);
   --block-space-double: calc(var(--block-space) * 2);
+
+  /* Text sizes */
+  --text-x-small: 0.6rem;
+  --text-small: 0.8rem;
+  --text-medium: 1.2rem;
+  --text-large: 1.5rem;
+  --text-x-large: 1.8rem;
+  --text-xx-large: 2.4rem;
 }
 
 /* Text */
-.txt-small { font-size: 0.8rem; }
-.txt-medium { font-size: 1rem; }
-.txt-large { font-size: 1.4rem; }
-.txt-x-large { font-size: 1.8rem; }
-.txt-xx-large { font-size: 2.4rem; }
+.txt-x-small { font-size: var(--text-x-small); }
+.txt-small { font-size: var(--text-small); }
+.txt-medium { font-size: var(--text-medium); }
+.txt-large { font-size: var(--text-large); }
+.txt-x-large { font-size: var(--text-x-large); }
+.txt-xx-large { font-size: var(--text-xx-large); }
 
 .txt-align-center { text-align: center; }
 .txt-align-start { text-align: start; }
