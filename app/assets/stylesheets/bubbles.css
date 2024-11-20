@@ -340,7 +340,7 @@
 }
 
 .bubbles-list {
-  --bubble-size: 1.2em;
+  --bubble-size: 1.8em;
   --bubble-shift: 15deg;
   --hover-size: 0;
 
@@ -405,9 +405,9 @@
 
 .bubble__shape {
   background-color: var(--bubble-color);
-  block-size: 1.2em;
+  block-size: var(--bubble-size, 1.2em);
   border-radius: var(--bubble-shape);
-  inline-size: 1.2em;
+  inline-size: var(--bubble-size, 1.2em);
   pointer-events: none;
   position: relative;
   transform: rotate(var(--bubble-rotate));
@@ -415,10 +415,10 @@
   z-index: 0;
 
   .bubble & {
+    --bubble-size: 100%;
+
     background-color: color(from var(--bubble-color) srgb r g b / 0.15);
     border: var(--bubble-border-width) solid var(--bubble-color);
-    block-size: 100%;
-    inline-size: 100%;
   }
 
   .bubble:has(.bubble__link) & {
