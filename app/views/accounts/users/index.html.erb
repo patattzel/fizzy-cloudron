@@ -7,7 +7,14 @@
       <span class="for-screen-reader">Go back</span>
     <% end %>
 
-    <%= button_to session_path, method: :delete, class: "btn", form_class: "flex-item-justify-end" do %>
+    <h1 class="txt-large"><%= @page_title %></h1>
+
+    <%= link_to workflows_path, class: "btn flex-item-justify-end" do %>
+      <%= image_tag "bolt.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Workflows</span>
+    <% end %>
+
+    <%= button_to session_path, method: :delete, class: "btn" do %>
       <%= image_tag "logout.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Sign out</span>
     <% end %>
@@ -20,9 +27,4 @@
 
 <div class="panel borderless center pad fill-none flex flex-column gap">
   <%= render partial: "accounts/users/user", collection: @users %>
-</div>
-
-<div class="panel borderless center pad fill-none flex flex-column gap">
-  <h2>Workflows</h2>
-  <%= turbo_frame_tag :workflows, src: workflows_path %>
 </div>
