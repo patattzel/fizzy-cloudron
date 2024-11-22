@@ -151,6 +151,20 @@
         transform: translate(1.5rem, -0.5rem);;
       }
     }
+
+    .assignee__name {
+      display: none;
+
+      .bubble__perma & {
+        color: var(--bubble-color);
+        display: block;
+        font-size: var(--text-medium);
+        font-weight: normal;
+        inset: -2em auto auto auto;
+        position: absolute;
+        text-align: center;
+      }
+    }
   }
 
   &.bubble__date {
@@ -160,6 +174,7 @@
     cursor: pointer;
     font-size: 5cqi;
     inset: 1cqb 1cqi auto auto;
+    text-align: center;
     transform: rotate(var(--rotation));
 
     .bubble__date-text {
