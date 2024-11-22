@@ -1,5 +1,4 @@
-<% @filter ||= Current.user.filters.last %>
-
-<% bubble.tags.last(3).each do |tag| %>
-  <%= link_to tag.hashtag, bubbles_path(@filter&.to_params&.merge(tag_ids: [ tag.id ])), class: "bubble__bubble bubble__meta bubble__tag" %>
+<% bubble.tags.each do |tag| %>
+  <%= link_to tag.hashtag, bubbles_path(@filter.to_params.merge(tag_ids: [ tag.id ])),
+        class: "btn btn--plain fill-transparent", style: "color: #{bubble.color}" %>
 <% end %>

@@ -1,5 +1,7 @@
 <% @page_title = @bubble.title %>
 
+<% @filter ||= Current.user.filters.first %>
+
 <% content_for :header do %>
   <nav>
     <%= link_to "#", class: "btn flex-item-justify-start", data: { controller: "back-navigation", back_navigation_fallback_destination_value: bubbles_path(bucket_id: @bubble.bucket) } do %>
@@ -14,7 +16,7 @@
 <% end %>
 
 <aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
-  <div class="flex flex-column">
+  <div class="flex flex-column" style="row-gap: 3px;">
     <%= render "bubbles/color", bubble: @bubble %>
 
     <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
@@ -38,7 +40,7 @@
     <div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close">
       <button class="btn full-width justify-start borderless" data-action="dialog#toggle">
         <%= image_tag "tag.svg", aria: { hidden: true }, size: 24 %>
-        <span>Tag this</span>
+        <span>Tags</span>
       </button>
 
       <dialog class="tag-picker panel fill-white shadow gap-half align-center" data-dialog-target="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
