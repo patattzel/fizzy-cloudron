@@ -80,8 +80,9 @@
 
     aspect-ratio: 6/9;
     display: flex;
+    font-size: 6cqi;
     inset: 70cqi 7cqi auto auto;
-    min-inline-size: 7ch;
+    min-inline-size: 4.5ch;
     padding: 0;
     place-items: center;
     transform: rotate(var(--rotation));
@@ -118,11 +119,11 @@
   &.bubble__assignee {
     aspect-ratio: 1;
     font-size: 4.5cqi;
-    inset: 4cqb auto auto -2cqi;
+    inset: 6cqb auto auto -2cqi;
     padding: 0.2em;
 
     + & {
-      inset: 1cqb auto auto 10cqi;
+      inset: 1cqb auto auto 9cqi;
 
       + & {
         inset: -1cqb auto auto 25cqi;
