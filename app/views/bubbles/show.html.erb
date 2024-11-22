@@ -8,10 +8,6 @@
       <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Back</span>
     <% end %>
-
-    <span class="flex-item-justify-end">
-      <%= render "bubbles/pop_toggle", bubble: @bubble %>
-    </span>
   </nav>
 <% end %>
 
@@ -88,6 +84,9 @@
       <%= image_tag "thumb-up.svg", aria: { hidden: true }, size: 24 %>
       <span>Boost this</span>
     <% end %>
+
+    <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle);" />
+    <%= render "bubbles/pop_toggle", bubble: @bubble %>
   </div>
 </aside>
 
