@@ -1,7 +1,29 @@
+<% @page_title = "Workflows" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to account_users_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
+    <% end %>
+    <span class="btn btn--placeholder"></span>
+
+    <h1 class="txt-large"><%= @page_title %></h1>
+
+    <%= link_to new_workflow_path, class: "btn flex-item-justify-end" do %>
+      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Create a new workflow</span>
+    <% end %>
+
+    <%= button_to session_path, method: :delete, class: "btn" do %>
+      <%= image_tag "logout.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Sign out</span>
+    <% end %>
+  </nav>
+<% end %>
+
 <%= turbo_frame_tag :workflows do %>
-  <section class="flex flex-column gap fill-shade border-radius">
+  <section class="center justify-center flex flex-wrap gap">
     <%= render partial: "workflows/workflow", collection: @workflows %>
   </section>
-
-  <%= link_to "New workflow", new_workflow_path, class: "btn" %>
 <% end %>

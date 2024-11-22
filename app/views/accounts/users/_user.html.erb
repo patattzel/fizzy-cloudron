@@ -7,6 +7,12 @@
 
   <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
 
+  <label class="btn txt-small flex-item-no-shrink" for="<%= dom_id(user, :role) %>">
+    <span class="for-screen-reader">Role: <%= true ? "Administrator" : "Member" %></span>
+    <%= image_tag "crown.svg", size: 20, aria: { hidden: "true" } %>
+    <%= check_box_tag :role, { data: { action: "form#submit" }, hidden: true, id: dom_id(user, :role) }, "administrator", "member" %>
+  </label>
+
   <%# FIXME: Move this Current.user check to a stimulus controller that just checks for admin? or the like we so we can cache user list %>
   <%= button_to account_user_path(user), method: :delete, class: "btn btn--small btn--negative flex-item-no-shrink",
         disabled: !Current.user.can_remove?(user),

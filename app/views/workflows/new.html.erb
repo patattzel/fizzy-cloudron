@@ -1,6 +1,24 @@
+<% @page_title = "Create a new Workflow" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to workflows_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
+    <% end %>
+    <h1 class="txt-large center"><%= @page_title %></h1>
+    <span class="btn btn--placeholder flex-item-justify-end"></span>
+  </nav>
+<% end %>
+
 <%= turbo_frame_tag :workflows do %>
-  <%= form_with model: @workflow, url: workflows_path do |form| %>
-    <%= form.text_field :name, required: true, autofocus: true %>
-    <%= form.submit %>
-  <% end %>
+  <article class="panel center margin-block-start flex flex-column gap" style="view-transition-name: <%= dom_id(@workflow) %>">
+    <%= form_with model: @workflow, url: workflows_path do |form| %>
+      <%= form.text_field :name, required: true, autofocus: true, class: "input txt-large", placeholder: "Name your Workflow…" %>
+      <%= form.button type: :submit, class: "btn btn--reversed center margin-block-start txt-large" do %>
+        <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Create Workflow</span>
+      <% end %>
+    <% end %>
+  </article>
 <% end %>
