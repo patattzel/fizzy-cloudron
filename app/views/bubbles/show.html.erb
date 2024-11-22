@@ -14,13 +14,13 @@
 <% end %>
 
 <aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
-  <div class="flex flex-column gap-half">
+  <div class="flex flex-column">
     <%= render "bubbles/color", bubble: @bubble %>
 
     <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
       <label class="btn full-width justify-start borderless">
         <%= image_tag "calendar-add.svg", aria: { hidden: true }, size: 24 %>
-        <span><%= @bubble.due_on.present? ? "Change" : "Add a" %> due date</span>
+        <span><%= @bubble.due_on.present? ? "Change" : "Add a" %> date</span>
         <%= form.date_field :due_on, class: "input input--hidden", data: { action: "change->form#submit click->form#showPicker" } %>
       </label>
     <% end %>
@@ -28,7 +28,7 @@
     <%= form_with url: bucket_bubble_assignments_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
       <label class="btn full-width justify-start borderless">
         <%= image_tag "person.svg", aria: { hidden: true }, size: 24 %>
-        <span>Assign to someone</span>
+        <span>Assign to…</span>
         <%= form.collection_select :assignee_id, @bubble.bucket.users.active, :id, :name, { prompt: "Assign to…", selected: @bubble.assignees.pluck(:id) },
               class: "input input--hidden txt-medium",
               data: { action: "change->form#submit click->form#showPicker" } %>
@@ -73,7 +73,7 @@
       <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
         <label class="btn full-width justify-start borderless">
           <%= image_tag "picture-add.svg", aria: { hidden: true }, size: 24 %>
-          <span>Add background image</span>
+          <span>Add an image</span>
           <%= form.file_field :image, class: "input",
                 accept: "image/png, image/jpeg, image/jpg, image/webp",
                 data: { action: "upload-preview#previewImage form#submit", upload_preview_target: "input" },
