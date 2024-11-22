@@ -155,6 +155,10 @@
       }
     }
 
+    &:focus-within {
+      z-index: 2;
+    }
+
     select {
       inset: 0;
       position: absolute;

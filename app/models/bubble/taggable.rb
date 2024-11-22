@@ -8,7 +8,28 @@ module Bubble::Taggable
     scope :tagged_with, ->(tags) { joins(:taggings).where(taggings: { tag: tags }) }
   end
 
-  def tag(title)
-    taggings.create! tag: bucket.account.tags.find_or_create_by!(title: title)
+  def tag(tag)
+    taggings.create! tag: tag
+  rescue ActiveRecord::RecordNotUnique
+    # Already tagged
+  end
+
+  def untag(tag)
+    taggings.destroy_by tag: tag
+  end
+
+  def swap_tag(incoming, outgoing)
+    transaction do
+      untag outgoing
+      tag incoming unless incoming == outgoing
+    end
+  end
+
+  def toggle_tag(tag)
+    tagged_with?(tag) ? untag(tag) : tag(tag)
+  end
+
+  def tagged_with?(tag)
+    tags.include? tag
   end
 end

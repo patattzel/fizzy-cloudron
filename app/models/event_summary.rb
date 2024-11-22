@@ -21,6 +21,8 @@ class EventSummary < ApplicationRecord
         "Added by #{event.creator.name} #{time_ago_in_words(event.created_at)} ago."
       when "assigned"
         "Assigned to #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+      when "unassigned"
+        "Unassigned from #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
       when "staged"
         "#{event.creator.name} moved this to '#{event.stage_name}'."
       when "unstaged"

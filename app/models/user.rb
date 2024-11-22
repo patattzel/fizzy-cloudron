@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :alphabetically, -> { order("LOWER(name)") }
+  scope :search, ->(query) { where "name LIKE ?", "%#{query}%" }
 
   def initials
     name.to_s.scan(/\b\p{L}/).join.upcase
@@ -38,6 +39,10 @@ class User < ApplicationRecord
 
   def can_remove?(other)
     other != self
+  end
+
+  def to_combobox_display
+    name
   end
 
   private
