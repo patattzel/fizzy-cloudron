@@ -3,6 +3,7 @@
     <div class="btn btn--plain position-relative fill-transparent">
       <span class="assignee__name"><%= assignee.name %></span>
       <%= avatar_image_tag assignee, loading: :lazy, class: "avatar flex-item-no-shrink" %>
+      <span class="for-screen-reader">Assigned to <%= assignee.name %></span>
     </div>
   </article>
 <% end %>
