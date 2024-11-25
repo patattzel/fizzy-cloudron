@@ -10,8 +10,8 @@ module Bubble::Assignable
     scope :assigned_by, ->(users) { joins(:assignments).where(assignments: { assigner: users }).distinct }
   end
 
-  def assign(user, assigner: Current.user)
-    assignments.create! assignee: user, assigner: assigner
+  def assign(user)
+    assignments.create! assignee: user, assigner: Current.user
     track_event :assigned, assignee_ids: [ user.id ]
   rescue ActiveRecord::RecordNotUnique
     # Already assigned
