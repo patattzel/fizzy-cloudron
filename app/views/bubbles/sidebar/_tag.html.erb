@@ -6,7 +6,7 @@
 
   <%= form_with url: bucket_bubble_tagging_toggles_path(bubble.bucket, bubble), data: { controller: "form" } do |form| %>
     <%= form.combobox :tag_id, tags, required: true, preload: true, name_when_new: "tag_title",
-          render_in: { partial: "bubbles/tags/select_option", as: :tag, locals: { bubble: bubble } },
+          render_in: { partial: "bubbles/tags/listbox_option", as: :tag, locals: { bubble: bubble } },
           data: { controller: "autofocus", action: "hw-combobox:selection->form#submit" } %>
   <% end %>
 </details>
