@@ -1,0 +1,20 @@
+:root {
+  --hw-option-bg-color: var(--color-ink-reversed);
+  --hw-active-bg-color: var(--color-selected);
+  --hw-border-color: var(--color-subtle-dark);
+  --hw-border-radius: 1em;
+}
+
+.hw-combobox {
+  turbo-frame {
+    display: inline;
+  }
+
+  .hw-combobox__main__wrapper {
+    background-color: var(--color-ink-reversed);
+  }
+
+  .hw-combobox__input {
+    background-color: var(--color-ink-reversed);
+  }
+}

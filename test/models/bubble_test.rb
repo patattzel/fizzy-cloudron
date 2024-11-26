@@ -19,11 +19,51 @@ class BubbleTest < ActiveSupport::TestCase
     end
   end
 
-  test "assigning" do
-    bubbles(:logo).assign users(:david)
+  test "assignment states" do
+    assert bubbles(:logo).assigned_to?(users(:kevin))
+    assert_not bubbles(:logo).assigned_to?(users(:david))
+  end
 
-    assert_equal users(:kevin, :jz, :david), bubbles(:logo).assignees
-    assert_equal [ users(:david) ], Event.last.assignees
+  test "assignment toggling" do
+    assert bubbles(:logo).assigned_to?(users(:kevin))
+
+    assert_difference({ "bubbles(:logo).assignees.count" => -1, "Event.count" => +1 }) do
+      bubbles(:logo).toggle_assignment users(:kevin)
+    end
+    assert_not bubbles(:logo).assigned_to?(users(:kevin))
+    assert_equal "unassigned", Event.last.action
+    assert_equal [ users(:kevin) ], Event.last.assignees
+
+    assert_difference %w[ bubbles(:logo).assignees.count Event.count ], +1 do
+      bubbles(:logo).toggle_assignment users(:kevin)
+    end
+    assert bubbles(:logo).assigned_to?(users(:kevin))
+    assert_equal "assigned", Event.last.action
+    assert_equal [ users(:kevin) ], Event.last.assignees
+  end
+
+  test "tagged states" do
+    assert bubbles(:logo).tagged_with?(tags(:web))
+    assert_not bubbles(:logo).tagged_with?(tags(:mobile))
+  end
+
+  test "tag toggling" do
+    assert bubbles(:logo).tagged_with?(tags(:web))
+
+    assert_difference "bubbles(:logo).taggings.count", -1 do
+      bubbles(:logo).toggle_tag tags(:web)
+    end
+    assert_not bubbles(:logo).tagged_with?(tags(:web))
+
+    assert_difference "bubbles(:logo).taggings.count", +1 do
+      bubbles(:logo).toggle_tag tags(:web)
+    end
+    assert bubbles(:logo).tagged_with?(tags(:web))
+
+    assert_difference %w[ bubbles(:logo).taggings.count accounts("37s").tags.count ], +1 do
+      bubbles(:logo).toggle_tag Tag.new(title: "prioritized")
+    end
+    assert_equal "prioritized", bubbles(:logo).taggings.last.tag.title
   end
 
   test "searchable by title" do

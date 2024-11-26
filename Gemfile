@@ -8,6 +8,7 @@ gem "importmap-rails"
 gem "propshaft"
 gem "stimulus-rails"
 gem "turbo-rails"
+gem "hotwire_combobox", github: "josefarias/hotwire_combobox", branch: :main
 
 # Deployment and drivers
 gem "bootsnap", require: false

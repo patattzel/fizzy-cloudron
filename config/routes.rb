@@ -16,10 +16,8 @@ Rails.application.routes.draw do
 
   resources :buckets do
     resources :bubbles do
-      resources :assignments
       resources :boosts
       resources :comments
-      resources :tags, shallow: true
 
       scope module: :bubbles do
         resource :image
@@ -27,9 +25,15 @@ Rails.application.routes.draw do
         resource :stage_picker
         resources :stagings
       end
-    end
 
-    resources :tags, only: :index
+      namespace :assignments, as: :assignment do
+        resources :toggles
+      end
+
+      namespace :taggings, as: :tagging do
+        resources :toggles
+      end
+    end
   end
 
   resources :filters

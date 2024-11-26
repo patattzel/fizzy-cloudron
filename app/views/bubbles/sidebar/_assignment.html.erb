@@ -1,0 +1,12 @@
+<details name="assignments" class="position-relative" data-controller="expandable" data-action="focusout->expandable#closeOnFocusOutside">
+  <summary class="btn full-width justify-start borderless">
+    <%= image_tag "person.svg", aria: { hidden: true }, size: 24 %>
+    <span>Assign to someone</span>
+  </summary>
+
+  <%= form_with url: bucket_bubble_assignment_toggles_path(bubble.bucket, bubble), data: { controller: "form" } do |form| %>
+    <%= form.combobox :assignee_id, users, required: true,
+          render_in: { partial: "bubbles/users/listbox_option", as: :user, locals: { bubble: bubble } },
+          data: { controller: "autofocus", action: "hw-combobox:selection->form#submit" } %>
+  <% end %>
+</details>
