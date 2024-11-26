@@ -5,7 +5,7 @@
   </summary>
 
   <%= form_with url: bucket_bubble_assignment_toggles_path(bubble.bucket, bubble), data: { controller: "form" } do |form| %>
-    <%= form.combobox :assignee_id, users, required: true, preload: true,
+    <%= form.combobox :assignee_id, users, required: true,
           render_in: { partial: "bubbles/users/listbox_option", as: :user, locals: { bubble: bubble } },
           data: { controller: "autofocus", action: "hw-combobox:selection->form#submit" } %>
   <% end %>
