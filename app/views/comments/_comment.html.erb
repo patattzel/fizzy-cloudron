@@ -13,7 +13,7 @@
       <% end %>
     </div>
     <div class="comment__body txt-align-start">
-      <%= simple_format comment.body %>
+      <%= comment.body.to_html %>
     </div>
   </div>
 <% end %>

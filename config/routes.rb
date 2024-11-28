@@ -50,6 +50,11 @@ Rails.application.routes.draw do
     resources :stages, module: :workflows
   end
 
+  namespace :action_text, path: nil do
+    get "/u/*slug" => "markdown/uploads#show", as: :markdown_upload
+    post "/uploads" => "markdown/uploads#create", as: :markdown_uploads
+  end
+
   get "join/:join_code", to: "users#new", as: :join
   post "join/:join_code", to: "users#create"
   get "up", to: "rails/health#show", as: :rails_health_check

@@ -19,6 +19,9 @@ gem "thruster", require: false
 # Features
 gem "bcrypt", "~> 3.1.7"
 gem "rqrcode"
+gem "redcarpet", "~> 3.6"
+gem "rouge", "~> 4.5"
+gem "jbuilder"
 
 # Telemetry
 gem "sentry-ruby"
