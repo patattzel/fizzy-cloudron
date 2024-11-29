@@ -19,7 +19,7 @@
     <%= yield :head %>
   </head>
 
-  <body>
+  <body data-controller="lightbox">
     <header id="header">
       <a href="#main-content" class="skip-navigation btn">Skip to main content</a>
       <%= yield :header %>
@@ -45,5 +45,7 @@
     <footer id="footer">
       <%= yield :footer %>
     </footer>
+
+    <%= render "layouts/lightbox" %>
   </body>
 </html>
