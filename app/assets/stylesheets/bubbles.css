@@ -283,6 +283,10 @@
   inset: 0;
   position: absolute;
   z-index: -1;
+
+  .windshield & {
+    z-index: 1;
+  }
 }
 
 .bubble__perma {
