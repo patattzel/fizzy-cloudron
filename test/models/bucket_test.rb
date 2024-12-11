@@ -11,4 +11,30 @@ class BucketTest < ActiveSupport::TestCase
     buckets(:writebook).accesses.revoke_from users(:kevin)
     assert_not_includes buckets(:writebook).users.reload, users(:kevin)
   end
+
+  test "grants access to everyone after creation" do
+    bucket = Current.set(session: sessions(:david)) do
+      accounts("37s").buckets.create! name: "New bucket", all_access: true
+    end
+    assert_equal accounts("37s").users, bucket.users
+  end
+
+  test "grants access to everyone after update" do
+    bucket = Current.set(session: sessions(:david)) do
+      accounts("37s").buckets.create! name: "New bucket"
+    end
+    assert_equal [ users(:david) ], bucket.users
+
+    bucket.update! all_access: true
+    assert_equal accounts("37s").users, bucket.users.reload
+  end
+
+  test "visibility" do
+    assert_not buckets(:writebook).visible_to?(User.new)
+    assert buckets(:writebook).visible_to?(User.new(account: accounts("37s")))
+
+    buckets(:writebook).update! all_access: false
+    assert_not buckets(:writebook).visible_to?(User.new(account: accounts("37s")))
+    assert buckets(:writebook).visible_to?(users(:kevin))
+  end
 end

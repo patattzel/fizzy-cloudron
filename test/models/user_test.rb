@@ -10,6 +10,7 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal accounts("37s"), user.account
     assert_equal user, User.authenticate_by(email_address: "victor@hey.com", password: "secret123456")
+    assert_equal [ buckets(:writebook) ], user.buckets
   end
 
   test "deactivate" do

@@ -22,7 +22,7 @@ class BucketsController < ApplicationController
 
   def update
     @bucket.update! bucket_params
-    @bucket.accesses.revise granted: grantees, revoked: revokees
+    @bucket.accesses.revise(granted: grantees, revoked: revokees) unless @bucket.all_access?
 
     redirect_to bubbles_path(bucket_ids: [ @bucket ])
   end
@@ -38,7 +38,7 @@ class BucketsController < ApplicationController
     end
 
     def bucket_params
-      params.expect(bucket: [ :name ])
+      params.expect(bucket: [ :name ]).merge(all_access: params[:bucket].fetch(:all_access, false))
     end
 
     def grantees

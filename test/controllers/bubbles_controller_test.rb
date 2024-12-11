@@ -49,4 +49,17 @@ class BubblesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "moon.jpg", bubble.image.filename.to_s
     assert_equal [ tags(:mobile) ], bubble.tags
   end
+
+  test "users can only see bubbles in buckets they have access to" do
+    get bucket_bubble_url(buckets(:writebook), bubbles(:logo))
+    assert_response :success
+
+    buckets(:writebook).accesses.revoke_from(users(:kevin)) # bucket is all-access
+    get bucket_bubble_url(buckets(:writebook), bubbles(:logo))
+    assert_response :success
+
+    buckets(:writebook).update! all_access: false
+    get bucket_bubble_url(buckets(:writebook), bubbles(:logo))
+    assert_response :forbidden
+  end
 end

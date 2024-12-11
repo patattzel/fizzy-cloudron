@@ -42,13 +42,11 @@
 
           <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true" />
 
-          <%= link_to nil, class: "btn--faux flex-inline", tabindex: "-1" do %>
-            <label class="switch">
-              <input type="checkbox" lass="switch__input">
-              <span class="switch__btn round"></span>
-              <span class="for-screen-reader">Give everyone access to this project</span>
-            </label>
-          <% end %>
+          <label for="bucket_all_access" class="switch">
+            <%= form.check_box :all_access, class: "switch__input", checked: @bucket.all_access? %>
+            <span class="switch__btn round"></span>
+            <span class="for-screen-reader">Give everyone access to this project</span>
+          </label>
         </li>
 
         <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle-dark);" aria-hidden="true" />

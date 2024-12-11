@@ -21,6 +21,18 @@ module Bucket::Accessible
 
     has_many :users, through: :accesses
 
+    scope :all_access, -> { where(all_access: true) }
+
     after_create -> { accesses.grant_to creator }
+    after_save_commit :grant_access_to_everyone
   end
+
+  def visible_to?(user)
+    (account == user.account && all_access?) || user.bucket_ids.include?(id)
+  end
+
+  private
+    def grant_access_to_everyone
+      accesses.grant_to(account.users) if all_access_previously_changed?(to: true)
+    end
 end
