@@ -13,4 +13,8 @@ module Filter::Resources
     send "#{kind}=", send(kind).without(resource)
     empty? ? destroy! : save!
   end
+
+  def buckets
+    creator.buckets.where id: bucket_ids
+  end
 end

@@ -29,7 +29,7 @@
     </div>
 
     <section class="margin-block pad-inline fill-shade border-radius">
-      <menu class="flex flex-column gap margin-none pad txt-medium" data-controller="filter" data-filter-active-class="filter--active" data-filter-selected-class="selected">
+      <%= tag.menu class: [ "flex flex-column gap margin-none pad txt-medium", { "toggler--toggled": @bucket.all_access? } ], data: { controller: "filter toggle-class", filter_active_class: "filter--active", filter_selected_class: "selected", toggle_class_toggle_class: "toggler--toggled" } do %>
         <li class="flex align-center gap margin-none">
           <figure class="avatar flex-item-no-shrink" style="--avatar-border-radius: 0; --avatar-size: 4ch;">
             <%= image_tag "everyone.svg", aria: { hidden: "true" }, class: "colorize--black" %>
@@ -43,7 +43,7 @@
           <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true" />
 
           <label for="bucket_all_access" class="switch">
-            <%= form.check_box :all_access, class: "switch__input", checked: @bucket.all_access?, data: { action: "change->form#submit" } %>
+            <%= form.check_box :all_access, class: "switch__input", checked: @bucket.all_access?, data: { action: "change->toggle-class#toggle" } %>
             <span class="switch__btn round"></span>
             <span class="for-screen-reader">Give everyone access to this project</span>
           </label>
@@ -55,7 +55,7 @@
           <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-action="input->filter#filter">
         <% end %>
 
-        <%= tag.div class: { "toggler--toggled": @bucket.all_access? }, data: { filter_target: "list" } do %>
+        <div data-filter-target="list">
           <%= access_toggles_for @selected_users, selected: true %>
 
           <% if @selected_users.any? && @unselected_users.any? %>
@@ -63,8 +63,8 @@
           <% end %>
 
           <%= access_toggles_for @unselected_users, selected: false %>
-        <% end %>
-      </menu>
+        </div>
+      <% end %>
     </section>
 
     <button type="submit" id="log_in" class="btn btn--reversed center">
