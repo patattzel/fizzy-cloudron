@@ -29,7 +29,7 @@
     </div>
 
     <section class="margin-block pad-inline fill-shade border-radius">
-      <%= tag.menu class: [ "flex flex-column gap margin-none pad txt-medium", { "toggler--toggled": @bucket.all_access? } ], data: { controller: "filter toggle-class", filter_active_class: "filter--active", filter_selected_class: "selected", toggle_class_toggle_class: "toggler--toggled" } do %>
+      <%= access_menu_tag @bucket do %>
         <li class="flex align-center gap margin-none">
           <figure class="avatar flex-item-no-shrink" style="--avatar-border-radius: 0; --avatar-size: 4ch;">
             <%= image_tag "everyone.svg", aria: { hidden: "true" }, class: "colorize--black" %>
