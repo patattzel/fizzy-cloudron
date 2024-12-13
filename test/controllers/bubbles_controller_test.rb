@@ -55,7 +55,7 @@ class BubblesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     buckets(:writebook).update! all_access: false
-    buckets(:writebook).accesses.revoke_from(users(:kevin))
+    buckets(:writebook).accesses.revoke_from users(:kevin)
     get bucket_bubble_url(buckets(:writebook), bubbles(:logo))
     assert_response :not_found
   end
