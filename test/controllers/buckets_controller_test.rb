@@ -47,7 +47,7 @@ class BucketsControllerTest < ActionDispatch::IntegrationTest
 
     patch bucket_url(bucket), params: { bucket: { name: "Bugs", all_access: true } }
 
-    assert_redirected_to bubbles_path(bucket_ids: [ bucket ])
+    assert_redirected_to edit_bucket_url(bucket)
     assert bucket.reload.all_access?
     assert_equal accounts("37s").users, bucket.users
   end
