@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   include BubbleScoped, BucketScoped
-  before_action :set_comment, only: [ :show, :edit, :update ]
+  before_action :set_comment, only: [ :show, :edit, :update, :destroy ]
 
   def create
     @bubble.capture new_comment
@@ -16,6 +16,11 @@ class CommentsController < ApplicationController
   def update
     @comment.update! comment_params
     render :show
+  end
+
+  def destroy
+    @comment.destroy
+    redirect_to @bubble
   end
 
   private
