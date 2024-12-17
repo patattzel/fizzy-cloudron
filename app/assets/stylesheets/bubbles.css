@@ -369,15 +369,6 @@
     position: relative;
     transition: background-color 200ms ease-out;
 
-    &:nth-of-type(10)::after {
-      border-bottom: 1px dashed var(--color-subtle-dark);
-      block-size: 0;
-      content: "";
-      inline-size: 100%;
-      inset: auto 0 0 0;
-      position: absolute;
-    }
-
     @media (hover: hover) {
       &:hover {
         background-color: color(from var(--bubble-color) srgb r g b / 0.15);
@@ -394,6 +385,26 @@
       font-size: 0.5em;
     }
   }
+}
+
+.bubbles-list__divider {
+  --border-color: var(--divider-color);
+  --border-size: 2px;
+  --divider-color: var(--color-subtle-dark);
+
+  font-size: 1rem;
+}
+
+.btn--reversed.bubbles-list__handle {
+  --btn-background: var(--divider-color);
+
+  font-size: 0.9rem;
+}
+
+.bubbles-list__count {
+  background-color: var(--divider-color);
+  color: var(--color-ink-reversed);
+  padding: 0.1em 0.7em;
 }
 
 .bubble__title-text {
