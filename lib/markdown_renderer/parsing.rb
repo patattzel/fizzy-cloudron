@@ -30,7 +30,8 @@ module MarkdownRenderer::Parsing
     BLOCK_QUOTE_START,
     NUMBERED_LIST_START,
     UNORDERED_LIST_START,
-    INLINE_HTML_BLOCK_START ]
+    INLINE_HTML_BLOCK_START
+  ]
 
   private
     def parse_paragraphs(content)
