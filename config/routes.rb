@@ -38,7 +38,13 @@ Rails.application.routes.draw do
 
   resources :filters
   resource :first_run
-  resource :session
+  resources :qr_codes
+
+  resource :session do
+    scope module: "sessions" do
+      resources :transfers, only: %i[ show update ]
+    end
+  end
 
   resources :users do
     scope module: :users do

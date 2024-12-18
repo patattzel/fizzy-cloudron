@@ -1,0 +1,37 @@
+<div class="flex flex-column align-center gap txt-medium--responsive txt-medium">
+  <% url = session_transfer_url(user.transfer_id) %>
+
+  <label class="flex flex-column gap full-width">
+    <div class="flex align-center gap justify-center">
+      <strong id="session_transfer_label" class="txt-medium">Link to automatically log in on another device</strong>
+    </div>
+    <span class="flex align-center gap margin-inline">
+      <input type="text" class="input fill-white" id="session_transfer_url" value="<%= url %>" aria-labelledby="session_transfer_label" readonly>
+    </span>
+  </label>
+
+  <div class="flex align-center gap">
+    <div data-controller="dialog" data-dialog-modal-value="true" class="flex-inline">
+      <%= tag.button class: "btn", data: { action: "dialog#open" } do %>
+        <%= image_tag "qr-code.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
+        <span class="for-screen-reader">Show auto-login QR code</span>
+      <% end %>
+
+      <dialog class="dialog panel shadow" data-dialog-target="dialog">
+        <%= qr_code_image(url) %>
+
+        <form method="dialog" class="margin-block-start flex justify-center">
+          <button class="btn">
+            <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
+            <span class="for-screen-reader">Close</span>
+          </button>
+        </form>
+      </dialog>
+    </div>
+
+    <%= button_to_copy_to_clipboard(url) do %>
+      <%= image_tag "copy-paste.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
+      <span class="for-screen-reader">Copy auto-login link</span>
+    <% end %>
+  </div>
+</div>
