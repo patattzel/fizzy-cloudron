@@ -168,6 +168,9 @@ GEM
     irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jbuilder (2.13.0)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
     json (2.9.0)
     language_server-protocol (3.17.0.3)
     listen (3.9.0)
@@ -249,10 +252,12 @@ GEM
       ffi (~> 1.0)
     rdoc (6.8.1)
       psych (>= 4.0.0)
+    redcarpet (3.6.0)
     regexp_parser (2.9.3)
     reline (0.5.12)
       io-console (~> 0.5)
     rexml (3.3.9)
+    rouge (4.5.1)
     rqrcode (2.2.0)
       chunky_png (~> 1.0)
       rqrcode_core (~> 1.0)
@@ -363,9 +368,12 @@ DEPENDENCIES
   hotwire-spark
   hotwire_combobox!
   importmap-rails
+  jbuilder
   propshaft
   puma (>= 5.0)
   rails!
+  redcarpet
+  rouge
   rqrcode
   rubocop-rails-omakase
   selenium-webdriver

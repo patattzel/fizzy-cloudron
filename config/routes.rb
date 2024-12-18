@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   resource :first_run
   resource :session
 
+  resources :uploads, only: :create
+  get "/u/*slug" => "uploads#show", as: :upload
+
   resources :users do
     scope module: :users do
       resource :avatar

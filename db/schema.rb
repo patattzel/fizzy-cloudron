@@ -30,14 +30,26 @@ ActiveRecord::Schema[8.1].define(version: 2024_12_09_223551) do
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end
 
+  create_table "action_text_markdowns", force: :cascade do |t|
+    t.string "record_type", null: false
+    t.integer "record_id", null: false
+    t.string "name", null: false
+    t.text "content", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id"], name: "index_action_text_markdowns_on_record"
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "slug"
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index ["slug"], name: "index_active_storage_attachments_on_slug", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -117,7 +129,6 @@ ActiveRecord::Schema[8.1].define(version: 2024_12_09_223551) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "body", null: false
     t.integer "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

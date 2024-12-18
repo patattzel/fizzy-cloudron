@@ -2,3 +2,4 @@
 import "@hotwired/turbo-rails"
 import "initializers"
 import "controllers"
+import "house"

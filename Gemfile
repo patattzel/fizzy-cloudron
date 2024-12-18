@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 ruby file: ".ruby-version"
 
 gem "rails", github: "rails/rails", branch: "main"
@@ -19,6 +20,9 @@ gem "thruster", require: false
 # Features
 gem "bcrypt", "~> 3.1.7"
 gem "rqrcode"
+gem "redcarpet"
+gem "rouge"
+gem "jbuilder"
 
 # Telemetry
 gem "sentry-ruby"
