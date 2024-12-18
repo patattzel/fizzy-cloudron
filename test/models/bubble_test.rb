@@ -10,7 +10,7 @@ class BubbleTest < ActiveSupport::TestCase
       bubbles(:logo).capture Comment.new(body: "Agreed.")
     end
 
-    assert_equal "Agreed.", bubbles(:logo).messages.last.messageable.body.to_plain_text
+    assert_equal "Agreed.", bubbles(:logo).messages.last.messageable.body.to_plain_text.chomp
   end
 
   test "boosting" do

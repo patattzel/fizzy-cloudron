@@ -1,7 +1,7 @@
 module ActionText
   class Markdown < Record
     mattr_accessor :html_renderer
-    mattr_accessor :plain_renderer
+    mattr_accessor :plain_text_renderer
 
     belongs_to :record, polymorphic: true, touch: true
 
@@ -18,10 +18,10 @@ module ActionText
     end
 
     def to_plain_text
-      if plain_renderer.respond_to? :call
-        plain_renderer.call content
+      if plain_text_renderer.respond_to? :call
+        plain_text_renderer.call content
       else
-        plain_renderer.render content
+        plain_text_renderer.render content
       end
     end
   end
