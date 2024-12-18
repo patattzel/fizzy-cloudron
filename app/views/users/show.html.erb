@@ -6,6 +6,13 @@
       <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Back</span>
     <% end %>
+
+    <% if Current.user == @user %>
+      <%= link_to edit_user_path(@user), class: "btn flex-item-justify-end" do %>
+        <%= image_tag "pencil.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Edit</span>
+      <% end %>
+    <% end %>
   </nav>
 <% end %>
 

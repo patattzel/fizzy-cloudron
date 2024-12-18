@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require_unauthenticated_access only: %i[ new create ]
 
-  before_action :set_user, only: :show
+  before_action :set_user, only: %i[ show edit update ]
   before_action :set_account_from_join_code, only: %i[ new create ]
 
   def new
@@ -15,6 +15,14 @@ class UsersController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
+  end
+
+  def update
+    @user.update user_params
+    redirect_to user_path(@user)
   end
 
   private
