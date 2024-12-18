@@ -9,7 +9,7 @@
   </label>
 
   <div class="flex align-center gap">
-    <div data-controller="dialog" class="flex-inline">
+    <div data-controller="dialog" data-dialog-modal-value="true" class="flex-inline">
       <%= tag.button class: "btn", data: { action: "dialog#open" } do %>
         <%= image_tag "qr-code.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
         <span class="for-screen-reader">Show join link QR code</span>
