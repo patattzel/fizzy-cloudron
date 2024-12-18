@@ -12,12 +12,23 @@
 <div class="panel shadow center">
   <div class="flex flex-column gap txt-medium">
     <%= form_with model: @user, method: :patch, class: "flex flex-column gap", data: { controller: "form upload-preview" } do |form| %>
-      <label class="btn avatar input--file txt-xx-large center fill-white">
-        <%= image_tag user_avatar_path(@user), aria: { hidden: "true" }, size: 128, data: { upload_preview_target: "image" } %>
-        <%= form.file_field :avatar, id: "file", class: "input", accept: "image/*",
-            data: { upload_preview_target: "input", action: "upload-preview#previewImage" } %>
-        <span class="for-screen-reader">Profile avatar for <%= @user.name %></span>
-      </label>
+      <div class="align-center center avatar__form gap">
+        <span class="btn btn--placeholder txt-small"></span>
+
+        <label class="btn avatar input--file txt-xx-large center fill-white">
+          <%= image_tag user_avatar_path(@user), aria: { hidden: "true" }, size: 128, data: { upload_preview_target: "image" } %>
+          <%= form.file_field :avatar, id: "file", class: "input", accept: "image/*",
+              data: { upload_preview_target: "input", action: "upload-preview#previewImage" } %>
+          <span class="for-screen-reader">Profile avatar for <%= @user.name %></span>
+        </label>
+
+        <% if @user.avatar.attached? %>
+          <%= tag.button type: :submit, form: "avatar-delete-form", class: "btn btn--negative txt-small", data: { turbo_confirm: "Are you sure you want to remove your avatar? This can't be undone." } do %>
+            <%= image_tag "minus.svg", aria: { hidden: "true" }, size: 20 %>
+            <span class="for-screen-reader">Delete avatar</span>
+          <% end %>
+        <% end %>
+      </div>
 
       <div class="flex align-center gap">
         <%= translation_button :user_name %>
@@ -45,5 +56,7 @@
           <span class="for-screen-reader">Sign in</span>
       </button>
     <% end %>
+
+    <%= form_with url: user_avatar_url(@user), method: :delete, id: "avatar-delete-form" %>
   </div>
 </div>
