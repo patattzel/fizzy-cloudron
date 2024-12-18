@@ -69,6 +69,13 @@
       --input-border-size: 0.15rem;
     }
   }
+
+  &:is(.avatar) {
+    img,
+    input[type="file"] {
+      border-radius: 50%;
+    }
+  }
 }
 
 .input--select {
