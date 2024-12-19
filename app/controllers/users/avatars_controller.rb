@@ -13,6 +13,11 @@ class Users::AvatarsController < ApplicationController
     end
   end
 
+  def destroy
+    @user.avatar.destroy
+    redirect_to user_path(@user)
+  end
+
   private
     def set_user
       @user = Current.account.users.find(params[:user_id])

@@ -1,0 +1,49 @@
+<% @page_title = @user.name %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to account_users_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back</span>
+    <% end %>
+
+    <% if Current.user == @user %>
+      <%= link_to edit_user_path(@user), class: "btn flex-item-justify-end" do %>
+        <%= image_tag "pencil.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Edit</span>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel shadow center txt-align-center">
+  <div class="flex flex-column gap">
+    <div class="avatar txt-xx-large center fill-white">
+      <%= image_tag user_avatar_path(@user), alt: "Profile avatar for #{@user.name}", class: "avatar", size: 128 %>
+    </div>
+
+    <div class="flex flex-column gap-half margin-block-end">
+      <h1 class="txt-x-large margin-none"><%= @user.name %></h1>
+      <div class="txt-medium">
+        <% if @user.active? %>
+          <%= mail_to @user.email_address %>
+        <% else %>
+          <%= @user.name %> is no longer on this account
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if Current.user == @user %>
+  <div class="panel shadow center margin-block-double">
+    <%= render "users/transfer", user: @user %>
+  </div>
+
+  <div class="panel shadow center margin-block-double">
+    <%= button_to session_path, method: :delete, class: "btn center txt-medium" do %>
+      <%= image_tag "logout.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Sign out</span>
+    <% end %>
+  </div>
+<% end %>

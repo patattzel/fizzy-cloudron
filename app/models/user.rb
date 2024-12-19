@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Avatar, Transferable
+
   belongs_to :account
 
   has_many :sessions, dependent: :destroy
