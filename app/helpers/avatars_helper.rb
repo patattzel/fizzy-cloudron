@@ -17,6 +17,6 @@ module AvatarsHelper
   end
 
   def avatar_image_tag(user, **options)
-    image_tag user_avatar_path(user), aria: { hidden: "true" }, size: 48, **options
+    image_tag user_avatar_path(user), aria: { hidden: "true" }, size: 48, class: ("avatar__photo" if user.avatar.attached?), **options
   end
 end
