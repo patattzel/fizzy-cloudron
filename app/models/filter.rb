@@ -5,7 +5,7 @@ class Filter < ApplicationRecord
   has_one :account, through: :creator
 
   class << self
-    def persist!(attrs)
+    def remember(attrs)
       create!(attrs)
     rescue ActiveRecord::RecordNotUnique
       find_by!(params_digest: digest_params(attrs)).tap(&:touch)

@@ -2,7 +2,7 @@ class FiltersController < ApplicationController
   before_action :set_filter, only: :destroy
 
   def create
-    @filter = Current.user.filters.persist! filter_params
+    @filter = Current.user.filters.remember filter_params
     redirect_to bubbles_path(@filter.to_params)
   end
 
