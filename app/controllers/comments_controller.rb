@@ -4,7 +4,6 @@ class CommentsController < ApplicationController
 
   def create
     @bubble.capture new_comment
-    redirect_to @bubble
   end
 
   def show

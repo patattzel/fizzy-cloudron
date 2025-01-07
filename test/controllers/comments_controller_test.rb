@@ -10,6 +10,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
       post bucket_bubble_comments_url(buckets(:writebook), bubbles(:logo), params: { comment: { body: "Agreed." } })
     end
 
-    assert_redirected_to bucket_bubble_url(buckets(:writebook), bubbles(:logo))
+    assert_response :success
   end
 end

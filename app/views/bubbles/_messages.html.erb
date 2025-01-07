@@ -1,10 +1,6 @@
-<section id="<%= dom_id(bubble, :messages) %>"
-    class="comments align-center center borderless margin flex flex-column gap-half"
-    style="--bubble-color: <%= bubble.color %>"
-    data-controller="created-by-current-user"
-    data-created-by-current-user-mine-class="comment--mine">
+<%= messages_tag(bubble) do %>
   <%# Template Dependency: comments/comment %>
   <%# Template Dependency: event_summaries/event_summary %>
   <%= render bubble.messages, cached: true %>
   <%= render "comments/new", bubble: bubble %>
-</section>
+<% end %>
