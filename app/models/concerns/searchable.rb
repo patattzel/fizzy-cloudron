@@ -15,13 +15,20 @@ module Searchable
     end
   end
 
+  def reindex
+    update_in_search_index
+  end
+
   private
     def create_in_search_index
       execute_sql_with_binds "insert into #{search_table}(rowid, #{search_field}) values (?, ?)", id, search_value
     end
 
     def update_in_search_index
-      execute_sql_with_binds "update #{search_table} set #{search_field} = ? where rowid = ?", search_value, id
+      transaction do
+        updated = execute_sql_with_binds "update #{search_table} set #{search_field} = ? where rowid = ?", search_value, id
+        create_in_search_index unless updated
+      end
     end
 
     def remove_from_search_index
@@ -30,5 +37,6 @@ module Searchable
 
     def execute_sql_with_binds(*statement)
       self.class.connection.execute self.class.sanitize_sql(statement)
+      self.class.connection.raw_connection.changes.nonzero?
     end
 end

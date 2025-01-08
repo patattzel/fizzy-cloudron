@@ -2,7 +2,7 @@ module Bubble::Eventable
   extend ActiveSupport::Concern
 
   included do
-    after_create -> { track_event :created }
+    after_create -> { track_event :created, creator: creator }
   end
 
   private
