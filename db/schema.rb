@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2024_12_09_223551) do
+ActiveRecord::Schema[8.1].define(version: 2025_01_09_153649) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -176,6 +176,18 @@ ActiveRecord::Schema[8.1].define(version: 2024_12_09_223551) do
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "bubble_id", null: false
+    t.boolean "read", default: false, null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bubble_id"], name: "index_notifications_on_bubble_id"
+    t.index ["user_id", "read", "created_at"], name: "index_notifications_on_user_id_and_read_and_created_at", order: { created_at: :desc }
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "pops", force: :cascade do |t|
     t.integer "bubble_id", null: false
     t.integer "user_id"
@@ -244,6 +256,8 @@ ActiveRecord::Schema[8.1].define(version: 2024_12_09_223551) do
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
   add_foreign_key "events", "event_summaries", column: "summary_id"
   add_foreign_key "messages", "bubbles"
+  add_foreign_key "notifications", "bubbles"
+  add_foreign_key "notifications", "users"
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"

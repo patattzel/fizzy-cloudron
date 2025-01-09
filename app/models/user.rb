@@ -18,6 +18,8 @@ class User < ApplicationRecord
   has_many :assignings, foreign_key: :assigner_id, class_name: "Assignment"
   has_many :assigned_bubbles, through: :assignments, source: :bubble
 
+  has_many :notifications, dependent: :destroy
+
   has_one_attached :avatar
 
   validates_presence_of :email_address
