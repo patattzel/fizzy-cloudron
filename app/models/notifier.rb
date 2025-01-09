@@ -8,7 +8,7 @@ class Notifier
   end
 
   def generate
-    recipients.each do |recipient|
+    recipients.map do |recipient|
       Notification.create! user: recipient, bubble: bubble, body: body
     end
   end
