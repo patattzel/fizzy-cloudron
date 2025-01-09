@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :bubbles
+  resources :notifications
 
   resources :buckets do
     resources :bubbles do
