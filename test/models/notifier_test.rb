@@ -1,0 +1,15 @@
+require "test_helper"
+
+class NotifierTest < ActiveSupport::TestCase
+  test "for returns the matching notifier class for the event" do
+    assert_kind_of Notifier::Created, Notifier.for(events(:logo_created))
+  end
+
+  test "for does not raise an error when the event is not notifiable" do
+    assert_nothing_raised do
+      assert_no_difference -> { Notification.count } do
+        Notifier.for(events(:logo_boost_dhh))
+      end
+    end
+  end
+end
