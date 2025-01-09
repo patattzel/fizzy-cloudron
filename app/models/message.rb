@@ -10,7 +10,7 @@ class Message < ApplicationRecord
 
   private
     def created
-      bubble.comment_created if comment?
+      bubble.comment_created(comment) if comment?
     end
 
     def destroyed
