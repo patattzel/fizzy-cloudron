@@ -11,21 +11,26 @@
 
 .notification {
   position: absolute;
-  background-color: #eee;
-  border-radius: 6px;
-  border: solid 1px #ccc;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 40ch;
+  padding: 4px;
   bottom: 0;
+  border-radius: 6px;
 
-  color: black;
-
-  &:visited {
+  & .notification--content {
+    border-radius: 6px;
+    background-color: #eee;
+    border: solid 1px black;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 40ch;
     color: black;
+
+    &:visited {
+      color: black;
+    }
   }
+
 
   transform: translateY(var(--offset));
   z-index: var(--z-index);
