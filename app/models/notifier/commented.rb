@@ -7,4 +7,8 @@ class Notifier::Commented < Notifier
     def recipients
       bubble.bucket.users.without(creator)
     end
+
+    def resource
+      event.comment
+    end
 end
