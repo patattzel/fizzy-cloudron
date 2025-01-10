@@ -9,7 +9,7 @@ class Notifier
 
   def generate
     recipients.map do |recipient|
-      Notification.create! user: recipient, bubble: bubble, body: body
+      Notification.create! user: recipient, creator: event.creator, resource: bubble, body: body
     end
   end
 

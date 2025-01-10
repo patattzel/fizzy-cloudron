@@ -4,7 +4,7 @@ class Bubble < ApplicationRecord
   belongs_to :bucket, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
 
-  has_many :notifications, dependent: :destroy
+  has_many :notifications, as: :resource, dependent: :destroy
 
   has_one_attached :image, dependent: :purge_later
 
