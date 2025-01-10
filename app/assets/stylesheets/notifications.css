@@ -1,15 +1,70 @@
 .notification-tray {
   position: fixed;
-  width: 40ch;
   bottom: 1rem;
   left: calc(50% - 20ch);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 4rem;
+  width: 40ch;
 }
 
 .notification {
-  background-color: #eeed;
+  position: absolute;
+  background-color: #eee;
   border-radius: 6px;
-  padding: 0.5rem;
+  border: solid 1px #ccc;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 40ch;
+  bottom: 0;
+
+  transform: translateY(var(--offset));
+  z-index: var(--z-index);
+  transition: transform 0.2s;
+
+  &:nth-child(1) {
+    --offset: 0;
+    --z-index: 0;
+  }
+
+  &:nth-child(2) {
+    --offset: -8px;
+    --z-index: -1;
+  }
+
+  &:nth-child(3) {
+    --offset: -16px;
+    --z-index: -2;
+  }
+
+  &:nth-child(4) {
+    --offset: -24px;
+    --z-index: -3;
+  }
+
+  &:nth-child(5) {
+    --offset: -32px;
+    --z-index: -4;
+  }
+}
+
+.notification-tray:hover .notification {
+  &:nth-child(2) {
+    --offset: -100%;
+  }
+
+  &:nth-child(3) {
+    --offset: -200%;
+  }
+
+  &:nth-child(4) {
+    --offset: -300%;
+  }
+
+  &:nth-child(5) {
+    --offset: -400%;
+  }
 }
