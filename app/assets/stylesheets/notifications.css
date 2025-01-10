@@ -21,6 +21,12 @@
   width: 40ch;
   bottom: 0;
 
+  color: black;
+
+  &:visited {
+    color: black;
+  }
+
   transform: translateY(var(--offset));
   z-index: var(--z-index);
   transition: transform 0.2s;
@@ -48,6 +54,10 @@
   &:nth-child(5) {
     --offset: -32px;
     --z-index: -4;
+  }
+
+  &:nth-child(1n + 6) {
+    display: none;
   }
 }
 
