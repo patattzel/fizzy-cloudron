@@ -4,7 +4,7 @@ module NotificationsHelper
   end
 
   def notification_tag(notification, &)
-    link_to notification.resource, class: "notification",
+    link_to notification.resource, id: dom_id(notification), class: "notification",
       data: {
         turbo_frame: "_top",
         action: "notifications--readings#record",
