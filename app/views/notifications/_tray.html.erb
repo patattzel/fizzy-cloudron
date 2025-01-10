@@ -1,0 +1,5 @@
+<%= turbo_stream_from Current.user, :notifications %>
+
+<%= tag.div id: "notification-tray", class: "notification-tray", data: { turbo_permanent: true, controller: "notifications--readings" } do %>
+  <%=  turbo_frame_tag("notifications", src: notifications_path) %>
+<% end %>
