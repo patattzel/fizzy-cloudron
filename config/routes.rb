@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   end
 
   resources :bubbles
-  resources :notifications
+  resources :notifications do
+    scope module: :notifications do
+      resource :readings, only: :create
+    end
+  end
 
   resources :buckets do
     resources :bubbles do
