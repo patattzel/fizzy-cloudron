@@ -23,7 +23,7 @@ class Notifier
     end
 
     def recipients
-      raise NotImplementedError
+      bubble.bucket.users.without(creator)
     end
 
     def bubble

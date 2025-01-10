@@ -4,10 +4,6 @@ class Notifier::Commented < Notifier
       "commented on: #{bubble.title}"
     end
 
-    def recipients
-      bubble.bucket.users.without(creator)
-    end
-
     def resource
       event.comment
     end

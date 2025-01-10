@@ -3,8 +3,4 @@ class Notifier::Created < Notifier
     def body
       "created: #{bubble.title}"
     end
-
-    def recipients
-      bubble.bucket.users.without(creator)
-    end
 end

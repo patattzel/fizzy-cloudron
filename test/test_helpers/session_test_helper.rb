@@ -13,4 +13,12 @@ module SessionTestHelper
     delete session_url
     assert_not cookies[:session_token].present?
   end
+
+  def with_current_user(user)
+    user = users(user) unless user.is_a? User
+    Current.session = Session.new(user: user)
+    yield
+  ensure
+    Current.reset_all
+  end
 end
