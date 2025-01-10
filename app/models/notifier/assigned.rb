@@ -1,7 +1,7 @@
 class Notifier::Assigned < Notifier
   private
     def body
-      "#{creator.name} assigned you: #{bubble.title}"
+      "assigned you: #{bubble.title}"
     end
 
     def recipients

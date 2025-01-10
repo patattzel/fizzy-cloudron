@@ -14,6 +14,6 @@ class Notifier::CreatedTest < ActiveSupport::TestCase
   test "generate populates the notification details" do
     Notifier.for(events(:logo_created)).generate
 
-    assert_equal "David created a new item: The logo isn't big enough", Notification.last.body
+    assert_equal "created: The logo isn't big enough", Notification.last.body
   end
 end

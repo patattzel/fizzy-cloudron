@@ -20,6 +20,6 @@ class Notifier::AssignedTest < ActiveSupport::TestCase
   test "generate populates the notification details" do
     Notifier.for(events(:logo_assignment_km)).generate
 
-    assert_equal "David assigned you: The logo isn't big enough", Notification.last.body
+    assert_equal "assigned you: The logo isn't big enough", Notification.last.body
   end
 end
