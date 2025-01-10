@@ -5,4 +5,6 @@ class Notification < ApplicationRecord
 
   scope :unread, -> { where(read: false) }
   scope :ordered, -> { order(read: :desc, created_at: :desc) }
+
+  broadcasts_to ->(notification) { [ notification.user, :notifications ] }, inserts_by: :prepend
 end
