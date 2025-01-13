@@ -179,12 +179,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_09_153649) do
   create_table "notifications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "creator_id", null: false
+    t.integer "bubble_id", null: false
     t.string "resource_type", null: false
     t.integer "resource_id", null: false
     t.boolean "read", default: false, null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["bubble_id"], name: "index_notifications_on_bubble_id"
     t.index ["creator_id"], name: "index_notifications_on_creator_id"
     t.index ["resource_type", "resource_id"], name: "index_notifications_on_resource"
     t.index ["user_id", "read", "created_at"], name: "index_notifications_on_user_id_and_read_and_created_at", order: { read: :desc, created_at: :desc }
@@ -259,6 +261,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_09_153649) do
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
   add_foreign_key "events", "event_summaries", column: "summary_id"
   add_foreign_key "messages", "bubbles"
+  add_foreign_key "notifications", "bubbles"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "creator_id"
   add_foreign_key "pops", "bubbles"

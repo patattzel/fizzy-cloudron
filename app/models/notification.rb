@@ -1,6 +1,7 @@
 class Notification < ApplicationRecord
   belongs_to :user
   belongs_to :creator, class_name: "User"
+  belongs_to :bubble
   belongs_to :resource, polymorphic: true
 
   scope :unread, -> { where(read: false) }
