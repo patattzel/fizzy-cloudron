@@ -56,7 +56,7 @@ layout_created:
 
 layout_commented:
   creator: david
-  action: comment
+  action: commented
   summary: layout_initial_activity
   particulars: <%= { comment_id: ActiveRecord::FixtureSet.identify(:layout_overflowing_david) }.to_json %>
   created_at: <%= 1.week.ago %>
