@@ -6,6 +6,7 @@ class CreateNotifications < ActiveRecord::Migration[8.1]
       t.references :bubble, null: false, foreign_key: true
       t.references :resource, null: false, polymorphic: true, index: true
       t.boolean :read, default: false, null: false
+      t.text :title, null: false
       t.text :body, null: false
 
       t.timestamps

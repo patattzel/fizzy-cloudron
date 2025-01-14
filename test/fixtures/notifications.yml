@@ -4,7 +4,8 @@ logo_created_kevin:
   bubble: logo
   resource: logo (Bubble)
   read: false
-  body: "created: The logo isn't big enough"
+  title: Logo isn't big enough
+  body: "Added by: David"
   created_at: <%= 1.week.ago %>
 
 layout_created_kevin:
@@ -13,5 +14,6 @@ layout_created_kevin:
   bubble: layout
   resource: layout_overflowing_david (Comment)
   read: false
-  body: "re: Layout is broken"
+  title: "RE: Layout is broken"
+  body: "David"
   created_at: <%= 1.week.ago %>

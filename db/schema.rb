@@ -183,6 +183,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_09_153649) do
     t.string "resource_type", null: false
     t.integer "resource_id", null: false
     t.boolean "read", default: false, null: false
+    t.text "title", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
