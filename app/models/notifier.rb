@@ -1,6 +1,8 @@
 class Notifier
   attr_reader :event
 
+  delegate :creator, to: :event
+
   class << self
     def for(event)
       "Notifier::#{event.action.classify}".safe_constantize&.new(event)
@@ -9,8 +11,7 @@ class Notifier
 
   def generate
     recipients.map do |recipient|
-      Notification.create! user: recipient, creator: event.creator,
-        bubble: bubble, resource: resource, title: title, body: body
+      Notification.create! user: recipient, event: event, bubble: bubble, resource: resource
     end
   end
 
@@ -19,27 +20,15 @@ class Notifier
       @event = event
     end
 
-    def title
-      bubble.title
-    end
-
-    def body
-      raise NotImplementedError
-    end
-
     def recipients
       bubble.bucket.users.without(creator)
     end
 
-    def bubble
-      event.summary.message.bubble
-    end
-
-    def creator
-      event.creator
-    end
-
     def resource
       bubble
+    end
+
+    def bubble
+      event.summary.message.bubble
     end
 end

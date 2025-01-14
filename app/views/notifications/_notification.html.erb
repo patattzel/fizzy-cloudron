@@ -5,8 +5,8 @@
     </div>
 
     <div class="flex flex-column txt-tight-lines">
-      <strong><%= notification.title %></strong>
-      <%= notification.body %> · <%= time_ago_in_words(notification.created_at) %> ago
+      <strong><%= notification_title(notification) %></strong>
+      <%= notification_body(notification) %> · <%= time_ago_in_words(notification.created_at) %> ago
     </div>
   </div>
 <% end %>

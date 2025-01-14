@@ -1,19 +1,15 @@
 logo_created_kevin:
   user: kevin
-  creator: david
+  event: logo_created
   bubble: logo
   resource: logo (Bubble)
   read: false
-  title: Logo isn't big enough
-  body: "Added by: David"
   created_at: <%= 1.week.ago %>
 
-layout_created_kevin:
+layout_commented_kevin:
   user: kevin
-  creator: david
+  event: layout_commented
   bubble: layout
   resource: layout_overflowing_david (Comment)
   read: false
-  title: "RE: Layout is broken"
-  body: "David"
   created_at: <%= 1.week.ago %>
