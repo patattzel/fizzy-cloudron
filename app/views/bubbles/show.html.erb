@@ -65,7 +65,7 @@
   </div>
 </aside>
 
-<div class="bubble__container">
+<div class="bubble__container" data-controller="beacon" data-beacon-url-value="<%= bucket_bubble_readings_url(@bubble.bucket, @bubble) %>">
   <div class="bubble__perma flex justify-center center margin-block-end-double">
     <%= render "bubbles/bubble", bubble: @bubble, editing: params[:editing] %>
   </div>
@@ -76,3 +76,5 @@
 <div class="flex align-start justify-start">
   <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
 </div>
+
+<%= render "notifications/tray" %>

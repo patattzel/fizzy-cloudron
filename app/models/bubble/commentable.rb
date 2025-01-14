@@ -5,8 +5,9 @@ module Bubble::Commentable
     scope :ordered_by_comments, -> { order comments_count: :desc }
   end
 
-  def comment_created
+  def comment_created(comment)
     increment! :comments_count
+    track_event :commented, comment_id: comment.id
     rescore
   end
 

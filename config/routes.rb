@@ -12,12 +12,19 @@ Rails.application.routes.draw do
     route_for :bucket_bubble, bubble.bucket, bubble, options
   end
 
+  resolve "Comment" do |comment, options|
+    options[:anchor] = ActionView::RecordIdentifier.dom_id(comment)
+    route_for :bucket_bubble, comment.bubble.bucket, comment.bubble, options
+  end
+
   resources :bubbles
+  resources :notifications
 
   resources :buckets do
     resources :bubbles do
       resources :boosts
       resources :comments
+      resource :readings, only: :create
 
       scope module: :bubbles do
         resource :image

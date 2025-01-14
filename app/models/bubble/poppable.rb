@@ -13,7 +13,10 @@ module Bubble::Poppable
   end
 
   def pop!(user: Current.user)
-    create_pop!(user: user) unless popped?
+    unless popped?
+      create_pop!(user: user)
+      track_event :popped
+    end
   end
 
   def unpop
