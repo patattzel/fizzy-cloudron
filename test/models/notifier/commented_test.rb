@@ -2,13 +2,9 @@ require "test_helper"
 
 class Notifier::CommentedTest < ActiveSupport::TestCase
   test "creates a notification for each recipient" do
-    assert_difference -> { Notification.count }, 2 do
-      assert_difference -> { users(:kevin).notifications.count }, 1 do
-        assert_difference -> { users(:jz).notifications.count }, 1 do
-          Notifier.for(events(:layout_commented)).generate
-        end
-      end
-    end
+    notifications = Notifier.for(events(:layout_commented)).generate
+
+    assert_equal users(:kevin, :jz).sort, notifications.map(&:user).sort
   end
 
   test "links to the bubble" do

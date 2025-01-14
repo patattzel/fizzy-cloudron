@@ -2,15 +2,14 @@ require "test_helper"
 
 class Notifier::AssignedTest < ActiveSupport::TestCase
   test "creates a notification for the assignee" do
-    assert_difference -> { Notification.count }, 1 do
-      assert_difference -> { users(:kevin).notifications.count }, 1 do
-        Notifier.for(events(:logo_assignment_km)).generate
-      end
-    end
+    notifications = Notifier.for(events(:logo_assignment_km)).generate
+
+    assert_equal [ users(:kevin) ], notifications.map(&:user)
   end
 
   test "does not notify for self-assignments" do
-    event = EventSummary.last.events.create! action: :assigned, creator: users(:kevin),
+    event = EventSummary.last.events.create! action: :assigned,
+      creator: users(:kevin),
       particulars: { assignee_ids: [ users(:kevin).id ] }
 
     assert_no_difference -> { Notification.count } do
