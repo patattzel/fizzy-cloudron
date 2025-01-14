@@ -2,7 +2,7 @@ require "test_helper"
 
 class NotifierTest < ActiveSupport::TestCase
   test "for returns the matching notifier class for the event" do
-    assert_kind_of Notifier::Created, Notifier.for(events(:logo_created))
+    assert_kind_of Notifier::Published, Notifier.for(events(:logo_published))
   end
 
   test "for does not raise an error when the event is not notifiable" do

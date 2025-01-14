@@ -2,7 +2,7 @@ class Bubbles::PublishesController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def create
-    @bubble.published!
+    @bubble.publish
     redirect_to @bubble
   end
 end

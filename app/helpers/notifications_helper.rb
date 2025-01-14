@@ -14,7 +14,7 @@ module NotificationsHelper
 
     case notification.event.action
     when "assigned" then "#{name} assigned to you"
-    when "created" then "Added by #{name}"
+    when "published" then "Added by #{name}"
     when "popped" then "Popped by by #{name}"
     else name
     end
