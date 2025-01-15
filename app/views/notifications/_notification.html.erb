@@ -1,12 +1,14 @@
-<%= notification_tag notification do %>
-  <div class="notification__content border-radius borderless pad shadow fill-white flex align-start txt-align-start gap-half">
-    <div class="avatar txt-small">
-      <%= avatar_image_tag(notification.creator) %>
-    </div>
+<% cache notification do %>
+  <%= notification_tag notification do %>
+    <div class="notification__content border-radius borderless pad shadow fill-white flex align-start txt-align-start gap-half">
+      <div class="avatar txt-small">
+        <%= avatar_image_tag(notification.creator) %>
+      </div>
 
-    <div class="flex flex-column txt-tight-lines">
-      <strong><%= notification_title(notification) %></strong>
-      <%= notification_body(notification) %> · <%= time_ago_in_words(notification.created_at) %> ago
+      <div class="flex flex-column txt-tight-lines">
+        <strong><%= notification_title(notification) %></strong>
+        <%= notification_body(notification) %> · <%= time_ago_in_words(notification.created_at) %> ago
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
