@@ -12,4 +12,18 @@ class NotifierTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "generate creates notifications for the event recipients" do
+    assert_difference -> { Notification.count }, +2 do
+      Notifier.for(events(:logo_published)).generate
+    end
+  end
+
+  test "generate does not create notifications if the bubble is not published" do
+    bubbles(:logo).drafted!
+
+    assert_no_difference -> { Notification.count } do
+      Notifier.for(events(:logo_published)).generate
+    end
+  end
 end

@@ -14,8 +14,8 @@ module NotificationsHelper
 
     case notification.event.action
     when "assigned" then "#{name} assigned to you"
-    when "published" then "Added by #{name}"
     when "popped" then "Popped by by #{name}"
+    when "published" then notification_bubble_created_message(notification)
     else name
     end
   end
@@ -24,4 +24,13 @@ module NotificationsHelper
     link_to notification.resource, id: dom_id(notification), class: "notification border-radius",
       data: { turbo_frame: "_top" }, &
   end
+
+  private
+    def notification_bubble_created_message(notification)
+      if notification.bubble.assigned_to?(notification.user)
+        "#{notification.creator.name} assigned to you"
+      else
+        "Added by #{notification.creator.name}"
+      end
+    end
 end
