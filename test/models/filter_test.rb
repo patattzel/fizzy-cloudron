@@ -39,12 +39,19 @@ class FilterTest < ActiveSupport::TestCase
   end
 
   test "remembering equivalent filters" do
-    assert_difference "users(:david).filters.count", +1 do
+    assert_difference "Filter.count", +1 do
       filter = users(:david).filters.remember(indexed_by: "most_active", assignment_status: "unassigned", tag_ids: [ tags(:mobile).id ])
 
       assert_changes "filter.reload.updated_at" do
         assert_equal filter, users(:david).filters.remember(assignment_status: "unassigned", tag_ids: [ tags(:mobile).id ])
       end
+    end
+  end
+
+  test "remembering equivalent filters for different users" do
+    assert_difference "Filter.count", +2 do
+      users(:david).filters.remember(assignment_status: "unassigned", tag_ids: [ tags(:mobile).id ])
+      users(:kevin).filters.remember(assignment_status: "unassigned", tag_ids: [ tags(:mobile).id ])
     end
   end
 
