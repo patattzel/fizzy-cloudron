@@ -2,9 +2,14 @@
 
 <% content_for :header do %>
   <nav>
-    <%= link_to account_users_path, class: "btn flex-item-justify-start" do %>
+    <%= link_to account_users_path, class: "btn" do %>
       <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Account settings</span>
+    <% end %>
+
+    <%= link_to events_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "history.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Latest activity</span>
     <% end %>
 
     <%= link_to new_bucket_path, class: "btn flex-item-justify-end", style: "view-transition-name: new-bucket" do %>

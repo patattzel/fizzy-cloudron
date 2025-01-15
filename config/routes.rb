@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :events
   resources :filters
   resource :first_run
   resources :qr_codes
