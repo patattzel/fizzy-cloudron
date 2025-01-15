@@ -12,10 +12,10 @@ module NotificationsHelper
   def notification_body(notification)
     name = notification.creator.name
 
-    case notification.event.action
+    case notification_event_action(notification)
     when "assigned" then "#{name} assigned to you"
     when "popped" then "Popped by by #{name}"
-    when "published" then notification_bubble_created_message(notification)
+    when "published" then "Added by #{name}"
     else name
     end
   end
@@ -26,11 +26,15 @@ module NotificationsHelper
   end
 
   private
-    def notification_bubble_created_message(notification)
-      if notification.bubble.assigned_to?(notification.user)
-        "#{notification.creator.name} assigned to you"
+    def notification_event_action(notification)
+      if notification_is_for_initial_assignement?(notification)
+        "assigned"
       else
-        "Added by #{notification.creator.name}"
+        notification.event.action
       end
+    end
+
+    def notification_is_for_initial_assignement?(notification)
+      notification.event.action == "published" && notification.bubble.assigned_to?(notification.user)
     end
 end
