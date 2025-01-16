@@ -35,12 +35,9 @@ export default class extends Controller {
   moveDivider(event) {
     if (event.target.nodeName == DIVIDER_ITEM_NODE_NAME) {
       const rect = this.dividerTarget.getBoundingClientRect()
-      const distanceToTop = Math.abs(event.clientY - rect.top)
-      const distanceToBottom = Math.abs(event.clientY - (rect.top + rect.height))
-      const distanceToNearestEdge = Math.min(distanceToTop, distanceToBottom)
-      const distancePercentage = (distanceToNearestEdge / rect.height) * 100
+      const overlap = Math.abs((event.clientY - rect.top) / rect.height)
 
-      if (distancePercentage > 50) {
+      if (overlap > 0.5) {
         this.#moveDividerTo(this.#items.indexOf(event.target))
       }
     }
