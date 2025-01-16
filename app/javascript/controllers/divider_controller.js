@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { get, patch } from "@rails/request.js"
 
 const MOVE_ITEM_DATA_TYPE = "x-fizzy/move"
 const DIVIDER_ITEM_NODE_NAME = "LI"
@@ -14,7 +13,8 @@ export default class extends Controller {
   }
 
   install() {
-    this.#positionDividerElement(this.startCountValue)
+    this.#positionDividerElementBefore(this.startCountValue)
+    this.dividerTarget.classList.add(this.positionedClass)
   }
 
   configureDrag(event) {
@@ -30,15 +30,13 @@ export default class extends Controller {
 
     const targetIndex = this.#items.indexOf(event.target)
 
-    if (targetIndex > this.maxCountValue) return
-
-    if (this.#dividerIndex < targetIndex) {
-      event.target.after(this.dividerTarget)
-    } else {
-      event.target.before(this.dividerTarget)
+    if (targetIndex != this.#dividerIndex && targetIndex <= this.maxCountValue) {
+      if (this.#dividerIndex < targetIndex) {
+        this.#positionDividerElementAfter(targetIndex)
+      } else {
+        this.#positionDividerElementBefore(targetIndex)
+      }
     }
-
-    this.countTarget.textContent = targetIndex
   }
 
   persist() {
@@ -50,16 +48,16 @@ export default class extends Controller {
     if (isDroppable) event.preventDefault()
   }
 
-  #positionDividerElement(index) {
-    if (index == 0) {
-      this.#items[0].before(this.dividerTarget)
-    } else if (index <= this.#items.length - 1) {
-      this.#items[index - 1].after(this.dividerTarget)
-    } else {
-      this.#items[this.#items.length - 1].after(this.dividerTarget)
-    }
+  #positionDividerElementAfter(index) {
+    const position = Math.min(index, this.#items.length - 1, this.maxCountValue)
+    this.#items[position].after(this.dividerTarget)
+    this.countTarget.textContent = position
+  }
 
-    this.dividerTarget.classList.add(this.positionedClass)
+  #positionDividerElementBefore(index) {
+    const position = Math.max(index, 1)
+    this.#items[position].before(this.dividerTarget)
+    this.countTarget.textContent = position
   }
 
   get #items() {
