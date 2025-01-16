@@ -48,15 +48,15 @@ export default class extends Controller {
     if (isDroppable) event.preventDefault()
   }
 
-  #positionDividerAfter(index) {
-    const position = Math.min(index, this.#items.length - 1, this.maxCountValue)
-    this.#items[position].after(this.dividerTarget)
-    this.countTarget.textContent = position
-  }
-
   #positionDividerBefore(index) {
     const position = Math.max(index, 1)
     this.#items[position].before(this.dividerTarget)
+    this.countTarget.textContent = position
+  }
+
+  #positionDividerAfter(index) {
+    const position = Math.min(index, this.#items.length - 1, this.maxCountValue)
+    this.#items[position].after(this.dividerTarget)
     this.countTarget.textContent = position
   }
 
