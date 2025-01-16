@@ -38,7 +38,7 @@
       data-controller="divider"
       data-divider-start-count-value="10"
       data-divider-max-count-value="10"
-      data-divider-positioned-class="bubbles-list__divider--positioned"
+      data-divider-installed-class="bubbles-list__divider--installed"
       data-action="turbo:morph@document->divider#install dragstart->divider#configureDrag dragenter->divider#acceptDrop dragover->divider#acceptDrop dragover->divider#moveDivider drop->divider#persist">
     <%= render partial: "bubbles/list/bubble", collection: @bubbles, cached: true %>
     <%= render "bubbles/list/divider", filter: @filter %>

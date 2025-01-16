@@ -5,7 +5,7 @@ const DIVIDER_ITEM_NODE_NAME = "LI"
 
 export default class extends Controller {
   static targets = [ "divider", "dragImage", "count" ]
-  static classes = [ "positioned" ]
+  static classes = [ "installed" ]
   static values = { startCount: Number, maxCount: Number }
 
   connect() {
@@ -14,7 +14,7 @@ export default class extends Controller {
 
   install() {
     this.#moveDividerTo(this.startCountValue)
-    this.dividerTarget.classList.add(this.positionedClass)
+    this.dividerTarget.classList.add(this.installedClass)
   }
 
   configureDrag(event) {
@@ -22,6 +22,12 @@ export default class extends Controller {
       event.dataTransfer.dropEffect = "move"
       event.dataTransfer.setData(MOVE_ITEM_DATA_TYPE, event.target)
       event.dataTransfer.setDragImage(this.dragImageTarget, 0, 0)
+    }
+  }
+
+  acceptDrop(event) {
+    if (event.dataTransfer.types.includes(MOVE_ITEM_DATA_TYPE)) {
+      event.preventDefault()
     }
   }
 
@@ -33,11 +39,6 @@ export default class extends Controller {
 
   persist() {
     // TODO
-  }
-
-  acceptDrop(event) {
-    const isDroppable = event.dataTransfer.types.includes(MOVE_ITEM_DATA_TYPE)
-    if (isDroppable) event.preventDefault()
   }
 
   #moveDividerTo(index) {
