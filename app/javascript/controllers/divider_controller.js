@@ -39,7 +39,7 @@ export default class extends Controller {
       const distanceToTop = Math.abs(event.clientY - rect.top)
       const distanceToBottom = Math.abs(event.clientY - (rect.top + rect.height))
       const distanceToNearestEdge = Math.min(distanceToTop, distanceToBottom)
-      const overlap = (distanceToNearestEdge / rect.height)
+      const overlap = distanceToNearestEdge / rect.height
 
       if (overlap > OVERLAP_THRESHOLD) {
         this.#moveDividerTo(this.#items.indexOf(event.target))
