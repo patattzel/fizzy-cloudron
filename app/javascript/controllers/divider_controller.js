@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   install() {
-    this.#positionDividerElementBefore(this.startCountValue)
+    this.#positionDividerBefore(this.startCountValue)
     this.dividerTarget.classList.add(this.positionedClass)
   }
 
@@ -32,9 +32,9 @@ export default class extends Controller {
 
     if (targetIndex != this.#dividerIndex && targetIndex <= this.maxCountValue) {
       if (this.#dividerIndex < targetIndex) {
-        this.#positionDividerElementAfter(targetIndex)
+        this.#positionDividerAfter(targetIndex)
       } else {
-        this.#positionDividerElementBefore(targetIndex)
+        this.#positionDividerBefore(targetIndex)
       }
     }
   }
@@ -48,13 +48,13 @@ export default class extends Controller {
     if (isDroppable) event.preventDefault()
   }
 
-  #positionDividerElementAfter(index) {
+  #positionDividerAfter(index) {
     const position = Math.min(index, this.#items.length - 1, this.maxCountValue)
     this.#items[position].after(this.dividerTarget)
     this.countTarget.textContent = position
   }
 
-  #positionDividerElementBefore(index) {
+  #positionDividerBefore(index) {
     const position = Math.max(index, 1)
     this.#items[position].before(this.dividerTarget)
     this.countTarget.textContent = position
