@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   install() {
-    this.#positionDividerBefore(this.startCountValue)
+    this.#moveDividerTo(this.startCountValue)
     this.dividerTarget.classList.add(this.positionedClass)
   }
 
@@ -25,17 +25,9 @@ export default class extends Controller {
     }
   }
 
-  moveDivider(event) {
-    if (event.target.nodeName != DIVIDER_ITEM_NODE_NAME) return
-
-    const targetIndex = this.#items.indexOf(event.target)
-
-    if (targetIndex != this.#dividerIndex && targetIndex <= this.maxCountValue) {
-      if (this.#dividerIndex < targetIndex) {
-        this.#positionDividerAfter(targetIndex)
-      } else {
-        this.#positionDividerBefore(targetIndex)
-      }
+  moveDivider({ target }) {
+    if (target.nodeName == DIVIDER_ITEM_NODE_NAME) {
+      this.#moveDividerTo(this.#items.indexOf(target))
     }
   }
 
@@ -46,6 +38,16 @@ export default class extends Controller {
   acceptDrop(event) {
     const isDroppable = event.dataTransfer.types.includes(MOVE_ITEM_DATA_TYPE)
     if (isDroppable) event.preventDefault()
+  }
+
+  #moveDividerTo(index) {
+    if (index <= this.maxCountValue) {
+      if (this.#dividerIndex < index) {
+        this.#positionDividerAfter(index)
+      } else if (this.#dividerIndex > index) {
+        this.#positionDividerBefore(index)
+      }
+    }
   }
 
   #positionDividerBefore(index) {
