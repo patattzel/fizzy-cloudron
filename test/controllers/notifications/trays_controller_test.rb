@@ -1,12 +1,12 @@
 require "test_helper"
 
-class NotificationsControllerTest < ActionDispatch::IntegrationTest
+class Notifications::TraysControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
 
-  test "index" do
-    get notifications_url
+  test "show" do
+    get notifications_tray_url
 
     assert_response :success
     assert_select "div", text: /Layout is broken/
