@@ -17,12 +17,8 @@
   </nav>
 <% end %>
 
-<h2 class="txt-x-large margin-block-end"><%= event_day_title(@activity_day) %></h2>
-<div class="center events">
-  <h3>Active</h3>
-  <h3>Discussed</h3>
-  <h3>Added</h3>
-  <h3>Popped</h3>
-
-  <%= render @events %>
+<div id="activity">
+  <%= render "events/day", activity_day: @activity_day, next_day: @next_day, events: @events %>
 </div>
+
+<%= event_next_page_link(@next_day) %>
