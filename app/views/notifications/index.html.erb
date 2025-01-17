@@ -7,7 +7,9 @@
       <span class="for-screen-reader">Go back</span>
     <% end %>
 
-    <h1>All notifications</h1>
+    <header class="txt-align-center">
+      <h1 class="txt-large flex align-center gap-half"><%= @page_title %></h1>
+    </header>
 
     <%= link_to new_bucket_path, class: "btn flex-item-justify-end", style: "view-transition-name: new-bucket" do %>
       <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
@@ -17,11 +19,15 @@
 <% end %>
 
 <% if @unread.any? %>
-  <h2>New for you</h2>
-  <%= render @unread %>
+  <section class="panel center borderless unpad flex flex-column gap-half">
+    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase">New for you</h2>
+    <%= render @unread %>
+  </section>
 <% end %>
 
 <% if @read.any? %>
-<h2>Previously read</h2>
-<%= render @read %>
+  <section class="notificiations-list--read panel center borderless unpad flex flex-column gap-half margin-block-start-double">
+    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase">Previously seen</h2>
+    <%= render @read %>
+  </section>
 <% end %>
