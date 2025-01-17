@@ -18,12 +18,16 @@
   </nav>
 <% end %>
 
-<% if @unread.any? %>
-  <section class="panel center borderless unpad flex flex-column gap-half">
+<section class="panel center borderless unpad flex flex-column gap-half">
+  <% if @unread.any? %>
     <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase">New for you</h2>
     <%= render @unread %>
-  </section>
-<% end %>
+  <% else %>
+    <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink);">
+      <strong>Nothing new for you.</strong>
+    </div>
+  <% end %>
+</section>
 
 <% if @read.any? %>
   <section class="notificiations-list--read panel center borderless unpad flex flex-column gap-half margin-block-start-double">
