@@ -2,4 +2,9 @@
 
 <%= tag.div id: "notification-tray", class: "notification-tray flex flex-column gap", data: { turbo_permanent: true } do %>
   <%=  turbo_frame_tag("notifications", src: notifications_tray_path) %>
+
+  <%= link_to notifications_path, class: "btn flex-item-justify-start" do %>
+    <%= image_tag "bell.svg", aria: { hidden: true }, size: 24 %>
+    <span class="for-screen-reader">See all notifications</span>
+  <% end %>
 <% end %>
