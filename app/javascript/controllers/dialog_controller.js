@@ -26,6 +26,7 @@ export default class extends Controller {
 
   close() {
     this.dialogTarget.close()
+    this.dialogTarget.blur()
   }
 
   closeOnClickOutside({ target }) {

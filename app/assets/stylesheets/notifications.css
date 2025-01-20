@@ -55,6 +55,42 @@
     scale: 1;
     transform: translateY(0);
   }
+
+  .notification-tray:has(.notification) & {
+    .btn img {
+      display: none;
+    }
+  }
+
+  .notification-tray:not(:has(.notification)) & {
+    opacity: 1;
+    scale: 1;
+    transform: none;
+    transition: none;
+
+    .notification-tray__all_action {
+      --btn-border-radius: 50%;
+      --btn-padding: 0;
+
+      aspect-ratio: 1;
+      block-size: var(--btn-size);
+      display: grid;
+      inline-size: var(--btn-size);
+      place-items: center;
+
+      > * {
+        grid-area: 1/1;
+      }
+
+      span {
+        display: none;
+      }
+    }
+
+    .notification-tray__read_action {
+      display: none;
+    }
+  }
 }
 
 .notification__content {
@@ -75,7 +111,8 @@
   position: absolute;
   z-index: 6;
 
-  .notification-tray[open] & {
+  .notification-tray[open] &,
+  .notification-tray:not(:has(.notification)) & {
     display: none;
   }
 }
