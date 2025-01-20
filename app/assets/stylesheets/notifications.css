@@ -1,8 +1,10 @@
 .notification-tray {
   --size: 38ch;
 
+  block-size: calc(4ch + var(--block-space-double));
   inline-size: var(--size);
-  inset: auto auto var(--block-space) var(--inline-space);
+  inset: auto var(--inline-space) var(--block-space-half) auto;
+  padding: var(--block-space-half) var(--inline-space);
   position: fixed;
   z-index: 1;
 
@@ -35,8 +37,23 @@
     .notification-tray[open] & {
       --scale: 1;
       --offset: calc((100% + var(--block-space-half)) * (var(--position) * -1));
+
+      margin-block-end: calc(var(--block-space) * -1);
       pointer-events: unset;
     }
+  }
+}
+
+.notification-tray__actions {
+  opacity: 0;
+  scale: calc(1 - 1 / 30);
+  transform: translateY(100%);
+  transition: opacity 0.2s ease-out, scale 0.2s ease-out, transform 0.2s ease-out;
+
+  .notification-tray[open] & {
+    opacity: 1;
+    scale: 1;
+    transform: translateY(0);
   }
 }
 
