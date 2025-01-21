@@ -7,4 +7,8 @@ export default class extends Controller {
   connect() {
     post(this.urlValue, { responseKind: "turbo-stream" })
   }
+
+  disconnect() {
+    post(this.urlValue, { responseKind: "turbo-stream" })
+  }
 }
