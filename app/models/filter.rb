@@ -24,6 +24,7 @@ class Filter < ApplicationRecord
       result = result.assigned_to(assignees.ids) if assignees.present?
       result = result.assigned_by(assigners.ids) if assigners.present?
       result = result.in_bucket(buckets.ids) if buckets.present?
+      result = result.in_stage(stages.ids) if stages.present?
       result = result.tagged_with(tags.ids) if tags.present?
       result = terms.reduce(result) do |result, term|
         result.mentioning(term)

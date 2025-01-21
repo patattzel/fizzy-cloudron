@@ -35,6 +35,10 @@
         <%= filter_chip_tag "by #{assigner.name}", filter.as_params_without(:assigner_ids, assigner.id) %>
       <% end %>
 
+      <% filter.stages.each do |stage| %>
+        <%= filter_chip_tag "in #{stage.name}", filter.as_params_without(:stage_ids, stage.id) %>
+      <% end %>
+
       <% if filter.buckets.many? %>
         <% filter.buckets.each do |bucket| %>
           <%= filter_chip_tag "in #{bucket.name}", filter.as_params_without(:bucket_ids, bucket.id) %>
@@ -186,6 +190,23 @@
                   <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
                 <% end %>
               </li>
+            <% end %>
+          </menu>
+
+          <menu class="filter__menu">
+            <li class="filter__label"><strong>In Stage</strong></li>
+            <% Current.account.workflows.order(:name).each do |workflow| %>
+              <li class="filter__label"><strong><%= workflow.name %></strong></li>
+
+              <% workflow.stages.order(:name).each do |stage| %>
+                <li>
+                  <%= label_tag "stage_ids_#{stage.id}", class: "btn filter__button" do %>
+                    <%= check_box_tag "stage_ids[]", stage.id, filter.stages.include?(stage), id: "stage_ids_#{stage.id}", hidden: true %>
+                    <span><%= stage.name %></span>
+                    <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+                  <% end %>
+                </li>
+              <% end %>
             <% end %>
           </menu>
         </div>
