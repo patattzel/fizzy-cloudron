@@ -14,7 +14,7 @@ module EventsHelper
     case event.action
     when "popped"
       4
-    when "created"
+    when "published"
       3
     when "commented"
       2
