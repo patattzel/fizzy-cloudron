@@ -1,10 +1,10 @@
-<div class="margin-block-end-double">
+<div class="margin-block-end-double" data-controller="timeline">
   <h2 class="txt-x-large margin-block-end"><%= event_day_title(activity_day) %></h2>
   <% if @events.any? %>
     <div class="center events">
       <%= render_column_headers %>
-      <%= render_event_grid_cells %>
-      <%= render_time_labels %>
+      <%= render_event_grid_cells(activity_day) %>
+      <%= render_time_labels(activity_day) %>
       <%= render events %>
     </div>
   <% else %>

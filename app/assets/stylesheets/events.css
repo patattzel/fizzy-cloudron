@@ -31,6 +31,10 @@
   &:nth-child(1n + 57) {
     background-color: var(--color-highlight);
   }
+
+  &.future {
+    display: none;
+  }
 }
 
 .event-grid-time {
@@ -49,5 +53,9 @@
     position: absolute;
     text-transform: uppercase;
     transform: translate(-50%, 50%);
+  }
+
+  &.future {
+    display: none;
   }
 }
