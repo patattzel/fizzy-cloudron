@@ -5,7 +5,8 @@
       style: "grid-column-start: #{ event_column(event) }; --panel-border-radius: 0.7em; --panel-padding: 0.3em 0.6em; --panel-size: auto; --bubble-color: #{ bubble.color }; #{ bubble_rotation(bubble) }",
       data: { controller: "animation", animation_play_class: "bubble--wobble", animation_play_on_load_value: "true", action: "mouseover->animation#play", timeline_target: "item", datetime: event.created_at.iso8601 } do %>
   <div class="bubble__shape flex-item-no-shrink txt-large"></div>
-  <div class="flex flex-column min-width txt-small">
+  <div class="flex flex-column min-width txt-small align-start">
     <strong><%= bubble.title %></strong>
+    <span class="txt-small txt-subtle"><%= bubble.bucket.name %></span>
   </div>
 <% end %>
