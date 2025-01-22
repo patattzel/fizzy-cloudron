@@ -10,6 +10,10 @@
 
 .event {
   margin: var(--inline-space);
+
+  &.out-of-range {
+    display: none;
+  }
 }
 
 .events--none {

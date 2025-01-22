@@ -1,4 +1,4 @@
-<div class="margin-block-end-double" data-controller="timeline">
+<div class="margin-block-end-double" data-controller="timeline" data-timeline-date-value="<%= activity_day.to_date.iso8601 %>">
   <h2 class="txt-x-large margin-block-end"><%= event_day_title(activity_day) %></h2>
   <% if @events.any? %>
     <div class="center events">
