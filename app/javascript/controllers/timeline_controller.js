@@ -8,7 +8,6 @@ export default class extends Controller {
 
   cellTargetConnected(target) {
     const dt = new Date(target.dataset.datetime)
-    target.classList.toggle("future", dt > new Date())
     target.classList.toggle("current-hour", this.#isCurrentHour(dt))
   }
 
