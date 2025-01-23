@@ -4,7 +4,8 @@ class EventsController < ApplicationController
   def index
     @events = Event.
       where(bubble: user_bubbles).
-      where(created_at: @activity_day.yesterday.beginning_of_day..@activity_day.tomorrow.end_of_day)
+      where(created_at: @activity_day.yesterday.beginning_of_day..@activity_day.tomorrow.end_of_day).
+      group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }
 
     @next_day = @activity_day.yesterday.strftime("%Y-%m-%d")
   end

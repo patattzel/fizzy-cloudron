@@ -5,7 +5,13 @@
     <%= render_column_headers %>
     <%= render_event_grid_cells(activity_day) %>
     <%= render_time_labels(activity_day) %>
-    <%= render events %>
+
+    <% events.each do |cell, cluster| %>
+      <div class="event--cluster">
+        <%= render cluster %>
+      </div>
+    <% end %>
+
   </div>
 
   <p class="events--none txt-align-center">No activity for this day.</p>
