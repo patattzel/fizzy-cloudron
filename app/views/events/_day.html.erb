@@ -6,7 +6,7 @@
     <%= render_event_grid_cells(activity_day) %>
     <%= render_time_labels(activity_day) %>
 
-    <% events.each do |cell, cluster| %>
+    <% events.each do |_, cluster| %>
       <div class="event--cluster">
         <%= render cluster %>
       </div>
