@@ -58,7 +58,7 @@ module EventsHelper
 
   def render_column_headers
     [ "Touched", "Discussed", "Added", "Popped" ].map do |header|
-      content_tag(:h3, header, class: "event-grid-column-title")
+      content_tag(:h3, header, class: "event-grid-column-title margin-block-end-half")
     end.join.html_safe
   end
 end
