@@ -17,7 +17,7 @@
 
 <section class="panel center borderless unpad flex flex-column gap-half">
   <% if @unread.any? %>
-    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase">New for you</h2>
+    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase txt-alert">New for you</h2>
     <%= render @unread %>
   <% else %>
     <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink);">
