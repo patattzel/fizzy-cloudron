@@ -11,10 +11,7 @@
       <h1 class="txt-large flex align-center gap-half"><%= @page_title %></h1>
     </header>
 
-    <%= link_to new_bucket_path, class: "btn flex-item-justify-end", style: "view-transition-name: new-bucket" do %>
-      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Add a new project</span>
-    <% end %>
+    <div class="btn btn--placeholder flex-item-justify-end"></div>
   </nav>
 <% end %>
 
