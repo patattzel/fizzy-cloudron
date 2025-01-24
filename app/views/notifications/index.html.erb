@@ -1,3 +1,36 @@
-<%= turbo_frame_tag "notifications" do %>
-  <%= render @notifications %>
+<% @page_title = "Notifications" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
+    <% end %>
+
+    <header class="txt-align-center">
+      <h1 class="txt-large flex align-center gap-half"><%= @page_title %></h1>
+    </header>
+
+    <div class="btn btn--placeholder flex-item-justify-end"></div>
+  </nav>
+<% end %>
+
+<section class="panel center borderless unpad flex flex-column gap-half">
+  <% if @unread.any? %>
+    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase txt-alert">New for you</h2>
+    <%= render @unread %>
+  <% else %>
+    <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink);">
+      <strong>Nothing new for you.</strong>
+    </div>
+  <% end %>
+</section>
+
+<% if @page.records.any? %>
+  <section id="notifications_list_read" class="notificiations-list--read panel center borderless unpad flex flex-column gap-half margin-block-start-double">
+    <h2 class="txt-small margin-block-start-double margin-block-end-half txt-uppercase">Previously seen</h2>
+    <%= render @page.records %>
+  </section>
+
+  <%= notifications_next_page_link(@page) %>
 <% end %>

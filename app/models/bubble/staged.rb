@@ -3,6 +3,8 @@ module Bubble::Staged
 
   included do
     belongs_to :stage, class_name: "Workflow::Stage", optional: true
+
+    scope :in_stage, ->(stage) { where stage: stage }
   end
 
   def workflow

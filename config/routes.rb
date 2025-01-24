@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   end
 
   resources :bubbles
-  resources :notifications
+  resources :notifications, only: :index
+  namespace :notifications do
+    resource :tray, only: :show
+    resource :mark_all_read, only: :create
+  end
 
   resources :buckets do
     resources :bubbles do

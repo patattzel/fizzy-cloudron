@@ -1,7 +1,16 @@
 module Filter::Params
   extend ActiveSupport::Concern
 
-  PERMITTED_PARAMS = [ :assignment_status, :indexed_by, assignee_ids: [], assigner_ids: [], bucket_ids: [], tag_ids: [], terms: [] ]
+  PERMITTED_PARAMS = [
+    :assignment_status,
+    :indexed_by,
+    assignee_ids: [],
+    assigner_ids: [],
+    bucket_ids: [],
+    stage_ids: [],
+    tag_ids: [],
+    terms: []
+  ]
 
   class_methods do
     def find_by_params(params)
@@ -30,6 +39,7 @@ module Filter::Params
       params[:terms]             = terms
       params[:tag_ids]           = tags.ids
       params[:bucket_ids]        = buckets.ids
+      params[:stage_ids]         = stages.ids
       params[:assignee_ids]      = assignees.ids
       params[:assigner_ids]      = assigners.ids
     end.compact_blank.reject(&method(:default_value?))
