@@ -1,6 +1,6 @@
 module Filter::Summarized
   def summary
-    [ index_summary, tag_summary, assignee_summary, assigner_summary, terms_summary ].compact.to_sentence + " #{bucket_summary}"
+    [ index_summary, tag_summary, assignee_summary, assigner_summary, stage_summary, terms_summary ].compact.to_sentence + " #{bucket_summary}"
   end
 
   private
@@ -25,6 +25,12 @@ module Filter::Summarized
     def assigner_summary
       if assigners.any?
         "assigned by #{assigners.pluck(:name).to_choice_sentence}"
+      end
+    end
+
+    def stage_summary
+      if stages.any?
+        "staged in #{stages.pluck(:name).to_choice_sentence}"
       end
     end
 

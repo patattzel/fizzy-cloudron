@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_01_15_122810) do
+ActiveRecord::Schema[8.1].define(version: 2025_01_21_174109) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -158,6 +158,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_15_122810) do
     t.datetime "updated_at", null: false
     t.json "fields", default: {}, null: false
     t.index ["creator_id", "params_digest"], name: "index_filters_on_creator_id_and_params_digest", unique: true
+  end
+
+  create_table "filters_stages", id: false, force: :cascade do |t|
+    t.integer "filter_id", null: false
+    t.integer "stage_id", null: false
+    t.index ["filter_id"], name: "index_filters_stages_on_filter_id"
+    t.index ["stage_id"], name: "index_filters_stages_on_stage_id"
   end
 
   create_table "filters_tags", id: false, force: :cascade do |t|
