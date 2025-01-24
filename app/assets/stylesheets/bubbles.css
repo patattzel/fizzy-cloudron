@@ -402,8 +402,10 @@
   --border-size: 2px;
   --divider-color: var(--color-subtle-dark);
 
+  block-size: calc(100% + 4ch);
   font-size: 1rem;
   cursor: grab;
+  margin-inline: -1rem;
   visibility: hidden;
 }
 
