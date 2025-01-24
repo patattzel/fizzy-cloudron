@@ -1,13 +1,17 @@
 <% cache notification do %>
   <%= notification_tag notification do %>
     <div class="notification__content border-radius borderless pad shadow fill-white flex align-start txt-align-start gap-half">
-      <div class="avatar txt-small">
+      <div class="avatar txt-small flex-item-no-shrink">
         <%= avatar_image_tag(notification.creator) %>
       </div>
 
-      <div class="flex flex-column txt-tight-lines">
-        <strong><%= notification_title(notification) %></strong>
-        <div><%= notification_body(notification) %> · <%= local_datetime_tag(notification.created_at, style: :ago) %></div>
+      <div class="flex flex-column txt-tight-lines min-width flex-item-grow">
+        <strong class="overflow-ellipsis"><%= notification_title(notification) %></strong>
+        <div class="overflow-ellipsis"><%= notification_body(notification) %> · <%= local_datetime_tag(notification.created_at, style: :ago) %></div>
+      </div>
+
+      <div class="notification__unread_indicator flex flex-column flex-item-justify-end">
+        <div class="dot flex-item-no-shrink"></div>
       </div>
     </div>
   <% end %>
