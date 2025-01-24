@@ -4,6 +4,8 @@ module NotificationsHelper
 
     if notification.resource.is_a? Comment
       "RE: " + title
+    elsif notification_event_action(notification) == "assigned"
+      "Assigned to you: " + title
     else
       title
     end
@@ -13,7 +15,6 @@ module NotificationsHelper
     name = notification.creator.name
 
     case notification_event_action(notification)
-    when "assigned" then "#{name} assigned to you"
     when "popped" then "Popped by by #{name}"
     when "published" then "Added by #{name}"
     else name
