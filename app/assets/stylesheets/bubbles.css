@@ -402,10 +402,10 @@
   --border-size: 2px;
   --divider-color: var(--color-subtle-dark);
 
-  block-size: calc(100% + 4ch);
+  block-size: calc(100% + 12ch);
   font-size: 1rem;
   cursor: grab;
-  margin-inline: -1rem;
+  margin-inline: -6ch;
   visibility: hidden;
 }
 
@@ -431,9 +431,11 @@
 }
 
 .bubbles-list__count {
-  background-color: var(--divider-color);
-  color: var(--color-ink-reversed);
-  padding: 0.1em 0.7em;
+  --btn-background: var(--divider-color);
+  --btn-color: var(--color-ink-reversed);
+  --btn-gap: 0.5ch;
+  --btn-icon-size: 1em;
+  --btn-padding: 0.1em 1em 0.1em 0.7em;
 }
 
 .bubble__title-text {
