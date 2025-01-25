@@ -18,13 +18,18 @@
 <% end %>
 
 <div id="activity">
-  <div class="center flex-inline margin-block-end">
-    <select class="input center input--select">
-      <option value="today">All Projects</option>
+  <div class="center flex-inline align-center gap margin-block-end">
+      <button class="btn">
+        <span>All Projects</span>
+        <input type="checkbox" checked>
+      </button>
+
       <% Bucket.all.each do |bucket| %>
-        <option value="<%= bucket.id %>"><%= bucket.name %></option>
+        <button class="btn">
+          <span><%= bucket.name %></span>
+          <input type="checkbox">
+        </button>
       <% end %>
-    </select>
   </div>
   <%= render "events/day", activity_day: @activity_day, next_day: @next_day, events: @events %>
 </div>
