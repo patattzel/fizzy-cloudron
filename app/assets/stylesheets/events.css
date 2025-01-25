@@ -12,10 +12,10 @@
   display: contents;
 
   /* FIXME re-enable this once we can set grid-column-start and grid-row-start on the cluster element */
-  
+
   /* &:has(.event + .event) {
     display: grid;
-    grid-row-start: 12;
+    gap: var(--inline-space);
     padding-block: var(--block-space-half);
 
     .event {
