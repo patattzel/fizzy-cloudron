@@ -1,18 +1,21 @@
 <div class="events--day margin-block-end-double pad-block-end">
-  <h2 class="txt-x-large margin-block-end"><%= event_day_title(activity_day) %></h2>
+  <% if events.any? %>
+    <h2 class="txt-x-large margin-block-end"><%= event_day_title(activity_day) %></h2>
 
-  <div class="center events">
-    <%= render_column_headers %>
-    <%= render_event_grid_cells(activity_day) %>
-    <%= render_time_labels(activity_day) %>
+    <div class="center events">
+      <%= render_column_headers %>
+      <%= render_event_grid_cells(activity_day) %>
+      <%= render_time_labels(activity_day) %>
 
-    <% events.each do | hour_column, cluster| %>
-      <%= event_cluster_tag(*hour_column) do %>
-        <%= render cluster %>
+      <% events.each do | hour_column, cluster| %>
+        <%= event_cluster_tag(*hour_column) do %>
+          <%= render cluster %>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
 
-  </div>
-
-  <p class="events--none txt-align-center">No activity for this day.</p>
+    <%= render "events/empty_days", earliest: next_day&.tomorrow&.beginning_of_day, latest: activity_day.yesterday.beginning_of_day %>
+  <% else %>
+    <%= render "events/empty_days", earliest: next_day&.tomorrow&.beginning_of_day, latest: activity_day.beginning_of_day %>
+  <% end %>
 </div>

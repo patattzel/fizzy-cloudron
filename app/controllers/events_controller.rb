@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   def index
     @events = unique_events_by_hour_and_column
-    @next_day = @activity_day.yesterday.strftime("%Y-%m-%d")
+    @next_day = latest_event_before_today&.created_at
   end
 
   private
@@ -12,11 +12,19 @@ class EventsController < ApplicationController
     end
 
     def events_by_hour_and_column
-      user_events.group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }
+      todays_events.group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }
+    end
+
+    def todays_events
+      user_events.where(created_at: @activity_day.all_day)
+    end
+
+    def latest_event_before_today
+      user_events.where(created_at: ...@activity_day.beginning_of_day).chronologically.last
     end
 
     def user_events
-      Event.where(bubble: user_bubbles).where(created_at: @activity_day.all_day)
+      Event.where(bubble: user_bubbles)
     end
 
     def user_bubbles
