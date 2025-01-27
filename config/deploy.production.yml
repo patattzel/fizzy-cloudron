@@ -1,0 +1,13 @@
+servers:
+  web:
+    hosts:
+      - once-fizzy-101
+  jobs:
+    hosts:
+      - once-fizzy-101
+
+proxy:
+  host: fizzy.37signals.com
+
+ssh:
+  user: app
