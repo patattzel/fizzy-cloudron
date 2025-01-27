@@ -1,0 +1,25 @@
+service: fizzy
+image: fizzy
+
+servers:
+  jobs:
+    cmd: bin/jobs
+
+volumes:
+  - fizzy:/rails/storage
+
+proxy:
+  ssl: true
+
+registry:
+  server: registry.kevinmcconnell.dev
+  username: admin
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+env:
+  secret:
+    - SECRET_KEY_BASE

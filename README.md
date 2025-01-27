@@ -1,24 +1,26 @@
-# README
+# Fizzy
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setting up for development
 
-Things you may want to cover:
+First get everything installed and configured with:
 
-* Ruby version
+    bin/setup
 
-* System dependencies
+And then run the development server:
 
-* Configuration
+    bin/dev
 
-* Database creation
+You'll be able to access the app in development at http://localhost:3006.
 
-* Database initialization
 
-* How to run the test suite
+## Deploying
 
-* Services (job queues, cache servers, search engines, etc.)
+Fizzy is deployed with Kamal. You'll need to have the 1Password CLI set up in order to access the secrets that are used when deploying. Provided you have that, it should be as simple as `bin/kamal deploy` to the correct environment.
 
-* Deployment instructions
+For beta:
 
-* ...
+    bin/kamal deploy -d beta
+
+And for production:
+
+    bin/kamal deploy -d production

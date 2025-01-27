@@ -13,6 +13,7 @@ gem "hotwire_combobox", github: "josefarias/hotwire_combobox", branch: :main
 
 # Deployment and drivers
 gem "bootsnap", require: false
+gem "kamal", require: false
 gem "puma", ">= 5.0"
 gem "solid_cable", ">= 3.0"
 gem "solid_cache", "~> 1.0"
