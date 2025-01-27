@@ -26,7 +26,9 @@
 }
 
 .events--none {
-  padding: calc(3 * var(--block-space));
+  .events + & {
+    padding-block-start: calc(4 * var(--block-space));
+  }
 }
 
 .event-grid-item {
@@ -63,4 +65,8 @@
     text-transform: uppercase;
     transform: translate(-50%, 0);
   }
+}
+
+.events__index {
+  --row-gap: calc(4 * var(--block-space));
 }

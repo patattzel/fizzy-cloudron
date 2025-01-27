@@ -1,15 +1,15 @@
 <% if earliest.present? %>
   <% if earliest == latest %>
-    <div class="events--none txt-align-center">
-      <h2><%= event_day_title(earliest) %></h2>
-      <p>No activity</p>
+    <div class="events--none txt-align-center translucent">
+      <h2 class="txt-medium margin-none"><%= event_day_title(earliest) %></h2>
+      <p class="margin-none">No activity</p>
     </div>
   <% elsif earliest < latest %>
-    <div class="events--none txt-align-center">
-      <h2><%= event_day_title(earliest) %> - <%= event_day_title(latest) %></h2>
-      <p>No activity for <%= (latest - earliest).seconds.in_days.round + 1 %> days</p>
+    <div class="events--none txt-align-center translucent">
+      <h2 class="txt-medium margin-none"><%= event_day_title(earliest) %> – <%= event_day_title(latest) %></h2>
+      <p class="margin-none">No activity for <%= (latest - earliest).seconds.in_days.round + 1 %> days</p>
     </div>
   <% end %>
 <% else %>
-  <p class="events--none txt-align-center">No more activity.</p>
+  <p class="events--none txt-align-center translucent">No more activity.</p>
 <% end %>
