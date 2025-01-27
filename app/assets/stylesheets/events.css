@@ -9,9 +9,7 @@
 }
 
 .event--cluster {
-  /* FIXME re-enable this once we can set grid-column-start and grid-row-start on the cluster element */
-
-  /* &:has(.event + .event) {
+  &:has(.event + .event) {
     display: grid;
     gap: var(--inline-space);
     padding-block: var(--block-space-half);
@@ -20,7 +18,7 @@
       grid-column-start: unset !important;
       grid-row-start: unset !important;
     }
-  } */
+  }
 }
 
 .event {
