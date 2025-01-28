@@ -8,6 +8,6 @@ class ReadingsController < ApplicationController
 
   private
     def mark_bubble_notifications_read
-      Current.user.notifications.where(bubble: @bubble).read_all
+      Current.user.notifications.unread.where(bubble: @bubble).read_all
     end
 end
