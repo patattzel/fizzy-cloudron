@@ -35,9 +35,9 @@ module EventsHelper
     end
   end
 
-  def render_event_grid_cells(day, columns: 4, rows: 24)
+  def render_event_grid_cells(day, columns: 4, rows: 25)
     safe_join((2..rows + 1).map do |row|
-      current_hour = row == 25 - Time.current.hour && day.today?
+      current_hour = row == 26 - Time.current.hour && day.today?
       (1..columns).map do |col|
         tag.div class: class_names("event-grid-item", "current-hour": current_hour), style: "grid-area: #{row}/#{col};"
       end
@@ -58,7 +58,7 @@ module EventsHelper
           datetime: time.strftime("%H:%M")
         ),
         class: "event-grid-time",
-        style: "grid-area: #{25 - (hour * 23/24)}/2 / #{25 - (hour * 23/24)}/4;"
+        style: "grid-area: #{26 - (hour * 24/24)}/2 / #{26 - (hour * 24/24)}/4;"
       )
     end)
   end
