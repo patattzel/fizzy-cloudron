@@ -8,15 +8,9 @@ class EventsController < ApplicationController
 
   private
     def unique_events_by_hour_and_column
-      events_by_hour_and_column.map { |hour_col, events| [ hour_col, events.uniq(&:bubble_id) ] }
-    end
-
-    def events_by_hour_and_column
-      todays_events.group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }
-    end
-
-    def todays_events
-      user_events.where(created_at: @activity_day.all_day)
+      user_events.where(created_at: @activity_day.all_day).
+        group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }.
+        map { |hour_col, events| [ hour_col, events.uniq(&:bubble_id) ] }
     end
 
     def latest_event_before_today
