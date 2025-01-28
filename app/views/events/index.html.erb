@@ -1,0 +1,24 @@
+<% @page_title = "Latest Activity" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Go back</span>
+    <% end %>
+
+    <header class="txt-align-center">
+      <h1 class="txt-large flex align-center gap-half">
+        <%= @page_title %>
+      </h1>
+    </header>
+
+    <span class="btn btn--placeholder flex-item-justify-end"></span>
+  </nav>
+<% end %>
+
+<div id="activity" class="events__index flex flex-column gap">
+  <%= render "events/day", activity_day: @activity_day, next_day: @next_day, events: @events %>
+</div>
+
+<%= event_next_page_link(@next_day) %>

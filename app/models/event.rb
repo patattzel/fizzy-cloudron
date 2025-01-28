@@ -3,6 +3,7 @@ class Event < ApplicationRecord
 
   belongs_to :creator, class_name: "User"
   belongs_to :summary, touch: true, class_name: "EventSummary"
+  belongs_to :bubble
 
   has_one :account, through: :creator
 

@@ -8,7 +8,9 @@ class Notifier::AssignedTest < ActiveSupport::TestCase
   end
 
   test "does not notify for self-assignments" do
-    event = EventSummary.last.events.create! action: :assigned,
+    event = EventSummary.last.events.create! \
+      action: :assigned,
+      bubble: bubbles(:logo),
       creator: users(:kevin),
       particulars: { assignee_ids: [ users(:kevin).id ] }
 
