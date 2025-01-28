@@ -5,11 +5,14 @@
     <div class="center events">
       <%= render_column_headers %>
       <%= render_event_grid_cells(activity_day) %>
-      <%= render_time_labels(activity_day) %>
 
       <% events.each do | hour_column, cluster| %>
         <%= event_cluster_tag(*hour_column) do %>
           <%= render cluster %>
+
+          <time class="txt-small translucent" data-local-time-target="time" datetime="<%= cluster.first.created_at.strftime("%H:%M") %>">
+            <%= cluster.first.created_at.strftime("%l:%M %P").strip %>
+          </time>
         <% end %>
       <% end %>
     </div>

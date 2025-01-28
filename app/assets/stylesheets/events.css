@@ -1,5 +1,5 @@
 .events {
-  --grid-lines: 3px;
+  --grid-lines: 0.3em;
 
   border-block-start: 1px solid var(--color-subtle);
   display: grid;
@@ -9,15 +9,20 @@
 }
 
 .event--cluster {
-  &:has(.event + .event) {
-    display: grid;
-    gap: var(--inline-space);
-    padding-block: var(--block-space-half);
+  align-content: end;
+  display: grid;
+  gap: var(--grid-lines);
+  justify-items: center;
+  padding: calc(var(--grid-lines) / 2);
 
-    .event {
-      grid-column-start: unset !important;
-      grid-row-start: unset !important;
-    }
+  .event {
+    grid-column-start: unset !important;
+    grid-row-start: unset !important;
+  }
+
+  time {
+    display: grid;
+    align-self: start;
   }
 }
 
@@ -42,11 +47,7 @@
   border-radius: 0;
   display: flex;
   inline-size: 100%;
-  min-block-size: 3px;
-}
-
-.event-grid-time {
-  display: none;
+  margin: var(--grid-lines);
 }
 
 .events__index {

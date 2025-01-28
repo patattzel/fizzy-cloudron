@@ -35,25 +35,12 @@ module EventsHelper
     end
   end
 
-  def render_event_grid_cells(day, columns: 4, rows: 25)
+  def render_event_grid_cells(day, columns: 4, rows: 24)
     safe_join((2..rows + 1).map do |row|
-      current_hour = row == 26 - Time.current.hour && day.today?
       (1..columns).map do |col|
-        tag.div class: class_names("event-grid-item", "current-hour": current_hour), style: "grid-area: #{row}/#{col};"
+        tag.div class: class_names("event-grid-item"), style: "grid-area: #{row}/#{col};"
       end
     end.flatten)
-  end
-
-  def render_time_labels(day)
-    time = day.beginning_of_day + 12.hours
-    content_tag(:div,
-      content_tag(:time,
-        "Noon",
-        datetime: time.strftime("%H:%M")
-      ),
-      class: "event-grid-time",
-      style: "grid-area: #{26 - 12}/2 / #{26 - 12}/4;"
-    )
   end
 
   def render_column_headers
