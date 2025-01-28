@@ -45,22 +45,15 @@ module EventsHelper
   end
 
   def render_time_labels(day)
-    safe_join((0..24).step(6).to_a.map do |hour|
-      time = day.beginning_of_day + hour.hours
-      label = if hour == 24
-        "midnight"
-      else
-        time.strftime("%l:%M %P").strip
-      end
-      content_tag(:div,
-        content_tag(:time,
-          label,
-          datetime: time.strftime("%H:%M")
-        ),
-        class: "event-grid-time",
-        style: "grid-area: #{26 - (hour * 24/24)}/2 / #{26 - (hour * 24/24)}/4;"
-      )
-    end)
+    time = day.beginning_of_day + 12.hours
+    content_tag(:div,
+      content_tag(:time,
+        "Noon",
+        datetime: time.strftime("%H:%M")
+      ),
+      class: "event-grid-time",
+      style: "grid-area: #{26 - 12}/2 / #{26 - 12}/4;"
+    )
   end
 
   def render_column_headers
