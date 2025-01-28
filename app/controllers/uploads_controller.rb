@@ -9,7 +9,7 @@ class UploadsController < ApplicationController
   end
 
   def show
-    expires_in 1.year, public: true
+    expires_in 5.minutes, public: true
     redirect_to @attachment.url
   end
 
