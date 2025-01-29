@@ -46,6 +46,11 @@
   z-index: 1;
 }
 
+.event__timestamp {
+  display: grid;
+  align-self: start;
+}
+
 .event__wrapper {
   align-content: end;
   display: grid;
@@ -57,10 +62,5 @@
   .event {
     grid-column-start: unset !important;
     grid-row-start: unset !important;
-  }
-
-  time {
-    display: grid;
-    align-self: start;
   }
 }

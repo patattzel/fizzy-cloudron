@@ -12,7 +12,7 @@
         <%= event_cluster_tag(*hour_column) do %>
           <%= render cluster %>
 
-          <time class="txt-small translucent" data-local-time-target="time" datetime="<%= cluster.first.created_at.strftime("%H:%M") %>">
+          <time class="event__timestamp txt-small translucent" data-local-time-target="time" datetime="<%= cluster.first.created_at.strftime("%H:%M") %>">
             <%= cluster.first.created_at.strftime("%l:%M %P").strip %>
           </time>
         <% end %>
