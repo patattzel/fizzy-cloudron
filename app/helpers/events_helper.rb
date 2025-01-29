@@ -48,4 +48,19 @@ module EventsHelper
       content_tag(:h3, header, class: "event__grid-column-title margin-block-end-half position-sticky")
     end.join.html_safe
   end
+
+  def event_action_sentence(event)
+    case event.action
+    when "assigned"
+      "Assigned to #{ event.assignees.pluck(:name).to_sentence }"
+    when "boosted"
+      "Boosted by #{ event.creator.name }"
+    when "commented"
+      "#{ event.creator.name } replied"
+    when "published"
+      "Added by #{ event.creator.name }"
+    when "popped"
+      "Popped by #{ event.creator.name }"
+    end
+  end
 end
