@@ -61,6 +61,20 @@ module EventsHelper
       "Added by #{ event.creator.name }"
     when "popped"
       "Popped by #{ event.creator.name }"
+    when "staged"
+      "#{event.creator.name} moved to #{event.stage_name}."
+    end
+    # FIXME: Should track dates(added/changed) and perhaps "renamed"
+  end
+
+  def event_action_icon(event)
+    case event.action
+    when "assigned"
+      "arrow-right"
+    when "boosted"
+      "thumb-up"
+    when "staged"
+      "bolt"
     end
   end
 end
