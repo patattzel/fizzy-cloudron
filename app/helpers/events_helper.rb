@@ -38,14 +38,14 @@ module EventsHelper
   def render_event_grid_cells(day, columns: 4, rows: 24)
     safe_join((2..rows + 1).map do |row|
       (1..columns).map do |col|
-        tag.div class: class_names("event-grid-item"), style: "grid-area: #{row}/#{col};"
+        tag.div class: class_names("event__grid-item"), style: "grid-area: #{row}/#{col};"
       end
     end.flatten)
   end
 
   def render_column_headers
     [ "Touched", "Discussed", "Added", "Popped" ].map do |header|
-      content_tag(:h3, header, class: "event-grid-column-title margin-block-end-half position-sticky")
+      content_tag(:h3, header, class: "event__grid-column-title margin-block-end-half position-sticky")
     end.join.html_safe
   end
 end
