@@ -47,8 +47,9 @@
 }
 
 .event__timestamp {
-  display: grid;
   align-self: start;
+  display: grid;
+  margin-block-start: calc(var(--grid-lines) * -1);
 }
 
 .event__wrapper {
