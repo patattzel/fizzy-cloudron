@@ -1,29 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["related"]
   static classes = ["highlight"]
+  static values = { group: String }
   
   highlight(event) {
-    const targetElement = event.target.closest('[data-related-element-target]')
-    if (!targetElement) return
+    const groupValue = event.currentTarget.dataset.relatedElementGroupValue
     
-    const targetValue = targetElement.dataset.relatedElementTarget
-    const relatedElements = this.element.querySelectorAll(`[data-related-element-target="${targetValue}"]`)
-    
-    relatedElements.forEach(element => {
-      element.classList.add(this.highlightClass)
-    })
+    this.relatedTargets
+      .filter(element => element.dataset.relatedElementGroupValue === groupValue)
+      .forEach(element => element.classList.add(this.highlightClass))
   }
 
   unhighlight(event) {
-    const targetElement = event.target.closest('[data-related-element-target]')
-    if (!targetElement) return
+    const groupValue = event.currentTarget.dataset.relatedElementGroupValue
     
-    const targetValue = targetElement.dataset.relatedElementTarget
-    const relatedElements = this.element.querySelectorAll(`[data-related-element-target="${targetValue}"]`)
-    
-    relatedElements.forEach(element => {
-      element.classList.remove(this.highlightClass)
-    })
+    this.relatedTargets
+      .filter(element => element.dataset.relatedElementGroupValue === groupValue)
+      .forEach(element => element.classList.remove(this.highlightClass))
   }
 }
