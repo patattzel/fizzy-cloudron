@@ -8,7 +8,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   test "index" do
     get events_url
 
-    assert_select "div.event--wrapper[style='grid-area: 9/1']" do
+    assert_select "div.event__wrapper[style='grid-area: 9/1']" do
       assert_select "strong", text: "Layout is broken"
     end
   end
@@ -18,7 +18,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
     get events_url
 
-    assert_select "div.event--wrapper[style='grid-area: 14/1']" do
+    assert_select "div.event__wrapper[style='grid-area: 14/1']" do
       assert_select "strong", text: "Layout is broken"
     end
   end
