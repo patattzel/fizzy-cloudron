@@ -10,6 +10,13 @@
       <% events.each do | hour_column, cluster| %>
         <%= event_cluster_tag(*hour_column) do %>
           <%= render cluster %>
+
+          <span class="flex gap-half txt-x-small">
+            <% cluster.map(&:creator).uniq.each do |creator| %>
+              <%= avatar_tag creator, loading: :lazy %>
+            <% end %>
+          </span>
+
           <%= local_datetime_tag cluster.first.created_at, class: "event__timestamp txt-small translucent" %>
         <% end %>
       <% end %>
