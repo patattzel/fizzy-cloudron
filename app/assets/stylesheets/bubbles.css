@@ -239,10 +239,10 @@
 
 .bubble__container {
   inline-size: min(67ch, 75vw);
-  max-inline-size: 100vw;
+  max-inline-size: 100dvw;
 
   @media (max-width: 70ch) {
-    inline-size: min(67ch, 100vw);
+    inline-size: min(67ch, 100dvw);
   }
 }
 
