@@ -36,8 +36,27 @@ class MarkdownRenderer < Redcarpet::Render::HTML
     block_code(code, language) # call Rouge Redcarpet plugin
   end
 
+  def link(url, title, content)
+    attributes = { href: url }
+    attributes[:title] = title if title
+    attributes["data-turbo-frame"] = "_top"
+
+    "<a #{html_attributes(attributes)}>#{content}</a>"
+  end
+
+  def autolink(url, link_type)
+    attributes = { href: url }
+    attributes["data-turbo-frame"] = "_top"
+
+    "<a #{html_attributes(attributes)}>#{url}</a>"
+  end
+
   private
     attr_reader :id_counts
+
+    def html_attributes(attributes)
+      attributes.map { |key, value| %Q(#{key}="#{value}") }.join(" ")
+    end
 
     def unique_id(text)
       text.parameterize.then do |base_id|
