@@ -3,9 +3,7 @@
     <div class="comment__author flex align-center gap-half">
       <strong><%= link_to comment.creator.name, user_path(comment.creator), class: "txt-ink btn btn--plain", data: { turbo_frame: "_top" } %></strong>
       <%= link_to bucket_bubble_path(comment.bubble.bucket, comment.bubble, anchor: "comment_#{comment.id}"), class: "txt-undecorated" do %>
-        <%= tag.time comment.created_at, class: "comment__timestamp" do %>
-          <%= comment.created_at.strftime("%b %d") %>
-        <% end %>
+        <%= local_datetime_tag comment.created_at, style: :shortdate, class: "comment__timestamp" %>
       <% end %>
 
       <% if comment.creator == Current.user %>

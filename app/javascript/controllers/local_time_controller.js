@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["time", "date", "datetime", "ago"]
+  static targets = ["time", "date", "datetime", "shortdate", "ago"]
 
   initialize() {
     this.timeFormatter = new Intl.DateTimeFormat(undefined, { timeStyle: "short" })
     this.dateFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: "long" })
+    this.shortDateFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" })
     this.dateTimeFormatter = new Intl.DateTimeFormat(undefined, { timeStyle: "short", dateStyle: "short" })
     this.agoFormatter = new AgoFormatter()
   }
@@ -20,6 +21,10 @@ export default class extends Controller {
 
   datetimeTargetConnected(target) {
     this.#formatTime(this.dateTimeFormatter, target)
+  }
+
+  shortdateTargetConnected(target) {
+    this.#formatTime(this.shortDateFormatter, target)
   }
 
   agoTargetConnected(target) {
