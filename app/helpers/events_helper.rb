@@ -53,6 +53,8 @@ module EventsHelper
     case event.action
     when "assigned"
       "Assigned to #{ event.assignees.pluck(:name).to_sentence }"
+    when "unassigned"
+      "Unassigned #{ event.assignees.pluck(:name).to_sentence }"
     when "boosted"
       "Boosted by #{ event.creator.name }"
     when "commented"
@@ -75,6 +77,10 @@ module EventsHelper
       "thumb-up"
     when "staged"
       "bolt"
+    when "unassigned"
+      "remove-med"
+    else
+      "check"
     end
   end
 end
