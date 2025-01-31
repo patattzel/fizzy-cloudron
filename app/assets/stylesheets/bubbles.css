@@ -349,6 +349,7 @@
 .bubbles-list {
   --bubble-size: 1.8em;
   --bubble-shift: 15deg;
+  --divider-offset: 1.2em;
   --hover-size: 0;
 
   font-size: var(--text-medium);
@@ -364,6 +365,8 @@
   }
 
   ul {
+    margin-inline: var(--divider-offset);
+
     li {
       border-radius: 0.6em;
       list-style: none;
@@ -402,7 +405,7 @@
   block-size: calc(100% + 12ch);
   font-size: 1rem;
   cursor: grab;
-  margin-inline: -6ch;
+  margin-inline: calc(var(--divider-offset) * -1);
   visibility: hidden;
 }
 
