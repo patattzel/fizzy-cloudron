@@ -71,6 +71,8 @@ module EventsHelper
       "#{event.creator.name} changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}"
     when "due_date_removed"
       "#{event.creator.name} removed the date"
+    when "title_changed"
+      "#{event.creator.name} renamed this (was: '#{event.particulars.dig('particulars', 'old_title')})'"
     end
   end
 
@@ -87,7 +89,7 @@ module EventsHelper
     when "due_date_added", "due_date_changed"
       "calendar"
     else
-      "check"
+      "person"
     end
   end
 end

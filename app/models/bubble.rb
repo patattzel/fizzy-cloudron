@@ -11,6 +11,7 @@ class Bubble < ApplicationRecord
 
   before_save :set_default_title
   after_save :track_due_date_change, if: :saved_change_to_due_on?
+  after_save :track_title_change, if: :saved_change_to_title?
 
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
@@ -42,6 +43,15 @@ class Bubble < ApplicationRecord
         end
       elsif due_on_before_last_save.present?
         track_event("due_date_removed")
+      end
+    end
+
+    def track_title_change
+      if title_before_last_save.present?
+        track_event("title_changed", particulars: {
+          old_title: title_before_last_save,
+          new_title: title
+        })
       end
     end
 
