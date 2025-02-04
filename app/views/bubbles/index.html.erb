@@ -15,7 +15,14 @@
     </header>
 
     <% if @filter.buckets.one? %>
-      <%= button_to bucket_bubbles_path(@filter.buckets.first), method: :post, class: "btn", form_class: "flex-item-justify-end" do %>
+      <% bucket = @filter.buckets.first %>
+
+      <%= link_to edit_bucket_path(bucket), class: "btn flex-item-justify-end" do %>
+        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Settings for <%= bucket.name %></span>
+      <% end %>
+
+      <%= button_to bucket_bubbles_path(bucket), method: :post, class: "btn" do %>
         <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">Create a new bubble</span>
       <% end %>
