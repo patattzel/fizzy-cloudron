@@ -1,12 +1,27 @@
 version: 2
+
+registries:
+  github-basecamp:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{secrets.GH_TOKEN}}
+
 updates:
-- package-ecosystem: bundler
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+  - package-ecosystem: bundler
+    registries:
+      - github-basecamp
+    directory: "/"
+    insecure-external-code-execution: allow
+    open-pull-requests-limit: 10
+    vendor: false
+    groups:
+      development-dependencies:
+        dependency-type: "development"
+    schedule:
+      interval: daily
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
