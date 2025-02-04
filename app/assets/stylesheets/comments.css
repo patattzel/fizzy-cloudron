@@ -15,11 +15,13 @@
   max-inline-size: 66ch;
   margin-block: var(--comment-padding-block);
   margin-inline: 0 auto;
+  position: relative;
 }
 
 .comment__avatar {
   margin-block-start: calc(var(--comment-padding-block) * 0.5);
   margin-inline: auto calc(var(--comment-padding-inline) * -0.75);
+  z-index: 0;
 
   .comment--mine & {
     margin-inline: calc(var(--comment-padding-inline) * -0.75) auto;
