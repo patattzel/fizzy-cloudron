@@ -52,27 +52,27 @@ module EventsHelper
   def event_action_sentence(event)
     case event.action
     when "assigned"
-      "Assigned to #{ event.assignees.pluck(:name).to_sentence }"
+      "Assigned to <strong>#{ event.assignees.pluck(:name).to_sentence }</strong>".html_safe
     when "unassigned"
-      "Unassigned #{ event.assignees.pluck(:name).to_sentence }"
+      "Unassigned <strong>#{ event.assignees.pluck(:name).to_sentence }</strong>".html_safe
     when "boosted"
-      "Boosted by #{ event.creator.name }"
+      "Boosted by <strong>#{ event.creator.name }</strong>".html_safe
     when "commented"
-      "#{ strip_tags(event.comment.body_html).blank? ? "#{ event.creator.name } replied." : "#{ event.creator.name }:" } #{ strip_tags(event.comment.body_html).truncate(200) }"
+      "#{ strip_tags(event.comment.body_html).blank? ? "<strong>#{ event.creator.name }</strong> replied.".html_safe : "<strong>#{ event.creator.name }:</strong>" } #{ strip_tags(event.comment.body_html).truncate(200) }".html_safe
     when "published"
-      "Added by #{ event.creator.name }"
+      "Added by <strong>#{ event.creator.name }</strong>".html_safe
     when "popped"
-      "Popped by #{ event.creator.name }"
+      "Popped by <strong>#{ event.creator.name }</strong>".html_safe
     when "staged"
-      "#{event.creator.name} moved to #{event.stage_name}."
+      "<strong>#{event.creator.name}</strong> moved to #{event.stage_name}.".html_safe
     when "due_date_added"
-      "#{event.creator.name} set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}"
+      "<strong>#{event.creator.name}</strong> set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}".html_safe
     when "due_date_changed"
-      "#{event.creator.name} changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}"
+      "<strong>#{event.creator.name}</strong> changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}".html_safe
     when "due_date_removed"
       "#{event.creator.name} removed the date"
     when "title_changed"
-      "#{event.creator.name} renamed this (was: '#{event.particulars.dig('particulars', 'old_title')})'"
+      "<strong>#{event.creator.name}</strong> renamed this (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
     end
   end
 
