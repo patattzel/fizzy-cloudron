@@ -1,3 +1,5 @@
-<div class="event-summary flex flex-wrap align-start center" data-controller="event-summary">
-  <%= event_summary.body %>
-</div>
+<% unless event_summary.body.blank? %>
+  <div class="event-summary flex flex-wrap align-start center" data-controller="event-summary">
+    <%= event_summary.body %>
+  </div>
+<% end %>
