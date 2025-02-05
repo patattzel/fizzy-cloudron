@@ -11,8 +11,10 @@ class Taggings::TogglesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to bubbles(:logo)
 
-    assert_changes "bubbles(:logo).tagged_with?(tags(:mobile))", from: true, to: false do
-      post bucket_bubble_tagging_toggles_url(buckets(:writebook), bubbles(:logo)), params: { tag_id: tags(:mobile).id }
+    assert_changes "bubbles(:logo).tagged_with?(tags(:web))", from: false, to: true do
+      assert_changes "bubbles(:logo).tagged_with?(tags(:mobile))", from: true, to: false do
+        post bucket_bubble_tagging_toggles_url(buckets(:writebook), bubbles(:logo)), params: { tag_id: tags(:web).id }
+      end
     end
     assert_redirected_to bubbles(:logo)
   end
