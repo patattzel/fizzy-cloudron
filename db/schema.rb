@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_02_04_211520) do
+ActiveRecord::Schema[8.1].define(version: 2025_02_06_141302) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -106,7 +106,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_04_211520) do
     t.integer "stage_id"
     t.integer "comments_count", default: 0, null: false
     t.integer "activity_score", default: 0, null: false
-    t.text "status", default: "drafted", null: false
+    t.text "status", default: "creating", null: false
     t.index ["bucket_id"], name: "index_bubbles_on_bucket_id"
     t.index ["stage_id"], name: "index_bubbles_on_stage_id"
   end

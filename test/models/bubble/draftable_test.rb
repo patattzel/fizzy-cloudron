@@ -1,19 +1,26 @@
 require "test_helper"
 
 class Bubble::DraftableTest < ActiveSupport::TestCase
-  test "bubbles are only visible to the creator by default" do
-    bubble = buckets(:writebook).bubbles.create! creator: users(:kevin), title: "Drafted Bubble"
+  test "bubbles start out in a `creating` state" do
+    bubble = buckets(:writebook).bubbles.create! creator: users(:kevin), title: "Newly created bubble"
 
-    assert bubble.drafted?
+    assert bubble.creating?
+    assert_not_includes Bubble.published_or_drafted_by(users(:kevin)), bubble
+    assert_not_includes Bubble.published_or_drafted_by(users(:jz)), bubble
+  end
+
+  test "bubbles are only visible to the creator when drafted" do
+    bubble = buckets(:writebook).bubbles.create! creator: users(:kevin), title: "Drafted Bubble"
+    bubble.drafted!
+
     assert_includes Bubble.published_or_drafted_by(users(:kevin)), bubble
     assert_not_includes Bubble.published_or_drafted_by(users(:jz)), bubble
   end
 
   test "bubbles are visible to everyone when published" do
-    bubble = buckets(:writebook).bubbles.create! creator: users(:kevin), title: "Drafted Bubble"
+    bubble = buckets(:writebook).bubbles.create! creator: users(:kevin), title: "Published Bubble"
     bubble.published!
 
-    assert bubble.published?
     assert_includes Bubble.published_or_drafted_by(users(:kevin)), bubble
     assert_includes Bubble.published_or_drafted_by(users(:jz)), bubble
   end
