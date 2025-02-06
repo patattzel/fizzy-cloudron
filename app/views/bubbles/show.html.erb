@@ -24,7 +24,7 @@
   </nav>
 <% end %>
 
-<aside class="flex align-start justify-end" style="--bubble-color: <%= @bubble.color %>">
+<aside class="flex align-start justify-start" style="--bubble-color: <%= @bubble.color %>">
   <div class="flex flex-column" style="row-gap: 3px;">
     <%= render "bubbles/color", bubble: @bubble %>
 
@@ -90,7 +90,7 @@
   <%= render "bubbles/messages", bubble: @bubble %>
 </div>
 
-<div class="flex align-start justify-start">
+<div class="flex align-start justify-end">
   <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
 </div>
 
