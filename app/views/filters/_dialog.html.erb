@@ -62,7 +62,7 @@
           <li class="filter__label"><strong>In Project</strong></li>
 
           <li>
-            <%= button_tag "All Projects", type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
+            <%= button_tag "All Collections", type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %>
           </li>
           <% Current.user.buckets.order(:name).each do |bucket| %>
             <li>
@@ -162,7 +162,7 @@
     <div class="flex align-center txt-align-center justify-space-between gap-half margin-block-start">
       <%= tag.button class: "btn", form: :filter_form, formaction: filters_path, formmethod: :post do %>
         <%= image_tag "bubbles.svg", aria: { hidden: true }, size: 24 %>
-        <span>Save to home</span>
+        <span>Save collection</span>
       <% end %>
 
       <button class="btn btn--reversed" form="filter_form">

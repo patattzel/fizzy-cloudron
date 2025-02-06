@@ -2,7 +2,7 @@
     data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside turbo:before-cache@document->dialog#close">
   <h1 class="txt-x-large margin-none-block-end">
     <% if filter.buckets.none? %>
-      All projects
+      All collections
     <% elsif filter.buckets.one? %>
       <%= filter.buckets.first.name %>
     <% else %>
