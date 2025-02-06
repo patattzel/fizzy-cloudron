@@ -11,6 +11,10 @@ module Bubble::Draftable
     transaction do
       published!
       track_event :published
+
+      if assignments.any?
+        track_event :assigned, assignee_ids: assignee_ids
+      end
     end
   end
 end

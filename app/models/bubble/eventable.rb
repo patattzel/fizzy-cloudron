@@ -7,8 +7,10 @@ module Bubble::Eventable
 
   private
     def track_event(action, creator: Current.user, **particulars)
-      event = find_or_capture_event_summary.events.create! action: action, creator: creator, bubble: self, particulars: particulars
-      event.generate_notifications_later
+      if published?
+        event = find_or_capture_event_summary.events.create! action: action, creator: creator, bubble: self, particulars: particulars
+        event.generate_notifications_later
+      end
     end
 
     def find_or_capture_event_summary
