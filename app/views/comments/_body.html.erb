@@ -7,7 +7,7 @@
       <% end %>
 
       <% if comment.creator == Current.user %>
-        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), class: "btn txt-small btn--plain", style: "font-size: 0.4em; opacity: 0.5;" do %>
+        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), class: "btn txt-small btn--plain fill-transparent", style: "font-size: 0.4em; opacity: 0.5;" do %>
           <%= image_tag "menu-dots-horizontal.svg", class: "icon colorize--black" %>
           <span class="for-screen-reader">Edit</span>
         <% end %>
