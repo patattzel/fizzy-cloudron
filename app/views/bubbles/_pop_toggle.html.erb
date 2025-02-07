@@ -1,4 +1,4 @@
-<div class="bubble__pop-container center border-radius pad flex-inline align-center justify-center gap-half pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
+<div class="bubble__pop-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
   <% if bubble.popped? %>
     <% event = bubble.events.where(action: "popped").last %>
       <span class="bubble__pop-message">Popped by <%= "#{ event.creator.name } on #{ event.created_at.to_date.strftime('%B %-d') }" if event %>.</span>
@@ -13,7 +13,7 @@
     <% end %>
     <span class="bubble__pop-message">
       <% time_until_pop = (event&.created_at || bubble.created_at) + 30.days %>
-      (Pops automatically <%= Time.current >= time_until_pop ? "today" : "in #{distance_of_time_in_words(Time.current, time_until_pop)}" %>.)
+      Auto-pops <%= Time.current >= time_until_pop ? "today" : "in #{distance_of_time_in_words(Time.current, time_until_pop)}" %>.
     </span>
   <% end %>
 </div>
