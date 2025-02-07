@@ -1,8 +1,11 @@
-
 <div class="bubble__pop-container center border-radius pad flex-inline align-center justify-center gap-half pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
   <% if bubble.popped? %>
     <% event = bubble.events.where(action: "popped").last %>
-    <span class="bubble__pop-message">Popped by <%= event.creator.name %> on <%= event.created_at.to_date.strftime('%B %-d') %>.</span>
+    <% if event %>
+      <span class="bubble__pop-message">Popped by <%= event.creator.name %> on <%= event.created_at.to_date.strftime('%B %-d') %>.</span>
+    <% else %>
+      <span class="bubble__pop-message">Popped</span>
+    <% end %>
     <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), method: :delete, class: "btn btn--plain borderless fill-transparent" do %>
       <span>Un-pop</span>
     <% end %>
@@ -12,8 +15,10 @@
       <%= image_tag "pop.svg", aria: { hidden: true }, size: 24, class: "colorize--white" %>
       <span>Pop</span>
     <% end %>
-    <span class="bubble__pop-message">
-      (Pops automatically in <%= distance_of_time_in_words(Date.today, event.created_at + 30.days) %>.)
-    </span>
+    <% if event %>
+      <span class="bubble__pop-message">
+        (Pops automatically in <%= distance_of_time_in_words(Time.current, event.created_at + 30.days) %>.)
+      </span>
+    <% end %>
   <% end %>
 </div>
