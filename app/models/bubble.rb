@@ -9,7 +9,6 @@ class Bubble < ApplicationRecord
 
   has_one_attached :image, dependent: :purge_later
 
-  before_save :set_default_title
   after_save :track_due_date_change, if: :saved_change_to_due_on?
   after_save :track_title_change, if: :saved_change_to_title?
 
@@ -53,9 +52,5 @@ class Bubble < ApplicationRecord
           new_title: title
         })
       end
-    end
-
-    def set_default_title
-      self.title = title.presence || "Untitled"
     end
 end
