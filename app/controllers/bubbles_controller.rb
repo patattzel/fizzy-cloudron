@@ -22,7 +22,6 @@ class BubblesController < ApplicationController
 
   def destroy
     @bubble.destroy!
-
     redirect_to bubbles_path(bucket_ids: [ @bubble.bucket ]), notice: deleted_notice
   end
 
