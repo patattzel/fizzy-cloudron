@@ -1,6 +1,6 @@
 .popup {
-  --panel-border-radius: 2em;
-  --panel-padding: 0.4em 1em;
+  --panel-border-radius: 0.5em;
+  --panel-padding: 0.4em 0.5em 0.5em;
   --panel-size: auto;
 
   inset: 0 auto auto 0;
@@ -11,4 +11,70 @@
   &[open] {
     display: flex;
   }
+}
+
+.popup__item {
+  --btn-background: var(--color-subtle-light);
+  --btn-border-radius: 0.3em;
+  --btn-border-size: 0;
+  --btn-font-weight: 500;
+  --btn-padding: var(--inline-space-half) var(--inline-space-half) var(--inline-space-half) var(--inline-space);
+  --hover-size: 0;
+  --outline-color: transparent;
+
+  justify-content: start;
+
+  &::after {
+    border-radius: var(--btn-border-radius);
+    border: var(--btn-border-size) solid var(--btn-border-color, var(--color-subtle));
+    content: "";
+    display: block;
+    inline-size: calc(100% - var(--btn-padding) * 2);
+    block-size: calc(100% - var(--btn-padding) * 2);
+    
+  }
+
+  @media (any-hover: hover) {
+    &:where(:not(:active):hover) {
+      --btn-background: var(--color-selected);
+    }
+  }
+
+  &:has(input:checked)  {
+    --btn-background: var(--color-selected);
+    --btn-color: var(--color-ink);
+
+    img {
+      filter: invert(0);
+
+      &.checked {
+        display: block;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      img {
+        filter: invert(1);
+      }
+    }
+
+    @media (any-hover: hover) {
+      &:where(:not(:active):hover) {
+        --btn-background: var(--color-selected);
+      }
+    }
+  }
+
+  img.checked {
+    block-size: 1em;
+    inline-size: 1em;
+  }
+}
+
+.popup__list {
+  row-gap: 2px;
+}
+
+.popup__title {
+  font-weight: 800;
 }
