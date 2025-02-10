@@ -181,7 +181,7 @@
 
     aspect-ratio: 9/6;
     font-size: 5cqi;
-    inset: auto auto 1em 0em;
+    inset: auto auto 2em -1em;
     place-content: center;
 
     &::before {
@@ -192,10 +192,10 @@
       content: "";
       display: block;
       inset-block-end: auto;
-      inset-block-start: 100%;
-      inset-inline-start: 48%;
+      inset-block-start: 98%;
+      inset-inline-start: 68%;
       position: absolute;
-      transform: translateX(-50%);
+      transform: translateX(-50%) rotate(-20deg);
     }
   
     &::after {
@@ -206,10 +206,10 @@
       content: "";
       display: block;
       inset-block-end: auto;
-      inset-block-start: calc(100% - var(--border-size) * 1.5);
-      inset-inline-start: 48%;
+      inset-block-start: calc(98% - var(--border-size) * 1.5);
+      inset-inline-start: 64%;
       position: absolute;
-      transform: translateX(-50%);
+      transform: translateX(-50%) rotate(-20deg);
     }
 
     @media (hover: hover) {
