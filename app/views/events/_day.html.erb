@@ -4,7 +4,7 @@
     <h2 class="txt-large margin-block-end-half"><%= event_day_title(activity_day) %></h2>
 
     <div class="center events">
-      <%= render_column_headers %>
+      <%= render_column_headers(activity_day) %>
       <%= render_event_grid_cells(activity_day) %>
 
       <% events.each do | hour_column, cluster| %>

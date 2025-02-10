@@ -43,9 +43,20 @@ module EventsHelper
     end.flatten)
   end
 
-  def render_column_headers
-    [ "Touched", "Discussed", "Added", "Popped" ].map do |header|
-      content_tag(:h3, header, class: "event__grid-column-title margin-block-end-half position-sticky")
+  def render_column_headers(day = Date.current)
+    start_time = day.beginning_of_day
+    end_time = day.end_of_day
+
+    headers = {
+      "Touched" => nil,
+      "Discussed" => nil,
+      "Added" => Event.where(action: "published", created_at: start_time..end_time).count,
+      "Popped" => Event.where(action: "popped", created_at: start_time..end_time).count
+    }
+
+    headers.map do |header, count|
+      title = count&.positive? ? "#{header} (#{count})" : header
+      content_tag(:h3, title, class: "event__grid-column-title margin-block-end-half position-sticky")
     end.join.html_safe
   end
 
