@@ -77,12 +77,12 @@
   &.bubble__boosts {
     --rotation: 45deg;
 
-    aspect-ratio: 6/9;
+    aspect-ratio: 5/7;
     border-radius: var(--bubble-shape);
     display: flex;
-    font-size: 6cqi;
+    font-size: 5cqi;
     inline-size: min-content;
-    inset: 70cqi 7cqi auto auto;
+    inset: 70cqi 5cqi auto auto;
     min-inline-size: 4.5ch;
     padding: 0;
     place-items: center;
@@ -98,13 +98,14 @@
       --btn-border-radius: 50%;
       --btn-color: var(--color-ink-reversed);
       --btn-size: 0.5em;
-      --btn-padding: 0.3em 0.5em;
+      --btn-padding: 0.3em 0.5em 0.4em;
 
       font-weight: 800;
     }
 
     .boost__input {
       color: var(--bubble-color);
+      font-size: inherit;
       font-weight: 800;
       padding: 0;
       text-align: center;
@@ -112,10 +113,6 @@
       @supports (field-sizing: content) {
         field-sizing: content;
       }
-    }
-
-    &.boosting {
-      animation: bubble-up 500ms normal forwards ease-out;
     }
 
     @media (hover: hover) {
@@ -192,7 +189,7 @@
       content: "";
       display: block;
       inset-block-end: auto;
-      inset-block-start: 98%;
+      inset-block-start: 96%;
       inset-inline-start: 68%;
       position: absolute;
       transform: translateX(-50%) rotate(-20deg);
@@ -206,8 +203,8 @@
       content: "";
       display: block;
       inset-block-end: auto;
-      inset-block-start: calc(98% - var(--border-size) * 1.5);
-      inset-inline-start: 64%;
+      inset-block-start: calc(96% - var(--border-size) * 1.5);
+      inset-inline-start: 65%;
       position: absolute;
       transform: translateX(-50%) rotate(-20deg);
     }
