@@ -16,7 +16,7 @@
         <span class="btn btn--placeholder txt-small"></span>
 
         <label class="btn avatar input--file txt-xx-large center fill-white">
-          <%= image_tag user_avatar_path(@user), aria: { hidden: "true" }, size: 128, data: { upload_preview_target: "image" } %>
+          <%= image_tag user_avatar_path(@user), aria: { hidden: "true" }, class: "avatar", size: 128, data: { upload_preview_target: "image" } %>
           <%= form.file_field :avatar, id: "file", class: "input", accept: "image/*",
               data: { upload_preview_target: "input", action: "upload-preview#previewImage" } %>
           <span class="for-screen-reader">Profile avatar for <%= @user.name %></span>
