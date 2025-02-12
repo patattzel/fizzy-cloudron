@@ -14,4 +14,15 @@ class Bubble::PoppableTest < ActiveSupport::TestCase
     assert bubbles(:logo).popped?
     assert_equal users(:kevin), bubbles(:logo).popped_by
   end
+
+  test "auto_pop_all_due" do
+    bubbles(:logo).update!(auto_pop_at: 1.day.ago)
+    bubbles(:shipping).update!(auto_pop_at: 1.day.from_now)
+
+    assert_difference -> { Bubble.popped.count }, +1 do
+      Bubble.auto_pop_all_due
+    end
+
+    assert bubbles(:logo).popped?
+  end
 end
