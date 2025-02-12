@@ -1,4 +1,4 @@
-<div class="bubble__pop-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
+<div class="bubble__actions-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
   <% if bubble.popped? %>
     <% event = bubble.events.where(action: "popped").last %>
       <span class="bubble__pop-message">Popped by <%= "#{ event.creator.name } on #{ event.created_at.to_date.strftime('%B %-d') }" if event %>.</span>

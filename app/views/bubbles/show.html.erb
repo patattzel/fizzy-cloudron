@@ -4,9 +4,9 @@
   <% if @bubble.creating? && @bubble.can_recover_abandoned_creation? %>
     <div class="flex align-center gap-half fill-selected justify-center border-block margin-block-end"
           style="--border-color: var(--color-selected-dark); --border-style: dashed; view-transition-name: draft-banner;">
-      You have an unsaved bubble. Would you like to continue where you left off?
+      You have an unsaved work. Would you like to continue where you left off?
       <%= button_to bucket_bubble_recover_path(@bubble.bucket, @bubble), class: "btn txt-small btn--link", data: { turbo_action: "replace" } do %>
-        <span>Yes please!</span>
+        <span>Restore</span>
       <% end %>
     </div>
   <% end %>
@@ -93,8 +93,12 @@
     <%= render "bubbles/bubble", bubble: @bubble %>
   </div>
 
-  
-  <% unless @bubble.drafted? %>
+  <% if @bubble.creating? %>
+    <div class="bubble__actions-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
+      <%= button_to "Create bubble", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn btn--plain borderless fill-transparent" %>
+    </div>
+  <% elsif !@bubble.drafted? %>
     <%= render "bubbles/pop_toggle", bubble: @bubble %>
   <% end %>
 
@@ -104,13 +108,5 @@
 <div class="flex align-start justify-end">
   <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
 </div>
-
-<% if @bubble.creating? %>
-  <div>
-  <%= button_to "Publish", bucket_bubble_publish_path(@bubble.bucket, @bubble) %>
-  <%= button_to "Save a draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put %>
-  <%= button_to "Cancel", bucket_bubble_path(@bubble.bucket, @bubble), method: :delete %>
-  </div>
-<% end %>
 
 <%= render "notifications/tray" %>
