@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Avatar, Transferable
+  include Avatar, Role, Transferable
 
   belongs_to :account
 
@@ -22,12 +22,10 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
-  validates_presence_of :email_address
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 
   after_create_commit :grant_access_to_buckets
 
-  scope :active, -> { where(active: true) }
   scope :alphabetically, -> { order("LOWER(name)") }
 
   def initials

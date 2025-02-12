@@ -4,6 +4,7 @@ class UserTest < ActiveSupport::TestCase
   test "create" do
     user = User.create! \
       account: accounts("37s"),
+      role: "member",
       name: "Victor Cooper",
       email_address: "victor@hey.com",
       password: "secret123456"
@@ -15,6 +16,7 @@ class UserTest < ActiveSupport::TestCase
   test "creation gives access to all_access buckets" do
     user = User.create! \
       account: accounts("37s"),
+      role: "member",
       name: "Victor Cooper",
       email_address: "victor@hey.com",
       password: "secret123456"
@@ -32,5 +34,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "JF", User.new(name: "jason fried").initials
     assert_equal "DHH", User.new(name: "David Heinemeier Hansson").initials
     assert_equal "ÉLH", User.new(name: "Éva-Louise Hernández").initials
+  end
+
+  test "system user" do
+    system_user = accounts("37s").users.system
+
+    assert system_user.system?
+    assert_equal "System", system_user.name
+    assert_equal "S", system_user.initials
+
+    assert_not_includes User.active, system_user
   end
 end

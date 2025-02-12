@@ -13,6 +13,8 @@ class Event < ApplicationRecord
   scope :non_boosts, -> { where.not action: :boosted }
   scope :boosts, -> { where action: :boosted }
 
+  after_create -> { bubble.update_auto_pop_at(created_at) }
+
   def generate_notifications
     Notifier.for(self)&.generate
   end
