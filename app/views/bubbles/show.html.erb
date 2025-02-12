@@ -92,17 +92,21 @@
   <div class="bubble__perma flex justify-center center">
     <%= render "bubbles/bubble", bubble: @bubble %>
   </div>
-
-  <% if @bubble.creating? %>
-    <div class="bubble__actions-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
-      <%= button_to "Create bubble", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
-      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn btn--plain borderless fill-transparent" %>
-    </div>
-  <% elsif !@bubble.drafted? %>
+  
+  <% unless @bubble.drafted? || @bubble.creating? %>
     <%= render "bubbles/pop_toggle", bubble: @bubble %>
   <% end %>
 
-  <%= render "bubbles/messages", bubble: @bubble %>
+  <div style="margin-block-start: calc(var(--block-space) * -1);">
+    <%= render "bubbles/messages", bubble: @bubble %>
+  </div>
+
+  <% if @bubble.creating? %>
+    <div class="bubble__actions-container center border-radius pad flex align-center justify-space-between gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>; margin-block-start: calc(var(--block-space) * -2);">
+      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn btn--plain borderless fill-transparent" %>
+      <%= button_to "Create bubble", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+    </div>
+  <% end %>
 </div>
 
 <div class="flex align-start justify-end">

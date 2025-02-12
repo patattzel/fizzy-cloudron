@@ -351,31 +351,42 @@
 }
 
 .bubble__title {
-  -webkit-line-clamp: var(--lines, 4);
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  font-size: 9cqi;
-  line-height: 1.2;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: auto;
-  max-block-size: 60cqi;
-  max-inline-size: 60cqi;
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: normal;
-
+  max-block-size: 90cqi;
+  max-inline-size: 70cqi;
+  
   .windshield & {
     pointer-events: none;
   }
 
   a {
     color: var(--splat-color);
+
+    &.bubble__title-rendered {
+      -webkit-line-clamp: var(--lines, 4);
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      font-size: 9cqi;
+      font-weight: 800;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: normal;
+    }
   }
 
   textarea {
     --input-color: var(--bubble-color);
+    --input-border-radius: 0;
 
-    hyphens: none;
-  
+    font-size: 9cqi;
+    font-weight: 800;
+    line-height: 1.2;
+
     &::selection {
       background-color: var(--bubble-color);
       color: var(--color-ink-reversed);

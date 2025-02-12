@@ -12,10 +12,13 @@
 }
 
 .comment {
-  max-inline-size: 66ch;
   margin-block: calc(var(--comment-padding-block) * 0.3);
   margin-inline: 0 auto;
   position: relative;
+
+  &:not(.comment--new) {
+    max-inline-size: 66ch;
+  }
 }
 
 .comment--new {
