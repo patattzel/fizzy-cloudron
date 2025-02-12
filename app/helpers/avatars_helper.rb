@@ -11,8 +11,14 @@ module AvatarsHelper
   end
 
   def avatar_tag(user, **options)
-    link_to user_path(user), title: user.name, class: "btn avatar", data: { turbo_frame: "_top" } do
-      avatar_image_tag(user, **options)
+    if user.system?
+      tag.div class: "avatar" do
+        avatar_image_tag(user, **options)
+      end
+    else
+      link_to user_path(user), title: user.name, class: "btn avatar", data: { turbo_frame: "_top" } do
+        avatar_image_tag(user, **options)
+      end
     end
   end
 
