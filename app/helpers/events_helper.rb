@@ -51,7 +51,7 @@ module EventsHelper
       "Touched" => nil,
       "Discussed" => nil,
       "Added" => Event.where(action: "published", created_at: start_time..end_time).count,
-      "Popped" => Event.where(action: "popped", created_at: start_time..end_time).count
+      "Popped" => Event.where(action: "popped", created_at: start_time..end_time).joins(:creator).merge(User.without_system).count
     }
 
     headers.map do |header, count|
