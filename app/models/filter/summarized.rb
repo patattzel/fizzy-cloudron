@@ -37,8 +37,6 @@ module Filter::Summarized
     def bucket_summary
       if buckets.any?
         "in #{buckets.pluck(:name).to_choice_sentence}"
-      else
-        "in all collections"
       end
     end
 
