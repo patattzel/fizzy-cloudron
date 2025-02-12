@@ -9,10 +9,9 @@ class Bubble::PoppableTest < ActiveSupport::TestCase
   test "popping" do
     assert_not bubbles(:logo).popped?
 
-    with_current_user(:kevin) do
-      bubbles(:logo).pop!
-    end
+    bubbles(:logo).pop!(user: users(:kevin))
 
     assert bubbles(:logo).popped?
+    assert_equal users(:kevin), bubbles(:logo).popped_by
   end
 end

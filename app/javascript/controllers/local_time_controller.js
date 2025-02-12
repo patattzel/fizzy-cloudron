@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["time", "date", "datetime", "shortdate", "ago"]
+  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays" ]
 
   #timer
 
@@ -11,6 +11,7 @@ export default class extends Controller {
     this.shortDateFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" })
     this.dateTimeFormatter = new Intl.DateTimeFormat(undefined, { timeStyle: "short", dateStyle: "short" })
     this.agoFormatter = new AgoFormatter()
+    this.indaysFormatter = new InDaysFormatter()
   }
 
   connect() {
@@ -39,6 +40,10 @@ export default class extends Controller {
 
   agoTargetConnected(target) {
     this.#formatTime(this.agoFormatter, target)
+  }
+
+  indaysTargetConnected(target) {
+    this.#formatTime(this.indaysFormatter, target)
   }
 
   #refreshRelativeTimes() {
@@ -79,5 +84,26 @@ class AgoFormatter {
     quantity = Math.floor(quantity)
     const suffix = (quantity === 1) ? "" : "s"
     return `${quantity} ${word}${suffix} ago`
+  }
+}
+
+class InDaysFormatter {
+  format(dt) {
+    const target = this.#beginningOfDay(dt)
+    const today = this.#beginningOfDay(new Date())
+    const days = Math.round((target - today) / (1000 * 60 * 60 * 24))
+
+    if (days <= 0) {
+      return "today"
+    }
+    if (days === 1) {
+      return "tomorrow"
+    }
+
+    return `in ${Math.round(days)} days`
+  }
+
+  #beginningOfDay(dt) {
+    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate())
   }
 }

@@ -2,7 +2,7 @@ class Bubbles::PopsController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def create
-    @bubble.pop!
+    @bubble.pop!(user: Current.user)
     redirect_to @bubble
   end
 

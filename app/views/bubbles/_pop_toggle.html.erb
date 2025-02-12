@@ -1,19 +1,16 @@
 <div class="bubble__actions-container center border-radius pad flex-inline align-center justify-center gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>">
   <% if bubble.popped? %>
-    <% event = bubble.events.where(action: "popped").last %>
-      <span class="bubble__pop-message">Popped by <%= "#{ event.creator.name } on #{ event.created_at.to_date.strftime('%B %-d') }" if event %>.</span>
+    <span class="bubble__pop-message">Popped by <%= bubble.popped_by.name %> on <%= local_datetime_tag(bubble.popped_at, style: :shortdate) %>.</span>
     <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), method: :delete, class: "btn btn--plain borderless fill-transparent" do %>
       <span>Un-pop</span>
     <% end %>
   <% else %>
-    <% event = bubble.events.last %>
     <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), class: "btn borderless" do %>
       <%= image_tag "pop.svg", aria: { hidden: true }, size: 24, class: "colorize--white" %>
       <span>Pop</span>
     <% end %>
     <span class="bubble__pop-message">
-      <% time_until_pop = (event&.created_at || bubble.created_at) + 30.days %>
-      Auto-pops <%= Time.current >= time_until_pop ? "today" : "in #{distance_of_time_in_words(Time.current, time_until_pop)}" %>.
+      Auto-pops <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) %>.
     </span>
   <% end %>
 </div>
