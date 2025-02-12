@@ -9,7 +9,7 @@ module Bubble::Poppable
     scope :popped, -> { joins(:pop) }
     scope :active, -> { where.missing(:pop) }
 
-    after_create -> { update_auto_pop_at(created_at) }
+    before_create -> { self.auto_pop_at = AUTO_POP_AFTER.from_now }
   end
 
   class_methods do
