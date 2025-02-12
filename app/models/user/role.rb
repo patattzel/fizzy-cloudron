@@ -10,8 +10,8 @@ module User::Role
   end
 
   class_methods do
-    def system
-      find_or_create_by!(role: :system) do |user|
+    def find_or_create_system_user(account)
+      account.users.find_or_create_by!(role: :system) do |user|
         user.name = "System"
       end
     end
