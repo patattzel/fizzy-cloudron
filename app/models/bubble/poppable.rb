@@ -20,8 +20,8 @@ module Bubble::Poppable
     end
   end
 
-  def update_auto_pop_at(timestamp)
-    update!(auto_pop_at: timestamp + AUTO_POP_AFTER)
+  def update_auto_pop_at(last_activity)
+    update!(auto_pop_at: last_activity + AUTO_POP_AFTER)
   end
 
   def popped?
