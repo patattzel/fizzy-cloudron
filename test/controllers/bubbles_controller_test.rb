@@ -39,6 +39,7 @@ class BubblesControllerTest < ActionDispatch::IntegrationTest
         color: "#000000",
         due_on: 1.week.from_now,
         image: fixture_file_upload("moon.jpg", "image/jpeg"),
+        draft_comment: "Something more in-depth",
         tag_ids: [ tags(:mobile).id ] } }
     assert_redirected_to bucket_bubble_url(buckets(:writebook), bubbles(:logo))
 
@@ -48,6 +49,8 @@ class BubblesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1.week.from_now.to_date, bubble.due_on
     assert_equal "moon.jpg", bubble.image.filename.to_s
     assert_equal [ tags(:mobile) ], bubble.tags
+
+    assert_equal "Something more in-depth", bubble.messages.comments.first.comment.body_plain_text.strip
   end
 
   test "users can only see bubbles in buckets they have access to" do
