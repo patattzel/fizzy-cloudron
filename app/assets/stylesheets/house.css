@@ -71,6 +71,12 @@ house-md-toolbar {
     display: block;
   }
 
+  &:active, 
+  &:focus {
+    border: none;
+    outline: none;
+  }
+
   .link, .img {
     color: var(--color-link);
     text-decoration: underline;
