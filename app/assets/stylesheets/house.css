@@ -1,83 +1,3 @@
-/* Colors */
-:root {
-  /* Named color values */
-  --house-md-black: 0% 0 0;
-  --house-md-white: 100% 0 0;
-  --house-md-gray-light: 96% 0.005 96;
-  --house-md-gray: 92% 0.005 96;
-  --house-md-gray-dark: 75% 0.005 96;
-  --house-md-blue: 54% 0.23 255;
-  --house-md-blue-light: 95% 0.03 255;
-  --house-md-blue-dark: 80% 0.08 255;
-  --house-md-orange: 70% 0.2 44;
-  --house-md-red: 51% 0.2 31;
-  --house-md-green: 65.59% 0.234 142.49;
-  --house-md-always-black: 0% 0 0;
-
-  /* Abstractions */
-  --house-color-negative: oklch(var(--house-md-red));
-  --house-color-positive: oklch(var(--house-md-green));
-  --house-color-bg: oklch(var(--house-md-white));
-  --house-color-ink: oklch(var(--house-md-black));
-  --house-color-ink-reversed: oklch(var(--house-md-white));
-  --house-color-link: oklch(var(--house-md-blue));
-  --house-color-subtle-light: oklch(var(--house-md-gray-light));
-  --house-color-subtle: oklch(var(--house-md-gray));
-  --house-color-subtle-dark: oklch(var(--house-md-gray-dark));
-  --house-color-selected: oklch(var(--house-md-blue-light));
-  --house-color-selected-dark: oklch(var(--house-md-blue-dark));
-  --house-color-alert: oklch(var(--house-md-orange));
-  --house-color-always-black: oklch(var(--house-md-always-black));
-
-  /* Redefine named color values for dark mode */
-  @media (prefers-color-scheme: dark) {
-    --house-md-black: 100% 0 0;
-    --house-md-white: 0% 0 0;
-    --house-md-gray: 25.2% 0 0;
-    --house-md-gray-dark: 30.12% 0 0;
-    --house-md-gray-darker: 44.95% 0 0;
-    --house-md-blue: 72.25% 0.16 248;
-    --house-md-blue-light: 28.11% 0.053 248;
-    --house-md-blue-dark: 42.25% 0.07 248;
-    --house-md-red: 73.8% 0.184 29.18;
-    --house-md-green: 75% 0.21 141.89;
-  }
-}
-
-/* Base styles */
-:is(house-md-editor, house-md-toolbar) {
-}
-
-a:not([class]) {
-  color: var(--house-color-link);
-  text-decoration-skip-ink: auto;
-}
-
-:is(a, button, input, textarea) {
-  --outline-size: max(2px, 0.08em);
-  --outline-style: solid;
-  --house-outline-color: currentColor;
-
-  caret-color: var(--house-color-link);
-
-  &:focus {
-    outline: var(--outline-size) var(--outline-style) var(--house-outline-color);
-    outline-offset: var(--outline-offset, var(--outline-size));
-  }
-
-  &:focus-visible {
-    outline: var(--outline-size) var(--outline-style) var(--house-outline-color);
-    outline-offset: var(--outline-offset, var(--outline-size));
-  }
-
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-
-  ::selection {
-    background-color: var(--house-color-selected);
-  }
-}
 
 /* Editor */
 house-md {
@@ -86,7 +6,7 @@ house-md {
   flex-grow: 1;
 
   &:invalid {
-    border: var(--house-color-negative) 2px solid;
+    border: var(--color-negative) 2px solid;
   }
 }
 
@@ -125,11 +45,11 @@ house-md-toolbar {
     }
 
     &:is(:focus, :hover) {
-      background-color: var(--house-color-subtle);
+      background-color: var(--color-subtle);
     }
 
     &:is(:active) {
-      background-color: var(--house-color-selected);
+      background-color: var(--color-selected);
     }
   }
 }
@@ -145,79 +65,15 @@ house-md-toolbar {
 
   &.house-md-content-empty::before {
     content: attr(placeholder);
-    color: var(--house-color-ink);
+    color: var(--color-ink);
     opacity: 0.5;
     pointer-events: none;
     display: block;
   }
 
-  &:active, &:focus{
-    border:none;
-    outline:none;
-  }
-
-  :is(.h1, .h2, .h3, .h4, .h5, .h6) {
-    display: inline-inblock;
-    font-weight: 600;
-    margin-block: 0;
-  }
-
-  .h1 {
-    font-size: 2em;
-  }
-
-  .h2 {
-    font-size: 1.5em;
-  }
-
-  .h3 {
-    font-size: 1.17em;
-  }
-
-  .h4 {
-    font-size: 1em;
-  }
-
-  .h5 {
-    font-size: 0.83em;
-  }
-
-  .h6 {
-    font-size: 0.67em;
-  }
-
   .link, .img {
-    color: var(--house-color-link);
+    color: var(--color-link);
     text-decoration: underline;
-  }
-
-  .hr {
-    border-color: var(--color-house-subtle-dark);
-    border-style: solid none none;
-    margin: 2lh auto;
-  }
-
-  .code {
-    font-family: ui-monospace, monospace;
-    font-weight: 600;
-    font-size: 0.85em;
-  }
-
-  .quote {
-    font-style: italic;
-    margin: 0 3ch;
-  }
-
-  .quote, .ol-li, .ul-li {
-    padding-left: 1em;
-  }
-
-  .comment {
-    color: var(--color-house-positive);
-  }
-
-  mark {
-    background-color: rgba(241, 241, 26, 0.678);
   }
 }
 
@@ -228,8 +84,8 @@ house-md-upload {
   position: relative;
 
   &[status="failed"] {
-    background-color: var(--house-color-negative);
-    color: var(--house-color-ink-reversed);
+    background-color: var(--color-negative);
+    color: var(--color-ink-reversed);
     font-weight: bold;
     padding: 0.5em;
   }
@@ -248,13 +104,13 @@ house-md-upload {
   cursor: pointer;
 
   house-md-upload[status="failed"] & {
-    color: var(--house-color-ink-reversed);
+    color: var(--color-ink-reversed);
     display: inline-block;
   }
 
   &::before {
     content: '×';
-    color: var(--house-color-ink-reversed);
+    color: var(--color-ink-reversed);
     font-size: 24px;
     font-weight: bold;
     position: absolute;
@@ -268,14 +124,14 @@ house-md-upload {
   font-weight: normal;
 
   house-md-upload[status="complete"] & {
-    color: var(--house-color-positive);
+    color: var(--color-positive);
   }
 }
 
 .md-progress-bar {
   -webkit-appearance: none;
   appearance: none;
-  background-color: var(--house-color-subtle);
+  background-color: var(--color-subtle);
   border-radius: 0.5em;
   block-size: 1ex;
   display: block;
@@ -290,7 +146,7 @@ house-md-upload {
 
   &::-webkit-progress-bar {
     border-radius: 0.5em;
-    background-color: var(--house-color-subtle);
+    background-color: var(--color-subtle);
   }
 
   &::-webkit-progress-inner-element {
@@ -299,11 +155,11 @@ house-md-upload {
 
   &::-webkit-progress-value {
     border-radius: 0.5em;
-    background-color: var(--house-color-positive);
+    background-color: var(--color-positive);
   }
 
   &::-moz-progress-bar {
     border-radius: 0.5em;
-    background-color: var(--house-color-positive);
+    background-color: var(--color-positive);
   }
 }
