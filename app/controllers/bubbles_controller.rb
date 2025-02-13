@@ -40,7 +40,7 @@ class BubblesController < ApplicationController
     end
 
     def bubble_params
-      params.expect(bubble: [ :status, :title, :color, :due_on, :image, tag_ids: [] ])
+      params.expect(bubble: [ :status, :title, :color, :due_on, :image, :draft_comment, tag_ids: [] ])
     end
 
     def deleted_notice
