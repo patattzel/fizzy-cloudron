@@ -4,7 +4,8 @@ class Taggings::TogglesController < ApplicationController
   def create
     if params[:tag_title].present?
       sanitized_title = params[:tag_title].strip.gsub(/\A#/, "")
-      @bubble.toggle_tag Current.account.tags.create!(title: sanitized_title)
+      tag = Current.account.tags.find_or_create_by!(title: sanitized_title)
+      @bubble.toggle_tag(tag)
     else
       new_tag_ids = Array(params[:tag_id])
       current_tags = @bubble.tags
