@@ -6,7 +6,7 @@
     <% elsif filter.buckets.one? %>
       <%= filter.buckets.first.name %>
     <% else %>
-        <%= pluralize(filter.buckets.size, "project") %>
+      <%= filter.buckets.map(&:name).to_sentence %>
     <% end %>
   </h1>
 
