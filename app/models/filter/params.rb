@@ -47,8 +47,12 @@ module Filter::Params
 
   def as_params_without(key, value)
     as_params.tap do |params|
-      params[key].delete(value.to_i) if params[key].is_a?(Array)
-      params.delete(key) if params[key] == value.to_s
+      if params[key].is_a?(Array)
+        params[key] = params[key] - [ value ]
+        params.delete(key) if params[key].empty?
+      elsif params[key] == value
+        params.delete(key)
+      end
     end
   end
 end
