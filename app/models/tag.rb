@@ -6,6 +6,8 @@ class Tag < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :bubbles, through: :taggings
 
+  validates :title, format: { without: /\A#/ }
+
   def hashtag
     "#" + title
   end
