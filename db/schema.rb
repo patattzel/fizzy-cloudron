@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_02_12_103251) do
+ActiveRecord::Schema[8.1].define(version: 2025_02_14_222911) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -212,6 +212,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_12_103251) do
     t.datetime "updated_at", null: false
     t.index ["bubble_id"], name: "index_pops_on_bubble_id", unique: true
     t.index ["user_id"], name: "index_pops_on_user_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.integer "comment_id", null: false
+    t.integer "reacter_id", null: false
+    t.string "content", limit: 16, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_reactions_on_comment_id"
+    t.index ["reacter_id"], name: "index_reactions_on_reacter_id"
   end
 
   create_table "sessions", force: :cascade do |t|

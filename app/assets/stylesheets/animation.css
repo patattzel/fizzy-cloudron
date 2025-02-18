@@ -3,6 +3,11 @@
   animation: shake 400ms both;
 }
 
+@keyframes appear-then-fade {
+  0%,100% { opacity: 0; }
+  5%,60%  { opacity: 1; }
+}
+
 /* Keyframes */
 @keyframes float-up-left {
   0% { transform: translate(10px, 20px); }
@@ -14,16 +19,22 @@
   100% { transform: translate(0, 0); }
 }
 
+@keyframes react {
+  0%   { transform: scale(0.3);  opacity: 0; }
+  50%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes scale-fade-out {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
 @keyframes shake {
   0%  { transform: translateX(-2rem); }
   25% { transform: translateX(2rem); }
   50% { transform: translateX(-1rem); }
   75% { transform: translateX(1rem); }
-}
-
-@keyframes appear-then-fade {
-  0%,100% { opacity: 0; }
-  5%,60%  { opacity: 1; }
 }
 
 @keyframes wobble {
