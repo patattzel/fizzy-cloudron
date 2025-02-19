@@ -78,7 +78,8 @@
 .event__timestamp {
   align-self: start;
   display: grid;
-  margin-block-start: calc(var(--grid-lines) * -1);
+  font-weight: 600;
+  margin-block: var(--grid-lines);
 }
 
 .event__title {
