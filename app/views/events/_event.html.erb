@@ -10,18 +10,21 @@
               animation_play_class: "bubble--wobble", 
               animation_play_on_load_value: "true", 
               action: "mouseover->animation#play mouseover->related-element#highlight mouseout->related-element#unhighlight" } do %>
-  <div class="bubble__shape flex-item-no-shrink txt-large"></div>
+  <div class="avatar txt-x-small flex-item-no-shrink">
+    <%= avatar_image_tag(event.creator) %>
+  </div>
 
-  <div class="flex flex-column min-width txt-small txt-tight-lines align-start txt-align-start">
-    <strong style="font-size: 1.1em;" class="txt-break overflow-line-clamp">
-      <%= event.action == "commented" ? "RE: #{ bubble.title }" : bubble.title %>
+  <div class="flex flex-column min-width txt-small align-start txt-align-start">
+    <strong class="event__title txt-break overflow-line-clamp">
+      <%= event_action_sentence(event) %>
     </strong>
-    <span class="flex align-center gap-half align-start">
-      <% if event_column(event) == 1 %>
-      <span class="flex-item-no-shrink"><%= image_tag "#{event_action_icon(event)}.svg", aria: { hidden: true }, size: 13, class: "colorize--black" %></span>
-      <% end %>
-      <span class="txt-break overflow-line-clamp" style="--lines: 3;"><%= event_action_sentence(event) %></span>
-    </span>
-    <span class="translucent"><%= bubble.bucket.name %></span>
+
+    <% if event.action == "commented" && !strip_tags(event&.comment&.body_html).blank? %>
+      <span class="txt-break overflow-line-clamp">
+        <%= strip_tags(event.comment.body_html).truncate(200) -%>
+      </span>
+    <% end %>
+
+    <span class="event__bucket translucent"><%= bubble.bucket.name %></span>
   </div>
 <% end %>

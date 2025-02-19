@@ -67,44 +67,27 @@ module EventsHelper
   def event_action_sentence(event)
     case event.action
     when "assigned"
-      "Assigned to <strong>#{ event.assignees.pluck(:name).to_sentence }</strong>".html_safe
+      "#{ event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "unassigned"
-      "Unassigned <strong>#{ event.assignees.pluck(:name).to_sentence }</strong>".html_safe
+      "#{ event.creator.name } unassigned #{ event.assignees.pluck(:name).to_sentence } from <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "boosted"
-      "Boosted by <strong>#{ event.creator.name }</strong>".html_safe
+      "#{ event.creator.name } boosted <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "commented"
-      "#{ strip_tags(event.comment.body_html).blank? ? "<strong>#{ event.creator.name }</strong> replied.".html_safe : "<strong>#{ event.creator.name }:</strong>" } #{ strip_tags(event.comment.body_html).truncate(200) }".html_safe
+      "#{ event.creator.name } commented on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "published"
-      "Added by <strong>#{ event.creator.name }</strong>".html_safe
+      "#{ event.creator.name } added <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "popped"
-      "Popped by <strong>#{ event.creator.name }</strong>".html_safe
+      "#{ event.creator.name } popped <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "staged"
-      "<strong>#{event.creator.name}</strong> moved to #{event.stage_name}.".html_safe
+      "#{event.creator.name} changed the stage to #{event.stage_name} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "due_date_added"
-      "<strong>#{event.creator.name}</strong> set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}".html_safe
+      "#{event.creator.name} set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "due_date_changed"
-      "<strong>#{event.creator.name}</strong> changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}".html_safe
+      "#{event.creator.name} changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "due_date_removed"
-      "#{event.creator.name} removed the date"
+      "#{event.creator.name} removed the date on <span class='txt-link'>#{ event.bubble.title }</span>"
     when "title_changed"
-      "<strong>#{event.creator.name}</strong> renamed this (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
-    end
-  end
-
-  def event_action_icon(event)
-    case event.action
-    when "assigned"
-      "arrow-right"
-    when "boosted"
-      "thumb-up"
-    when "staged"
-      "bolt"
-    when "unassigned"
-      "remove-med"
-    when "due_date_added", "due_date_changed"
-      "calendar"
-    else
-      "person"
+      "#{event.creator.name} renamed  on <span class='txt-link'>#{ event.bubble.title }</span> (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
     end
   end
 end
