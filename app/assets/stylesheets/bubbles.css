@@ -67,7 +67,7 @@
   --bubble-border-width: 0.15em;
 
   background: var(--color-bg);
-  border: var(--bubble-border-width) solid var(--bubble-background, color(from var(--bubble-color) srgb r g b / 0.25));
+  border: var(--bubble-border-width) solid var(--bubble-background, color-mix(in srgb, var(--bubble-color) 30%, var(--color-bg)));
   border-radius: var(--bubble-shape);
   position: absolute;
   z-index: -1;
@@ -175,7 +175,7 @@
 
   &.bubble__comments {
     --arrow-size: 1.5em;
-    --border-color: var(--bubble-background, color(from var(--bubble-color) srgb r g b / 0.25));
+    --border-color: color-mix(in srgb, var(--bubble-color) 30%, var(--color-bg));
     --border-size: var(--bubble-border-width);
 
     aspect-ratio: 9/6;
@@ -519,18 +519,23 @@
 }
 
 .bubble__shape {
-  background: radial-gradient(circle at center, color(from var(--bubble-color) srgb r g b / 0.3), transparent);
+  background: var(--bubble-background, radial-gradient(circle at center, color(from var(--bubble-color) srgb r g b / 0.35), transparent));
   block-size: var(--bubble-size, 1.2em);
-  border-color: var(--bubble-border-color, var(--bubble-color));
+  border-color: var(--bubble-border-color, color-mix(in srgb, var(--bubble-color) 20%, var(--color-bg)));
   border-radius: var(--bubble-shape);
   border-style: var(--bubble-border-style, solid);
-  border-width: 0;
+  border-width: 1px;
   inline-size: var(--bubble-size, 1.2em);
   pointer-events: none;
   position: relative;
   transform: rotate(var(--bubble-rotate));
   transition: 200ms ease-out;
   z-index: 0;
+
+  @media (prefers-color-scheme: dark) {
+    --bubble-background: radial-gradient(circle at center, color(from var(--bubble-color) srgb r g b / 0.45), transparent);
+    --bubble-border-color: color-mix(in srgb, var(--bubble-color) 30%, var(--color-bg));
+  }
 
   .bubble & {
     --bubble-size: 100%;
@@ -557,9 +562,11 @@
     display: none;
   }
 
+  .event &,
   .bucket &,
   .bubbles-list & {
-    background: color-mix(in srgb, var(--bubble-color) 15%, var(--color-bg));
+    --bubble-background: color-mix(in srgb, var(--bubble-color) 30%, var(--color-bg));
+    --bubble-border-color: color-mix(in srgb, var(--bubble-color) 40%, var(--color-bg))
   }
 }
 
@@ -591,10 +598,10 @@
 
   .popped & {
     display: block;
-    fill: color-mix(in srgb, var(--bubble-color) 15%, var(--color-bg));
+    fill: color-mix(in srgb, var(--bubble-color) 25%, var(--color-bg));
     position: absolute;
-    scale: 120%;
-    transform: rotate(var(--rotation));
+    scale: 130%;
+    transform: rotate(var(--bubble-rotate));
     z-index: -1;
   }
 }
