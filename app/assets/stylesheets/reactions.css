@@ -2,6 +2,9 @@
   --column-gap: 0.4ch;
   --reaction-border-color: var(--color-subtle);
   --row-gap: 0;
+
+  margin-block-start: calc(var(--block-space-half) / 2);
+  margin-inline: calc(var(--column-gap) / -1);
 }
 
 .reaction {
