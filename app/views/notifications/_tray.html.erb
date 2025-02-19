@@ -3,6 +3,15 @@
 <%= tag.dialog id: "notification-tray", class: "notification-tray flex flex-column gap unpad borderless justify-end fill-transparent",
       data: { controller: "dialog", turbo_permanent: true, dialog_modal_value: false, dialog_target: "dialog", action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
   <%= turbo_frame_tag("notifications", src: notifications_tray_path) -%>
+
+  <%= link_to notifications_path, class: "notification-tray__overflow border-radius" do %>
+    <div class="notification__content border-radius pad shadow fill-white flex align-center txt-align-center gap full-width">
+      <div class="flex flex-column txt-tight-lines min-width flex-item-grow">
+        <strong>+ More…</strong>
+      </div>
+    </div>
+  <% end %>
+
   <div class="notification-tray__actions flex align-center gap-half">
     <%= button_to notifications_mark_all_read_path, class: "notification-tray__read_action btn flex-item-justify-start", data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       Mark all as read

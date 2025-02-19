@@ -1,7 +1,8 @@
 .notification-tray {
   --size: 38ch;
+  --height: calc(5ch + 1lh + var(--block-space));
 
-  block-size: calc(4ch + var(--block-space-double));
+  block-size: var(--height);
   inline-size: var(--size);
   inset: auto var(--inline-space) var(--block-space-half) auto;
   padding: var(--block-space-half) var(--inline-space);
@@ -9,7 +10,6 @@
   z-index: 1;
 
   .notification {
-    --outline-color: var(--color-link);
     --offset: calc((var(--position) - 1) * (var(--block-space) * -1));
     --position: 1;
     --scale: calc(1 - var(--position) / 30);
@@ -17,6 +17,7 @@
 
     inset: auto auto 0;
     inline-size: var(--size);
+    outline: 0;
     pointer-events: none;
     position: absolute;
     scale: var(--scale);
@@ -118,6 +119,35 @@
   .notification-tray[open] &,
   .notification-tray:not(:has(.notification)) & {
     display: none;
+  }
+}
+
+.notification-tray__overflow {
+  --offset: calc((var(--position) - 1) * (var(--block-space) * -1));
+  --position: 7;
+  --scale: calc(1 - var(--position) / 30);
+  --z: calc(6 - var(--position));
+
+  block-size: var(--height);
+  display: none;
+  inset: auto auto 0;
+  inline-size: var(--size);
+  pointer-events: none;
+  position: absolute;
+  scale: var(--scale);
+  transform: translateY(var(--offset));
+  transition: scale 0.2s ease-out, transform 0.2s ease-out;
+  z-index: var(--z);
+
+  .notification-tray:has(.notification:nth-child(7)) & {
+    display: flex;
+  }
+
+  .notification-tray[open] & {
+    --offset: calc((100% + var(--block-space-half)) * (var(--position) * -1));
+    --scale: 1;
+
+    pointer-events: unset;
   }
 }
 
