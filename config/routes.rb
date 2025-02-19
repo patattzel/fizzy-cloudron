@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   resources :buckets do
     resources :bubbles do
       resources :boosts
-      resources :comments
+      resources :comments do
+        resources :reactions, module: :comments
+      end
       resource :readings, only: :create
 
       scope module: :bubbles do

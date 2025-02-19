@@ -16,5 +16,9 @@
     <div class="comment__body txt-align-start">
       <%= sanitize comment.body_html %>
     </div>
+
+    <div id="reactions">
+      <%= render "comments/reactions/reactions", comment: comment %>
+    </div>
   </div>
 <% end %>
