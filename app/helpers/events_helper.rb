@@ -47,11 +47,15 @@ module EventsHelper
     start_time = day.beginning_of_day
     end_time = day.end_of_day
 
+    accessible_events = Event.joins(bubble: :bucket)
+      .merge(Current.user.buckets)
+      .where(created_at: start_time..end_time)
+
     headers = {
       "Touched" => nil,
       "Discussed" => nil,
-      "Added" => Event.where(action: "published", created_at: start_time..end_time).count,
-      "Popped" => Event.where(action: "popped", created_at: start_time..end_time).joins(:creator).merge(User.without_system).count
+      "Added" => accessible_events.where(action: "published").count,
+      "Popped" => accessible_events.where(action: "popped").joins(:creator).merge(User.without_system).count
     }
 
     headers.map do |header, count|
