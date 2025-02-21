@@ -107,6 +107,8 @@
 
     :is(input[type=radio]),
     :is(input[type=checkbox]) {
+      --hover-size: 0;
+  
       appearance: none;
       border-radius: var(--btn-border-radius);
       cursor: pointer;
