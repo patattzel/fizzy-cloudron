@@ -17,8 +17,6 @@
       <%= sanitize comment.body_html %>
     </div>
 
-    <div id="reactions">
-      <%= render "comments/reactions/reactions", comment: comment %>
-    </div>
+    <%= render "comments/reactions/reactions", comment: comment %>
   </div>
 <% end %>
