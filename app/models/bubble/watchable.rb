@@ -8,7 +8,7 @@ module Bubble::Watchable
     after_create :create_initial_watches
   end
 
-  def watching?(user)
+  def watched_by?(user)
     watches.where(user: user, watching: true).exists?
   end
 

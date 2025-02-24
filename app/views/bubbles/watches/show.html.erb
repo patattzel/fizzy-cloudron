@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(@bubble, :watch) do %>
-  <% if @bubble.watching? Current.user %>
+  <% if @bubble.watched_by? Current.user %>
     <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), method: :delete, class: "btn" do %>
       <%= image_tag "bookmark.svg", aria: { hidden: true }, size: 24 %>
       <span class="overflow-ellipsis">Stop watching</span>
