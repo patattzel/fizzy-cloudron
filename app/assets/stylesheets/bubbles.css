@@ -522,11 +522,7 @@
   .drafted & {
     --bubble-border-style: dashed;
   }
-
-  .bubble:has(.bubble__link) & {
-    z-index: -1;
-  }
-
+  
   :is(.bubbles, .bubbles-list) .bubble--wobble & {
     animation: wobble 1200ms normal forwards ease-out;
   }
