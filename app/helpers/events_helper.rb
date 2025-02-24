@@ -68,7 +68,11 @@ module EventsHelper
   def event_action_sentence(event)
     case event.action
     when "assigned"
-      "#{ event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      if event.assignees.include?(Current.user)
+        "#{ event.creator.name } will handle <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      else
+        "#{ event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      end
     when "unassigned"
       "#{ event.creator.name } unassigned #{ event.assignees.pluck(:name).to_sentence } from <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
     when "boosted"
