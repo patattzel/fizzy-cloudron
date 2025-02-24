@@ -5,15 +5,15 @@ class EventsController < ApplicationController
   def index
     update_bucket_filter
     @buckets = Current.user.buckets.alphabetically
-    @events = unique_events_by_hour_and_column
+    @events = events_by_hour_and_column
     @next_day = latest_event_before_today&.created_at
   end
 
   private
-    def unique_events_by_hour_and_column
+    def events_by_hour_and_column
       user_events.where(created_at: @activity_day.all_day).
         group_by { |event| [ event.created_at.hour, helpers.event_column(event) ] }.
-        map { |hour_col, events| [ hour_col, events.uniq(&:bubble_id) ] }
+        map { |hour_col, events| [ hour_col, events ] }
     end
 
     def latest_event_before_today
