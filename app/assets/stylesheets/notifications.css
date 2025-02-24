@@ -177,7 +177,7 @@
   }
 
   @media (hover: hover) {
-    .notification:hover & {
+    &:hover {
       --btn-background: var(--color-subtle-dark);
       --btn-border-color: var(--color-subtle-dark);
 
