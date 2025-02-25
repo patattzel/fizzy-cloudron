@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   end
 
   resources :buckets do
+    scope module: :buckets do
+      resource :subscriptions
+    end
+
     resources :bubbles do
       resources :boosts
       resources :comments do

@@ -11,4 +11,12 @@ module Subscribable
   def subscribe(user)
     subscriptions.create_or_find_by!(user: user)
   end
+
+  def unsubscribe(user)
+    subscriptions.find_by(user: user)&.destroy!
+  end
+
+  def subscribed_by?(user)
+    subscriptions.exists?(user: user)
+  end
 end

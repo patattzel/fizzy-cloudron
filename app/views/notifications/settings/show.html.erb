@@ -20,20 +20,5 @@
 <% end %>
 
 <section class="panel center flex flex-column gap-half margin-block">
-  <% @buckets.each do | bucket | %>
-    <div class="flex align-center gap-half pad-inline">
-      <h2 class="txt-medium overflow-ellipsis">
-        <%= bucket.name %>
-      </h2>
-
-      <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
-
-      <label for="notifications_setting" class="switch">
-        <input type="checkbox" id="notifications_setting" class="switch__input">
-        <span class="switch__btn round"></span>
-        <span class="for-screen-reader">Enable notifications for this bucket</span>
-      </label>
-    </div>
-  <% end %>
+  <%= render partial: "notifications/settings/bucket", collection: @buckets %>
 </section>
-
