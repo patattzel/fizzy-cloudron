@@ -2,6 +2,7 @@ require "test_helper"
 
 class Bubble::CommentableTest < ActiveSupport::TestCase
   test "creating a comment on a bubble makes the creator watch the bubble" do
+    buckets(:writebook).subscriptions.destroy_all
     assert_not bubbles(:text).watched_by?(users(:kevin))
 
     with_current_user(:kevin) do

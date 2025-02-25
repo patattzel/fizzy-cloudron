@@ -3,17 +3,21 @@ module Bubble::Watchable
 
   included do
     has_many :watches, dependent: :destroy
-    has_many :watchers, -> { merge(Watch.watching) }, through: :watches, source: :user
 
     after_create :create_initial_watches
   end
 
   def watched_by?(user)
-    watches.where(user: user, watching: true).exists?
+    watchers_and_subscribers.include?(user)
   end
 
   def set_watching(user, watching)
     watches.where(user: user).first_or_create.update!(watching: watching)
+  end
+
+  def watchers_and_subscribers
+    User.where(id: bucket.subscribers.pluck(:id) +
+               watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
   end
 
   private
