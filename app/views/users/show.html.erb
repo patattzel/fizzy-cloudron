@@ -33,6 +33,11 @@
           <% end %>
         </div>
       </div>
+
+      <div class="flex flex-column gap">
+        <%= link_to "Everything assigned to #{@user.name}", bubbles_path(assignee_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+        <%= link_to "Everything added by #{@user.name}", bubbles_path(creator_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+      </div>
     </div>
   </div>
 <% end %>
