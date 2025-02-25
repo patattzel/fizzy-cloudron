@@ -3,8 +3,6 @@ module Bubble::Watchable
 
   included do
     has_many :watches, dependent: :destroy
-
-    after_create :create_initial_watches
   end
 
   def watched_by?(user)
@@ -19,9 +17,4 @@ module Bubble::Watchable
     User.where(id: bucket.subscribers.pluck(:id) +
                watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
   end
-
-  private
-    def create_initial_watches
-      Watch.insert_all(bucket.users.pluck(:id).collect { |user_id| { user_id: user_id, bubble_id: id } })
-    end
 end
