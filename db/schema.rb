@@ -77,6 +77,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_20_220424) do
     t.index ["filter_id"], name: "index_assignees_filters_on_filter_id"
   end
 
+  create_table "assigners_filters", id: false, force: :cascade do |t|
+    t.integer "filter_id", null: false
+    t.integer "assigner_id", null: false
+    t.index ["assigner_id"], name: "index_assigners_filters_on_assigner_id"
+    t.index ["filter_id"], name: "index_assigners_filters_on_filter_id"
+  end
+
   create_table "assignments", force: :cascade do |t|
     t.integer "assignee_id", null: false
     t.integer "bubble_id", null: false
