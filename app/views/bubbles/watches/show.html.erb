@@ -1,20 +1,32 @@
 <%= turbo_frame_tag dom_id(@bubble, :watch) do %>
-  <% if @bubble.watched_by? Current.user %>
-    <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), method: :delete, class: "btn" do %>
-      <%= image_tag "bookmark.svg", aria: { hidden: true }, size: 24 %>
-      <span class="overflow-ellipsis">Stop watching</span>
-    <% end %>
-  <% else %>
-    <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), class: "btn" do %>
-      <%= image_tag "bookmark-outline.svg", aria: { hidden: true }, size: 24 %>
-      <span class="overflow-ellipsis">Watch this</span>
-    <% end %>
-  <% end %>
+  <div class="flex flex-column align-start gap-half">
+    <div class="flex flex-column align-start">
+      <h3 class="txt-medium txt-tight-lines">Watchers</h3>
+      <div><%= pluralize @watchers.count, "person" %> are being notified when someone comments on this bubble.</div>
+    </div>
 
+    <div class="flex flex-wrap gap-half max-width txt-small">
+      <%= render partial: "bubbles/watches/watcher", collection: @watchers %>
+    </div>
 
-  <%= pluralize @watchers.count, "other" %> watching this bubble
-
-  <div class="flex">
-    <%= render partial: "bubbles/watches/watcher", collection: @watchers %>
+    <div class="flex flex-column align-start margin-block-start">
+      <% if @bubble.watched_by? Current.user %>
+        <strong>You are watching this bubble</strong>
+        <div>You will be notified when someone comments.</div>
+        <div class="margin-block-half">
+          <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), method: :delete, class: "btn" do %>
+            <span>Stop watching</span>
+          <% end %>
+        </div>
+      <% else %>
+        <strong>You’re not watching this bubble</strong>
+        <div>You won’t be notified when someone comments.</div>
+        <div class="margin-block-half">
+          <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), class: "btn" do %>
+            <span">Watch this</span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>
