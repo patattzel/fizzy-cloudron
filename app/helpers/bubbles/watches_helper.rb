@@ -1,2 +1,0 @@
-module Bubbles::WatchesHelper
-end
