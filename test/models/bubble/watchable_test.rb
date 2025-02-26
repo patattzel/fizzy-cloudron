@@ -24,4 +24,12 @@ class Bubble::WatchableTest < ActiveSupport::TestCase
     bubbles(:logo).set_watching(users(:kevin), false)
     assert_not bubbles(:logo).watched_by?(users(:kevin))
   end
+
+  test "bubbles are initially watched by their creator" do
+    buckets(:writebook).unsubscribe(users(:kevin))
+
+    bubble = buckets(:writebook).bubbles.create!(creator: users(:kevin))
+
+    assert bubble.watched_by?(users(:kevin))
+  end
 end

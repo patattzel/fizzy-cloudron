@@ -3,6 +3,8 @@ module Bubble::Watchable
 
   included do
     has_many :watches, dependent: :destroy
+
+    after_create :set_watching_for_creator
   end
 
   def watched_by?(user)
@@ -17,4 +19,9 @@ module Bubble::Watchable
     User.where(id: bucket.subscribers.pluck(:id) +
                watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
   end
+
+  private
+    def set_watching_for_creator
+      set_watching(creator, true)
+    end
 end
