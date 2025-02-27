@@ -32,4 +32,15 @@ class Bubble::WatchableTest < ActiveSupport::TestCase
 
     assert bubble.watched_by?(users(:kevin))
   end
+
+  test "watchers_and_subscribers" do
+    buckets(:writebook).subscribe(users(:kevin))
+    buckets(:writebook).subscribe(users(:jz))
+
+    bubbles(:logo).set_watching(users(:kevin), true)
+    bubbles(:logo).set_watching(users(:jz), false)
+    bubbles(:logo).set_watching(users(:david), true)
+
+    assert_equal [users(:kevin), users(:david)].sort, bubbles(:logo).watchers_and_subscribers.sort
+  end
 end

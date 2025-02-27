@@ -17,7 +17,7 @@ module Bubble::Watchable
 
   def watchers_and_subscribers
     User.where(id: bucket.subscribers.pluck(:id) +
-               watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
+      watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
   end
 
   private
