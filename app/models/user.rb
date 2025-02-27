@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :accesses, dependent: :destroy
   has_many :buckets, through: :accesses
   has_many :accessible_bubbles, through: :buckets, source: :bubbles
+  has_many :subscriptions, dependent: :destroy
 
   has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
 
@@ -26,7 +27,8 @@ class User < ApplicationRecord
 
   after_create_commit :grant_access_to_buckets
 
-  scope :alphabetically, -> { order("LOWER(name)") }
+  scope :alphabetically, -> { order("lower(name)") }
+  scope :sorted_with_user_first, ->(user) { order(Arel.sql("id != ?, lower(name)", user.id)) }
 
   def initials
     name.to_s.scan(/\b\p{L}/).join.upcase

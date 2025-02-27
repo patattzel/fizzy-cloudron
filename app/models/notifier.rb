@@ -27,7 +27,7 @@ class Notifier
     end
 
     def recipients
-      bubble.bucket.users.without(creator)
+      bubble.watchers_and_subscribers.without(creator)
     end
 
     def resource

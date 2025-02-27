@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   end
 
   resources :buckets do
+    scope module: :buckets do
+      resource :subscriptions
+    end
+
     resources :bubbles do
       resources :boosts
       resources :comments do
@@ -47,6 +51,7 @@ Rails.application.routes.draw do
         resource :recover
         resource :stage_picker
         resources :stagings
+        resource :watch
       end
 
       namespace :assignments, as: :assignment do
