@@ -11,7 +11,7 @@ module Bubble::Messages
   end
 
   def draft_comment
-    find_or_build_initial_comment.body_plain_text
+    find_or_build_initial_comment.body.content
   end
 
   def draft_comment=(body)
