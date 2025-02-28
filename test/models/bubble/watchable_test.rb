@@ -41,6 +41,6 @@ class Bubble::WatchableTest < ActiveSupport::TestCase
     bubbles(:logo).set_watching(users(:jz), false)
     bubbles(:logo).set_watching(users(:david), true)
 
-    assert_equal [users(:kevin), users(:david)].sort, bubbles(:logo).watchers_and_subscribers.sort
+    assert_equal [ users(:kevin), users(:david) ].sort, bubbles(:logo).watchers_and_subscribers.sort
   end
 end
