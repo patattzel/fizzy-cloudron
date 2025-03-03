@@ -35,6 +35,14 @@
   }
 }
 
+.comment__edit {
+  display: none;
+
+  .comment--mine & {
+    display: grid;
+  }
+}
+
 .comment__body {
   p {
     &:first-child {

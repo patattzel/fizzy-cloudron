@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   include BubbleScoped, BucketScoped
   before_action :set_comment, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_own_comment, only: [ :edit, :update, :destroy ]
 
   def create
     @bubble.capture new_comment
@@ -34,5 +35,9 @@ class CommentsController < ApplicationController
       @comment = Comment.joins(:message)
                         .where(messages: { bubble_id: @bubble.id })
                         .find(params[:id])
+    end
+
+    def require_own_comment
+      head :forbidden unless @comment.creator.current?
     end
 end

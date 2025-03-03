@@ -42,6 +42,10 @@ class User < ApplicationRecord
     end
   end
 
+  def current?
+    Current.user == self
+  end
+
   def can_remove?(other)
     other != self
   end
