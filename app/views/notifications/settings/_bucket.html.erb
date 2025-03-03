@@ -7,7 +7,7 @@
 
       <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
 
-      <label class="switch">
+      <label class="switch flex-item-no-shrink">
         <%= form.checkbox :subscribed, checked: bucket.subscribed_by?(user), id: dom_id(bucket, :subscribed),
               class: "switch__input", include_hidden: false, data: { action: "form#submit" } %>
           <span class="switch__btn round"></span>
