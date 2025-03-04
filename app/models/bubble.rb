@@ -1,6 +1,6 @@
 class Bubble < ApplicationRecord
   include Assignable, Boostable, Colored, Commentable, Eventable,
-    Messages, Notifiable, Poppable, Scorable, Searchable, Staged, Statuses, Taggable, Watchable
+    Messages, Notifiable, Pinnable, Poppable, Scorable, Searchable, Staged, Statuses, Taggable, Watchable
 
   belongs_to :bucket, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
@@ -11,6 +11,7 @@ class Bubble < ApplicationRecord
 
   after_save :track_due_date_change, if: :saved_change_to_due_on?
   after_save :track_title_change, if: :saved_change_to_title?
+  after_create :assign_initial_stage
 
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
@@ -46,6 +47,13 @@ class Bubble < ApplicationRecord
           old_title: title_before_last_save,
           new_title: title
         })
+      end
+    end
+
+    def assign_initial_stage
+      if workflow_stage = bucket.account.workflows.first&.stages&.first
+        update! stage: workflow_stage
+        track_event :staged, stage_id: workflow_stage.id, stage_name: workflow_stage.name
       end
     end
 end

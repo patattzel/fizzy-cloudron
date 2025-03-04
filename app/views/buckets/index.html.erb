@@ -10,7 +10,7 @@
     <header class="flex flex-column center">
       <div class="flex align-center gap-half justify-center">
         <%= link_to "Collections", root_path %>
-        <%= link_to "Activity", events_path %>
+        <%= link_to "Activity", root_path %>
       </div>
       <h1 class="txt-x-large"><%= @page_title %></h1>
     </header>
@@ -30,3 +30,4 @@
 </ul>
 
 <%= render "notifications/tray" %>
+<%= render "bubbles/pins/tray" %>

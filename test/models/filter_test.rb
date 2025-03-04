@@ -8,7 +8,7 @@ class FilterTest < ActiveSupport::TestCase
 
       bubbles(:layout).capture Comment.new(body: "I hate haggis")
       bubbles(:logo).capture Comment.new(body: "I love haggis")
-      bubbles(:logo).update(stage: workflow_stages(:qa_triage))
+      bubbles(:logo).update(stage: workflow_stages(:qa_maybe))
     end
 
     assert_not_includes users(:kevin).filters.new.bubbles, @new_bubble
@@ -19,7 +19,7 @@ class FilterTest < ActiveSupport::TestCase
     filter = users(:david).filters.new creator_ids: [ users(:david).id ], tag_ids: [ tags(:mobile).id ]
     assert_equal [ bubbles(:layout) ], filter.bubbles
 
-    filter = users(:david).filters.new stage_ids: [ workflow_stages(:qa_triage).id ]
+    filter = users(:david).filters.new stage_ids: [ workflow_stages(:qa_maybe).id ]
     assert_equal [ bubbles(:logo) ], filter.bubbles
 
     filter = users(:david).filters.new assignment_status: "unassigned", bucket_ids: [ @new_bucket.id ]
@@ -105,7 +105,7 @@ class FilterTest < ActiveSupport::TestCase
   test "summary" do
     assert_equal "Most discussed, tagged #Mobile, and assigned to JZ ", filters(:jz_assignments).summary
 
-    filters(:jz_assignments).update!(stages: workflow_stages(:qa_triage, :qa_in_progress))
+    filters(:jz_assignments).update!(stages: workflow_stages(:qa_maybe, :qa_not_now))
     assert_equal "Most discussed, tagged #Mobile, assigned to JZ, and staged in Triage or In Progress ", filters(:jz_assignments).summary
 
     filters(:jz_assignments).update!(stages: [], assignees: [], tags: [], buckets: [ buckets(:writebook) ])

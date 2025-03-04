@@ -19,3 +19,12 @@
     inline-size: 18ch;
   }
 }
+
+.tag-picker__button {
+  font-size: 0.7em;
+  margin-inline-start: 0.5em;
+
+  + .panel {
+    --panel-size: 18ch;
+  }
+}

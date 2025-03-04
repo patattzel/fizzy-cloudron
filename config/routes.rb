@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "buckets#index"
+  root "events#index"
 
   resource :account do
     scope module: :accounts do
@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         resource :stage_picker
         resources :stagings
         resource :watch
+        resource :pin, only: [ :show, :create, :destroy ]
       end
 
       namespace :assignments, as: :assignment do
@@ -92,4 +93,11 @@ Rails.application.routes.draw do
   post "join/:join_code", to: "users#create"
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
+  namespace :bubbles do
+    namespace :pins do
+      resource :tray, only: :show
+    end
+    resources :pins, only: :index
+  end
 end

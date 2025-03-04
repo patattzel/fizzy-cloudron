@@ -1,7 +1,9 @@
 <div class="events--day" data-controller="related-element"
      data-related-element-highlight-class="event--related">
   <% if events.any? %>
-    <h2 class="txt-large margin-block-end-half"><%= event_day_title(activity_day) %></h2>
+    <h2 class="txt-medium events__day-header center">
+      <span class="events__day-header-content"><%= event_day_title(activity_day) %><span>
+    </h2>
 
     <div class="center events">
       <%= render_column_headers(activity_day) %>

@@ -6,6 +6,7 @@ class EventsController < ApplicationController
     update_bucket_filter
     @buckets = Current.user.buckets.alphabetically
     @events = events_by_hour_and_column
+    @filters = Current.user.filters.all
     @next_day = latest_event_before_today&.created_at
   end
 

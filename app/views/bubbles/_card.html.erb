@@ -1,0 +1,52 @@
+<% cache bubble do %>
+  <article class="card flex flex-column position-relative txt-align-start full-width" 
+        style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;" id="<%= dom_id(bubble, :ticket) %>">
+    <header class="card__header flex align-center gap min-width">
+      <%= link_to bubble.bucket.name, bubbles_path(bucket_ids: [ bubble.bucket ]), 
+            class: "card__bucket txt-uppercase overflow-ellipsis txt-reversed" %>
+
+      <%= render "bubbles/tags", bubble: bubble %>
+    </header>
+
+    <div class="card__body flex gap full-width flex-item-grow">
+      <div class="card__body-header">
+        <h1 class="card__title">
+          <% if bubble.published? %>
+            <%= turbo_frame_tag bubble, :edit do %>
+              <%= link_to bubble_title(bubble), edit_bucket_bubble_path(bubble.bucket, bubble), class: "card__title-link overflow-line-clamp" %>
+            <% end %>
+          <% else %>
+            <%= form_with model: bubble, url: bucket_bubble_path(bubble.bucket, bubble), id: "bubble_form", data: { controller: "auto-save" } do |form| %>
+              <%= form.text_area :title, placeholder: "Name it…", 
+                  class: "input input--textarea full-width borderless txt-align-start #{ "fill-highlight" if bubble.creating? }", 
+                  autofocus: bubble.title.blank?, 
+                  data: { action: "auto-save#change blur->auto-save#submit keydown.enter->auto-save#submit:prevent keydown.ctrl+enter->auto-save#submit:prevent" } %>
+            <% end %>
+          <% end %>
+        </h1>
+        <%= link_to bucket_bubble_path(bubble.bucket, bubble), class: "card__link" do %>
+          <span class="for-screen-reader"><%= bubble.title %></span>
+        <% end %>
+      </div>
+    
+      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) %>
+    </div>
+
+    <footer class="card__footer full-width flex align-center gap">
+      <%= render "bubbles/people", bubble: bubble %>
+      <%= render "bubbles/meta", bubble: bubble %>
+    </footer>
+
+    <div class="card__background">
+      <%= image_tag bubble.image.presence || "", size: 120, data: { upload_preview_target: "image" } %>
+    </div>
+
+    <% if bubble.popped? %>
+      <div class="card__popped flex flex-column">
+        <span class="card__popped-title txt-uppercase">Completed</span>
+        <strong><%= bubble.popped_at.strftime("%b %d, %Y") %></strong>
+        <span>by <span style="border-block-end: 1px dashed var(--color-ink);"><%= bubble.popped_by.name %></span></span>
+      </div>
+    <% end %>
+  </article>
+<% end %>

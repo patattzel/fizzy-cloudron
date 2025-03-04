@@ -62,16 +62,6 @@
     z-index: 1;
   }
 }
-
-.bubble__container {
-  inline-size: min(67ch, 75vw);
-  max-inline-size: 100dvw;
-
-  @media (max-width: 70ch) {
-    inline-size: min(67ch, 100dvw);
-  }
-}
-
 .bubble__detail {
   --bubble-border-color: color-mix(in srgb, var(--bubble-color) 30%, var(--color-bg));
   --bubble-border-width: 0.15em;
@@ -99,51 +89,6 @@
 
   a {
     color: var(--bubble-color);
-  }
-
-  &.bubble__boosts {
-    --rotation: 45deg;
-
-    aspect-ratio: 5/7;
-    border-radius: var(--bubble-shape);
-    inline-size: min-content;
-    inset: 70cqi 5cqi auto auto;
-    min-inline-size: 4.5ch;
-    padding: 0;
-    transform: rotate(var(--rotation));
-
-
-    .boost__form {
-      transform: rotate(calc(var(--rotation) * -1));
-    }
-
-    .boost__btn {
-      --btn-background: var(--bubble-color);
-      --btn-border-radius: 50%;
-      --btn-color: var(--color-ink-reversed);
-      --btn-size: 0.5em;
-      --btn-padding: 0.3em 0.5em 0.4em;
-
-      font-weight: 800;
-    }
-
-    .boost__input {
-      color: var(--bubble-color);
-      font-size: inherit;
-      font-weight: 800;
-      padding: 0;
-      text-align: center;
-
-      @supports (field-sizing: content) {
-        field-sizing: content;
-      }
-    }
-
-    @media (hover: hover) {
-      .bubbles .bubble:not(.popped):hover & {
-        transform: rotate(calc(var(--rotation) + var(--bubble-shift) * 1)) translate(0rem, 1rem);
-      }
-    }
   }
 
   &.bubble__assignee {
@@ -321,8 +266,14 @@
   --divider-offset: 1.2em;
   --hover-size: 0;
 
-  font-size: var(--text-medium);
-  max-inline-size: 80ch;
+  container-type: inline-size;
+  font-size: 1.4cqi;
+  inline-size: min(90ch, 100dvw);
+  max-inline-size: 100dvw;
+
+  @media (max-width: 70ch) {
+    inline-size: 100%;
+  }
 
   .bubble {
     order: 0;
@@ -337,7 +288,7 @@
     margin-inline: var(--divider-offset);
 
     li {
-      border-radius: 0.6em;
+      border-radius: 0;
       list-style: none;
       padding: 0.5em var(--inline-space);
       position: relative;
@@ -350,7 +301,6 @@
           &:hover {
             background-color: color(from var(--bubble-color) srgb r g b / 0.15);
             border: 0;
-            border-radius: 0.6em;
           }
         }
       }
@@ -408,8 +358,9 @@
 }
 
 .bubble__title-text {
-  font-weight: 600;
+  font-weight: 700;
   flex-grow: 1;
+  letter-spacing: -0.015em;
   white-space: nowrap;
 
   .drafted & {
@@ -549,11 +500,6 @@
   margin-block-start: -0.7em;
   position: relative;
   z-index: 1;
-
-  .btn {
-    --btn-background: var(--bubble-color);
-    --btn-color: var(--color-ink-reversed);
-  }
 
   .btn--plain {
     --btn-color: var(--bubble-color);

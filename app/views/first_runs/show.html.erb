@@ -1,14 +1,7 @@
 <% @page_title = "Set up Fizzy" %>
 
 <div class="panel shadow center margin-block-double <%= "shake" if flash[:alert] %>" style="--panel-size: 55ch;">
-  <div class="bubble center" style="--bubble-size: 12cqi; --bubble-color: var(--color-link);">
-    <span class="bubble__shape"></span>
-    <span class="bubble__detail bubble__date">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-    <span class="bubble__detail bubble__boosts">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-    <span class="bubble__detail bubble__assignee">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-  </div>
-
-  <h1 class="margin-block-start-half margin-block-end-double">Fizzy</h1>
+  <h1 class="txt-xx-large margin-block-end-double">Fizzy</h1>
 
   <%= form_with model: User.new, url: first_run_path, class: "flex flex-column gap txt-large" do |form| %>
     <div class="flex align-center gap">

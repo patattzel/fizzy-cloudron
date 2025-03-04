@@ -2,9 +2,11 @@
   --panel-border-radius: 0.5em;
   --panel-padding: 0.4em 0.5em 0.5em;
   --panel-size: auto;
-
+  
+  inline-size: auto;
   inset: 0 auto auto 0;
-  max-inline-size: 30ch;
+  min-inline-size: 20ch;
+  max-inline-size: 40ch;
   position: absolute;
   z-index: 2;
 

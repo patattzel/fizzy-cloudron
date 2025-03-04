@@ -1,17 +1,18 @@
 <% presenter = BucketFilterPresenter.new(@buckets, params, cookies) %>
-<div class="position-relative margin-block-start-half margin-block-end center max-width" 
+<div class="position-relative max-width"
 		data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-	<button class="input input--select flex-inline min-width max-width" data-action="click->dialog#open:stop">
+	<button class="input input--select flex-inline min-width max-width txt-small" data-action="click->dialog#open:stop">
 		<span class="overflow-ellipsis">
 			<%= presenter.filter_text %>
 		</span>
 	</button>
 
-	<dialog class="events__popup popup panel flex-column full-width align-start gap-half fill-white shadow" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
-		<strong class="popup__title margin-block-start-half pad-inline-half">Filter by projects…</strong>
+	<dialog class="events__popup popup panel flex-column full-width align-start gap-half fill-white shadow" 
+				style="z-index: 5; inset: 0 0 auto auto;" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
+		<strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Filter by Collection…</strong>
 		<%= form_with url: events_path, method: :get, class: "flex flex-column full-width popup__list", 
 					data: { controller: "form" } do |form| %>
-			<%= link_to "Show everything", events_path(clear_filter: true), class: "btn popup__item" %>
+			<%= link_to "Show everything", events_path(clear_filter: true), class: "btn popup__item txt-nowrap" %>
 			<% @buckets.each do |bucket| %>
 				<div class="btn popup__item">
 					<%= form.check_box "bucket_ids[]", { 

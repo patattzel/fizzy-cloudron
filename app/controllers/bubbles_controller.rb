@@ -5,9 +5,14 @@ class BubblesController < ApplicationController
 
   before_action :set_filter, only: :index
   before_action :set_bubble, only: %i[ show edit update destroy ]
+  before_action :handle_display_count, only: :index
+
+  DISPLAY_COUNT_OPTIONS = [ 6, 12, 18, 24 ].freeze
+  DEFAULT_DISPLAY_COUNT = 6
 
   def index
     @bubbles = @filter.bubbles.published_or_drafted_by(Current.user)
+    @display_count = display_count
   end
 
   def create
@@ -45,5 +50,18 @@ class BubblesController < ApplicationController
 
     def deleted_notice
       "Bubble deleted" unless @bubble.creating?
+    end
+
+    def handle_display_count
+      if params[:set_display_count].present?
+        cookies[:display_count] = params[:set_display_count]
+        redirect_to bubbles_path(
+          params.permit(*Filter::PERMITTED_PARAMS, :bucket_ids).except(:set_display_count)
+        )
+      end
+    end
+
+    def display_count
+      (cookies[:display_count] || DEFAULT_DISPLAY_COUNT).to_i
     end
 end

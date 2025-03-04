@@ -2,7 +2,7 @@
 
 <% content_for :header do %>
   <nav>
-    <%= link_to buckets_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to bubbles_path(bucket_ids: [ @bbucket ]), class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Go back</span>
     <% end %>
@@ -72,6 +72,6 @@
       <span class="for-screen-reader">Save</span>
     </button>
 
-    <%= link_to "Cancel and go back", buckets_path, data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
+    <%= link_to "Cancel and go back", bubbles_path(bucket_ids: [ @bucket ]), data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
   <% end %>
 </div>

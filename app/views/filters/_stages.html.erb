@@ -1,4 +1,4 @@
-<% if Current.account.workflows.any? && filter.stages.any? %>
+<% if Current.account.workflows.any? %>
   <div class="quick-filter position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
     <button class="btn input input--select flex-inline txt-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
@@ -19,15 +19,9 @@
         <% filter.as_params.except(:stage_ids).each do |key, value| %>
           <%= filter_hidden_field_tag key, value %>
         <% end %>
-
-        <%= link_to bubbles_path(filter.as_params.except(:stage_ids)), class: "btn popup__item" do %>
-          <span class="overflow-ellipsis">Clear all</span>
-        <% end %>
-
-        <% Current.account.workflows.order(:name).each do |workflow| %>
-          <strong class="popup__title margin-block-start-half pad-inline-half flex overflow-ellipsis"><%= workflow.name %></strong>
-
-          <% workflow.stages.order(:name).each do |stage| %>
+        
+        <% workflow = Current.account.workflows.first %>
+        <% workflow.stages.each do |stage| %>
             <div class="btn popup__item">
               <%= form.check_box :stage_ids, {
                 multiple: true,
@@ -39,7 +33,6 @@
               <%= form.label :stage_ids, stage.name, for: form.field_id(:stage_ids, stage.id), class: "overflow-ellipsis" %>
               <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
             </div>
-          <% end %>
         <% end %>
       <% end %>
     </dialog>

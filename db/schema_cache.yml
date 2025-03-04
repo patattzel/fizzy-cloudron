@@ -708,6 +708,12 @@ columns:
     default_function:
     collation:
     comment:
+  pins:
+  - *5
+  - *25
+  - *30
+  - *6
+  - *7
   pops:
   - *5
   - *25
@@ -946,6 +952,7 @@ primary_keys:
   filters_tags:
   messages: id
   notifications: id
+  pins: id
   pops: id
   reactions: id
   schema_migrations: version
@@ -980,6 +987,7 @@ data_sources:
   filters_tags: true
   messages: true
   notifications: true
+  pins: true
   pops: true
   reactions: true
   schema_migrations: true
@@ -1284,22 +1292,6 @@ indexes:
   bubbles:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: bubbles
-    name: index_bubbles_on_activity_score_order
-    unique: false
-    columns:
-    - activity_score_order
-    lengths: {}
-    orders: :desc
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: bubbles
     name: index_bubbles_on_stage_id
     unique: false
     columns:
@@ -1338,6 +1330,22 @@ indexes:
     - auto_pop_at
     lengths: {}
     orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: bubbles
+    name: index_bubbles_on_activity_score_order
+    unique: false
+    columns:
+    - activity_score_order
+    lengths: {}
+    orders: :desc
     opclasses: {}
     where:
     type:
@@ -1701,6 +1709,39 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  pins:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: pins
+    name: index_pins_on_user_id
+    unique: false
+    columns:
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: pins
+    name: index_pins_on_bubble_id
+    unique: false
+    columns:
+    - bubble_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   pops:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: pops
@@ -2004,4 +2045,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20250304140641
+version: 20250318005138

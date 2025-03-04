@@ -3,4 +3,11 @@
   <%# Template Dependency: event_summaries/event_summary %>
   <%= render bubble.messages, cached: true %>
   <%= render "comments/new", bubble: bubble %>
+
+  <div class="flex flex-column gap-half justify-start full-width txt-align-start">
+    <span>Watching this…</span>
+    <div class="flex align-center flex-wrap gap-half max-width">
+      <%= render partial: "bubbles/watches/watcher", collection: bubble.watchers_and_subscribers.sorted_with_user_first(Current.user) %>
+    </div>
+  </div>
 <% end %>

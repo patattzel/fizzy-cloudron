@@ -1,7 +1,7 @@
 <div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close">
-  <button class="btn full-width justify-start borderless" data-action="dialog#open:stop">
+  <button class="btn" data-action="dialog#open:stop">
     <%= image_tag "art.svg", aria: { hidden: true }, size: 24 %>
-    <span>Color</span>
+    <span class="for-screen-reader">Change color</span>
   </button>
 
   <dialog class="color-picker panel fill-white shadow gap-half" data-dialog-target="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">

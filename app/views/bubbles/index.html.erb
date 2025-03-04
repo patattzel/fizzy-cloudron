@@ -5,35 +5,41 @@
 
 <% content_for :header do %>
   <nav class="align-start">
-    <% if bucket = @filter.buckets.first %>
-      <%= link_to edit_bucket_path(bucket), class: "btn borderless flex-item-justify-start" do %>
-        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Settings for <%= bucket.name %></span>
-      <% end %>
+    <%= link_to root_path, class: "btn", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+      <%= image_tag "home.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Home</span>
     <% end %>
 
-    <header class="flex flex-column center">
-      <div class="flex align-center gap-half justify-center">
-        <%= link_to "Collections", root_path %>
-        <%= link_to "Activity", events_path %>
-      </div>
+    <div class="btn btn--placeholder flex-item-justify-start"></div>
+
+    <header class="search flex flex-inline flex-column center flex-shrink txt--large">
+      <input type="search" placeholder="Type names, tags, phrases to find something…" class="input input--search">
       <%= render "bubbles/filters", filter: @filter %>
     </header>
 
     <% if bucket = @filter.buckets.first %>
-      <%= button_to bucket_bubbles_path(bucket), method: :post, class: "btn borderless", form_class: "flex-item-justify-end" do %>
+      <%= link_to edit_bucket_path(bucket), class: "btn flex-item-justify-end" do %>
+        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Settings for <%= bucket.name %></span>
+      <% end %>
+
+      <%= button_to bucket_bubbles_path(bucket), method: :post, class: "btn" do %>
         <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">Create a new bubble</span>
       <% end %>
+    <% else %>
+      <div class="btn btn--placeholder flex-item-justify-end"></div>
+      <div class="btn btn--placeholder"></div>
     <% end %>
   </nav>
 <% end %>
 
-<section class="bubbles flex-inline flex-wrap gap justify-center align-end" style="view-transition-name: bubbles_<%= @filter.id %>" data-controller="bubble-size" data-action="turbo:morph@window->bubble-size#resize">
+<section class="cards gap position-relative" style="view-transition-name: cards-container; data-controller="bubble-size" data-action="turbo:morph@window->bubble-size#resize">
   <% if @bubbles.any? %>
-    <%= render partial: "bubbles/bubble", collection: @bubbles.limit(10), cached: true %>
+    <%= render "display_count_selector", display_count: @display_count, filter: @filter %>
+    <%= render partial: "bubbles/card", collection: @bubbles.limit(@display_count), as: :bubble, cached: true %>
   <% else %>
-    <p><strong>Nothing here.</strong></p>
+    <p class="txt-medium"><strong>Nothing here.</strong></p>
   <% end %>
 </section>
 
@@ -45,9 +51,9 @@
       data-divider-installed-class="bubbles-list__divider--installed"
       data-divider-dragging-class="dragging"
       data-action="turbo:morph@document->divider#install dragstart->divider#configureDrag dragenter->divider#acceptDrop dragover->divider#acceptDrop dragover->divider#moveDivider drop->divider#drop">
-    <%= render partial: "bubbles/list/bubble", collection: @bubbles, cached: true %>
-    <%= render "bubbles/list/divider", filter: @filter %>
+    <%= render partial: "bubbles/list/bubble", collection: @bubbles.offset(@display_count), as: :bubble, cached: true %>
   </ul>
 </section>
 
 <%= render "notifications/tray" %>
+<%= render "bubbles/pins/tray" %>
