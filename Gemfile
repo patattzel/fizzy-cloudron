@@ -28,9 +28,10 @@ gem "redcarpet"
 gem "rouge"
 gem "jbuilder"
 
-# Telemetry
+# Telemetry and logging
 gem "sentry-ruby"
 gem "sentry-rails"
+gem "rails_structured_logging", bc: "rails-structured-logging"
 
 group :development, :test do
   gem "debug"
