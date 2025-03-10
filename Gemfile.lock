@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/basecamp/rails-structured-logging
+  revision: 0c2d45dd98c92156cc419e75cdad2aa903290d82
+  specs:
+    rails_structured_logging (0.2.0)
+      json
+      rails (>= 6.0.0)
+
+GIT
   remote: https://github.com/rails/rails.git
   revision: 5520bd835e3724ffafe3f719f9aafe951567f2f3
   branch: main
@@ -420,6 +428,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails!
+  rails_structured_logging!
   redcarpet
   rouge
   rqrcode
