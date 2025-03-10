@@ -3,34 +3,11 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "058e1a992f5317dab046bf4f403fc4d5d01c288d7cbd8232526dcfed2add2ad2",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/message.rb",
-      "line": 9,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "joins(\"LEFT OUTER JOIN #{messageable_type} ON messages.messageable_id = #{messageable_type}.id\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Message",
-        "method": "left_joins_messageable"
-      },
-      "user_input": "messageable_type",
-      "confidence": "Medium",
-      "cwe_id": [
-        89
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "2a34f36c066816753df7779e99a34c276efdb3590c16a681145c3ff62b894331",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/concerns/searchable.rb",
-      "line": 13,
+      "line": 14,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "joins(\"join #{using} idx on #{table_name}.id = idx.rowid\")",
       "render_path": null,
@@ -45,8 +22,31 @@
         89
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Dangerous Eval",
+      "warning_code": 13,
+      "fingerprint": "971ca740ceee7ae9a7d02a257964afd0b80672b3a4c49eeaf8a07a178bb84e78",
+      "check_name": "Evaluation",
+      "message": "Dynamic string evaluated as code",
+      "file": "lib/rails_ext/action_text_has_markdown.rb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_eval/",
+      "code": "class_eval(\"          def #{name}\\n            markdown_#{name} || build_markdown_#{name}\\n          end\\n\\n          def #{name}_html\\n            #{name}.to_html\\n          end\\n\\n          def #{name}_plain_text\\n            #{name}.to_plain_text\\n          end\\n\\n          def #{name}?\\n            markdown_#{name}.present?\\n          end\\n\\n          def #{name}=(content)\\n            self.#{name}.content = content\\n          end\\n\", \"lib/rails_ext/action_text_has_markdown.rb\", 8)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ActionText::HasMarkdown",
+        "method": "has_markdown"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        913,
+        95
+      ],
+      "note": ""
     }
   ],
-  "updated": "2024-10-27 20:18:14 -0600",
-  "brakeman_version": "6.2.2"
+  "brakeman_version": "7.0.0"
 }
