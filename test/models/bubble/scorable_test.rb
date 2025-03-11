@@ -53,4 +53,13 @@ class Bubble::ScorableTest < ActiveSupport::TestCase
       assert_equal [ bubble_new, bubble_mid, bubble_old ], Bubble.where(id: [ bubble_old, bubble_mid, bubble_new ]).ordered_by_activity
     end
   end
+
+  test "bubbles with no activity have a valid activity_score_order" do
+    bubble = Bubble.create! bucket: buckets(:writebook), creator: users(:kevin)
+
+    bubble.rescore
+
+    assert bubble.activity_score.zero?
+    assert_not bubble.activity_score_order.infinite?
+  end
 end
