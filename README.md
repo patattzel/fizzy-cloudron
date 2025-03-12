@@ -6,11 +6,15 @@ First get everything installed and configured with:
 
     bin/setup
 
+If you'd like to load fixtures:
+
+    bin/rails db:fixtures:load
+
 And then run the development server:
 
     bin/dev
 
-You'll be able to access the app in development at http://localhost:3006.
+You'll be able to access the app in development at http://development-tenant.fizzy.localhost:3006
 
 
 ## Deploying
