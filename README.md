@@ -25,6 +25,17 @@ For beta:
 
     bin/kamal deploy -d beta
 
+Beta tenant is:
+
+- https://fizzy.37signals.works/
+
+
 And for production:
 
     bin/kamal deploy -d production
+
+Production tenants are:
+
+- https://37s.fizzy.37signals.com/
+- https://dev.fizzy.37signals.com/
+- https://qa.fizzy.37signals.com/
