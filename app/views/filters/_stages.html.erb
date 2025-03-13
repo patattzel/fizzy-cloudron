@@ -10,35 +10,37 @@
       </span>
     </button>
 
-    <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
+    <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow"
+        aria-label="In stage…" aria-description="In stage…"
+        data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
       <strong class="popup__title margin-block-start-half pad-inline-half">In stage…</strong>
       <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list", 
             data: { controller: "form" } do |form| %>
         <% filter.as_params.except(:stage_ids).each do |key, value| %>
           <%= filter_hidden_field_tag key, value %>
         <% end %>
-        
+
         <%= link_to bubbles_path(filter.as_params.except(:stage_ids)), class: "btn popup__item" do %>
           <span class="overflow-ellipsis">Clear all</span>
         <% end %>
-        
+
         <% Current.account.workflows.order(:name).each do |workflow| %>
-        <strong class="popup__title margin-block-start-half pad-inline-half flex overflow-ellipsis"><%= workflow.name %></strong>
-        
-        <% workflow.stages.order(:name).each do |stage| %>
+          <strong class="popup__title margin-block-start-half pad-inline-half flex overflow-ellipsis"><%= workflow.name %></strong>
+
+          <% workflow.stages.order(:name).each do |stage| %>
             <div class="btn popup__item">
-            <%= form.check_box "stage_ids[]", { 
+              <%= form.check_box "stage_ids[]", { 
                 checked: filter.stages.include?(stage),
                 data: { action: "change->form#submit" },
                 include_hidden: false,
             }, stage.id %>
 
-            <%= form.label "stage_ids[]", stage.name, for: dom_id(stage, :filter), class: "overflow-ellipsis" %>
-            <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
+              <%= form.label "stage_ids[]", stage.name, for: dom_id(stage, :filter), class: "overflow-ellipsis" %>
+              <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
             </div>
-        <% end %>
+          <% end %>
         <% end %>
       <% end %>
     </dialog>
   </div>
-<% end %> 
+<% end %>

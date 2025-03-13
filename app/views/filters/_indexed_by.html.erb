@@ -5,7 +5,9 @@
     </span>
   </button>
 
-  <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
+  <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow"
+      aria-label="Sort by…" aria-description="Sort by…"
+      data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
     <strong class="popup__title margin-block-start-half pad-inline-half">Sort by…</strong>
     <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list", 
           data: { controller: "form" } do |form| %>
