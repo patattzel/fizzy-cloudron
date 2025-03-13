@@ -1,5 +1,5 @@
 service: fizzy
-image: fizzy
+image: basecamp/fizzy
 
 servers:
   jobs:
@@ -12,10 +12,9 @@ proxy:
   ssl: true
 
 registry:
-  server: registry.kevinmcconnell.dev
-  username: admin
+  username: bcbot
   password:
-    - KAMAL_REGISTRY_PASSWORD
+    - BASECAMP_REGISTRY_PASSWORD
 
 builder:
   arch: amd64
