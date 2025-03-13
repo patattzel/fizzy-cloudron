@@ -33,4 +33,10 @@ class NotifierTest < ActiveSupport::TestCase
 
     assert_equal bubbles(:logo), Notification.last.resource
   end
+
+  test "for assignment events only create a notification for the assignee" do
+    notifications = Notifier.for(events(:logo_assignment_jz)).generate
+
+    assert_equal [ users(:jz) ], notifications.map(&:user)
+  end
 end
