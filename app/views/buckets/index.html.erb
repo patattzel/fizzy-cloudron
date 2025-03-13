@@ -22,11 +22,11 @@
   </nav>
 <% end %>
 
-<div class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap" data-controller="bubble-size">
+<ul class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap" data-controller="bubble-size">
   <%= render @buckets, cached: true %>
-</div>
-<div class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap" data-controller="bubble-size">
+</ul>
+<ul class="buckets margin-block-double unpad align-start justify-center flex flex-wrap gap" data-controller="bubble-size">
   <%= render @filters %>
-</div>
+</ul>
 
 <%= render "notifications/tray" %>
