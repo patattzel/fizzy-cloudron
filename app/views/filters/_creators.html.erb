@@ -26,25 +26,27 @@
         <% end %>
 
         <div class="btn popup__item">
-          <%= form.check_box "creator_ids[]", { 
+          <%= form.check_box :creator_ids, {
+            multiple: true,
             checked: filter.creators.include?(Current.user),
             data: { action: "change->form#submit" },
             include_hidden: false,
           }, Current.user.id %>
 
-          <%= form.label "creator_ids[]", "Me", for: dom_id(Current.user, :creator_filter), class: "overflow-ellipsis" %>
+          <%= form.label :creator_ids, "Me", for: form.field_id(:creator_ids, Current.user.id), class: "overflow-ellipsis" %>
           <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
         </div>
 
         <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
           <div class="btn popup__item">
-            <%= form.check_box "creator_ids[]", { 
+            <%= form.check_box :creator_ids, {
+              multiple: true,
               checked: filter.creators.include?(user),
               data: { action: "change->form#submit" },
               include_hidden: false,
             }, user.id %>
 
-            <%= form.label "creator_ids[]", user.name, for: dom_id(user, :creator_filter), class: "overflow-ellipsis" %>
+            <%= form.label :creator_ids, user.name, for: form.field_id(:creator_ids, user.id), class: "overflow-ellipsis" %>
             <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
           </div>
         <% end %>

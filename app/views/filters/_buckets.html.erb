@@ -26,13 +26,14 @@
 
         <% filter.buckets.order(:name).each do |bucket| %>
           <div class="btn popup__item">
-            <%= form.check_box "bucket_ids[]", { 
+            <%= form.check_box :bucket_ids, {
+              multiple: true,
               checked: filter.buckets.include?(bucket),
               data: { action: "change->form#submit" },
               include_hidden: false,
             }, bucket.id %>
 
-            <%= form.label "bucket_ids[]", bucket.name, for: dom_id(bucket, :filter), class: "overflow-ellipsis" %>
+            <%= form.label :bucket_ids, bucket.name, for: form.field_id(:bucket_ids, bucket.id), class: "overflow-ellipsis" %>
             <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
           </div>
         <% end %>

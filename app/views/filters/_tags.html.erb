@@ -25,13 +25,14 @@
 
       <% Current.account.tags.order(:title).each do |tag| %>
         <div class="btn popup__item">
-          <%= form.check_box "tag_ids[]", { 
+          <%= form.check_box :tag_ids, {
+            multiple: true,
             checked: filter.tags.include?(tag),
             data: { action: "change->form#submit" },
             include_hidden: false,
           }, tag.id %>
 
-          <%= form.label "tag_ids[]", tag.hashtag, for: dom_id(tag, :filter), class: "overflow-ellipsis" %>
+          <%= form.label :tag_ids, tag.hashtag, for: form.field_id(:tag_ids, tag.id), class: "overflow-ellipsis" %>
           <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
         </div>
       <% end %>
