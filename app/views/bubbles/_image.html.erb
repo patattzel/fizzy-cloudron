@@ -1,3 +1,3 @@
 <div class="bubble__image">
-  <%= image_tag bubble.image.presence || "", data: { upload_preview_target: "image" } %>
+  <%= image_tag bubble.image.presence || "", data: { upload_preview_target: "image" }, aria: { hidden: true } %>
 </div>

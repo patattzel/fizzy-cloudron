@@ -1,4 +1,5 @@
 <%= tag.div class: "bubble__detail bubble__boosts",
+      role: "group", aria: { label: "Boosts" },
       data: {
         controller: "animation toggle-class",
         animation_play_class: "boosting",
@@ -8,7 +9,7 @@
   <%= form_with url: bucket_bubble_boosts_path(bubble.bucket, bubble),
         class: "boost__form",
         data: { action: "toggle-class#toggle" } do %>
-    <%= text_field_tag :boost_count, bubble.boosts_count, min: 1, class: "input borderless boost__input", autocomplete: "off" %>
-    <%= tag.button "+", class: "btn btn--plain boost__btn", type: :submit %>
+    <%= text_field_tag :boost_count, bubble.boosts_count, min: 1, class: "input borderless boost__input", autocomplete: "off", aria: { label: "Boost count" } %>
+    <%= tag.button "+", class: "btn btn--plain boost__btn", type: :submit, aria: { label: "Boost" } %>
   <% end %>
 <% end %>
