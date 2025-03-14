@@ -1,10 +1,10 @@
 <li class="bubbles-list__divider flex align-center gap-half" draggable="true" data-divider-target="divider">
   <div class="divider-drag-image" data-divider-target="dragImage">Drag up or down</div>
-  <hr class="separator--horizontal flex-item-grow">
+  <hr class="separator--horizontal flex-item-grow" aria-hidden="true">
   <strong class="btn bubbles-list__count border-radius">
     <%= image_tag "drag.svg", aria: { hidden: true }, size: 24, class: "colorize--white"  %>
     <span data-divider-target="count">10</span> Bubbled up 
   </strong>
-  <hr class="separator--horizontal flex-item-grow">
+  <hr class="separator--horizontal flex-item-grow" aria-hidden="true">
   <span></span>
 </li>
