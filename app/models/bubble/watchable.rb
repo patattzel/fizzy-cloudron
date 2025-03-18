@@ -3,7 +3,7 @@ module Bubble::Watchable
 
   included do
     has_many :watches, dependent: :destroy
-    has_many :watchers, ->{ merge(Watch.watching) }, through: :watches, source: :user
+    has_many :watchers, -> { merge(Watch.watching) }, through: :watches, source: :user
 
     after_create :set_watching_for_creator
   end
