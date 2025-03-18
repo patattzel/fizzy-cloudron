@@ -6,6 +6,10 @@
       <h1 class="txt-x-large"><%= Current.account.name %></h1>
     </header>
 
+    <div class="search flex flex-inline flex-column center flex-shrink txt--large">
+      <input type="search" placeholder="Type names, tags, phrases to find something…" class="input input--search">
+    </div>
+
     <%= link_to account_users_path, class: "btn flex-item-justify-end" do %>
       <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
       <span class="for-screen-reader">Account settings</span>
