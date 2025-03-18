@@ -70,7 +70,9 @@
 
 .event--related {
   --hover-color: var(--bubble-color);
+  --hover-size: 0.15rem;
 
+  box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
   z-index: 2;
 }
 
