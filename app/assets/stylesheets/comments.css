@@ -1,13 +1,19 @@
 .comments {
   --avatar-size: 2.33em;
-  --comment-padding-block: 0.65lh;
+  --comment-padding-block: 0.25lh;
   --comment-padding-inline: 3ch;
 
-  max-inline-size: 120ch;
+  font-size: 1.33cqi;
+  inline-size: min(67ch, 100dvw);
+  max-inline-size: 100dvw;
   row-gap: var(--comment-padding-block);
 
+  @media (max-width: 70ch) {
+    inline-size: 100%;
+  }
+
   > :first-child {
-    margin-block-start: var(--comment-padding-block);
+    /* margin-block-start: var(--comment-padding-block); */
   }
 }
 
@@ -15,14 +21,10 @@
   margin-block: calc(var(--comment-padding-block) * 0.3);
   margin-inline: 0 auto;
   position: relative;
-
-  &:not(.comment--new) {
-    max-inline-size: 66ch;
-  }
 }
 
 .comment--new {
-  background-color: var(--color-subtle-light);
+  border-block: 1px solid var(--color-subtle-dark);
 }
 
 .comment__avatar {
@@ -30,7 +32,7 @@
   margin-inline: auto calc(var(--comment-padding-inline) * -0.75);
   z-index: 0;
 
-  .comment--mine & {
+  .comment--mine_ & {
     margin-inline: calc(var(--comment-padding-inline) * -0.75) auto;
   }
 }
@@ -56,11 +58,10 @@
 }
 
 .comment__content {
-  background-color: var(--color-subtle-light);
-  margin-inline: auto var(--avatar-size);
+  margin-inline: auto 0 auto var(--avatar-size);
   padding: var(--comment-padding-block) var(--comment-padding-inline);
-
-  .comment--mine & {
+  
+  .comment--mine_ & {
     margin-inline: var(--avatar-size) auto;
   }
 
@@ -71,12 +72,11 @@
 
 .comment__input {
   --input-border-size: 0;
+  --input-padding: 0;
 
   line-height: inherit;
   min-block-size: calc(9lh + (2 * var(--comment-padding-block)));
   min-inline-size: 100%;
-  padding-block: var(--comment-padding-block);
-  padding-inline: calc(var(--comment-padding-inline) + calc((1lh - 1ex) / 2));
 
   @supports (field-sizing: content) {
     field-sizing: content;
@@ -84,13 +84,18 @@
   }
 }
 
-.comment--mine {
+.comment--mine_ {
   flex-direction: row-reverse;
   margin-inline: auto 0;
 
   .comment__author {
     flex-direction: row-reverse;
   }
+}
+
+.comment__author {
+  border-block-end: 1px solid var(--color-subtle-dark);
+  margin-block-end: 0.3lh;
 }
 
 .comment__submit {
@@ -100,13 +105,11 @@
 }
 
 .comment__timestamp {
-  color: var(--color-ink);
-  opacity: 0.5;
+  color: var(--color-subtle-dark);
 }
 
 .event-summary {
   color: var(--bubble-color);
-  font-size: 0.875em;
   font-weight: normal;
   gap: 0.5ch;
   opacity: 0.7;

@@ -1,9 +1,9 @@
 module Bubble::Colored
   extend ActiveSupport::Concern
 
-  COLORS = %w[ #BF1B1B #ED3F1C #ED8008 #7C956B #266ec3 #3B3633 ]
+  COLORS = %w[ #b7462b #ff63a8 #eb7a32 #6ac967 #2c6da8 #663251  ]
 
   included do
-    attribute :color, default: "#266ec3"
+    attribute :color, default: "#2c6da8"
   end
 end

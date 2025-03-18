@@ -51,6 +51,7 @@
 .align-start { align-items: start; }
 .align-end { align-items: end; }
 
+.align-self-end { align-self: end; }
 .align-self-start { align-self: start; }
 
 .contain { contain: inline-size; }
@@ -166,6 +167,7 @@
 .fill-white { background-color: var(--color-ink-reversed); }
 .fill-shade { background-color: var(--color-subtle-light); }
 .fill-selected { background-color: var(--color-selected); }
+.fill-highlight { background-color: var(--color-highlight); }
 .fill-transparent { background-color: transparent; }
 
 .translucent { opacity: var(--opacity, 0.5); }
@@ -219,6 +221,7 @@
 
 /* Separators */
 .separator {
+  block-size: 100%;
   border-block: 0;
   border-inline-end: 0;
   border-inline-start: var(--border-size, 1px) var(--border-style, solid) var(--border-color, currentColor);

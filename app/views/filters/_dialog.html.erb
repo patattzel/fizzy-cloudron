@@ -37,45 +37,59 @@
       <% end %>
 
       <div class="filter__columns flex gap">
-        <div class="filter__menu" role="group" aria-label="Sort by">
-          <div class="filter__label"><strong>Sort by</strong></div>
-          <div>
-            <label class="btn filter__button">
-              <%= radio_button_tag "indexed_by", filter.default_indexed_by, filter.default_indexed_by?, class: "visually-hidden" %>
+        <menu class="filter__menu">
+          <li class="filter__label"><strong>In Collection</strong></li>
+
+          <li>
+            <%= button_tag type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } do %>
+              <span>All Collections</span>
+            <% end %>
+          </li>
+          <% Current.user.buckets.order(:name).each do |bucket| %>
+            <li>
+              <%= label_tag "bucket_ids_#{bucket.id}", class: "btn filter__button" do %>
+                <%= check_box_tag "bucket_ids[]", bucket.id, filter.buckets.include?(bucket), id: "bucket_ids_#{bucket.id}", hidden: true %>
+                <span><%= bucket.name %></span>
+                <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
+              <% end %>
+            </li>
+          <% end %>
+        </menu>
+
+        <menu class="filter__menu">
+          <li class="filter__label"><strong>Sort by</strong></li>
+          <li>
+            <%= label_tag "indexed_by_#{filter.default_indexed_by}", class: "btn filter__button" do %>
+              <%= radio_button_tag "indexed_by", filter.default_indexed_by, filter.default_indexed_by?, hidden: true %>
               <span>Most active</span>
               <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-            </label>
-          </div>
+            <% end %>
+          </li>
 
           <% Filter::INDEXES.each do |index| %>
-            <div>
+            <li>
               <label class="btn filter__button">
                 <%= radio_button_tag "indexed_by", index, filter.indexed_by == index, class: "visually-hidden" %>
                 <span><%= index.humanize %></span>
                 <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
               </label>
-            </div>
+            </li>
           <% end %>
-        </div>
+        </menu>
 
-        <div class="filter__menu" role="group" aria-label="In Collection">
-          <div class="filter__label"><strong>In Collection</strong></div>
-
-          <div>
-            <%= button_tag type: :button, class: "btn filter__button", data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } do %>
-              <span>All Collections</span>
-            <% end %>
-          </div>
-          <% Current.user.buckets.order(:name).each do |bucket| %>
-            <div>
-              <label class="btn filter__button">
-                <%= check_box_tag "bucket_ids[]", bucket.id, filter.buckets.include?(bucket), class: "visually-hidden" %>
-                <span><%= bucket.name %></span>
+        <menu class="filter__menu">
+          <li class="filter__label"><strong>In Stage</strong></li>
+          <% workflow = Current.account.workflows.first %>
+          <% workflow.stages.each do |stage| %>
+            <li>
+              <%= label_tag "stage_ids_#{stage.id}", class: "btn filter__button" do %>
+                <%= check_box_tag "stage_ids[]", stage.id, filter.stages.include?(stage), id: "stage_ids_#{stage.id}", hidden: true %>
+                <span><%= stage.name %></span>
                 <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-              </label>
-            </div>
+              <% end %>
+            </li>
           <% end %>
-        </div>
+        </menu>
 
         <div class="filter__menu" role="group" aria-label="Tagged">
           <div class="filter__label"><strong>Tagged</strong></div>
@@ -143,24 +157,7 @@
               </label>
             </div>
           <% end %>
-        </div>
-
-        <div class="filter__menu" role="group" aria-label="In Stage">
-          <div class="filter__label"><strong>In Stage</strong></div>
-          <% Current.account.workflows.order(:name).each do |workflow| %>
-            <div class="filter__label"><strong><%= workflow.name %></strong></div>
-
-            <% workflow.stages.order(:name).each do |stage| %>
-              <div>
-                <label class="btn filter__button">
-                  <%= check_box_tag "stage_ids[]", stage.id, filter.stages.include?(stage), class: "visually-hidden" %>
-                  <span><%= stage.name %></span>
-                  <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-                </label>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
+        </menu>
       </div>
     <% end %>
 

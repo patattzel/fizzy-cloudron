@@ -6,7 +6,7 @@ module CommentsHelper
 
   def new_comment_placeholder(bubble)
     if bubble.creator == Current.user && bubble.messages.comments.empty?
-      "Add some notes…"
+      "Next, add some notes, context, pictures, or video about this…"
     else
       "Type your comment…"
     end

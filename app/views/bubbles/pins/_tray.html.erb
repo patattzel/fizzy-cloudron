@@ -1,0 +1,24 @@
+<%= turbo_stream_from Current.user, :pins %>
+
+<%= tag.dialog id: "pin-tray", class: "pin-tray flex flex-column gap unpad borderless justify-end fill-transparent",
+      data: { controller: "dialog", turbo_permanent: true, dialog_modal_value: false, dialog_target: "dialog", action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
+  <%= turbo_frame_tag "pins", src: bubbles_pins_tray_path %>
+
+  <%= link_to bubbles_pins_path, class: "pin-tray__overflow border-radius" do %>
+    <div class="pin__content border-radius pad shadow fill-white flex align-center txt-align-center gap full-width">
+      <div class="flex flex-column txt-tight-lines min-width flex-item-grow">
+        <strong>+ More…</strong>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="pin-tray__actions flex align-center gap-half">
+    <%= tag.button type: "button", class: "pin-tray__all_action btn flex-item-justify-start shadow", data: { action: "click->dialog#close"} do %>
+      <%= image_tag "pinned.svg", aria: { hidden: true }, size: 24 %>
+      <span>See all pins</span>
+    <% end %>
+  </div>
+
+  <button class="pin-tray__expander borderless unpad fill-transparent" data-action="dialog#toggle" aria-label="Expand pins stack">
+  </button>
+<% end %> 

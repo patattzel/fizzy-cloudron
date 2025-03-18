@@ -13,10 +13,8 @@ module EventsHelper
   def event_column(event)
     case event.action
     when "popped"
-      4
-    when "published"
       3
-    when "commented"
+    when "published"
       2
     else
       1
@@ -53,15 +51,14 @@ module EventsHelper
       .where(bubbles: { bucket_id: params[:bucket_ids].presence || Current.user.bucket_ids })
 
     headers = {
-      "Touched" => nil,
-      "Discussed" => nil,
+      "Updated" => nil,
       "Added" => accessible_events.where(action: "published").count,
       "Popped" => accessible_events.where(action: "popped").joins(:creator).merge(User.without_system).count
     }
 
     headers.map do |header, count|
       title = count&.positive? ? "#{header} (#{count})" : header
-      content_tag(:h3, title, class: "event__grid-column-title margin-block-end-half position-sticky")
+      content_tag(:h3, title, class: "event__grid-column-title position-sticky")
     end.join.html_safe
   end
 
@@ -69,30 +66,30 @@ module EventsHelper
     case event.action
     when "assigned"
       if event.assignees.include?(Current.user)
-        "#{ event.creator.name } will handle <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+        "#{ event.creator.name } will handle <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
       else
-        "#{ event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+        "#{ event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
       end
     when "unassigned"
-      "#{ event.creator.name } unassigned #{ event.assignees.pluck(:name).to_sentence } from <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } unassigned #{ event.assignees.pluck(:name).to_sentence } from <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "boosted"
-      "#{ event.creator.name } boosted <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } boosted <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "commented"
-      "#{ event.creator.name } commented on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } commented on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "published"
-      "#{ event.creator.name } added <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } added <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "popped"
-      "#{ event.creator.name } popped <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } popped <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "staged"
-      "#{event.creator.name} changed the stage to #{event.stage_name} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{event.creator.name} changed the stage to #{event.stage_name} on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "due_date_added"
-      "#{event.creator.name} set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{event.creator.name} set the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "due_date_changed"
-      "#{event.creator.name} changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span class='txt-link'>#{ event.bubble.title }</span>".html_safe
+      "#{event.creator.name} changed the date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "due_date_removed"
-      "#{event.creator.name} removed the date on <span class='txt-link'>#{ event.bubble.title }</span>"
+      "#{event.creator.name} removed the date on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>"
     when "title_changed"
-      "#{event.creator.name} renamed  on <span class='txt-link'>#{ event.bubble.title }</span> (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
+      "#{event.creator.name} renamed  on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span> (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
     end
   end
 end

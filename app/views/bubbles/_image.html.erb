@@ -1,3 +1,17 @@
-<div class="bubble__image">
-  <%= image_tag bubble.image.presence || "", data: { upload_preview_target: "image" }, aria: { hidden: true } %>
-</div>
+<% if bubble.image.attached? %>
+  <%= button_to bucket_bubble_image_path(bubble.bucket, bubble), method: :delete, class: "btn" do %>
+    <%= image_tag "picture-remove.svg", aria: { hidden: true }, size: 24 %>
+    <span class="for-screen-reader">Clear background image</span>
+  <% end %>
+<% else %>
+  <%= form_with model: bubble, url: bucket_bubble_path(bubble.bucket, bubble), data: { controller: "form" } do |form| %>
+    <label class="btn">
+      <%= image_tag "picture-add.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Add background image</span>
+      <%= form.file_field :image, class: "input",
+            accept: "image/png, image/jpeg, image/jpg, image/webp",
+            data: { action: "upload-preview#previewImage form#submit", upload_preview_target: "input" },
+            hidden: true %>
+    </label>
+  <% end %>
+<% end %>

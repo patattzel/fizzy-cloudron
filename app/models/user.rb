@@ -23,6 +23,9 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  has_many :pins, dependent: :destroy
+  has_many :pinned_bubbles, through: :pins, source: :bubble
+
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 
   after_create_commit :grant_access_to_buckets

@@ -1,15 +1,10 @@
-<%= tag.div class: "bubble__detail bubble__boosts",
-      role: "group", aria: { label: "Boosts" },
-      data: {
-        controller: "animation toggle-class",
-        animation_play_class: "boosting",
-        toggle_class_toggle_class: "boosting",
-        action: "animationend->toggle-class#toggle" },
-      hidden: !bubble.boosts_count.positive? do %>
-  <%= form_with url: bucket_bubble_boosts_path(bubble.bucket, bubble),
-        class: "boost__form",
-        data: { action: "toggle-class#toggle" } do %>
-    <%= text_field_tag :boost_count, bubble.boosts_count, min: 1, class: "input borderless boost__input", autocomplete: "off", aria: { label: "Boost count" } %>
-    <%= tag.button "+", class: "btn btn--plain boost__btn", type: :submit, aria: { label: "Boost" } %>
+<%= form_with url: bucket_bubble_boosts_path(bubble.bucket, bubble), class: "pad-inline flex align-center gap" do %>
+  <span class="overflow-ellipsis">
+    <strong><%= text_field_tag :boost_count, bubble.boosts_count, min: 1, class: "boost__input input", autocomplete: "off" %></strong>
+    <span><%= bubble.boosts_count == 1 ? "boost" : "boosts" %></span>
+  </span>
+  <%= tag.button class: "btn", type: :submit, style: "font-size: 0.5em" do %>
+    <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+    <span class="for-screen-reader">Boost</span>
   <% end %>
 <% end %>

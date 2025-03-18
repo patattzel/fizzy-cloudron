@@ -1,9 +1,0 @@
-<% bubble.assignees.each do |assignee| %>
-  <article class="bubble__detail bubble__assignee">
-    <div class="btn btn--plain position-relative fill-transparent">
-      <span class="assignee__name" aria-hidden="true"><span><%= assignee.name %></span></span>
-      <%= avatar_image_tag assignee, loading: :lazy, class: "avatar flex-item-no-shrink", aria: { hidden: true } %>
-      <span class="for-screen-reader">Assigned to <%= assignee.name %></span>
-    </div>
-  </article>
-<% end %>

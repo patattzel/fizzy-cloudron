@@ -1,16 +1,16 @@
-<div class="filters flex-inline align-center gap-half">
+<div class="filters flex-inline align-center gap-half margin-block">
   <button class="btn btn--plain txt-small" data-action="click->dialog#toggle">
     <%= image_tag "filter.svg", aria: { hidden: true }, size: 24 %>
     <span class="for-screen-reader">Filter</span>
   </button>
 
   <div class="flex-inline center align-center gap-half">
-    <%= render "filters/indexed_by", filter: filter %>
     <%= render "filters/buckets", filter: filter %>
+    <%= render "filters/indexed_by", filter: filter %>
+    <%= render "filters/stages", filter: filter %>
     <%= render "filters/tags", filter: filter %>
     <%= render "filters/assignees", filter: filter %>
     <%= render "filters/creators", filter: filter %>
-    <%= render "filters/stages", filter: filter %>
 
     <% filter.terms.each do |term| %>
       <%= filter_chip_tag %Q("#{term}"), filter.as_params_without(:terms, term) %>

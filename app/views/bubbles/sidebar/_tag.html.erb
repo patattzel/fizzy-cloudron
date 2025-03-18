@@ -1,7 +1,7 @@
 <div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-  <button class="btn full-width justify-start borderless" data-action="click->dialog#open:stop">
+  <button class="tag-picker__button btn card__hide-on-index <%= bubble.creating? || bubble.drafted? ? "fill-highlight" : "fill-transparent" %>" data-action="click->dialog#open:stop">
     <%= image_tag "tag.svg", aria: { hidden: true }, size: 24 %>
-    <span>Tag</span>
+    <span class="for-screen-reader">Add a tag</span>
   </button>
 
   <dialog class="popup panel flex-column align-start justify-start fill-white shadow" data-dialog-target="dialog">

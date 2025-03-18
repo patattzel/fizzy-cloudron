@@ -2,130 +2,95 @@
 
 <% content_for :header do %>
   <% if @bubble.creating? && @bubble.can_recover_abandoned_creation? %>
-    <div class="position-sticky flex align-center gap-half fill-selected justify-center border-block margin-block-end"
-          style="--border-color: var(--color-selected-dark); --border-style: dashed; view-transition-name: draft-banner;">
+    <div class="fill-selected position-sticky flex align-center gap-half justify-center border-block margin-block-end"
+          style="view-transition-name: draft-banner; --bubble-color: <%= @bubble.color %>;">
       You have an unsaved work. Would you like to continue where you left off?
-      <%= button_to bucket_bubble_recover_path(@bubble.bucket, @bubble), class: "btn txt-small btn--link", data: { turbo_action: "replace" } do %>
+      <%= button_to bucket_bubble_recover_path(@bubble.bucket, @bubble), class: "btn btn--reversed", data: { turbo_action: "replace" } do %>
         <span>Restore</span>
       <% end %>
     </div>
   <% end %>
 
   <% if @bubble.drafted? %>
-    <div class="position-sticky flex align-center gap-half fill-selected justify-center border-block margin-block-end"
-          style="--border-color: var(--color-selected-dark); --border-style: dashed; view-transition-name: draft-banner;">
+    <div class="fill-selected position-sticky flex align-center gap-half fill-highlight justify-center border-block margin-block-end"
+          style="view-transition-name: draft-banner;">
       This is a draft, it’s only visible to you.
       <%= render "bubbles/publish", bubble: @bubble %>
     </div>
   <% end %>
 
   <nav class="align-start max-width">
-    <header class="flex flex-column center max-width">
-      <div class="flex align-center gap-half justify-center">
-        <%= link_to "Collections", root_path %>
-        <%= link_to "Activity", events_path %>
-      </div>
-      <h1 class="txt-large txt-align-center min-width flex align-center gap-half margin-block-end justify-center">
-        <%= link_to @bucket.name, bubbles_path(bucket_ids: [ @bucket ]), data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } %>
-      </h1>
+    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+      <%= image_tag "home.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Home</span>
+    <% end %>
+
+    <header class="search flex flex-inline flex-column center flex-shrink txt--large">
+      <input type="search" placeholder="Type names, tags, phrases to find something…" class="input input--search">
     </header>
+
+    <div class="btn btn--placeholder flex-item-justify-end"></div>
   </nav>
 <% end %>
 
-<aside class="flex align-start justify-start max-width" style="--bubble-color: <%= @bubble.color %>">
-  <div class="flex flex-column" style="row-gap: 3px;">
-    <%= render "bubbles/color", bubble: @bubble %>
+<div data-controller="beacon" data-beacon-url-value="<%= bucket_bubble_readings_url(@bubble.bucket, @bubble) %>">
+  <div class="card__container position-relative margin-block-start <%= "card__container--pointing" unless @bubble.published? %>">
+    <%= render "bubbles/card", bubble: @bubble %>
 
-    <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
-      <label class="btn full-width justify-start borderless">
-        <%= image_tag "calendar-add.svg", aria: { hidden: true }, size: 24 %>
-        <span>Date</span>
-        <%= form.date_field :due_on, class: "input input--hidden", data: { action: "change->form#submit click->form#showPicker" } %>
-      </label>
-    <% end %>
-
-    <%= render "bubbles/sidebar/assignment", bubble: @bubble, users: @bucket.users.active %>
-    <%= render "bubbles/sidebar/tag", bubble: @bubble, tags: Current.account.tags %>
-
-    <% if @bubble.image.attached? %>
-      <%= button_to bucket_bubble_image_path(@bubble.bucket, @bubble), method: :delete, class: "btn full-width justify-start borderless" do %>
-        <%= image_tag "picture-add.svg", aria: { hidden: true }, size: 24 %>
-        <span>Clear background image</span>
+    <div class="card__actions flex flex-column gap-half">
+      <%= render "bubbles/color", bubble: @bubble %>
+      <%= render "bubbles/image", bubble: @bubble %>
+      <%= button_to bucket_bubble_path(@bubble.bucket, @bubble),
+            method: :delete,
+            class: "btn",
+            data: { turbo_confirm: "Are you sure you want to delete this?" } do %>
+        <%= image_tag "trash.svg", aria: { hidden: true }, size: 24 %>
+        <span class="for-screen-reader">Delete</span>
       <% end %>
-    <% else %>
-      <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble), data: { controller: "form" } do |form| %>
-        <label class="btn full-width justify-start borderless min-width">
-          <%= image_tag "picture-add.svg", aria: { hidden: true }, size: 24 %>
-          <span class="overflow-ellipsis" aria-hidden="true">Background</span>
-          <%= form.file_field :image, class: "input visually-hidden",
-                accept: "image/png, image/jpeg, image/jpg, image/webp",
-                aria: { label: "Upload background image" },
-                data: { action: "upload-preview#previewImage form#submit", upload_preview_target: "input" } %>
-        </label>
-      <% end %>
-    <% end %>
+    </div>
 
-    <%= button_to bucket_bubble_boosts_path(@bubble.bucket, @bubble), class: "btn full-width justify-start borderless", data: { turbo_frame: dom_id(@bubble, :boosts) } do %>
-      <%= image_tag "thumb-up.svg", aria: { hidden: true }, size: 24 %>
-      <span class="overflow-ellipsis">Boost</span>
-    <% end %>
-
-    <% unless @bubble.drafted? %>
-      <button class="btn full-width justify-start borderless min-width">
-        <%= image_tag "picture-double.svg", aria: { hidden: true }, size: 24 %>
-        <span class="overflow-ellipsis">I’ve seen this</span>
-      </button>
-    <% end %>
-
-
-    <%= button_to bucket_bubble_path(@bubble.bucket, @bubble),
-          method: :delete,
-          class: "btn full-width justify-start borderless min-width",
-          data: { turbo_confirm: "Are you sure you want to delete this bubble?" } do %>
-      <%= image_tag "trash.svg", aria: { hidden: true }, size: 24 %>
-      <span class="overflow-ellipsis">Delete</span>
-    <% end %>
-  </div>
-</aside>
-
-<div class="bubble__container" data-controller="beacon" data-beacon-url-value="<%= bucket_bubble_readings_url(@bubble.bucket, @bubble) %>">
-  <div class="bubble__perma flex justify-center center">
-    <%= render "bubbles/bubble", bubble: @bubble %>
-  </div>
-
-  <% unless @bubble.drafted? || @bubble.creating? %>
-    <%= render "bubbles/pop_toggle", bubble: @bubble %>
-  <% end %>
-
-  <div style="margin-block-start: calc(var(--block-space) * -1);">
+    
     <% if @bubble.published? %>
-      <%= render "bubbles/messages", bubble: @bubble %>
-    <% else %>
-      <div class="comments">
-        <div class="comment comment--new border-radius flex align-start full-width margin-block-double">
-          <form data-controller="outlet-auto-save paste" data-outlet-auto-save-auto-save-outlet="#bubble_form" class="flex flex-column gap full-width" data-action="paste->paste#pasteFiles">
-            <%= tag.house_md @bubble.draft_comment, name: "bubble[draft_comment]", class: "input comment__input", form: "bubble_form", placeholder: new_comment_placeholder(@bubble),
-                  data: { action: "house-md:change->outlet-auto-save#change focusout->outlet-auto-save#submit", uploads_url: uploads_url(format: "json") } %>
-          </form>
-        </div>
+      <div class="card__actions card__actions--right flex flex-column gap-half">
+        <%= turbo_frame_tag dom_id(@bubble, :watch), src: bucket_bubble_watch_path(@bubble.bucket, @bubble) %>
+        <%= turbo_frame_tag dom_id(@bubble, :pin), src: bucket_bubble_pin_path(@bubble.bucket, @bubble) %>
       </div>
     <% end %>
   </div>
 
+  <% unless @bubble.drafted? || @bubble.creating? %>
+    <div class="card__actions-wrapper">
+      <%= render "bubbles/pop_toggle", bubble: @bubble %>
+    </div>
+  <% end %>
+
   <% if @bubble.published? %>
-    <%= turbo_frame_tag dom_id(@bubble, :watch), src: bucket_bubble_watch_path(@bubble.bucket, @bubble) %>
+    <%= render "bubbles/messages", bubble: @bubble %>
+  <% else %>
+    <div class="comments align-center center borderless margin-block-start flex flex-column gap-half">
+      <div class="comment comment--new flex align-start full-width">
+        <form data-controller="outlet-auto-save paste" 
+            class="flex flex-column gap full-width"
+            data-outlet-auto-save-auto-save-outlet="#bubble_form"
+            data-action="paste->paste#pasteFiles">
+          <%= tag.house_md @bubble.draft_comment, name: "bubble[draft_comment]", class: "input comment__input", 
+                form: "bubble_form", 
+                placeholder: new_comment_placeholder(@bubble),
+                data: { action: "house-md:change->outlet-auto-save#change focusout->outlet-auto-save#submit", uploads_url: uploads_url(format: "json") } %>
+        </form>
+      </div>
+    </div>
   <% end %>
 
   <% if @bubble.creating? %>
-    <div class="bubble__actions-container center border-radius pad flex align-center justify-space-between gap pad-inline-double" style="--bubble-color: <%= @bubble.color %>;">
-      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn btn--plain borderless fill-transparent" %>
-      <%= button_to "Create bubble", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+    <div class="comments center pad-block flex align-center gap">
+      <%= button_to "Create card", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn" %>
     </div>
   <% end %>
 </div>
 
-<div class="flex align-start justify-end">
-  <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
-</div>
+<%= link_to "Go back", bubbles_path(bucket_ids: [ @bubble.bucket ]), class: "btn", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" }, hidden: true %>
 
 <%= render "notifications/tray" %>
+<%= render "bubbles/pins/tray" %>
