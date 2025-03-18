@@ -23,6 +23,12 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "creates a notification for each watcher, other than the event creator" do
+    notifications = Notifier.for(events(:layout_commented)).generate
+
+    assert_equal [ users(:kevin) ], notifications.map(&:user)
+  end
+
+  test "the published event creates notifications for subscribers as well as watchers" do
     notifications = Notifier.for(events(:logo_published)).generate
 
     assert_equal users(:kevin, :jz).sort, notifications.map(&:user).sort

@@ -27,7 +27,7 @@ class Notifier
     end
 
     def recipients
-      bubble.watchers_and_subscribers.without(creator)
+      bubble.watchers.without(creator)
     end
 
     def resource
