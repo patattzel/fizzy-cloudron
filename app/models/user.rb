@@ -31,7 +31,7 @@ class User < ApplicationRecord
   after_create_commit :grant_access_to_buckets
 
   scope :alphabetically, -> { order("lower(name)") }
-  scope :sorted_with_user_first, ->(user) { order(Arel.sql("id != ?, lower(name)", user.id)) }
+  scope :sorted_with_user_first, ->(user) { order(Arel.sql("users.id != ?, lower(name)", user.id)) }
 
   def initials
     name.to_s.scan(/\b\p{L}/).join.upcase
