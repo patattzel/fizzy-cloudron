@@ -120,4 +120,28 @@ class BubbleTest < ActiveSupport::TestCase
 
     assert_equal [ bubble, bubbles(:logo), bubbles(:text) ].sort, Bubble.mentioning("haggis").sort
   end
+
+  test "cache key includes the bucket name" do
+    bubble = bubbles(:logo)
+    cache_v1_key = bubble.cache_key
+
+    bubble.bucket.touch
+    assert_equal cache_v1_key, bubble.reload.cache_key, "general bucket touching should not affect the bubble's cache key"
+
+    bubble.bucket.update! name: "Good ideas"
+    assert_not_equal cache_v1_key, bubble.reload.cache_key, "changing the name of the bucket should invalidate the cache"
+  end
+
+  test "cache key includes the tenant name" do
+    bubble = bubbles(:logo)
+
+    assert_includes bubble.cache_key, ApplicationRecord.current_tenant, "cache key must always include the tenant"
+  end
+
+  test "cache key gracefully handles a nil bucket" do
+    bubble = bubbles(:logo)
+    bubble.update_column :bucket_id, Bucket.last.id + 1
+
+    assert_nothing_raised { bubble.reload.cache_key }
+  end
 end

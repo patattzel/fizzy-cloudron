@@ -28,6 +28,10 @@ class Bubble < ApplicationRecord
     end
   end
 
+  def cache_key
+    [ super, bucket&.name ].compact.join("/")
+  end
+
   private
     def track_due_date_change
       if due_on.present?
