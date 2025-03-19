@@ -18,11 +18,11 @@ class EventSummary < ApplicationRecord
     def summarize(event)
       case event.action
       when "published"
-        "Added by #{event.creator.name} #{time_ago_in_words(event.created_at)} ago."
+        "Added by #{event.creator.name}."
       when "assigned"
-        "Assigned to #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+        "Assigned to #{event.assignees.pluck(:name).to_sentence}."
       when "unassigned"
-        "Unassigned from #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+        "Unassigned from #{event.assignees.pluck(:name).to_sentence}."
       when "staged"
         "#{event.creator.name} moved this to '#{event.stage_name}'."
       when "popped"

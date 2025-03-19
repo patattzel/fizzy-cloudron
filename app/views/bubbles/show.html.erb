@@ -67,25 +67,33 @@
   <% if @bubble.published? %>
     <%= render "bubbles/messages", bubble: @bubble %>
   <% else %>
-    <div class="comments align-center center borderless margin-block-start flex flex-column gap-half">
-      <div class="comment comment--new flex align-start full-width">
-        <form data-controller="outlet-auto-save paste" 
-            class="flex flex-column gap full-width"
-            data-outlet-auto-save-auto-save-outlet="#bubble_form"
-            data-action="paste->paste#pasteFiles">
-          <%= tag.house_md @bubble.draft_comment, name: "bubble[draft_comment]", class: "input comment__input", 
-                form: "bubble_form", 
-                placeholder: new_comment_placeholder(@bubble),
-                data: { action: "house-md:change->outlet-auto-save#change focusout->outlet-auto-save#submit", uploads_url: uploads_url(format: "json") } %>
-        </form>
-      </div>
-    </div>
-  <% end %>
-
-  <% if @bubble.creating? %>
     <div class="comments center pad-block flex align-center gap">
-      <%= button_to "Create card", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
-      <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn" %>
+      <div class="comment comment--new flex-inline align-start full-width">
+        <figure class="comment__avatar flex-item-no-shrink" aria-hidden="true">
+          <%= avatar_tag Current.user, hidden_for_screen_reader: true, loading: :lazy %>
+        </figure>
+
+        <div class="comment__content flex-inline flex-column full-width">
+          <div class="comment__body txt-align-start">
+            <form data-controller="outlet-auto-save paste" 
+                class="flex flex-column gap full-width"
+                data-outlet-auto-save-auto-save-outlet="#bubble_form"
+                data-action="paste->paste#pasteFiles">
+              <%= tag.house_md @bubble.draft_comment, name: "bubble[draft_comment]", class: "input comment__input", 
+                    form: "bubble_form", 
+                    placeholder: new_comment_placeholder(@bubble),
+                    data: { action: "house-md:change->outlet-auto-save#change focusout->outlet-auto-save#submit", uploads_url: uploads_url(format: "json") } %>
+            </form>
+
+            <% if @bubble.creating? %>
+              <div class="margin-block-start flex align-center gap">
+                <%= button_to "Create card", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+                <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

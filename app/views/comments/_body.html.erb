@@ -7,7 +7,9 @@
           <%= local_datetime_tag comment.created_at, style: :shortdate, class: "comment__timestamp" %>
         <% end %>
 
-        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), class: "btn txt-small btn--plain fill-transparent comment__edit", style: "font-size: 0.4em; opacity: 0.5;" do %>
+        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), 
+            class: "btn txt-small btn--plain fill-transparent comment__edit flex-item-justify-end", 
+            style: "font-size: 0.4em; opacity: 0.5;" do %>
           <%= image_tag "menu-dots-horizontal.svg", class: "icon colorize--black" %>
           <span class="for-screen-reader">Edit</span>
         <% end %>
