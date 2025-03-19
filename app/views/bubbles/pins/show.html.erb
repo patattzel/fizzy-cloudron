@@ -6,7 +6,7 @@
       <% end %>
   <% else %>
       <%= button_to bucket_bubble_pin_path(@bubble.bucket, @bubble), class: "btn" do %>
-        <%= image_tag "pinned.svg", size: 16, aria: { hidden: true } %>
+        <%= image_tag "unpinned.svg", size: 16, aria: { hidden: true } %>
         <span class="for-screen-reader">Pin this card</span>
       <% end %>
   <% end %>

@@ -6,7 +6,7 @@
       <% end %>
   <% else %>
       <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), class: "btn" do %>
-        <%= image_tag "bell.svg", size: 16, aria: { hidden: true } %>
+        <%= image_tag "bell-off.svg", size: 16, aria: { hidden: true } %>
         <span class="for-screen-reader">Watch this</span>
       <% end %>
   <% end %>
