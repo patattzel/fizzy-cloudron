@@ -15,9 +15,9 @@ module EventsHelper
     when "popped"
       3
     when "published"
-      2
-    else
       1
+    else
+      2
     end
   end
 
@@ -51,9 +51,9 @@ module EventsHelper
       .where(bubbles: { bucket_id: params[:bucket_ids].presence || Current.user.bucket_ids })
 
     headers = {
-      "Updated" => nil,
       "Added" => accessible_events.where(action: "published").count,
-      "Popped" => accessible_events.where(action: "popped").joins(:creator).merge(User.without_system).count
+      "Updated" => nil,
+      "Closed" => accessible_events.where(action: "popped").count
     }
 
     headers.map do |header, count|
@@ -79,7 +79,7 @@ module EventsHelper
     when "published"
       "#{ event.creator.name } added <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "popped"
-      "#{ event.creator.name } popped <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
+      "#{ event.creator.name } closed <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "staged"
       "#{event.creator.name} changed the stage to #{event.stage_name} on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span>".html_safe
     when "due_date_added"
