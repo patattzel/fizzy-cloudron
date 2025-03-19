@@ -26,7 +26,7 @@ class EventsController < ApplicationController
     end
 
     def user_events
-      Event.where(bubble: user_bubbles, creator: Current.account.users.without_system)
+      Event.where(bubble: user_bubbles, creator: Current.account.users)
     end
 
     def user_bubbles
