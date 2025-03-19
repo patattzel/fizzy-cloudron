@@ -12,4 +12,16 @@ module AccessesHelper
       locals: { selected: selected },
       cached: ->(user) { [ user, selected ] }
   end
+
+  def access_involvement_advance_button(bucket, user)
+    access = bucket.access_for(user)
+
+    button_to access.involvement, bucket_involvement_path(bucket), method: :put, params: { involvement: next_involvement(access.involvement) }
+  end
+
+  private
+    def next_involvement(involvement)
+      order = %w[ access_only watching everything ]
+      order[(order.index(involvement.to_s) + 1) % order.size]
+    end
 end

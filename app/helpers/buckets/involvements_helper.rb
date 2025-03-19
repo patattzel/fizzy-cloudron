@@ -1,0 +1,2 @@
+module Buckets::InvolvementsHelper
+end
