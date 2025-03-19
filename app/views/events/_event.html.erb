@@ -13,9 +13,17 @@
   </div>
 
   <div class="flex flex-column min-width txt-small align-start txt-align-start" style="color: color-mix(in srgb, var(--bubble-color) 40%, var(--color-ink));">
-    <strong class="event__title txt-break overflow-line-clamp txt-tight-lines">
-      <%= event_action_sentence(event) %>
-    </strong>
+    <div class="flex align-start gap">
+      <strong class="event__title txt-break overflow-line-clamp txt-tight-lines">
+        <%= event_action_sentence(event) %>
+      </strong>
+
+      <% if event_column(event) == 2 %>
+        <span class="event__icon">
+          <%= image_tag "#{event_action_icon(event)}.svg", size: 24, aria: { hidden: true }, class: "colorize--white" %>
+        </span>
+      <% end %>
+    </div>
 
     <% if event.action == "commented" && !strip_tags(event&.comment&.body_html).blank? %>
       <span class="txt-break overflow-line-clamp txt-tight-lines">

@@ -92,4 +92,19 @@ module EventsHelper
       "#{event.creator.name} renamed  on <span style='color: var(--bubble-color)'>#{ event.bubble.title }</span> (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
     end
   end
+
+  def event_action_icon(event)
+    case event.action
+    when "assigned"
+      "clipboard"
+    when "boosted"
+      "thumb-up"
+    when "staged"
+      "bolt"
+    when "commented"
+      "comment"
+    else
+      "person"
+    end
+  end
 end

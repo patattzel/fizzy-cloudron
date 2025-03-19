@@ -120,3 +120,20 @@
     grid-row-start: unset !important;
   }
 }
+
+.event__icon {
+  aspect-ratio: 1;
+  background-color: var(--bubble-color);
+  block-size: 1.7em;
+  border-radius: 1.7em;
+  inline-size: 1.7em;
+  display: grid;
+  place-content: center;
+  margin-inline-end: -0.75em;
+
+  img {
+    block-size: 1.1em;
+    inline-size: 1.1em;
+    grid-area: 1 / 1;
+  }
+}
