@@ -1,7 +1,7 @@
 <% cache pin do %>
   <%= tag.div id: dom_id(pin), class: "pin tray__item flex position-relative" do %>
     <%= link_to bucket_bubble_path(pin.bubble.bucket, pin.bubble),
-          class: "pin__content shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width border txt-ink overflow-clip",
+          class: "pin__content shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width border border-radius txt-ink overflow-clip",
           data: { action: "click->dialog#close", turbo_frame: "_top" },
           style: "--bubble-color: #{ pin.bubble.color };" do %>
       <div class="flex flex-column min-width flex-item-grow">
