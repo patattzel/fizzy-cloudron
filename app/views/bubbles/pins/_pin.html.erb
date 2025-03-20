@@ -5,9 +5,9 @@
           data: { action: "click->dialog#close", turbo_frame: "_top" },
           style: "--bubble-color: #{ pin.bubble.color };" do %>
       <div class="flex flex-column min-width flex-item-grow">
-        <div class="pin__header flex align-end txt-uppercase">
-          <div class="pin__bucket flex-inline flex-item-justify-start overflow-ellipsis txt-reversed">
-            <span class="txt-x-small"><%= pin.bubble.bucket.name %></span>
+        <div class="pin__header flex gap-half align-end txt-uppercase">
+          <div class="pin__bucket flex-inline flex-item-justify-start txt-reversed min-width">
+            <span class="txt-x-small overflow-ellipsis"><%= pin.bubble.bucket.name %></span>
           </div>
 
           <% if pin.bubble&.stage %>
