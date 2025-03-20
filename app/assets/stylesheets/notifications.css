@@ -134,6 +134,7 @@
 }
 
 .notification-tray__overflow {
+  --border-radius: 0.2em;
   --offset: calc((var(--position) - 1) * (var(--block-space) * -1));
   --position: 7;
   --scale: calc(1 - var(--position) / 30);

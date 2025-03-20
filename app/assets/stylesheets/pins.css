@@ -13,7 +13,7 @@
     --offset: calc((var(--position) - 1) * (var(--block-space) * -1));
     --position: 1;
     --scale: calc(1 - var(--position) / 30);
-    --z: calc(6 - var(--position));
+    --z: calc(10 - var(--position));
 
     inset: auto auto 0;
     inline-size: var(--size);
@@ -32,8 +32,12 @@
     &:nth-child(4) { --position: 4; }
     &:nth-child(5) { --position: 5; }
     &:nth-child(6) { --position: 6; }
+    &:nth-child(7) { --position: 7; }
+    &:nth-child(8) { --position: 8; }
+    &:nth-child(9) { --position: 9; }
+    &:nth-child(10) { --position: 10; }
 
-    &:nth-child(1n + 7) { display: none; }
+    &:nth-child(1n + 11) { display: none; }
 
     .pin-tray[open] & {
       --scale: 1;
@@ -101,34 +105,5 @@
   .pin-tray:not(:has(.pin)) &,
   .pin-tray:has(.pin:only-child) & {
     display: none;
-  }
-}
-
-.pin-tray__overflow {
-  --offset: calc((var(--position) - 1) * (var(--block-space) * -1));
-  --position: 7;
-  --scale: calc(1 - var(--position) / 30);
-  --z: calc(6 - var(--position));
-
-  block-size: var(--height);
-  display: none;
-  inset: auto auto 0;
-  inline-size: var(--size);
-  pointer-events: none;
-  position: absolute;
-  scale: var(--scale);
-  transform: translateY(var(--offset));
-  transition: scale 0.2s ease-out, transform 0.2s ease-out;
-  z-index: var(--z);
-
-  .pin-tray:has(.pin:nth-child(7)) & {
-    display: flex;
-  }
-
-  .pin-tray[open] & {
-    --offset: calc((100% + var(--block-space-half)) * (var(--position) * -1));
-    --scale: 1;
-
-    pointer-events: unset;
   }
 }
