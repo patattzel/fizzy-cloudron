@@ -1,22 +1,34 @@
 <% cache pin do %>
   <%= tag.div id: dom_id(pin), class: "pin flex position-relative" do %>
     <%= link_to bucket_bubble_path(pin.bubble.bucket, pin.bubble),
-          class: "pin__content pad pad-inline-double shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width",
-          style: "border-color: #{ pin.bubble.color }",
-          data: { action: "click->dialog#close", turbo_frame: "_top" } do %>
-      <div class="flex flex-column txt-tight-lines min-width flex-item-grow">
-        <strong class="overflow-ellipsis pin__title"><%= bubble_title(pin.bubble) %></strong>
-        <div class="flex gap-half">
-          <div class="overflow-ellipsis" style="color: <%= pin.bubble.color %>; font-weight: 500;">
-            <%= pin.bubble.bucket.name -%>
-            <%= " · #" if pin.bubble.tags.any? -%><%= pin.bubble.tags.map(&:title).join(", ") -%>
+          class: "pin__content shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width",
+          data: { action: "click->dialog#close", turbo_frame: "_top" },
+          style: "--bubble-color: #{ pin.bubble.color };" do %>
+      <div class="flex flex-column min-width flex-item-grow">
+        <div class="pin__header flex align-end txt-uppercase">
+          <div class="pin__bucket flex-inline flex-item-justify-start overflow-ellipsis txt-reversed">
+            <span class="txt-x-small"><%= pin.bubble.bucket.name %></span>
           </div>
 
           <% if pin.bubble&.stage %>
-            <div class="flex flex-column txt-uppercase border flex-item-justify-end" style="font-weight: 600; font-size: 0.8em; --border-color: currentColor; padding: 0.1em 0.4em;">
+            <strong class="pin__stage border txt-tight-lines flex-item-justify-end txt-x-small">
               <%= pin.bubble&.stage&.name %>
-            </div>
+            </strong>
           <% end %>
+        </div>
+  
+        <strong class="pin__title overflow-ellipsis"><%= bubble_title(pin.bubble) %></strong>
+  
+        <div class="pin__meta flex align-end txt-normal gap-half txt-tight-lines">
+          <div class="translucent">
+            <span>Updated</span> <%= local_datetime_tag(pin.bubble.updated_at, style: :ago) -%>
+          </div>
+
+          <%= " · " if pin.bubble.tags.any? %>
+          <div class="overflow-ellipsis pin__tags txt-uppercase">
+            <%= "#" if pin.bubble.tags.any? %>
+            <%= pin.bubble.tags.map(&:title).join(", ") %>
+          </div>
         </div>
       </div>
     <% end %>

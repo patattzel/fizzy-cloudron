@@ -77,21 +77,6 @@
   }
 }
 
-.pin__content {
-  color: var(--color-ink);
-  border: 1px solid;
-  border-radius: 0.2em;
-
-  .notificiations-list--read & {
-    border: 1px solid var(--color-subtle);
-    box-shadow: none;
-  }
-}
-
-.pin__title {
-  padding-inline-end: calc(var(--inline-space-half) + 1.2em);
-}
-
 .pin-tray__expander {
   --hover-size: 0;
   --outline-size: 0;
@@ -106,4 +91,48 @@
   .pin-tray:has(.pin:only-child) & {
     display: none;
   }
+}
+
+.pin__bucket {
+  background-color: var(--bubble-color);
+  font-weight: 800;
+  letter-spacing: 0.5ch;
+  padding: 0.3em 0.9em 0.3em 1em;
+}
+
+.pin__content {
+  border: 0;
+  border-radius: 0.2em;
+  color: var(--color-ink);
+  overflow: clip;
+  padding: 1em 1em 1.2em;
+
+  .notificiations-list--read & {
+    border: 1px solid var(--color-subtle);
+    box-shadow: none;
+  }
+}
+
+.pin__header {
+  margin: -1em -1em auto;
+  padding: 0 0.3em 0 0;
+}
+
+.pin__meta {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.pin__stage {
+  --border-color: currentColor;
+
+  padding: 0.2em 0.5em;
+}
+
+.pin__tags {
+  color: var(--bubble-color);
+}
+
+.pin__title {
+  margin-block-start: 0.3rem;
 }

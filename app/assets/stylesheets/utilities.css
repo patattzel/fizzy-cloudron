@@ -8,8 +8,9 @@
   --block-space-double: calc(var(--block-space) * 2);
 
   /* Text sizes */
-  --text-x-small: 0.6rem;
+  --text-x-small: 0.7rem;
   --text-small: 0.8rem;
+  --txt-normal: 1rem;
   --text-medium: 1.2rem;
   --text-large: 1.5rem;
   --text-x-large: 1.8rem;
@@ -35,7 +36,6 @@
 .txt-alert { color: var(--color-marker); }
 .txt-undecorated { text-decoration: none; }
 .txt-tight-lines { line-height: 1.2; }
-.txt-normal { font-weight: 400; font-style: normal; }
 .txt-nowrap { white-space: nowrap; }
 .txt-break { word-break: break-word; }
 .txt-uppercase { text-transform: uppercase; }
@@ -102,7 +102,6 @@
   -webkit-box-orient: vertical;
   display: -webkit-box;
   overflow: hidden;
-  padding-block-end: 0.2lh;
   text-overflow: clip;
   white-space: normal;
 }
@@ -171,7 +170,7 @@
 .fill-highlight { background-color: var(--color-highlight); }
 .fill-transparent { background-color: transparent; }
 
-.translucent { opacity: var(--opacity, 0.5); }
+.translucent { opacity: var(--opacity, 0.66); }
 
 /* Borders */
 .border { border: var(--border-size, 1px) var(--border-style, solid) var(--border-color, var(--color-subtle)); }
