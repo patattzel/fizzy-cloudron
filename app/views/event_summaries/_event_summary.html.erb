@@ -1,6 +1,7 @@
 <% unless event_summary.body.blank? %>
   <div class="event-summary flex flex-column justify-start txt-tight-lines">
-    <strong><%= local_datetime_tag event_summary.created_at, style: :shortdate %></strong>
+    <strong class="txt-uppercase"><%= local_datetime_tag event_summary.created_at, style: :shortdate %></strong>
+    <hr class="separator--horizontal margin-none full-width" style="--border-color: var(--color-subtle-dark);">
     <div class="flex flex-wrap" data-controller="event-summary">
       <%= event_summary.body %>
     </div>
