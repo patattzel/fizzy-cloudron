@@ -5,7 +5,7 @@
           style: "border-color: #{ pin.bubble.color }",
           data: { action: "click->dialog#close", turbo_frame: "_top" } do %>
       <div class="flex flex-column txt-tight-lines min-width flex-item-grow">
-        <strong class="overflow-ellipsis pin__title"><%= pin.bubble.title %></strong>
+        <strong class="overflow-ellipsis pin__title"><%= bubble_title(pin.bubble) %></strong>
         <div class="flex gap-half">
           <div class="overflow-ellipsis" style="color: <%= pin.bubble.color %>; font-weight: 500;">
             <%= pin.bubble.bucket.name -%>

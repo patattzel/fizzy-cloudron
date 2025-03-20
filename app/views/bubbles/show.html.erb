@@ -1,4 +1,4 @@
-<% @page_title = @bubble.title %>
+<% @page_title = bubble_title(@bubble) %>
 
 <% content_for :header do %>
   <% if @bubble.creating? && @bubble.can_recover_abandoned_creation? %>

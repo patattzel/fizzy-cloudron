@@ -25,7 +25,7 @@
           <% end %>
         </h1>
         <%= link_to bucket_bubble_path(bubble.bucket, bubble), class: "card__link" do %>
-          <span class="for-screen-reader"><%= bubble.title %></span>
+          <span class="for-screen-reader"><%= bubble_title(bubble) %></span>
         <% end %>
       </div>
     

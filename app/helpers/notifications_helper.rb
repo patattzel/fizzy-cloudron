@@ -1,6 +1,6 @@
 module NotificationsHelper
   def notification_title(notification)
-    title = notification.bubble.title
+    title = bubble_title(notification.bubble)
 
     if notification.resource.is_a? Comment
       "RE: " + title
