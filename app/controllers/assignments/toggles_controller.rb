@@ -1,6 +1,10 @@
 class Assignments::TogglesController < ApplicationController
   include BubbleScoped, BucketScoped
 
+  def new
+    render partial: "bubbles/sidebar/assignment", locals: { bubble: @bubble }
+  end
+
   def create
     new_assignee_ids = Array(params[:assignee_id])
     current_assignees = @bubble.assignees
@@ -14,7 +18,15 @@ class Assignments::TogglesController < ApplicationController
       @bubble.toggle_assignment(assignee) unless current_assignees.include?(assignee)
     end
 
-    redirect_to @bubble
+    @bubble.assignees.reload
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace([ @bubble, :assignees ],
+                                                  partial: "bubbles/assignees",
+                                                  locals: { bubble: @bubble })
+      end
+    end
   end
 
   private
