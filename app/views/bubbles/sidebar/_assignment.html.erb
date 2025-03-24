@@ -1,26 +1,23 @@
-<div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-  <button class="btn card__hide-on-index <%= bubble.creating? || bubble.drafted? ? "fill-highlight" : "fill-transparent" %>" data-action="click->dialog#open:stop">
-    <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
-    <span class="for-screen-reader">Assign</span>
-  </button>
+<% cache [bubble, bubble.bucket] do %>
+  <%= turbo_frame_tag bubble, :assignment do %>
+    <dialog class="popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog">
+      <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
 
-  <dialog class="popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog">
-    <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
+      <%= form_with url: bucket_bubble_assignment_toggles_path(bubble.bucket, bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
+        <% bubble.bucket.users.active.sort_by(&:name).each do |user| %>
+          <div class="btn popup__item">
+            <%= form.check_box "assignee_id[]", {
+              checked: bubble.assigned_to?(user),
+              data: { action: "change->form#submit" },
+              id: dom_id(user, :assign),
+              include_hidden: false,
+            }, user.id %>
 
-    <%= form_with url: bucket_bubble_assignment_toggles_path(bubble.bucket, bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
-      <% users.sort_by(&:name).each do |user| %>
-        <div class="btn popup__item">
-          <%= form.check_box "assignee_id[]", { 
-            checked: bubble.assigned_to?(user),
-            data: { action: "change->form#submit" },
-            id: dom_id(user, :assign),
-            include_hidden: false,
-          }, user.id %>
-
-          <%= form.label "assignee_id[]", user.name, for: dom_id(user, :assign), class: "overflow-ellipsis" %>
-          <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
-        </div>
+            <%= form.label "assignee_id[]", user.name, for: dom_id(user, :assign), class: "overflow-ellipsis" %>
+            <%= image_tag "check.svg", aria: { hidden: true }, size: 18, class: "checked flex-item-justify-end" %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </dialog>
-</div>
+    </dialog>
+  <% end %>
+<% end %>
