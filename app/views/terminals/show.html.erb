@@ -5,9 +5,9 @@
     </menu>
     
     <%= turbo_frame_tag "terminal_form" do %>
-      <%= link_to edit_terminal_path, class: "terminal__link flex align-center gap-half" do %>
+      <%= link_to edit_terminal_path, class: "terminal__link flex align-center gap-half min-width" do %>
         <span class="terminal__label txt-nowrap">Fizzy do &gt;</span>
-        <span class="terminal__input input fill-transparent unpad">Search or type commands…</span>
+        <span class="terminal__input input fill-transparent unpad txt-nowrap overflow-ellipsis">Search or type commands…</span>
       <% end %>
     <% end %>
   </div>
