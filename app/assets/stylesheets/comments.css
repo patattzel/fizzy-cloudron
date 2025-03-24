@@ -4,29 +4,9 @@
   --comment-padding-inline: 2ch;
 
   display: flex;
-  font-size: 1.33cqi;
-  gap: var(--comment-padding-block);
-  inline-size: 100%;
-  max-inline-size: 60cqi;
-
-  @media (max-width: 70ch) {
-    max-inline-size: 100%;
-  }
-}
-
-.comments__column {
-  display: flex;
   flex-direction: column;
-  flex: 4 1 80%;
   gap: var(--comment-padding-block);
-}
-
-.events__column {
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 20%;
-  gap: 1lh;
-  margin-block-start: 0.8em;
+  margin-inline: var(--tray-size);
 }
 
 .comment {
@@ -120,9 +100,5 @@
 }
 
 .event-summary {
-  color: var(--bubble-color);
-  font-size: 0.8em;
-  font-weight: 500;
-  gap: 0.5ch;
-  text-align: start;
+  padding-inline-start: 3rem;
 }

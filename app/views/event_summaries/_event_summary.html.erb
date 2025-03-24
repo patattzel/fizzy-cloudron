@@ -1,7 +1,8 @@
 <% unless event_summary.body.blank? %>
-  <div class="event-summary flex flex-column justify-start txt-tight-lines">
-    <strong class="txt-uppercase"><%= local_datetime_tag event_summary.created_at, style: :shortdate %></strong>
-    <hr class="separator--horizontal margin-none full-width" style="--border-color: var(--color-subtle-dark);">
+  <div class="event-summary comment__content flex flex-column justify-start txt-tight-lines">
+    <div class="comment__author flex align-center gap-half">
+      <span class="comment__timestamp txt-uppercase"><%= local_datetime_tag event_summary.created_at, style: :shortdate %></span>
+    </div>
     <div class="flex flex-wrap" data-controller="event-summary">
       <%= event_summary.body %>
     </div>

@@ -63,7 +63,7 @@
   <% if @bubble.published? %>
     <%= render "bubbles/messages", bubble: @bubble %>
   <% else %>
-    <div class="comments center pad-block flex align-center gap">
+    <div class="comments pad-block">
       <div class="comment comment--new flex-inline align-start full-width">
         <figure class="comment__avatar flex-item-no-shrink" aria-hidden="true">
           <%= avatar_tag Current.user, hidden_for_screen_reader: true, loading: :lazy %>
@@ -94,6 +94,7 @@
   <% end %>
 </div>
 
-<%= link_to "Go back", "#", class: "btn", 
+<%= link_to "Go back", "#", class: "btn", hidden: true,
       data: { controller: "back-navigation hotkey", 
-      action: "keydown.esc@document->hotkey#click", back_navigation_fallback_destination_value: bubbles_path(bucket_id: @bubble.bucket) } %>
+              action: "keydown.esc@document->hotkey#click", 
+              back_navigation_fallback_destination_value: bubbles_path(bucket_id: @bubble.bucket) } %>
