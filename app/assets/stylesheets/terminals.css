@@ -4,13 +4,10 @@
   background-color: var(--color-ink);
   color: var(--color-positive);
   font-family: var(--font-mono);
-  font-size: var(--text-);
+  font-size: var(--text-normal);
   inset: auto 0 0 0;
-  overflow: hidden;
   padding: 0.4lh calc(34ch + var(--inline-space-double)) 0.4lh;
   position: fixed;
-  text-align: center;
-  transition: block-size 0.2s ease-in-out;
   z-index: 1;
 
   .terminal__input {
@@ -20,42 +17,33 @@
     --input-color: var(--color-positive);
     --outline-size: 0;
     --outline-color: transparent;
-  
+    
     accent-color: var(--color-positive);
     caret-color: var(--color-positive);
     font-family: inherit;
-  }
-}
 
-.terminal__button {
-  position: absolute;
-  inset: 0.5em 34ch auto auto;
-  transform: rotate(-90deg);
-  transition: transform 0.2s ease-in-out;
-  z-index: 2;
+    &::placeholder {
+      color: var(--color-positive-light);
+      opacity: 0.5;
+    }
 
-  .terminal--open & {
-    transform: rotate(90deg);
+    .terminal__link & {
+      color: var(--color-positive-light);
+      opacity: 0.5;
+    }
   }
 }
 
 .terminal__link {
   --hover-size: 0;
 
-  color: inherit;
-  text-decoration: underline;
+  color: var(--color-positive);
 }
 
 .terminal__menu {
   display: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  list-style: none;
+  transition: display 1000ms allow-discrete;
 
   .terminal--open & {
     display: flex;

@@ -101,5 +101,5 @@ Rails.application.routes.draw do
     resources :pins, only: :index
   end
 
-  resource :terminal, only: [ :show ]
+  resource :terminal, only: [ :show, :edit ]
 end
