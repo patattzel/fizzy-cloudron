@@ -28,7 +28,7 @@
     <h2 class="txt-large txt-nowrap" style="margin-block: 0.4em 0.5em;">Custom views</h2>
     <div style="border-block-start: 1px solid var(--color-subtle); padding-block-start: var(--block-space-half);">
       <% @filters.each do |filter| %>
-        <h3 class="txt-medium margin-block-end-half txt-tight-lines">
+        <h3 class="txt-normal margin-block-end-half txt-tight-lines">
           <%= link_to filter.summary, bubbles_path(**filter.as_params) %>
         </h3>
       <% end %>
@@ -44,7 +44,7 @@
 
     <div style="border-block-start: 1px solid var(--color-subtle); padding-block-start: var(--block-space-half);">
       <% @buckets.each do |bucket| %>
-        <h3 class="txt-medium margin-block-end-half txt-tight-lines"><%= link_to bucket.name, bubbles_path(bucket_ids: [ bucket ]) %></h3>
+        <h3 class="txt-normal margin-block-end-half txt-tight-lines"><%= link_to bucket.name, bubbles_path(bucket_ids: [ bucket ]) %></h3>
       <% end %>
     </div>
   </div>

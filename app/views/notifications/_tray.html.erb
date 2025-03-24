@@ -1,7 +1,11 @@
 <%= turbo_stream_from Current.user, :notifications %>
 
-<%= tag.dialog id: "notification-tray", class: "tray notification-tray flex flex-column gap unpad borderless justify-end fill-transparent",
-      data: { controller: "dialog", turbo_permanent: true, dialog_modal_value: false, dialog_target: "dialog", action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
+<%= tag.dialog id: "notification-tray", class: "tray notification-tray",
+      data: { controller: "dialog", 
+              turbo_permanent: true, 
+              dialog_modal_value: false, 
+              dialog_target: "dialog", 
+              action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
   <%= turbo_frame_tag("notifications", src: notifications_tray_path) -%>
 
   <%= link_to notifications_path, class: "tray__overflow border-radius txt-normal", data: { action: "click->dialog#close"} do %>
@@ -12,17 +16,21 @@
     </div>
   <% end %>
 
-  <div class="tray__actions notification-tray__actions flex align-center gap-half">
-    <%= button_to notifications_mark_all_read_path, class: "notification-tray__read_action btn flex-item-justify-start shadow", data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
+  <div class="tray__actions notification-tray__actions">
+    <%= button_to notifications_mark_all_read_path, 
+        class: "notification-tray__read_action btn flex-item-justify-start shadow", 
+        data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       Mark all read
     <% end %>
 
-    <%= link_to notifications_path, class: "notification-tray__all_action btn flex-item-justify-end shadow", data: { action: "click->dialog#close"} do %>
+    <%= link_to notifications_path, 
+        class: "notification-tray__all_action btn flex-item-justify-end shadow", 
+        data: { action: "click->dialog#close"} do %>
       <%= image_tag "bell.svg", aria: { hidden: true }, size: 24 %>
       <span>See all</span>
     <% end %>
   </div>
 
-  <button class="tray__expander borderless unpad fill-transparent" data-action="dialog#toggle" aria-label="Expand notifications stack">
+  <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack">
   </button>
 <% end %>

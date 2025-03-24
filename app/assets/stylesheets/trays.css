@@ -2,8 +2,13 @@
   --size: 30ch;
   --height: calc(2.81lh + var(--block-space));
 
-  block-size: var(--height);
+  background-color: transparent;
+  border: 0;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
   inline-size: var(--size);
+  justify-content: end;
   padding: var(--block-space-half) var(--inline-space);
   position: fixed;
   z-index: 2;
@@ -14,7 +19,7 @@
     --scale: calc(1 - var(--position) / 30);
     --z: calc(6 - var(--position));
 
-    inset: auto auto 0;
+    inset: auto 0 0;
     inline-size: var(--size);
     outline: 0;
     pointer-events: none;
@@ -47,6 +52,9 @@
 }
 
 .tray__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-space-half);
   opacity: 0;
   scale: calc(1 - 1 / 30);
   transform: translateY(100%);
@@ -74,8 +82,11 @@
   --hover-size: 0;
   --outline-size: 0;
 
+  background-color: transparent;
+  border: 0;
   cursor: pointer;
   inset: 0;
+  padding: 0;
   position: absolute;
   z-index: 6;
 
