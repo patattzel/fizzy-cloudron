@@ -7,9 +7,11 @@
 }
 
 .events__container {
+  --column-gap: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3));
+  --grid-lines: 0.2rem;
+
   display: grid;
   grid-template-columns: 5fr 2fr;
-  --column-gap: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3));
 }
 
 .events__day-header {
@@ -22,15 +24,14 @@
 
 .events__day-header-content {
   background-color: var(--color-bg);
-  border-radius: 2em;
   display: inline-flex;
   font-size: 0.8em;
   inset: calc(var(--grid-lines) - 1em) auto -1em;
   line-height: 1.5;
-  padding: 0.3em 1.3em;
+  padding: 0.2em 1.3em;
   position: absolute;
   text-transform: uppercase;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% - var(--grid-lines) / 2));
   z-index: 2;
 }
 
@@ -46,14 +47,13 @@
 }
 
 .events__index {
-  --grid-lines: 0.2em;
   --row-gap: var(--block-space);
 }
 
 .events__index-header {
   background-color: var(--color-ink); 
   color: var(--color-ink-reversed); 
-  margin-inline-end: 0.2em;
+  margin-inline-end: var(--grid-lines);
   padding: 0.7em calc(0.3em + 0.6em); 
 
   @media (prefers-color-scheme: dark) {
@@ -85,7 +85,7 @@
 .event {
   --column-gap: 0.7ch;
   --panel-border-color: transparent;
-  --panel-border-radius: 0.2em;
+  --panel-border-radius: var(--grid-lines);
   --panel-padding: 0.6em 1.2em 0.6em 0.6em;
   --panel-size: auto; 
 
