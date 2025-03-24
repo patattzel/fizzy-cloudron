@@ -2,7 +2,7 @@ class Taggings::TogglesController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def new
-    render partial: "bubbles/sidebar/tag", locals: { bubble: @bubble, tags: Current.account.tags }
+    render partial: "bubbles/tagging", locals: { bubble: @bubble, tags: Current.account.tags }
   end
 
   def create

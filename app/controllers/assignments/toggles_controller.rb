@@ -2,7 +2,7 @@ class Assignments::TogglesController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def new
-    render partial: "bubbles/sidebar/assignment", locals: { bubble: @bubble }
+    render partial: "bubbles/assignment", locals: { bubble: @bubble }
   end
 
   def create
