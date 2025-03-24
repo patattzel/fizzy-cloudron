@@ -1,5 +1,8 @@
+:root {
+  --tray-size: max(20dvw, 18rem);
+}
+
 .tray {
-  --size: 30ch;
   --height: calc(2.81lh + var(--block-space));
 
   background-color: transparent;
@@ -7,7 +10,7 @@
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
-  inline-size: var(--size);
+  inline-size: var(--tray-size);
   justify-content: end;
   padding: var(--block-space-half) var(--inline-space);
   position: fixed;
@@ -20,7 +23,7 @@
     --z: calc(6 - var(--position));
 
     inset: auto 0 0;
-    inline-size: var(--size);
+    inline-size: var(--tray-size);
     outline: 0;
     pointer-events: none;
     position: absolute;
@@ -113,7 +116,7 @@
   block-size: var(--height);
   display: none;
   inset: auto auto 0;
-  inline-size: var(--size);
+  inline-size: var(--tray-size);
   pointer-events: none;
   position: absolute;
   scale: var(--scale);

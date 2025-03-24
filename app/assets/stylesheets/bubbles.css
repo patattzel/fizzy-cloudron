@@ -266,14 +266,7 @@
   --divider-offset: 1.2em;
   --hover-size: 0;
 
-  container-type: inline-size;
-  font-size: 1.4cqi;
-  inline-size: min(90ch, 100dvw);
-  max-inline-size: 100dvw;
-
-  @media (max-width: 70ch) {
-    inline-size: 100%;
-  }
+  margin-inline: var(--tray-size);
 
   .bubble {
     order: 0;
@@ -285,8 +278,6 @@
   }
 
   ul {
-    margin-inline: var(--divider-offset);
-
     li {
       border-radius: 0;
       list-style: none;
@@ -391,6 +382,7 @@
 }
 
 .bubble__tag {
+  font-weight: 700;
   max-inline-size: 75cqi;
 }
 

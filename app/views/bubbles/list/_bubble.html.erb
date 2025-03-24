@@ -36,7 +36,7 @@
       <hr class="separator--horizontal flex-item-grow" aria-hidden="true" style="--border-color: var(--color-subtle-dark); --border-style: dotted" />
     </div>
 
-    <div class="flex gap-half full-width min-width align-center" style="font-size: 0.8em;">
+    <div class="flex gap-half full-width min-width align-center txt-small">
       <span class="overflow-ellipsis"><%= "Added to #{bubble.bucket.name} by #{bubble.creator.name}" %> <%= 
         days = (Date.current - bubble.created_at.to_date).to_i
         case days
@@ -52,7 +52,7 @@
             <span>#</span>
             <% bubble.tags.each_with_index do |tag, index| %>
               <%= link_to bubbles_path(bucket_ids: [ bubble.bucket ], tag_ids: [ tag.id ]),
-                    class: "bubble__tag btn btn--plain fill-transparent min-width", style: "font-weight: 700;", data: { turbo_frame: "_top" } do %>
+                    class: "bubble__tag btn btn--plain fill-transparent min-width", data: { turbo_frame: "_top" } do %>
                 <span class="overflow-ellipsis"><%= tag.title %></span>
               <% end %><%= ", " unless index == bubble.tags.size - 1 %>
             <% end %>
@@ -61,14 +61,9 @@
       <% end %>
 
       <% if bubble.stage %>
-        <div class="flex flex-column max-width min-width flex-item-no-shrink">
-          <% workflow = Current.account.workflows.first %>
-            <div class="flex flex-column txt-uppercase border" style="font-size: 0.8em; --border-color: currentColor; padding: 0.1em 0.4em;">
-            <% workflow.stages.each do |stage| %>
-              <%= button_to_set_stage bubble, stage %>
-            <% end %>
-          </div>
-        </div>
+        <strong class="border txt-tight-lines txt-uppercase txt-xx-small" style="--border-color: currentColor; padding: 0.1em 0.4em;">
+          <%= bubble&.stage&.name %>
+        </strong>
       <% end %>
     </div>
   </div>
