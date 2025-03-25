@@ -307,47 +307,6 @@
   }
 }
 
-.bubbles-list__divider {
-  --border-color: var(--divider-color);
-  --border-size: 2px;
-  --divider-color: var(--color-subtle-dark);
-
-  block-size: calc(100% + 12ch);
-  font-size: 1rem;
-  cursor: grab;
-  margin-inline: calc(var(--divider-offset) * -1);
-  visibility: hidden;
-}
-
-.bubbles-list__divider--installed {
-  visibility: visible;
-}
-
-.divider-drag-image {
-  background-color: var(--color-link);
-  border-radius: 1rem;
-  color: var(--color-ink-reversed);
-  inset: auto 100% 100% auto;
-  line-height: 2rem;
-  padding: 0 1rem;
-  position: fixed;
-  text-wrap: nowrap;
-}
-
-.btn--reversed.bubbles-list__handle {
-  --btn-background: var(--divider-color);
-
-  font-size: 0.9rem;
-}
-
-.bubbles-list__count {
-  --btn-background: var(--divider-color);
-  --btn-color: var(--color-ink-reversed);
-  --btn-gap: 0.5ch;
-  --btn-icon-size: 1em;
-  --btn-padding: 0.1em 1em 0.1em 0.7em;
-}
-
 .bubble__title-text {
   font-weight: 700;
   flex-grow: 1;
