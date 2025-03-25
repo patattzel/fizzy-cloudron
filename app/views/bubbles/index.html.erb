@@ -33,7 +33,7 @@
   </nav>
 <% end %>
 
-<section class="cards gap position-relative" style="view-transition-name: cards-container; data-controller="bubble-size" data-action="turbo:morph@window->bubble-size#resize">
+<section class="cards gap position-relative" style="view-transition-name: cards-container;" data-controller="bubble-size" data-action="turbo:morph@window->bubble-size#resize">
   <% if @bubbles.any? %>
     <%= render "display_count_selector", display_count: @display_count, filter: @filter %>
     <%= render partial: "bubbles/card", collection: @bubbles.limit(@display_count), as: :bubble, cached: true %>
