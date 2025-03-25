@@ -266,7 +266,11 @@
   --divider-offset: 1.2em;
   --hover-size: 0;
 
-  margin-inline: var(--tray-size);
+  margin-inline: auto;
+
+  @media (min-width: 150ch) {
+    margin-inline: var(--tray-size);
+  }
 
   .bubble {
     order: 0;

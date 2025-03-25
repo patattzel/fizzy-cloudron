@@ -1,17 +1,22 @@
 .comments {
   --avatar-size: 2.33em;
-  --comment-padding-block: 0.33lh;
-  --comment-padding-inline: 2ch;
+  --comment-padding-block: var(--block-space);
+  --comment-padding-inline: var(--inline-space-double);
 
   display: flex;
   flex-direction: column;
-  gap: var(--comment-padding-block);
-  margin-inline: var(--tray-size);
+  padding-inline: var(--inline-space);
+  place-items: center;
+  text-align: center;
+
+  @media (min-width: 150ch) {
+    padding-inline: calc(var(--tray-size) + var(--inline-space) * 1.5);
+  }
 }
 
 .comment {
-  margin-block: calc(var(--comment-padding-block) * 0.3);
-  margin-inline: 0 auto;
+  margin-inline: auto;
+  max-inline-size: 80ch;
   position: relative;
 }
 
@@ -20,20 +25,14 @@
   house-md-toolbar {
     border-block-end: 1px solid var(--color-subtle-dark);
   }
-  
-  house-md {
-    border-block: 1px solid var(--color-subtle-dark);
-    border-radius: 0;
-  }
 }
 
 .comment__avatar {
-  margin-block-start: calc(var(--comment-padding-block) * 0.5);
-  margin-inline: auto calc(var(--comment-padding-inline) * -0.75);
+  margin: calc(var(--comment-padding-block) * 0.5) calc(var(--comment-padding-inline) * -0.75);
   z-index: 0;
 
   .comment--mine_ & {
-    margin-inline: calc(var(--comment-padding-inline) * -0.75) auto;
+    margin-inline: calc(var(--comment-padding-inline) * -0.75);
   }
 }
 
@@ -58,12 +57,12 @@
 }
 
 .comment__content {
-  margin-inline: auto 0 auto var(--avatar-size);
-  max-inline-size: 100%;
+  background-color: var(--color-subtle-light);
+  border-radius: 0.2em;
   padding: var(--comment-padding-block) var(--comment-padding-inline);
   
   .comment--mine_ & {
-    margin-inline: var(--avatar-size) auto;
+    margin-inline: 0 calc(var(--comment-padding-inline) * 2);
   }
 }
 
@@ -90,9 +89,9 @@
   }
 }
 
-.comment__author {
-  border-block-end: 1px solid var(--color-subtle-dark);
-  margin-block-end: 0.3lh;
+.comments__subscribers {
+  max-inline-size: 80ch;
+  padding-inline: calc(var(--comment-padding-block) + var(--inline-space-double));
 }
 
 .comment__timestamp {
@@ -100,6 +99,11 @@
 }
 
 .event-summary {
-  padding-inline-start: 3rem;
-  text-align: start;
+  max-inline-size: 80ch;
+
+  &::before{
+    content: "";
+    display: flex;
+    inline-size: calc(var(--comment-padding-inline) * 0.75);
+  }
 }

@@ -1,9 +1,6 @@
 <% unless event_summary.body.blank? %>
-  <div class="event-summary comment__content flex flex-column justify-start txt-tight-lines">
-    <div class="comment__author flex align-center gap-half">
-      <span class="comment__timestamp txt-uppercase"><%= local_datetime_tag event_summary.created_at, style: :shortdate %></span>
-    </div>
-    <div class="flex flex-wrap" data-controller="event-summary">
+  <div class="event-summary comment flex full-width">
+    <div class="comment__content txt-tight-lines full-width" data-controller="event-summary">
       <%= event_summary.body %>
     </div>
   </div>

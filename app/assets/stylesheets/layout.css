@@ -1,11 +1,9 @@
 body {
   display: grid;
   grid-template-rows: auto 1fr auto 9em;
-  overflow-x: hidden;
 }
 
 :where(#main) {
-  container-type: normal;
   inline-size: 100dvw;
   margin-inline: auto;
   max-inline-size: 100dvw;

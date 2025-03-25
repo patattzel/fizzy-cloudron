@@ -1,7 +1,7 @@
 module MessagesHelper
   def messages_tag(bubble, &)
     turbo_frame_tag dom_id(bubble, :messages),
-      class: "comments borderless gap-half",
+      class: "comments gap center",
       style: "--bubble-color: <%= bubble.color %>",
       role: "group", aria: { label: "Messages" },
       data: {
