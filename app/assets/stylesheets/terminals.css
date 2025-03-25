@@ -6,7 +6,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-normal);
   inset: auto 0 0 0;
-  padding: 0.4lh calc(34ch + var(--inline-space-double)) 0.4lh;
+  padding: var(--block-space) calc(var(--tray-size) + var(--inline-space) * 3);
   position: fixed;
   z-index: 1;
 
