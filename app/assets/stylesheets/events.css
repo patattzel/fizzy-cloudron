@@ -9,9 +9,10 @@
 .events__container {
   --column-gap: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3));
   --grid-lines: 0.1rem;
-
+  
   display: grid;
-  grid-template-columns: 5fr 2fr;
+  grid-template-columns: 1fr 5fr 1fr;
+  margin: calc(var(--block-space) * -1) auto auto;
 }
 
 .events__day-header {
@@ -36,14 +37,9 @@
 }
 
 .events__filter-btn {
-  --input-background: transparent; 
-  --input-color: var(--color-ink-reversed);
-
   font-weight: 500;
-
-  @media (prefers-color-scheme: dark) {
-    --input-color: var(--color-ink);
-  }
+  inline-size: auto;
+  margin: auto;
 }
 
 .events__index {
@@ -51,14 +47,8 @@
 }
 
 .events__index-header {
-  background-color: var(--color-ink); 
-  color: var(--color-ink-reversed); 
-  margin-inline-end: var(--grid-lines);
-  padding: 0.7em calc(0.3em + 0.6em); 
-
-  @media (prefers-color-scheme: dark) {
-    background-color: var(--color-selected);
-    color: var(--color-ink);
+  h2  {
+    font-weight: 900;
   }
 }
 
@@ -123,6 +113,7 @@
   align-self: start;
   display: grid;
   font-weight: 600;
+  margin-block-end: var(--block-space-half);
 }
 
 .event__title {

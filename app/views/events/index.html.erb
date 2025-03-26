@@ -2,9 +2,12 @@
 
 <% content_for :header do %>
   <nav class="align-start">
-    <header style="margin-inline-start: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3))">
-      <h1 class="txt-x-large margin-none"><%= Current.account.name %></h1>
-    </header>
+    <div class="btn btn--circle btn--placeholder flex-item-justify-start"></div>
+
+    <div class="events__index-header flex-inline flex-column center gap-half margin-block-end-double">
+      <h2 class="txt-large txt-nowrap"><%= Current.account.name %> / Latest activity</h2>
+      <%= render "events/filter" %>
+    </div>
 
     <%= link_to account_users_path, class: "btn flex-item-justify-end" do %>
       <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
@@ -14,11 +17,17 @@
 <% end %>
 
 <div class="events__container align-start gap">
-  <div class="flex flex-column">
-    <div class="events__index-header flex align-center gap justify-space-between">
-      <h2 class="txt-large txt-nowrap">Latest activity</h2>
-      <%= render "events/filter" %>
+  <div class="txt-align-start">
+    <h2 class="txt-normal txt-uppercase txt-nowrap">Custom views</h2>
+    <div style="border-block-start: 1px solid var(--color-subtle); padding-block-start: var(--block-space-half);">
+      <% @filters.each do |filter| %>
+        <h3 class="txt-small margin-block-end-half txt-tight-lines">
+          <%= link_to filter.summary, bubbles_path(**filter.as_params) %>
+        </h3>
+      <% end %>
     </div>
+  </div>
+  <div class="flex flex-column">
     <div id="activity" class="events__index flex flex-column">
       <%= render "events/day", activity_day: @activity_day, next_day: @next_day, events: @events %>
     </div>
@@ -26,18 +35,9 @@
   </div>
 
   <div class="txt-align-start">
-    <h2 class="txt-large txt-nowrap" style="margin-block: 0.4em 0.5em;">Custom views</h2>
-    <div style="border-block-start: 1px solid var(--color-subtle); padding-block-start: var(--block-space-half);">
-      <% @filters.each do |filter| %>
-        <h3 class="txt-normal margin-block-end-half txt-tight-lines">
-          <%= link_to filter.summary, bubbles_path(**filter.as_params) %>
-        </h3>
-      <% end %>
-    </div>
-
-    <div class="flex align-center gap min-width margin-block-start-double margin-block-end-half" >
-      <h2 class="txt-large overflow-ellipsis">Collections</h2>
-      <%= link_to new_bucket_path, class: "btn txt-small flex-item-justify-end flex-item-no-shrink", style: "view-transition-name: new-bucket" do %>
+    <div class="flex align-start gap min-width" >
+      <h2 class="txt-normal txt-uppercase overflow-ellipsis">Collections</h2>
+      <%= link_to new_bucket_path, class: "btn txt-xx-small flex-item-justify-end flex-item-no-shrink", style: "view-transition-name: new-bucket" do %>
         <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">New</span>
       <% end %>
@@ -45,7 +45,7 @@
 
     <div style="border-block-start: 1px solid var(--color-subtle); padding-block-start: var(--block-space-half);">
       <% @buckets.each do |bucket| %>
-        <h3 class="txt-normal margin-block-end-half txt-tight-lines"><%= link_to bucket.name, bubbles_path(bucket_ids: [ bucket ]) %></h3>
+        <h3 class="txt-small margin-block-end-half txt-tight-lines"><%= link_to bucket.name, bubbles_path(bucket_ids: [ bucket ]) %></h3>
       <% end %>
     </div>
   </div>
