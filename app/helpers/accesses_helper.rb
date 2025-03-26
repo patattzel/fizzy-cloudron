@@ -17,8 +17,11 @@ module AccessesHelper
     access = bucket.access_for(user)
 
     turbo_frame_tag dom_id(bucket, :involvement_button) do
-      button_to access.involvement, bucket_involvement_path(bucket), method: :put, class: "btn",
-        params: { involvement: next_involvement(access.involvement) }
+      button_to bucket_involvement_path(bucket), method: :put, class: "btn", params: { involvement: next_involvement(access.involvement) } do
+        image_tag("notification-bell-#{access.involvement.dasherize}.svg", aria: { hidden: true }, size: 24) +
+          # TODO: should the screen reader label include the state we're in, or the state the button sets it to?
+          tag.span("#{bucket.name} notification settings", class: "for-screen-reader")
+      end
     end
   end
 
