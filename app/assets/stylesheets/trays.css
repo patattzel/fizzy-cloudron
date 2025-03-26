@@ -97,9 +97,10 @@
   --outline-size: 0;
 
   background-color: transparent;
+  block-size: var(--height);
   border: 0;
   cursor: pointer;
-  inset: 0;
+  inset: auto 0 0 0;
   padding: 0;
   position: absolute;
   z-index: 6;
