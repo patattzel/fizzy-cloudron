@@ -16,7 +16,10 @@ module AccessesHelper
   def access_involvement_advance_button(bucket, user)
     access = bucket.access_for(user)
 
-    button_to access.involvement, bucket_involvement_path(bucket), method: :put, params: { involvement: next_involvement(access.involvement) }
+    turbo_frame_tag dom_id(bucket, :involvement_button) do
+      button_to access.involvement, bucket_involvement_path(bucket), method: :put, class: "btn",
+        params: { involvement: next_involvement(access.involvement) }
+    end
   end
 
   private
