@@ -16,19 +16,21 @@
     </div>
   <% end %>
 
-  <div class="tray__actions notification-tray__actions">
+  <div class="tray__actions notification-tray__actions border border-radius">
     <%= button_to notifications_mark_all_read_path, 
-        class: "notification-tray__read_action btn flex-item-justify-start shadow", 
+        class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small", 
         data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
-      Mark all read
+      <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Mark all read</span>
     <% end %>
 
     <%= link_to notifications_path, 
-        class: "notification-tray__all_action btn flex-item-justify-end shadow", 
-        data: { action: "click->dialog#close"} do %>
-      <%= image_tag "bell.svg", aria: { hidden: true }, size: 24 %>
-      <span>See all</span>
+          class: "btn btn--reversed borderless fill-transparent translucent shadow center txt-uppercase txt-x-small", 
+          data: { action: "click->dialog#close"} do %>
+      <span>Notifications</span>
     <% end %>
+
+    <span class="btn btn--placeholder txt-xx-small borderless"></span>
   </div>
 
   <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack">

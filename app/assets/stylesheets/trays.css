@@ -3,16 +3,15 @@
 }
 
 .tray {
-  --height: calc(2.57lh + var(--block-space));
+  --height: calc(2.48lh + var(--block-space));
 
   background-color: transparent;
   border: 0;
-  border-radius: 0.5em;
   display: flex;
   flex-direction: column;
   inline-size: var(--tray-size);
   justify-content: end;
-  padding: var(--block-space-half) var(--inline-space);
+  padding: var(--block-space-half) var(--inline-space) calc(var(--block-space-half) / 2);
   position: fixed;
   z-index: 2;
 
@@ -55,9 +54,15 @@
 }
 
 .tray__actions {
-  display: flex;
+  --border-style: dashed;
+  --border-color: color-mix(in srgb, var(--color-always-white) 40%, var(--color-ink));
+  --hover-size: 0;
+
   align-items: center;
+  color: var(--color-ink-reversed);
+  display: flex;
   gap: var(--inline-space-half);
+  justify-content: space-between;
   opacity: 0;
   scale: calc(1 - 1 / 30);
   transform: translateY(100%);
@@ -77,6 +82,12 @@
 
     .tray__all_action {
       display: none;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .btn--reversed {
+      color: var(--color-ink);
     }
   }
 }

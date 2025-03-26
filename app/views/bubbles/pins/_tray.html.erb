@@ -4,11 +4,8 @@
       data: { controller: "dialog", turbo_permanent: true, dialog_modal_value: false, dialog_target: "dialog", action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
   <%= turbo_frame_tag "pins", src: bubbles_pins_tray_path %>
 
-  <div class="tray__actions">
-    <%= tag.button type: "button", class: "tray__all_action btn flex-item-justify-start shadow", data: { action: "click->dialog#close"} do %>
-      <%= image_tag "remove-med.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Close</span>
-    <% end %>
+  <div class="tray__actions border border-radius">
+    <button class="txt-uppercase btn btn--reversed borderless fill-transparent txt-x-small translucent center" data-action="click->dialog#close">Pinned</button>
   </div>
 
   <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand pins stack">
