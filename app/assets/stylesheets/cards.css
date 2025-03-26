@@ -72,7 +72,7 @@
   background-color: color-mix(in srgb, var(--bubble-color) 4%, var(--color-bg));
   color: color-mix(in srgb, var(--bubble-color) 40%, var(--color-ink));
   max-inline-size: 75ch;
-  z-index: 1;
+  z-index: 0;
 
   .card__container & {
     inline-size: calc(100dvw - var(--actions-inline-inset) * 2 - var(--btn-size) * 2);
