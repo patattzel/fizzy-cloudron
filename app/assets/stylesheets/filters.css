@@ -94,8 +94,14 @@
   z-index: 1;
 }
 
-.quick-filter:has(input:not(.default-value):checked) {
-  .input--select {
-    --input-background: var(--color-selected);
+.quick-filter {
+  &:has(input:not(.default-value):checked) {
+    .input--select {
+      --input-background: var(--color-selected);
+    }
+  }
+
+  @media (max-width: 80ch) {
+    display: none;
   }
 }
