@@ -16,15 +16,4 @@ class Account < ApplicationRecord
   has_many :tags, dependent: :destroy
 
   has_many_attached :uploads
-
-  after_create :create_default_workflow
-
-  private
-    def create_default_workflow
-      workflows.create!(name: "Default Workflow").tap do |workflow|
-        [ "Triage", "In progress", "On Hold", "Review" ].each do |name|
-          workflow.stages.create!(name: name)
-        end
-      end
-    end
 end
