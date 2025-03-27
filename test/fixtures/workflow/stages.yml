@@ -1,11 +1,15 @@
 qa_maybe:
-  name: Maybe?
+  name: Triage
   workflow: qa
 
 qa_not_now:
-  name: Not now
+  name: In progress
   workflow: qa
 
 qa_done:
-  name: Done
+  name: Oh Hold
+  workflow: qa
+
+qa_hold:
+  name: Review
   workflow: qa

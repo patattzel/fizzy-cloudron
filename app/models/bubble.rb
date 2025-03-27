@@ -56,7 +56,7 @@ class Bubble < ApplicationRecord
     end
 
     def assign_initial_stage
-      if workflow_stage = bucket.account.workflows.first&.stages&.first
+      if workflow_stage = bucket.workflow&.stages&.first
         self.stage = workflow_stage
         save! touch: false
         track_event :staged, stage_id: workflow_stage.id, stage_name: workflow_stage.name

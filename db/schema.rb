@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_18_005138) do
+ActiveRecord::Schema[8.1].define(version: 2025_03_27_191456) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.datetime "created_at", null: false
@@ -123,8 +123,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_18_005138) do
     t.integer "creator_id", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.integer "workflow_id"
     t.index ["account_id"], name: "index_buckets_on_account_id"
     t.index ["creator_id"], name: "index_buckets_on_creator_id"
+    t.index ["workflow_id"], name: "index_buckets_on_workflow_id"
   end
 
   create_table "buckets_filters", id: false, force: :cascade do |t|
@@ -220,7 +222,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_18_005138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["bubble_id", "user_id"], name: "index_pins_on_bubble_id_and_user_id", unique: true
     t.index ["bubble_id"], name: "index_pins_on_bubble_id"
     t.index ["user_id"], name: "index_pins_on_user_id"
   end
@@ -324,6 +325,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_18_005138) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bubbles", "workflow_stages", column: "stage_id"
+  add_foreign_key "buckets", "workflows"
   add_foreign_key "events", "bubbles"
   add_foreign_key "events", "event_summaries", column: "summary_id"
   add_foreign_key "messages", "bubbles"
