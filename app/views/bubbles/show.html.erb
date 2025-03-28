@@ -55,9 +55,22 @@
   </div>
 
   <% unless @bubble.drafted? || @bubble.creating? %>
-    <div class="card__actions-wrapper">
-      <%= render "bubbles/pop_toggle", bubble: @bubble %>
-    </div>
+    <% if @bubble.stage.present? %>
+      <div class="card__actions-wrapper">
+        <%= render "bubbles/pop_toggle", bubble: @bubble %>
+      </div>
+    <% else %>
+      <div class="card__actions-wrapper">
+        <div class="card__actions-container center border-radius flex-inline align-center justify-center gap" style="--bubble-color: <%= @bubble.color %>">
+          <button class="btn borderless">
+            We're doing this
+          </button>
+          <button class="btn borderless">
+            Not now
+          </button>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 
   <% if @bubble.published? %>
