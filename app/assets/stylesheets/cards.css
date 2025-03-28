@@ -83,6 +83,10 @@
   position: absolute;
   inset: var(--actions-block-inset) auto auto calc(var(--actions-inline-inset) * -1);
   z-index: 0;
+
+  &:has(dialog[open]) {
+    z-index: 1;
+  }
 }
 
 .card__actions--right {
