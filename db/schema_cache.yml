@@ -519,6 +519,16 @@ columns:
     default_function:
     collation:
     comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: workflow_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   buckets_filters:
   - *18
   - *21
@@ -1357,6 +1367,22 @@ indexes:
   buckets:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: buckets
+    name: index_buckets_on_workflow_id
+    unique: false
+    columns:
+    - workflow_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: buckets
     name: index_buckets_on_creator_id
     unique: false
     columns:
@@ -1712,23 +1738,6 @@ indexes:
   pins:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: pins
-    name: index_pins_on_bubble_id_and_user_id
-    unique: true
-    columns:
-    - bubble_id
-    - user_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: pins
     name: index_pins_on_user_id
     unique: false
     columns:
@@ -2062,4 +2071,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20250318005138
+version: 20250327191456

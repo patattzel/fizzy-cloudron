@@ -12,7 +12,7 @@ class WorkflowsController < ApplicationController
   def create
     @workflow = Current.account.workflows.create! workflow_params
     # FIXME: this should definitely change.
-    [ "Maybe?", "Not now", "Done" ].each { |name| @workflow.stages.create! name: name }
+    [ "Triage", "In progress", "On Hold", "Review" ].each { |name| @workflow.stages.create! name: name }
     redirect_to workflows_path
   end
 
