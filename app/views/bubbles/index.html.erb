@@ -6,7 +6,7 @@
 <% content_for :header do %>
   <nav class="align-start">
     <%= link_to root_path, class: "btn", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
-      <%= image_tag "home.svg", aria: { hidden: true }, size: 24 %>
+      <%= icon_tag "home" %>
       <span class="for-screen-reader">Home</span>
     <% end %>
 
@@ -18,12 +18,12 @@
 
     <% if bucket = @filter.buckets.first %>
       <%= link_to edit_bucket_path(bucket), class: "btn flex-item-justify-end" do %>
-        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+        <%= icon_tag "settings" %>
         <span class="for-screen-reader">Settings for <%= bucket.name %></span>
       <% end %>
 
       <%= button_to bucket_bubbles_path(bucket), method: :post, class: "btn" do %>
-        <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+        <%= icon_tag "add" %>
         <span class="for-screen-reader">Create a new bubble</span>
       <% end %>
     <% else %>
