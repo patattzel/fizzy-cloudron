@@ -79,7 +79,7 @@
 <div class="panel shadow center flex flex-column gap-half margin-block-double" style="--panel-size: 55ch;">
   <strong class="txt-large">Choose a workflow</strong>
   <p class="margin-none">Use a workflow to track progress in this collection.</p>
-  <%= form_with model: @bucket, local: true, data: { controller: "form" } do |form| %>
+  <%= form_with model: @bucket, url: bucket_workflow_path(@bucket), local: true, method: :patch, data: { controller: "form" } do |form| %>
     <%= form.select :workflow_id, Current.account.workflows.map { |w| [w.name, w.id] }, { include_blank: "Choose…" }, class: "input input--select full-width", data: { action: "change->form#submit" } %>
   <% end %>
   <p><%= link_to "Manage workflows", workflows_path, class: "btn btn--plain txt-link" %></p>
