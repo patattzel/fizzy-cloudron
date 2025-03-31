@@ -64,11 +64,10 @@
   margin: auto;
   max-inline-size: 100ch;
   padding-block: var(--block-space-half);
-  position: relative;
-  z-index: 0;
 
   .card {
     aspect-ratio: unset;
+    z-index: unset;
   }
 }
 
@@ -167,6 +166,17 @@
   letter-spacing: 0.5ch;
   padding: var(--block-space-half) var(--inline-space-double);
 }
+
+.card-column__filter {
+  > button {
+    --hover-size: 0;
+
+    inline-size: auto;
+    padding: 0 2em 0 0;
+    margin-inline-start: 2em;
+  }
+}
+
 .card__container {
   --actions-block-inset: 1.5rem;
   --actions-inline-inset: 4rem;
@@ -226,7 +236,6 @@
   max-inline-size: 120ch;
   padding: var(--container-padding);
   place-content: center;
-  view-transition-name: cards-container;
 
   .card {
     --block-space: 1em;
@@ -238,6 +247,7 @@
     font-size: 3cqi;
     flex: 0 0 var(--card-size);
     inline-size: var(--card-size);
+    z-index: -1;
   }
 
   .card__meta,
@@ -302,7 +312,8 @@
   position: absolute;
   z-index: -1;
 
-  .cards & {
+  .cards &,
+  .cards--grid & {
     z-index: 1;
   }
 }
@@ -405,7 +416,7 @@
   justify-content: space-between;
   padding: var(--block-space-half) calc(var(--inline-space) * 1.5);
   transform: rotate(-10deg);
-  z-index: 1;
+  z-index: -1;
 }
 
 .card__popped-by {

@@ -22,17 +22,17 @@
         
         <% workflow = Current.account.workflows.first %>
         <% workflow.stages.each do |stage| %>
-            <div class="btn popup__item">
-              <%= form.check_box :stage_ids, {
-                multiple: true,
-                checked: filter.stages.include?(stage),
-                data: { action: "change->form#submit" },
-                include_hidden: false,
-            }, stage.id %>
+          <div class="btn popup__item">
+            <%= form.check_box :stage_ids, {
+              multiple: true,
+              checked: filter.stages.include?(stage),
+              data: { action: "change->form#submit" },
+              include_hidden: false,
+              }, stage.id %>
 
-              <%= form.label :stage_ids, stage.name, for: form.field_id(:stage_ids, stage.id), class: "overflow-ellipsis" %>
-              <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
-            </div>
+            <%= form.label :stage_ids, stage.name, for: form.field_id(:stage_ids, stage.id), class: "overflow-ellipsis" %>
+            <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+          </div>
         <% end %>
       <% end %>
     </dialog>
