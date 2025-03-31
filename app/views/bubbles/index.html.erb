@@ -25,7 +25,7 @@
       <%= render "bubbles/filters", filter: @filter %>
     </header>
 
-    <% if bucket = @filter.buckets.first %>
+    <% if (bucket = @filter.buckets.first) && @filter.buckets.one? %>
       <%= link_to edit_bucket_path(bucket), class: "btn flex-item-justify-end" do %>
         <%= icon_tag "settings" %>
         <span class="for-screen-reader">Settings for <%= bucket.name %></span>
