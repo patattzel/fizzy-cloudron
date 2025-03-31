@@ -67,7 +67,7 @@
   </h2>
   <section class="cards--grid position-relative">
     <% if (popped_bubbles = Filter.from_params(@filter.as_params.merge(indexed_by: "popped")).tap { |f| f.creator = Current.user }.bubbles).any? %>
-      <%= render partial: "bubbles/card", collection: popped_bubbles.limit(@display_count), as: :bubble, cached: true %>
+      <%= render partial: "bubbles/card", collection: popped_bubbles, as: :bubble, cached: true %>
     <% else %>
       <p class="txt-medium"><strong>Nothing here.</strong></p>
     <% end %>
