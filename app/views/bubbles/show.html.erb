@@ -62,12 +62,12 @@
     <% else %>
       <div class="card__actions-wrapper">
         <div class="card__actions-container center border-radius flex-inline align-center justify-center gap" style="--bubble-color: <%= @bubble.color %>">
-          <button class="btn borderless">
-            We're doing this
-          </button>
-          <button class="btn borderless">
-            Not now
-          </button>
+          <%= button_to bucket_bubble_stagings_path(@bubble.bucket, @bubble, stage_id: @bubble.bucket&.workflow&.stages&.first), method: :post, class: "btn borderless" do %>
+            <span>We’re doing this</span>
+          <% end %>
+          <%= button_to bucket_bubble_pop_path(@bubble.bucket, @bubble), class: "btn borderless" do %>
+            <span>Not now</span>
+          <% end %>
         </div>
       </div>
     <% end %>
