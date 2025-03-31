@@ -236,6 +236,8 @@
   max-inline-size: 120ch;
   padding: var(--container-padding);
   place-content: center;
+  position: relative;
+  z-index: 0;
 
   .card {
     --block-space: 1em;
@@ -247,7 +249,7 @@
     font-size: 3cqi;
     flex: 0 0 var(--card-size);
     inline-size: var(--card-size);
-    z-index: -1;
+    z-index: 0;
   }
 
   .card__meta,
