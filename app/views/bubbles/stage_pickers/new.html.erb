@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(@bubble, :stage_picker) do %>
-  <% if @selected_workflow %>
+  <% if @selected_workflow && @bubble.stage.present? %>
     <div class="card__stages flex flex-column max-width min-width pad-block">
       <% @selected_workflow.stages.each do |stage| %>
         <%= button_to_set_stage @bubble, stage %>
