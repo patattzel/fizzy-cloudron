@@ -54,7 +54,7 @@
 
 <div class="margin-block">
   <h2 class="txt-align-center flex-inline center txt-uppercase txt-medium margin-none-block-start">
-    Done
+    Recently closed
   </h2>
   <section class="cards--grid gap position-relative">
     <% if (popped_bubbles = Filter.from_params(@filter.as_params.merge(indexed_by: "popped")).tap { |f| f.creator = Current.user }.bubbles).any? %>
