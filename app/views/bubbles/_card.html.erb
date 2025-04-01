@@ -1,5 +1,5 @@
 <% cache bubble do %>
-  <article class="card shadow flex flex-column position-relative txt-align-start full-width border-radius" 
+  <article class="card shadow border flex flex-column position-relative txt-align-start full-width border-radius" 
         style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;" 
         id="<%= dom_id(bubble, :ticket) %>">
     <header class="card__header flex align-center gap min-width">
@@ -39,7 +39,7 @@
     </footer>
 
     <div class="card__background">
-      <%= image_tag bubble.image.presence || "", size: 120, data: { upload_preview_target: "image" } %>
+      <%= image_tag bubble.image.presence || "", size: 120, class: "borderless",data: { upload_preview_target: "image" } %>
     </div>
 
     <% if bubble.popped? %>

@@ -144,7 +144,7 @@
 
   @media (hover: hover) {
     .card:hover & {
-      img {
+      img:not([src=""]) {
         opacity: 1;
       }
     }
