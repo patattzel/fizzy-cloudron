@@ -39,7 +39,7 @@
     </footer>
 
     <div class="card__background">
-      <%= image_tag bubble.image.presence || "", size: 120, class: "borderless",data: { upload_preview_target: "image" } %>
+      <%= image_tag bubble.image.presence || "", size: 120, data: { upload_preview_target: "image" } %>
     </div>
 
     <% if bubble.popped? %>
