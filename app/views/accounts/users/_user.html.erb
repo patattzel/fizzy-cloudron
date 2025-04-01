@@ -7,15 +7,16 @@
 
   <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
 
-  <label class="btn txt-small flex-item-no-shrink" for="<%= dom_id(user, :role) %>">
-    <span class="for-screen-reader">Role: <%= true ? "Administrator" : "Member" %></span>
-    <%= icon_tag "crown" %>
-    <%= check_box_tag :role, { data: { action: "form#submit" }, hidden: true, id: dom_id(user, :role) }, "administrator", "member" %>
-  </label>
+  <%= form_with model: user, url: account_user_path(user), data: { controller: "form" }, method: :patch do | form | %>
+    <label class="btn txt-small flex-item-no-shrink" for="<%= dom_id(user, :role) %>" arial-label="Role: <%= user.admin? ? "Administrator" : "Member" %>">
+      <%= image_tag "crown.svg", size: 20, aria: { hidden: "true" } %>
+      <%= form.check_box :role, { data: { action: "form#submit" }, disabled: !Current.user.can_administer?(user), hidden: true, id: dom_id(user, :role) }, "admin", "member" %>
+    </label>
+  <% end %>
 
   <%# FIXME: Move this Current.user check to a stimulus controller that just checks for admin? or the like we so we can cache user list %>
   <%= button_to account_user_path(user), method: :delete, class: "btn btn--small btn--negative flex-item-no-shrink",
-        disabled: !Current.user.can_remove?(user),
+        disabled: !Current.user.can_administer?(user),
         data: { turbo_confirm: "Are you sure you want to permanently remove this person from the account?" } do %>
     <%= icon_tag "minus" %>
     <span class="for-screen-reader">Remove <%= user.name %> from the account</span>

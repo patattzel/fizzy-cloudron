@@ -2,7 +2,7 @@ module User::Role
   extend ActiveSupport::Concern
 
   included do
-    enum :role, %i[ member system ].index_by(&:itself), scopes: false
+    enum :role, %i[ admin member system ].index_by(&:itself), scopes: false
 
     scope :member, -> { where(role: :member) }
     scope :without_system, -> { where.not(role: :system) }
@@ -15,5 +15,9 @@ module User::Role
         user.name = "System"
       end
     end
+  end
+
+  def can_administer?(other)
+    admin? && other != self
   end
 end
