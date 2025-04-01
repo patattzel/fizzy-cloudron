@@ -11,6 +11,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= tag.meta name: "current-user-id", content: Current.user.id if Current.user %>
+    <% turbo_refreshes_with method: :morph, scroll: :preserve %>
 
     <% turbo_refreshes_with method: :morph, scroll: :preserve %>
 
