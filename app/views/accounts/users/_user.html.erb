@@ -9,7 +9,7 @@
 
   <label class="btn txt-small flex-item-no-shrink" for="<%= dom_id(user, :role) %>">
     <span class="for-screen-reader">Role: <%= true ? "Administrator" : "Member" %></span>
-    <%= image_tag "crown.svg", size: 20, aria: { hidden: "true" } %>
+    <%= icon_tag "crown" %>
     <%= check_box_tag :role, { data: { action: "form#submit" }, hidden: true, id: dom_id(user, :role) }, "administrator", "member" %>
   </label>
 
