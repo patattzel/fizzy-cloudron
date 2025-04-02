@@ -30,7 +30,7 @@
         <% end %>
       </div>
 
-      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) unless previewing_card? %>
+      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) unless (previewing_card? && bubble.popped?) %>
     </div>
 
     <footer class="card__footer full-width flex align-start gap">
