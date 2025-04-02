@@ -49,7 +49,7 @@
       <% if Current.user %>
         <%= render "notifications/tray" %>
         <%= render "bubbles/pins/tray" %>
-        <%= turbo_frame_tag "terminal", src: terminal_path %>
+        <%= turbo_frame_tag "terminal", src: terminal_path, data: { turbo_permanent: true } %>
       <% end %>
     </footer>
 
