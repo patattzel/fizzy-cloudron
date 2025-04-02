@@ -1,5 +1,5 @@
-<% cache [ bubble, previewing_card? ] do %>
-  <article class="card shadow border flex flex-column position-relative txt-align-start full-width border-radius"
+<% cache bubble do %>
+  <article class="card flex flex-column position-relative txt-align-start full-width border-radius"
         style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;"
         id="<%= dom_id(bubble, :ticket) %>">
     <header class="card__header flex align-center gap min-width">
@@ -30,14 +30,7 @@
         <% end %>
       </div>
 
-      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) unless (previewing_card? && bubble.popped?) %>
-
-      <% if bubble.stage.nil? %>
-        <%= button_to bucket_bubble_stagings_path(bubble.bucket, bubble, stage_id: bubble.bucket&.workflow&.stages&.first), method: :post, class: "card__move-button card__hide-on-index btn btn--reversed" do %>
-          <span class="txt-nowrap">Move to Doing</span>
-          <%= icon_tag "arrow-right" %>
-        <% end %>
-      <% end %>
+      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble), refresh: :morph %>
     </div>
 
     <footer class="card__footer full-width flex align-start gap">
@@ -51,7 +44,7 @@
 
     <% if bubble.popped? %>
       <div class="card__popped flex flex-column">
-        <span class="card__popped-title txt-uppercase"><%= bubble.popped_by.system? ? "Closed" : "Completed" %></span>
+        <span class="card__popped-title txt-uppercase">Completed</span>
         <strong><%= bubble.popped_at.strftime("%b %d, %Y") %></strong>
         <span>by <span class="card__popped-by"><%= bubble.popped_by.name %></span></span>
       </div>
