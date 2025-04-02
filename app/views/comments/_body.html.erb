@@ -10,9 +10,9 @@
           <%= local_datetime_tag comment.created_at, style: :shortdate, class: "txt-ink translucent" %>
         <% end %>
 
-        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), 
+        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment),
               class: "comment__edit btn btn--plain txt-xx-small fill-transparent translucent flex-item-justify-end" do %>
-          <%= image_tag "menu-dots-horizontal.svg", class: "colorize--black" %>
+          <%= icon_tag "menu-dots-horizontal" %>
           <span class="for-screen-reader">Edit this comment</span>
         <% end %>
       </div>
