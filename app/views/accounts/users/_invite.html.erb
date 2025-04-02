@@ -11,7 +11,7 @@
   <div class="flex align-center gap">
     <div data-controller="dialog" data-dialog-modal-value="true" class="flex-inline">
       <%= tag.button class: "btn", data: { action: "dialog#open" } do %>
-        <%= image_tag "qr-code.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
+        <%= icon_tag "qr-code" %>
         <span class="for-screen-reader">Show join link QR code</span>
       <% end %>
 
@@ -28,12 +28,12 @@
     </div>
 
     <%= button_to_copy_to_clipboard(url) do %>
-      <%= image_tag "copy-paste.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
+      <%= icon_tag "copy-paste" %>
       <span class="for-screen-reader">Copy join link</span>
     <% end %>
 
     <%= button_to account_join_code_path, method: :put, class: "btn btn--regenerate" do %>
-      <%= image_tag "refresh.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
+      <%= icon_tag "refresh" %>
       <span class="for-screen-reader">Regenerate join link</span>
     <% end %>
   </div>

@@ -9,20 +9,20 @@
       aria-label="Sort by…" aria-description="Sort by…"
       data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
     <strong class="popup__title margin-block-start-half pad-inline-half">Sort by…</strong>
-    <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list", 
+    <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list",
           data: { controller: "form" } do |form| %>
       <% filter.as_params.except(:indexed_by).each do |key, value| %>
         <%= filter_hidden_field_tag key, value %>
       <% end %>
-      
+
       <div class="btn popup__item">
-        <%= form.radio_button :indexed_by, filter.default_indexed_by, 
+        <%= form.radio_button :indexed_by, filter.default_indexed_by,
             checked: filter.default_indexed_by?,
             class: "default-value",
             data: { action: "change->form#submit" } %>
 
         <%= form.label :indexed_by, "Most active", value: filter.default_indexed_by, class: "overflow-ellipsis" %>
-        <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+        <%= icon_tag "check", class: "checked flex-item-justify-end" %>
       </div>
 
       <% Filter::INDEXES.each do |index| %>
@@ -32,9 +32,9 @@
               data: { action: "change->form#submit" } %>
 
           <%= form.label :indexed_by, index.humanize, value: index, class: "overflow-ellipsis" %>
-          <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+          <%= icon_tag "check", class: "checked flex-item-justify-end" %>
         </div>
       <% end %>
     <% end %>
   </dialog>
-</div> 
+</div>

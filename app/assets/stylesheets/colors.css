@@ -54,22 +54,6 @@
   }
 }
 
-.colorize--white {
-  filter: invert(1);
-
-  @media (prefers-color-scheme: dark) {
-    filter: invert(0);
-  }
-}
-
-.colorize--black {
-  filter: invert(0);
-
-  @media (prefers-color-scheme: dark) {
-    filter: invert(1);
-  }
-}
-
 .color-picker {
   --panel-border-color: var(--bubble-color);
   --panel-border-radius: 2em;

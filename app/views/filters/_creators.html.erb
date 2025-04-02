@@ -1,5 +1,5 @@
 <% if filter.creators.any? %>
-  <div class="quick-filter position-relative" data-controller="dialog" 
+  <div class="quick-filter position-relative" data-controller="dialog"
         data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
     <button class="btn input input--select flex-inline txt-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
@@ -11,11 +11,11 @@
       </span>
     </button>
 
-    <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow" 
+    <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow"
         aria-label="Added by…" aria-description="Added by…"
         data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
       <strong class="popup__title margin-block-start-half pad-inline-half">Added by…</strong>
-      <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list", 
+      <%= form_with url: bubbles_path, method: :get, class: "flex flex-column full-width popup__list",
             data: { controller: "form" } do |form| %>
         <% filter.as_params.except(:creator_ids).each do |key, value| %>
           <%= filter_hidden_field_tag key, value %>
@@ -34,7 +34,7 @@
           }, Current.user.id %>
 
           <%= form.label :creator_ids, "Me", for: form.field_id(:creator_ids, Current.user.id), class: "overflow-ellipsis" %>
-          <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+          <%= icon_tag "check", class: "checked flex-item-justify-end" %>
         </div>
 
         <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
@@ -47,7 +47,7 @@
             }, user.id %>
 
             <%= form.label :creator_ids, user.name, for: form.field_id(:creator_ids, user.id), class: "overflow-ellipsis" %>
-            <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+            <%= icon_tag "check", class: "checked flex-item-justify-end" %>
           </div>
         <% end %>
       <% end %>

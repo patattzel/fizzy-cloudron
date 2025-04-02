@@ -1,12 +1,12 @@
 <%= turbo_frame_tag dom_id(@bubble, :watch) do %>
   <% if @bubble.watched_by? Current.user %>
       <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), method: :delete, class: "btn btn--reversed" do %>
-        <%= image_tag "bell.svg", size: 16, aria: { hidden: true } %>
+        <%= icon_tag "bell" %>
         <span class="for-screen-reader">Stop watching</span>
       <% end %>
   <% else %>
       <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), class: "btn" do %>
-        <%= image_tag "bell-off.svg", size: 16, aria: { hidden: true } %>
+        <%= icon_tag "bell-off" %>
         <span class="for-screen-reader">Watch this</span>
       <% end %>
   <% end %>

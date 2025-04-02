@@ -10,7 +10,7 @@
         <span class="color-picker__color">
           <label class="btn btn--circle" style="--btn-background: <%= color %>" title="<%= color %>">
             <%= form.radio_button :color, color %>
-            <%= image_tag "check.svg", aria: { hidden: "true" }, size: 24, class: "checked" %>
+            <%= icon_tag "check.svg", class: "checked" %>
             <span class="for-screen-reader"><%= color %></span>
           </label>
         </span>

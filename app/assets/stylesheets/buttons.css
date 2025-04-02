@@ -27,29 +27,12 @@
     opacity var( --transition),
     scale var( --transition);
 
-  img {
-    -webkit-touch-callout: none;
-
-    pointer-events: none;
-    user-select: none;
-  }
-
   /* Default icon styles */
-  &:where(:has(img, svg)) {
+  &:where(:has(.icon)) {
     text-align: start;
 
-    img, svg {
-      block-size: var(--btn-icon-size, 1.3em);
-      inline-size: var(--btn-icon-size, 1.3em);
-      max-inline-size: unset;
-    }
-
-    img:not([class]) {
-      filter: invert(0);
-
-      @media (prefers-color-scheme: dark) {
-        filter: invert(1);
-      }
+    .icon {
+      --icon-size: var(--btn-icon-size, 1.3em);
     }
   }
 
@@ -71,6 +54,7 @@
     }
 
     img {
+      --icon-size: 100%;
       block-size: 100%;
       inline-size: 100%;
       max-inline-size: unset;
@@ -85,7 +69,7 @@
 
   /* Circle buttons */
   &.btn--circle,
-  &:where(:has(.for-screen-reader):has(img, svg)) {
+  &:where(:has(.for-screen-reader):has(.icon)) {
     --btn-border-radius: 50%;
     --btn-padding: 0;
 
@@ -108,7 +92,7 @@
     :is(input[type=radio]),
     :is(input[type=checkbox]) {
       --hover-size: 0;
-  
+
       appearance: none;
       border-radius: var(--btn-border-radius);
       cursor: pointer;
@@ -119,7 +103,7 @@
       position: absolute;
     }
 
-    img.checked {
+    .checked {
       display: none;
     }
   }
@@ -129,17 +113,7 @@
     --btn-color: var(--color-ink-reversed);
     --outline-color: var(--color-ink);
 
-    img {
-      filter: invert(1);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      img {
-        filter: invert(0);
-      }
-    }
-
-    img.checked {
+    .checked {
       display: block;
     }
   }
@@ -203,14 +177,6 @@
 
 :is(.btn--link, .btn--negative, .btn--positive, .btn--reversed) {
   --btn-border-color: var(--color-bg);
-
-  img:not([class]) {
-    filter: invert(1);
-
-    @media (prefers-color-scheme: dark) {
-      filter: invert(0);
-    }
-  }
 }
 
 .btn--small {
@@ -220,7 +186,7 @@
 .btn--success {
   animation: success 1s ease-out;
 
-  img {
+  .icon {
     animation: zoom-fade 300ms ease-out;
   }
 }

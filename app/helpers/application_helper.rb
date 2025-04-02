@@ -3,7 +3,10 @@ module ApplicationHelper
     tag.title @page_title || "Fizzy"
   end
 
-  def icon_tag(name, aria: { hidden: true }, size: 24, **options)
-    image_tag "#{name}.svg", aria: aria, size: size, **options
+  def icon_tag(name, **options)
+    classes = class_names "icon icon--#{name}", options.delete(:class)
+    options["aria-hidden"] = true
+
+    content_tag :span, "", class: classes, **options
   end
 end

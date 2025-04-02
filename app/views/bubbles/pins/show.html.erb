@@ -1,12 +1,12 @@
 <%= turbo_frame_tag dom_id(@bubble, :pin) do %>
   <% if @bubble.pinned_by? Current.user %>
       <%= button_to bucket_bubble_pin_path(@bubble.bucket, @bubble), method: :delete, class: "btn btn--reversed" do %>
-        <%= image_tag "pinned.svg", size: 16, aria: { hidden: true } %>
+        <%= icon_tag "pinned" %>
         <span class="for-screen-reader">Un-pin this card</span>
       <% end %>
   <% else %>
       <%= button_to bucket_bubble_pin_path(@bubble.bucket, @bubble), class: "btn" do %>
-        <%= image_tag "unpinned.svg", size: 16, aria: { hidden: true } %>
+        <%= icon_tag "unpinned" %>
         <span class="for-screen-reader">Pin this card</span>
       <% end %>
   <% end %>
