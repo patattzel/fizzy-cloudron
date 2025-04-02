@@ -4,7 +4,7 @@
       <span class="btn btn--placeholder txt-small" aria-hidden="true"></span>
 
       <h2 class="txt-large flex align-center gap-half margin-none">
-        <%= icon_tag "filter", size: 30 %>
+        <%= icon_tag "filter" %>
         <span>Filter</span>
       </h2>
 
@@ -116,7 +116,7 @@
             <label class="btn filter__button">
               <%= check_box_tag "assignment_status", "unassigned", filter.assignment_status.unassigned?,
                     class: "visually-hidden", data: {
-                      action: "filter-form#clearCategory", 
+                      action: "filter-form#clearCategory",
                       filter_form_name_param: "assignee_ids[],assigner_ids[]" } %>
               <span>No one</span>
               <%= icon_tag "close" %>

@@ -8,6 +8,8 @@
   mask-image: var(--svg);
   mask-repeat: no-repeat;
   mask-size: cover;
+  pointer-events: none;
+  user-select: none;
 }
 
 .icon--activity { --svg: url("activity.svg "); }

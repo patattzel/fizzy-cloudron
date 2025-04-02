@@ -27,18 +27,12 @@
     opacity var( --transition),
     scale var( --transition);
 
-  img {
-    -webkit-touch-callout: none;
-
-    pointer-events: none;
-    user-select: none;
-  }
-
   /* Default icon styles */
-  &:where(:has(img, svg)) {
+  &:where(:has(.icon, img, svg)) {
     text-align: start;
 
-    img, svg {
+    .icon, img, svg {
+      --icon-size: var(--btn-icon-size, 1.3em);
       block-size: var(--btn-icon-size, 1.3em);
       inline-size: var(--btn-icon-size, 1.3em);
       max-inline-size: unset;
@@ -70,7 +64,8 @@
       grid-area: 1/1;
     }
 
-    img {
+    .icon, img {
+      --icon-size: 100%;
       block-size: 100%;
       inline-size: 100%;
       max-inline-size: unset;
@@ -85,7 +80,7 @@
 
   /* Circle buttons */
   &.btn--circle,
-  &:where(:has(.for-screen-reader):has(img, svg)) {
+  &:where(:has(.for-screen-reader):has(.icon, img, svg)) {
     --btn-border-radius: 50%;
     --btn-padding: 0;
 
@@ -108,7 +103,7 @@
     :is(input[type=radio]),
     :is(input[type=checkbox]) {
       --hover-size: 0;
-  
+
       appearance: none;
       border-radius: var(--btn-border-radius);
       cursor: pointer;

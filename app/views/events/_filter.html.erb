@@ -7,22 +7,22 @@
 		</span>
 	</button>
 
-	<dialog class="events__popup popup panel flex-column full-width align-start gap-half fill-white shadow" 
+	<dialog class="events__popup popup panel flex-column full-width align-start gap-half fill-white shadow"
 				style="z-index: 5; inset: 0 0 auto auto;" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
 		<strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Filter by Collection…</strong>
-		<%= form_with url: events_path, method: :get, class: "flex flex-column full-width popup__list", 
+		<%= form_with url: events_path, method: :get, class: "flex flex-column full-width popup__list",
 					data: { controller: "form" } do |form| %>
 			<%= link_to "Show everything", events_path(clear_filter: true), class: "btn popup__item txt-nowrap" %>
 			<% @buckets.each do |bucket| %>
 				<div class="btn popup__item">
-					<%= form.check_box "bucket_ids[]", { 
+					<%= form.check_box "bucket_ids[]", {
 						checked: (params[:bucket_ids] || cookies[:bucket_filter]&.split(","))&.include?(bucket.id.to_s),
 						data: { action: "change->form#submit" },
 						include_hidden: false,
 					}, bucket.id %>
 
 					<%= form.label "bucket_ids[]", bucket.name, for: dom_id(bucket, :filter), class: "overflow-ellipsis" %>
-					<%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+					<%= icon_tag "check", class: "checked flex-item-justify-end" %>
 				</div>
 			<% end %>
 		<% end %>
