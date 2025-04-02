@@ -21,4 +21,13 @@ module BubblesHelper
       }
     end
   end
+
+  def previewing_card
+    @previewing_bubble = true
+    yield
+  end
+
+  def previewing_card?
+    @previewing_bubble
+  end
 end

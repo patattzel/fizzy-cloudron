@@ -20,12 +20,18 @@
   <% end %>
 
   <nav class="align-start max-width">
-    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to root_path, class: "btn", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <%= icon_tag "home" %>
       <span class="for-screen-reader">Home</span>
     <% end %>
 
+    <%= link_to "#", class: "btn flex-item-justify-start", data: { controller: "back-navigation hotkey", action: "keydown.esc@document->hotkey#click", back_navigation_fallback_destination_value: bubbles_path(bucket_id: @bubble.bucket) } do %>
+      <%= icon_tag "arrow-left" %>
+      <span class="for-screen-reader">Go Back</span>
+    <% end %>
+
     <div class="btn btn--placeholder flex-item-justify-end"></div>
+    <div class="btn btn--placeholder"></div>
   </nav>
 <% end %>
 
@@ -55,9 +61,22 @@
   </div>
 
   <% unless @bubble.drafted? || @bubble.creating? %>
-    <div class="card__actions-wrapper">
-      <%= render "bubbles/pop_toggle", bubble: @bubble %>
-    </div>
+    <% if @bubble.stage.present? %>
+      <div class="card__actions-wrapper">
+        <%= render "bubbles/pop_toggle", bubble: @bubble %>
+      </div>
+    <% else %>
+      <div class="card__actions-wrapper">
+        <div class="card__actions-container center border-radius flex-inline align-center justify-center gap" style="--bubble-color: <%= @bubble.color %>">
+          <%= button_to bucket_bubble_stagings_path(@bubble.bucket, @bubble, stage_id: @bubble.bucket&.workflow&.stages&.first), method: :post, class: "btn borderless" do %>
+            <span>We’re doing this</span>
+          <% end %>
+          <%= button_to bucket_bubble_pop_path(@bubble.bucket, @bubble), class: "btn borderless" do %>
+            <span>Not now</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 
   <% if @bubble.published? %>
@@ -93,8 +112,3 @@
     </div>
   <% end %>
 </div>
-
-<%= link_to "Go back", "#", class: "btn", hidden: true,
-      data: { controller: "back-navigation hotkey", 
-              action: "keydown.esc@document->hotkey#click", 
-              back_navigation_fallback_destination_value: bubbles_path(bucket_id: @bubble.bucket) } %>

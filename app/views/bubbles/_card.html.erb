@@ -1,9 +1,9 @@
 <% cache bubble do %>
-  <article class="card flex flex-column position-relative txt-align-start full-width border-radius" 
-        style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;" 
+  <article class="card shadow border flex flex-column position-relative txt-align-start full-width border-radius"
+        style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;"
         id="<%= dom_id(bubble, :ticket) %>">
     <header class="card__header flex align-center gap min-width">
-      <%= link_to bubble.bucket.name, bubbles_path(bucket_ids: [ bubble.bucket ]), 
+      <%= link_to bubble.bucket.name, bubbles_path(bucket_ids: [ bubble.bucket ]),
             class: "card__bucket txt-uppercase overflow-ellipsis txt-reversed" %>
 
       <%= render "bubbles/tags", bubble: bubble %>
@@ -18,9 +18,9 @@
             <% end %>
           <% else %>
             <%= form_with model: bubble, url: bucket_bubble_path(bubble.bucket, bubble), id: "bubble_form", data: { controller: "auto-save" } do |form| %>
-              <%= form.text_area :title, placeholder: "Name it…", 
-                  class: "input input--textarea full-width borderless txt-align-start #{ "fill-highlight" if bubble.creating? }", 
-                  autofocus: bubble.title.blank?, 
+              <%= form.text_area :title, placeholder: "Name it…",
+                  class: "input input--textarea full-width borderless txt-align-start #{ "fill-highlight" if bubble.creating? }",
+                  autofocus: bubble.title.blank?,
                   data: { action: "auto-save#change blur->auto-save#submit keydown.enter->auto-save#submit:prevent keydown.ctrl+enter->auto-save#submit:prevent" } %>
             <% end %>
           <% end %>
@@ -29,8 +29,8 @@
           <span class="for-screen-reader"><%= bubble_title(bubble) %></span>
         <% end %>
       </div>
-    
-      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) %>
+
+      <%= turbo_frame_tag dom_id(bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(bubble.bucket, bubble) unless previewing_card? %>
     </div>
 
     <footer class="card__footer full-width flex align-start gap">
@@ -44,7 +44,7 @@
 
     <% if bubble.popped? %>
       <div class="card__popped flex flex-column">
-        <span class="card__popped-title txt-uppercase">Completed</span>
+        <span class="card__popped-title txt-uppercase"><%= bubble.popped_by.system? ? "Closed" : "Completed" %></span>
         <strong><%= bubble.popped_at.strftime("%b %d, %Y") %></strong>
         <span>by <span class="card__popped-by"><%= bubble.popped_by.name %></span></span>
       </div>
