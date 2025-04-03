@@ -24,8 +24,6 @@ class Bubble::EngageableTest < ActiveSupport::TestCase
   end
 
   test "engaging with popped bubbles" do
-
-
     bubbles(:text).pop!
 
     assert_not bubbles(:text).considering?
