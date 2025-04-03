@@ -2,6 +2,7 @@
   <h2 class="txt-align-center flex-inline center txt-uppercase txt-medium margin-none-block-start margin-block-end">
     Considering
   </h2>
+
   <% if bubbles.any? %>
     <%= render partial: "bubbles/card_mini", collection: bubbles, as: :bubble, cached: true %>
   <% else %>
