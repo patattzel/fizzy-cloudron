@@ -19,7 +19,7 @@ class Filter < ApplicationRecord
   def bubbles
     @bubbles ||= begin
       result = creator.accessible_bubbles.indexed_by(indexed_by)
-      result = indexed_by.popped? ? result.popped : result.active
+      result = result.active unless indexed_by.popped?
       result = result.unassigned if assignment_status.unassigned?
       result = result.assigned_to(assignees.ids) if assignees.present?
       result = result.where(creator_id: creators.ids) if creators.present?
