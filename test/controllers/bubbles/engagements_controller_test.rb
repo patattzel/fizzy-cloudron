@@ -6,7 +6,7 @@ class Bubbles::EngagementsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create" do
-    bubble = bubbles(:shipping)
+    bubble = bubbles(:text)
 
     assert_changes -> { bubble.reload.doing? }, from: false, to: true do
       post bucket_bubble_engagement_url(bubble.bucket, bubble)
