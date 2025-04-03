@@ -1,8 +1,6 @@
 module Bubble::Engageable
   extend ActiveSupport::Concern
 
-  AUTO_POP_AFTER = 30.days
-
   included do
     has_one :engagement, dependent: :destroy, class_name: "Bubble::Engagement"
 
