@@ -1,6 +1,10 @@
 require "test_helper"
 
 class Bubble::EngageableTest < ActiveSupport::TestCase
+  setup do
+    Current.session = sessions(:david)
+  end
+
   test "check the engagement status of a bubble" do
     assert bubbles(:logo).doing?
     assert_not bubbles(:text).doing?
@@ -17,6 +21,24 @@ class Bubble::EngageableTest < ActiveSupport::TestCase
     assert_changes -> { bubbles(:logo).reload.doing? }, to: false do
       bubbles(:logo).reconsider
     end
+  end
+
+  test "engaging with popped bubbles" do
+
+
+    bubbles(:text).pop!
+
+    assert_not bubbles(:text).considering?
+    assert_not bubbles(:text).doing?
+
+    bubbles(:text).engage
+    assert_not bubbles(:text).reload.popped?
+    assert bubbles(:text).doing?
+
+    bubbles(:text).pop!
+    bubbles(:text).reconsider
+    assert_not bubbles(:text).reload.popped?
+    assert bubbles(:text).considering?
   end
 
   test "scopes" do
