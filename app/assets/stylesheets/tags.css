@@ -1,32 +1,30 @@
-@layer components {
-  .tag-picker {
-    --panel-border-radius: 2em;
-    --panel-padding: 0.5em 0.7em;
-    --panel-size: max-content;
+.tag-picker {
+  --panel-border-radius: 2em;
+  --panel-padding: 0.5em 0.7em;
+  --panel-size: max-content;
 
-    inline-size: auto !important;
-    inset: 0 auto auto 0;
-    max-inline-size: var(--panel-size) !important;
-    position: absolute;
-    z-index: 2;
+  inline-size: auto !important;
+  inset: 0 auto auto 0;
+  max-inline-size: var(--panel-size) !important;
+  position: absolute;
+  z-index: 2;
 
-    &[open] {
-      display: flex;
-    }
-
-    .input {
-      --input-padding: 0.2em 0.5em;
-
-      inline-size: 18ch;
-    }
+  &[open] {
+    display: flex;
   }
 
-  .tag-picker__button {
-    font-size: 0.7em;
-    margin-inline-start: 0.5em;
+  .input {
+    --input-padding: 0.2em 0.5em;
 
-    + .panel {
-      --panel-size: 18ch;
-    }
+    inline-size: 18ch;
+  }
+}
+
+.tag-picker__button {
+  font-size: 0.7em;
+  margin-inline-start: 0.5em;
+
+  + .panel {
+    --panel-size: 18ch;
   }
 }

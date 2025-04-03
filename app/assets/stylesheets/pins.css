@@ -1,54 +1,52 @@
-@layer components {
-  .pin-tray {
-    inset: auto auto var(--block-space-half) var(--inline-space);
+.pin-tray {
+  inset: auto auto var(--block-space-half) var(--inline-space);
 
-    .pin {
-      --z: calc(10 - var(--position));
+  .pin {
+    --z: calc(10 - var(--position));
 
-      &:nth-child(7) { --position: 7; }
-      &:nth-child(8) { --position: 8; }
-      &:nth-child(9) { --position: 9; }
-      &:nth-child(10) { --position: 10; }
+    &:nth-child(7) { --position: 7; }
+    &:nth-child(8) { --position: 8; }
+    &:nth-child(9) { --position: 9; }
+    &:nth-child(10) { --position: 10; }
 
-      &:nth-child(1n + 11) { display: none; }
-    }
+    &:nth-child(1n + 11) { display: none; }
   }
+}
 
-  .pin__bucket {
-    background-color: var(--bubble-color);
-    font-weight: 800;
-    letter-spacing: 0.3ch;
-    padding: 0.3em 0.6em 0.3em 1.5em;
+.pin__bucket {
+  background-color: var(--bubble-color);
+  font-weight: 800;
+  letter-spacing: 0.3ch;
+  padding: 0.3em 0.6em 0.3em 1.5em;
+}
+
+.pin__content {
+  --border-color: transparent;
+  --border-radius: 0.2em;
+  --padding: 0.75em;
+
+  padding: var(--padding);
+
+  @media (prefers-color-scheme: dark) {
+    --border-color: var(--color-subtle-dark);
   }
+}
 
-  .pin__content {
-    --border-color: transparent;
-    --border-radius: 0.2em;
-    --padding: 0.75em;
+.pin__header {
+  margin: calc(var(--padding) * -1) calc(var(--padding) * -1) auto;
+  padding: 0 0.2em 0 0;
+}
 
-    padding: var(--padding);
+.pin__stage {
+  --border-color: currentColor;
 
-    @media (prefers-color-scheme: dark) {
-      --border-color: var(--color-subtle-dark);
-    }
-  }
+  padding: 0.2em 0.5em;
+}
 
-  .pin__header {
-    margin: calc(var(--padding) * -1) calc(var(--padding) * -1) auto;
-    padding: 0 0.2em 0 0;
-  }
+.pin__tags {
+  color: var(--bubble-color);
+}
 
-  .pin__stage {
-    --border-color: currentColor;
-
-    padding: 0.2em 0.5em;
-  }
-
-  .pin__tags {
-    color: var(--bubble-color);
-  }
-
-  .pin__title {
-    margin-block-start: 0.3rem;
-  }
+.pin__title {
+  margin-block-start: 0.3rem;
 }
