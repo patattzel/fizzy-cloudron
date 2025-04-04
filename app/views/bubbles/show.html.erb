@@ -33,7 +33,7 @@
 <% end %>
 
 <div data-controller="beacon" data-beacon-url-value="<%= bucket_bubble_readings_url(@bubble.bucket, @bubble) %>">
-  <div class="card__container position-relative <%= "card__container--pointing" unless @bubble.published? %>">
+  <div class="card__container position-relative <%= "card__container--pointing" unless @bubble.published? %>" style="--bubble-color: <%= @bubble.color %>;">
     <%= render "bubbles/cards/perma", bubble: @bubble %>
 
     <div class="card__actions flex flex-column gap-half">
