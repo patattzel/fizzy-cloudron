@@ -1,0 +1,7 @@
+<%= turbo_frame_tag bubble, :assignees do %>
+  <div class="flex">
+    <% bubble.assignees.each do |assignee| %>
+      <%= avatar_tag assignee, loading: :lazy, class: "avatar" %>
+    <% end %>
+  </div>
+<% end %>

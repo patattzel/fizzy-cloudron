@@ -29,7 +29,7 @@ class Taggings::TogglesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace([ @bubble, :tags ],
-                                                  partial: "bubbles/tags",
+                                                  partial: "bubbles/cards/perma/tags",
                                                   locals: { bubble: @bubble })
       end
     end
