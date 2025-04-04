@@ -227,7 +227,7 @@
   --padding-inline: calc(var(--block-space-double) + var(--block-space));
   --padding-block: var(--block-space-double) calc(var(--block-space-double) + var(--block-space-half)); 
 
-  background-color: color-mix(in lch, var(--bubble-color) 33%, var(--color-bg));
+  background-color: color-mix(in srgb, var(--bubble-color) 33%, var(--color-bg));
   border-radius: 0.2em;
   display: inline-flex;
   padding-block: var(--padding-block);
