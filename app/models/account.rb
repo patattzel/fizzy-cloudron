@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Joinable
+  include PopReasons, Joinable
 
   has_many :buckets, dependent: :destroy
   has_many :bubbles, through: :buckets
@@ -12,12 +12,6 @@ class Account < ApplicationRecord
 
   has_many :workflows, dependent: :destroy
   has_many :stages, through: :workflows, class_name: "Workflow::Stage"
-
-  has_many :pop_reasons, dependent: :destroy, class_name: "Pop::Reason" do
-    def labels
-      pluck(:label).presence || [ Pop::Reason::FALLBACK_LABEL ]
-    end
-  end
 
   has_many :tags, dependent: :destroy
 
