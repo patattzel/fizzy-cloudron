@@ -32,13 +32,6 @@
           <%= render "bubbles/stagings/stages", bubble: bubble %>
         <% end %>
       <% end %>
-
-      <% if bubble.considering? %>
-        <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :post, class: "card__move-button card__hide-on-index btn btn--reversed" do %>
-          <span class="txt-nowrap">Move to Doing</span>
-          <%= icon_tag "assigned" %>
-        <% end %>
-      <% end %>
     </div>
 
     <footer class="card__footer full-width flex align-start gap">

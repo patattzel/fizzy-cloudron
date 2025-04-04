@@ -133,6 +133,21 @@
   }
 }
 
+.card__actions-container--top {
+  margin: var(--block-space-half) auto calc(var(--block-space) * -2);
+  padding: var(--block-space) 3ch;
+
+  #header:has(&) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .switch__input:checked + .switch__btn {
+    background-color: var(--bubble-color) !important;
+  }
+}
+
+
 .cards .card__assignees:not(:has(.avatar)) {
   .txt-uppercase {
     display: none;

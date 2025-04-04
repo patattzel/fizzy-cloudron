@@ -20,13 +20,6 @@
             <span class="overflow-ellipsis"><%= label %></span>
           <% end %>
         <% end %>
-
-        <% if bubble.doing? %>
-          <hr class="separator--horizontal full-width flex-item-grow" style="--border-color: var(--color-subtle)" aria-hidden="true">
-          <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :delete, class: "btn popup__item full-width" do %>
-            <span class="overflow-ellipsis">Move back to Considering</span>
-          <% end %>
-        <% end %>
       </dialog>
     </div>
 
