@@ -21,4 +21,8 @@ module BubblesHelper
       }
     end
   end
+
+  def editable_bubble_stage?(bubble)
+    !bubble.popped? && bubble.doing?
+  end
 end

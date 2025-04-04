@@ -6,7 +6,7 @@
       <%= link_to bubble.bucket.name, bubbles_path(bucket_ids: [bubble.bucket]),
             class: "card__bucket txt-uppercase overflow-ellipsis txt-reversed" %>
 
-      <%= render "bubbles/tags", bubble: bubble %>
+      <%= render "bubbles/cards/perma/tags", bubble: bubble %>
     </header>
 
     <div class="card__body flex gap full-width flex-item-grow">
@@ -41,8 +41,8 @@
     </div>
 
     <footer class="card__footer full-width flex align-start gap">
-      <%= render "bubbles/people", bubble: bubble %>
-      <%= render "bubbles/meta", bubble: bubble %>
+      <%= render "bubbles/cards/perma/people", bubble: bubble %>
+      <%= render "bubbles/cards/perma/meta", bubble: bubble %>
     </footer>
 
     <div class="card__background">
