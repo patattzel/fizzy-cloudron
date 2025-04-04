@@ -9,6 +9,7 @@ module Bubble::Poppable
     scope :popped, -> { joins(:pop) }
     scope :active, -> { where.missing(:pop) }
 
+    scope :recently_popped_first, -> { popped.order("pops.created_at": :desc) }
     scope :due_to_be_popped, -> { considering.where(last_active_at: ..AUTO_POP_AFTER.ago) }
   end
 

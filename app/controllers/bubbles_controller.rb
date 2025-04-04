@@ -14,7 +14,7 @@ class BubblesController < ApplicationController
   def index
     @considering_bubbles = @filter.bubbles.considering.load_async
     @doing_bubbles = @filter.bubbles.doing.load_async
-    @popped_bubbles = @filter.with(indexed_by: "popped").bubbles.limit(RECENTLY_POPPED_LIMIT).load_async
+    @popped_bubbles = @filter.with(indexed_by: "popped").bubbles.recently_popped_first.limit(RECENTLY_POPPED_LIMIT).load_async
   end
 
   def create
