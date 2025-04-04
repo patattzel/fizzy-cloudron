@@ -4,4 +4,3 @@ class AddLastActiveAtToBubbles < ActiveRecord::Migration[8.1]
     add_index :bubbles, %i[ last_active_at status ]
   end
 end
-
