@@ -113,7 +113,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_074315) do
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
     t.date "due_on"
-    t.datetime "last_active_at"
+    t.datetime "last_active_at", null: false
     t.integer "stage_id"
     t.text "status", default: "creating", null: false
     t.string "title"
