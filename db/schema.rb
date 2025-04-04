@@ -14,6 +14,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_03_094604) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.datetime "created_at", null: false
+    t.string "involvement", default: "watching", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["bucket_id", "user_id"], name: "index_accesses_on_bucket_id_and_user_id", unique: true
@@ -229,6 +230,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_03_094604) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["bubble_id", "user_id"], name: "index_pins_on_bubble_id_and_user_id", unique: true
     t.index ["bubble_id"], name: "index_pins_on_bubble_id"
     t.index ["user_id"], name: "index_pins_on_user_id"
   end
@@ -259,17 +261,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_03_094604) do
     t.string "user_agent"
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "subscribable_id", null: false
-    t.string "subscribable_type", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["subscribable_type", "subscribable_id", "user_id"], name: "idx_on_subscribable_type_subscribable_id_user_id_81936d569b", unique: true
-    t.index ["subscribable_type", "subscribable_id"], name: "index_subscriptions_on_subscribable"
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -344,7 +335,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_03_094604) do
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"
-  add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "bubbles"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"

@@ -12,6 +12,10 @@
   user-select: none;
 }
 
+img.icon {
+  background: none;
+}
+
 .icon--activity { --svg: url("activity.svg "); }
 .icon--add { --svg: url("add.svg "); }
 .icon--alert { --svg: url("alert.svg "); }
@@ -49,6 +53,9 @@
 .icon--logout { --svg: url("logout.svg "); }
 .icon--menu-dots-horizontal { --svg: url("menu-dots-horizontal.svg "); }
 .icon--minus { --svg: url("minus.svg "); }
+.icon--notification-bell-access-only { --svg: url("notification-bell-access-only.svg "); }
+.icon--notification-bell-everything { --svg: url("notification-bell-everything.svg "); }
+.icon--notification-bell-watching { --svg: url("notification-bell-watching.svg "); }
 .icon--password { --svg: url("password.svg "); }
 .icon--pencil { --svg: url("pencil.svg "); }
 .icon--person { --svg: url("person.svg "); }

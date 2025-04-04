@@ -70,12 +70,9 @@ columns:
     default_function:
     collation:
     comment:
-  accounts:
-  - *5
-  - *6
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
-    name: join_code
+    name: involvement
     cast_type: &7 !ruby/object:ActiveModel::Type::String
       true: t
       false: f
@@ -88,6 +85,19 @@ columns:
       limit:
       precision:
       scale:
+    'null': false
+    default: watching
+    default_function:
+    collation:
+    comment:
+  accounts:
+  - *5
+  - *6
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: join_code
+    cast_type: *7
+    sql_type_metadata: *8
     'null': true
     default:
     default_function:
@@ -833,31 +843,6 @@ columns:
     collation:
     comment:
   - *30
-  subscriptions:
-  - *5
-  - *6
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: subscribable_id
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: subscribable_type
-    cast_type: *7
-    sql_type_metadata: *8
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
-  - *9
-  - *30
   taggings:
   - *5
   - *25
@@ -982,7 +967,6 @@ primary_keys:
   reactions: id
   schema_migrations: version
   sessions: id
-  subscriptions: id
   taggings: id
   tags: id
   users: id
@@ -1018,7 +1002,6 @@ data_sources:
   reactions: true
   schema_migrations: true
   sessions: true
-  subscriptions: true
   taggings: true
   tags: true
   users: true
@@ -1801,6 +1784,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: pins
+    name: index_pins_on_bubble_id_and_user_id
+    unique: true
+    columns:
+    - bubble_id
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   pops:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: pops
@@ -1874,58 +1874,6 @@ indexes:
     name: index_sessions_on_user_id
     unique: false
     columns:
-    - user_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  subscriptions:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: subscriptions
-    name: index_subscriptions_on_user_id
-    unique: false
-    columns:
-    - user_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: subscriptions
-    name: index_subscriptions_on_subscribable
-    unique: false
-    columns:
-    - subscribable_type
-    - subscribable_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: subscriptions
-    name: idx_on_subscribable_type_subscribable_id_user_id_81936d569b
-    unique: true
-    columns:
-    - subscribable_type
-    - subscribable_id
     - user_id
     lengths: {}
     orders: {}
