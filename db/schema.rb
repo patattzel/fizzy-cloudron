@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_04_083727) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_04_133310) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.datetime "created_at", null: false
@@ -113,7 +113,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_083727) do
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
     t.date "due_on"
-    t.datetime "last_active_at", null: false
+    t.datetime "last_active_at"
     t.integer "stage_id"
     t.text "status", default: "creating", null: false
     t.string "title"
@@ -249,6 +249,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_083727) do
     t.string "reason", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.index ["bubble_id", "created_at"], name: "index_pops_on_bubble_id_and_created_at"
     t.index ["bubble_id"], name: "index_pops_on_bubble_id", unique: true
     t.index ["user_id"], name: "index_pops_on_user_id"
   end
