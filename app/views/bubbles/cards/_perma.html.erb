@@ -27,14 +27,16 @@
         </h1>
       </div>
 
-      <%= turbo_frame_tag dom_id(@bubble, :stages) do %>
-        <%= render "bubbles/stagings/stages", bubble: bubble %>
+      <% if bubble.doing? %>
+        <%= turbo_frame_tag dom_id(@bubble, :stages) do %>
+          <%= render "bubbles/stagings/stages", bubble: bubble %>
+        <% end %>
       <% end %>
 
       <% if bubble.considering? %>
         <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :post, class: "card__move-button card__hide-on-index btn btn--reversed" do %>
-          <%= icon_tag "menu" %>
           <span class="txt-nowrap">Move to Doing</span>
+          <%= icon_tag "assigned" %>
         <% end %>
       <% end %>
     </div>
