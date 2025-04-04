@@ -9,7 +9,7 @@ module Bubble::Poppable
     scope :popped, -> { joins(:pop) }
     scope :active, -> { where.missing(:pop) }
 
-    scope :due_to_be_popped, -> { active.where(last_active_at: ..AUTO_POP_AFTER.ago) }
+    scope :due_to_be_popped, -> { considering.where(last_active_at: ..AUTO_POP_AFTER.ago) }
   end
 
   class_methods do

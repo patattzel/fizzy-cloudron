@@ -16,6 +16,8 @@ class Bubble::PoppableTest < ActiveSupport::TestCase
   end
 
   test "auto_pop_all_due" do
+    bubbles(:logo, :shipping).each(&:reconsider)
+
     bubbles(:logo).update!(last_active_at: 1.day.ago - Bubble::Poppable::AUTO_POP_AFTER)
     bubbles(:shipping).update!(last_active_at: 1.day.from_now - Bubble::Poppable::AUTO_POP_AFTER)
 
@@ -23,6 +25,7 @@ class Bubble::PoppableTest < ActiveSupport::TestCase
       Bubble.auto_pop_all_due
     end
 
-    assert bubbles(:logo).popped?
+    assert bubbles(:logo).reload.popped?
+    assert_not bubbles(:shipping).reload.popped?
   end
 end

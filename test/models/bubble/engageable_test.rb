@@ -48,11 +48,10 @@ class Bubble::EngageableTest < ActiveSupport::TestCase
   end
 
   test "auto_reconsider_all_stagnated" do
-    bubbles(:logo).update!(last_active_at: 1.day.ago - Bubble::Engageable::STAGNATED_AFTER)
-    bubbles(:logo).engage
+    bubbles(:logo, :shipping).each(&:engage)
 
+    bubbles(:logo).update!(last_active_at: 1.day.ago - Bubble::Engageable::STAGNATED_AFTER)
     bubbles(:shipping).update!(last_active_at: 1.day.from_now - Bubble::Engageable::STAGNATED_AFTER)
-    bubbles(:shipping).engage
 
     assert_difference -> { Bubble.considering.count }, +1 do
       Bubble.auto_reconsider_all_stagnated
