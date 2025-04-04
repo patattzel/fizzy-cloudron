@@ -34,13 +34,8 @@
 
       <% if bubble.considering? %>
         <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :post, class: "card__move-button card__hide-on-index btn btn--reversed" do %>
+          <%= icon_tag "menu" %>
           <span class="txt-nowrap">Move to Doing</span>
-          <%= icon_tag "arrow-right" %>
-        <% end %>
-      <% else %>
-        <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :delete, class: "card__move-button card__hide-on-index btn btn--reversed" do %>
-          <%= icon_tag "arrow-left" %>
-          <span class="txt-nowrap">Reconsider</span>
         <% end %>
       <% end %>
     </div>

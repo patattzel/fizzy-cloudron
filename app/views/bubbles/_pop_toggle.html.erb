@@ -26,9 +26,9 @@
         <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), class: "btn popup__item full-width", form_class: "full-width" do %>
           <span class="overflow-ellipsis">Working as intended</span>
         <% end %>
-
-        <% if bubble.stage.present? %>
-          <%= button_to bucket_bubble_stagings_path(bubble.bucket, bubble, stage_id: ""), method: :post, class: "btn popup__item full-width" do %>
+        <% if bubble.doing? %>
+          <hr class="separator--horizontal full-width flex-item-grow" style="--border-color: var(--color-subtle)" aria-hidden="true">
+          <%= button_to bucket_bubble_engagement_path(bubble.bucket, bubble), method: :delete, class: "btn popup__item full-width" do %>
             <span class="overflow-ellipsis">Move back to Considering</span>
           <% end %>
         <% end %>
@@ -36,9 +36,9 @@
     </div>
     <span class="card__pop-message">
       <% if bubble.stage.present? %>
-        Returns to <em>Considering</em> if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) %>.
+        Returns to <em>Considering</em> if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) -%>.
       <% else %>
-        Auto-closes if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) %>.
+        Auto-closes if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) -%>.
       <% end %>
     </span>
   <% end %>
