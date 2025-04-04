@@ -217,6 +217,12 @@
   display: inline-flex;
   padding-block: var(--padding-block);
   padding-inline: var(--padding-inline);
+
+  &:has(.card__star-input:checked) {
+    .card {
+      outline: 4px solid var(--color-negative);
+    }
+  }
 }
 
 .card__container--pointing {

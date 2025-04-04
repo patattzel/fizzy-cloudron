@@ -37,6 +37,12 @@
     <%= render "bubbles/cards/perma", bubble: @bubble %>
 
     <div class="card__actions flex flex-column gap-half">
+      <button class="car__star-button btn">
+        <%= icon_tag "star" %>
+        <span class="for-screen-reader">Star this card</span>
+        <input type="checkbox" class="card__star-input">
+      </button>
+
       <%= render "bubbles/color", bubble: @bubble %>
       <%= render "bubbles/image", bubble: @bubble %>
       <%= button_to bucket_bubble_path(@bubble.bucket, @bubble),
