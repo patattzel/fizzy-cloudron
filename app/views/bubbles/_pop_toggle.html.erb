@@ -37,7 +37,7 @@
 
     <span class="card__pop-message">
       <% if bubble.doing? %>
-        Returns to <em>Considering</em> if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) -%>.
+        Returns to <em>Considering</em> if no activity <%= local_datetime_tag(bubble.auto_reconsider_at, style: :indays) -%>.
       <% else %>
         Auto-closes if no activity <%= local_datetime_tag(bubble.auto_pop_at, style: :indays) -%>.
       <% end %>
