@@ -16,8 +16,8 @@ class Bubble::PoppableTest < ActiveSupport::TestCase
   end
 
   test "auto_pop_all_due" do
-    bubbles(:logo).update!(auto_pop_at: 1.day.ago)
-    bubbles(:shipping).update!(auto_pop_at: 1.day.from_now)
+    bubbles(:logo).update!(last_active_at: 1.day.ago - Bubble::Poppable::AUTO_POP_AFTER)
+    bubbles(:shipping).update!(last_active_at: 1.day.from_now - Bubble::Poppable::AUTO_POP_AFTER)
 
     assert_difference -> { Bubble.popped.count }, +1 do
       Bubble.auto_pop_all_due
