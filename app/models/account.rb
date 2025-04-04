@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Joinable
+  include PopReasons, Joinable
 
   has_many :buckets, dependent: :destroy
   has_many :bubbles, through: :buckets

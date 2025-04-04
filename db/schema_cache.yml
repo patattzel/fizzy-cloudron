@@ -748,6 +748,30 @@ columns:
   - *6
   - *9
   - *30
+  pop_reasons:
+  - *5
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: account_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: label
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - *6
+  - *9
   pops:
   - *5
   - *25
@@ -759,6 +783,16 @@ columns:
     cast_type: *1
     sql_type_metadata: *2
     'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: reason
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': false
     default:
     default_function:
     collation:
@@ -963,6 +997,7 @@ primary_keys:
   messages: id
   notifications: id
   pins: id
+  pop_reasons: id
   pops: id
   reactions: id
   schema_migrations: version
@@ -998,6 +1033,7 @@ data_sources:
   messages: true
   notifications: true
   pins: true
+  pop_reasons: true
   pops: true
   reactions: true
   schema_migrations: true
@@ -1802,6 +1838,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  pop_reasons:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: pop_reasons
+    name: index_pop_reasons_on_account_id
+    unique: false
+    columns:
+    - account_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   pops:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: pops
@@ -2053,4 +2106,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20250404074315
+version: 20250404083727

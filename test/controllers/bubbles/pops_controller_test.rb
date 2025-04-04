@@ -9,8 +9,10 @@ class Bubbles::PopsControllerTest < ActionDispatch::IntegrationTest
     bubble = bubbles(:logo)
 
     assert_changes -> { bubble.reload.popped? }, from: false, to: true do
-      post bucket_bubble_pop_url(bubble.bucket, bubble)
+      post bucket_bubble_pop_url(bubble.bucket, bubble, reason: "Scope too big")
     end
+
+    assert_equal "Scope too big", bubble.pop.reason
 
     assert_redirected_to bucket_bubble_url(bubble.bucket, bubble)
   end
