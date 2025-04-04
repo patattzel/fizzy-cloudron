@@ -17,6 +17,8 @@
           <span class="for-screen-reader"><%= bubble_title(bubble) %></span>
         <% end %>
       </div>
+
+      <%= render "bubbles/stage_pickers/stages", workflow: bubble.bucket.workflow, bubble: bubble %>
     </div>
 
     <footer class="card__footer full-width flex align-start gap">
