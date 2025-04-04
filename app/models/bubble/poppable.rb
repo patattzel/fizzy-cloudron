@@ -28,6 +28,10 @@ module Bubble::Poppable
     pop.present?
   end
 
+  def active?
+    !popped?
+  end
+
   def popped_by
     pop&.user
   end
@@ -38,8 +42,10 @@ module Bubble::Poppable
 
   def pop!(user: Current.user)
     unless popped?
-      create_pop!(user: user)
-      track_event :popped, creator: user
+      transaction do
+        create_pop!(user: user)
+        track_event :popped, creator: user
+      end
     end
   end
 

@@ -7,6 +7,5 @@ class Bubbles::StagingsController < ApplicationController
     else
       @bubble.update!(stage: nil)
     end
-    redirect_to @bubble
   end
 end

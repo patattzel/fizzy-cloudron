@@ -1,4 +1,14 @@
 module FiltersHelper
+  def filter_title(filter)
+    if filter.buckets.none?
+      "All collections"
+    elsif filter.buckets.one?
+      filter.buckets.first.name
+    else
+      filter.buckets.map(&:name).to_sentence
+    end
+  end
+
   def filter_chip_tag(text, params)
     link_to bubbles_path(params), class: "btn txt-small btn--remove fill-selected" do
       concat tag.span(text)

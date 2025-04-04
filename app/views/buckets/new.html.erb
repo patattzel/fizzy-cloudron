@@ -2,10 +2,7 @@
 
 <% content_for :header do %>
   <nav>
-    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
-      <%= icon_tag "arrow-left" %>
-      <span class="for-screen-reader">Go back</span>
-    <% end %>
+    <%= link_to_home icon: "arrow-left", label: "Go back", class: "flex-item-justify-start" %>
   </nav>
 <% end %>
 

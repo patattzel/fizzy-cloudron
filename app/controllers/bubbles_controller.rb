@@ -9,10 +9,12 @@ class BubblesController < ApplicationController
 
   DISPLAY_COUNT_OPTIONS = [ 6, 12, 18, 24 ].freeze
   DEFAULT_DISPLAY_COUNT = 6
+  RECENTLY_POPPED_LIMIT = 100
 
   def index
-    @bubbles = @filter.bubbles.published_or_drafted_by(Current.user)
-    @display_count = display_count
+    @considering_bubbles = @filter.bubbles.considering.load_async
+    @doing_bubbles = @filter.bubbles.doing.load_async
+    @popped_bubbles = @filter.with(indexed_by: "popped").bubbles.limit(RECENTLY_POPPED_LIMIT).load_async
   end
 
   def create

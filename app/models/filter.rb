@@ -38,6 +38,14 @@ class Filter < ApplicationRecord
     self.class.normalize_params(as_params).blank?
   end
 
+  def single_bucket
+    buckets.first if buckets.one?
+  end
+
+  def single_workflow
+    buckets.first.workflow if buckets.pluck(:workflow_id).uniq.one?
+  end
+
   def cacheable?
     buckets.exists?
   end
