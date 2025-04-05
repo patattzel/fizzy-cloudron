@@ -2,7 +2,6 @@ class Bubbles::AssignmentsController < ApplicationController
   include BubbleScoped
 
   def new
-    render partial: "bubbles/assignment", locals: { bubble: @bubble }
   end
 
   def create
