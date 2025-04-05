@@ -16,8 +16,6 @@ class User < ApplicationRecord
 
   has_many :notifications, dependent: :destroy
 
-  has_one_attached :avatar
-
   has_many :pins, dependent: :destroy
   has_many :pinned_bubbles, through: :pins, source: :bubble
 
