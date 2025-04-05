@@ -32,10 +32,6 @@ class User < ApplicationRecord
     end
   end
 
-  def current?
-    Current.user == self
-  end
-
   private
     def deactived_email_address
       email_address.sub(/@/, "-deactivated-#{SecureRandom.uuid}@")

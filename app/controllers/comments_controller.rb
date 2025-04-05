@@ -38,6 +38,6 @@ class CommentsController < ApplicationController
     end
 
     def require_own_comment
-      head :forbidden unless @comment.creator.current?
+      head :forbidden unless Current.user == @comment.creator
     end
 end
