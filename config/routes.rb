@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :bubbles do
     scope module: :bubbles do
       resource :pin
+      resources :assignments
     end
   end
 
@@ -59,7 +60,6 @@ Rails.application.routes.draw do
         resource :recover
         resources :stagings
         resource :watch
-        resources :assignments
       end
 
       resources :taggings
