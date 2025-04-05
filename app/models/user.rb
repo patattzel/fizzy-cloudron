@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, Avatar, Role, Transferable
+  include Accessor, Assignee, Avatar, Role, Transferable
 
   belongs_to :account
 
@@ -9,10 +9,6 @@ class User < ApplicationRecord
   has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
 
   has_many :pops, dependent: :nullify
-
-  has_many :assignments, foreign_key: :assignee_id, dependent: :destroy
-  has_many :assignings, foreign_key: :assigner_id, class_name: "Assignment"
-  has_many :assigned_bubbles, through: :assignments, source: :bubble
 
   has_many :notifications, dependent: :destroy
 
