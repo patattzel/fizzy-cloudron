@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Fizzy
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     # Include the `lib` directory in autoload paths. Use the `ignore:` option
     # to list subdirectories that don't contain `.rb` files or that shouldn't
