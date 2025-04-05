@@ -4,16 +4,9 @@
       <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
 
       <%= form_with url: bubble_assignments_path(@bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
-        <% @bubble.bucket.users.active.sort_by(&:name).each do |user| %>
+        <% @bubble.bucket.users.active.alphabetically.each do |user| %>
           <div class="btn popup__item">
-            <%= form.check_box "assignee_id[]", {
-              checked: @bubble.assigned_to?(user),
-              data: { action: "change->form#submit" },
-              id: dom_id(user, :assign),
-              include_hidden: false,
-            }, user.id %>
-
-            <%= form.label "assignee_id[]", user.name, for: dom_id(user, :assign), class: "overflow-ellipsis" %>
+            <%= bubble_assignee_checkbox(form, @bubble, user) %>
             <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
           </div>
         <% end %>
