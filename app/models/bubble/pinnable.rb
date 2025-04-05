@@ -9,11 +9,11 @@ module Bubble::Pinnable
     pins.exists?(user: user)
   end
 
-  def set_pinned(user, pinned)
-    if pinned
-      pins.find_or_create_by!(user: user)
-    else
-      pins.find_by(user: user)&.destroy
-    end
+  def pin_by(user)
+    pins.find_or_create_by!(user: user)
+  end
+
+  def unpin_by(user)
+    pins.find_by(user: user).tap { it.destroy }
   end
 end
