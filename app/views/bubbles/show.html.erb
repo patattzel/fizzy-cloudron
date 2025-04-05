@@ -81,7 +81,7 @@
     <% if @bubble.published? %>
       <div class="card__actions card__actions--right flex flex-column gap-half">
         <%= turbo_frame_tag dom_id(@bubble, :watch), src: bucket_bubble_watch_path(@bubble.bucket, @bubble), refresh: :morph %>
-        <%= turbo_frame_tag dom_id(@bubble, :pin), src: bucket_bubble_pin_path(@bubble.bucket, @bubble), refresh: :morph %>
+        <%= turbo_frame_tag dom_id(@bubble, :pin), src: bubble_pin_path(@bubble), refresh: :morph %>
       </div>
     <% end %>
   </div>

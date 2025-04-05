@@ -8,14 +8,14 @@ class Bubbles::PinsController < ApplicationController
     pin = @bubble.pin_by Current.user
 
     broadcast_new pin
-    redirect_to bucket_bubble_pin_path(@bucket, @bubble)
+    redirect_to bubble_pin_path(@bubble)
   end
 
   def destroy
     pin = @bubble.unpin_by Current.user
 
     broadcast_removed pin
-    redirect_to bucket_bubble_pin_path(@bucket, @bubble)
+    redirect_to bubble_pin_path(@bubble)
   end
 
   private

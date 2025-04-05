@@ -17,7 +17,12 @@ Rails.application.routes.draw do
     route_for :bucket_bubble, comment.bubble.bucket, comment.bubble, options
   end
 
-  resources :bubbles
+  resources :bubbles do
+    scope module: :bubbles do
+      resource :pin
+    end
+  end
+
   resources :notifications, only: :index
   namespace :notifications do
     resource :tray, only: :show
@@ -54,7 +59,6 @@ Rails.application.routes.draw do
         resource :recover
         resources :stagings
         resource :watch
-        resource :pin, only: [ :show, :create, :destroy ]
       end
 
       resources :assignments
