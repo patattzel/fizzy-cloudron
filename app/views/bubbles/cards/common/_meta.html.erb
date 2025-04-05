@@ -1,18 +1,18 @@
 <div class="card__meta flex txt-tight-lines txt-uppercase">
   <div class="flex flex-column gap txt-align-end">
     <span class="pad-inline overflow-ellipsis"><%= bubble.creating? ? "Added" : "Updated" %>
-      <%= local_datetime_tag(bubble.updated_at, style: :daysAgo) %>
+      <%= local_datetime_tag(bubble.updated_at, style: :daysago) %>
     </span>
 
     <hr class="full-width separator--horizontal unpad margin-none">
 
     <% if bubble.creating? %>
       <span class="pad-inline overflow-ellipsis">Expires
-        <%= local_datetime_tag(bubble.auto_pop_at, style: :daysAgo) %>
+        <%= local_datetime_tag(bubble.auto_pop_at, style: :daysago) %>
       </span>
     <% else %>
       <span class="pad-inline overflow-ellipsis">Added
-        <%= local_datetime_tag(bubble.created_at, style: :daysAgo) %>
+        <%= local_datetime_tag(bubble.created_at, style: :daysago) %>
       </span>
     <% end %>
   </div>
