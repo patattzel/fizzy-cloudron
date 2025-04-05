@@ -12,7 +12,7 @@ class Bucket < ApplicationRecord
 
   after_save :update_bubbles_workflow, if: :saved_change_to_workflow_id?
 
-  scope :alphabetically, -> { order(name: :asc) }
+  scope :alphabetically, -> { order("lower(name)") }
 
   private
     def update_bubbles_workflow
