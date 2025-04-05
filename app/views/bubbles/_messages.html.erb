@@ -3,9 +3,14 @@
   <%# Template Dependency: event_summaries/event_summary %>
   <%= render bubble.messages, cached: true %>
   <%= render "comments/new", bubble: bubble, cached: true %>
+
   <div class="comments__subscribers flex flex-column margin-block txt-align-start full-width">
     <strong class="txt-uppercase">Subscribers</strong>
-    <p class="margin-none-block-start margin-block-end-half"><%= pluralize(@bubble.watchers.count, "person") %> will be notified when someone comments on this.</p>
+
+    <p class="margin-none-block-start margin-block-end-half">
+      <%= pluralize(@bubble.watchers.count, "person") %> will be notified when someone comments on this.
+    </p>
+
     <div class="flex align-center flex-wrap gap-half max-width txt-normal">
       <%= render partial: "bubbles/watches/watcher", collection: @bubble.watchers.sorted_with_user_first(Current.user) %>
     </div>
