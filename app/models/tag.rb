@@ -8,6 +8,8 @@ class Tag < ApplicationRecord
 
   validates :title, format: { without: /\A#/ }
 
+  scope :alphabetically, -> { order("lower(title)") }
+
   def hashtag
     "#" + title
   end
