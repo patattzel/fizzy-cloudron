@@ -1,5 +1,5 @@
 class TaggingsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def new
     render partial: "bubbles/tagging", locals: { bubble: @bubble, tags: Current.account.tags }

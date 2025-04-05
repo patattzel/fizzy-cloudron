@@ -1,5 +1,5 @@
 class Bubbles::PopsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     @bubble.pop!(user: Current.user, reason: params[:reason])

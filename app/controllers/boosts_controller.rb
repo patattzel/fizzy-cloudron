@@ -1,5 +1,5 @@
 class BoostsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     count = if params[:boost_count].to_i == @bubble.boosts_count

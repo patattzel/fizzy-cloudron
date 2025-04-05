@@ -1,5 +1,5 @@
 class Bubbles::EngagementsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     @bubble.engage

@@ -1,5 +1,5 @@
 class ReadingsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     mark_bubble_notifications_read

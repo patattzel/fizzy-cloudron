@@ -1,5 +1,5 @@
 class Bubbles::WatchesController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     set_watching_and_redirect(true)

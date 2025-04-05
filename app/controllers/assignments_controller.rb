@@ -1,5 +1,5 @@
 class AssignmentsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def new
     render partial: "bubbles/assignment", locals: { bubble: @bubble }

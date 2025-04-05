@@ -1,5 +1,5 @@
 class Bubbles::PinsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def show
   end

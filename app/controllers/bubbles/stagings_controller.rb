@@ -1,5 +1,5 @@
 class Bubbles::StagingsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     if params[:stage_id].present?
