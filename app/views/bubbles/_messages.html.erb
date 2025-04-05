@@ -12,7 +12,7 @@
     </p>
 
     <div class="flex align-center flex-wrap gap-half max-width txt-normal">
-      <%= render partial: "bubbles/watches/watcher", collection: @bubble.watchers.sorted_with_user_first(Current.user) %>
+      <%= render partial: "bubbles/watches/watcher", collection: prepend_current_user_to(@bubble.watchers.alphabetically) %>
     </div>
   </div>
 <% end %>
