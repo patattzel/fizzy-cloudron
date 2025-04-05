@@ -12,4 +12,3 @@ class My::PinsControllerTest < ActionDispatch::IntegrationTest
     assert_select "div", text: /#{users(:kevin).pins.first.bubble.title}/
   end
 end
-
