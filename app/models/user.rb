@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   def deactivate
     transaction do
-      sessions.destroy_all
+      sessions.delete_all
       accesses.destroy_all
       update! active: false, email_address: deactived_email_address
     end
