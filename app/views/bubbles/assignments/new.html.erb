@@ -1,16 +1,14 @@
-<% cache [ @bubble ] do %>
-  <%= turbo_frame_tag @bubble, :assignment do %>
-    <dialog class="popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog">
-      <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
+<%= turbo_frame_tag @bubble, :assignment do %>
+  <dialog class="popup panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog">
+    <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
 
-      <%= form_with url: bubble_assignments_path(@bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
-        <% @bubble.bucket.users.active.alphabetically.each do |user| %>
-          <div class="btn popup__item">
-            <%= bubble_assignee_checkbox(form, @bubble, user) %>
-            <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
-          </div>
-        <% end %>
+    <%= form_with url: bubble_assignments_path(@bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
+      <% @bubble.bucket.users.active.alphabetically.each do |user| %>
+        <div class="btn popup__item">
+          <%= bubble_assignee_checkbox(form, @bubble, user) %>
+          <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+        </div>
       <% end %>
-    </dialog>
-  <% end %>
+    <% end %>
+  </dialog>
 <% end %>
