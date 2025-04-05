@@ -59,9 +59,9 @@ Rails.application.routes.draw do
         resource :recover
         resources :stagings
         resource :watch
+        resources :assignments
       end
 
-      resources :assignments
       resources :taggings
     end
   end

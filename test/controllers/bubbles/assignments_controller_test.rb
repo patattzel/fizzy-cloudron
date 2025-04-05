@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssignmentsControllerTest < ActionDispatch::IntegrationTest
+class Bubbles::AssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
