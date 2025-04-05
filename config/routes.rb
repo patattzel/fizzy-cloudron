@@ -58,10 +58,7 @@ Rails.application.routes.draw do
       end
 
       resources :assignments
-
-      namespace :taggings, as: :tagging do
-        resources :toggles
-      end
+      resources :taggings
     end
   end
 

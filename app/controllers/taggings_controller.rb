@@ -1,4 +1,4 @@
-class Taggings::TogglesController < ApplicationController
+class TaggingsController < ApplicationController
   include BubbleScoped, BucketScoped
 
   def new
