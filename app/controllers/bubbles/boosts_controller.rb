@@ -8,9 +8,5 @@ class Bubbles::BoostsController < ApplicationController
       params[:boost_count].to_i
     end
     @bubble.boost!(count)
-
-    respond_to do |format|
-      format.turbo_stream
-    end
   end
 end
