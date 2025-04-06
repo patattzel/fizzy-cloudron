@@ -10,7 +10,14 @@ module Bubble::Taggable
 
   def toggle_tag_with(title)
     tag = bucket.account.tags.find_or_create_by!(title: title)
-    transaction { tagged_with?(tag) ? taggings.destroy_by(tag:) : taggings.create(tag:) }
+
+    transaction do
+      if tagged_with?(tag)
+        taggings.destroy_by tag: tag
+      else
+        taggings.create tag: tag
+      end
+    end
   end
 
   def tagged_with?(tag)
