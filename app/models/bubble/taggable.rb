@@ -11,12 +11,12 @@ module Bubble::Taggable
   def toggle_tag(title)
     transaction do
       tag = find_or_create_tag_with_title(title)
-      tagged_with?(tag) ? untag_with(tag) : tag_with(tag)
+      tagged_with?(title) ? untagging(tag) : tagging(tag)
     end
   end
 
-  def tagged_with?(tag)
-    tags.include? tag
+  def tagged_with?(title)
+    tags.exists?(title: title)
   end
 
   private
@@ -24,11 +24,15 @@ module Bubble::Taggable
       bucket.account.tags.find_or_create_by!(title: title)
     end
 
-    def tag_with(tag)
+    def find_tag_by_title(title)
+      bucket.account.tags.find_by(title: title)
+    end
+
+    def tagging(tag)
       taggings.create tag: tag
     end
 
-    def untag_with(tag)
+    def untagging(tag)
       taggings.destroy_by tag: tag
     end
 end

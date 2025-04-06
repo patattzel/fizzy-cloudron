@@ -45,8 +45,8 @@ class BubbleTest < ActiveSupport::TestCase
   end
 
   test "tagged states" do
-    assert bubbles(:logo).tagged_with?(tags(:web))
-    assert_not bubbles(:logo).tagged_with?(tags(:mobile))
+    assert bubbles(:logo).tagged_with?(tags(:web).title)
+    assert_not bubbles(:logo).tagged_with?(tags(:mobile).title)
   end
 
   test "tag toggling" do
