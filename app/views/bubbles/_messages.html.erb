@@ -12,7 +12,9 @@
     </p>
 
     <div class="flex align-center flex-wrap gap-half max-width txt-normal">
-      <%= render partial: "bubbles/watches/watcher", collection: prepend_current_user_to(@bubble.watchers.alphabetically) %>
+      <% prepend_current_user_to(@bubble.watchers.alphabetically).each do |watcher| %>
+        <%= avatar_tag watcher, loading: :lazy %>
+      <% end %>
     </div>
   </div>
 <% end %>
