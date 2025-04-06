@@ -6,7 +6,7 @@ class Bubbles::TaggingsController < ApplicationController
   end
 
   def create
-    @bubble.toggle_tag_with(sanitized_tag_title_param)
+    @bubble.toggle_tag_with sanitized_tag_title_param
   end
 
   private
