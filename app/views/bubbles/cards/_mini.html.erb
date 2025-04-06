@@ -5,9 +5,11 @@
     <h3 class="card__title">
       <%= bubble_title(bubble) %>
     </h3>
+
     <div class="txt-small overflow-ellipsis txt-uppercase"><%= "Added to #{bubble.bucket.name} by #{bubble.creator.name}" %>
       <%= local_datetime_tag(bubble.created_at, style: :daysAgo) %>
     </div>
+
     <div class="card__stuff flex align-center gap">
       <%= render "bubbles/cards/mini/assignees", bubble: bubble %>
       <div class="overflow-ellipsis"><%= render "bubbles/cards/mini/tags", bubble: bubble %></div>

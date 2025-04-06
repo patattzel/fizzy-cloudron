@@ -1,7 +1,7 @@
 <% cache [bubble] do %>
   <article class="card shadow border flex flex-column position-relative txt-align-start full-width border-radius"
-    style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;"
-    id="<%= dom_id(bubble, :ticket) %>">
+      style="--bubble-color: <%= bubble.color %>; view-transition-name: <%= dom_id(bubble, :ticket) %>;"
+      id="<%= dom_id(bubble, :ticket) %>">
     <header class="card__header flex align-center gap min-width">
       <%= link_to bubble.bucket.name, bubbles_path(bucket_ids: [bubble.bucket]),
             class: "card__bucket txt-uppercase overflow-ellipsis txt-reversed" %>
