@@ -1,7 +1,4 @@
 <div class="flex gap-half justify-space-between align-center" style="--btn-icon-size: 1rem">
   <%= tag.hashtag %>
-
-  <% if bubble.tagged_with?(tag) %>
-    <%= icon_tag "check" %>
-  <% end %>
+  <%= icon_tag "check" if bubble.tagged_with?(tag) %>
 </div>
