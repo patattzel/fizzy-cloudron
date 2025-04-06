@@ -3,11 +3,11 @@ class Bubbles::WatchesController < ApplicationController
 
   def create
     @bubble.watch_by Current.user
-    redirect_to bucket_bubble_watch_path(@bucket, @bubble)
+    redirect_to bubble_watch_path(@bubble)
   end
 
   def destroy
     @bubble.unwatch_by Current.user
-    redirect_to bucket_bubble_watch_path(@bucket, @bubble)
+    redirect_to bubble_watch_path(@bubble)
   end
 end

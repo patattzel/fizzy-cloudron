@@ -9,19 +9,19 @@ class Bubbles::WatchesControllerTest < ActionDispatch::IntegrationTest
     bubbles(:logo).unwatch_by users(:kevin)
 
     assert_changes -> { bubbles(:logo).watched_by?(users(:kevin)) }, from: false, to: true do
-      post bucket_bubble_watch_url(buckets(:writebook), bubbles(:logo))
+      post bubble_watch_path(bubbles(:logo))
     end
 
-    assert_redirected_to bucket_bubble_watch_url(buckets(:writebook), bubbles(:logo))
+    assert_redirected_to bubble_watch_path(bubbles(:logo))
   end
 
   test "destroy" do
     bubbles(:logo).watch_by users(:kevin)
 
     assert_changes -> { bubbles(:logo).watched_by?(users(:kevin)) }, from: true, to: false do
-      delete bucket_bubble_watch_url(buckets(:writebook), bubbles(:logo))
+      delete bubble_watch_path(bubbles(:logo))
     end
 
-    assert_redirected_to bucket_bubble_watch_url(buckets(:writebook), bubbles(:logo))
+    assert_redirected_to bubble_watch_path(bubbles(:logo))
   end
 end
