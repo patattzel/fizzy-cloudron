@@ -23,5 +23,8 @@ module Fizzy
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # enable load_async
+    config.active_record.async_query_executor = :global_thread_pool
   end
 end
