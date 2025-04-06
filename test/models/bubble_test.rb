@@ -45,22 +45,22 @@ class BubbleTest < ActiveSupport::TestCase
   end
 
   test "tagged states" do
-    assert bubbles(:logo).tagged_with?(tags(:web).title)
-    assert_not bubbles(:logo).tagged_with?(tags(:mobile).title)
+    assert bubbles(:logo).tagged_with?(tags(:web))
+    assert_not bubbles(:logo).tagged_with?(tags(:mobile))
   end
 
   test "tag toggling" do
-    assert bubbles(:logo).tagged_with?(tags(:web).title)
+    assert bubbles(:logo).tagged_with?(tags(:web))
 
     assert_difference "bubbles(:logo).taggings.count", -1 do
       bubbles(:logo).toggle_tag tags(:web).title
     end
-    assert_not bubbles(:logo).tagged_with?(tags(:web).title)
+    assert_not bubbles(:logo).tagged_with?(tags(:web))
 
     assert_difference "bubbles(:logo).taggings.count", +1 do
       bubbles(:logo).toggle_tag tags(:web).title
     end
-    assert bubbles(:logo).tagged_with?(tags(:web).title)
+    assert bubbles(:logo).tagged_with?(tags(:web))
 
     assert_difference %w[ bubbles(:logo).taggings.count accounts("37s").tags.count ], +1 do
       bubbles(:logo).toggle_tag "prioritized"
