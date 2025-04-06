@@ -10,16 +10,16 @@ class Bubbles::TaggingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "create" do
+  test "toggle tag on" do
     assert_changes "bubbles(:logo).tagged_with?(tags(:mobile))", from: false, to: true do
-      post bubble_taggings_url(bubbles(:logo)), params: { tag_id: tags(:mobile).id }, as: :turbo_stream
+      post bubble_taggings_url(bubbles(:logo)), params: { tag_title: tags(:mobile).title }, as: :turbo_stream
     end
     assert_response :success
+  end
 
-    assert_changes "bubbles(:logo).tagged_with?(tags(:web))", from: false, to: true do
-      assert_changes "bubbles(:logo).tagged_with?(tags(:mobile))", from: true, to: false do
-        post bubble_taggings_url(bubbles(:logo)), params: { tag_id: tags(:web).id }, as: :turbo_stream
-      end
+  test "toggle tag off" do
+    assert_changes "bubbles(:logo).tagged_with?(tags(:web))", from: true, to: false do
+      post bubble_taggings_url(bubbles(:logo)), params: { tag_title: tags(:web).title }, as: :turbo_stream
     end
     assert_response :success
   end
