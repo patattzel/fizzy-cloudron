@@ -51,7 +51,7 @@
   </nav>
 <% end %>
 
-<div data-controller="beacon" data-beacon-url-value="<%= bucket_bubble_readings_url(@bubble.bucket, @bubble) %>">
+<div data-controller="beacon" data-beacon-url-value="<%= bubble_reading_url(@bubble) %>">
   <div class="card__container position-relative <%= "card__container--pointing" unless @bubble.published? %>" style="--bubble-color: <%= @bubble.color %>;">
     <%= render "bubbles/cards/perma", bubble: @bubble %>
 

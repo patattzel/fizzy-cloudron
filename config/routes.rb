@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resource :pin
       resource :pop
       resource :publish
+      resource :reading
       resource :recover
       resource :watch
 
@@ -49,10 +50,6 @@ Rails.application.routes.draw do
     resources :bubbles do
       resources :comments do
         resources :reactions, module: :comments
-      end
-      resource :readings, only: :create
-
-      scope module: :bubbles do
       end
     end
   end

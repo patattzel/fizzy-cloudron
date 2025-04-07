@@ -1,4 +1,4 @@
-class ReadingsController < ApplicationController
+class Bubbles::ReadingsController < ApplicationController
   include BubbleScoped
 
   def create
