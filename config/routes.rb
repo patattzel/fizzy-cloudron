@@ -10,8 +10,10 @@ Rails.application.routes.draw do
 
   resources :bubbles do
     scope module: :bubbles do
+      resource :image
       resource :pin
       resource :watch
+
       resources :assignments
       resources :boosts
       resource :engagement
@@ -47,7 +49,6 @@ Rails.application.routes.draw do
       resource :readings, only: :create
 
       scope module: :bubbles do
-        resource :image
         resource :pop
         resource :publish
         resource :recover

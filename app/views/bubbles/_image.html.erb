@@ -1,5 +1,5 @@
 <% if bubble.image.attached? %>
-  <%= button_to bucket_bubble_image_path(bubble.bucket, bubble), method: :delete, class: "btn" do %>
+  <%= button_to bubble_image_path(bubble), method: :delete, class: "btn" do %>
     <%= icon_tag "picture-remove" %>
     <span class="for-screen-reader">Clear background image</span>
   <% end %>
