@@ -11,7 +11,7 @@
 
     <div class="flex align-center flex-wrap gap-half max-width txt-normal">
       <% prepend_current_user_to(@bubble.watchers.alphabetically).each do |watcher| %>
-        <%= avatar_tag watcher, loading: :lazy %>
+        <%= avatar_tag watcher %>
       <% end %>
     </div>
   </div>
