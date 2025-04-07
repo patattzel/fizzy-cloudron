@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
+import { differenceInDays } from "helpers/date_helpers"
 
 export default class extends Controller {
-  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays" ]
+  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago" ]
 
   #timer
 
@@ -11,7 +12,7 @@ export default class extends Controller {
     this.shortDateFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" })
     this.dateTimeFormatter = new Intl.DateTimeFormat(undefined, { timeStyle: "short", dateStyle: "short" })
     this.agoFormatter = new AgoFormatter()
-    this.daysAgoFormatter = new DaysAgoFormatter()
+    this.daysagoFormatter = new DaysAgoFormatter()
     this.indaysFormatter = new InDaysFormatter()
   }
 
@@ -43,12 +44,12 @@ export default class extends Controller {
     this.#formatTime(this.agoFormatter, target)
   }
 
-  daysAgoTargetConnected(target) {
-    this.#formatTime(this.daysAgoFormatter, target)
-  }
-
   indaysTargetConnected(target) {
     this.#formatTime(this.indaysFormatter, target)
+  }
+
+  daysagoTargetConnected(target) {
+    this.#formatTime(this.daysagoFormatter, target)
   }
 
   #refreshRelativeTimes() {
@@ -59,7 +60,7 @@ export default class extends Controller {
 
   #formatTime(formatter, target) {
     const dt = new Date(target.getAttribute("datetime"))
-    target.textContent = formatter.format(dt)
+    target.innerHTML = formatter.format(dt)
     target.title = this.dateTimeFormatter.format(dt)
   }
 }
@@ -93,38 +94,25 @@ class AgoFormatter {
 }
 
 class DaysAgoFormatter {
-  format(dt) {
-    const now = new Date()
+  format(date) {
+    const days = differenceInDays(date, new Date())
 
-    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    const startOfGivenDay = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate())
-
-    const msPerDay = 1000 * 60 * 60 * 24
-    const dayDiff = Math.floor((startOfToday - startOfGivenDay) / msPerDay)
-
-    if (dayDiff === 0) return "Today"
-    if (dayDiff === 1) return "Yesterday"
-    return `${dayDiff} days ago`
+    if (days <= 0) return styleableValue("today")
+    if (days === 1) return styleableValue("yesterday")
+    return `${styleableValue(days)} days ago`
   }
 }
 
 class InDaysFormatter {
-  format(dt) {
-    const target = this.#beginningOfDay(dt)
-    const today = this.#beginningOfDay(new Date())
-    const days = Math.round((target - today) / (1000 * 60 * 60 * 24))
+  format(date) {
+    const days = differenceInDays(new Date(), date)
 
-    if (days <= 0) {
-      return "today"
-    }
-    if (days === 1) {
-      return "tomorrow"
-    }
-
-    return `in ${Math.round(days)} days`
+    if (days <= 0) return styleableValue("today")
+    if (days === 1) return styleableValue("tomorrow")
+    return `in ${styleableValue(days)} days`
   }
+}
 
-  #beginningOfDay(dt) {
-    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate())
-  }
+function styleableValue(value) {
+  return `<span class="local-time-value">${value}</span>`
 }
