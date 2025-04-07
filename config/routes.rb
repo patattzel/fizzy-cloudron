@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     scope module: :bubbles do
       resource :image
       resource :pin
+      resource :pop
       resource :watch
 
       resources :assignments
@@ -49,7 +50,6 @@ Rails.application.routes.draw do
       resource :readings, only: :create
 
       scope module: :bubbles do
-        resource :pop
         resource :publish
         resource :recover
         resources :stagings

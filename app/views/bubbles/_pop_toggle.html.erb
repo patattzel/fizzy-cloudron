@@ -1,7 +1,7 @@
 <div class="card__actions-container center border-radius flex-inline align-center justify-center gap" style="--bubble-color: <%= @bubble.color %>">
   <% if bubble.popped? %>
     <span class="card__pop-message">Completed by <%= bubble.popped_by.name %> on <%= local_datetime_tag(bubble.popped_at, style: :shortdate) %>.</span>
-    <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble), method: :delete, class: "btn btn--plain borderless fill-transparent" do %>
+    <%= button_to bubble_pop_path(bubble), method: :delete, class: "btn btn--plain borderless fill-transparent" do %>
       <span>Un-do</span>
     <% end %>
   <% else %>
@@ -16,7 +16,7 @@
         <strong class="popup__title margin-block-start-half pad-inline-half">Close as…</strong>
 
         <% Current.account.pop_reasons.labels.each do |label| %>
-          <%= button_to bucket_bubble_pop_path(bubble.bucket, bubble, reason: label), class: "btn popup__item full-width", form_class: "full-width" do %>
+          <%= button_to bubble_pop_path(bubble, reason: label), class: "btn popup__item full-width", form_class: "full-width" do %>
             <span class="overflow-ellipsis"><%= label %></span>
           <% end %>
         <% end %>
