@@ -8,8 +8,8 @@ module Bubble::Searchable
 
     scope :mentioning, ->(query) do
       if query = sanitize_query_syntax(query)
-        bubbles = Bubble.search(query).select(:id).to_sql
-        comments = Comment.search(query).select(:id).to_sql
+        bubbles = Current.user.accessible_bubbles.search(query).select(:id).to_sql
+        comments = Current.user.comments.search(query).select(:id).to_sql
 
         left_joins(:messages).where("bubbles.id in (#{bubbles}) or messages.messageable_id in (#{comments})").distinct
       else

@@ -8,7 +8,7 @@ class CommentTest < ActiveSupport::TestCase
   test "searchable by body" do
     message = bubbles(:logo).capture Comment.new(body: "I'd prefer something more rustic")
 
-    assert_includes Comment.search("something rustic"), message.comment
+    assert_includes Current.user.comments.search("something rustic"), message.comment
   end
 
   test "updating bubble counter" do
