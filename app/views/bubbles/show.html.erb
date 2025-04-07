@@ -111,7 +111,7 @@
 
             <% if @bubble.creating? %>
               <div class="margin-block-start flex align-center gap">
-                <%= button_to "Create card", bucket_bubble_publish_path(@bubble.bucket, @bubble), class: "btn btn--reversed" %>
+                <%= button_to "Create card", bubble_publish_path(@bubble), class: "btn btn--reversed" %>
                 <%= button_to "Save as draft", bucket_bubble_path(@bubble.bucket, @bubble), name: "bubble[status]", value: "drafted", method: :put, class: "btn" %>
               </div>
             <% end %>
