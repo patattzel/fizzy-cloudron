@@ -8,7 +8,7 @@ module NavigationHelper
   end
 
   def link_to_back(fallback_path: root_path)
-    link_to "#", class: "btn flex-item-justify-start", data: { controller: "back-navigation hotkey", action: "keydown.esc@document->hotkey#click", back_navigation_fallback_destination_value: fallback_path } do
+    link_to fallback_path, class: "btn flex-item-justify-start", data: { controller: "back-navigation hotkey", action: "keydown.esc@document->hotkey#click", back_navigation_fallback_destination_value: fallback_path } do
       icon_tag("arrow-left") + tag.span("Go Back", class: "for-screen-reader")
     end
   end
