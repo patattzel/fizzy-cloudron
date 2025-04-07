@@ -10,7 +10,7 @@ class Bubbles::PublishesControllerTest < ActionDispatch::IntegrationTest
     bubble.drafted!
 
     assert_changes -> { bubble.reload.published? }, from: false, to: true do
-      post bucket_bubble_publish_url(bubble.bucket, bubble)
+      post bubble_publish_path(bubble)
     end
 
     assert_redirected_to bubble

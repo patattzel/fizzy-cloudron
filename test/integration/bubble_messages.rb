@@ -14,7 +14,7 @@ class BubbleMessagesTest < ActionDispatch::IntegrationTest
     assert_equal "created", bubble.messages.last.messageable.events.sole.action
 
     # Boost it
-    post bucket_bubble_boosts_url(buckets(:writebook), bubble, format: :turbo_stream)
+    post bubble_boosts_path(bubble, format: :turbo_stream)
     assert_equal 1, bubble.messages.count
     assert_predicate bubble.messages.last, :event_summary?
     assert_equal 2, bubble.messages.last.event_summary.events.count
@@ -34,14 +34,14 @@ class BubbleMessagesTest < ActionDispatch::IntegrationTest
     assert_equal "assigned", bubble.messages.last.messageable.events.last.action
 
     # Stage it
-    post bucket_bubble_stagings_url(buckets(:writebook), bubble), params: { stage_id: workflow_stages(:qa_triage).id }
+    post bubble_stagings_url(bubble), params: { stage_id: workflow_stages(:qa_triage).id }
     assert_equal 3, bubble.messages.count
     assert_predicate bubble.messages.last, :event_summary?
     assert_equal 2, bubble.messages.last.event_summary.events.count
     assert_equal "staged", bubble.messages.last.messageable.events.last.action
 
     # Unstage it
-    post bucket_bubble_stagings_url(buckets(:writebook), bubble), params: { stage_id: workflow_stages(:qa_triage).id }
+    post bubble_stagings_url(bubble), params: { stage_id: workflow_stages(:qa_triage).id }
     assert_equal 3, bubble.messages.count
     assert_predicate bubble.messages.last, :event_summary?
     assert_equal 3, bubble.messages.last.event_summary.events.count

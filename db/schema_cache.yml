@@ -1993,6 +1993,23 @@ indexes:
   tags:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: tags
+    name: index_tags_on_account_id_and_title
+    unique: true
+    columns:
+    - account_id
+    - title
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: tags
     name: index_tags_on_account_id
     unique: false
     columns:
@@ -2123,4 +2140,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20250404133310
+version: 20250407093421

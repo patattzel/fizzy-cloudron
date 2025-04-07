@@ -1,5 +1,5 @@
 class Bubbles::ImagesController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def destroy
     @bubble.image.purge_later

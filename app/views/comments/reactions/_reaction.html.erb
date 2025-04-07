@@ -6,7 +6,7 @@
         data-controller="reaction-delete" data-reaction-delete-perform-class="reaction--deleting"
         data-reaction-delete-reveal-class="expanded" data-reaction-delete-reacter-id-value="<%= reaction.reacter.id %>">
     <figure class="reaction__avatar margin-none flex-item-no-shrink">
-      <%= avatar_tag reaction.reacter, aria: { label: "#{reaction.reacter.name} reacted #{reaction.content}" }, loading: :lazy %>
+      <%= avatar_tag reaction.reacter, aria: { label: "#{reaction.reacter.name} reacted #{reaction.content}" } %>
     </figure>
 
     <%= tag.span reaction.content, role: "button",

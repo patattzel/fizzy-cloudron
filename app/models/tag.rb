@@ -7,6 +7,9 @@ class Tag < ApplicationRecord
   has_many :bubbles, through: :taggings
 
   validates :title, format: { without: /\A#/ }
+  normalizes :title, with: -> { it.downcase }
+
+  scope :alphabetically, -> { order("lower(title)") }
 
   def hashtag
     "#" + title

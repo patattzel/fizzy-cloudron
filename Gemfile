@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
-ruby file: ".ruby-version"
 
 gem "rails", github: "rails/rails", branch: "main"
 gem "active_record-tenanted", bc: "active_record-tenanted"
@@ -36,12 +35,9 @@ gem "rails_structured_logging", bc: "rails-structured-logging"
 
 group :development, :test do
   gem "debug"
+  gem "bundler-audit", require: false
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-end
-
-group :development do
-  gem "hotwire-spark"
 end
 
 group :test do

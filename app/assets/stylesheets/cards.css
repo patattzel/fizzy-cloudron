@@ -73,7 +73,9 @@
   }
 
   .card {
+    --border-color: transparent;
     --border-radius: 0.2em;
+    --border-size: 0;
 
     aspect-ratio: 2/0.95;
     background-color: color-mix(in srgb, var(--bubble-color) 4%, var(--color-bg));
@@ -83,6 +85,15 @@
 
     .card__container & {
       inline-size: calc(100dvw - var(--actions-inline-inset) * 2 - var(--btn-size) * 2);
+    }
+
+    .local-time-value {
+      font-weight: bold;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      --border-color: var(--color-subtle-dark);
+      --border-size: 1px;
     }
   }
 
@@ -126,6 +137,21 @@
       color: var(--bubble-color);
     }
   }
+
+  .card__actions-container--top {
+    margin: var(--block-space-half) auto calc(var(--block-space) * -2);
+    padding: var(--block-space) 3ch;
+
+    #header:has(&) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .switch__input:checked + .switch__btn {
+      background-color: var(--bubble-color) !important;
+    }
+  }
+
 
   .cards .card__assignees:not(:has(.avatar)) {
     .txt-uppercase {
@@ -206,11 +232,17 @@
     --padding-inline: calc(var(--block-space-double) + var(--block-space));
     --padding-block: var(--block-space-double) calc(var(--block-space-double) + var(--block-space-half));
 
-    background-color: var(--color-container);
+    background-color: color-mix(in srgb, var(--bubble-color) 33%, var(--color-bg));
     border-radius: 0.2em;
     display: inline-flex;
     padding-block: var(--padding-block);
     padding-inline: var(--padding-inline);
+
+    &:has(.card__star-input:checked) {
+      .card {
+        outline: 4px solid var(--color-negative);
+      }
+    }
   }
 
   .card__container--pointing {
@@ -346,12 +378,12 @@
 
   .card__meta {
     --border-color: var(--bubble-color);
+    --border-size: 1px;
     --row-gap: 0.25em;
 
     margin-inline-start: var(--inline-space-double);
 
     strong {
-      font-size: 1.1em;
       font-weight: 900;
     }
 
@@ -462,9 +494,9 @@
     font-size: var(--text-rel-large);
     font-weight: 900;
     text-shadow:
-    -2px -2px 0 var(--bubble-color),
+     -2px -2px 0 var(--bubble-color),
       2px -2px 0 var(--bubble-color),
-    -2px 2px 0 var(--bubble-color),
+     -2px 2px 0 var(--bubble-color),
       2px 2px 0 var(--bubble-color);
   }
 }

@@ -1,5 +1,5 @@
 class Bubbles::RecoversController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
     redirect_to @bubble.recover_abandoned_creation

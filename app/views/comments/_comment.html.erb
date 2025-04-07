@@ -1,6 +1,6 @@
 <%= comment_tag comment do %>
   <figure class="comment__avatar flex-item-no-shrink" aria-hidden="true">
-    <%= avatar_tag comment.creator, hidden_for_screen_reader: true, loading: :lazy %>
+    <%= avatar_tag comment.creator, hidden_for_screen_reader: true %>
   </figure>
 
   <%= render "comments/body", comment: comment %>

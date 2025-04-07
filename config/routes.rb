@@ -8,16 +8,24 @@ Rails.application.routes.draw do
     end
   end
 
-  resolve "Bubble" do |bubble, options|
-    route_for :bucket_bubble, bubble.bucket, bubble, options
+  resources :bubbles do
+    scope module: :bubbles do
+      resource :engagement
+      resource :image
+      resource :pin
+      resource :pop
+      resource :publish
+      resource :reading
+      resource :recover
+      resource :watch
+
+      resources :assignments
+      resources :boosts
+      resources :stagings
+      resources :taggings
+    end
   end
 
-  resolve "Comment" do |comment, options|
-    options[:anchor] = ActionView::RecordIdentifier.dom_id(comment)
-    route_for :bucket_bubble, comment.bubble.bucket, comment.bubble, options
-  end
-
-  resources :bubbles
   resources :notifications, only: :index
   namespace :notifications do
     resource :tray, only: :show
@@ -40,29 +48,8 @@ Rails.application.routes.draw do
     end
 
     resources :bubbles do
-      resources :boosts
       resources :comments do
         resources :reactions, module: :comments
-      end
-      resource :readings, only: :create
-
-      scope module: :bubbles do
-        resource :image
-        resource :pop
-        resource :engagement
-        resource :publish
-        resource :recover
-        resources :stagings
-        resource :watch
-        resource :pin, only: [ :show, :create, :destroy ]
-      end
-
-      namespace :assignments, as: :assignment do
-        resources :toggles
-      end
-
-      namespace :taggings, as: :tagging do
-        resources :toggles
       end
     end
   end
@@ -75,6 +62,10 @@ Rails.application.routes.draw do
   resources :filters
   resource :first_run
   resources :qr_codes
+
+  namespace :my do
+    resources :pins
+  end
 
   resource :session do
     scope module: "sessions" do
@@ -100,12 +91,14 @@ Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  namespace :bubbles do
-    namespace :pins do
-      resource :tray, only: :show
-    end
-    resources :pins, only: :index
+  resource :terminal, only: [ :show, :edit ]
+
+  resolve "Bubble" do |bubble, options|
+    route_for :bucket_bubble, bubble.bucket, bubble, options
   end
 
-  resource :terminal, only: [ :show, :edit ]
+  resolve "Comment" do |comment, options|
+    options[:anchor] = ActionView::RecordIdentifier.dom_id(comment)
+    route_for :bucket_bubble, comment.bubble.bucket, comment.bubble, options
+  end
 end

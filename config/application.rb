@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Fizzy
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     # Include the `lib` directory in autoload paths. Use the `ignore:` option
     # to list subdirectories that don't contain `.rb` files or that shouldn't
@@ -23,5 +23,8 @@ module Fizzy
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # enable load_async
+    config.active_record.async_query_executor = :global_thread_pool
   end
 end

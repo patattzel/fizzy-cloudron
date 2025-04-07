@@ -1,17 +1,13 @@
 class Bubbles::WatchesController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
 
   def create
-    set_watching_and_redirect(true)
+    @bubble.watch_by Current.user
+    redirect_to bubble_watch_path(@bubble)
   end
 
   def destroy
-    set_watching_and_redirect(false)
+    @bubble.unwatch_by Current.user
+    redirect_to bubble_watch_path(@bubble)
   end
-
-  private
-    def set_watching_and_redirect(watching)
-      @bubble.set_watching(Current.user, watching)
-      redirect_to bucket_bubble_watch_path(@bucket, @bubble)
-    end
 end

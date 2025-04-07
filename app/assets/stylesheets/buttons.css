@@ -33,10 +33,31 @@
       }
     }
 
-    &:where(.avatar) {
-      --btn-border-radius: var(--avatar-border-radius);
-      --btn-padding: 0;
-      --btn-border-size: 0;
+  /* Circle buttons */
+  &.btn--circle,
+  &[aria-label]:where(:has(.icon)),
+  &:where(:has(.for-screen-reader):has(.icon)) {
+    --btn-border-radius: 50%;
+    --btn-padding: 0;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    display: grid;
+    inline-size: var(--btn-size);
+    place-items: center;
+
+    > * {
+      grid-area: 1/1;
+    }
+  }
+
+  /* With radios and checkboxes */
+  &:has(input[type=radio]),
+  &:has(input[type=checkbox]) {
+    position: relative;
+
+    :is(input[type=radio]),
+    :is(input[type=checkbox]) {
       --hover-size: 0;
 
       aspect-ratio: 1;

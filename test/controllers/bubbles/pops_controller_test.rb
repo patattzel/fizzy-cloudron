@@ -9,7 +9,7 @@ class Bubbles::PopsControllerTest < ActionDispatch::IntegrationTest
     bubble = bubbles(:logo)
 
     assert_changes -> { bubble.reload.popped? }, from: false, to: true do
-      post bucket_bubble_pop_url(bubble.bucket, bubble, reason: "Scope too big")
+      post bubble_pop_url(bubble, reason: "Scope too big")
     end
 
     assert_equal "Scope too big", bubble.pop.reason
@@ -21,7 +21,7 @@ class Bubbles::PopsControllerTest < ActionDispatch::IntegrationTest
     bubble = bubbles(:shipping)
 
     assert_changes -> { bubble.reload.popped? }, from: true, to: false do
-      delete bucket_bubble_pop_url(bubble.bucket, bubble)
+      delete bubble_pop_url(bubble)
     end
 
     assert_redirected_to bucket_bubble_url(bubble.bucket, bubble)

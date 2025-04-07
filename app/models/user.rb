@@ -1,36 +1,23 @@
 class User < ApplicationRecord
-  include Avatar, Role, Transferable
+  include Accessor, Assignee, Avatar, Role, Transferable
 
   belongs_to :account
 
   has_many :sessions, dependent: :destroy
   has_secure_password validations: false
 
-  has_many :accesses, dependent: :destroy
-  has_many :buckets, through: :accesses
-  has_many :accessible_bubbles, through: :buckets, source: :bubbles
-
-  has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
-
-  has_many :pops, dependent: :nullify
-
-  has_many :assignments, foreign_key: :assignee_id, dependent: :destroy
-  has_many :assignings, foreign_key: :assigner_id, class_name: "Assignment"
-  has_many :assigned_bubbles, through: :assignments, source: :bubble
+  has_many :comments, inverse_of: :creator, dependent: :destroy
 
   has_many :notifications, dependent: :destroy
 
-  has_one_attached :avatar
-
+  has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
+  has_many :pops, dependent: :nullify
   has_many :pins, dependent: :destroy
   has_many :pinned_bubbles, through: :pins, source: :bubble
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 
-  after_create_commit :grant_access_to_buckets
-
   scope :alphabetically, -> { order("lower(name)") }
-  scope :sorted_with_user_first, ->(user) { order(Arel.sql("users.id != ?, lower(name)", user.id)) }
 
   def initials
     name.to_s.scan(/\b\p{L}/).join.upcase
@@ -38,22 +25,14 @@ class User < ApplicationRecord
 
   def deactivate
     transaction do
-      sessions.destroy_all
+      sessions.delete_all
       accesses.destroy_all
       update! active: false, email_address: deactived_email_address
     end
   end
 
-  def current?
-    Current.user == self
-  end
-
   private
     def deactived_email_address
       email_address.sub(/@/, "-deactivated-#{SecureRandom.uuid}@")
-    end
-
-    def grant_access_to_buckets
-      Access.insert_all account.buckets.all_access.pluck(:id).collect { |bucket_id| { bucket_id: bucket_id, user_id: id } }
     end
 end

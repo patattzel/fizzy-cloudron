@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  include BubbleScoped, BucketScoped
+  include BubbleScoped
   before_action :set_comment, only: [ :show, :edit, :update, :destroy ]
   before_action :require_own_comment, only: [ :edit, :update, :destroy ]
 
@@ -38,6 +38,6 @@ class CommentsController < ApplicationController
     end
 
     def require_own_comment
-      head :forbidden unless @comment.creator.current?
+      head :forbidden unless Current.user == @comment.creator
     end
 end
