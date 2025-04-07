@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :bubbles do
     scope module: :bubbles do
+      resource :engagement
       resource :image
       resource :pin
       resource :pop
@@ -19,7 +20,6 @@ Rails.application.routes.draw do
 
       resources :assignments
       resources :boosts
-      resource :engagement
       resources :taggings
     end
   end
