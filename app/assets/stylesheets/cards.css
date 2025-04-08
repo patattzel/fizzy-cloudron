@@ -112,9 +112,12 @@
   }
 
   .card__actions-container {
+    --border-radius: 1em;
+  
     background-color: var(--color-bg);
-    margin-block: calc(var(--block-space) * -1) var(--block-space);
-    padding: var(--block-space) var(--inline-space-double);
+    color: color-mix(in srgb, var(--bubble-color) 40%, var(--color-ink));
+    margin-block: calc(var(--block-space) * -1.66) calc(var(--block-space) * 1.66);
+    padding: calc(var(--block-space) * 0.66) calc(var(--inline-space) * 1.5);
     position: relative;
     z-index: 0;
 
@@ -139,8 +142,9 @@
   }
 
   .card__actions-container--top {
-    margin: var(--block-space-half) auto calc(var(--block-space) * -2);
-    padding: var(--block-space) 3ch;
+    min-inline-size: 36ch;
+    margin: calc(var(--block-space) * 1) auto calc(var(--block-space) * -0.33);
+    padding: 0.5em 0.75em;
 
     #header:has(&) {
       position: relative;
@@ -150,8 +154,16 @@
     .switch__input:checked + .switch__btn {
       background-color: var(--bubble-color) !important;
     }
-  }
 
+    strong {
+      flex: 1 0 42%;
+      text-align: end;
+
+      &:last-of-type {
+        text-align: start;
+      }
+    }
+  }
 
   .cards .card__assignees:not(:has(.avatar)) {
     .txt-uppercase {
@@ -235,8 +247,8 @@
     background-color: color-mix(in srgb, var(--bubble-color) 33%, var(--color-bg));
     border-radius: 0.2em;
     display: inline-flex;
-    padding-block: var(--padding-block);
-    padding-inline: var(--padding-inline);
+    margin-block: calc(var(--block-space) * -1) calc(var(--block-space) * -0.33);
+    padding: var(--padding-block) var(--padding-inline);
 
     &:has(.card__star-input:checked) {
       .card {
