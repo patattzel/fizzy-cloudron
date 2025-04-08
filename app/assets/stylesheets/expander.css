@@ -1,60 +1,75 @@
+/* https://nerdy.dev/open-and-close-transitions-for-the-details-element */
+
 .expander {
-  --btn-height: calc(1em + 1lh);
+  --expander-height: calc(1em + 1lh);
+  --expander-width: 11ch;
+  --expander-radius: calc(var(--expander-height) / 2);
+  --expander-duration: 350ms;
 
-  position: relative;
-
-  &[open] {
-    z-index: 1;
-  }
-}
-
-.expander__trigger {
+  interpolate-size: allow-keywords;
   position: relative;
   z-index: 1;
+}
 
-  .icon--caret-down {
+.expander__button {
+  --btn-border-radius: var(--expander-radius);
+
+  align-items: center;
+  block-size: var(--expander-height);
+  cursor: pointer;
+  display: flex;
+  inline-size: var(--expander-width);
+  padding-inline: 1.5ch;
+  position: relative;
+  white-space: nowrap;
+  z-index: 1;
+
+  .icon {
     font-size: 1ch;
-  }
-
-  [open] & {
-    box-shadow: none;
   }
 }
 
 .expander__content {
-  --btn-border-radius: calc(var(--btn-height) / 2);
+  --btn-border-radius: var(--expander-radius);
 
-  align-items: stretch;
-  flex-direction: column;
-  gap: 4px;
-  inset: 0 auto auto 0;
-  padding-block-start: var(--btn-height);
-  position: absolute;
-  text-wrap: nowrap;
+  border-radius: var(--expander-radius);
+  padding-block-start: var(--expander-height);
+}
 
-  .expander:has(:hover) & {
-    box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+@supports selector(details::details-content) {
+  .expander::details-content {
+    --btn-border-radius: var(--expander-radius);
+
+    block-size: var(--expander-height);
+    border-radius: var(--expander-radius);
+    inline-size: var(--expander-width);
+    inset: 0 auto auto 0;
+    min-inline-size: var(--expander-width);
+    overflow: clip;
+    position: absolute;
+    transition: content-visibility var(--expander-duration) allow-discrete, block-size var(--expander-duration), inline-size var(--expander-duration);
   }
 
-  [open] & {
+  .expander[open]::details-content {
+    block-size: auto;
     inline-size: auto;
   }
 }
 
-.expander__item {
-  --btn-background: transparent;
-  --btn-border-radius: 0.3em;
-  --btn-border-size: 0;
-  --btn-font-weight: 500;
-  --btn-padding: var(--inline-space-half) 1ch;
-  --hover-size: 0;
-  --outline-color: transparent;
+@supports not selector(details::details-content) {
+  .expander__content {
+    border-radius: var(--expander-radius);
+    inset: 0 auto auto 0;
+    min-inline-size: var(--expander-width);
+    position: absolute;
 
-  margin-inline: -1ch;
-  justify-content: flex-start;
-
-  &:hover,
-  &:focus-visible {
-    background-color: oklch(var(--lch-white) / 10%);
+    [open] & {
+      block-size: auto;
+      inline-size: auto;
+    }
   }
+}
+
+.expander__item {
+  white-space: nowrap;
 }
