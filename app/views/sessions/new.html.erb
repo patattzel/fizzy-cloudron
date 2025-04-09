@@ -5,7 +5,6 @@
 
   <%= form_with url: session_path, class: "flex flex-column gap txt-large" do |form| %>
     <div class="flex align-center gap">
-      <%= translation_button :email_address %>
       <label class="flex align-center gap input input--actor">
         <%= form.email_field :email_address, required: true, class: "input full-width", autofocus: true, autocomplete: "username", placeholder: "Enter your email address" %>
         <%= icon_tag "email", class: "txt-large" %>
@@ -13,7 +12,6 @@
     </div>
 
     <div class="flex align-center gap">
-      <%= translation_button :password %>
       <label class="flex align-center gap input input--actor">
         <%= form.password_field :password, required: true, class: "input full-width", autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
         <%= icon_tag "password", class: "txt-large" %>
