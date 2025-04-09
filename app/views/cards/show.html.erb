@@ -61,7 +61,6 @@
         <input type="checkbox" class="card__star-input">
       </button>
 
-      <%= render "cards/color", card: @card %>
       <%= render "cards/image", card: @card %>
       <%= button_to collection_card_path(@card.collection, @card),
             method: :delete,
