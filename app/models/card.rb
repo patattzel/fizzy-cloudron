@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Boostable, Colored, Commentable, Engageable, Eventable,
+  include Assignable, Boostable, Commentable, Engageable, Eventable,
     Messages, Notifiable, Pinnable, Closeable, Scorable, Searchable, Staged, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
