@@ -227,10 +227,10 @@
   }
 
   .card-sorting__filter {
-    inset: auto 50% -4em;
+    inset: auto 50% calc(var(--btn-size) * -0.66);
     margin-inline-start: -1em;
     position: absolute;
-    transform: translateX(-50%);
+    transform: translate(-50%, 50%);
 
     #header:has(&) {
       position: relative;
