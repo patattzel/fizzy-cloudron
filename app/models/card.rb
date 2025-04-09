@@ -33,6 +33,14 @@ class Card < ApplicationRecord
     [ super, collection&.name ].compact.join("/")
   end
 
+  def color
+    return Colorable::DEFAULT_COLOR unless collection&.workflow.present?
+    return Colorable::DEFAULT_COLOR unless doing?
+    return Colorable::DEFAULT_COLOR unless stage.present?
+
+    stage.color.presence || Colorable::DEFAULT_COLOR
+  end
+
   private
     def track_due_date_change
       if due_on.present?
