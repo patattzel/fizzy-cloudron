@@ -23,7 +23,7 @@
     <%= link_to_home %>
     <%= link_to_back fallback_path: cards_path(collection_id: @card.collection) %>
 
-    <div class="something-to-rename__actions-container card__actions-container--top center flex align-center gap border-radius" style="--card-color: <%= @card.color %>;">
+    <div class="card__actions-container card__actions-container--top center flex align-center gap border-radius" style="--card-color: <%= @card.color %>;">
       <strong class="txt-uppercase">Considering</strong>
       <% if @card.doing? %>
         <%= form_with url: card_engagement_path(@card), method: :delete, data: { controller: "form" }, class: "flex" do %>

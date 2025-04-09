@@ -11,7 +11,7 @@
 
     <div class="card__body flex gap full-width flex-item-grow">
       <div class="card__body-header">
-        <h1 class="something-to-rename__title">
+        <h1 class="card__title">
           <% if card.published? %>
             <%= turbo_frame_tag card, :edit do %>
               <%= link_to card_title(card), edit_collection_card_path(card.collection, card), class: "card__title-link overflow-line-clamp" %>
