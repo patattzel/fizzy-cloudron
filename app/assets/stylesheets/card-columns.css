@@ -54,11 +54,16 @@
       --text-small: 1.1em;
 
       background-color: var(--color-bg);
+      box-shadow: 0 0 0 1px var(--color-subtle);
       line-height: 1.2;
 
+      @media (prefers-color-scheme: dark) {
+        box-shadow: 0 0 0 1px var(--color-subtle-dark);
+      }
+
       .avatar {
-        block-size: 3em;
-        inline-size: 3em;
+        block-size: 2.75em;
+        inline-size: 2.75em;
       }
     }
 
@@ -82,14 +87,6 @@
 
     .card__people-label {
       display: none;
-    }
-
-    .card__stuff {
-      .avatar {
-        block-size: 2em;
-        inline-size: 2em;
-        margin: 0;
-      }
     }
 
     .card__body {
