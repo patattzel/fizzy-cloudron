@@ -36,7 +36,6 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
     patch collection_card_url(collections(:writebook), cards(:logo)), params: {
       card: {
         title: "Logo needs to change",
-        color: "#000000",
         due_on: 1.week.from_now,
         image: fixture_file_upload("moon.jpg", "image/jpeg"),
         draft_comment: "Something more in-depth",
@@ -45,7 +44,6 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
 
     card = cards(:logo).reload
     assert_equal "Logo needs to change", card.title
-    assert_equal "#000000", card.color
     assert_equal 1.week.from_now.to_date, card.due_on
     assert_equal "moon.jpg", card.image.filename.to_s
     assert_equal [ tags(:mobile) ], card.tags

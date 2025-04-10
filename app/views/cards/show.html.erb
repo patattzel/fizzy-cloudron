@@ -28,14 +28,13 @@
 <%= render "cards/doing_toggle", card: @card %>
 
 <div data-controller="beacon" data-beacon-url-value="<%= card_reading_url(@card) %>">
-  <section class="card-perma <%= "card-perma--pointing" unless @card.published? %>" style="--card-color: <%= @card.color %>;">
+  <section id="<%= dom_id(@card, :card_container) %>" class="card-perma <%= "card-perma--pointing" unless @card.published? %>" style="--card-color: <%= @card.color %>;">
     <aside class="card-perma__actions" role="toolbar">
       <button class="btn">
         <%= icon_tag "star" %>
         <span class="for-screen-reader">Star this card</span>
         <input type="checkbox" class="card-perma__star-input">
       </button>
-      <%= render "cards/color", card: @card %>
       <%= render "cards/image", card: @card %>
       <%= button_to collection_card_path(@card.collection, @card),
             method: :delete,

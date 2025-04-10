@@ -1,9 +1,12 @@
 module Card::Colored
   extend ActiveSupport::Concern
 
-  COLORS = %w[ #b7462b #ff63a8 #eb7a32 #6ac967 #2c6da8 #663251  ]
-
-  included do
-    attribute :color, default: "#2c6da8"
+  def color
+    color_from_stage || Colorable::DEFAULT_COLOR
   end
+
+  private
+    def color_from_stage
+      stage&.color&.presence if doing?
+    end
 end

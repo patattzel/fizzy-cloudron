@@ -16,8 +16,6 @@
 <div class="panel shadow center" style="--panel-size: 55ch;">
   <%= form_with model: @collection, class: "flex flex-column gap txt-large", data: { controller: "form" } do |form| %>
     <div class="flex align-center gap">
-      <%= translation_button(:collection_name) %>
-
       <label class="flex-item-grow txt-large">
         <strong><%= form.text_field :name, name: "collection[name]", class: "input full-width",
               required: true, autofocus: true, placeholder: "Give it a name…",
