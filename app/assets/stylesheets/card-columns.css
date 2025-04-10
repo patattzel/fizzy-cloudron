@@ -2,12 +2,19 @@
   /* Coluns
   /* -------------------------------------------------------------------------- */
 
+  /* Card contents are resized via container queries. We're using #main here as
+     the primary container so all cards have the same container reference */
+  #main:has(.card-columns) {
+    container-type: inline-size;
+    max-inline-size: 1400px;
+  }
+
   .card-columns {
-    border-block: 1px solid var(--color-subtle);
+    border-block-start: 1px solid var(--color-subtle);
     display: grid;
     grid-template-columns: repeat(2, 50%);
     margin: auto;
-    max-inline-size: 100ch;
+    max-inline-size: 1080px;
 
     .cards:first-child {
       border-inline-end: var(--border);
@@ -23,23 +30,22 @@
   /* -------------------------------------------------------------------------- */
 
   .cards {
-    --cards-padding: 2cqi;
-    --cards-gap: 2ch;
+    --cards-gap: 2cqi;
 
     align-items: center;
-    container-type: inline-size;
     display: flex;
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
     padding-block: var(--cards-gap);
 
-    :where(.card) {
+    .card {
       --block-space: 1em;
       --block-space-half: 0.5em;
       --text-xx-large: 2em;
 
-      font-size: 2.25cqi;
+      /* Set lower limit for font size */
+      font-size: clamp(0.45rem, 0.85cqi, 100px);
     }
 
     .card__title {
@@ -107,14 +113,22 @@
   /* -------------------------------------------------------------------------- */
 
   .cards--closed {
+    border-block-start: 1px solid var(--color-subtle);
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
     inline-size: 100%;
     margin: 0 auto;
-    max-inline-size: 120ch;
 
     .card {
+      inline-size: calc((100% - var(--cards-gap) * 2) / 3);
+
+      @media (max-width: 960px) {
+        inline-size: calc((100% - var(--cards-gap)) / 2);
+      }
+    }
+
+    /* .card {
       --card-size: calc(100% - (var(--container-padding) * 2) / 2);
 
       block-size: 50%;
@@ -163,7 +177,7 @@
       .card__stages {
         font-size: 0.85em;
       }
-    }
+    } */
   }
 
   .card__hide-on-index {
