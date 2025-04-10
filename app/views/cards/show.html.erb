@@ -22,37 +22,13 @@
   <nav class="align-start max-width">
     <%= link_to_home %>
     <%= link_to_back fallback_path: cards_path(collection_id: @card.collection) %>
-
-    <div class="card-container__cutout card-container__cutout--top" style="--card-color: <%= @card.color %>;">
-      <strong class="txt-uppercase">Considering</strong>
-      <% if @card.doing? %>
-        <%= form_with url: card_engagement_path(@card), method: :delete, data: { controller: "form" }, class: "flex" do %>
-          <label class="switch flex-item-no-shrink">
-            <input type="checkbox" class="switch__input" data-action="form#submit" checked>
-            <span class="switch__btn round"></span>
-            <span class="for-screen-reader">Switch to Considering</span>
-          </label>
-        <% end %>
-      <% else %>
-        <%= form_with url: card_engagement_path(@card), method: :post, data: { controller: "form" }, class: "flex" do %>
-          <label class="switch flex-item-no-shrink">
-            <input type="checkbox" class="switch__input" data-action="form#submit">
-            <span class="switch__btn round"></span>
-            <span class="for-screen-reader">Switch to Doing</span>
-          </label>
-        <% end %>
-      <% end %>
-      <strong class="txt-uppercase">Doing</strong>
-    </div>
-
-    <div class="btn btn--placeholder flex-item-justify-end"></div>
-    <div class="btn btn--placeholder"></div>
   </nav>
 <% end %>
 
+<%= render "cards/doing_toggle", card: @card %>
+
 <div data-controller="beacon" data-beacon-url-value="<%= card_reading_url(@card) %>">
   <section class="card-container <%= "card-container--pointing" unless @card.published? %>" style="--card-color: <%= @card.color %>;">
-
     <aside class="card-container__actions" role="toolbar">
       <button class="btn">
         <%= icon_tag "star" %>
@@ -83,9 +59,7 @@
   </section>
 
   <% unless @card.drafted? || @card.creating? %>
-    <div>
-      <%= render "cards/closure_toggle", card: @card %>
-    </div>
+    <%= render "cards/closure_toggle", card: @card %>
   <% end %>
 
   <% if @card.published? %>
