@@ -266,7 +266,7 @@
 
     &::after {
       aspect-ratio: var(--aspect-ratio);
-      background: var(--color-container);
+      background: color-mix(in srgb, var(--card-color) 33%, var(--color-bg));
       clip-path: polygon(50% 100%, 100% 0, 0 0);
       inline-size: var(--arrow-size);
       content: "";
