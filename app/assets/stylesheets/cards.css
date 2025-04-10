@@ -98,7 +98,14 @@
   }
 
   .card--golden {
-    outline: 5px solid orange;
+    --border-color: var(--color-bg) !important;
+
+    background-color: var(--color-bg);
+    background-image: linear-gradient(90deg, oklch(var(--lch-golden) / 0.5) 0%, oklch(var(--lch-golden) / 0.1) 50%, oklch(var(--lch-golden) / 0.75) 100%);
+    box-shadow: 
+      0 0 0.5em 0.2em var(--color-golden),
+      0 0 1em 0.4em var(--color-golden) !important;
+    outline: 1px solid var(--color-golden);
   }
 
   .card__actions {
@@ -251,12 +258,6 @@
     display: inline-flex;
     margin-block: calc(var(--block-space) * -1) calc(var(--block-space) * -0.33);
     padding: var(--padding-block) var(--padding-inline);
-
-    &:has(.card__star-input:checked) {
-      .card {
-        outline: 4px solid var(--color-negative);
-      }
-    }
   }
 
   .card__container--pointing {
