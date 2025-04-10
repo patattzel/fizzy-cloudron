@@ -15,6 +15,7 @@ class Card < ApplicationRecord
 
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
+  scope :latest, -> { order updated_at: :desc, id: :desc }
   scope :in_collection, ->(collection) { where collection: collection }
 
   scope :indexed_by, ->(index) do
@@ -24,6 +25,7 @@ class Card < ApplicationRecord
     when "most_boosted"   then ordered_by_boosts
     when "newest"         then reverse_chronologically
     when "oldest"         then chronologically
+    when "latest"         then latest
     when "stalled"        then ordered_by_staleness
     when "closed"         then closed
     end
