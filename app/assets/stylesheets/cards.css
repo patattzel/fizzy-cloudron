@@ -116,7 +116,12 @@
   }
 
   .card__stages {
+    display: flex;
     flex: 1 1 25%;
+    flex-direction: column;
+    max-width: 100%;
+    min-width: 0;
+    padding-block: var(--block-space);
   }
 
   .card__move-button {
@@ -151,10 +156,12 @@
     align-items: center;
     aspect-ratio: 7/4;
     border: var(--block-space-half) solid var(--card-color);
-    position: absolute;
+    display: flex;
+    flex-direction: column;
     inset: auto var(--block-space) var(--block-space-double) auto;
     justify-content: space-between;
     padding: var(--block-space-half) calc(var(--inline-space) * 1.5);
+    position: absolute;
     transform: rotate(-10deg);
     z-index: -1;
   }
