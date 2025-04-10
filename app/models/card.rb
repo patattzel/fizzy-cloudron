@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Boostable, Commentable, Engageable, Eventable,
+  include Assignable, Boostable, Colored, Commentable, Engageable, Eventable,
     Messages, Notifiable, Pinnable, Closeable, Scorable, Searchable, Staged, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
@@ -31,14 +31,6 @@ class Card < ApplicationRecord
 
   def cache_key
     [ super, collection&.name ].compact.join("/")
-  end
-
-  def color
-    return Colorable::DEFAULT_COLOR unless collection&.workflow.present?
-    return Colorable::DEFAULT_COLOR unless doing?
-    return Colorable::DEFAULT_COLOR unless stage.present?
-
-    stage.color.presence || Colorable::DEFAULT_COLOR
   end
 
   private
