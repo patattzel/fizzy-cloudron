@@ -19,6 +19,10 @@
     text-align: start;
     z-index: 1;
 
+    .avatar {
+      --avatar-size: 2.75em;
+    }
+
     .local-time-value {
       font-weight: bold;
     }
@@ -58,11 +62,6 @@
     inset: 0;
     position: absolute;
     z-index: -1;
-
-    .cards &,
-    .cards--grid & {
-      z-index: 1;
-    }
   }
 
   .card__header {
@@ -102,17 +101,10 @@
     min-block-size: 3lh;
     text-wrap: balance;
 
-    .cards & {
-      pointer-events: none;
-    }
-
     .card__title-field {
-      &:is(textarea) {
-
-        &::placeholder {
-          color: inherit;
-          opacity: 0.5;
-        }
+      &:is(textarea)::placeholder {
+        color: inherit;
+        opacity: 0.5;
       }
     }
 

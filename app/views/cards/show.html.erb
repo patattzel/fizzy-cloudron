@@ -25,11 +25,12 @@
   </nav>
 <% end %>
 
-<%= render "cards/doing_toggle", card: @card %>
-
 <div data-controller="beacon" data-beacon-url-value="<%= card_reading_url(@card) %>">
   <section id="<%= dom_id(@card, :card_container) %>" class="card-perma <%= "card-perma--pointing" unless @card.published? %>" style="--card-color: <%= @card.color %>;">
-    <aside class="card-perma__actions" role="toolbar">
+
+    <%= render "cards/doing_toggle", card: @card %>
+
+    <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
       <button class="btn">
         <%= icon_tag "star" %>
         <span class="for-screen-reader">Star this card</span>
@@ -50,16 +51,17 @@
     </div>
 
     <% if @card.published? %>
-      <aside class="card-perma__actions" role="toolbar">
+      <aside class="card-perma__actions card-perma__actions--right" role="toolbar">
         <%= turbo_frame_tag dom_id(@card, :watch), src: card_watch_path(@card), refresh: :morph %>
         <%= turbo_frame_tag dom_id(@card, :pin), src: card_pin_path(@card), refresh: :morph %>
       </aside>
     <% end %>
+
+    <% unless @card.drafted? || @card.creating? %>
+      <%= render "cards/closure_toggle", card: @card %>
+    <% end %>
   </section>
 
-  <% unless @card.drafted? || @card.creating? %>
-    <%= render "cards/closure_toggle", card: @card %>
-  <% end %>
 
   <% if @card.published? %>
     <%= render "cards/messages", card: @card %>
