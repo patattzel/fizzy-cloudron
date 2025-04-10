@@ -8,15 +8,14 @@
     grid-template-columns: repeat(2, 50%);
     margin: auto;
     max-inline-size: 100ch;
-    padding-block: var(--block-space-half);
 
     .cards:first-child {
       border-inline-end: var(--border);
-      padding-inline-end: var(--cards-padding);
+      padding-inline-end: var(--cards-gap);
     }
 
     .cards:last-child {
-      padding-inline-start: var(--cards-padding);
+      padding-inline-start: var(--cards-gap);
     }
   }
 
@@ -25,7 +24,7 @@
 
   .cards {
     --cards-padding: 2cqi;
-    --cards-gap: var(--block-space);
+    --cards-gap: 2ch;
 
     align-items: center;
     container-type: inline-size;
@@ -33,14 +32,14 @@
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    padding-block: var(--cards-padding);
+    padding-block: var(--cards-gap);
 
-    .card {
+    :where(.card) {
       --block-space: 1em;
       --block-space-half: 0.5em;
       --text-xx-large: 2em;
 
-      font-size: 1.8cqi;
+      font-size: 2.25cqi;
     }
 
     .card__title {
@@ -52,12 +51,19 @@
     }
   }
 
+  .cards__heading {
+    display: inline-flex;
+    font-size: var(--text-medium);
+    inline-size: 100%;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
   /* Considering
   /* ------------------------------------------------------------------------ */
 
   .cards--considering {
     .card {
-      --card-color: var(--color-ink) !important;
       --text-xx-large: 1.6em;
       --text-small: 1.1em;
 
@@ -75,17 +81,8 @@
       }
     }
 
-    .card__collection,
     .card__background {
       display: none;
-    }
-
-    .card__header {
-      margin: 0;
-    }
-
-    .card__body {
-      padding-block-start: 0;
     }
 
     .card__title {
@@ -118,10 +115,7 @@
     max-inline-size: 120ch;
 
     .card {
-      --block-space: 1em;
-      --block-space-half: 0.5em;
       --card-size: calc(100% - (var(--container-padding) * 2) / 2);
-      --text-xx-large: 1.8em;
 
       block-size: 50%;
       font-size: 3cqi;
@@ -129,7 +123,6 @@
       inline-size: var(--card-size);
     }
 
-    .card__meta,
     .card__stages {
       display: none;
     }
