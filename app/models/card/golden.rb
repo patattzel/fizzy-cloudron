@@ -3,7 +3,6 @@ module Card::Golden
 
   included do
     scope :golden, -> { joins(:goldness) }
-    scope :non_golden, -> { where.missing(:goldness) }
 
     has_one :goldness, dependent: :destroy, class_name: "Card::Goldness"
 
