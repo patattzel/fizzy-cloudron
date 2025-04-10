@@ -1,12 +1,35 @@
+/* TODO
+
+•
+
+*/
+
+
 @layer components {
+  /* Card containers
+  /* -------------------------------------------------------------------------- */
+
+  .card-columns {
+    border-block: 1px solid var(--color-subtle);
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    margin: auto;
+    max-inline-size: 100ch;
+    padding-block: var(--block-space-half);
+
+    .card {
+      z-index: unset;
+    }
+  }
+
   .cards {
     --block-space: 2cqi;
     --container-gap: var(--block-space);
     --container-padding: calc(var(--block-space) * 1.5);
 
     container-type: inline-size;
-    padding: var(--block-space-half) 0;
     justify-content: start;
+    padding: var(--block-space-half) 0;
 
     :where(.card) {
       --block-space: 1em;
@@ -58,29 +81,25 @@
     }
   }
 
-  .cards--columns {
-    border-block: 1px solid var(--color-subtle);
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
-    margin: auto;
-    max-inline-size: 100ch;
-    padding-block: var(--block-space-half);
-
-    .card {
-      aspect-ratio: unset;
-      z-index: unset;
-    }
-  }
+  /* Card items
+  /* -------------------------------------------------------------------------- */
 
   .card {
     --border-color: transparent;
     --border-radius: 0.2em;
     --border-size: 0;
 
-    aspect-ratio: 2/0.95;
+    aspect-ratio: var(--card-aspect-ratio, auto);
     background-color: color-mix(in srgb, var(--card-color) 4%, var(--color-bg));
+    border: var(--border);
+    border-radius: 0.5em;
+    box-shadow: var(--shadow);
     color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+    display: flex;
+    flex-direction: column;
     max-inline-size: 75ch;
+    position: relative;
+    text-align: start;
     z-index: 1;
 
     .card__container & {
@@ -96,6 +115,18 @@
       --border-size: 1px;
     }
   }
+
+  /* Variants */
+  .card--large {
+    --card-aspect-ratio: 2 / 0.95;
+  }
+
+  .card--medium {}
+  .card--small {}
+  .card--mini {}
+
+  /* Actions around cards
+  /* -------------------------------------------------------------------------- */
 
   .card__actions {
     position: absolute;
