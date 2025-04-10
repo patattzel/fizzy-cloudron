@@ -1,4 +1,4 @@
-<div class="card-container__cutout card-container__cutout--top" style="--card-color: <%= @card.color %>;">
+<div class="card-perma__cutout card-perma__cutout--top" style="--card-color: <%= @card.color %>;">
   <strong class="txt-uppercase">Considering</strong>
   <% if @card.doing? %>
     <%= form_with url: card_engagement_path(@card), method: :delete, data: { controller: "form" }, class: "flex" do %>

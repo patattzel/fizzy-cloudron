@@ -1,7 +1,7 @@
 /* Card container for the perma. Tools and actions and whatnot */
 
 @layer components {
-  .card-container {
+  .card-perma {
     --actions-block-inset: 1.5rem;
     --actions-inline-inset: 4rem;
     --color-container: color-mix(in srgb, var(--card-color) 33%, var(--color-bg));
@@ -16,7 +16,7 @@
     max-inline-size: 100%;
     margin-inline: auto;
 
-    &:has(.card-container__star-input:checked) {
+    &:has(.card-perma__star-input:checked) {
       .card {
         outline: 4px solid var(--color-negative);
       }
@@ -32,13 +32,13 @@
   /* Children
   /* ------------------------------------------------------------------------ */
 
-  .card-container__bg {
+  .card-perma__bg {
     background-color: var(--color-container);
     border-radius: 0.2em;
     padding: var(--padding-block) var(--padding-inline);
   }
 
-  .card-container__actions {
+  .card-perma__actions {
     display: grid;
     gap: var(--block-space-half);
 
@@ -48,7 +48,7 @@
     }
   }
 
-  .card-container__cutout {
+  .card-perma__cutout {
     --card-cutout-padding-block: 0.5ch;
     --border-radius: 1em;
 
@@ -80,7 +80,7 @@
     }
   }
 
-  .card-container__cutout--top {
+  .card-perma__cutout--top {
     min-inline-size: 36ch;
     translate: 0 50%;
 
@@ -103,19 +103,19 @@
     }
   }
 
-  .card-container__cutout--bottom {
+  .card-perma__cutout--bottom {
     padding-inline-start: 0.5ch;
     translate: 0 -50%;
   }
 
-  .card-container__closure-message {
+  .card-perma__closure-message {
     color: var(--card-color);
   }
 
   /* Variants
   /* ------------------------------------------------------------------------ */
 
-  .card-container--pointing {
+  .card-perma--pointing {
     --arrow-size: 20em;
     --aspect-ratio: 7;
 

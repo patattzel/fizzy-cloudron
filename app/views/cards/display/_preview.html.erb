@@ -8,11 +8,9 @@
     </header>
 
     <div class="card__body flex gap full-width flex-item-grow">
-      <div class="card__body-header">
-        <h1 class="card__title">
-          <span class="card__title-link overflow-line-clamp"><%= card_title(card) %></span>
-        </h1>
-      </div>
+      <h1 class="card__title">
+        <span class="card__title-link overflow-line-clamp"><%= card_title(card) %></span>
+      </h1>
 
       <%= link_to collection_card_path(card.collection, card), class: "card__link" do %>
         <span class="for-screen-reader"><%= card_title(card) %></span>

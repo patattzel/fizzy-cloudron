@@ -3,7 +3,7 @@
     Recently closed
   </h2>
 
-  <section class="cards--grid">
+  <section class="cards cards--closed">
     <% if cards.any? %>
       <%= render partial: "cards/display/preview", collection: cards, as: :card, cached: true %>
     <% else %>
