@@ -112,12 +112,12 @@
   }
 
   .card__actions-container {
-    --border-radius: 1em;
+    --border-radius: 6em;
 
     background-color: var(--color-bg);
     color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
     margin-block: calc(var(--block-space) * -1.66) calc(var(--block-space) * 1.66);
-    padding: calc(var(--block-space) * 0.66) calc(var(--inline-space) * 1.5);
+    padding: calc(var(--block-space) * 0.75) calc(var(--block-space) * 0.66);
     position: relative;
     z-index: 0;
 
@@ -125,7 +125,7 @@
       z-index: 1;
     }
 
-    .btn:not(.popup__item, .btn--plain) {
+    .btn:not(.popup__item, .btn--plain, :has(input[type="radio"])) {
       --btn-background: var(--card-color);
       --btn-color: var(--color-ink-reversed);
     }
@@ -139,28 +139,26 @@
     .card__closure-message {
       color: var(--card-color);
     }
-  }
 
-  .card__actions-container--top {
-    min-inline-size: 36ch;
-    margin: calc(var(--block-space) * 1) auto calc(var(--block-space) * -0.33);
-    padding: 0.5em 0.75em;
+    &.card__actions-container--top {
+      margin: calc(var(--block-space) * 1) auto calc(var(--block-space) * -0.66);
+      min-inline-size: 30ch;
+  
+      #header:has(&) {
+        position: relative;
+        z-index: 1;
+      }
 
-    #header:has(&) {
-      position: relative;
-      z-index: 1;
-    }
+      .btn {
+        --btn-border-color: var(--card-color);
+        --btn-color: var(--card-color);
 
-    .switch__input:checked + .switch__btn {
-      background-color: var(--card-color) !important;
-    }
+        text-align: center;
 
-    strong {
-      flex: 1 0 42%;
-      text-align: end;
-
-      &:last-of-type {
-        text-align: start;
+        &:has(input:checked)  {
+          --btn-background: var(--card-color);
+          --btn-color: var(--color-ink-reversed);
+        }
       }
     }
   }
