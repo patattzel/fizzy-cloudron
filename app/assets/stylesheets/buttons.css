@@ -201,15 +201,19 @@
     }
 
     :first-of-type .btn {
-      border-top-left-radius: 2em;
       border-bottom-left-radius: 2em;
+      border-inline-end: 0;
+      border-top-left-radius: 2em;
       flex: 1 0 50%;
+      padding-inline-end: 0.8em;
     }
 
     :last-of-type .btn {
-      border-top-right-radius: 2em;
       border-bottom-right-radius: 2em;
+      border-inline-start: 0;
+      border-top-right-radius: 2em;
       flex: 1 0 50%;
+      padding-inline-start: 0.8em;
     }
 
     span {

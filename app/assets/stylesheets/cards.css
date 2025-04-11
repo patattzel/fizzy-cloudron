@@ -153,7 +153,8 @@
 
     &.card__actions-container--top {
       margin: calc(var(--block-space) * 1) auto calc(var(--block-space) * -0.66);
-      min-inline-size: 30ch;
+      min-inline-size: 28ch;
+      padding: 0;
 
       #header:has(&) {
         position: relative;
