@@ -12,11 +12,11 @@ class Card::GoldenTest < ActiveSupport::TestCase
 
   test "promote and demote from golden" do
     assert_changes -> { cards(:text).reload.golden? }, to: true do
-      cards(:text).promote_to_golden
+      cards(:text).gild
     end
 
     assert_changes -> { cards(:logo).reload.golden? }, to: false do
-      cards(:logo).demote_from_golden
+      cards(:logo).ungild
     end
   end
 

@@ -18,11 +18,11 @@ module Card::Golden
     goldness.present?
   end
 
-  def promote_to_golden
+  def gild
     create_goldness! unless golden?
   end
 
-  def demote_from_golden
+  def ungild
     goldness&.destroy
   end
 end
