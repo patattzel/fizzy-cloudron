@@ -1,4 +1,6 @@
 class Cards::Comments::ReactionsController < ApplicationController
+  include CardScoped
+
   before_action :set_comment
 
   def index
@@ -24,7 +26,7 @@ class Cards::Comments::ReactionsController < ApplicationController
 
   private
     def set_comment
-      @comment = Current.account.comments.find(params[:comment_id])
+      @comment = @card.comments.find(params[:comment_id])
     end
 
     def reaction_params
