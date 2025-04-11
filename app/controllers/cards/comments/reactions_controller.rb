@@ -28,7 +28,7 @@ class Cards::Comments::ReactionsController < ApplicationController
     end
 
     def reaction_params
-      params.require(:reaction).permit(:content)
+      params.expect(reaction: :content)
     end
 
     def broadcast_create
