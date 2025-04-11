@@ -16,8 +16,13 @@
   <hr class="separator margin-none unpad">
   
   <div class="flex flex-column gap txt-align-start overflow-ellipsis">
-    <span class="pad-inline overflow-ellipsis"><%= card.creating? ? "Created" : "Updated" %>
-      <%= local_datetime_tag(card.updated_at, style: :daysago) %>
+    <span class="pad-inline overflow-ellipsis">
+      <% if card.creating? %>
+        &nbsp;
+      <% else %>
+        Updated
+        <%= local_datetime_tag(card.updated_at, style: :daysago) %>
+      <% end %>
     </span>
 
     <hr class="full-width separator--horizontal unpad margin-none">
