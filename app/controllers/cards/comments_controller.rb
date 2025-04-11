@@ -33,6 +33,6 @@ class Cards::CommentsController < ApplicationController
     end
 
     def comment_params
-      params.require(:comment).permit(:body)
+      params.expect(comment: :body)
     end
 end
