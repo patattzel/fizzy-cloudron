@@ -39,9 +39,9 @@ class CardsController < ApplicationController
       @card = @collection.cards.find params[:id]
     end
 
-    def page_and_filter_for(filter, per_page: nil, cards: filter.cards)
+    def page_and_filter_for(filter, per_page: nil)
       OpenStruct.new \
-        page: GearedPagination::Recordset.new(cards, per_page:).page(1),
+        page: GearedPagination::Recordset.new(filter.cards, per_page:).page(1),
         filter: filter
     end
 
