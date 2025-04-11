@@ -1,7 +1,7 @@
-<%= turbo_frame_tag comment, :reactions do %>
+<%= turbo_frame_tag comment, :reacting do %>
   <div class="reactions flex flex-wrap align-center gap full-width">
-    <div class="flex-inline flex-wrap gap">
-      <%= render partial: "cards/comments/reactions/reaction", collection: comment.reactions.ordered %>
+    <div id="<%= dom_id(comment, :reactions) %>" class="flex-inline flex-wrap gap">
+      <%= render partial: "cards/comments/reactions/reaction", collection: comment.reactions.includes(:reacter).ordered %>
     </div>
 
     <%= turbo_frame_tag comment, :new_reaction do %>

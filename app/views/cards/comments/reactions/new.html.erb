@@ -2,7 +2,7 @@
   <%= form_with url: card_comment_reactions_path(@comment.card, @comment),
         class: "reaction reaction__form flex-inline postion--relative max-width align-center fill-white gap expanded",
         html: { aria: { label: "New reaction" } },
-        data: { controller: "form", turbo_frame: dom_id(@comment, :reactions), action: "keydown.esc->form#cancel" } do |form| %>
+        data: { controller: "form", turbo_frame: dom_id(@comment, :reacting), action: "keydown.esc->form#cancel" } do |form| %>
     <label class="reaction__form-label flex gap" style="--column-gap: 0.7ch;">
       <figure class="reaction__avatar margin-none flex-item-no-shrink">
         <%= avatar_tag Current.user %>
@@ -18,7 +18,7 @@
     <% end %>
 
     <%= link_to card_comment_reactions_path(@comment.card, @comment), role: "button",
-          data: { turbo_frame: dom_id(@comment, :reactions), form_target: "cancel" }, class: "btn btn--negative" do %>
+          data: { turbo_frame: dom_id(@comment, :reacting), form_target: "cancel" }, class: "btn btn--negative" do %>
       <%= icon_tag "minus" %> <span class="for-screen-reader">Cancel</span>
     <% end %>
   <% end %>

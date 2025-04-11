@@ -34,7 +34,7 @@ class Cards::Comments::ReactionsController < ApplicationController
 
     def broadcast_create(reaction)
       reaction.broadcast_append_to @card,
-        target: "reactions_comment_#{@comment.id}", partial: "cards/comments/reactions/reaction", locals: { comment: @comment }
+        target: [ @comment, :reactions ], partial: "cards/comments/reactions/reaction", locals: { comment: @comment }
     end
 
     def broadcast_remove(reaction)
