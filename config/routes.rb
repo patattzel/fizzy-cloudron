@@ -28,6 +28,10 @@ Rails.application.routes.draw do
       resources :boosts
       resources :stagings
       resources :taggings
+
+      resources :comments do
+        resources :reactions, module: :comments
+      end
     end
   end
 
@@ -52,11 +56,7 @@ Rails.application.routes.draw do
       resource :involvement
     end
 
-    resources :cards do
-      resources :comments do
-        resources :reactions, module: :comments
-      end
-    end
+    resources :cards
   end
 
   resources :events, only: :index
