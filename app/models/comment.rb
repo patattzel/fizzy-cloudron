@@ -18,6 +18,10 @@ class Comment < ApplicationRecord
     card_comments.many? && card_comments_prior.last&.creator != creator
   end
 
+  def to_partial_path
+    "cards/#{super}"
+  end
+
   private
     def cleanup_events
       # Delete events that reference through event_summary

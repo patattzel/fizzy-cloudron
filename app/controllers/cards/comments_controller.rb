@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController
+class Cards::CommentsController < ApplicationController
   include CardScoped
   before_action :set_comment, only: [ :show, :edit, :update, :destroy ]
   before_action :require_own_comment, only: [ :edit, :update, :destroy ]

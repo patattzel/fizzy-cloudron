@@ -1,4 +1,4 @@
-class Comments::ReactionsController < ApplicationController
+class Cards::Comments::ReactionsController < ApplicationController
   before_action :set_comment
 
   def index
@@ -12,7 +12,7 @@ class Comments::ReactionsController < ApplicationController
     @reaction = @comment.reactions.create!(reaction_params)
 
     broadcast_create
-    redirect_to collection_card_comment_reactions_url(@comment.card.collection, @comment.card, @comment)
+    redirect_to card_comment_reactions_url(@comment.card, @comment)
   end
 
   def destroy
@@ -33,7 +33,7 @@ class Comments::ReactionsController < ApplicationController
 
     def broadcast_create
       @reaction.broadcast_append_to @reaction.comment, :comments,
-        target: "reactions_comment_#{@comment.id}", partial: "comments/reactions/reaction", locals: { comment: @comment }
+        target: "reactions_comment_#{@comment.id}", partial: "cards/comments/reactions/reaction", locals: { comment: @comment }
     end
 
     def broadcast_remove
