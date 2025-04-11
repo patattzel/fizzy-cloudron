@@ -72,7 +72,6 @@
     gap: var(--inline-space);
     justify-content: center;
     margin-inline: auto;
-    padding: var(--card-notch-padding);
     position: relative;
     text-align: center;
     z-index: 0;
@@ -100,7 +99,7 @@
 
   .card-perma__notch--bottom {
     grid-area: notch-bottom;
-    padding-inline-end: 1.5ch;
+    padding: calc(var(--block-space) * 0.75) calc(var(--block-space) * 0.66);
     translate: 0 -50%;
 
     &:has([open]) {
