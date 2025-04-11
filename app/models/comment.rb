@@ -19,22 +19,21 @@ class Comment < ApplicationRecord
   end
 
   private
+    def cleanup_events
+      # Delete events that reference through event_summary
+      if message&.event_summary.present?
+        Event.where(summary: message.event_summary).destroy_all
+      end
 
-  def cleanup_events
-    # Delete events that reference through event_summary
-    if message&.event_summary.present?
-      Event.where(summary: message.event_summary).destroy_all
+      # Delete events that reference directly in particulars
+      Event.where(particulars: { comment_id: id }).destroy_all
     end
 
-    # Delete events that reference directly in particulars
-    Event.where(particulars: { comment_id: id }).destroy_all
-  end
+    def card_comments_prior
+      card_comments.where(created_at: ...created_at)
+    end
 
-  def card_comments_prior
-    card_comments.where(created_at: ...created_at)
-  end
-
-  def card_comments
-    Comment.joins(:message).where(messages: { card: card })
-  end
+    def card_comments
+      Comment.joins(:message).where(messages: { card: card })
+    end
 end
