@@ -12,7 +12,7 @@ class Cards::Comments::ReactionsController < ApplicationController
     @reaction = @comment.reactions.create!(reaction_params)
 
     broadcast_create
-    redirect_to card_comment_reactions_url(@comment.card, @comment)
+    redirect_to card_comment_reactions_path(@comment.card, @comment)
   end
 
   def destroy
