@@ -31,11 +31,7 @@
     <%= render "cards/doing_toggle", card: @card %>
 
     <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
-      <button class="btn">
-        <%= icon_tag "star" %>
-        <span class="for-screen-reader">Star this card</span>
-        <input type="checkbox" class="card-perma__star-input">
-      </button>
+      <%= render "cards/golden_toggle", card: @card if @card.doing? %>
       <%= render "cards/image", card: @card %>
       <%= button_to collection_card_path(@card.collection, @card),
             method: :delete,

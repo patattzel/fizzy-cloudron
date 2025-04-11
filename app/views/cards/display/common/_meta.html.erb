@@ -4,10 +4,17 @@
   <div class="card__meta-grid">
     <span class="card__meta-item card__meta-item--added overflow-ellipsis">
       Added <%= local_datetime_tag(card.created_at, style: :daysago) %>
+      <% if card.drafted? %>
+        <strong>(Draft)</strong>
+      <% end %>
     </span>
     <span class="card__meta-item card__meta-item--updated overflow-ellipsis">
-      <%= card.creating? ? "Created" : "Updated" %>
-      <%= local_datetime_tag(card.updated_at, style: :daysago) %>
+      <% if card.creating? %>
+        &nbsp;
+      <% else %>
+        Updated
+        <%= local_datetime_tag(card.updated_at, style: :daysago) %>
+      <% end %>
     </span>
     <span class="card__meta-item card__meta-item--reported overflow-ellipsis">
       Reported by <strong><%= familiar_name_for(card.creator) %></strong>

@@ -11,7 +11,7 @@ class CardsController < ApplicationController
   def index
     @considering = page_and_filter_for @filter.with(engagement_status: "considering", indexed_by: "latest"), per_page: PAGE_SIZE
     @doing = page_and_filter_for @filter.with(engagement_status: "doing", indexed_by: "latest"), per_page: PAGE_SIZE
-    @closed = page_and_filter_for @filter.with(indexed_by: "closed"), per_page: PAGE_SIZE
+    @closed = page_and_filter_for(@filter.with(indexed_by: "closed"), per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
   end
 
   def create
@@ -40,8 +40,10 @@ class CardsController < ApplicationController
     end
 
     def page_and_filter_for(filter, per_page: nil)
+      cards = block_given? ? yield(filter.cards) : filter.cards
+
       OpenStruct.new \
-        page: GearedPagination::Recordset.new(filter.cards, per_page:).page(1),
+        page: GearedPagination::Recordset.new(cards, per_page:).page(1),
         filter: filter
     end
 
