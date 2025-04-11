@@ -2,7 +2,7 @@ class Cards::Comments::ReactionsController < ApplicationController
   before_action :set_comment
 
   def index
-    @reactions = @comment.reactions.ordered.includes(:reacter)
+    @reactions = @comment.reactions.includes(:reacter).ordered
   end
 
   def new
