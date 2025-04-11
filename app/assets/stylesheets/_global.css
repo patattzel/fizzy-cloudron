@@ -31,6 +31,7 @@
   --lch-blue: 54% 0.15 255;
   --lch-blue-light: 95% 0.03 255;
   --lch-blue-dark: 80% 0.08 255;
+  --lch-golden: 83% 0.1128 72.43;
   --lch-orange: 70% 0.2 44;
   --lch-red: 51% 0.2 31;
   --lch-green: 65.59% 0.234 142.49;
@@ -58,6 +59,7 @@
   --color-always-black: oklch(var(--lch-always-black));
   --color-always-white: oklch(var(--lch-always-white));
   --color-container: oklch(var(--lch-light-blue));
+  --color-golden: oklch(var(--lch-golden));
 
   @media (prefers-color-scheme: dark) {
     --lch-black: 100% 0 0;

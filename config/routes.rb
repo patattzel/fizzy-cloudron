@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resource :reading
       resource :recover
       resource :watch
+      resource :goldness
 
       resources :assignments
       resources :boosts
