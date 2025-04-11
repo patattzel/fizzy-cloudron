@@ -121,6 +121,10 @@
 
   .card-perma__closure-message {
     color: var(--card-color);
+
+    &:first-child {
+      padding-left: 1ch;
+    }
   }
 
   /* Variants
