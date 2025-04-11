@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Cards::GoldenessesControllerTest < ActionDispatch::IntegrationTest
+class Cards::GoldnessesControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
@@ -9,7 +9,7 @@ class Cards::GoldenessesControllerTest < ActionDispatch::IntegrationTest
     card = cards(:text)
 
     assert_changes -> { card.reload.golden? }, from: false, to: true do
-      post card_goldeness_url(card)
+      post card_goldness_url(card)
     end
 
     assert_redirected_to collection_card_url(card.collection, card)
@@ -19,7 +19,7 @@ class Cards::GoldenessesControllerTest < ActionDispatch::IntegrationTest
     card = cards(:logo)
 
     assert_changes -> { card.reload.golden? }, from: true, to: false do
-      delete card_goldeness_url(card)
+      delete card_goldness_url(card)
     end
 
     assert_redirected_to collection_card_url(card.collection, card)

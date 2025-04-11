@@ -1,4 +1,4 @@
-class Cards::GoldenessesController < ApplicationController
+class Cards::GoldnessesController < ApplicationController
   include CardScoped
 
   def create
