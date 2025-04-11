@@ -4,6 +4,9 @@
   <div class="flex flex-column gap txt-align-start">
     <span class="pad-inline overflow-ellipsis">Added
       <%= local_datetime_tag(card.created_at, style: :daysago) %>
+      <% if card.drafted? %>
+        <strong>(Draft)</strong>
+      <% end %>
     </span>
 
     <hr class="full-width separator--horizontal unpad margin-none">
