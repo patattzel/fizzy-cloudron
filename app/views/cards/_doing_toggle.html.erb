@@ -1,5 +1,5 @@
 <% if @card.published? && !@card.closed? %>
-  <div class="card-perma__cutout card-perma__cutout--top" id="<%= dom_id(@card, :card_engagement_toggle) %>" style="--card-color: <%= @card.color %>;">
+  <div class="card-perma__notch card-perma__notch--top" id="<%= dom_id(@card, :card_engagement_toggle) %>" style="--card-color: <%= @card.color %>;">
     <div class="btn__group flex full-width txt-uppercase">
       <%= form_with url: card_engagement_path(@card), method: :delete, data: { controller: "form" } do |form| %>
         <%= form.label :engagement, value: "considering", class: "btn", aria: { label: "Move to Doing"} do %>

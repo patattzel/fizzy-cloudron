@@ -12,9 +12,9 @@
     column-gap: var(--inline-space);
     display: grid;
     grid-template-areas:
-      "qw cutout-top we"
+      "qw notch-top we"
       "actions-left card actions-right"
-      "er cutout-bottom rt";
+      "er notch-bottom rt";
     grid-template-columns: 48px minmax(0, 960px) 48px;
     inline-size: fit-content;
     max-inline-size: 100%;
@@ -56,11 +56,11 @@
   .card-perma__actions--left { grid-area: actions-left; }
   .card-perma__actions--right { grid-area: actions-right; }
 
-  /* Cutouts
+  /* Notches
   /* -------------------------------------------------------------------------- */
 
-  .card-perma__cutout {
-    --card-cutout-padding-block: 0.5ch;
+  .card-perma__notch {
+    --card-notch-padding: 0.5ch;
     --border-radius: 1em;
 
     align-items: center;
@@ -72,12 +72,36 @@
     gap: var(--inline-space);
     justify-content: center;
     margin-inline: auto;
-    padding: var(--card-cutout-padding-block) 1.5ch;
+    padding: var(--card-notch-padding);
     position: relative;
     text-align: center;
     z-index: 0;
+  }
 
-    grid-columns-start: 2;
+  .card-perma__notch--top {
+    grid-area: notch-top;
+    inset-inline-start: 50%;
+    min-inline-size: 36ch;
+    position: absolute;
+    translate: -50% -50%;
+
+    .btn {
+      --btn-border-color: var(--card-color);
+      --btn-color: var(--card-color);
+
+      text-align: center;
+
+      &:has(input:checked)  {
+        --btn-background: var(--card-color);
+        --btn-color: var(--color-ink-reversed);
+      }
+    }
+  }
+
+  .card-perma__notch--bottom {
+    grid-area: notch-bottom;
+    padding-inline-end: 1.5ch;
+    translate: 0 -50%;
 
     &:has([open]) {
       z-index: 1;
@@ -93,38 +117,6 @@
 
       text-decoration: underline;
     }
-  }
-
-  .card-perma__cutout--top {
-    grid-area: cutout-top;
-    min-inline-size: 36ch;
-    position: absolute;
-    inset-inline-start: 50%;
-    translate: -50% -50%;
-
-    #header:has(&) {
-      position: relative;
-      z-index: 1;
-    }
-
-    .switch__input:checked + .switch__btn {
-      background-color: var(--card-color) !important;
-    }
-
-    strong {
-      flex: 1 0 42%;
-      text-align: end;
-
-      &:last-of-type {
-        text-align: start;
-      }
-    }
-  }
-
-  .card-perma__cutout--bottom {
-    grid-area: cutout-bottom;
-    padding-inline-start: 0.5ch;
-    translate: 0 -50%;
   }
 
   .card-perma__closure-message {
