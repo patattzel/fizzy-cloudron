@@ -26,4 +26,8 @@ module CardsHelper
       class: "btn txt-small",
       **options
   end
+
+  def golden_class_for(card)
+    "card--golden" if card.doing? && card.golden?
+  end
 end
