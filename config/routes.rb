@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     resource :join_code, module: :accounts
   end
 
-  resources :users
+  resources :users do
+    resource :role, module: :users
+  end
 
   resources :collections do
     scope module: :collections do
