@@ -10,11 +10,6 @@ module Card::Messages
     messages.create! messageable: messageable
   end
 
-  def comments
-    # FIXME: I could have sworn there was a way to declare this as a association?
-    Comment.joins(:message).where(messages: { card_id: id })
-  end
-
   def draft_comment
     find_or_build_initial_comment.body.content
   end

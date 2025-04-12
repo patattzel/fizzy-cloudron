@@ -25,7 +25,7 @@ class Cards::CommentsController < ApplicationController
 
   private
     def set_comment
-      @comment = @card.comments.find(params[:id])
+      @comment = Comment.via_card(@card).find(params[:id])
       @message = @comment.message
     end
 

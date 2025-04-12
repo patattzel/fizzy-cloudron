@@ -4,9 +4,10 @@ class Comment < ApplicationRecord
   belongs_to :creator, class_name: "User", default: -> { Current.user }
   has_many :reactions, dependent: :delete_all
 
+  has_markdown :body
   searchable_by :body_plain_text, using: :comments_search_index, as: :body
 
-  has_markdown :body
+  scope :via_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
 
   before_destroy :cleanup_events
 
