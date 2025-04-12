@@ -10,42 +10,4 @@ class CommentTest < ActiveSupport::TestCase
 
     assert_includes Comment.search("something rustic"), message.comment
   end
-
-  test "first_by_author_on_card?" do
-    assert_not Comment.new.first_by_author_on_card?
-
-    with_current_user :david do
-      comment = Comment.new.tap { |c| cards(:logo).capture c }
-      assert comment.first_by_author_on_card?
-
-      comment = Comment.new.tap { |c| cards(:logo).capture c }
-      assert_not comment.first_by_author_on_card?
-    end
-
-    with_current_user :kevin do
-      comment = Comment.new.tap { |c| cards(:logo).capture c }
-      assert_not comment.first_by_author_on_card?
-    end
-  end
-
-  test "follows_comment_by_another_author?" do
-    assert_not Comment.new.follows_comment_by_another_author?
-
-    card = collections(:writebook).cards.create!
-
-    with_current_user :david do
-      comment = Comment.new.tap { |c| card.capture c }
-      assert_not comment.follows_comment_by_another_author?
-    end
-
-    with_current_user :kevin do
-      comment = Comment.new.tap { |c| card.capture c }
-      assert comment.follows_comment_by_another_author?
-    end
-
-    with_current_user :david do
-      comment = Comment.new.tap { |c| card.capture c }
-      assert comment.follows_comment_by_another_author?
-    end
-  end
 end

@@ -10,14 +10,6 @@ class Comment < ApplicationRecord
 
   before_destroy :cleanup_events
 
-  def first_by_author_on_card?
-    card_comments.many? && card_comments_prior.where(creator_id: creator_id).none?
-  end
-
-  def follows_comment_by_another_author?
-    card_comments.many? && card_comments_prior.last&.creator != creator
-  end
-
   def created_via(message)
     message.card.watch_by creator
     message.card.track_event :commented, comment_id: id
@@ -36,13 +28,5 @@ class Comment < ApplicationRecord
 
       # Delete events that reference directly in particulars
       Event.where(particulars: { comment_id: id }).destroy_all
-    end
-
-    def card_comments_prior
-      card_comments.where(created_at: ...created_at)
-    end
-
-    def card_comments
-      Comment.joins(:message).where(messages: { card: card })
     end
 end
