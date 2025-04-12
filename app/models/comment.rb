@@ -25,7 +25,7 @@ class Comment < ApplicationRecord
   private
     def cleanup_events
       # Delete events that reference through event_summary
-      if message&.event_summary.present?
+      if message.event_summary.present?
         Event.where(summary: message.event_summary).destroy_all
       end
 
