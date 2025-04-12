@@ -31,4 +31,3 @@ module Card::DraftCommenting
       @draft_comment = nil
     end
 end
-
