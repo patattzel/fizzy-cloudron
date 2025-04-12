@@ -6,13 +6,13 @@ module Card::Messages
     after_save :capture_draft_comment
   end
 
+  def capture(messageable)
+    messages.create! messageable: messageable
+  end
+
   def comments
     # FIXME: I could have sworn there was a way to declare this as a association?
     Comment.joins(:message).where(messages: { card_id: id })
-  end
-
-  def capture(messageable)
-    messages.create! messageable: messageable
   end
 
   def draft_comment
