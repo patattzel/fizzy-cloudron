@@ -5,7 +5,6 @@ class Event < ApplicationRecord
   belongs_to :summary, touch: true, class_name: "EventSummary"
   belongs_to :card
 
-  has_one :account, through: :creator
   has_one :message, through: :summary
   has_one :comment, through: :message, source: :messageable, source_type: "Comment"
 
