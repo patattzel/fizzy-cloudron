@@ -3,7 +3,6 @@ module Card::Messages
 
   included do
     has_many :messages, -> { chronologically }, dependent: :destroy
-    has_many :comments, through: :messages, source: :messageable
     after_save :capture_draft_comment
   end
 
