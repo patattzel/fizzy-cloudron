@@ -25,7 +25,7 @@ class Cards::Comments::ReactionsController < ApplicationController
 
   private
     def set_comment
-      @comment = Comment.via_card(@card).find(params[:comment_id])
+      @comment = Comment.belonging_to_card(@card).find(params[:comment_id])
     end
 
     def broadcast_create(reaction)

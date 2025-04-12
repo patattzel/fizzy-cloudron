@@ -7,7 +7,7 @@ class Comment < ApplicationRecord
   has_markdown :body
   searchable_by :body_plain_text, using: :comments_search_index, as: :body
 
-  scope :via_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
+  scope :belonging_to_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
 
   before_destroy :cleanup_events
 
