@@ -72,8 +72,6 @@ module EventsHelper
       end
     when "unassigned"
       "#{ event.creator == Current.user ? "You" : event.creator.name } unassigned #{ event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence } from <span style='color: var(--card-color)'>#{ card_title(event.card) }</span>".html_safe
-    when "boosted"
-      "#{ event.creator == Current.user ? "You" : event.creator.name } boosted <span style='color: var(--card-color)'>#{ card_title(event.card) }</span>".html_safe
     when "commented"
       "#{ event.creator == Current.user ? "You" : event.creator.name } commented on <span style='color: var(--card-color)'>#{ card_title(event.card) }</span>".html_safe
     when "published"
@@ -99,8 +97,6 @@ module EventsHelper
     case event.action
     when "assigned"
       "assigned"
-    when "boosted"
-      "thumb-up"
     when "staged"
       "bolt"
     when "unstaged"

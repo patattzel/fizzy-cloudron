@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Boostable, Colored, DraftCommenting, Engageable, Eventable, Golden,
+  include Assignable, Colored, DraftCommenting, Engageable, Eventable, Golden,
     Messages, Notifiable, Pinnable, Closeable, Scorable, Searchable, Staged,
     Statuses, Taggable, Watchable
 
@@ -22,7 +22,6 @@ class Card < ApplicationRecord
   scope :indexed_by, ->(index) do
     case index
     when "most_active"    then ordered_by_activity
-    when "most_boosted"   then ordered_by_boosts
     when "newest"         then reverse_chronologically
     when "oldest"         then chronologically
     when "latest"         then latest

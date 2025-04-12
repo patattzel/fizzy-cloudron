@@ -13,13 +13,6 @@ class CardMessagesTest < ActionDispatch::IntegrationTest
     assert_predicate card.messages.last, :event_summary?
     assert_equal "created", card.messages.last.messageable.events.sole.action
 
-    # Boost it
-    post card_boosts_path(card, format: :turbo_stream)
-    assert_equal 1, card.messages.count
-    assert_predicate card.messages.last, :event_summary?
-    assert_equal 2, card.messages.last.event_summary.events.count
-    assert_equal "boosted", card.messages.last.messageable.events.last.action
-
     # Comment on it
     post collection_card_comments_url(collections(:writebook), card), params: { comment: { body: "Agreed." } }
     assert_equal 2, card.messages.count

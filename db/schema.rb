@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_12_084635) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_12_162339) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -113,7 +113,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_12_084635) do
     t.float "activity_score", default: 0.0, null: false
     t.datetime "activity_score_at"
     t.float "activity_score_order", default: 0.0, null: false
-    t.integer "boosts_count", default: 0, null: false
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
@@ -292,7 +291,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_12_084635) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
-    t.index ["account_id", "title"], name: "index_tags_on_account_id_and_title", unique: true
     t.index ["account_id"], name: "index_tags_on_account_id"
   end
 
