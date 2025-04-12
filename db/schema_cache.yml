@@ -412,16 +412,6 @@ columns:
     default_function:
     collation:
     comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: boosts_count
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': false
-    default: 0
-    default_function:
-    collation:
-    comment:
   - *24
   - *6
   - &25 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
@@ -2007,23 +1997,6 @@ indexes:
   tags:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: tags
-    name: index_tags_on_account_id_and_title
-    unique: true
-    columns:
-    - account_id
-    - title
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: tags
     name: index_tags_on_account_id
     unique: false
     columns:
@@ -2154,4 +2127,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20250412084635
+version: 20250412162339

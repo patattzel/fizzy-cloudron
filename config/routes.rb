@@ -35,7 +35,6 @@ Rails.application.routes.draw do
       resource :goldness
 
       resources :assignments
-      resources :boosts
       resources :stagings
       resources :taggings
 

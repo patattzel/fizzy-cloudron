@@ -13,14 +13,6 @@ class CardTest < ActiveSupport::TestCase
     assert_equal "Agreed.", cards(:logo).messages.comments.last.messageable.body.to_plain_text.chomp
   end
 
-  test "boosting" do
-    assert_changes -> { cards(:logo).activity_score } do
-      assert_difference -> { cards(:logo).boosts_count }, +1 do
-        cards(:logo).boost!(cards(:logo).boosts_count+ 1)
-      end
-    end
-  end
-
   test "assignment states" do
     assert cards(:logo).assigned_to?(users(:kevin))
     assert_not cards(:logo).assigned_to?(users(:david))
@@ -72,11 +64,6 @@ class CardTest < ActiveSupport::TestCase
     card = collections(:writebook).cards.create! title: "Insufficient haggis", creator: users(:kevin)
 
     assert_includes Card.search("haggis"), card
-  end
-
-  test "ordering by boosts" do
-    cards(:layout).update! boosts_count: 1_000
-    assert_equal cards(:layout, :logo, :shipping, :text), Card.ordered_by_boosts
   end
 
   test "closed" do
