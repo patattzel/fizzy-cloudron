@@ -1,4 +1,5 @@
-<div class="card card--mini border flex flex-column gap position-relative txt-align-start full-width border-radius fill-white" style="--card-color: <%= card.color %>; view-transition-name: <%= dom_id(card, :ticket) %>;">
+<%= tag.div class: ["card card--mini border flex flex-column gap position-relative txt-align-start full-width border-radius fill-white", { "card--drafted": card.drafted? }], 
+    style: "--card-color: #{ card.color }; view-transition-name: #{ dom_id(card, :ticket) };" do %>
   <header class="card__header flex align-center gap min-width">
     <span class="card__collection txt-uppercase overflow-ellipsis txt-reversed">
       <%= card.collection.name %>
@@ -20,4 +21,4 @@
   <%= link_to collection_card_path(card.collection, card), class: "card__link" do %>
     <span class="for-screen-reader"><%= card_title(card) %></span>
   <% end %>
-</div>
+<% end %>
