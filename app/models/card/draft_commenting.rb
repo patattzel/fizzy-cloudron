@@ -1,4 +1,4 @@
-module Card::DraftCommentable
+module Card::DraftCommenting
   extend ActiveSupport::Concern
 
   included do
