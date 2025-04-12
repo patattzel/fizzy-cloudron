@@ -8,11 +8,11 @@ module Messageable
     has_one :card, through: :message
   end
 
-  def created_via(message)
+  def created_via_message
     # Overwrite in Messageable class
   end
 
-  def destroyed_via(message)
+  def destroyed_via_message
     # Overwrite in Messageable class
   end
 end

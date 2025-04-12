@@ -10,9 +10,10 @@ class Comment < ApplicationRecord
 
   before_destroy :cleanup_events
 
-  def created_via(message)
-    message.card.watch_by creator
-    message.card.track_event :commented, comment_id: id
+  # Called when a new comment is captured as a message during creation
+  def created_via_message
+    card.watch_by creator
+    card.track_event :commented, comment_id: id
   end
 
   def to_partial_path

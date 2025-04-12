@@ -5,6 +5,6 @@ class Message < ApplicationRecord
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  after_create  -> { messageable.created_via(self) }
-  after_destroy -> { messageable.destroyed_via(self) }
+  after_create  -> { messageable.created_via_message }
+  after_destroy -> { messageable.destroyed_via_message }
 end
