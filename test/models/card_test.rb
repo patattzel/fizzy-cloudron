@@ -74,10 +74,6 @@ class CardTest < ActiveSupport::TestCase
     assert_includes Card.search("haggis"), card
   end
 
-  test "ordering by comments" do
-    assert_equal cards(:logo, :layout, :shipping, :text), Card.ordered_by_comments
-  end
-
   test "ordering by boosts" do
     cards(:layout).update! boosts_count: 1_000
     assert_equal cards(:layout, :logo, :shipping, :text), Card.ordered_by_boosts

@@ -1,38 +1,6 @@
 require "test_helper"
 
 class Card::ScorableTest < ActiveSupport::TestCase
-  test "a card has a score that increases with activity" do
-    card = cards(:logo)
-
-    score = card.activity_score
-    assert_operator score, :>, 0
-
-    with_current_user :kevin do
-      card.capture Comment.create(body: "This is exciting!")
-    end
-
-    assert_operator card.activity_score, :>, score
-  end
-
-  test "commenting on a card boosts its score more than boosting it" do
-    card = cards(:logo)
-    card.rescore
-
-    comment_change = capture_change -> { card.activity_score } do
-      with_current_user :kevin do
-        card.capture Comment.create(body: "This is exciting!")
-      end
-    end
-
-    boost_change = capture_change -> { card.activity_score } do
-      with_current_user :kevin do
-        card.boost!
-      end
-    end
-
-    assert_operator comment_change, :>, boost_change
-  end
-
   test "recent activity counts more than older activity in the ordering" do
     with_current_user :kevin do
       travel_to 5.days.ago

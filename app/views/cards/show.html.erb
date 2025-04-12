@@ -1,4 +1,5 @@
 <% @page_title = card_title(@card) %>
+<%= turbo_stream_from @card %>
 
 <% content_for :header do %>
   <% if @card.creating? && @card.can_recover_abandoned_creation? %>
