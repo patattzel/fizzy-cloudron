@@ -12,7 +12,6 @@ class Event < ApplicationRecord
   scope :chronologically, -> { order created_at: :asc, id: :desc }
   scope :non_boosts, -> { where.not action: :boosted }
   scope :boosts, -> { where action: :boosted }
-  scope :comments, -> { where action: :commented }
 
   after_create -> { card.touch_last_active_at }
 
