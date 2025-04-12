@@ -11,8 +11,4 @@ module Messageable
   def created_via_message
     # Overwrite in Messageable class
   end
-
-  def destroyed_via_message
-    # Overwrite in Messageable class
-  end
 end
