@@ -27,6 +27,7 @@ module Card::DraftCommenting
       if @draft_comment.present?
         find_or_build_initial_comment.update! body: @draft_comment, creator: creator
       end
+
       @draft_comment = nil
     end
 end
