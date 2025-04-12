@@ -18,12 +18,10 @@ class Card < ApplicationRecord
   scope :chronologically, -> { order created_at: :asc, id: :asc }
   scope :latest, -> { order updated_at: :desc, id: :desc }
   scope :in_collection, ->(collection) { where collection: collection }
-  scope :ordered_by_comments, -> { order comments_count: :desc }
 
   scope :indexed_by, ->(index) do
     case index
     when "most_active"    then ordered_by_activity
-    when "most_discussed" then ordered_by_comments
     when "most_boosted"   then ordered_by_boosts
     when "newest"         then reverse_chronologically
     when "oldest"         then chronologically

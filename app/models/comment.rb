@@ -19,20 +19,8 @@ class Comment < ApplicationRecord
   end
 
   def created_via(message)
-    message.card.tap do |card|
-      card.increment! :comments_count
-      card.watch_by creator
-
-      card.track_event :commented, comment_id: id
-      card.rescore
-    end
-  end
-
-  def destroyed_via(message)
-    message.card.tap do |card|
-      card.decrement! :comments_count
-      card.rescore
-    end
+    message.card.watch_by creator
+    message.card.track_event :commented, comment_id: id
   end
 
   def to_partial_path

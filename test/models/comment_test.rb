@@ -11,20 +11,6 @@ class CommentTest < ActiveSupport::TestCase
     assert_includes Comment.search("something rustic"), message.comment
   end
 
-  test "updating card counter" do
-    assert_difference -> { cards(:logo).comments_count } do
-      assert_changes -> { cards(:logo).activity_score } do
-        cards(:logo).capture Comment.new(body: "I'd prefer something more rustic")
-      end
-    end
-
-    assert_difference -> { cards(:logo).comments_count }, -1 do
-      assert_changes -> { cards(:logo).activity_score } do
-        cards(:logo).messages.comments.last.destroy
-      end
-    end
-  end
-
   test "first_by_author_on_card?" do
     assert_not Comment.new.first_by_author_on_card?
 
