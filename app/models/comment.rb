@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
   scope :belonging_to_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
 
   after_create_commit :watch_card_by_creator, :track_commenting_on_card
-  before_destroy :cleanup_events
+  after_destroy_commit :cleanup_events
 
   def to_partial_path
     "cards/#{super}"
