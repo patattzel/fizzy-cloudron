@@ -23,6 +23,7 @@ class Comment < ApplicationRecord
   end
 
   private
+    # FIXME: This isn't right. We need to introduce an eventable polymorphic association for this.
     def cleanup_events
       # Delete events that reference directly in particulars
       Event.where(particulars: { comment_id: id }).destroy_all
