@@ -1,4 +1,4 @@
-<% @page_title = card_title(@card) %>
+<% @page_title = @card.title %>
 <%= turbo_stream_from @card %>
 
 <% content_for :header do %>

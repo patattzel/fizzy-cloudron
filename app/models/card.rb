@@ -37,6 +37,10 @@ class Card < ApplicationRecord
     end
   end
 
+  def title=(new_title)
+    self[:title] = new_title.presence || "Untitled"
+  end
+
   def cache_key
     [ super, collection&.name ].compact.join("/")
   end

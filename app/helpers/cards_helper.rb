@@ -1,8 +1,4 @@
 module CardsHelper
-  def card_title(card)
-    card.title.presence || "Untitled"
-  end
-
   def cards_next_page_link(target, page:, filter:, fetch_on_visible: false, data: {}, **options)
     url = cards_previews_path(target: target, page: page.next_param, **filter.as_params)
 

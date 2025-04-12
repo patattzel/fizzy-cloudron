@@ -8,12 +8,12 @@
     <div class="card__body flex gap full-width flex-item-grow">
       <div class="card__body-header">
         <h1 class="card__title">
-          <span class="card__title-link overflow-line-clamp"><%= card_title(card) %></span>
+          <span class="card__title-link overflow-line-clamp"><%= card.title %></span>
         </h1>
       </div>
 
       <%= link_to collection_card_path(card.collection, card), class: "card__link" do %>
-        <span class="for-screen-reader"><%= card_title(card) %></span>
+        <span class="for-screen-reader"><%= card.title %></span>
       <% end %>
 
       <%= render "cards/stagings/stages", card: card if card.doing? %>
