@@ -5,7 +5,6 @@ class Collections::WorkflowsController < ApplicationController
 
   def update
     @collection.update! workflow: @workflow
-
     redirect_to cards_path(collection_ids: [ @collection ])
   end
 
