@@ -6,7 +6,7 @@ class UploadsController < ApplicationController
 
   def create
     # FIXME: Try to get upload attachments on root
-    @upload = Account.first.uploads_attachments.create! blob: create_blob!
+    @upload = Account.sole.uploads_attachments.create! blob: create_blob!
   end
 
   def show
