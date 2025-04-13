@@ -2,7 +2,7 @@ class Cards::TaggingsController < ApplicationController
   include CardScoped
 
   def new
-    @tags = Tag.alphabetically
+    @tags = Tag.all.alphabetically
   end
 
   def create
