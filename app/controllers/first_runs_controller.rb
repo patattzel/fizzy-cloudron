@@ -14,6 +14,6 @@ class FirstRunsController < ApplicationController
 
   private
     def prevent_repeats
-      redirect_to root_path unless Account.none?
+      redirect_to root_path if Account.any?
     end
 end
