@@ -212,4 +212,22 @@
      -2px 2px 0 var(--card-color),
       2px 2px 0 var(--card-color);
   }
+
+  .card__badge {
+    --size: 48px;
+
+    block-size: var(--size);
+    border-radius: 50%;
+    inline-size: var(--size);
+
+    position: absolute;
+    inset: 50% auto 0 -1ch;
+    translate: -100% -50%;
+
+    display: grid;
+    place-content: center;
+
+    background: black;
+    color: white;
+  }
 }

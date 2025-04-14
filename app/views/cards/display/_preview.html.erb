@@ -22,5 +22,18 @@
     </footer>
 
     <%= render "cards/display/common/background", card: card %>
+
+    <% unless card.closed? %>
+      <% if card.doing? %>
+        <div class="card__badge card__badge--reconsider-soon">
+          <%= local_datetime_tag(card.auto_reconsider_at, style: :daysuntil) -%>
+        </div>
+      <% else %>
+        <div class="card__badge card__badge--closing-soon">
+          <%= local_datetime_tag(card.auto_close_at, style: :daysuntil) -%>
+        </div>
+      <% end %>
+    <% end %>
+
   <% end %>
 <% end %>
