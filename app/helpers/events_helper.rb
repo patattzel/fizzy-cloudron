@@ -71,7 +71,7 @@ module EventsHelper
         "#{ event.creator == Current.user ? "You" : event.creator.name } assigned #{ event.assignees.pluck(:name).to_sentence } to <span style='color: var(--card-color)'>#{ event.card.title }</span>".html_safe
       end
     when "unassigned"
-      "#{ event.creator == Current.user ? "You" : event.creator.name } unassigned #{ event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence } from <span style='color: var(--card-color)'>#{ card_title(event.card) }</span>".html_safe
+      "#{ event.creator == Current.user ? "You" : event.creator.name } unassigned #{ event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence } from <span style='color: var(--card-color)'>#{ event.card.title }</span>".html_safe
     when "commented"
       "#{ event.creator == Current.user ? "You" : event.creator.name } commented on <span style='color: var(--card-color)'>#{ event.card.title }</span>".html_safe
     when "published"
