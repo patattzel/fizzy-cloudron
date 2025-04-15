@@ -11,7 +11,7 @@
 <div class="panel shadow center">
   <h1 class="margin-none-block-start margin-block-end-double">Fizzy</h1>
 
-  <%= form_with model: @user, url: join_path(@account.join_code), class: "flex flex-column gap" do |form| %>
+  <%= form_with model: @user, url: join_path(params[:join_code]), class: "flex flex-column gap" do |form| %>
     <div class="flex align-center gap">
       <label class="flex align-center gap input input--actor">
         <%= form.text_field :name, class: "input full-width", autocomplete: "name", placeholder: "Name", autofocus: true, required: true, data: { "1p-ignore": true } %>
