@@ -15,7 +15,11 @@ module User::Role
     end
   end
 
-  def can_administer?(other)
+  def can_change?(other)
     admin? || other == self
+  end
+
+  def can_administer?(other)
+    admin? && other != self
   end
 end

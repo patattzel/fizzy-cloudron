@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :ensure_join_code_is_valid, only: %i[ new create ]
-  before_action :ensure_permission_to_administer_user, only:  %i[ update destroy ]
+  before_action :ensure_permission_to_change_user, only:  %i[ update destroy ]
 
   def index
     @users = User.active
@@ -44,8 +44,8 @@ class UsersController < ApplicationController
       @user = User.active.find(params[:id])
     end
 
-    def ensure_permission_to_administer_user
-      head :forbidden unless Current.user.can_administer?(@user)
+    def ensure_permission_to_change_user
+      head :forbidden unless Current.user.can_change?(@user)
     end
 
     def user_params
