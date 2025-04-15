@@ -29,7 +29,7 @@ module Card::Engageable
   end
 
   def considering?
-    active? && published? && !doing?
+    active? && published? && engagement.blank?
   end
 
   def engage
