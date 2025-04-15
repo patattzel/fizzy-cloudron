@@ -8,7 +8,7 @@ class Notifications::MarkAllReadsControllerTest < ActionDispatch::IntegrationTes
   test "show" do
     assert_changes -> { notifications(:logo_published_kevin).reload.read? }, from: false, to: true do
       assert_changes -> { notifications(:layout_commented_kevin).reload.read? }, from: false, to: true do
-        post notifications_mark_all_read_path
+        post read_all_notifications_path
       end
     end
 

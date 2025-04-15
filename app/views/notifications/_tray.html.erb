@@ -6,7 +6,7 @@
               dialog_modal_value: false, 
               dialog_target: "dialog", 
               action: "keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside" } do %>
-  <%= turbo_frame_tag("notifications", src: notifications_tray_path) -%>
+  <%= turbo_frame_tag("notifications", src: tray_notifications_path) -%>
 
   <%= link_to notifications_path, class: "tray__overflow border-radius txt-normal", data: { action: "click->dialog#close"} do %>
     <div class="notification__content border-radius shadow fill-white flex align-center txt-align-center gap full-width border txt-ink txt-small">
@@ -17,9 +17,9 @@
   <% end %>
 
   <div class="tray__actions notification-tray__actions border border-radius">
-    <%= button_to notifications_mark_all_read_path, 
-        class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small", 
-        data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
+    <%= button_to read_all_notifications_path,
+          class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small", 
+          data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       <%= icon_tag "check" %>
       <span class="for-screen-reader">Mark all read</span>
     <% end %>
