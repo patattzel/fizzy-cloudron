@@ -214,20 +214,35 @@
   }
 
   .card__badge {
-    --size: 48px;
+    --size: 5cqi;
 
+    background: var(--color-ink);
     block-size: var(--size);
     border-radius: 50%;
+    color: var(--color-ink-reversed);
+    container-type: inline-size;
+    font-size: 1.5rem;
+    font-weight: 500;
+    inset: 50% auto auto -0.5ch;
     inline-size: var(--size);
-
+    padding: 0.25cqi;
     position: absolute;
-    inset: 50% auto 0 -1ch;
     translate: -100% -50%;
 
-    display: grid;
-    place-content: center;
+    span {
+      display: grid;
+      inset: 0;
+      font-size: 45cqi;
+      font-weight: bold;
+      place-content: center;
+      position: absolute;
+      text-align: center;
+    }
 
-    background: black;
-    color: white;
+    svg {
+      display: block;
+      letter-spacing: 0.25ch;
+      text-transform: uppercase;
+    }
   }
 }
