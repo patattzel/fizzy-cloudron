@@ -216,24 +216,24 @@
   .card__badge {
     --size: 5cqi;
 
-    background: var(--color-ink);
+    border: 1px solid currentColor;
     block-size: var(--size);
     border-radius: 50%;
-    color: var(--color-ink-reversed);
+    color: var(--color-negative);
     container-type: inline-size;
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: bold;
     inset: 50% auto auto -0.5ch;
     inline-size: var(--size);
-    padding: 0.25cqi;
+    padding: calc(var(--size) * 0.05);
     position: absolute;
+    transform: rotate(-10deg);
     translate: -100% -50%;
 
     span {
       display: grid;
       inset: 0;
       font-size: 45cqi;
-      font-weight: bold;
       place-content: center;
       position: absolute;
       text-align: center;
