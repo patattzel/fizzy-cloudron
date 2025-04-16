@@ -55,7 +55,7 @@ Rails.application.routes.draw do
       post "reading",  to: "readings#create",     on: :member,     as: :read
     end
   end
- 
+
   resources :filters
 
   resources :events, only: :index
