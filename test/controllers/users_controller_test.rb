@@ -5,8 +5,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     sign_in_as :kevin
 
     get users_path
-    assert_match /#{users(:david).name}/, @response.body 
-    assert_match /#{users(:kevin).name}/, @response.body 
+    assert_match /#{users(:david).name}/, @response.body
+    assert_match /#{users(:kevin).name}/, @response.body
   end
 
   test "new" do
@@ -20,7 +20,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "create" do
     assert_difference -> { User.active.count }, +1 do
       post users_path(params: { join_code: accounts(:"37s").join_code }),
-        params: { user: { name: "Dash", email_address: "dash@example.com", password: "123" } } 
+        params: { user: { name: "Dash", email_address: "dash@example.com", password: "123" } }
       assert_redirected_to root_path
     end
 
@@ -32,7 +32,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     sign_in_as :kevin
 
     get user_path(users(:david))
-    assert_match /#{users(:david).name}/, @response.body 
+    assert_match /#{users(:david).name}/, @response.body
   end
 
   test "update oneself" do
