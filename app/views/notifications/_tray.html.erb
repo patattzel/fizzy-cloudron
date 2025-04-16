@@ -15,13 +15,13 @@
 
   <div class="tray__actions notification-tray__actions border border-radius">
     <%= button_to read_all_notifications_path,
-          class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small", 
+          class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small",
           data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       <%= icon_tag "check" %> <span class="for-screen-reader">Mark all read</span>
     <% end %>
 
     <%= link_to tag.span("Notifications"), notifications_path,
-          class: "btn btn--reversed borderless fill-transparent translucent shadow center txt-uppercase txt-x-small", 
+          class: "btn btn--reversed borderless fill-transparent translucent shadow center txt-uppercase txt-x-small",
           data: { action: "click->dialog#close" } %>
 
     <span class="btn btn--placeholder txt-xx-small borderless"></span>
