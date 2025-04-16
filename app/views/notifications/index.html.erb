@@ -22,6 +22,7 @@
 
     <%= render partial: "notifications/notification", collection: @unread, cached: true %>
   <% else %>
+    <%# FIXME: Need to reveal this section if there are unread notification records in it %>
     <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
       <strong>Nothing new for you.</strong>
     </div>
