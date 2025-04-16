@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { differenceInDays } from "helpers/date_helpers"
 
 export default class extends Controller {
-  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago", "daysuntil" ]
+  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago" ]
 
   #timer
 
@@ -14,7 +14,6 @@ export default class extends Controller {
     this.agoFormatter = new AgoFormatter()
     this.daysagoFormatter = new DaysAgoFormatter()
     this.indaysFormatter = new InDaysFormatter()
-    this.daysuntilFormatter = new DaysUntilFormatter()
   }
 
   connect() {
@@ -59,10 +58,6 @@ export default class extends Controller {
 
   daysagoTargetConnected(target) {
     this.#formatTime(this.daysagoFormatter, target)
-  }
-
-  daysuntilTargetConnected(target) {
-    this.#formatTime(this.daysuntilFormatter, target)
   }
 
   #refreshRelativeTimes() {
@@ -123,13 +118,6 @@ class InDaysFormatter {
     if (days <= 0) return styleableValue("today")
     if (days === 1) return styleableValue("tomorrow")
     return `in ${styleableValue(days)} days`
-  }
-}
-
-class DaysUntilFormatter {
-  format(date) {
-    const days = differenceInDays(new Date(), date)
-    return styleableValue(days)
   }
 }
 
