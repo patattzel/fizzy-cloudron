@@ -9,16 +9,18 @@ class Notification < ApplicationRecord
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
 
   delegate :creator, to: :event
+  after_create_commit :broadcast
 
-  broadcasts_to ->(notification) { [ notification.user, :notifications ] }, inserts_by: :prepend
-
-  class << self
-    def read_all
-      update!(read_at: Time.current)
-    end
+  def self.read_all
+    update!(read_at: Time.current)
   end
 
   def read?
     read_at.present?
   end
+
+  private
+    def broadcast
+      broadcast_prepend_to user, :notifications, target: "notifications"
+    end
 end
