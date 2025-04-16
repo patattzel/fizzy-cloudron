@@ -20,7 +20,7 @@
       <%= button_to "Mark all as read", read_all_notifications_path, class: "btn txt-small" %>
     </div>
 
-    <%= render @unread %>
+    <%= render partial: "notifications/notification", collection: @unread, cached: true %>
   <% else %>
     <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
       <strong>Nothing new for you.</strong>
@@ -33,7 +33,7 @@
   <h2 class="txt-medium margin-block-start-double margin-block-end-half txt-uppercase translucent">Previously seen</h2>
 
   <div id="notifications_list_read">
-    <%= render @page.records %>
+    <%= render partial: "notifications/notification", collection: @page.records, cached: true %>
   </div>
 </section>
 
