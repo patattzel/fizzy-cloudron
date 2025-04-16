@@ -9,7 +9,7 @@ class Notification < ApplicationRecord
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
 
   delegate :creator, to: :event
-  after_create_commit :broadcast
+  after_create_commit :broadcast_unread
 
   def self.read_all
     update!(read_at: Time.current)
@@ -24,7 +24,7 @@ class Notification < ApplicationRecord
   end
 
   private
-    def broadcast
+    def broadcast_unread
       broadcast_prepend_later_to user, :notifications, target: "notifications"
     end
 end
