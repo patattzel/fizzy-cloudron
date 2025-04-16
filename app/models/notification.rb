@@ -15,6 +15,10 @@ class Notification < ApplicationRecord
     update!(read_at: Time.current)
   end
 
+  def read
+    update!(read_at: Time.current)
+  end
+
   def read?
     read_at.present?
   end
