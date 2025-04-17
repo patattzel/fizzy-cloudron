@@ -22,9 +22,7 @@
       <%= turbo_frame_tag card, :watch, src: card_watch_path(card) %>
       <%= turbo_frame_tag card, :pin, src: card_pin_path(card) %>
     </aside>
-  <% end %>
 
-  <% unless card.drafted? || card.creating? %>
     <%= render "cards/container/closure", card: card %>
   <% end %>
 </section>
