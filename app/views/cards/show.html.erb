@@ -31,7 +31,7 @@
 
 <div data-controller="beacon" data-beacon-url-value="<%= card_reading_url(@card) %>">
   <section id="<%= dom_id(@card, :card_container) %>" class="card-perma <%= "card-perma--pointing" unless @card.published? %>" style="--card-color: <%= @card.color %>;">
-    <%= render "cards/doing_toggle", card: @card %>
+    <%= render "cards/engagement", card: @card %>
 
     <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
       <%= render "cards/golden_toggle", card: @card if @card.doing? %>
