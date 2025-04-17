@@ -6,16 +6,12 @@ class Cards::PinsController < ApplicationController
 
   def create
     pin = @card.pin_by Current.user
-
     broadcast_my_new pin
-    redirect_to card_pin_path(@card)
   end
 
   def destroy
     pin = @card.unpin_by Current.user
-
     broadcast_my_removed pin
-    redirect_to card_pin_path(@card)
   end
 
   private
