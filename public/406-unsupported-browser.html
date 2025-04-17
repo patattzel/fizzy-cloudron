@@ -13,10 +13,10 @@
 
     body {
       --lch-ink: 0% 0 0;
-      --lch-gray: 75% 0.005 96;
+      --lch-ink-lighter: 75% 0.005 96;
       --lch-ink-inverted: 100% 0 0;
 
-      --color-border: oklch(var(--lch-gray));
+      --color-border: oklch(var(--lch-ink-lighter));
       --color-canvas: oklch(var(--lch-ink-inverted));
       --color-text: oklch(var(--lch-ink));
 
@@ -33,7 +33,7 @@
 
       @media (prefers-color-scheme: dark) {
         --lch-ink: 100% 0 0;
-        --lch-gray: 45% 0 0;
+        --lch-ink-lighter: 45% 0 0;
         --lch-ink-inverted: 0% 0 0;
       }
     }

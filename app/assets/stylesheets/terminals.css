@@ -12,7 +12,7 @@
     z-index: 1;
 
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-always-black);
+      background-color: var(--color-black);
       border-block-start: 1px solid var(--color-subtle-dark);
     }
 
@@ -29,12 +29,12 @@
       font-family: inherit;
 
       &::placeholder {
-        color: var(--color-always-white);
+        color: var(--color-white);
         opacity: 0.5;
       }
 
       .terminal__link & {
-        color: var(--color-always-white);
+        color: var(--color-white);
         opacity: 0.5;
       }
     }
