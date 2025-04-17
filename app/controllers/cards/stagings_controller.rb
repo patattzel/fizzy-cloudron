@@ -9,6 +9,8 @@ class Cards::StagingsController < ApplicationController
     else
       @card.update!(stage: nil)
     end
+
+    render_card_replacement
   end
 
   private

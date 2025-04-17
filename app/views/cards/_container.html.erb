@@ -1,0 +1,25 @@
+<section id="<%= dom_id(card, :card_container) %>"
+    class="card-perma <%= "card-perma--pointing" unless card.published? %>" style="--card-color: <%= card.color %>;">
+  <%= render "cards/container/engagement", card: card %>
+
+  <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
+    <%= render "cards/container/gild", card: card if card.doing? %>
+    <%= render "cards/container/image", card: card %>
+
+    <%= button_to_delete_card(card) %>
+  </aside>
+
+  <div class="card-perma__bg">
+    <%= render "cards/display/perma", card: card %>
+  </div>
+
+  <% if card.published? %>
+    <%# FIXME: Let's move this aside outside of the card container section so these frames don't reload/flicker when card is replaced %>
+    <aside class="card-perma__actions card-perma__actions--right" role="toolbar">
+      <%= turbo_frame_tag card, :watch, src: card_watch_path(card) %>
+      <%= turbo_frame_tag card, :pin, src: card_pin_path(card) %>
+    </aside>
+
+    <%= render "cards/container/closure", card: card %>
+  <% end %>
+</section>
