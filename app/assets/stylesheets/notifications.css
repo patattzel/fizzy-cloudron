@@ -94,3 +94,11 @@
     }
   }
 }
+
+.notificiations-list--read {
+  display: none;
+
+  &:has(.notification) {
+    display: flex;
+  }
+}
