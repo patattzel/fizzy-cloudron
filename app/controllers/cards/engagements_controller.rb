@@ -3,11 +3,11 @@ class Cards::EngagementsController < ApplicationController
 
   def create
     @card.engage
-    rerender_card_container
+    rerender_card
   end
 
   def destroy
     @card.reconsider
-    rerender_card_container
+    rerender_card
   end
 end

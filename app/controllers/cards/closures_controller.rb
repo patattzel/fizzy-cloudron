@@ -3,11 +3,11 @@ class Cards::ClosuresController < ApplicationController
 
   def create
     @card.close(user: Current.user, reason: params[:reason])
-    rerender_card_container
+    rerender_card
   end
 
   def destroy
     @card.reopen
-    rerender_card_container
+    rerender_card
   end
 end

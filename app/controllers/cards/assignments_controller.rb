@@ -6,6 +6,6 @@ class Cards::AssignmentsController < ApplicationController
 
   def create
     @card.toggle_assignment @collection.users.active.find(params[:assignee_id])
-    rerender_card_container
+    rerender_card
   end
 end

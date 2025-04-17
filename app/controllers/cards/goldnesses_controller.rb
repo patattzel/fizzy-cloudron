@@ -3,11 +3,11 @@ class Cards::GoldnessesController < ApplicationController
 
   def create
     @card.gild
-    rerender_card_container
+    rerender_card
   end
 
   def destroy
     @card.ungild
-    rerender_card_container
+    rerender_card
   end
 end
