@@ -16,10 +16,10 @@ class Cards::PinsController < ApplicationController
 
   private
     def broadcast_add_to_tray(pin)
-      pin.broadcast_prepend_later_to [ Current.user, :pins ], target: "pins", partial: "my/pins/pin"
+      pin.broadcast_prepend_later_to [ Current.user, :pins_tray ], target: "pins", partial: "my/pins/pin"
     end
 
     def broadcast_remove_from_tray(pin)
-      pin.broadcast_remove_to [ Current.user, :pins ]
+      pin.broadcast_remove_to [ Current.user, :pins_tray ]
     end
 end
