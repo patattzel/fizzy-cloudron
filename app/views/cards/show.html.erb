@@ -48,8 +48,8 @@
 
     <% if @card.published? %>
       <aside class="card-perma__actions card-perma__actions--right" role="toolbar">
-        <%= turbo_frame_tag dom_id(@card, :watch), src: card_watch_path(@card), refresh: :morph %>
-        <%= turbo_frame_tag dom_id(@card, :pin), src: card_pin_path(@card), refresh: :morph %>
+        <%= turbo_frame_tag dom_id(@card, :watch), src: card_watch_path(@card) %>
+        <%= turbo_frame_tag dom_id(@card, :pin), src: card_pin_path(@card) %>
       </aside>
     <% end %>
 
