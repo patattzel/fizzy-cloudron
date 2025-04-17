@@ -35,6 +35,6 @@
   <% if @card.published? %>
     <%= render "cards/messages", card: @card %>
   <% else %>
-    <%= render "cards/card_description_as_a_comment", card: @card %>
+    <%= render "cards/description_as_draft_comment", card: @card %>
   <% end %>
 </div>
