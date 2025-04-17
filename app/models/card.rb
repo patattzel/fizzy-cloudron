@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Colored, DraftCommenting, Engageable, Eventable, Golden,
+  include Assignable, Colored, Engageable, Eventable, Golden,
     Messages, Notifiable, Pinnable, Closeable, Scorable, Searchable, Staged,
     Statuses, Taggable, Watchable
 
