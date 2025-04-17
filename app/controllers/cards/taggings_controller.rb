@@ -7,7 +7,7 @@ class Cards::TaggingsController < ApplicationController
 
   def create
     @card.toggle_tag_with sanitized_tag_title_param
-    rerender_card
+    render_card_replacement
   end
 
   private
