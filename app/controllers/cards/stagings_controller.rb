@@ -9,6 +9,8 @@ class Cards::StagingsController < ApplicationController
     else
       @card.update!(stage: nil)
     end
+    
+    rerender_card_container
   end
 
   private
