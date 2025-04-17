@@ -39,91 +39,90 @@
 
   /* OKLCH colors: Light mode */
   --lch-canvas: var(--lch-white);
-
-  --lch-ink-darkest: 32% 0.008 260;
-  --lch-ink-darker: 42% 0.007 260;
-  --lch-ink-dark: 56.5% 0.006 260;
-  --lch-ink-medium: 70% 0.005 260;
-  --lch-ink-light: 84% 0.004 260;
-  --lch-ink-lighter: 92% 0.003 260;
-  --lch-ink-lightest: 96% 0.002 260;
-
   --lch-ink-inverted: var(--lch-white);
 
-  --lch-uncolor-darkest: 32% 0.018 40;
-  --lch-uncolor-darker: 42% 0.03 50;
+  --lch-ink-darkest: 28% 0.008 264;
+  --lch-ink-darker: 40% 0.007 262;
+  --lch-ink-dark: 56.5% 0.006 260;
+  --lch-ink-medium: 70% 0.005 258;
+  --lch-ink-light: 84% 0.004 256;
+  --lch-ink-lighter: 92% 0.003 254;
+  --lch-ink-lightest: 96% 0.002 252;
+
+  --lch-uncolor-darkest: 28% 0.018 40;
+  --lch-uncolor-darker: 40% 0.03 50;
   --lch-uncolor-dark: 58% 0.04 60;
   --lch-uncolor-medium: 70% 0.044 70;
   --lch-uncolor-light: 84% 0.028 80;
   --lch-uncolor-lighter: 92% 0.014 90;
   --lch-uncolor-lightest: 96% 0.012 100;
 
-  --lch-red-darkest: 32% 0.105 34;
-  --lch-red-darker: 43.1% 0.166 36;
+  --lch-red-darkest: 28% 0.105 34;
+  --lch-red-darker: 40% 0.154 36;
   --lch-red-dark: 59% 0.19 38;
   --lch-red-medium: 70.4% 0.19 40;
   --lch-red-light: 84% 0.07 42;
   --lch-red-lighter: 92% 0.03 44;
-  --lch-red-lightest: 96% 0.013 48;
+  --lch-red-lightest: 96% 0.013 46;
 
-  --lch-yellow-darkest: 32% 0.0729 40;
-  --lch-yellow-darker: 42% 0.124 50;
+  --lch-yellow-darkest: 28% 0.0729 40;
+  --lch-yellow-darker: 40% 0.12 50;
   --lch-yellow-dark: 58% 0.156 60;
   --lch-yellow-medium: 76% 0.17 70;
   --lch-yellow-light: 84% 0.12 80;
   --lch-yellow-lighter: 92% 0.076 90;
   --lch-yellow-lightest: 96% 0.034 100;
 
-  --lch-lime-darkest: 32% 0.066 109;
-  --lch-lime-darker: 42% 0.104 110;
+  --lch-lime-darkest: 28% 0.066 109;
+  --lch-lime-darker: 40% 0.101 110;
   --lch-lime-dark: 56.5% 0.142 111;
   --lch-lime-medium: 71% 0.158 112;
   --lch-lime-light: 84% 0.08 113;
   --lch-lime-lighter: 92% 0.046 114;
   --lch-lime-lightest: 96% 0.034 115;
 
-  --lch-green-darkest: 32% 0.0705 149;
-  --lch-green-darker: 42% 0.12 148;
+  --lch-green-darkest: 28% 0.071 149;
+  --lch-green-darker: 40% 0.12 148;
   --lch-green-dark: 55.5% 0.162 147;
   --lch-green-medium: 70% 0.19 146;
   --lch-green-light: 84% 0.07 145;
   --lch-green-lighter: 92% 0.044 144;
   --lch-green-lightest: 96% 0.022 143;
 
-  --lch-aqua-darkest: 32% 0.059 214;
-  --lch-aqua-darker: 42% 0.097 212;
+  --lch-aqua-darkest: 28% 0.059 214;
+  --lch-aqua-darker: 40% 0.093 212;
   --lch-aqua-dark: 55.5% 0.122 210;
   --lch-aqua-medium: 70% 0.13 208;
   --lch-aqua-light: 84% 0.04 206;
   --lch-aqua-lighter: 92% 0.02 204;
   --lch-aqua-lightest: 96% 0.012 202;
 
-  --lch-blue-darkest: 32% 0.106 264;
-  --lch-blue-darker: 42% 0.166 262;
+  --lch-blue-darkest: 28% 0.126 264;
+  --lch-blue-darker: 40% 0.166 262;
   --lch-blue-dark: 57% 0.19 260;
   --lch-blue-medium: 70% 0.169 258;
   --lch-blue-light: 84% 0.06 256;
   --lch-blue-lighter: 92% 0.026 254;
   --lch-blue-lightest: 96% 0.016 252;
 
-  --lch-violet-darkest: 32% 0.144 292;
-  --lch-violet-darker: 42% 0.2 290;
+  --lch-violet-darkest: 28% 0.148 292;
+  --lch-violet-darker: 40% 0.2 290;
   --lch-violet-dark: 58% 0.216 288;
   --lch-violet-medium: 70% 0.178 286;
-  --lch-violet-light: 84% 0.07 284.3;
+  --lch-violet-light: 84% 0.07 284;
   --lch-violet-lighter: 92% 0.03 282;
   --lch-violet-lightest: 96% 0.015 280;
 
-  --lch-purple-darkest: 32% 0.127 314;
-  --lch-purple-darker: 42% 0.178 312;
+  --lch-purple-darkest: 28% 0.131 314;
+  --lch-purple-darker: 40% 0.178 312;
   --lch-purple-dark: 58% 0.21 310;
   --lch-purple-medium: 70% 0.22 308;
   --lch-purple-light: 84% 0.07 306;
   --lch-purple-lighter: 92% 0.03 304;
   --lch-purple-lightest: 96% 0.019 302;
 
-  --lch-pink-darkest: 32% 0.12 348;
-  --lch-pink-darker: 42% 0.16 346;
+  --lch-pink-darkest: 28% 0.12 348;
+  --lch-pink-darker: 40% 0.16 346;
   --lch-pink-dark: 59% 0.188 344;
   --lch-pink-medium: 70% 0.198 342;
   --lch-pink-light: 84% 0.07 340;
@@ -246,10 +245,8 @@
 
   /* Colors: Abstractions */
   --color-canvas: oklch(var(--lch-canvas));
-
   --color-negative: oklch(var(--lch-red-dark));
   --color-positive: oklch(var(--lch-green-dark));
-
   --color-link: oklch(var(--lch-blue-dark));
   --color-selected: oklch(var(--lch-blue-lighter));
   --color-selected-dark: oklch(var(--lch-blue-light));
@@ -257,4 +254,6 @@
   --color-marker: oklch(var(--lch-red-medium));
   --color-container: oklch(var(--lch-aqua-lighter));
   --color-golden: oklch(var(--lch-yellow-light));
+  --color-terminal-bg: oklch(var(--lch-blue-darkest));
+  --color-terminal-text: oklch(var(--lch-green-medium));
 }
