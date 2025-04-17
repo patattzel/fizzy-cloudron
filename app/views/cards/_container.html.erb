@@ -1,8 +1,14 @@
 <section id="<%= dom_id(card, :card_container) %>"
-    class="card-perma <%= "card-perma--pointing" unless card.published? %>" style="--card-color: <%= card.color %>;">
+    class="card-perma" style="--card-color: <%= card.color %>;">
   <%= render "cards/container/engagement", card: card %>
 
   <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
+    <% if card.published? %>
+      <%= link_to edit_collection_card_path(card.collection, card), class: "btn", data: { turbo_frame: dom_id(card, :edit) } do %>
+        <%= icon_tag "pencil" %>
+        <span class="for-screen-reader">Edit</span>
+      <% end %>
+    <% end %>
     <%= render "cards/container/gild", card: card if card.doing? %>
     <%= render "cards/container/image", card: card %>
 
@@ -39,5 +45,10 @@
     </aside>
 
     <%= render "cards/container/closure", card: card %>
+  <% elsif card.creating? %>
+    <div class="card-perma__notch card-perma__notch--bottom">
+      <%= button_to "Create card", card_publish_path(card), class: "btn" %>
+      <%= button_to "Save as draft", collection_card_path(card.collection, card), name: "card[status]", value: "drafted", method: :put, class: "btn btn--reversed" %>
+    </div>
   <% end %>
 </section>
