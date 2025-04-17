@@ -25,14 +25,14 @@ class CardsController < ApplicationController
   def edit
   end
 
+  def update
+    @card.update! card_params
+    render_card_replacement
+  end
+
   def destroy
     @card.destroy!
     redirect_to cards_path(collection_ids: [ @card.collection ]), notice: ("Card deleted" unless @card.creating?)
-  end
-
-  def update
-    @card.update! card_params
-    redirect_to @card
   end
 
   private
@@ -50,5 +50,9 @@ class CardsController < ApplicationController
 
     def card_params
       params.expect(card: [ :status, :title, :description, :image, tag_ids: [] ])
+    end
+
+    def render_card_replacement
+      render turbo_stream: turbo_stream.replace([ @card, :card_container ], partial: "cards/container", locals: { card: @card.reload })
     end
 end

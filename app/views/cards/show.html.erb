@@ -30,45 +30,11 @@
 <% end %>
 
 <div data-controller="beacon" data-beacon-url-value="<%= card_reading_url(@card) %>">
-  <section id="<%= dom_id(@card, :card_container) %>" class="card-perma" style="--card-color: <%= @card.color %>;">
-
-    <%= render "cards/doing_toggle", card: @card %>
-
-    <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
-      <%= render "cards/golden_toggle", card: @card if @card.doing? %>
-      <%= render "cards/image", card: @card %>
-      <%= button_to collection_card_path(@card.collection, @card),
-            method: :delete,
-            class: "btn",
-            data: { turbo_confirm: "Are you sure you want to delete this?" } do %>
-        <%= icon_tag "trash" %>
-        <span class="for-screen-reader">Delete</span>
-      <% end %>
-    </aside>
-
-    <div class="card-perma__bg">
-      <%= render "cards/display/perma", card: @card %>
-    </div>
-
-    <% if @card.published? %>
-      <aside class="card-perma__actions card-perma__actions--right" role="toolbar">
-        <%= turbo_frame_tag dom_id(@card, :watch), src: card_watch_path(@card), refresh: :morph %>
-        <%= turbo_frame_tag dom_id(@card, :pin), src: card_pin_path(@card), refresh: :morph %>
-      </aside>
-    <% end %>
-
-    <% if @card.creating? %>
-      <div class="card-perma__notch card-perma__notch--bottom">
-        <%= button_to "Create card", card_publish_path(@card), class: "btn btn--reversed" %>
-        <%= button_to "Save as draft", collection_card_path(@card.collection, @card), name: "card[status]", value: "drafted", method: :put, class: "btn" %>
-      </div>
-    <% elsif @card.published? %>
-      <%= render "cards/closure_toggle", card: @card %>
-    <% end %>
-  </section>
-
+  <%= render "cards/container", card: @card %>
 
   <% if @card.published? %>
     <%= render "cards/messages", card: @card %>
+  <% else %>
+    <%= render "cards/description_as_draft_comment", card: @card %>
   <% end %>
 </div>
