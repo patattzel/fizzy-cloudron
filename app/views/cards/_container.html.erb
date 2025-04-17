@@ -22,6 +22,6 @@
   <% end %>
 
   <% unless card.drafted? || card.creating? %>
-    <%= render "cards/closure_toggle", card: card %>
+    <%= render "cards/closure", card: card %>
   <% end %>
 </section>
