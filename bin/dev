@@ -2,4 +2,4 @@
 
 echo "Starting Fizzy on http://development-tenant.fizzy.localhost:3006"
 
-SOLID_QUEUE_IN_PUMA=true exec ./bin/rails server -p 3006
+exec ./bin/rails server -p 3006
