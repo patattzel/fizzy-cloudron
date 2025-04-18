@@ -1,5 +1,5 @@
 <% if workflow = card.collection.workflow %>
-  <div id="<%= dom_id(card, "stages") %>" class="card__stages">
+  <div id="<%= dom_id(card, :stages) %>" class="card__stages">
     <% workflow.stages.each do |stage| %>
       <%= button_to_set_stage card, stage %>
     <% end %>
