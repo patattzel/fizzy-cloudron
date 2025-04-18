@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   include Assignable, Colored, DraftCommenting, Engageable, Eventable, Golden,
-    Messages, Notifiable, Pinnable, Closeable, Scorable, Searchable, Staged,
+    Messages, Notifiable, Pinnable, Closeable, Searchable, Staged,
     Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
@@ -21,12 +21,11 @@ class Card < ApplicationRecord
 
   scope :indexed_by, ->(index) do
     case index
-    when "most_active"    then ordered_by_activity
-    when "newest"         then reverse_chronologically
-    when "oldest"         then chronologically
-    when "latest"         then latest
-    when "stalled"        then ordered_by_staleness
-    when "closed"         then closed
+    when "newest"  then reverse_chronologically
+    when "oldest"  then chronologically
+    when "latest"  then latest
+    when "stalled" then chronologically
+    when "closed"  then closed
     end
   end
 
