@@ -27,7 +27,12 @@ class CardsController < ApplicationController
 
   def update
     @card.update! card_params
-    render_card_replacement
+
+    if @card.published?
+      render_card_replacement
+    else
+      redirect_to @card
+    end
   end
 
   def destroy
