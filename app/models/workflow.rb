@@ -8,6 +8,6 @@ class Workflow < ApplicationRecord
   private
     def create_default_stages
       Workflow::Stage.insert_all \
-        DEFAULT_STAGES.collect { |default_stage_name| { workflow_id: id , name: default_stage_name } }
+        DEFAULT_STAGES.collect { |default_stage_name| { workflow_id: id, name: default_stage_name } }
     end
 end
