@@ -6,10 +6,6 @@ module Card::Eventable
     before_create { self.last_active_at = Time.current }
   end
 
-  def touch_last_active_at
-    touch :last_active_at
-  end
-
   def track_event(action, creator: Current.user, **particulars)
     if published?
       event = find_or_capture_event_summary.events.create! action: action, creator: creator, card: self, particulars: particulars

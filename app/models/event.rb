@@ -10,7 +10,7 @@ class Event < ApplicationRecord
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  after_create -> { card.touch_last_active_at }
+  after_create -> { card.touch(:last_active_at) }
 
   def commented?
     action == "commented"
