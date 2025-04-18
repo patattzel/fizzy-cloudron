@@ -17,7 +17,6 @@ class Card < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
   scope :latest, -> { order updated_at: :desc, id: :desc }
-  scope :in_collection, ->(collection) { where collection: collection }
 
   scope :indexed_by, ->(index) do
     case index

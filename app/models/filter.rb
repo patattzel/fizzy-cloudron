@@ -24,7 +24,7 @@ class Filter < ApplicationRecord
       result = result.unassigned if assignment_status.unassigned?
       result = result.assigned_to(assignees.ids) if assignees.present?
       result = result.where(creator_id: creators.ids) if creators.present?
-      result = result.in_collection(collections.ids) if collections.present?
+      result = result.where(collection: collections.ids) if collections.present?
       result = result.in_stage(stages.ids) if stages.present?
       result = result.tagged_with(tags.ids) if tags.present?
       result = terms.reduce(result) do |result, term|
