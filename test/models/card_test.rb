@@ -88,8 +88,8 @@ class CardTest < ActiveSupport::TestCase
 
   test "in collection" do
     new_collection = Collection.create! name: "New Collection", creator: users(:david)
-    assert_equal cards(:logo, :shipping, :layout, :text), Card.in_collection(collections(:writebook))
-    assert_empty Card.in_collection(new_collection)
+    assert_equal cards(:logo, :shipping, :layout, :text), Card.where(collection: collections(:writebook))
+    assert_empty Card.where(collection: new_collection)
   end
 
   test "tagged with" do
