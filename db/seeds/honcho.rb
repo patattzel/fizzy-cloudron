@@ -19,4 +19,3 @@ create_collection("Mucho", access_to: [ jz, kevin ]).tap do |fizzy|
     card.close
   end
 end
-
