@@ -58,6 +58,7 @@
 
   /* Markdown Content */
   .house-md-content {
+    caret-color: var(--color-link);
     flex-grow: 1;
     font-family: var(--font-sans);
     text-align: left;
@@ -66,7 +67,7 @@
 
     &.house-md-content-empty::before {
       content: attr(placeholder);
-      color: currentColor;
+      color: var(--color-ink);
       opacity: 0.5;
       pointer-events: none;
       display: block;

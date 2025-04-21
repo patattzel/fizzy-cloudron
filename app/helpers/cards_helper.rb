@@ -19,8 +19,7 @@ module CardsHelper
     classes = [
       options.delete(:class),
       ("card--golden" if card.golden?),
-      ("card--doing" if card.doing?),
-      ("card--drafted" if card.drafted?)
+      ("card--doing" if card.doing?)
     ].compact.join(" ")
 
     tag.article \
