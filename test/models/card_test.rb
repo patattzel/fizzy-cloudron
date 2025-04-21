@@ -120,11 +120,4 @@ class CardTest < ActiveSupport::TestCase
 
     assert_includes card.cache_key, ApplicationRecord.current_tenant, "cache key must always include the tenant"
   end
-
-  test "cache key gracefully handles a nil collection" do
-    card = cards(:logo)
-    card.update_column :collection_id, Collection.last.id + 1
-
-    assert_nothing_raised { card.reload.cache_key }
-  end
 end

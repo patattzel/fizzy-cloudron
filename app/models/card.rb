@@ -31,6 +31,6 @@ class Card < ApplicationRecord
   end
 
   def cache_key
-    [ super, collection&.name ].compact.join("/")
+    [ super, collection.name ].compact.join("/")
   end
 end
