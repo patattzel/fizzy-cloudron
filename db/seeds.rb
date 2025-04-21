@@ -3,7 +3,7 @@ raise "Seeding is just for development" unless Rails.env.development?
 # Seed DSL
 def seed_account(name)
   print "  #{name}…"
-  elapsed = Benchmark.realtime { require_relative name }
+  elapsed = Benchmark.realtime { require_relative "seeds/#{name}" }
   puts " #{elapsed.round(2)} sec"
 end
 
@@ -30,9 +30,7 @@ def create_collection(name, creator: Current.user, all_access: true, access_to: 
 end
 
 def create_card(title, collection:, description: nil, status: :published, creator: Current.user)
-  collection.cards.create!(title:, creator:, status:).tap do |card|
-    card.capture(Comment.new(body: description)) if description
-  end
+  collection.cards.create!(title:, description:, creator:, status:)
 end
 
 # Seed accounts
