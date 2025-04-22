@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_18_150259) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_22_091602) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -180,7 +180,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_18_150259) do
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
-    t.date "due_date"
     t.json "particulars", default: {}
     t.integer "summary_id", null: false
     t.datetime "updated_at", null: false

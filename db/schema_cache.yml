@@ -80,7 +80,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &28 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &26 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: user_id
     cast_type: *1
@@ -389,12 +389,12 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: due_on
-    cast_type: &24 !ruby/object:ActiveRecord::Type::Date
+    cast_type: !ruby/object:ActiveRecord::Type::Date
       precision:
       scale:
       limit:
       timezone:
-    sql_type_metadata: &25 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+    sql_type_metadata: !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
       sql_type: date
       type: :date
       limit:
@@ -435,7 +435,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &30 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &28 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: title
     cast_type: *7
@@ -490,11 +490,11 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: all_access
-    cast_type: &31 !ruby/object:ActiveModel::Type::Boolean
+    cast_type: &29 !ruby/object:ActiveModel::Type::Boolean
       precision:
       scale:
       limit:
-    sql_type_metadata: &32 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+    sql_type_metadata: &30 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
       sql_type: boolean
       type: :boolean
       limit:
@@ -551,22 +551,12 @@ columns:
   - *23
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
-    name: due_date
-    cast_type: *24
-    sql_type_metadata: *25
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
     name: particulars
-    cast_type: &26 !ruby/object:ActiveRecord::Type::Json
+    cast_type: &24 !ruby/object:ActiveRecord::Type::Json
       precision:
       scale:
       limit:
-    sql_type_metadata: &27 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+    sql_type_metadata: &25 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
       sql_type: json
       type: :json
       limit:
@@ -595,8 +585,8 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: fields
-    cast_type: *26
-    sql_type_metadata: *27
+    cast_type: *24
+    sql_type_metadata: *25
     'null': false
     default: "{}"
     default_function:
@@ -627,7 +617,7 @@ columns:
     comment:
   filters_tags:
   - *18
-  - &29 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &27 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: tag_id
     cast_type: *1
@@ -707,13 +697,13 @@ columns:
     collation:
     comment:
   - *9
-  - *28
+  - *26
   pins:
   - *5
   - *21
   - *6
   - *9
-  - *28
+  - *26
   reactions:
   - *5
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
@@ -793,25 +783,25 @@ columns:
     default_function:
     collation:
     comment:
-  - *28
+  - *26
   taggings:
   - *5
   - *21
   - *6
-  - *29
+  - *27
   - *9
   tags:
   - *5
   - *6
-  - *30
+  - *28
   - *9
   users:
   - *5
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: active
-    cast_type: *31
-    sql_type_metadata: *32
+    cast_type: *29
+    sql_type_metadata: *30
     'null': false
     default: true
     default_function:
@@ -855,12 +845,12 @@ columns:
   - *21
   - *6
   - *9
-  - *28
+  - *26
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: watching
-    cast_type: *31
-    sql_type_metadata: *32
+    cast_type: *29
+    sql_type_metadata: *30
     'null': false
     default: true
     default_function:
@@ -1938,4 +1928,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250418150259
+version: 20250422091602
