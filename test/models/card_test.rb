@@ -70,8 +70,8 @@ class CardTest < ActiveSupport::TestCase
     assert_equal [ cards(:shipping) ], Card.closed
   end
 
-  test "active" do
-    assert_equal cards(:logo, :layout, :text), Card.active
+  test "open" do
+    assert_equal cards(:logo, :layout, :text), Card.open
   end
 
   test "unassigned" do

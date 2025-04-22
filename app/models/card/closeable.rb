@@ -7,7 +7,7 @@ module Card::Closeable
     has_one :closure, dependent: :destroy
 
     scope :closed, -> { joins(:closure) }
-    scope :active, -> { where.missing(:closure) }
+    scope :open, -> { where.missing(:closure) }
 
     scope :recently_closed_first, -> { closed.order("closures.created_at": :desc) }
     scope :due_to_be_closed, -> { considering.where(last_active_at: ..AUTO_CLOSE_AFTER.ago) }
@@ -29,7 +29,7 @@ module Card::Closeable
     closure.present?
   end
 
-  def active?
+  def open?
     !closed?
   end
 
