@@ -28,6 +28,6 @@ class Cards::PinsController < ApplicationController
     end
 
     def render_pin_button_replacement
-      turbo_stream.replace [ @card, :pin_button ], partial: "cards/pins/pin_button", locals: { card: @card }
+      render turbo_stream: turbo_stream.replace([ @card, :pin_button ], partial: "cards/pins/pin_button", locals: { card: @card })
     end
 end
