@@ -25,8 +25,10 @@ module NotificationsHelper
 
   def notification_tag(notification, &)
     tag.div id: dom_id(notification), class: "notification tray__item border-radius txt-normal" do
+      # TODO: Temporary, I'll remove this. Right now, we support linking comments, but we should be linking messages.
+      resource = notification.resource.is_a?(Message) ? notification.resource.comment : notification.resource
       concat(
-        link_to(notification.resource,
+        link_to(resource,
           class: "notification__content border-radius shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width border txt-ink",
           data: { action: "click->dialog#close", turbo_frame: "_top" },
           &)

@@ -8,8 +8,8 @@ class Notifier
       case source
         when Event
           "Notifier::Events::#{source.action.classify}".safe_constantize&.new(source)
-        when Mention
-          Notifier::Mentions
+        when ::Mention
+          Notifier::Mention.new(source)
       end
     end
   end
@@ -28,7 +28,7 @@ class Notifier
     end
 
     def should_notify?
-      !creator.system?
+      true
     end
 
     def resource

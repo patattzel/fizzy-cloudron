@@ -2,6 +2,10 @@ class Notifier::Events::Base < Notifier
   delegate :card, to: :source
 
   private
+    def should_notify?
+      !creator.system?
+    end
+
     def resource
       card
     end

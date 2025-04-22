@@ -216,12 +216,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_062930) do
     t.integer "container_id", null: false
     t.string "container_type", null: false
     t.datetime "created_at", null: false
+    t.integer "creator_id", null: false
     t.integer "mentionee_id", null: false
-    t.integer "mentioner_id", null: false
     t.datetime "updated_at", null: false
     t.index ["container_type", "container_id"], name: "index_mentions_on_container"
+    t.index ["creator_id"], name: "index_mentions_on_creator_id"
     t.index ["mentionee_id"], name: "index_mentions_on_mentionee_id"
-    t.index ["mentioner_id"], name: "index_mentions_on_mentioner_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -339,8 +339,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_062930) do
   add_foreign_key "collections", "workflows"
   add_foreign_key "events", "cards"
   add_foreign_key "events", "event_summaries", column: "summary_id"
+  add_foreign_key "mentions", "users", column: "creator_id"
   add_foreign_key "mentions", "users", column: "mentionee_id"
-  add_foreign_key "mentions", "users", column: "mentioner_id"
   add_foreign_key "messages", "cards"
   add_foreign_key "notifications", "users"
   add_foreign_key "pins", "cards"
