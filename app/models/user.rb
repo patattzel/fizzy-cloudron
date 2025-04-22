@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  include Accessor, Assignee, Avatar, Role, Transferable
+  include Accessor, Assignee, Role, Transferable
+
+  has_one_attached :avatar
 
   has_many :sessions, dependent: :destroy
   has_secure_password validations: false
@@ -22,11 +24,9 @@ class User < ApplicationRecord
   end
 
   def deactivate
-    transaction do
-      sessions.delete_all
-      accesses.destroy_all
-      update! active: false, email_address: deactived_email_address
-    end
+    sessions.delete_all
+    accesses.destroy_all
+    update! active: false, email_address: deactived_email_address
   end
 
   private
