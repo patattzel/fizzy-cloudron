@@ -9,7 +9,7 @@ sarah = create_user "Sarah Johnson", "sarah@37signals.com"
 mike = create_user "Mike Peterson", "mike@37signals.com"
 
 # Array of authors for random assignment
-authors = [david, jason, kevin, sarah, mike]
+authors = [ david, jason, kevin, sarah, mike ]
 
 # Card titles for reuse across collections
 card_titles = [
@@ -60,14 +60,14 @@ collections.each_with_index do |collection_name, index|
         # Randomly assign to 1-2 authors
         card.toggle_assignment(authors.sample)
         card.toggle_assignment(authors.sample) if rand > 0.5
- 
+
         # Randomly set card state
         case rand(3)
         when 0
           card.engage
         when 1
           card.close
-        # 2 remains open
+          # 2 remains open
         end
       end
     end
