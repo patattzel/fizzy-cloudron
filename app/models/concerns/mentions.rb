@@ -3,7 +3,8 @@ module Mentions
 
   included do
     has_many :mentions, as: :container, dependent: :destroy
-    after_commit :collect_mentions_later, on: %i[ create update ]
+    before_save :save_mentionable_content_before_save
+    after_commit :collect_mentions_later, on: %i[ create update ], if: :mentionable_content_changed?
   end
 
   def collect_mentions(mentioner: Current.user)
@@ -19,8 +20,16 @@ module Mentions
   end
 
   private
+    def save_mentionable_content_before_save
+      @mentionable_content_before_safe = self.class.find(id).mentionable_content unless new_record?
+    end
+
     def collect_mentions_later
       Mention::CollectJob.perform_later(self, mentioner: Current.user)
+    end
+
+    def mentionable_content_changed?
+      @mentionable_content_before_safe != mentionable_content
     end
 
     def scan_mentionees
