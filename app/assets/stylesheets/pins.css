@@ -47,13 +47,11 @@
     }
 
     .card__title {
+      --lines: 1;
+    
       font-size: var(--text-small);
       font-weight: bold;
       min-block-size: 0;
-    }
-
-    .card__title-link {
-      --lines: 1;
     }
 
     .card__stages {
