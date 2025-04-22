@@ -1,6 +1,8 @@
 @layer components {
   /* Editor */
   house-md {
+    --placeholder: attr(placeholder);
+
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -65,7 +67,7 @@
     padding: 1rem;
 
     &.house-md-content-empty::before {
-      content: attr(placeholder);
+      content: var(--placeholder);
       color: currentColor;
       opacity: 0.5;
       pointer-events: none;
