@@ -10,6 +10,6 @@ module Filterable
 
   private
     def remove_from_filters
-      filters.each { |filter| filter.resource_removed self }
+      filters.each { it.resource_removed self }
     end
 end
