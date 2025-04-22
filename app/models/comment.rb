@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  include Messageable, Searchable
+  include Mentions, Messageable, Searchable
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
   has_many :reactions, dependent: :delete_all
