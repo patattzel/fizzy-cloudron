@@ -34,6 +34,6 @@ module Mentions
     end
 
     def scan_mentioned_handles
-      (mentionable_content || "").scan(/(?<!\w)@(\w+)/).flatten.uniq(&:downcase)
+      mentionable_content.scan(/(?<!\w)@(\w+)/).flatten.uniq(&:downcase)
     end
 end
