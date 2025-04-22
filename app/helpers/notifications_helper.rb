@@ -1,21 +1,25 @@
 module NotificationsHelper
-  def notification_title(notification)
-    if notification.resource.is_a? Comment
-      "RE: " + notification.card.title
-    elsif notification_event_action(notification) == "assigned"
-      "Assigned to you: " + notification.card.title
+  def event_notification_title(event)
+    if event.commented?
+      "RE: " + event.card.title
+    elsif event.assignment?
+      "Assigned to you: " + event.card.title
     else
-      notification.card.title
+      event.card.title
     end
   end
 
-  def notification_body(notification)
-    name = notification.creator.name
+  def event_notification_body(event)
+    name = event.creator.name
 
-    case notification_event_action(notification)
-    when "closed" then "Closed by #{name}"
-    when "published" then "Added by #{name}"
-    else name
+    if event.closed?
+      "Closed by #{name}"
+    elsif event.published?
+      "Added by #{name}"
+    elsif event.commented?
+      "#{strip_tags(event.comment.body_html).blank? ? "#{name} replied" : "#{event.creator.name}:" } #{strip_tags(event.comment.body_html).truncate(200)}"
+    else
+      name
     end
   end
 
@@ -36,8 +40,8 @@ module NotificationsHelper
       class: "notification__unread_indicator btn borderless",
       title: "Mark as read",
       data: { turbo_frame: "_top" } do
-        concat(image_tag("remove-med.svg", class: "unread_icon", size: 12, aria: { hidden: true }))
-        concat(tag.span("Mark as read", class: "for-screen-reader"))
+      concat(image_tag("remove-med.svg", class: "unread_icon", size: 12, aria: { hidden: true }))
+      concat(tag.span("Mark as read", class: "for-screen-reader"))
     end
   end
 
@@ -46,17 +50,4 @@ module NotificationsHelper
       tag.div id: "next_page", data: { controller: "fetch-on-visible", fetch_on_visible_url_value: notifications_path(page: @page.next_param) }
     end
   end
-
-  private
-    def notification_event_action(notification)
-      if notification_is_for_initial_assignement?(notification)
-        "assigned"
-      else
-        notification.event.action
-      end
-    end
-
-    def notification_is_for_initial_assignement?(notification)
-      notification.event.action == "published" && notification.card.assigned_to?(notification.user)
-    end
 end

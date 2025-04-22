@@ -1,40 +1,37 @@
 class Notifier
-  attr_reader :event
+  attr_reader :source
 
-  delegate :creator, to: :event
+  delegate :creator, to: :source
 
   class << self
-    def for(event)
-      "Notifier::#{event.action.classify}".safe_constantize&.new(event)
+    def for(source)
+      case source
+        when Event
+          "Notifier::Events::#{source.action.classify}".safe_constantize&.new(source)
+        when Mention
+          Notifier::Mentions
+      end
     end
   end
 
-  def generate
+  def notify
     if should_notify?
       recipients.map do |recipient|
-        Notification.create! user: recipient, event: event, card: card, resource: resource
+        Notification.create! user: recipient, source: source, resource: resource
       end
     end
   end
 
   private
-    def initialize(event)
-      @event = event
+    def initialize(source)
+      @source = source
     end
 
     def should_notify?
-      !event.creator.system?
-    end
-
-    def recipients
-      card.watchers_and_subscribers.without(creator)
+      !creator.system?
     end
 
     def resource
-      card
-    end
-
-    def card
-      event.summary.message.card
+      source
     end
 end

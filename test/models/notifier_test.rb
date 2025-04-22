@@ -2,7 +2,7 @@ require "test_helper"
 
 class NotifierTest < ActiveSupport::TestCase
   test "for returns the matching notifier class for the event" do
-    assert_kind_of Notifier::Published, Notifier.for(events(:logo_published))
+    assert_kind_of Notifier::Events::Published, Notifier.for(events(:logo_published))
   end
 
   test "generate does not create notifications if the event was system-generated" do
@@ -10,12 +10,12 @@ class NotifierTest < ActiveSupport::TestCase
     events(:logo_published).update!(creator: User.system)
 
     assert_no_difference -> { Notification.count } do
-      Notifier.for(events(:logo_published)).generate
+      Notifier.for(events(:logo_published)).notify
     end
   end
 
   test "creates a notification for each watcher, other than the event creator" do
-    notifications = Notifier.for(events(:layout_commented)).generate
+    notifications = Notifier.for(events(:layout_commented)).notify
 
     assert_equal [ users(:kevin) ], notifications.map(&:user)
   end
@@ -23,19 +23,19 @@ class NotifierTest < ActiveSupport::TestCase
   test "does not create a notification for access-only users" do
     collections(:writebook).access_for(users(:kevin)).access_only!
 
-    notifications = Notifier.for(events(:layout_commented)).generate
+    notifications = Notifier.for(events(:layout_commented)).notify
 
     assert_equal [ users(:kevin) ], notifications.map(&:user)
   end
 
   test "the published event creates notifications for subscribers as well as watchers" do
-    notifications = Notifier.for(events(:logo_published)).generate
+    notifications = Notifier.for(events(:logo_published)).notify
 
     assert_equal users(:kevin, :jz).sort, notifications.map(&:user).sort
   end
 
   test "links to the card" do
-    Notifier.for(events(:logo_published)).generate
+    Notifier.for(events(:logo_published)).notify
 
     assert_equal cards(:logo), Notification.last.resource
   end
@@ -44,7 +44,7 @@ class NotifierTest < ActiveSupport::TestCase
     collections(:writebook).access_for(users(:jz)).watching!
     collections(:writebook).access_for(users(:kevin)).everything!
 
-    notifications = Notifier.for(events(:logo_assignment_jz)).generate
+    notifications = Notifier.for(events(:logo_assignment_jz)).notify
 
     assert_equal [ users(:jz) ], notifications.map(&:user)
   end
@@ -52,7 +52,7 @@ class NotifierTest < ActiveSupport::TestCase
   test "assignment events do not notify users who are access-only for the collection" do
     collections(:writebook).access_for(users(:jz)).access_only!
 
-    notifications = Notifier.for(events(:logo_assignment_jz)).generate
+    notifications = Notifier.for(events(:logo_assignment_jz)).notify
 
     assert_empty notifications
   end

@@ -637,6 +637,50 @@ columns:
     default_function:
     collation:
     comment:
+  mentions:
+  - *5
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: container_type
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: container_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: mentionee_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: mentioner_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - *6
+  - *9
   messages:
   - *5
   - *21
@@ -664,18 +708,7 @@ columns:
   - *9
   notifications:
   - *5
-  - *21
   - *6
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: event_id
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: read_at
@@ -708,6 +741,26 @@ columns:
     comment:
   - *9
   - *28
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: source_type
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: source_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   pins:
   - *5
   - *21
@@ -921,6 +974,7 @@ primary_keys:
   filters: id
   filters_stages:
   filters_tags:
+  mentions: id
   messages: id
   notifications: id
   pins: id
@@ -958,6 +1012,7 @@ data_sources:
   filters: true
   filters_stages: true
   filters_tags: true
+  mentions: true
   messages: true
   notifications: true
   pins: true
@@ -1598,6 +1653,56 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  mentions:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: mentions
+    name: index_mentions_on_mentioner_id
+    unique: false
+    columns:
+    - mentioner_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: mentions
+    name: index_mentions_on_mentionee_id
+    unique: false
+    columns:
+    - mentionee_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: mentions
+    name: index_mentions_on_container
+    unique: false
+    columns:
+    - container_type
+    - container_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   messages:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: messages
@@ -1633,6 +1738,23 @@ indexes:
     comment:
     valid: true
   notifications:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: notifications
+    name: index_notifications_on_source
+    unique: false
+    columns:
+    - source_type
+    - source_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: notifications
     name: index_notifications_on_user_id
@@ -1676,38 +1798,6 @@ indexes:
     columns:
     - resource_type
     - resource_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: notifications
-    name: index_notifications_on_event_id
-    unique: false
-    columns:
-    - event_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: notifications
-    name: index_notifications_on_card_id
-    unique: false
-    columns:
-    - card_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -1938,4 +2028,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250418150259
+version: 20250422062930

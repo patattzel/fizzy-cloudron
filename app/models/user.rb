@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, Assignee, Avatar, Role, Transferable
+  include Accessor, Assignee, Avatar, Mentionable, Named, Role, Transferable
 
   has_many :sessions, dependent: :destroy
   has_secure_password validations: false
@@ -14,12 +14,6 @@ class User < ApplicationRecord
   has_many :pinned_cards, through: :pins, source: :card
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
-
-  scope :alphabetically, -> { order("lower(name)") }
-
-  def initials
-    name.to_s.scan(/\b\p{L}/).join.upcase
-  end
 
   def deactivate
     transaction do

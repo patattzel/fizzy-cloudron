@@ -1,14 +1,13 @@
 class Notification < ApplicationRecord
   belongs_to :user
-  belongs_to :event
-  belongs_to :card
+  belongs_to :source, polymorphic: true
   belongs_to :resource, polymorphic: true
 
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
 
-  delegate :creator, to: :event
+  delegate :creator, to: :source
   after_create_commit :broadcast_unread
 
   def self.read_all
