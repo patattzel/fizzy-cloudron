@@ -761,7 +761,16 @@ columns:
     default_function:
     collation:
     comment:
-  - *23
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: creator_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   pins:
   - *5
   - *21

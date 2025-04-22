@@ -5,7 +5,11 @@ class Notifier::Mention < Notifier
     end
 
     def recipients
-      [ source.mentionee ]
+      if source.self_mention?
+        []
+      else
+        [ source.mentionee ]
+      end
     end
 
     def creator

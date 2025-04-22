@@ -4,9 +4,9 @@ class Notifier
   class << self
     def for(source)
       case source
-        when Event
+      when Event
           "Notifier::Events::#{source.action.classify}".safe_constantize&.new(source)
-        when ::Mention
+      when ::Mention
           Notifier::Mention.new(source)
       end
     end
@@ -26,7 +26,7 @@ class Notifier
     end
 
     def should_notify?
-      true
+      !creator.system?
     end
 
     def resource

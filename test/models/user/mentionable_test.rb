@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class User::MentionableTest < ActiveSupport::TestCase
   test "mentionable handles" do

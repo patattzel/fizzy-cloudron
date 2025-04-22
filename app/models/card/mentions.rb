@@ -5,8 +5,7 @@ module Card::Mentions
     include ::Mentions
   end
 
-  private
-    def mentionable_content
-      description.to_plain_text
-    end
+  def mentionable_content
+    description.to_plain_text
+  end
 end

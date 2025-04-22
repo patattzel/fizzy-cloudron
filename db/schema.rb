@@ -236,7 +236,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_112857) do
 
   create_table "notifications", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "creator_id", null: false
+    t.integer "creator_id"
     t.datetime "read_at"
     t.integer "resource_id", null: false
     t.string "resource_type", null: false
