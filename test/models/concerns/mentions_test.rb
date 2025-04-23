@@ -12,4 +12,11 @@ class MentionsTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "jorge" do
+    card = Card.find(cards(:logo).id)
+    card.update(description: "jorge")
+    card = Card.find(cards(:logo).id)
+    card.update(title: "jorge")
+  end
 end
