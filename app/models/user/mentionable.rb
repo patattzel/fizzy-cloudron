@@ -6,7 +6,7 @@ module User::Mentionable
   end
 
   def mentioned_by(mentioner, at:)
-    mentions.create! source: at, mentioner: mentioner
+    mentions.find_or_create_by! source: at, mentioner: mentioner
   end
 
   def mentionable_handles
