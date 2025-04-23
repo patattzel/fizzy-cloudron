@@ -1,4 +1,4 @@
-class Notifier::Event < Notifier
+class Notifier::EventNotifier < Notifier
   delegate :card, :creator, to: :source
   delegate :watchers_and_subscribers, to: :card
 

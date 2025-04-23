@@ -1,4 +1,4 @@
-class Notifier::Mention < Notifier
+class Notifier::MentionNotifier < Notifier
   alias mention source
 
   private
