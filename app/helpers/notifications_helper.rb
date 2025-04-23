@@ -46,9 +46,9 @@ module NotificationsHelper
 
   def notification_mark_read_button(notification)
     button_to read_notification_path(notification),
-      class: "notification__unread_indicator btn borderless",
-      title: "Mark as read",
-      data: { turbo_frame: "_top" } do
+        class: "notification__unread_indicator btn borderless",
+        title: "Mark as read",
+        data: { turbo_frame: "_top" } do
       concat(image_tag("remove-med.svg", class: "unread_icon", size: 12, aria: { hidden: true }))
       concat(tag.span("Mark as read", class: "for-screen-reader"))
     end
