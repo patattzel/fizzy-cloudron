@@ -4,8 +4,6 @@ module Mentions
   included do
     has_many :mentions, as: :source, dependent: :destroy
     has_many :mentionees, through: :mentions
-    before_save :remember_mentionable_content
-    after_touch :remember_mentionable_content
     after_save_commit :create_mentions_later, if: :mentionable_content_changed?
   end
 
@@ -26,16 +24,12 @@ module Mentions
       self.class.reflect_on_all_associations(:has_one).filter { it.klass == ActionText::Markdown }
     end
 
-    def remember_mentionable_content
-      @mentionable_content_before_save ||= self.class.find(id).mentionable_content if id && !previously_new_record?
+    def mentionable_content_changed?
+      markdown_associations.any? { send(it.name).content_previously_changed? }
     end
 
     def create_mentions_later
       Mention::CreateJob.perform_later(self, mentioner: Current.user)
-    end
-
-    def mentionable_content_changed?
-      previously_new_record? || @mentionable_content_before_save != mentionable_content
     end
 
     def scan_mentionees
