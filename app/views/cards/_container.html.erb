@@ -12,7 +12,7 @@
 
   <div class="card-perma__bg">
     <%= card_article_tag card, class: "card" do %>
-      <header class="card__header flex align-center gap min-width">
+      <header class="card__header flex align-center gap-half min-width">
         <%= link_to card.collection.name, cards_path(collection_ids: [ card.collection ]),
               class: "card__collection txt-uppercase overflow-ellipsis txt-reversed" %>
 

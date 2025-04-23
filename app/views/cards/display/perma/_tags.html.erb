@@ -1,7 +1,7 @@
-<div id="<%= dom_id(card, :tags) %>" class="card__tags flex-item-grow min-width">
+<div id="<%= dom_id(card, :tags) %>" class="card__tags flex-item-grow min-width gap-half">
   <div class="overflow-ellipsis">
     <% if card.tags.any? || card.creating? %>
-      <span># </span>
+      <span class="margin-inline-start-half"># </span>
       <% card.tags.each_with_index do |tag, index| %>
         <%= link_to cards_path(collection_ids: [ card.collection ], tag_ids: [ tag.id ]),
               class: "card__tag btn btn--plain min-width txt-uppercase fill-transparent" do %>
