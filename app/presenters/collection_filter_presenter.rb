@@ -7,9 +7,9 @@ class CollectionFilterPresenter
 
   def filter_text
     if selected_collection_ids.present?
-      "Showing activity for #{selected_collection_names_bold}".html_safe
+      "Activity in #{selected_collection_names_bold}".html_safe
     else
-      "Showing everything"
+      "Activity in all collections"
     end
   end
 
