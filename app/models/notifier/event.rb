@@ -5,24 +5,24 @@ class Notifier::Event < Notifier
   private
     def recipients
       case source.action
-        when "assigned"
+      when "assigned"
           source.assignees.excluding(card.collection.access_only_users)
-        when "published"
+      when "published"
           watchers_and_subscribers(include_only_watching: true).without(creator, *mentionees)
-        when "commented"
+      when "commented"
           watchers_and_subscribers.without(creator, *mentionees)
-        else
+      else
           watchers_and_subscribers.without(creator)
       end
     end
 
     def mentionees
       case source.action
-        when "published"
+      when "published"
           source.card.mentionees
-        when "commented"
+      when "commented"
           source.comment.mentionees
-        else
+      else
           []
       end
     end
