@@ -16,7 +16,7 @@ class Event < ApplicationRecord
     super.inquiry
   end
 
-  def target
+  def notifiable_target
     if action.commented?
       comment
     else

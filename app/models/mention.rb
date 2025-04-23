@@ -11,6 +11,10 @@ class Mention < ApplicationRecord
     mentioner == mentionee
   end
 
+  def notifiable_target
+    source
+  end
+
   private
     def add_mentionee_as_watcher
       source.watch_by(mentionee)

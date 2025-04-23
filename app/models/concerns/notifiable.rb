@@ -11,6 +11,10 @@ module Notifiable
     Notifier.for(self)&.notify
   end
 
+  def notifiable_target
+    self
+  end
+
   private
     def notify_recipients_later
       NotifyRecipientsJob.perform_later self

@@ -108,7 +108,7 @@ Rails.application.routes.draw do
   end
 
   resolve "Notification" do |notification, options|
-    polymorphic_path(notification.target, options)
+    polymorphic_path(notification.notifiable_target, options)
   end
 
   get "up", to: "rails/health#show", as: :rails_health_check
