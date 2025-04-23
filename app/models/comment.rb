@@ -13,6 +13,8 @@ class Comment < ApplicationRecord
   after_create_commit :watch_card_by_creator, :track_commented_card
   after_destroy_commit :cleanup_events
 
+  delegate :watch_by, to: :card
+
   def to_partial_path
     "cards/#{super}"
   end

@@ -13,7 +13,9 @@ module Card::Watchable
   end
 
   def watch_by(user)
-    watches.where(user: user).first_or_create.update!(watching: true)
+    if accessible_to?(user)
+      watches.where(user: user).first_or_create.update!(watching: true)
+    end
   end
 
   def unwatch_by(user)
@@ -21,7 +23,7 @@ module Card::Watchable
   end
 
   def watchers_and_subscribers(include_only_watching: false)
-    involvements = include_only_watching ? [ :watching, :everything ] : :everything
+    involvements = include_only_watching ? [:watching, :everything] : :everything
     subscribers = collection.users.where(accesses: { involvement: involvements })
 
     User.where(id: subscribers.pluck(:id) +
