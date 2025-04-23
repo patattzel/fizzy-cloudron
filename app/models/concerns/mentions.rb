@@ -14,9 +14,7 @@ module Mentions
   end
 
   def mentionable_content
-    markdown_associations.collect do |association|
-      send(association.name)&.to_plain_text
-    end.compact.join(" ")
+    markdown_associations.collect { |association| send(association.name)&.to_plain_text }.compact.join(" ")
   end
 
   private
