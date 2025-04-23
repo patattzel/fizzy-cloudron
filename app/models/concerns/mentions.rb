@@ -14,12 +14,16 @@ module Mentions
   end
 
   def mentionable_content
-    self.class.reflect_on_all_associations(:has_one).filter { it.klass == ActionText::Markdown }.collect do |association|
+    markdown_associations.collect do |association|
       send(association.name).to_plain_text
     end.join(" ")
   end
 
   private
+    def markdown_associations
+      self.class.reflect_on_all_associations(:has_one).filter { it.klass == ActionText::Markdown }
+    end
+
     def save_mentionable_content_before_save
       @mentionable_content_before_safe = self.class.find(id).mentionable_content unless new_record?
     end
