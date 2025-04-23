@@ -31,11 +31,11 @@ module NotificationsHelper
   end
 
   def notification_resource_path(notification)
-    if notification.resource.is_a?(Comment)
-      # TODO: Extract a direct path for these
-      collection_card_path(notification.resource.card.collection, notification.resource.card, anchor: "comment_#{notification.resource.id}")
+    if notification.source.action.commented?
+      card  = notification.source.card
+      collection_card_path(card.collection, card, anchor: "comment_#{notification.source.comment.id}")
     else
-      notification.resource
+      notification.source.card
     end
   end
 

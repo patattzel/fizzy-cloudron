@@ -15,7 +15,7 @@ class Notifier
   def notify
     if should_notify?
       recipients.map do |recipient|
-        Notification.create! user: recipient, source: source, resource: resource, creator: creator
+        Notification.create! user: recipient, source: source, creator: creator
       end
     end
   end

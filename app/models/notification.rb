@@ -2,7 +2,6 @@ class Notification < ApplicationRecord
   belongs_to :user
   belongs_to :creator, class_name: "User"
   belongs_to :source, polymorphic: true
-  belongs_to :resource, polymorphic: true
 
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }

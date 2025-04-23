@@ -3,14 +3,6 @@ class Notifier::Event < Notifier
   delegate :watchers_and_subscribers, to: :card
 
   private
-    def resource
-      if source.action.commented?
-        source.comment
-      else
-        card
-      end
-    end
-
     def recipients
       case source.action
         when "assigned"

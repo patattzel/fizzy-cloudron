@@ -2,10 +2,6 @@ class Notifier::Mention < Notifier
   alias mention source
 
   private
-    def resource
-      mention.source
-    end
-
     def recipients
       if mention.self_mention?
         []

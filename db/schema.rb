@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_22_112857) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -238,14 +238,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_112857) do
     t.datetime "created_at", null: false
     t.integer "creator_id"
     t.datetime "read_at"
-    t.integer "resource_id", null: false
-    t.string "resource_type", null: false
     t.integer "source_id"
     t.string "source_type", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["creator_id"], name: "index_notifications_on_creator_id"
-    t.index ["resource_type", "resource_id"], name: "index_notifications_on_resource"
     t.index ["source_type", "source_id"], name: "index_notifications_on_source"
     t.index ["user_id", "read_at", "created_at"], name: "index_notifications_on_user_id_and_read_at_and_created_at", order: { read_at: :desc, created_at: :desc }
     t.index ["user_id"], name: "index_notifications_on_user_id"
