@@ -18,6 +18,20 @@ module Mentions
   end
 
   private
+    def scan_mentionees
+      scan_mentioned_handles.filter_map do |mention|
+        mentionable_users.find { |user| user.mentionable_handles.include?(mention) }
+      end
+    end
+
+    def scan_mentioned_handles
+      mentionable_content.scan(/(?<!\w)@(\w+)/).flatten.uniq(&:downcase)
+    end
+
+    def mentionable_users
+      collection.users
+    end
+
     def markdown_associations
       self.class.reflect_on_all_associations(:has_one).filter { it.klass == ActionText::Markdown }
     end
@@ -28,19 +42,5 @@ module Mentions
 
     def create_mentions_later
       Mention::CreateJob.perform_later(self, mentioner: Current.user)
-    end
-
-    def scan_mentionees
-      scan_mentioned_handles.filter_map do |mention|
-        mentionable_users.find { |user| user.mentionable_handles.include?(mention) }
-      end
-    end
-
-    def mentionable_users
-      collection.users
-    end
-
-    def scan_mentioned_handles
-      mentionable_content.scan(/(?<!\w)@(\w+)/).flatten.uniq(&:downcase)
     end
 end
