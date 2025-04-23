@@ -12,24 +12,11 @@ class Event < ApplicationRecord
 
   after_create -> { card.touch(:last_active_at) }
 
-  def assigned?
-    action == "assigned" || initial_assignment?
-  end
-
   def action
-    super.inquiry
+    super&.inquiry
   end
 
-  def method_missing(method_name, *args, &block)
-    if method_name.to_s.end_with?("?")
-      action == method_name.to_s.chomp("?")
-    else
-      super
-    end
+  def initial_assignment?
+    action == "published" && card.assigned_to?(creator)
   end
-
-  private
-    def initial_assignment?
-      action == "published" && card.assigned_to?(creator)
-    end
 end

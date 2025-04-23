@@ -35,7 +35,6 @@ module Mentions
     end
 
     def mentionable_content_changed?
-      puts "Was #{previously_new_record?}"
       previously_new_record? || @mentionable_content_before_save != mentionable_content
     end
 
