@@ -16,7 +16,10 @@ class Event < ApplicationRecord
     action == "assigned" || initial_assignment?
   end
 
-  # E.g: completed? is true if action == "completed"
+  def action
+    super.inquiry
+  end
+
   def method_missing(method_name, *args, &block)
     if method_name.to_s.end_with?("?")
       action == method_name.to_s.chomp("?")
