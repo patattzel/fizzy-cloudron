@@ -23,8 +23,6 @@ class Card < ApplicationRecord
     end
   end
 
-  delegate :accessible_to?, to: :collection
-
   def title=(new_title)
     self[:title] = new_title.presence || "Untitled"
   end

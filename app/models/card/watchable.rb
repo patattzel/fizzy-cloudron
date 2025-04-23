@@ -13,7 +13,7 @@ module Card::Watchable
   end
 
   def watch_by(user)
-    if accessible_to?(user)
+    if collection.accessible_to?(user)
       watches.where(user: user).first_or_create.update!(watching: true)
     end
   end
