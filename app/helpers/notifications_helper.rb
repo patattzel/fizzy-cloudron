@@ -21,21 +21,12 @@ module NotificationsHelper
   def notification_tag(notification, &)
     tag.div id: dom_id(notification), class: "notification tray__item border-radius txt-normal" do
       concat(
-        link_to(notification_resource_path(notification),
+        link_to(notification,
           class: "notification__content border-radius shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width border txt-ink",
           data: { action: "click->dialog#close", turbo_frame: "_top" },
           &)
       )
       concat(notification_mark_read_button(notification))
-    end
-  end
-
-  def notification_resource_path(notification)
-    if notification.source.action.commented?
-      card  = notification.source.card
-      collection_card_path(card.collection, card, anchor: "comment_#{notification.source.comment.id}")
-    else
-      notification.source.card
     end
   end
 
