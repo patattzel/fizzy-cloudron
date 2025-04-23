@@ -13,8 +13,6 @@ class EventSummary < ApplicationRecord
 
     def summarize(event)
       case event.action
-      when "published"
-        "Added by #{event.creator.name}."
       when "assigned"
         "Assigned to #{event.assignees.pluck(:name).to_sentence}."
       when "unassigned"

@@ -116,6 +116,10 @@
     }
   }
 
+  .card__content {
+    flex: 2 1 auto;
+  }
+
   .card__title {
     --hover-size: 0;
     --input-border-radius: 0;
@@ -123,7 +127,6 @@
     --lines: 3;
 
     color: inherit;
-    flex: 2 1 75%;
     font-size: var(--text-xx-large);
     font-weight: 900;
     line-height: 1.2;
@@ -148,10 +151,11 @@
 
   .card__stages {
     display: flex;
-    flex: 1 1 25%;
+    flex: 0 1 auto;
     flex-direction: column;
-    max-width: 100%;
-    min-width: 0;
+    justify-self: end;
+    max-inline-size: 20ch;
+    min-inline-size: 15ch;
     padding-block: var(--block-space-half);
   }
 
@@ -214,10 +218,10 @@
     flex-direction: column;
     inset: auto var(--block-space) var(--block-space-double) auto;
     justify-content: space-between;
+    mix-blend-mode: multiply;
     padding: var(--block-space-half) calc(var(--inline-space) * 1.5);
     position: absolute;
     transform: rotate(-10deg);
-    z-index: -1;
   }
 
   .card__closed-by {

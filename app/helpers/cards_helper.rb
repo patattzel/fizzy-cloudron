@@ -15,7 +15,7 @@ module CardsHelper
       **options
   end
 
-  def card_article_tag(card, id: dom_id(card, :ticket), **options, &block)
+  def card_article_tag(card, id: dom_id(card, :article), **options, &block)
     classes = [
       options.delete(:class),
       ("card--golden" if card.golden?),

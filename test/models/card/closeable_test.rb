@@ -3,7 +3,7 @@ require "test_helper"
 class Card::CloseableTest < ActiveSupport::TestCase
   test "closed scope" do
     assert_equal [ cards(:shipping) ], Card.closed
-    assert_not_includes Card.active, cards(:shipping)
+    assert_not_includes Card.open, cards(:shipping)
   end
 
   test "popping" do
