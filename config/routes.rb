@@ -103,6 +103,13 @@ Rails.application.routes.draw do
     route_for :collection_card, comment.card.collection, comment.card, options
   end
 
+  resolve "Mention" do |mention, options|
+    polymorphic_path(mention.source, options)
+  end
+
+  resolve "Notification" do |notification, options|
+    polymorphic_path(notification.notifiable_target, options)
+  end
 
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

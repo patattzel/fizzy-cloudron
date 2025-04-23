@@ -1,11 +1,9 @@
 class Card < ApplicationRecord
-  include Assignable, Colored, Engageable, Eventable, Golden, Messages, Notifiable,
-    Pinnable, Closeable, Searchable, Staged, Statuses, Taggable, Watchable
+  include Assignable, Colored, Engageable, Eventable, Golden, Mentions,
+    Messages, Pinnable, Closeable, Searchable, Staged, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
-
-  has_many :notifications, dependent: :destroy
 
   has_one_attached :image, dependent: :purge_later
 
@@ -31,5 +29,9 @@ class Card < ApplicationRecord
 
   def cache_key
     [ super, collection.name ].compact.join("/")
+  end
+
+  def was_mentioned(mention)
+    watch_by(mention.mentionee)
   end
 end

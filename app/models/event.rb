@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  include Particulars
+  include Notifiable, Particulars
 
   belongs_to :creator, class_name: "User"
   belongs_to :summary, touch: true, class_name: "EventSummary"
@@ -12,15 +12,19 @@ class Event < ApplicationRecord
 
   after_create -> { card.touch(:last_active_at) }
 
-  def commented?
-    action == "commented"
+  def action
+    super.inquiry
   end
 
-  def generate_notifications
-    Notifier.for(self)&.generate
+  def notifiable_target
+    if action.commented?
+      comment
+    else
+      card
+    end
   end
 
-  def generate_notifications_later
-    GenerateNotificationsJob.perform_later self
+  def initial_assignment?
+    action == "published" && card.assigned_to?(creator)
   end
 end

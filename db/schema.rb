@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_22_091602) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -211,6 +211,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_091602) do
     t.index ["tag_id"], name: "index_filters_tags_on_tag_id"
   end
 
+  create_table "mentions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "mentionee_id", null: false
+    t.integer "mentioner_id", null: false
+    t.integer "source_id", null: false
+    t.string "source_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mentionee_id"], name: "index_mentions_on_mentionee_id"
+    t.index ["mentioner_id"], name: "index_mentions_on_mentioner_id"
+    t.index ["source_type", "source_id"], name: "index_mentions_on_source"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
@@ -222,17 +234,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_091602) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "card_id", null: false
     t.datetime "created_at", null: false
-    t.integer "event_id", null: false
+    t.integer "creator_id"
     t.datetime "read_at"
-    t.integer "resource_id", null: false
-    t.string "resource_type", null: false
+    t.integer "source_id"
+    t.string "source_type", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["card_id"], name: "index_notifications_on_card_id"
-    t.index ["event_id"], name: "index_notifications_on_event_id"
-    t.index ["resource_type", "resource_id"], name: "index_notifications_on_resource"
+    t.index ["creator_id"], name: "index_notifications_on_creator_id"
+    t.index ["source_type", "source_id"], name: "index_notifications_on_source"
     t.index ["user_id", "read_at", "created_at"], name: "index_notifications_on_user_id_and_read_at_and_created_at", order: { read_at: :desc, created_at: :desc }
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
@@ -327,10 +337,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_22_091602) do
   add_foreign_key "collections", "workflows"
   add_foreign_key "events", "cards"
   add_foreign_key "events", "event_summaries", column: "summary_id"
+  add_foreign_key "mentions", "users", column: "mentionee_id"
+  add_foreign_key "mentions", "users", column: "mentioner_id"
   add_foreign_key "messages", "cards"
-  add_foreign_key "notifications", "cards"
-  add_foreign_key "notifications", "events"
   add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users", column: "creator_id"
   add_foreign_key "pins", "cards"
   add_foreign_key "pins", "users"
   add_foreign_key "sessions", "users"
