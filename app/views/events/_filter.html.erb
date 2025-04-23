@@ -19,6 +19,14 @@
 		<%= form_with url: events_path, method: :get, class: "flex flex-column full-width popup__list",
 					data: { controller: "form" } do |form| %>
 			<%#= link_to "Show everything", events_path(clear_filter: true), class: "btn popup__item txt-nowrap" %>
+			<div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
+				<%= link_to new_collection_path, class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
+					<%= icon_tag "add" %>
+					<span>Add a new collection</span>
+				<% end %>
+			</div>
+			<hr class="full-width separator--horizontal" style="--border-color: transparent;">
+
 			<% @collections.each do |collection| %>
 				<div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
 					<div class="btn txt-xx-small">

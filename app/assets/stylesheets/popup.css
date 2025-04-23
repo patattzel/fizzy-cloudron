@@ -88,6 +88,16 @@
     row-gap: 2px;
   }
 
+  .popup__new {
+    --btn-icon-size: 1em;
+
+    .icon {
+      margin-inline-end: 0.5em;
+    }
+    
+    padding-inline-start: var(--inline-space-half);
+  }
+
   .popup__title {
     font-weight: 800;
   }
