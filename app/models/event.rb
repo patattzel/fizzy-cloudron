@@ -13,7 +13,7 @@ class Event < ApplicationRecord
   after_create -> { card.touch(:last_active_at) }
 
   def action
-    super&.inquiry
+    super.inquiry
   end
 
   def initial_assignment?
