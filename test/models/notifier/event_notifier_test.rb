@@ -1,6 +1,6 @@
 require "test_helper"
 
-class NotifierTest < ActiveSupport::TestCase
+class Notifier::EventNotifierTest < ActiveSupport::TestCase
   test "for returns the matching notifier class for the event" do
     assert_kind_of Notifier::EventNotifier, Notifier.for(events(:logo_published))
   end
@@ -61,5 +61,21 @@ class NotifierTest < ActiveSupport::TestCase
     notifications = Notifier.for(events(:logo_assignment_jz)).notify
 
     assert_empty notifications
+  end
+
+  test "don't create notifications on publish for mentionees" do
+    users(:kevin).mentioned_by(users(:david), at: cards(:logo))
+
+    assert_no_difference -> { users(:kevin).notifications.count } do
+      Notifier.for(events(:logo_published)).notify
+    end
+  end
+
+  test "don't create notifications on comment for mentionees" do
+    users(:david).mentioned_by(users(:kevin), at: cards(:layout))
+
+    assert_no_difference -> { users(:david).notifications.count } do
+      Notifier.for(events(:layout_commented)).notify
+    end
   end
 end
