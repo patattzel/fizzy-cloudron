@@ -1,5 +1,5 @@
 <%= turbo_frame_tag @card, :assignment do %>
-  <strong class="popup__title margin-block-start-half pad-inline-half txt-nowrap">Assign this to…</strong>
+  <strong class="popup__title pad-inline-half txt-nowrap">Assign this to…</strong>
 
   <div class="flex flex-column full-width popup__list">
     <% @collection.users.active.alphabetically.each do |user| %>

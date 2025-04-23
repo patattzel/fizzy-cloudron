@@ -1,13 +1,13 @@
 @layer components {
   .popup {
     --panel-border-radius: 0.5em;
-    --panel-padding: 0.4em 0.5em 0.5em;
+    --panel-padding: var(--block-space);
     --panel-size: auto;
 
     inline-size: auto;
     inset: 0 auto auto 50%;
-    min-inline-size: 20ch;
-    max-inline-size: 40ch;
+    min-inline-size: min(20ch, 90vw);
+    max-inline-size: min(50ch, 90vw);
     position: absolute;
     transform: translateX(-50%);
     z-index: 2;
@@ -15,12 +15,22 @@
     &[open] {
       display: flex;
     }
+
+    #header:has(&) {
+      max-inline-size: 100%;
+      position: relative;
+      z-index: 5;
+    }
   }
 
   .popup__group {
     background: var(--color-subtle-light);
     max-inline-size: 100%;
-    padding-inline-start: var(--inline-space-half);
+    padding-inline: var(--inline-space);
+
+    .btn {
+      --btn-background: transparent;
+    }
     
     @media (any-hover: hover) {
       &:hover {
@@ -30,7 +40,7 @@
   }
 
   .popup__item {
-    --btn-background: transparent;
+    --btn-background: var(--color-subtle-light);
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
     --btn-font-weight: 500;
@@ -43,14 +53,10 @@
     max-inline-size: 100%;
     text-align: start;
 
-    &::after {
-      border-radius: var(--btn-border-radius);
-      border: var(--btn-border-size) solid var(--btn-border-color, var(--color-subtle));
-      content: "";
-      display: block;
-      inline-size: calc(100% - var(--btn-padding) * 2);
-      block-size: calc(100% - var(--btn-padding) * 2);
-
+    @media (any-hover: hover) {
+      &:where(:not(:active):hover) {
+        --btn-background: var(--color-selected);
+      }
     }
 
     &:has(input:checked)  {

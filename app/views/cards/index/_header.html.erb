@@ -5,19 +5,23 @@
   <div class="btn btn--placeholder flex-item-justify-start"></div>
 
   <header class="flex flex-inline flex-column center flex-shrink">
-    <div class="card-filter--collection flex-inline center position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+    <div class="card-filter--collection flex-inline center position-relative" data-controller="dialog" data-action="click@document->dialog#closeOnClickOutside">
       <button class="txt-align-center input input--select borderless center txt-medium" data-action="click->dialog#open:stop">
         <h1 class="txt-large overflow-ellipsis margin-none">
           <%= filter_title filter %>
         </h1>
       </button>
 
-      <dialog class="events__popup popup popup--animated panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
+      <dialog class="popup popup--animated panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog" data-action="keydown.esc->dialog#close:stop turbo:before-cache@document->dialog#close">
         <div class="flex align-center full-width gap-half">
           <span class="btn borderless" style="pointer-events: none; --icon-size: 1.3em; --btn-padding: 0 0.6em 0 0.3em;">
             <%= icon_tag "filter" %>
           </span>
           <strong class="popup__title txt-medium">Collections</strong>
+          <button class="btn borderless txt-x-small flex-item-justify-end" data-action="click->dialog#close" >
+            <%= icon_tag "remove-med" %>
+            <span class="for-screen-reader">Close</span>
+          </button>
         </div>
 
         <%= render "cards/index/collections_filter", filter: filter %>
