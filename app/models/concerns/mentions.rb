@@ -5,6 +5,7 @@ module Mentions
     has_many :mentions, as: :container, dependent: :destroy
     has_many :mentionees, through: :mentions
     before_save :remember_mentionable_content_before_save
+    after_touch :remember_mentionable_content_before_save
     after_save_commit :create_mentions_later, if: :mentionable_content_changed?
   end
 
@@ -26,7 +27,7 @@ module Mentions
     end
 
     def remember_mentionable_content_before_save
-      @mentionable_content_before_safe = self.class.find(id).mentionable_content unless new_record?
+      @mentionable_content_before_save ||= self.class.find(id).mentionable_content unless new_record?
     end
 
     def create_mentions_later
@@ -34,7 +35,7 @@ module Mentions
     end
 
     def mentionable_content_changed?
-      @mentionable_content_before_safe.present? && @mentionable_content_before_safe != mentionable_content
+      new_record? || @mentionable_content_before_save != mentionable_content
     end
 
     def scan_mentionees
