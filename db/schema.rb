@@ -180,7 +180,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
-    t.date "due_date"
     t.json "particulars", default: {}
     t.integer "summary_id", null: false
     t.datetime "updated_at", null: false
