@@ -9,10 +9,6 @@ module User::Accessor
     after_create_commit :grant_access_to_collections
   end
 
-  def can_access_card?(card)
-    card.collection.accessible_to?(self)
-  end
-
   private
     def grant_access_to_collections
       Access.insert_all Collection.all_access.pluck(:id).collect { |collection_id| { collection_id: collection_id, user_id: id } }
