@@ -56,6 +56,6 @@ module NotificationsHelper
     end
 
     def comment_notification_body(event)
-      "#{strip_tags(event.comment.body_html).blank? ? "#{name} replied" : "#{event.creator.name}:" } #{strip_tags(event.comment.body_html).truncate(200)}"
+      "#{strip_tags(event.comment.body_html).blank? ? "#{event.creator.name} replied" : "#{event.creator.name}:" } #{strip_tags(event.comment.body_html).truncate(200)}"
     end
 end
