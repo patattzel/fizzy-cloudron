@@ -23,10 +23,10 @@ module DayTimelinesScoped
     end
 
     def set_day_timeline
-      @day_timeline = Current.user.timeline_for(activity_day, filter: @filter)
+      @day_timeline = Current.user.timeline_for(day, filter: @filter)
     end
 
-    def activity_day
+    def day
       if params[:day].present?
         Time.zone.parse(params[:day])
       else
