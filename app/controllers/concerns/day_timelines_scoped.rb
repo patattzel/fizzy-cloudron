@@ -5,7 +5,7 @@ module DayTimelinesScoped
     include FilterScoped
 
     before_action :clear_collections_filter, if: -> { params[:clear_filter] }
-    before_action :restore_collections_filter_from_cookie
+    before_action :restore_collections_filter
     before_action :set_day_timeline
 
     after_action :save_collection_filter
@@ -16,7 +16,7 @@ module DayTimelinesScoped
       cookies.delete(:collection_filter)
     end
 
-    def restore_collections_filter_from_cookie
+    def restore_collections_filter
       if cookies[:collection_filter].present?
         @filter.collection_ids = cookies[:collection_filter].split(",")
       end
