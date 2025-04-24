@@ -23,9 +23,7 @@ module Card::Eventable
     end
 
     def find_or_capture_event_summary
-      transaction do
-        messages.last&.event_summary || capture(EventSummary.new).event_summary
-      end
+      messages.last&.event_summary || capture(EventSummary.new).event_summary
     end
 
     def track_due_date_change
