@@ -1,4 +1,4 @@
-class Notifier::EventNotifier < Notifier
+class Notifier::CardEventNotifier < Notifier
   delegate :creator, to: :source
   delegate :watchers_and_subscribers, to: :card
 
@@ -17,10 +17,6 @@ class Notifier::EventNotifier < Notifier
     end
 
     def card
-      if source.eventable.is_a?(Card)
-        source.eventable
-      else
-        source.eventable.card
-      end
+      source.eventable
     end
 end

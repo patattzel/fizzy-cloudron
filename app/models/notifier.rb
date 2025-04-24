@@ -4,10 +4,10 @@ class Notifier
   class << self
     def for(source)
       case source
-      when Event
-        EventNotifier.new(source)
-      when Mention
-        MentionNotifier.new(source)
+        when Event
+          "Notifier::#{source.eventable.class}EventNotifier".safe_constantize&.new(source)
+        when Mention
+          MentionNotifier.new(source)
       end
     end
   end
