@@ -1,15 +1,4 @@
 module EventsHelper
-  def event_day_title(day)
-    case
-    when day.today?
-      "Today"
-    when day.yesterday?
-      "Yesterday"
-    else
-      day.strftime("%A, %B %e")
-    end
-  end
-
   def event_column(event)
     case event.action
     when "closed"
@@ -33,7 +22,7 @@ module EventsHelper
     end
   end
 
-  def render_event_grid_cells(day, columns: 4, rows: 24)
+  def render_event_grid_cells(columns: 4, rows: 24)
     safe_join((2..rows + 1).map do |row|
       (1..columns).map do |col|
         tag.div class: class_names("event__grid-item"), style: "grid-area: #{row}/#{col};"
@@ -41,22 +30,11 @@ module EventsHelper
     end.flatten)
   end
 
-  def render_column_headers(day = Date.current)
-    start_time = day.beginning_of_day
-    end_time = day.end_of_day
-
-    collections = Current.user.collections
-    collections = collections.where(id: params[:collection_ids]) if params[:collection_ids].present?
-
-    # TODO: this needs tidying up
-    accessible_events = Event.where(eventable_type: "Card")
-      .where(created_at: start_time..end_time)
-      .where(collection: collections)
-
+  def render_column_headers(day_timeline)
     headers = {
-      "Added" => accessible_events.where(action: "published").count,
+      "Added" => day_timeline.events.where(action: "published").count,
       "Updated" => nil,
-      "Closed" => accessible_events.where(action: "closed").count
+      "Closed" => day_timeline.events.where(action: "closed").count
     }
 
     headers.map do |header, count|

@@ -1,9 +1,8 @@
-<% presenter = CollectionFilterPresenter.new(@collections, params, cookies) %>
 <div class="max-width margin-block-end-half"
 		data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
 	<button class="events__filter-btn input input--select flex-inline center min-width max-width txt-small" data-action="click->dialog#open:stop">
 		<span class="overflow-ellipsis center">
-			<%= presenter.filter_text %>
+			<%= filter_selected_collections_label(filter) %>
 		</span>
 	</button>
 
@@ -45,7 +44,7 @@
 				<span class="translucent flex-item-no-shrink"> ›</span>
 			<% end %>
 
-			<% @collections.each do |collection| %>
+			<% Current.user.collections.each do |collection| %>
 				<div class="popup__group flex align-center">
 					<div class="btn txt-xx-small">
 						<%= form.check_box "collection_ids[]", {
@@ -63,7 +62,7 @@
 					<%= link_to cards_path(collection_ids: [ collection ]), class: "btn popup__item min-width flex-item-grow" do %>
 						<span class="overflow-ellipsis"><%= collection.name %></span>
 					<% end %>
-			
+
 					<span class="translucent flex-item-no-shrink"> ›</span>
 				</div>
 			<% end %>

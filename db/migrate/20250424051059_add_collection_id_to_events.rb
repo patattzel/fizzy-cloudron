@@ -9,7 +9,7 @@ class AddCollectionIdToEvents < ActiveRecord::Migration[8.1]
         FROM cards
         WHERE cards.id = events.eventable_id
       )
-      WHERE eventable_type = 'Card' 
+      WHERE eventable_type = 'Card'#{' '}
     SQL
 
     change_column_null :events, :collection_id, false

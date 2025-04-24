@@ -1,12 +1,9 @@
-<% card = event.eventable %>
-<% link = event.action == "commented" ? collection_card_path(card.collection, card, anchor: dom_id(event.comment)) : collection_card_path(card.collection, card) %>
-
-<%= link_to link,
+<%= link_to event.eventable,
       class: "event event--#{ event.action } panel center center-block flex-inline align-start justify-start gap position-relative",
-      style: "--card-color: #{ card.color }; background-color: color-mix(in srgb, var(--card-color) 10%, var(--color-bg));
+      style: "--card-color: #{ event.eventable.color }; background-color: color-mix(in srgb, var(--card-color) 10%, var(--color-bg));
   color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));",
       data: { related_element_target: "related",
-              related_element_group_value: card.id,
+              related_element_group_value: event.eventable.id,
               action: "mouseover->related-element#highlight mouseout->related-element#unhighlight" } do %>
   <div class="avatar txt-x-small flex-item-no-shrink">
     <%= avatar_image_tag(event.creator) %>
@@ -31,6 +28,6 @@
       </span>
     <% end %>
 
-    <span class="event__collection"><%= card.collection.name %></span>
+    <span class="event__collection"><%= event.collection.name %></span>
   </div>
 <% end %>
