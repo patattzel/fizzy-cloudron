@@ -4,12 +4,11 @@ class Event < ApplicationRecord
   belongs_to :collection
   belongs_to :creator, class_name: "User"
   belongs_to :eventable, polymorphic: true
-  belongs_to :summary, touch: true, class_name: "EventSummary"
+  belongs_to :summary, touch: true, class_name: "EventSummary", optional: true
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  # TODO: Remove dependency with last_active_at via hook
-  after_create -> { eventable.touch(:last_active_at) }
+  after_create -> { eventable.event_was_created(self) }
 
   def action
     super.inquiry
