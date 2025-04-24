@@ -1,7 +1,7 @@
 class EventSummary < ApplicationRecord
   include Messageable
 
-  has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary
+  has_many :events, -> { chronologically }, dependent: :delete_all, foreign_key: :summary_id
 
   # FIXME: Consider persisting the body and compute at write time.
   def body

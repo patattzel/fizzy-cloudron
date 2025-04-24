@@ -1,4 +1,4 @@
-<% card = event.summary.card %>
+<% card = event.card %>
 <% link = event.action == "commented" ? collection_card_path(card.collection, card, anchor: dom_id(event.comment)) : collection_card_path(card.collection, card) %>
 
 <%= link_to link,
