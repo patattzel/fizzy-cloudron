@@ -29,12 +29,11 @@ module EventsTimeline
     end
 
     def user_events
-      Event.where(card: user_cards)
+      Event.where(collection: collection_filter).where(eventable: user_cards)
     end
 
     def user_cards
       Current.user.accessible_cards
         .published_or_drafted_by(Current.user)
-        .where(collection_id: collection_filter)
     end
 end

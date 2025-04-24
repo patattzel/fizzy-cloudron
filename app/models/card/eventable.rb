@@ -2,7 +2,7 @@ module Card::Eventable
   extend ActiveSupport::Concern
 
   included do
-    has_many :events, dependent: :destroy
+    has_many :events, as: :eventable, dependent: :destroy
 
     before_create { self.last_active_at = Time.current }
 
@@ -10,9 +10,9 @@ module Card::Eventable
     after_save :track_title_change, if: :saved_change_to_title?
   end
 
-  def track_event(action, creator: Current.user, **particulars)
+  def track_event(action, creator: Current.user, collection: self.collection, **particulars)
     if published?
-      find_or_capture_event_summary.events.create! action: action, creator: creator, card: self, particulars: particulars
+      find_or_capture_event_summary.events.create! action:, creator:, collection:, eventable: self, particulars:
     end
   end
 

@@ -1,12 +1,15 @@
 class Event < ApplicationRecord
   include Notifiable, Particulars
 
+  belongs_to :collection
   belongs_to :creator, class_name: "User"
-  belongs_to :card
+  belongs_to :eventable, polymorphic: true
+  belongs_to :summary, touch: true, class_name: "EventSummary"
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  after_create -> { card.touch(:last_active_at) }
+  # TODO: Remove dependency with last_active_at via hook
+  after_create -> { eventable.touch(:last_active_at) }
 
   def action
     super.inquiry
@@ -16,11 +19,12 @@ class Event < ApplicationRecord
     if action.commented?
       comment
     else
-      card
+      eventable
     end
   end
 
+  # TODO: This doesn't belong here anymore
   def initial_assignment?
-    action == "published" && card.assigned_to?(creator)
+    action == "published" && eventable.assigned_to?(creator)
   end
 end

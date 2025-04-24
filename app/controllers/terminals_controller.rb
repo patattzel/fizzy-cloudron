@@ -1,6 +1,6 @@
 class TerminalsController < ApplicationController
   def show
-    @events = Event.where(card: Current.user.accessible_cards, creator: Current.user).chronologically.reverse_order.limit(20)
+    @events = Event.where(eventable: Current.user.accessible_cards, creator: Current.user).chronologically.reverse_order.limit(20)
   end
 
   def edit

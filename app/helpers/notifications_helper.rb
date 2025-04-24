@@ -1,9 +1,9 @@
 module NotificationsHelper
   def event_notification_title(event)
     case event_notification_action(event)
-    when "commented" then "RE: " + event.card.title
-    when "assigned" then "Assigned to you: " + event.card.title
-    else event.card.title
+    when "commented" then "RE: " + event.eventable.title
+    when "assigned" then "Assigned to you: " + event.eventable.title
+    else event.eventable.title
     end
   end
 

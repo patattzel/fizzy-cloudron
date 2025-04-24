@@ -43,7 +43,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   test "links to the card" do
     Notifier.for(events(:logo_published)).notify
 
-    assert_equal cards(:logo), Notification.last.source.card
+    assert_equal cards(:logo), Notification.last.source.eventable
   end
 
   test "assignment events only create a notification for the assignee" do
