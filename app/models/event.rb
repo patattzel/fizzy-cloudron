@@ -15,11 +15,7 @@ class Event < ApplicationRecord
   end
 
   def notifiable_target
-    if action.commented?
-      comment
-    else
-      eventable
-    end
+    eventable
   end
 
   # TODO: This doesn't belong here anymore

@@ -1,9 +1,11 @@
+<% card = event.eventable.is_a?(Card) ? event.eventable : event.eventable.card %>
+
 <%= link_to event.eventable,
       class: "event event--#{ event.action } panel center center-block flex-inline align-start justify-start gap position-relative",
-      style: "--card-color: #{ event.eventable.color }; background-color: color-mix(in srgb, var(--card-color) 10%, var(--color-bg));
+      style: "--card-color: #{ card.color }; background-color: color-mix(in srgb, var(--card-color) 10%, var(--color-bg));
   color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));",
       data: { related_element_target: "related",
-              related_element_group_value: event.eventable.id,
+              related_element_group_value: card.id,
               action: "mouseover->related-element#highlight mouseout->related-element#unhighlight" } do %>
   <div class="avatar txt-x-small flex-item-no-shrink">
     <%= avatar_image_tag(event.creator) %>
@@ -22,9 +24,9 @@
       <% end %>
     </div>
 
-    <% if event.action == "card_commented" && !strip_tags(event&.comment&.body_html).blank? %>
+    <% if event.action == "comment_created" && !strip_tags(event&.eventable&.body_html).blank? %>
       <span class="txt-break overflow-line-clamp txt-tight-lines">
-        <%= strip_tags(event.comment.body_html).truncate(200) -%>
+        <%= strip_tags(event&.eventable.body_html).truncate(200) -%>
       </span>
     <% end %>
 

@@ -35,10 +35,9 @@ layout_published:
 layout_commented:
   creator: david
   collection: writebook
-  eventable: layout (Card)
-  action: card_commented
+  eventable: layout_overflowing_david (Comment)
+  action: comment_created
   summary: layout_initial_activity
-  particulars: <%= { comment_id: ActiveRecord::FixtureSet.identify(:layout_overflowing_david) }.to_json %>
   created_at: <%= 1.week.ago %>
 
 layout_assignment_jz:

@@ -1,7 +1,7 @@
 module NotificationsHelper
   def event_notification_title(event)
     case event_notification_action(event)
-    when "card_commented" then "RE: " + event.eventable.title
+    when "comment_created" then "RE: " + event.eventable.card.title
     when "card_assigned" then "Assigned to you: " + event.eventable.title
     else event.eventable.title
     end
@@ -13,7 +13,7 @@ module NotificationsHelper
     case event_notification_action(event)
     when "card_closed" then "Closed by #{name}"
     when "card_published" then "Added by #{name}"
-    when "card_commented" then comment_notification_body(event)
+    when "comment_created" then comment_notification_body(event)
     else name
     end
   end
@@ -56,6 +56,7 @@ module NotificationsHelper
     end
 
     def comment_notification_body(event)
-      "#{strip_tags(event.comment.body_html).blank? ? "#{event.creator.name} replied" : "#{event.creator.name}:" } #{strip_tags(event.comment.body_html).truncate(200)}"
+      comment = event.eventable
+      "#{strip_tags(comment.body_html).blank? ? "#{event.creator.name} replied" : "#{event.creator.name}:" } #{strip_tags(comment.body_html).truncate(200)}"
     end
 end

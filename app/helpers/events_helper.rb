@@ -53,8 +53,8 @@ module EventsHelper
       end
     when "card_unassigned"
       "#{ event.creator == Current.user ? "You" : event.creator.name } unassigned #{ event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence } from <span style='color: var(--card-color)'>#{ event.eventable.title }</span>".html_safe
-    when "card_commented"
-      "#{ event.creator == Current.user ? "You" : event.creator.name } commented on <span style='color: var(--card-color)'>#{ event.eventable.title }</span>".html_safe
+    when "comment_created"
+      "#{ event.creator == Current.user ? "You" : event.creator.name } commented on <span style='color: var(--card-color)'>#{ event.eventable.card.title }</span>".html_safe
     when "card_published"
       "#{ event.creator == Current.user ? "You" : event.creator.name } added <span style='color: var(--card-color)'>#{ event.eventable.title }</span>".html_safe
     when "card_closed"
@@ -82,7 +82,7 @@ module EventsHelper
       "bolt"
     when "card_unstaged"
       "bolt"
-    when "card_commented"
+    when "comment_created"
       "comment"
     when "card_title_changed"
       "rename"

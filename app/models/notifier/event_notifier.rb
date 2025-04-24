@@ -9,14 +9,18 @@ class Notifier::EventNotifier < Notifier
         source.assignees.excluding(source.collection.access_only_users)
       when "card_published"
         watchers_and_subscribers(include_only_watching: true).without(creator, *card.mentionees)
-      when "card_commented"
-        watchers_and_subscribers.without(creator, *source.comment.mentionees)
+      when "comment_created"
+        watchers_and_subscribers.without(creator, *source.eventable.mentionees)
       else
         watchers_and_subscribers.without(creator)
       end
     end
 
     def card
-      source.eventable
+      if source.eventable.is_a?(Card)
+        source.eventable
+      else
+        source.eventable.card
+      end
     end
 end
