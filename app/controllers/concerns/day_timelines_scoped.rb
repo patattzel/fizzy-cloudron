@@ -8,7 +8,7 @@ module DayTimelinesScoped
     before_action :restore_collections_filter
     before_action :set_day_timeline
 
-    after_action :save_collection_filter
+    after_action :save_collections_filter
   end
 
   private
@@ -40,7 +40,7 @@ module DayTimelinesScoped
       head :not_found
     end
 
-    def save_collection_filter
+    def save_collections_filter
       if params[:collection_ids].present?
         cookies[:collection_filter] = params[:collection_ids].join(",")
       end
