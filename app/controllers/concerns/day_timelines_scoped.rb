@@ -5,17 +5,17 @@ module DayTimelinesScoped
     include FilterScoped
 
     before_action :restore_collections_filter, :set_day_timeline
-    after_action :save_collections_filter
   end
 
   private
     def restore_collections_filter
-      clear_collections_filter if params[:clear_filter]
-      @filter.collection_ids = cookies[:collection_filter].split(",") if cookies[:collection_filter].present?
+      cookies.delete(:collection_filter) if params[:clear_filter]
+      set_collections_filter if cookies[:collection_filter].present?
     end
 
-    def clear_collections_filter
-      cookies.delete(:collection_filter)
+    def set_collections_filter
+      @filter.collection_ids = cookies[:collection_filter].split(",")
+      cookies[:collection_filter] = @filter.collection_ids.join(",")
     end
 
     def set_day_timeline
@@ -30,11 +30,5 @@ module DayTimelinesScoped
       end
     rescue ArgumentError
       head :not_found
-    end
-
-    def save_collections_filter
-      if params[:collection_ids].present?
-        cookies[:collection_filter] = params[:collection_ids].join(",")
-      end
     end
 end
