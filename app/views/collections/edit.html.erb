@@ -78,18 +78,33 @@
   </div>
 
   <div class="panel shadow center flex flex-column">
-    <strong class="txt-large">Workflows</strong>
-    <%= form_with model: @collection, url: collection_workflow_path(@collection), local: true, method: :patch, data: { controller: "form" } do |form| %>
-      <%= form.label :workflow_id, "Use a Workflow to track progress in this Collection.", class: "flex justify-center margin-block-end" %>
-      <%= form.select :workflow_id, Workflow.all.map { |w| [w.name, w.id] }, { include_blank: "Choose…" }, class: "input input--select full-width", data: { action: "change->form#submit" } %>
-    <% end %>
-    <p><%= link_to "Manage workflows", workflows_path, class: "btn btn--plain txt-link" %></p>
-
-    <hr class="separator--horizontal full-width margin-block-double" style="--border-color: var(--color-subtle);" aria-hidden="true" />
-
     <strong class="txt-large">Auto-Close Cards</strong>
     <label for="closure" class="margin-block-end">Cards automatically close when there is no activity for…</label>
     <%= select_tag :closure, options_for_select(Card::Closeable::AUTO_CLOSE_OPTIONS, Card::Closeable::AUTO_CLOSE_AFTER), { class: "input input--select full-width margin-block-end", data: { action: "change->form#submit" } } %>
+
+    <hr class="separator--horizontal full-width margin-block" style="--border-color: var(--color-subtle);" aria-hidden="true" />
+
+    <strong class="txt-large">Workflows</strong>
+    <div class="flex justify-center margin-block-end">Use a Workflow to track progress in this Collection.</div>
+    <div class="flex flex-wrap gap">
+      <% Workflow.all.each do |workflow| %>
+        <div class="workflow-preview txt-align-start border border-radius <%= 'workflow-preview--selected' if workflow == @collection.workflow %>">
+          <%= button_to collection_workflow_path(@collection), method: :patch do %>
+            <%= hidden_field_tag "collection[workflow_id]", workflow.id %>
+            <strong class="txt-small overflow-ellipsis"><%= workflow.name %></strong>
+            <ul class="list-style-none txt-xx-small ">
+              <% workflow.stages.each do |stage| %>
+                <li class="overflow-ellipsis flex align-center gap-half min-width">
+                  <span class="workflow-preview__swatch btn btn--circle" style="--btn-background: <%= stage.color %>;"></span>
+                  <span class="overflow-ellipsis"><%= stage.name %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <p><%= link_to "Manage workflows", workflows_path, class: "btn btn--plain txt-link" %></p>
 
     <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle); margin-block-start: auto;" aria-hidden="true" />
 
