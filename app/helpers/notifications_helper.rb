@@ -48,7 +48,7 @@ module NotificationsHelper
 
   private
     def event_notification_action(event)
-      if event.initial_assignment?
+      if event.action.card_published? && event.eventable.assigned_to?(event.creator)
         "card_assigned"
       else
         event.action

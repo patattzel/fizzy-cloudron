@@ -17,9 +17,4 @@ class Event < ApplicationRecord
   def notifiable_target
     eventable
   end
-
-  # TODO: This doesn't belong here anymore
-  def initial_assignment?
-    action == "card_published" && eventable.assigned_to?(creator)
-  end
 end
