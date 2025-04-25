@@ -1,0 +1,15 @@
+<%= link_to events_path(clear_filter: true), class: "popup__group flex align-center", style: "--hover-size: 0" do %>
+  <div class="btn txt-xx-small flex-item-no-shrink">
+    <%= check_box_tag "filter_collections", nil, filter.collections.blank?, class: "form-checkbox" %>
+
+    <span class="for-screen-reader">
+			See everything in all collections
+		</span>
+    <%= icon_tag "check", size: 18, class: "checked" %>
+  </div>
+
+	<%= tag.div class: "btn popup__item min-width flex-item-grow" do %>
+    <span class="overflow-ellipsis">All collections</span>
+  <% end %>
+  <span class="translucent flex-item-no-shrink"> ›</span>
+<% end %>

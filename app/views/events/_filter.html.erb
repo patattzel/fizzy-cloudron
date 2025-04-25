@@ -29,43 +29,8 @@
 
 		<%= form_with url: events_path, method: :get, class: "flex flex-column max-width popup__list full-width",
 					data: { controller: "form" } do |form| %>
-			<%= link_to events_path(clear_filter: true), class: "popup__group flex align-center", style: "--hover-size: 0" do %>
-				<div class="btn txt-xx-small flex-item-no-shrink">
-					<input type="checkbox" <%= "checked" unless params[:collection_ids] || cookies[:collection_filter] %>>
-
-					<span class="for-screen-reader">
-						See everything in all collections
-					</span>
-					<%= icon_tag "check", size: 18, class: "checked" %>
-				</div>
-				<%= tag.div class: "btn popup__item min-width flex-item-grow" do %>
-					<span class="overflow-ellipsis">All collections</span>
-				<% end %>
-				<span class="translucent flex-item-no-shrink"> ›</span>
-			<% end %>
-
-			<% Current.user.collections.each do |collection| %>
-				<div class="popup__group flex align-center">
-					<div class="btn txt-xx-small">
-						<%= form.check_box "collection_ids[]", {
-							checked: (params[:collection_ids] || cookies[:collection_filter]&.split(","))&.include?(collection.id.to_s),
-							data: { action: "change->form#submit" },
-							include_hidden: false,
-						}, collection.id %>
-
-						<span class="for-screen-reader">
-							Toggle filter for <%= collection.name %>
-						</span>
-						<%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
-					</div>
-
-					<%= link_to cards_path(collection_ids: [ collection ]), class: "btn popup__item min-width flex-item-grow" do %>
-						<span class="overflow-ellipsis"><%= collection.name %></span>
-					<% end %>
-
-					<span class="translucent flex-item-no-shrink"> ›</span>
-				</div>
-			<% end %>
+			<%= render "events/filter/all_collections_option", form: form, filter: filter %>
+			<%= render partial: "events/filter/collection_option", collection: Current.user.collections, as: :collection, locals: { form: form, filter: filter } %>
 		<% end %>
 	</dialog>
 </div>
