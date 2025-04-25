@@ -8,9 +8,9 @@
       <% end %>
     </div>
 
-    <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark);" aria-hidden="true">
+    <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium);" aria-hidden="true">
 
-    <div class="flex flex-column gap margin-block-start">
+    <div class="flex flex-column gap-half margin-block-start">
       <%= turbo_frame_tag dom_id(workflow, :stages) do %>
         <%= render partial: "workflows/stages/stage", collection: workflow.stages %>
 

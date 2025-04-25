@@ -4,7 +4,7 @@
     accent-color: var(--input-accent-color, var(--color-ink));
     background-color: var(--input-background, transparent);
     border-radius: var(--input-border-radius, 0.5em);
-    border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-subtle-dark));
+    border: var(--input-border-size, 1px) solid var(--input-border-color, var(--color-ink-medium));
     color: var(--input-color, var(--color-ink));
     font-size: max(16px, 1em);
     inline-size: 100%;
@@ -96,7 +96,7 @@
     }
 
     option {
-      background-color: var(--color-bg);
+      background-color: var(--color-canvas);
       color: var(--color-ink);
     }
   }
@@ -140,7 +140,7 @@
     &:has(:focus-visible) {
       .switch__btn {
         box-shadow:
-          0 0 0 var(--outline-size) var(--color-bg),
+          0 0 0 var(--outline-size) var(--color-canvas),
           0 0 0 calc(var(--outline-size) * 2) var(--color-ink);
       }
     }
@@ -153,7 +153,7 @@
   }
 
   .switch__btn {
-    background-color: var(--color-subtle-dark);
+    background-color: var(--color-ink-medium);
     border-radius: 2em;
     cursor: pointer;
     inset: 0;
@@ -161,7 +161,7 @@
     transition: 150ms ease;
 
     &::before {
-      background-color: var(--color-ink-reversed);
+      background-color: var(--color-ink-inverted);
       block-size: 1.35em;
       border-radius: 50%;
       content: "";
@@ -173,7 +173,7 @@
     }
 
     .switch__input:disabled + & {
-      background-color: var(--color-subtle-dark) !important;
+      background-color: var(--color-ink-medium) !important;
       cursor: not-allowed;
     }
 

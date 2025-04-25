@@ -15,7 +15,7 @@
   /* Toolbar */
   house-md-toolbar {
     background-color: inherit;
-    border-block-end: 1px solid var(--color-subtle-dark);
+    border-block-end: 1px solid var(--color-ink-medium);
     border-radius: 0;
     color: currentColor;
     display: inline-flex;
@@ -49,7 +49,7 @@
       }
 
       &:is(:focus, :hover) {
-        background-color: var(--color-subtle);
+        background-color: var(--color-ink-lighter);
       }
 
       &:is(:active) {
@@ -94,7 +94,7 @@
 
     &[status="failed"] {
       background-color: var(--color-negative);
-      color: var(--color-ink-reversed);
+      color: var(--color-ink-inverted);
       font-weight: bold;
       padding: 0.5em;
     }
@@ -113,13 +113,13 @@
     cursor: pointer;
 
     house-md-upload[status="failed"] & {
-      color: var(--color-ink-reversed);
+      color: var(--color-ink-inverted);
       display: inline-block;
     }
 
     &::before {
       content: '×';
-      color: var(--color-ink-reversed);
+      color: var(--color-ink-inverted);
       font-size: 24px;
       font-weight: bold;
       position: absolute;
@@ -140,7 +140,7 @@
   .md-progress-bar {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--color-subtle);
+    background-color: var(--color-ink-lighter);
     border-radius: 0.5em;
     block-size: 1ex;
     display: block;
@@ -155,7 +155,7 @@
 
     &::-webkit-progress-bar {
       border-radius: 0.5em;
-      background-color: var(--color-subtle);
+      background-color: var(--color-ink-lighter);
     }
 
     &::-webkit-progress-inner-element {

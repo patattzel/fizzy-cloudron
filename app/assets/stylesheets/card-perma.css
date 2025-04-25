@@ -4,7 +4,7 @@
   .card-perma {
     --actions-block-inset: 1.5rem;
     --actions-inline-inset: 4rem;
-    --color-container: color-mix(in srgb, var(--card-color) 33%, var(--color-bg));
+    --color-container: color-mix(in srgb, var(--card-color) 33%, var(--color-canvas));
     --padding-inline: calc(var(--block-space-double) + var(--block-space));
     --padding-block: calc(var(--block-space-double) + var(--block-space-half));
 
@@ -96,7 +96,7 @@
 
       &:has(input:checked)  {
         --btn-background: var(--card-color);
-        --btn-color: var(--color-ink-reversed);
+        --btn-color: var(--color-ink-inverted);
       }
     }
   }
@@ -111,7 +111,7 @@
 
     .btn:not(.popup__item, .btn--plain, .btn--reversed) {
       --btn-background: var(--card-color);
-      --btn-color: var(--color-ink-reversed);
+      --btn-color: var(--color-ink-inverted);
     }
 
     .btn--plain {
@@ -121,7 +121,7 @@
     }
 
     .btn--reversed {
-      --btn-background: var(--color-bg);
+      --btn-background: var(--color-canvas);
       --btn-color: var(--card-color);
     }
   }
