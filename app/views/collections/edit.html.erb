@@ -55,9 +55,7 @@
           <% end %>
 
           <div data-filter-target="list" class="users-list pad-inline">
-            <% 20.times do %>
-              <%= access_toggles_for @selected_users, selected: true %>
-            <% end %>
+            <%= access_toggles_for @selected_users, selected: true %>
 
             <% if @selected_users.any? && @unselected_users.any? %>
               <hr class="separator full-width" style="--border-style: solid">
