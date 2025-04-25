@@ -31,8 +31,4 @@ class Card < ApplicationRecord
   def cache_key
     [ super, collection.name ].compact.join("/")
   end
-
-  def was_mentioned(mention)
-    watch_by(mention.mentionee)
-  end
 end

@@ -5,7 +5,7 @@ class Mention < ApplicationRecord
   belongs_to :mentioner, class_name: "User"
   belongs_to :mentionee, class_name: "User", inverse_of: :mentions
 
-  after_create_commit :add_mentionee_as_watcher
+  after_create_commit :watch_source_by_mentionee
 
   def self_mention?
     mentioner == mentionee
@@ -16,7 +16,7 @@ class Mention < ApplicationRecord
   end
 
   private
-    def add_mentionee_as_watcher
+    def watch_source_by_mentionee
       source.watch_by(mentionee)
     end
 end

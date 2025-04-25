@@ -2,7 +2,7 @@ require "test_helper"
 
 class Notifier::EventNotifierTest < ActiveSupport::TestCase
   test "for returns the matching notifier class for the event" do
-    assert_kind_of Notifier::EventNotifier, Notifier.for(events(:logo_published))
+    assert_kind_of Notifier::CardEventNotifier, Notifier.for(events(:logo_published))
   end
 
   test "generate does not create notifications if the event was system-generated" do
@@ -43,7 +43,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   test "links to the card" do
     Notifier.for(events(:logo_published)).notify
 
-    assert_equal cards(:logo), Notification.last.source.card
+    assert_equal cards(:logo), Notification.last.source.eventable
   end
 
   test "assignment events only create a notification for the assignee" do

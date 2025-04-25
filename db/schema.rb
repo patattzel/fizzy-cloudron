@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_25_070025) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -177,14 +177,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
 
   create_table "events", force: :cascade do |t|
     t.string "action", null: false
-    t.integer "card_id", null: false
+    t.integer "collection_id", null: false
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
+    t.integer "eventable_id", null: false
+    t.string "eventable_type", null: false
     t.json "particulars", default: {}
-    t.integer "summary_id", null: false
+    t.integer "summary_id"
     t.datetime "updated_at", null: false
-    t.index ["card_id"], name: "index_events_on_card_id"
+    t.index ["collection_id"], name: "index_events_on_collection_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
+    t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"
     t.index ["summary_id", "action"], name: "index_events_on_summary_id_and_action"
   end
 
@@ -237,7 +240,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
     t.datetime "created_at", null: false
     t.integer "creator_id"
     t.datetime "read_at"
-    t.integer "source_id"
+    t.integer "source_id", null: false
     t.string "source_type", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
@@ -289,6 +292,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_tags_on_account_id_and_title", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -335,7 +339,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_23_114737) do
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"
   add_foreign_key "collections", "workflows"
-  add_foreign_key "events", "cards"
+  add_foreign_key "events", "collections"
   add_foreign_key "events", "event_summaries", column: "summary_id"
   add_foreign_key "mentions", "users", column: "mentionee_id"
   add_foreign_key "mentions", "users", column: "mentioner_id"

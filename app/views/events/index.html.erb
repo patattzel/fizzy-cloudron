@@ -6,7 +6,7 @@
 
     <div class="events__index-header flex-inline flex-column center gap-half margin-block-end-double txt-align-center">
       <h2 class="txt-large txt-nowrap center"><%= Account.sole.name %> / Latest activity</h2>
-      <%= render "events/filter" %>
+      <%= render "events/filter", filter: @filter %>
     </div>
 
     <%= link_to users_path, class: "btn flex-item-justify-end" do %>
@@ -19,8 +19,8 @@
 <div class="events__container align-start gap">
   <div class="flex flex-column">
     <div id="activity" class="events__index flex flex-column">
-      <%= render "events/day", activity_day: @activity_day, next_day: @next_day, events: @events %>
+      <%= render "events/day", day_timeline: @day_timeline %>
     </div>
-    <%= event_next_page_link(@next_day) %>
+    <%= event_next_page_link(@day_timeline.next_day) %>
   </div>
 </div>

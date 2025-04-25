@@ -111,6 +111,10 @@ Rails.application.routes.draw do
     polymorphic_path(notification.notifiable_target, options)
   end
 
+  resolve "Event" do |event, options|
+    polymorphic_path(event.target, options)
+  end
+
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 

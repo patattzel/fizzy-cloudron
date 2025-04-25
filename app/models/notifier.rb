@@ -5,7 +5,7 @@ class Notifier
     def for(source)
       case source
       when Event
-        EventNotifier.new(source)
+        "Notifier::#{source.eventable.class}EventNotifier".safe_constantize&.new(source)
       when Mention
         MentionNotifier.new(source)
       end
