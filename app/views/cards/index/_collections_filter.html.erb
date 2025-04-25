@@ -16,7 +16,7 @@
     <%= tag.div class: "btn popup__item min-width flex-item-grow" do %>
       <span class="overflow-ellipsis">All collections</span>
     <% end %>
-    <span class="translucent flex-item-no-shrink"> ›</span>
+    <span class="txt-ink translucent flex-item-no-shrink"><span class="txt-x-small txt-uppercase">GO TO</span> ›</span>
   <% end %>
 
   <% Current.user.collections.order(:name).each do |collection| %>
