@@ -40,6 +40,13 @@ class FilterTest < ActiveSupport::TestCase
     assert_empty users(:david).filters.new(collection_ids: [ collections(:writebook).id ]).cards
   end
 
+  test "can't see collections that aren't accessible" do
+    collections(:writebook).update! all_access: false
+    collections(:writebook).accesses.revoke_from users(:david)
+
+    assert_empty users(:david).filters.new(collection_ids: [ collections(:writebook).id ]).collections
+  end
+
   test "remembering equivalent filters" do
     assert_difference "Filter.count", +1 do
       filter = users(:david).filters.remember(indexed_by: "latest", assignment_status: "unassigned", tag_ids: [ tags(:mobile).id ])
