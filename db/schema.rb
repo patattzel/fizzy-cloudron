@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_24_105223) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_25_070025) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -292,6 +292,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_24_105223) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_tags_on_account_id_and_title", unique: true
   end
 
   create_table "users", force: :cascade do |t|
