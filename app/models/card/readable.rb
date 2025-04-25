@@ -20,12 +20,12 @@ module Card::Readable
       events + comment_creation_events
     end
 
-    def mention_notification_sources
-      mentions + comment_mentions
-    end
-
     def comment_creation_events
       Event.where(eventable: comments)
+    end
+
+    def mention_notification_sources
+      mentions + comment_mentions
     end
 
     def comment_mentions
