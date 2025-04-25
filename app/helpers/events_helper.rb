@@ -94,7 +94,7 @@ module EventsHelper
   def event_action_icon(event)
     case event.action
     when "card_assigned"
-      "card_assigned"
+      "assigned"
     when "card_staged"
       "bolt"
     when "card_unstaged"
