@@ -1,5 +1,5 @@
 <li class="min-width overflow-ellipsis">
   <%= link_to event_action_sentence(event), collection_card_path(event.collection, event.eventable),
       class: "terminal__link",
-      data: { turbo_frame: "_top" } %>
+      data: { action: "toggle-class#remove", turbo_frame: "_top" } %>
 </li>
