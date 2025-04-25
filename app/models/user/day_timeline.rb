@@ -17,10 +17,6 @@ class User::DayTimeline
     latest_event_before&.created_at
   end
 
-  def collections
-    filter.collections.presence || user.collections
-  end
-
   def earliest_time
     next_day&.tomorrow&.beginning_of_day
   end
@@ -32,6 +28,10 @@ class User::DayTimeline
   private
     def filtered_events
       @filtered_events ||= Event.where(collection: collections)
+    end
+
+    def collections
+      filter.collections.presence || user.collections
     end
 
     def latest_event_before
