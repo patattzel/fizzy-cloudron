@@ -4,16 +4,17 @@ module DayTimelinesScoped
   included do
     include FilterScoped
 
-    before_action :restore_collections_filter, :set_day_timeline
+    before_action :restore_collections_filter_from_cookie
+    before_action :set_day_timeline
+    after_action :save_collections_filter_to_cookie
   end
 
   private
-    def restore_collections_filter
+    def restore_collections_filter_from_cookie
       if params[:clear_filter]
         delete_collections_filter_cookie
       else
-        set_collections_filter_from_cookie if should_restore_collections_filter_from_cookie?
-        save_collections_filter_to_cookie
+        set_collections_filter_from_cookie
       end
     end
 
@@ -22,11 +23,9 @@ module DayTimelinesScoped
     end
 
     def set_collections_filter_from_cookie
-      @filter.collection_ids = cookies[:collection_filter].split(",")
-    end
-
-    def should_restore_collections_filter_from_cookie?
-      cookies[:collection_filter].present? && @filter.collections.blank?
+      if cookies[:collection_filter].present? && @filter.collections.blank?
+        @filter.collection_ids = cookies[:collection_filter].split(",")
+      end
     end
 
     def save_collections_filter_to_cookie
