@@ -9,14 +9,28 @@ module DayTimelinesScoped
 
   private
     def restore_collections_filter
-      cookies.delete(:collection_filter) if params[:clear_filter]
-      # TODO: This is not working as intended yet, I'll fix
-      set_collections_filter_from_cookie
-      cookies[:collection_filter] = @filter.collection_ids.join(",")
+      if params[:clear_filter]
+        delete_collections_filter_cookie
+      else
+        set_collections_filter_from_cookie if should_restore_collections_filter_from_cookie?
+        save_collections_filter_to_cookie
+      end
+    end
+
+    def delete_collections_filter_cookie
+      cookies.delete(:collection_filter)
     end
 
     def set_collections_filter_from_cookie
-      @filter.collection_ids = cookies[:collection_filter].split(",") if cookies[:collection_filter].present?
+      @filter.collection_ids = cookies[:collection_filter].split(",")
+    end
+
+    def should_restore_collections_filter_from_cookie?
+      cookies[:collection_filter].present? && @filter.collections.blank?
+    end
+
+    def save_collections_filter_to_cookie
+      cookies[:collection_filter] = @filter.collection_ids.join(",")
     end
 
     def set_day_timeline
