@@ -11,7 +11,6 @@ class Comment < ApplicationRecord
   scope :belonging_to_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
 
   after_create_commit :watch_card_by_creator
-  after_destroy_commit :cleanup_events
 
   delegate :watch_by, to: :card
 
@@ -22,11 +21,5 @@ class Comment < ApplicationRecord
   private
     def watch_card_by_creator
       card.watch_by creator
-    end
-
-    # FIXME: This isn't right. We need to introduce an eventable polymorphic association for this.
-    def cleanup_events
-      # Delete events that reference directly in particulars
-      Event.where(particulars: { comment_id: id }).destroy_all
     end
 end
