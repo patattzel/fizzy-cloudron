@@ -28,12 +28,12 @@ module DayTimelinesScoped
       end
     end
 
-    def save_collections_filter_to_cookie
-      cookies[:collection_filter] = @filter.collection_ids.join(",")
-    end
-
     def set_day_timeline
       @day_timeline = Current.user.timeline_for(day, filter: @filter)
+    end
+
+    def save_collections_filter_to_cookie
+      cookies[:collection_filter] = @filter.collection_ids.join(",")
     end
 
     def day
