@@ -4,7 +4,8 @@
 
 @layer components {
   .tray {
-    --height: calc(2.48lh + var(--block-space));
+    /* FIXME: Magic number */
+    --height: calc(2.625lh + var(--block-space));
 
     background-color: transparent;
     border: 0;
