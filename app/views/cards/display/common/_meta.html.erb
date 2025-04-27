@@ -17,11 +17,11 @@
       <% end %>
     </span>
     <span class="card__meta-item card__meta-item--reported overflow-ellipsis">
-      Reported by <strong><%= familiar_name_for(card.creator) %></strong>
+      Reported by <strong><%= card.creator.familiar_name %></strong>
     </span>
     <span class="card__meta-item card__meta-item--assigned overflow-ellipsis">
       <%= card.assignees.any? ? "Assigned to" : "Not assigned" %>
-      <%= card.assignees.map { |assignee| "<strong>#{familiar_name_for(assignee)}</strong>" }.to_sentence.html_safe %>
+      <%= card.assignees.map { |assignee| "<strong>#{assignee.familiar_name}</strong>" }.to_sentence.html_safe %>
     </span>
   </div>
 
