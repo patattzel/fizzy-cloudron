@@ -42,6 +42,14 @@
         background: var(--color-selected);
       }
     }
+
+    &:has(:focus-visible) {
+      background: var(--color-selected-dark);
+
+      .popup__item {
+        --outline-size: 0;
+      }
+    }
   }
 
   .popup__item {
