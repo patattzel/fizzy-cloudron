@@ -1,28 +1,26 @@
-<div class="flex flex-column max-width popup__list full-width">
-  <li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="assigned to me">
-    <%= link_to cards_path(assignee_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
-      <%= icon_tag "filter" %>
-      <span class="overflow-ellipsis">Assigned to me</span>
-      <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
-    <% end %>
-  </li>
-
-  <li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="reported by me">
-    <%= link_to cards_path(creator_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
-      <%= icon_tag "filter" %>
-      <span class="overflow-ellipsis">Reported by me</span>
-      <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
-    <% end %>
-  </li>
-
-  <% @filters.each do |filter| %>
-    <li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="<%= filter.summary.downcase %>">
-      <%= link_to cards_path(**filter.as_params), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
-        <%= icon_tag "filter" %>
-        <span class="overflow-ellipsis"><%= filter.summary %></span>
-        <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
-      <% end %>
-    </li>
+<li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="assigned to me">
+  <%= link_to cards_path(assignee_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
+    <%= icon_tag "filter" %>
+    <span class="overflow-ellipsis">Assigned to me</span>
+    <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
   <% end %>
-</div>
+</li>
+
+<li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="reported by me">
+  <%= link_to cards_path(creator_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
+    <%= icon_tag "filter" %>
+    <span class="overflow-ellipsis">Reported by me</span>
+    <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
+  <% end %>
+</li>
+
+<% @filters.each do |filter| %>
+  <li class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-value="<%= filter.summary.downcase %>">
+    <%= link_to cards_path(**filter.as_params), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
+      <%= icon_tag "filter" %>
+      <span class="overflow-ellipsis"><%= filter.summary %></span>
+      <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
+    <% end %>
+  </li>
+<% end %>
 <hr class="full-width separator--horizontal margin-none" style="--border-color: transparent;">
