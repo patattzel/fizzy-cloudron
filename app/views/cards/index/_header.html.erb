@@ -4,7 +4,7 @@
   <div class="btn btn--placeholder flex-item-justify-start"></div>
 
   <header class="flex flex-inline flex-column center flex-shrink">
-    <div class="card-filter--collection flex-inline align-center center position-relative" data-controller="dialog" data-action="click@document->dialog#closeOnClickOutside">
+    <div class="card-filter--collection flex-inline flex-column align-center center position-relative" data-controller="dialog" data-action="click@document->dialog#closeOnClickOutside">
       <%= tag.button class: "txt-align-center input input--select borderless txt-medium",
           data: {
             action: "click->dialog#open:stop keydown.meta+j@document->hotkey#click",
@@ -13,6 +13,8 @@
           <span><%= filter_title filter %></span>
         </h1>
       <% end %>
+
+      <%= render "filters/settings", filter: filter %>
 
       <%= tag.dialog class:"popup popup--animated panel flex-column align-start gap-half fill-white shadow",
           data: { 

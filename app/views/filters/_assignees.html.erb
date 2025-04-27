@@ -1,11 +1,11 @@
 <% if filter.assignees.any? %>
   <div class="quick-filter position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-    <button class="btn input input--select flex-inline txt-small" data-action="click->dialog#open:stop">
+    <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
         <% if filter.assignment_status.unassigned? %>
           No one
         <% elsif filter.assignees.any? %>
-          <%= filter.assignees.map(&:name).to_sentence %>
+          Assigned to <%= filter.assignees.map(&:familiar_name).to_sentence %>
         <% else %>
           Assigned to…
         <% end %>

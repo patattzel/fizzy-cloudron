@@ -1,12 +1,12 @@
 <% if filter.creators.any? %>
   <div class="quick-filter position-relative" data-controller="dialog"
         data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-    <button class="btn input input--select flex-inline txt-small" data-action="click->dialog#open:stop">
+    <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
         <% if filter.creators.any? %>
-          <%= "Added by #{filter.creators.map(&:name).to_sentence}" %>
+          <%= "Reported by #{filter.creators.map(&:familiar_name).to_sentence}" %>
         <% else %>
-          Added by…
+          Reported by…
         <% end %>
       </span>
     </button>
