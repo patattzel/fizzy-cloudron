@@ -27,7 +27,9 @@
 					data: { controller: "form" } do |form| %>
 			<%= render "events/filter/all_collections_option", form: form, filter: filter %>
 			<menu data-filter-target="list" contents>
-				<%= render partial: "events/filter/collection_option", collection: Current.user.collections, as: :collection, locals: { form: form, filter: filter } %>
+				<% 20.times do %>
+					<%= render partial: "events/filter/collection_option", collection: Current.user.collections, as: :collection, locals: { form: form, filter: filter } %>
+				<% end %>
 			</menu>
 		<% end %>
 
