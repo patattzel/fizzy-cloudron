@@ -44,10 +44,10 @@
     <%= render "users/transfer", user: @user %>
   </div>
 
-  <div class="panel shadow center margin-block-double">
+  <div class="panel borderless center margin-block-double">
     <%= button_to session_path, method: :delete, class: "btn center txt-medium" do %>
       <%= icon_tag "logout" %>
-      <span class="for-screen-reader">Sign out</span>
+      <span>Sign out</span>
     <% end %>
   </div>
 <% end %>
