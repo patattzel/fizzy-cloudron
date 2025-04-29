@@ -12,7 +12,7 @@ module Card::Eventable
 
   def event_was_created(event)
     transaction do
-      find_or_capture_event_summary.events << event
+      # find_or_capture_event_summary.events << event
       touch(:last_active_at)
     end
   end

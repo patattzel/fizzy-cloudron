@@ -6,7 +6,7 @@ class Cards::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create" do
-    assert_difference "cards(:logo).messages.comments.count", +1 do
+    assert_difference -> { cards(:logo).comments.count }, +1 do
       post card_comments_path(cards(:logo), params: { comment: { body: "Agreed." } })
     end
 
