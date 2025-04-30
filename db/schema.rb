@@ -182,12 +182,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
     t.integer "eventable_id", null: false
     t.string "eventable_type", null: false
     t.json "particulars", default: {}
-    t.integer "summary_id"
     t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_events_on_summary_id_and_action"
     t.index ["collection_id"], name: "index_events_on_collection_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"
-    t.index ["summary_id", "action"], name: "index_events_on_summary_id_and_action"
   end
 
   create_table "filters", force: :cascade do |t|
@@ -281,6 +280,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_tags_on_account_id_and_title", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -329,7 +329,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
   add_foreign_key "collections", "workflows"
   add_foreign_key "comments", "cards"
   add_foreign_key "events", "collections"
-  add_foreign_key "events", "event_summaries", column: "summary_id"
   add_foreign_key "mentions", "users", column: "mentionee_id"
   add_foreign_key "mentions", "users", column: "mentioner_id"
   add_foreign_key "notifications", "users"

@@ -594,16 +594,6 @@ columns:
     default_function:
     collation:
     comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: summary_id
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
   - *9
   filters:
   - *5
@@ -1565,7 +1555,6 @@ indexes:
     name: index_events_on_summary_id_and_action
     unique: false
     columns:
-    - summary_id
     - action
     lengths: {}
     orders: {}
@@ -1916,7 +1905,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  tags: []
+  tags:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: tags
+    name: index_tags_on_account_id_and_title
+    unique: true
+    columns:
+    - title
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   users:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: users
