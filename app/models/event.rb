@@ -4,7 +4,6 @@ class Event < ApplicationRecord
   belongs_to :collection
   belongs_to :creator, class_name: "User"
   belongs_to :eventable, polymorphic: true
-  belongs_to :summary, touch: true, class_name: "EventSummary", optional: true
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
 

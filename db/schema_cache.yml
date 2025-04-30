@@ -533,6 +533,7 @@ columns:
   - *22
   - *18
   comments:
+  - *21
   - *5
   - *23
   - *6
@@ -540,10 +541,6 @@ columns:
   creators_filters:
   - *23
   - *18
-  event_summaries:
-  - *5
-  - *6
-  - *9
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -594,16 +591,6 @@ columns:
       scale:
     'null': true
     default: "{}"
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: summary_id
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': true
-    default:
     default_function:
     collation:
     comment:
@@ -693,31 +680,6 @@ columns:
   - &27 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: source_type
-    cast_type: *7
-    sql_type_metadata: *8
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
-  - *9
-  messages:
-  - *21
-  - *5
-  - *6
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: messageable_id
-    cast_type: *1
-    sql_type_metadata: *2
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: messageable_type
     cast_type: *7
     sql_type_metadata: *8
     'null': false
@@ -961,13 +923,11 @@ primary_keys:
   collections_filters:
   comments: id
   creators_filters:
-  event_summaries: id
   events: id
   filters: id
   filters_stages:
   filters_tags:
   mentions: id
-  messages: id
   notifications: id
   pins: id
   reactions: id
@@ -999,13 +959,11 @@ data_sources:
   collections_filters: true
   comments: true
   creators_filters: true
-  event_summaries: true
   events: true
   filters: true
   filters_stages: true
   filters_tags: true
   mentions: true
-  messages: true
   notifications: true
   pins: true
   reactions: true
@@ -1492,7 +1450,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  comments: []
+  comments:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: comments
+    name: index_comments_on_card_id
+    unique: false
+    columns:
+    - card_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   creators_filters:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: creators_filters
@@ -1526,7 +1500,6 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  event_summaries: []
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: events
@@ -1582,7 +1555,6 @@ indexes:
     name: index_events_on_summary_id_and_action
     unique: false
     columns:
-    - summary_id
     - action
     lengths: {}
     orders: {}
@@ -1718,40 +1690,6 @@ indexes:
     columns:
     - source_type
     - source_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  messages:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: messages
-    name: index_messages_on_card_id
-    unique: false
-    columns:
-    - card_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: messages
-    name: index_messages_on_messageable
-    unique: true
-    columns:
-    - messageable_type
-    - messageable_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -1967,7 +1905,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  tags: []
+  tags:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: tags
+    name: index_tags_on_account_id_and_title
+    unique: true
+    columns:
+    - title
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   users:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: users
@@ -2052,4 +2006,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250425092727
+version: 20250429162506
