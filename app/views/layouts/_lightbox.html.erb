@@ -1,10 +1,11 @@
-<dialog class="lightbox" aria-label="Image Viewer (Press escape to close)" data-lightbox-target="dialog" data-action="close->lightbox#reset">
+<%= tag.dialog class:"lightbox", aria: { label: "Image Viewer (Press escape to close)" },
+    data: { controller: "dialog", dialog_target: "dialog", lightbox_target: "dialog", action: "close->lightbox#reset" } do %>
   <img src="" class="lightbox__image" data-lightbox-target="zoomedImage" />
 
   <div class="lightbox__btn">
-    <button class="btn fill-white" title="Close (esc)" data-action="keydown.esc->lightbox#close:stop" data-controller="hotkey">
+    <button class="btn fill-white" title="Close (esc)" data-action="dialog#close keydown.esc->dialog#close:stop" data-controller="hotkey">
       <%= icon_tag "remove" %>
       <span class="for-screen-reader">Close image viewer (esc)</span>
     </button>
   </div>
-</dialog>
+<% end %>
