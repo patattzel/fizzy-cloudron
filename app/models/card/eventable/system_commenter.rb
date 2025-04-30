@@ -7,6 +7,7 @@ class Card::Eventable::SystemCommenter
 
   def comment
     return unless comment_body.present?
+
     if comment = find_replaceable_system_comment
       comment.update! body: comment_body
     else
