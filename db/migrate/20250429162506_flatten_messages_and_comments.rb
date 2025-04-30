@@ -15,5 +15,6 @@ class FlattenMessagesAndComments < ActiveRecord::Migration[8.1]
 
     change_column_null :comments, :card_id, false
     drop_table :messages
+    drop_table :event_summaries
   end
 end

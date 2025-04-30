@@ -10,7 +10,7 @@ class Card::Eventable::SystemCommenter
     if comment = find_replaceable_system_comment
       comment.update! body: comment_body
     else
-      card.comments.create! creator: User.system, body: comment_body
+      card.comments.create! creator: User.system, body: comment_body, created_at: event.created_at
     end
   end
 

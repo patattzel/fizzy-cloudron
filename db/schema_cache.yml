@@ -541,10 +541,6 @@ columns:
   creators_filters:
   - *23
   - *18
-  event_summaries:
-  - *5
-  - *6
-  - *9
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -937,7 +933,6 @@ primary_keys:
   collections_filters:
   comments: id
   creators_filters:
-  event_summaries: id
   events: id
   filters: id
   filters_stages:
@@ -974,7 +969,6 @@ data_sources:
   collections_filters: true
   comments: true
   creators_filters: true
-  event_summaries: true
   events: true
   filters: true
   filters_stages: true
@@ -1516,7 +1510,6 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  event_summaries: []
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: events
@@ -1923,23 +1916,7 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  tags:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: tags
-    name: index_tags_on_account_id_and_title
-    unique: true
-    columns:
-    - title
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
+  tags: []
   users:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: users
