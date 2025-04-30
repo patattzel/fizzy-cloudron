@@ -17,9 +17,9 @@ class Card::Eventable::SystemCommenter
 
   private
     REPLACEABLE_EVENTS = [
-      %w[card_assigned card_unassigned],
-      %w[card_staged card_unstaged],
-      %w[card_due_date_added card_due_date_changed card_due_date_removed]
+      %w[ card_assigned card_unassigned ],
+      %w[ card_staged card_unstaged ],
+      %w[ card_due_date_added card_due_date_changed card_due_date_removed ]
     ]
 
     def comment_body
