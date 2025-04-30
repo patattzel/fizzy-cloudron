@@ -29,7 +29,7 @@ class EventSummary < ApplicationRecord
         "#{event.creator.name} changed due date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}."
       when "card_due_date_removed"
         "#{event.creator.name} removed the date."
-      when "card_title_changed"
+      when "card_card_title_changed"
         "#{event.creator.name} changed title from '#{event.particulars.dig('particulars', 'old_title')}' to '#{event.particulars.dig('particulars', 'new_title')}'."
       end
     end
