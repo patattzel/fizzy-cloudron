@@ -15,7 +15,7 @@ class Card::Eventable::SystemCommenter
   end
 
   private
-    REPLACEABLE_EVENTS = [
+    RELATED_EVENTS = [
       %w[ card_assigned card_unassigned ]
     ]
 
@@ -47,6 +47,10 @@ class Card::Eventable::SystemCommenter
 
     def replaceable_event?(candidate_event, replacement_event)
       candidate_event && replacement_event &&
-        (candidate_event.action == replacement_event.action || REPLACEABLE_EVENTS.find { |related_actions| related_actions.include?(candidate_event.action) && related_actions.include?(replacement_event.action) })
+        (candidate_event.action == replacement_event.action || related_events?(candidate_event, replacement_event))
+    end
+
+    def related_events?(candidate_event, replacement_event)
+      RELATED_EVENTS.find { |related_actions| related_actions.include?(candidate_event.action) && related_actions.include?(replacement_event.action) }
     end
 end
