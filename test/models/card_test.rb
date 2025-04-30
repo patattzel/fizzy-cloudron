@@ -6,11 +6,11 @@ class CardTest < ActiveSupport::TestCase
   end
 
   test "capturing messages" do
-    assert_difference "cards(:logo).messages.comments.count", +1 do
-      cards(:logo).capture Comment.new(body: "Agreed.")
+    assert_difference -> { cards(:logo).comments.count }, +1 do
+      cards(:logo).comments.create!(body: "Agreed.")
     end
 
-    assert_equal "Agreed.", cards(:logo).messages.comments.last.messageable.body.to_plain_text.chomp
+    assert_equal "Agreed.", cards(:logo).comments.last.body.to_plain_text.chomp
   end
 
   test "assignment states" do
@@ -21,7 +21,7 @@ class CardTest < ActiveSupport::TestCase
   test "assignment toggling" do
     assert cards(:logo).assigned_to?(users(:kevin))
 
-    assert_difference({ "cards(:logo).assignees.count" => -1, "Event.count" => +1 }) do
+    assert_difference({ -> { cards(:logo).assignees.count } => -1, -> { Event.count } => +1 }) do
       cards(:logo).toggle_assignment users(:kevin)
     end
     assert_not cards(:logo).assigned_to?(users(:kevin))
@@ -98,8 +98,8 @@ class CardTest < ActiveSupport::TestCase
 
   test "mentioning" do
     card = collections(:writebook).cards.create! title: "Insufficient haggis", creator: users(:kevin)
-    cards(:logo).capture Comment.new(body: "I hate haggis")
-    cards(:text).capture Comment.new(body: "I love haggis")
+    cards(:logo).comments.create!(body: "I hate haggis")
+    cards(:text).comments.create!(body: "I love haggis")
 
     assert_equal [ card, cards(:logo), cards(:text) ].sort, Card.mentioning("haggis").sort
   end

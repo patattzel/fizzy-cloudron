@@ -31,8 +31,4 @@ module Card::Readable
     def comment_mentions
       Mention.where(source: comments)
     end
-
-    def comments
-      @comments ||= Comment.where(id: messages.comments.pluck(:messageable_id))
-    end
 end
