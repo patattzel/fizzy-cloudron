@@ -7,8 +7,8 @@ class FilterTest < ActiveSupport::TestCase
       @new_card = @new_collection.cards.create!
       @new_card.update!(stage: workflow_stages(:qa_on_hold))
 
-      cards(:layout).capture Comment.new(body: "I hate haggis")
-      cards(:logo).capture Comment.new(body: "I love haggis")
+      cards(:layout).comments.create!(body: "I hate haggis")
+      cards(:logo).comments.create!(body: "I love haggis")
       cards(:logo).update(stage: workflow_stages(:qa_on_hold))
     end
 

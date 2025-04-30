@@ -11,7 +11,7 @@ module Card::Searchable
         cards = Card.search(query).select(:id).to_sql
         comments = Comment.search(query).select(:id).to_sql
 
-        left_joins(:messages).where("cards.id in (#{cards}) or messages.messageable_id in (#{comments})").distinct
+        left_joins(:comments).where("cards.id in (#{cards}) or comments.id in (#{comments})").distinct
       else
         none
       end

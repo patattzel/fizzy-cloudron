@@ -6,8 +6,8 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test "searchable by body" do
-    message = cards(:logo).capture Comment.new(body: "I'd prefer something more rustic")
+    comment = cards(:logo).comments.create!(body: "I'd prefer something more rustic")
 
-    assert_includes Comment.search("something rustic"), message.comment
+    assert_includes Comment.search("something rustic"), comment
   end
 end

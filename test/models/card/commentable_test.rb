@@ -6,7 +6,7 @@ class Card::CommentableTest < ActiveSupport::TestCase
     assert_not cards(:text).watched_by?(users(:kevin))
 
     with_current_user(:kevin) do
-      cards(:text).capture Comment.new(body: "This sounds interesting!")
+      cards(:text).comments.create!(body: "This sounds interesting!")
     end
 
     assert cards(:text).watched_by?(users(:kevin))

@@ -5,7 +5,7 @@ class Cards::CommentsController < ApplicationController
   before_action :ensure_creatorship, only: %i[ edit update destroy ]
 
   def create
-    @card.capture Comment.new(comment_params)
+    @card.comments.create!(comment_params)
   end
 
   def show
@@ -25,7 +25,7 @@ class Cards::CommentsController < ApplicationController
 
   private
     def set_comment
-      @comment = Comment.belonging_to_card(@card).find(params[:id])
+      @comment = @card.comments.find(params[:id])
     end
 
     def ensure_creatorship
