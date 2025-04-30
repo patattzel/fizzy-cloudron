@@ -21,10 +21,6 @@ module Card::Eventable
       published?
     end
 
-    def find_or_capture_event_summary
-      messages.last&.event_summary || capture(EventSummary.new).event_summary
-    end
-
     def track_title_change
       if title_before_last_save.present?
         track_event "title_changed", particulars: { old_title: title_before_last_save, new_title: title }
