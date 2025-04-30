@@ -10,7 +10,7 @@
   <div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
     <%= link_to cards_path(creator_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
       <%= icon_tag "filter" %>
-      <span class="overflow-ellipsis">Reported by me</span>
+      <span class="overflow-ellipsis">Added by me</span>
       <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
     <% end %>
   </div>

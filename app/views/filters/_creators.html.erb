@@ -4,9 +4,9 @@
     <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
         <% if filter.creators.any? %>
-          <%= "Reported by #{filter.creators.map(&:familiar_name).to_sentence}" %>
+          <%= "Added by #{filter.creators.map(&:familiar_name).to_sentence}" %>
         <% else %>
-          Reported by…
+          Added by…
         <% end %>
       </span>
     </button>

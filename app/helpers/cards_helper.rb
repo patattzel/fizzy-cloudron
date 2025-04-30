@@ -38,4 +38,14 @@ module CardsHelper
       concat(tag.span("Delete this card"))
     end
   end
+
+  def card_title_tag(card)
+    title = [
+      card.title,
+      "added by #{card.creator.name}",
+      "in #{card.collection.name}"
+    ]
+    title << "assigned to #{card.assignees.map(&:name).to_sentence}" if card.assignees.any?
+    title.join(" ")
+  end
 end

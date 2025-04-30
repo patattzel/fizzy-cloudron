@@ -33,7 +33,7 @@
 
       <div class="flex-inline center justify-center flex-wrap gap">
         <%= link_to "See cards assigned to #{ Current.user == @user ? "you" : @user.first_name }", cards_path(assignee_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
-        <%= link_to "See cards reported by #{ Current.user == @user ? "you" : @user.first_name }", cards_path(creator_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+        <%= link_to "See cards added by #{ Current.user == @user ? "you" : @user.first_name }", cards_path(creator_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
       </div>
     </div>
   </div>
