@@ -2,8 +2,8 @@
   .terminal {
     --row-gap: 0.2lh;
 
-    background-color: var(--color-ink);
-    color: var(--color-positive);
+    background-color: var(--color-terminal-bg);
+    color: var(--color-terminal-text);
     font-family: var(--font-mono);
     font-size: var(--text-normal);
     inset: auto 0 0 0;
@@ -12,29 +12,29 @@
     z-index: 1;
 
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-always-black);
-      border-block-start: 1px solid var(--color-subtle-dark);
+      background-color: var(--color-black);
+      border-block-start: 1px solid var(--color-ink-lighter);
     }
 
     .terminal__input {
       --input-border-color: transparent;
       --input-border-radius: 0.3em;
       --hover-color: transparent;
-      --input-color: var(--color-positive);
+      --input-color: var(--color-terminal-text);
       --outline-size: 0;
       --outline-color: transparent;
 
-      accent-color: var(--color-positive);
-      caret-color: var(--color-positive);
+      accent-color: var(--color-terminal-text);
+      caret-color: var(--color-terminal-text);
       font-family: inherit;
 
       &::placeholder {
-        color: var(--color-always-white);
+        color: var(--color-white);
         opacity: 0.5;
       }
 
       .terminal__link & {
-        color: var(--color-always-white);
+        color: var(--color-white);
         opacity: 0.5;
       }
     }
@@ -43,7 +43,7 @@
   .terminal__link {
     --hover-size: 0;
 
-    color: var(--color-positive);
+    color: var(--color-terminal-text);
   }
 
   .terminal__menu {

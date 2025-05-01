@@ -5,11 +5,12 @@
     <%= link_to user.name, user, class: "txt-ink btn btn--plain" %>
   </strong>
 
-  <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
+  <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium); --border-style: dashed" aria-hidden="true">
 
   <%= form_with model: user, url: user_role_path(user), data: { controller: "form" }, method: :patch do | form | %>
     <label class="btn txt-small flex-item-no-shrink" for="<%= dom_id(user, :role) %>" arial-label="Role: <%= user.admin? ? "Administrator" : "Member" %>">
       <%= icon_tag "crown" %>
+      <span class="for-screen-reader">Role: <%= user.admin? ? "Administrator" : "Member" %></span>
       <%= form.check_box :role, { data: { action: "form#submit" }, disabled: !Current.user.can_administer?(user), hidden: true, id: dom_id(user, :role) }, "admin", "member" %>
     </label>
   <% end %>

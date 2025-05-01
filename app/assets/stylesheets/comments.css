@@ -12,7 +12,7 @@
     text-align: center;
 
     @media (min-width: 160ch) {
-      padding-inline: calc(var(--tray-size) + var(--inline-space) * 1.5);
+      padding-inline: var(--tray-size);
     }
   }
 
@@ -63,11 +63,12 @@
   }
 
   .comment__content {
-    background-color: var(--color-subtle-light);
+    background-color: var(--color-ink-lightest);
     border-radius: 0.2em;
     padding:
       var(--comment-padding-block)
       var(--comment-padding-inline);
+    word-wrap: break-word;
   }
 
   .comment__edit {

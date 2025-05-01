@@ -1,24 +1,30 @@
 class Notification < ApplicationRecord
   belongs_to :user
-  belongs_to :event
-  belongs_to :card
-  belongs_to :resource, polymorphic: true
+  belongs_to :creator, class_name: "User"
+  belongs_to :source, polymorphic: true
 
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
 
-  delegate :creator, to: :event
+  after_create_commit :broadcast_unread
 
-  broadcasts_to ->(notification) { [ notification.user, :notifications ] }, inserts_by: :prepend
+  delegate :notifiable_target, to: :source
 
-  class << self
-    def read_all
-      update!(read_at: Time.current)
-    end
+  def self.read_all
+    update!(read_at: Time.current)
+  end
+
+  def read
+    update!(read_at: Time.current)
   end
 
   def read?
     read_at.present?
   end
+
+  private
+    def broadcast_unread
+      broadcast_prepend_later_to user, :notifications, target: "notifications"
+    end
 end

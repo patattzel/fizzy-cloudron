@@ -6,11 +6,11 @@ class CardTest < ActiveSupport::TestCase
   end
 
   test "capturing messages" do
-    assert_difference "cards(:logo).messages.comments.count", +1 do
-      cards(:logo).capture Comment.new(body: "Agreed.")
+    assert_difference -> { cards(:logo).comments.count }, +1 do
+      cards(:logo).comments.create!(body: "Agreed.")
     end
 
-    assert_equal "Agreed.", cards(:logo).messages.comments.last.messageable.body.to_plain_text.chomp
+    assert_equal "Agreed.", cards(:logo).comments.last.body.to_plain_text.chomp
   end
 
   test "assignment states" do
@@ -21,18 +21,18 @@ class CardTest < ActiveSupport::TestCase
   test "assignment toggling" do
     assert cards(:logo).assigned_to?(users(:kevin))
 
-    assert_difference({ "cards(:logo).assignees.count" => -1, "Event.count" => +1 }) do
+    assert_difference({ -> { cards(:logo).assignees.count } => -1, -> { Event.count } => +1 }) do
       cards(:logo).toggle_assignment users(:kevin)
     end
     assert_not cards(:logo).assigned_to?(users(:kevin))
-    assert_equal "unassigned", Event.last.action
+    assert_equal "card_unassigned", Event.last.action
     assert_equal [ users(:kevin) ], Event.last.assignees
 
     assert_difference %w[ cards(:logo).assignees.count Event.count ], +1 do
       cards(:logo).toggle_assignment users(:kevin)
     end
     assert cards(:logo).assigned_to?(users(:kevin))
-    assert_equal "assigned", Event.last.action
+    assert_equal "card_assigned", Event.last.action
     assert_equal [ users(:kevin) ], Event.last.assignees
   end
 
@@ -70,11 +70,11 @@ class CardTest < ActiveSupport::TestCase
     assert_equal [ cards(:shipping) ], Card.closed
   end
 
-  test "active" do
-    assert_equal cards(:logo, :layout, :text), Card.active
+  test "open" do
+    assert_equal cards(:logo, :layout, :text), Card.open
   end
 
-  test "unassigned" do
+  test "card_unassigned" do
     assert_equal cards(:shipping, :text), Card.unassigned
   end
 
@@ -88,8 +88,8 @@ class CardTest < ActiveSupport::TestCase
 
   test "in collection" do
     new_collection = Collection.create! name: "New Collection", creator: users(:david)
-    assert_equal cards(:logo, :shipping, :layout, :text), Card.in_collection(collections(:writebook))
-    assert_empty Card.in_collection(new_collection)
+    assert_equal cards(:logo, :shipping, :layout, :text), Card.where(collection: collections(:writebook))
+    assert_empty Card.where(collection: new_collection)
   end
 
   test "tagged with" do
@@ -98,8 +98,8 @@ class CardTest < ActiveSupport::TestCase
 
   test "mentioning" do
     card = collections(:writebook).cards.create! title: "Insufficient haggis", creator: users(:kevin)
-    cards(:logo).capture Comment.new(body: "I hate haggis")
-    cards(:text).capture Comment.new(body: "I love haggis")
+    cards(:logo).comments.create!(body: "I hate haggis")
+    cards(:text).comments.create!(body: "I love haggis")
 
     assert_equal [ card, cards(:logo), cards(:text) ].sort, Card.mentioning("haggis").sort
   end
@@ -119,12 +119,5 @@ class CardTest < ActiveSupport::TestCase
     card = cards(:logo)
 
     assert_includes card.cache_key, ApplicationRecord.current_tenant, "cache key must always include the tenant"
-  end
-
-  test "cache key gracefully handles a nil collection" do
-    card = cards(:logo)
-    card.update_column :collection_id, Collection.last.id + 1
-
-    assert_nothing_raised { card.reload.cache_key }
   end
 end

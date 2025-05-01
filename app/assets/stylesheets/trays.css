@@ -4,7 +4,8 @@
 
 @layer components {
   .tray {
-    --height: calc(2.48lh + var(--block-space));
+    /* FIXME: Magic number */
+    --height: calc(2.625lh + var(--block-space));
 
     background-color: transparent;
     border: 0;
@@ -61,11 +62,11 @@
 
   .tray__actions {
     --border-style: dashed;
-    --border-color: color-mix(in srgb, var(--color-always-white) 40%, var(--color-ink));
+    --border-color: color-mix(in srgb, var(--color-white) 40%, var(--color-ink));
     --hover-size: 0;
 
     align-items: center;
-    color: var(--color-ink-reversed);
+    color: var(--color-ink-inverted);
     display: flex;
     gap: var(--inline-space-half);
     justify-content: space-between;

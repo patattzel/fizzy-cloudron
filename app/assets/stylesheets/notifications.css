@@ -46,11 +46,11 @@
     padding: var(--padding);
 
     @media (prefers-color-scheme: dark) {
-      --border-color: var(--color-subtle-dark);
+      --border-color: var(--color-ink-medium);
     }
 
     .notificiations-list--read & {
-      --border-color: var(--color-subtle);
+      --border-color: var(--color-ink-lighter);
 
       box-shadow: none !important;
     }
@@ -62,7 +62,7 @@
 
   .notification__unread_indicator {
     --btn-background: var(--color-marker);
-    --btn-border-color: var(--color-bg);
+    --btn-border-color: var(--color-canvas);
     --btn-icon-size: 0.7em;
     --btn-padding: 0;
     --btn-size: 1.2em;
@@ -78,8 +78,8 @@
 
     @media (hover: hover) {
       &:hover {
-        --btn-background: var(--color-subtle-dark);
-        --btn-border-color: var(--color-subtle-dark);
+        --btn-background: var(--color-ink-medium);
+        --btn-border-color: var(--color-ink-medium);
 
         scale: 1;
 
@@ -92,5 +92,19 @@
     .notificiations-list--read & {
       display: none;
     }
+  }
+}
+
+.notifications__empty-message {
+  .notificiations-list:has(.notification) & {
+    display: none;
+  }
+}
+
+.notificiations-list--read {
+  display: none;
+
+  &:has(.notification) {
+    display: flex;
   }
 }

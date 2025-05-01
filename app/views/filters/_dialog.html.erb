@@ -1,3 +1,4 @@
+<%# Don't delete this file just yet, it's coming back soon. %>
 <dialog class="filter__popup dialog panel fill-white shadow" aria-label="Filter" aria-description="Filter" data-dialog-target="dialog">
   <div class="flex flex-column gap-half">
     <div class="flex align-center gap-half justify-space-between">
@@ -31,7 +32,7 @@
       <% end %>
     </div>
 
-    <%= form_with url: cards_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width", style: "--border-color: var(--color-subtle)" do %>
+    <%= form_with url: cards_path, id: :filter_form, method: :get, class: "flex flex-column gap full-width", style: "--border-color: var(--color-ink-lighter)" do %>
       <% Array(params[:terms]).each do |term| %>
         <%= hidden_field_tag "terms[]", term, id: nil %>
       <% end %>

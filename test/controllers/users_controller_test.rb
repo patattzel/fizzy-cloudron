@@ -1,15 +1,65 @@
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  setup do
+  test "index" do
     sign_in_as :kevin
+
+    get users_path
+    assert_in_body users(:david).name
+    assert_in_body users(:kevin).name
   end
 
-  test "update" do
-    assert true
+  test "new" do
+    get new_user_path(params: { join_code: "bad" })
+    assert_response :forbidden
+
+    get new_user_path(params: { join_code: accounts(:"37s").join_code })
+    assert_response :ok
+  end
+
+  test "create" do
+    assert_difference -> { User.active.count }, +1 do
+      post users_path(params: { join_code: accounts(:"37s").join_code }),
+        params: { user: { name: "Dash", email_address: "dash@example.com", password: "123" } }
+      assert_redirected_to root_path
+    end
+
+    follow_redirect!
+    assert_response :ok
+  end
+
+  test "show" do
+    sign_in_as :kevin
+
+    get user_path(users(:david))
+    assert_in_body users(:david).name
+  end
+
+  test "update oneself" do
+    sign_in_as :kevin
+
+    get edit_user_path(users(:kevin))
+    assert_response :ok
+
+    put user_path(users(:kevin)), params: { user: { name: "New Kevin" } }
+    assert_redirected_to user_path(users(:kevin))
+    assert_equal "New Kevin", users(:kevin).reload.name
+  end
+
+  test "update other as admin" do
+    sign_in_as :kevin
+
+    get edit_user_path(users(:david))
+    assert_response :ok
+
+    put user_path(users(:david)), params: { user: { name: "New David" } }
+    assert_redirected_to user_path(users(:david))
+    assert_equal "New David", users(:david).reload.name
   end
 
   test "destroy" do
+    sign_in_as :kevin
+
     assert_difference -> { User.active.count }, -1 do
       delete user_path(users(:david))
     end

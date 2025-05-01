@@ -1,5 +1,6 @@
 class Comment < ApplicationRecord
-  include Messageable, Searchable
+  include Eventable, Mentions, Searchable
+  belongs_to :card, touch: true
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
   has_many :reactions, dependent: :delete_all
@@ -7,11 +8,11 @@ class Comment < ApplicationRecord
   has_markdown :body
   searchable_by :body_plain_text, using: :comments_search_index, as: :body
 
-  # FIXME: Not a fan of this. Think all references to comment should come directly from the message.
-  scope :belonging_to_card, ->(card) { joins(:message).where(messages: { card_id: card.id }) }
+  scope :chronologically, -> { order created_at: :asc, id: :desc }
 
-  after_create_commit :watch_card_by_creator, :track_commented_card
-  after_destroy_commit :cleanup_events
+  after_create_commit :watch_card_by_creator
+
+  delegate :collection, :watch_by, to: :card
 
   def to_partial_path
     "cards/#{super}"
@@ -20,15 +21,5 @@ class Comment < ApplicationRecord
   private
     def watch_card_by_creator
       card.watch_by creator
-    end
-
-    def track_commented_card
-      card.track_event :commented, comment_id: id
-    end
-
-    # FIXME: This isn't right. We need to introduce an eventable polymorphic association for this.
-    def cleanup_events
-      # Delete events that reference directly in particulars
-      Event.where(particulars: { comment_id: id }).destroy_all
     end
 end

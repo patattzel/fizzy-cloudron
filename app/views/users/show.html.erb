@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <div class="flex flex-column gap">
-        <%= link_to "Everything assigned to #{@user.name}", cards_path(assignee_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
-        <%= link_to "Everything added by #{@user.name}", cards_path(creator_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+      <div class="flex-inline center justify-center flex-wrap gap">
+        <%= link_to "See cards assigned to #{ Current.user == @user ? "you" : @user.first_name }", cards_path(assignee_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+        <%= link_to "See cards added by #{ Current.user == @user ? "you" : @user.first_name }", cards_path(creator_ids: [@user.id], indexed_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
       </div>
     </div>
   </div>
@@ -44,10 +44,10 @@
     <%= render "users/transfer", user: @user %>
   </div>
 
-  <div class="panel shadow center margin-block-double">
+  <div class="panel borderless center margin-block-double">
     <%= button_to session_path, method: :delete, class: "btn center txt-medium" do %>
       <%= icon_tag "logout" %>
-      <span class="for-screen-reader">Sign out</span>
+      <span>Sign out</span>
     <% end %>
   </div>
 <% end %>

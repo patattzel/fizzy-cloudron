@@ -1,7 +1,7 @@
 <div class="card__meta" id="<%= dom_id(card, :meta) %>">
-  <%= avatar_image_tag card.creator, class: "avatar margin-inline-end" %>
+  <%= avatar_tag card.creator %>
 
-  <div class="card__meta-grid">
+  <div class="card__meta-grid margin-inline-start">
     <span class="card__meta-item card__meta-item--added overflow-ellipsis">
       Added <%= local_datetime_tag(card.created_at, style: :daysago) %>
       <% if card.drafted? %>
@@ -17,10 +17,11 @@
       <% end %>
     </span>
     <span class="card__meta-item card__meta-item--reported overflow-ellipsis">
-      Reported by <strong><%= familiar_name_for(card.creator) %></strong>
+      Added by <strong><%= card.creator.familiar_name %></strong>
     </span>
     <span class="card__meta-item card__meta-item--assigned overflow-ellipsis">
-      Assigned to <%= card.assignees.any? ? card.assignees.map { |assignee| "<strong>#{familiar_name_for(assignee)}</strong>" }.to_sentence.html_safe : "no one" %>
+      <%= card.assignees.any? ? "Assigned to" : "Not assigned" %>
+      <%= card.assignees.map { |assignee| "<strong>#{assignee.familiar_name}</strong>" }.to_sentence.html_safe %>
     </span>
   </div>
 

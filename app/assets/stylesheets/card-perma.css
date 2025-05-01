@@ -4,9 +4,9 @@
   .card-perma {
     --actions-block-inset: 1.5rem;
     --actions-inline-inset: 4rem;
-    --color-container: color-mix(in srgb, var(--card-color) 33%, var(--color-bg));
+    --color-container: color-mix(in srgb, var(--card-color) 33%, var(--color-canvas));
     --padding-inline: calc(var(--block-space-double) + var(--block-space));
-    --padding-block: var(--block-space-double) calc(var(--block-space-double) + var(--block-space-half));
+    --padding-block: calc(var(--block-space-double) + var(--block-space-half));
 
     align-items: start;
     column-gap: var(--inline-space);
@@ -15,7 +15,7 @@
       "qw notch-top we"
       "actions-left card actions-right"
       "er notch-bottom rt";
-    grid-template-columns: 48px minmax(0, 960px) 48px;
+    grid-template-columns: 48px minmax(0, 1120px) 48px;
     inline-size: fit-content;
     max-inline-size: 100%;
     margin-inline: auto;
@@ -30,6 +30,15 @@
       --card-aspect-ratio: 2 / 0.95;
 
       border: none;
+    }
+
+    .card__meta,
+    .card__stages {
+      font-size: var(--text-small);
+    }
+
+    .card__stages {
+      max-inline-size: 32ch;
     }
   }
 
@@ -60,12 +69,7 @@
   /* -------------------------------------------------------------------------- */
 
   .card-perma__notch {
-    --card-notch-padding: 0.5ch;
-    --border-radius: 1em;
-
     align-items: center;
-    background-color: var(--color-bg);
-    border-radius: 99rem;
     color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
     display: inline-flex;
     inline-size: auto;
@@ -92,29 +96,33 @@
 
       &:has(input:checked)  {
         --btn-background: var(--card-color);
-        --btn-color: var(--color-ink-reversed);
+        --btn-color: var(--color-ink-inverted);
       }
     }
   }
 
   .card-perma__notch--bottom {
     grid-area: notch-bottom;
-    padding: calc(var(--block-space) * 0.75) calc(var(--block-space) * 0.66);
-    translate: 0 -50%;
+    translate: 0 -25%;
 
     &:has([open]) {
       z-index: 1;
     }
 
-    .btn:not(.popup__item, .btn--plain) {
+    .btn:not(.popup__item, .btn--plain, .btn--reversed) {
       --btn-background: var(--card-color);
-      --btn-color: var(--color-ink-reversed);
+      --btn-color: var(--color-ink-inverted);
     }
 
     .btn--plain {
       --btn-color: var(--card-color);
 
       text-decoration: underline;
+    }
+
+    .btn--reversed {
+      --btn-background: var(--color-canvas);
+      --btn-color: var(--card-color);
     }
   }
 
@@ -123,31 +131,6 @@
 
     &:first-child {
       padding-left: 1ch;
-    }
-  }
-
-  /* Variants
-  /* ------------------------------------------------------------------------ */
-
-  .card-perma--pointing {
-    --arrow-size: 20em;
-    --aspect-ratio: 7;
-
-    position: relative;
-    margin-block-end: calc(var(--arrow-size) / var(--aspect-ratio));
-
-    &::after {
-      aspect-ratio: var(--aspect-ratio);
-      background-color: var(--color-container);
-      clip-path: polygon(50% 100%, 100% 0, 0 0);
-      inline-size: var(--arrow-size);
-      content: "";
-      display: block;
-      inset-block-start: 99%;
-      inset-inline-start: 50%;
-      position: absolute;
-      transform: translateX(-50%);
-      z-index: -1;
     }
   }
 }

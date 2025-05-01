@@ -1,13 +1,5 @@
-<div class="filters flex-inline align-center gap-half margin-block-end margin-block-start-half">
-  <button class="btn btn--plain txt-small" data-action="click->dialog#toggle">
-    <%= icon_tag "filter" %>
-    <span class="for-screen-reader">Filter</span>
-  </button>
-
+<div class="filters flex align-center gap-half margin-block-end-half margin-none-block-start justify-center center">
   <div class="flex-inline center align-center gap-half">
-    <%= render "filters/collections", filter: filter %>
-    <%= render "filters/indexed_by", filter: filter %>
-    <%= render "filters/stages", filter: filter %>
     <%= render "filters/tags", filter: filter %>
     <%= render "filters/assignees", filter: filter %>
     <%= render "filters/creators", filter: filter %>
@@ -17,7 +9,7 @@
     <% end %>
 
     <% if any_filters?(filter) %>
-      <%= link_to cards_path, class: "btn btn--remove txt-small" do %>
+      <%= link_to cards_path, class: "btn btn--remove txt-x-small" do %>
         <%= icon_tag "close" %>
         <span class="for-screen-reader">Clear all</span>
       <% end %>
