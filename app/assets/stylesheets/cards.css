@@ -71,6 +71,11 @@
   .card__id {
     display: inline-flex;
     margin-inline-start: calc(var(--inline-space) * -1);
+
+    .card-perma &:before {
+      content: "No.";
+      opacity: 0.5;
+    }
   }
 
   .card__link {
@@ -95,10 +100,10 @@
   }
 
   .card__collection-name {
-    border-inline-start: 1px solid var(--color-ink-inverted);
+    border-inline-start: 1px solid color-mix(in srgb, var(--color-ink-inverted) 33%, var(--card-color));
     display: inline-flex;
     margin-inline-start: var(--inline-space-half);
-    padding-inline-start: var(--inline-space-half);
+    padding-inline-start: calc(var(--inline-space) * 0.75);
   }
 
   .card__tags {
