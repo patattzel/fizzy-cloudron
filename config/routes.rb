@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :commands
+
   namespace :my do
     resources :pins
   end

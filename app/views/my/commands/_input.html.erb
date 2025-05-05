@@ -1,0 +1,26 @@
+<%= tag.div class: "terminal full-width flex flex-column gap justify-end", data: {
+      controller: "toggle-class commands",
+      toggle_class_toggle_class: "terminal--open" } do %>
+  <menu class="terminal__menu flex-column txt-align-start margin-none margin-block-end unpad">
+    <% # Should move to frame %>
+    <%= render partial: "terminals/event", collection: Current.user.accessible_events.chronologically.reverse_order.limit(20) %>
+  </menu>
+
+  <%= form_tag commands_path,
+        class: "flex align-center gap-half",
+        data: { controller: "form" } do %>
+    <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
+
+    <%= text_field_tag "command", nil,
+          autocomplete: "off",
+          autocorrect: "off",
+          autocapitalize: "off",
+          class: "terminal__input input fill-transparent unpad",
+          data: {
+            commands_target: "input",
+            action: "keydown.up->toggle-class#add:prevent keydown.down->toggle-class#remove:prevent"
+          },
+          placeholder: "Search or type commands…" %>
+  <% end %>
+<% end %>
+

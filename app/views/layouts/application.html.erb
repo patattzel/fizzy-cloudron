@@ -50,7 +50,7 @@
         <div id="footer_frames" data-turbo-permanent="true">
           <%= render "notifications/tray" %>
           <%= render "my/pins/tray" %>
-          <%= turbo_frame_tag "terminal", src: terminal_path %>
+          <%= render "my/commands/input" %>
         </div>
       <% end %>
     </footer>
