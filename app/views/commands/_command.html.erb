@@ -1,7 +1,7 @@
-<li class="min-width overflow-ellipsis flex">
-  <%= command.title %>
+<li class="min-width flex gap-half">
+  <span class="overflow-ellipsis"><%= command.title %></span>
 
   <% if command.undoable? %>
-    <%= button_to "Undo", command_undo_path(command), class: "btn btn--remove", data: { turbo_confirm: "Are you sure you want to undo '#{command.title}'?", turbo_frame: "_top" } %>
+    <%= button_to "Undo", command_undo_path(command), class: "btn btn--plain terminal__button", data: { turbo_confirm: "Are you sure you want to undo '#{command.title}'?", turbo_frame: "_top" } %>
   <% end %>
 </li>

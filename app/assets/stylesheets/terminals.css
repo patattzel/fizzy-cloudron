@@ -40,6 +40,20 @@
     }
   }
 
+  .terminal__button {
+    --btn-color: var(--color-terminal-text);
+    --btn-border-radius: 1em;
+    --btn-border-color: var(--color-terminal-text);
+    --btn-padding: 0.1em 0.7em;
+    --btn-border-size: 1px;
+    --hover-color: var(--color-terminal-text);
+    --hover-size: 2px;
+
+    font-family: var(--font-mono);
+    font-size: var(--text-x-small);
+    white-space: nowrap;
+  }
+
   .terminal__link {
     --hover-size: 0;
 
