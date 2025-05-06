@@ -1,10 +1,6 @@
 class Command::GoToCard < Command
   store_accessor :data, :card_id
 
-  def card=(card)
-    self.card_id = card.id
-  end
-
   def execute
     redirect_to card
   end

@@ -4,5 +4,4 @@ export default class extends Controller {
   static targets = [ "input" ]
 
   // Actions
-
 }
