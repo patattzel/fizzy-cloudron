@@ -3,14 +3,13 @@
 <%= form_tag commands_path,
       id: "commands_form",
       class: [ "flex align-center gap-half", { "has-error" => has_error } ],
-      data: { controller: "form", action: "turbo:submit-end->form#reset" } do %>
+      data: { controller: "form", action: "turbo:submit-end->form#reset turbo:submit-end->commands#focus", turbo_permanent: true } do %>
   <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
 
   <%= text_field_tag "command", has_error ? params[:command] : nil,
         autocomplete: "off",
         autocorrect: "off",
         autocapitalize: "off",
-        autofocus: has_error,
         class: "terminal__input input fill-transparent unpad",
         data: {
               commands_target: "input",
