@@ -15,7 +15,7 @@ class Command::Parser::Context
   end
 
   def filter
-    user.filters.from_params params.reverse_merge(**FilterScoped::DEFAULT_PARAMS)
+    user.filters.from_params(params.slice(*Filter::Params::PERMITTED_PARAMS).reverse_merge(**FilterScoped::DEFAULT_PARAMS))
   end
 
   private
