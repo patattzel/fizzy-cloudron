@@ -1,16 +1,37 @@
 <%= turbo_frame_tag comment, :reacting do %>
-  <div class="reactions flex flex-wrap align-center gap full-width">
+  <div class="reactions">
     <div id="<%= dom_id(comment, :reactions) %>" class="flex-inline flex-wrap gap">
       <%= render partial: "cards/comments/reactions/reaction", collection: comment.reactions.includes(:reacter).ordered %>
     </div>
 
     <%= turbo_frame_tag comment, :new_reaction do %>
-      <div class="flex-inline" data-controller="soft-keyboard">
-        <%= link_to new_card_comment_reaction_path(comment.card, comment), role: "button",
-              class: "btn reaction__action", action: "soft-keyboard#open" do %>
-          <%= icon_tag "reaction" %> <span class="for-screen-reader">Add a reaction</span>
-        <% end %>
+      <div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+        <button class="reaction__action btn btn--circle" data-action="click->dialog#open:stop">
+          <%= icon_tag "reaction" %>
+        </button>
+
+        <dialog class="reaction__popup popup panel fill-white shadow" data-dialog-target="dialog">
+          <div class="reaction__quick-emojis">
+            <% EmojiHelper::REACTIONS.each do |character, title| %>
+              <%= form_with model: [ comment.card, comment, Reaction.new ], data: { turbo_frame: dom_id(comment, :new_reaction), action: "dialog#close"} do |form| %>
+                <%= hidden_field_tag "comment[content]", character %>
+                <%= form.button type: "submit", title: title, class: "reaction__quick-emoji-btn btn btn--circle borderless", data: { emoji: character } do %>
+                  <span class="reaction__emoji"><%= character %></span>
+                  <span class="for-screen-reader"><%= title %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <div class="flex-inline" data-controller="soft-keyboard">
+              <%= link_to new_card_comment_reaction_path(comment.card, comment), role: "button",
+                    class: "btn btn--circle borderless", action: "soft-keyboard#open" do %>
+                <%= icon_tag "reaction" %> <span class="for-screen-reader">Add a reaction</span>
+              <% end %>
+            </div>
+          </div>
+        </dialog>
       </div>
     <% end %>
+
   </div>
 <% end %>

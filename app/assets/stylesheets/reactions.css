@@ -4,6 +4,11 @@
     --reaction-border-color: var(--color-ink-lighter);
     --row-gap: 0;
 
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--inline-space-half);
+    inline-size: 100%;
     margin-block-start: calc(var(--block-space-half) / 2);
     margin-inline: calc(var(--column-gap) / -1);
   }
@@ -48,7 +53,6 @@
     --btn-border-color: var(--reaction-border-color);
 
     font-size: 0.74em;
-    margin-block-start: calc(var(--block-space-half) / 2);
 
     @media (any-hover: hover) {
       &:where(:not(:active):hover) {
@@ -86,5 +90,32 @@
 
   .reaction--deleting {
     animation: scale-fade-out 0.2s both;
+  }
+
+  .reaction__popup {
+    --panel-padding: 0.5ch;
+    --offset: calc(-1 * var(--panel-padding));
+
+    inset: var(--offset) auto auto var(--offset);
+    min-inline-size: auto;
+    transform: none;
+  }
+
+  .reaction__quick-emojis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .btn {
+      --btn-icon-size: 1.5ch;
+      --btn-size: 1.75rem;
+
+      position: relative;
+
+      @media (any-hover: hover) {
+        &:hover {
+          z-index: 1;
+        }
+      }
+    }
   }
 }
