@@ -3,10 +3,14 @@ class CommandsController < ApplicationController
     @commands = Current.user.commands.order(created_at: :desc).limit(20)
   end
 
+  def new
+
+  end
+
   def create
     command = parse_command(params[:command])
 
-    if command
+    if command&.valid?
       result = command.execute
 
       case result
@@ -16,7 +20,7 @@ class CommandsController < ApplicationController
           redirect_back_or_to root_path
       end
     else
-      raise "Pending to handle invalid commands"
+      render turbo_stream: turbo_stream.replace("commands_form", partial: "commands/form", locals: { error: true })
     end
   end
 
@@ -24,7 +28,6 @@ class CommandsController < ApplicationController
     def parse_command(string)
       Command::Parser.new(parsing_context).parse(string).tap do |command|
         Current.user.commands << command
-        command.validate!
       end
     end
 
