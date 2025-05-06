@@ -2,8 +2,7 @@ class Commands::UndosController < ApplicationController
   before_action :set_command
 
   def create
-    @command.undo
-    @command.destroy
+    @command.undo!
     redirect_back_or_to root_path
   end
 

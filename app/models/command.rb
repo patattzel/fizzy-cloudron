@@ -13,6 +13,13 @@ class Command < ApplicationRecord
   def undo
   end
 
+  def undo!
+    transaction do
+      undo
+      destroy
+    end
+  end
+
   def undoable?
     false
   end
