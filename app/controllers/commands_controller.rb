@@ -1,4 +1,8 @@
 class CommandsController < ApplicationController
+  def index
+    @commands = Current.user.commands.order(created_at: :desc).limit(20)
+  end
+
   def create
     command = parse_command(params[:command])
 

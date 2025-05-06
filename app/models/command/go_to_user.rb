@@ -8,7 +8,7 @@ class Command::GoToUser < Command
   end
 
   def title
-    "Open user '#{user.name}'"
+    "View profile of '#{user.name}'"
   end
 
   private

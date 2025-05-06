@@ -3,6 +3,10 @@ class Command < ApplicationRecord
 
   belongs_to :user
 
+  def title
+    model_name.human
+  end
+
   def execute
   end
 

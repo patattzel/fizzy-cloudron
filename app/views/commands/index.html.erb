@@ -1,0 +1,5 @@
+<%= turbo_frame_tag :recent_commands do %>
+  <ol class="terminal__menu flex-column txt-align-start margin-none margin-block-end unpad">
+    <%= render partial: "commands/command", collection: @commands %>
+  </ol>
+<% end %>

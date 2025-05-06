@@ -162,6 +162,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_05_123008) do
   create_table "commands", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "data", default: {}
+    t.string "type"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_commands_on_user_id"
