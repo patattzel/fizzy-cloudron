@@ -18,7 +18,10 @@ class CommandsController < ApplicationController
 
   private
     def parse_command(string)
-      Command::Parser.new(parsing_context).parse(string)
+      Command::Parser.new(parsing_context).parse(string).tap do |command|
+        Current.user.commands << command
+        command.validate!
+      end
     end
 
     def parsing_context

@@ -8,26 +8,19 @@ class Command::Parser
   end
 
   def parse(string)
-    parse_command(string).tap do |command|
-      user.commands << command
-      command.validate!
+    command_name, *command_arguments = string.strip.split(" ")
+
+    case command_name
+      when "/assign", "/assign_to"
+        Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+      when /^@/
+        Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
+      else
+        search(string)
     end
   end
 
   private
-    def parse_command(string)
-      command_name, *command_arguments = string.strip.split(" ")
-
-      case command_name
-        when "/assign", "/assign_to"
-          Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
-        when /^@/
-          Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
-        else
-          search(string)
-      end
-    end
-
     def search(string)
       if card = user.accessible_cards.find_by_id(string)
         Command::GoToCard.new(card_id: card.id)
