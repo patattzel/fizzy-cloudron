@@ -30,8 +30,4 @@ class CommandsController < ApplicationController
     def parsing_context
       Command::Parser::Context.new(Current.user, url: request.referrer)
     end
-
-    def card_ids_from_header
-      request.headers["X-Cards"].to_s.split(",").map(&:to_i) if request.headers["X-Card-Ids"]
-    end
 end
