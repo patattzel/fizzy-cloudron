@@ -22,10 +22,7 @@ class Command::Assign < Command
       cards.each do |card|
         toggled_assignees_by_card[card.id] = []
         assignees.each do |assignee|
-          unless card.assigned_to?(assignee)
-            toggled_assignees_by_card[card.id] << assignee.id
-            card.toggle_assignment(assignee)
-          end
+          assign(assignee, card, toggled_assignees_by_card)
         end
       end
 
@@ -38,11 +35,7 @@ class Command::Assign < Command
       card = user.accessible_cards.find_by_id(card_id)
       assignees = User.where(id: assignee_ids)
 
-      if card && assignees.any?
-        assignees.each do |assignee|
-          card.toggle_assignment(assignee) if card.assigned_to?(assignee)
-        end
-      end
+      undo_assignment(assignees, card)
     end
   end
 
@@ -57,5 +50,20 @@ class Command::Assign < Command
 
     def cards
       user.accessible_cards.where(id: card_ids)
+    end
+
+    def assign(assignee, card, toggled_assignees_by_card)
+      unless card.assigned_to?(assignee)
+        toggled_assignees_by_card[card.id] << assignee.id
+        card.toggle_assignment(assignee)
+      end
+    end
+
+    def undo_assignment(assignees, card)
+      if card && assignees.any?
+        assignees.each do |assignee|
+          card.toggle_assignment(assignee) if card.assigned_to?(assignee)
+        end
+      end
     end
 end
