@@ -28,7 +28,7 @@ class Command::Parser
     end
 
     # TODO: This is temporary as it can be ambiguous. We should inject the user ID in the command
-    #   instead, as determined by the user picker. E.g: @david:1234.
+    #   under the hood instead, as determined by the user picker. E.g: @1234.
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
       User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
