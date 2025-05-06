@@ -70,9 +70,6 @@ Rails.application.routes.draw do
   resources :uploads, only: :create
   get "/u/*slug" => "uploads#show", as: :upload
 
-  resource :terminal, only: [ :show, :edit ]
-
-
   resources :qr_codes
   get "join/:join_code", to: "users#new", as: :join
   post "join/:join_code", to: "users#create"
