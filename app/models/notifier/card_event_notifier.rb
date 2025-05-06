@@ -6,7 +6,7 @@ class Notifier::CardEventNotifier < Notifier
     def recipients
       case source.action
       when "card_assigned"
-        source.assignees.excluding(source.collection.access_only_users)
+        source.assignees.excluding(creator, *source.collection.access_only_users)
       when "card_published"
         watchers_and_subscribers(include_only_watching: true).without(creator, *card.mentionees)
       when "comment_created"
