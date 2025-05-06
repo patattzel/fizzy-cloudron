@@ -15,7 +15,7 @@ class Command::Parser::Context
   end
 
   def filter
-    user.filters.from_params(params.slice(*Filter::Params::PERMITTED_PARAMS).reverse_merge(**FilterScoped::DEFAULT_PARAMS))
+    user.filters.from_params(params.permit(*Filter::Params::PERMITTED_PARAMS).reverse_merge(**FilterScoped::DEFAULT_PARAMS))
   end
 
   private
@@ -26,6 +26,6 @@ class Command::Parser::Context
       route = Rails.application.routes.recognize_path(uri.path)
       @controller = route[:controller]
       @action = route[:action]
-      @params = Rack::Utils.parse_nested_query(uri.query).merge(route.except(:controller, :action))
+      @params =  ActionController::Parameters.new(Rack::Utils.parse_nested_query(uri.query).merge(route.except(:controller, :action)))
     end
 end
