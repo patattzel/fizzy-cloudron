@@ -1,7 +1,7 @@
 class Command::GoToCard < Command
   store_accessor :data, :card_id
 
-  validates_presence_of :card_id
+  validates_presence_of :card
 
   def title
     "Visit card '#{card.title}'"

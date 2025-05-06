@@ -1,7 +1,7 @@
 class Command::GoToUser < Command
   store_accessor :data, :user_id
 
-  validates_presence_of :user_id
+  validates_presence_of :user
 
   def title
     "View profile of '#{user.name}'"
@@ -13,6 +13,6 @@ class Command::GoToUser < Command
 
   private
     def user
-      User.find(user_id)
+      User.find_by_id(user_id)
     end
 end

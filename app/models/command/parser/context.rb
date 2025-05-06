@@ -22,7 +22,7 @@ class Command::Parser::Context
     attr_reader :controller, :action, :params
 
     def extract_url_components(url)
-      uri = URI.parse(url)
+      uri = URI.parse(url || "")
       route = Rails.application.routes.recognize_path(uri.path)
       @controller = route[:controller]
       @action = route[:action]
