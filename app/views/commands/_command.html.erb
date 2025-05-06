@@ -2,6 +2,6 @@
   <%= command.title %>
 
   <% if command.undoable? %>
-    <%= button_to "Undo", command_undo_path(command), class: "btn btn--remove", data: { confirm: "Are you sure you want to undo '#{command.title}'?", turbo_frame: "_top" } %>
+    <%= button_to "Undo", command_undo_path(command), class: "btn btn--remove", data: { turbo_confirm: "Are you sure you want to undo '#{command.title}'?", turbo_frame: "_top" } %>
   <% end %>
 </li>
