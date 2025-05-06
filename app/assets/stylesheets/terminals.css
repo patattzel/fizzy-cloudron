@@ -54,6 +54,13 @@
     white-space: nowrap;
   }
 
+  .terminal__command {
+    --btn-background: transparent;
+    --btn-color: var(--color-terminal-text);
+
+    font-weight: normal;
+  }
+
   .terminal__link {
     --hover-size: 0;
 
@@ -66,6 +73,15 @@
 
     .terminal--open & {
       display: flex;
+    }
+  }
+
+  .terminal__item {
+    @media (any-hover: hover) {
+      &:where(:not(:active):hover),
+      &:where(:not(:active)):focus-visible {
+        background: color-mix(in srgb, var(--color-terminal-text) 15%, var(--color-terminal-bg));
+      }
     }
   }
 
