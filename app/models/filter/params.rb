@@ -23,7 +23,7 @@ module Filter::Params
     end
 
     def normalize_params(params)
-      params.to_h.compact_blank.reject(&method(:default_value?)).sort_by { |k, _| k.to_s }
+      params.to_h.compact_blank.reject(&method(:default_value?)).sort_by { |name, _| name.to_s }
     end
   end
 
