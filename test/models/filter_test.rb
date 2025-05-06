@@ -93,8 +93,10 @@ class FilterTest < ActiveSupport::TestCase
     end
     assert_nil filter.reload.as_params[:tag_ids]
 
-    assert_changes "Filter.exists?(filter.id)" do
-      collections(:writebook).destroy!
+    Current.set session: sessions(:david) do
+      assert_changes "Filter.exists?(filter.id)" do
+        collections(:writebook).destroy!
+      end
     end
   end
 
