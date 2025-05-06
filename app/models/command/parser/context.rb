@@ -26,6 +26,6 @@ class Command::Parser::Context
       route = Rails.application.routes.recognize_path(uri.path)
       @controller = route[:controller]
       @action = route[:action]
-      @params = Rack::Utils.parse_nested_query(uri.query)
+      @params = Rack::Utils.parse_nested_query(uri.query).merge(route.except(:controller, :action))
     end
 end
