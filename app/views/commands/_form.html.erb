@@ -3,7 +3,7 @@
 <%= form_tag commands_path,
       id: "commands_form",
       class: [ "flex align-center gap-half", { "has-error" => has_error } ],
-      data: { controller: "form", action: "turbo:submit-end->form#reset turbo:submit-end->commands#focus" } do %>
+      data: { controller: "form", action: "turbo:submit-end->form#reset turbo:submit-end->commands#focus keydown.meta+k@document->commands#focus" } do %>
   <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
 
   <%= text_field_tag "command", has_error ? params[:command] : nil,
@@ -16,6 +16,6 @@
           action: "keydown.up->toggle-class#add:prevent keydown.down->toggle-class#remove:prevent",
           turbo_permanent: true
         },
-        placeholder: "Search or type commands…" %>
+        placeholder: "Press ⌘+K to search or type commands…" %>
 <% end %>
 
