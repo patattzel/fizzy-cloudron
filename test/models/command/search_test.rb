@@ -12,6 +12,6 @@ class Command::SearchTest < ActionDispatch::IntegrationTest
   test "respects existing filters" do
     result = execute_command "some text", context_url: "http://37signals.fizzy.localhost:3006/cards?collection_ids%5B%5D=#{collections(:writebook).id}"
 
-    assert_equal cards_path(indexed_by: "newest", collection_ids: [collections(:writebook).id], terms: [ "some text" ]), result.url
+    assert_equal cards_path(indexed_by: "newest", collection_ids: [ collections(:writebook).id ], terms: [ "some text" ]), result.url
   end
 end
