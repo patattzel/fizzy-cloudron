@@ -3,10 +3,6 @@ class CommandsController < ApplicationController
     @commands = Current.user.commands.order(created_at: :desc).limit(20)
   end
 
-  def new
-
-  end
-
   def create
     command = parse_command(params[:command])
 
@@ -15,7 +11,7 @@ class CommandsController < ApplicationController
 
       case result
         when Command::Result::Redirection
-          redirect_to url_for(result.url)
+          redirect_to result.url
         else
           redirect_back_or_to root_path
       end
