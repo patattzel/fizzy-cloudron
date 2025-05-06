@@ -5,7 +5,7 @@
 
   <%= form_tag commands_path,
         class: "flex align-center gap-half",
-        data: { controller: "form" } do %>
+        data: { controller: "form", action: "turbo:submit-end->form#reset" } do %>
     <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
 
     <%= text_field_tag "command", nil,
@@ -14,6 +14,7 @@
           autocapitalize: "off",
           class: "terminal__input input fill-transparent unpad",
           data: {
+            turbo_permanent: true,
             commands_target: "input",
             action: "keydown.up->toggle-class#add:prevent keydown.down->toggle-class#remove:prevent"
           },
