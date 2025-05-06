@@ -6,6 +6,6 @@ class Command::Search < Command
   end
 
   def execute
-    redirect_to cards_path(**params.merge("terms[]": query.presence))
+    redirect_to cards_path(**params.without("terms").merge(terms: Array.wrap(query.presence)))
   end
 end
