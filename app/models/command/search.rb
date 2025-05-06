@@ -5,11 +5,7 @@ class Command::Search < Command
     redirect_to cards_path("terms[]": query.presence)
   end
 
-  def description
-    "Search '#{query}"
-  end
-
-  def to_command
-    query
+  def title
+    "Search '#{query}'"
   end
 end

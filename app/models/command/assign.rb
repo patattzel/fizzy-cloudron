@@ -17,12 +17,16 @@ class Command::Assign < Command
     raise "pending"
   end
 
-  def description
-    raise "pending"
-  end
+  def title
+    card_description = if cards.one?
+      "card '#{cards.first.title}'"
+    else
+      "#{cards.count} cards"
+    end
 
-  def to_command
-    raise "pending"
+    assignee_description = assignees.collect(&:first_name).join(", ")
+
+    "Assign #{assignee_description} to #{card_description}"
   end
 
   private

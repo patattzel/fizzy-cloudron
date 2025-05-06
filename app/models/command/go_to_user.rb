@@ -7,12 +7,8 @@ class Command::GoToUser < Command
     redirect_to user
   end
 
-  def description
-    "Open '#{user.name}"
-  end
-
-  def to_command
-    "pending"
+  def title
+    "Open user '#{user.name}'"
   end
 
   private

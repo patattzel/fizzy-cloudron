@@ -5,12 +5,8 @@ class Command::GoToCard < Command
     redirect_to card
   end
 
-  def description
-    "Search '#{query}"
-  end
-
-  def to_command
-    query
+  def title
+    "Visit card '#{card.title}'"
   end
 
   private
