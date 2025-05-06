@@ -10,9 +10,9 @@ class CommandsController < ApplicationController
       result = command.execute
 
       case result
-        when Command::Result::Redirection
+      when Command::Result::Redirection
           redirect_to result.url
-        else
+      else
           redirect_back_or_to root_path
       end
     else
