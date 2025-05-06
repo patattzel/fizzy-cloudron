@@ -20,7 +20,6 @@ export default class extends Controller {
   }
 
   reset(event) {
-    console.debug("CALLED!");
     this.element.reset()
   }
 
