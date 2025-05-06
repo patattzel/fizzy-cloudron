@@ -16,11 +16,13 @@ class Command::Parser
 
   private
     def parse_command(string)
-      command_name, *command_arguments = string.split(" ")
+      command_name, *command_arguments = string.strip.split(" ")
 
       case command_name
         when "/assign", "/assign_to"
           Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+        when /^@/
+          Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
         else
           search(string)
       end
@@ -43,6 +45,7 @@ class Command::Parser
     # TODO: This is temporary as it can be ambiguous. We should inject the user ID in the command
     #   instead, as determined by the user picker. E.g: @david:1234.
     def assignee_from(string)
-      User.all.find { |user| user.mentionable_handles.include?(string) }
+      string_without_at = string.delete_prefix("@")
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
     end
 end
