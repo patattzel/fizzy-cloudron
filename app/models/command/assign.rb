@@ -1,9 +1,9 @@
 class Command::Assign < Command
   store_accessor :data, :card_ids, :assignee_ids
 
-  def execute
-    Rails.logger.info "*** #{assignees.collect(&:name)}"
+  validates_presence_of :card_ids, :assignee_ids
 
+  def execute
     transaction do
       cards.each do |card|
         assignees.each do |assignee|

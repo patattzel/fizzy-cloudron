@@ -8,17 +8,24 @@ class Command::Parser
   end
 
   def parse(string)
-    command_name, *command_arguments = string.split(" ")
-
-    case command_name
-      when "/assign", "/assign_to"
-        Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
-      else
-        search(string)
+    parse_command(string).tap do |command|
+      user.commands << command
+      command.validate!
     end
   end
 
   private
+    def parse_command(string)
+      command_name, *command_arguments = string.split(" ")
+
+      case command_name
+        when "/assign", "/assign_to"
+          Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+        else
+          search(string)
+      end
+    end
+
     def search(string)
       if card = user.accessible_cards.find_by_id(string)
         Command::GoToCard.new(card_id: card.id)
@@ -34,7 +41,7 @@ class Command::Parser
     end
 
     # TODO: This is temporary as it can be ambiguous. We should inject the user ID in the command
-    #   instead, as determined by the user picker.
+    #   instead, as determined by the user picker. E.g: @david:1234.
     def assignee_from(string)
       User.all.find { |user| user.mentionable_handles.include?(string) }
     end
