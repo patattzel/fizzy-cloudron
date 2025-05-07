@@ -55,7 +55,7 @@ export default class extends Controller {
   async #requestConfirmation(message) {
     const originalInputValue = this.inputTarget.value
     this.element.classList.add(this.confirmationClass)
-    this.inputTarget.value = `${message}? [Y/n] `
+    this.inputTarget.value = `${message}? [y/n] `
 
     try {
       await this.#waitForConfirmation()
