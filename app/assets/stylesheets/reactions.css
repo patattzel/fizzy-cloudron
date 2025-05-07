@@ -13,6 +13,16 @@
     margin-inline: calc(var(--column-gap) / -1);
   }
 
+  .reactions__list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--column-gap);
+
+    &:not(:has(.reaction)) {
+      display: none;
+    }
+  }
+
   .reaction {
     --btn-size: 100%;
 
