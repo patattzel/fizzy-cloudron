@@ -27,11 +27,13 @@ class Command::Assign < Command
   end
 
   def undo
-    toggled_assignees_by_card.each do |card_id, assignee_ids|
-      card = user.accessible_cards.find_by_id(card_id)
-      assignees = User.where(id: assignee_ids)
+    transaction do
+      toggled_assignees_by_card.each do |card_id, assignee_ids|
+        card = user.accessible_cards.find_by_id(card_id)
+        assignees = User.where(id: assignee_ids)
 
-      undo_assignment(assignees, card)
+        undo_assignment(assignees, card)
+      end
     end
   end
 
