@@ -28,6 +28,10 @@ export default class extends Controller {
     }
   }
 
+  hideError() {
+    this.element.classList.remove(this.errorClass)
+  }
+
   async #handleErrorResponse(response) {
     const status = response.status
     const message = await response.text()
