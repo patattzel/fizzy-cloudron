@@ -29,30 +29,53 @@
       font-family: inherit;
 
       &::placeholder {
-        color: var(--color-white);
-        opacity: 0.5;
-      }
-
-      .terminal__link & {
-        color: var(--color-white);
+        color: oklch(var(--lch-green-light));
         opacity: 0.5;
       }
     }
   }
 
-  .terminal__link {
-    --hover-size: 0;
+  .terminal__button {
+    --btn-color: var(--color-terminal-text);
+    --btn-border-radius: 1em;
+    --btn-border-color: var(--color-terminal-text);
+    --btn-padding: 0.1em 0.7em;
+    --btn-border-size: 1px;
+    --hover-color: var(--color-terminal-text);
+    --hover-size: 2px;
 
-    color: var(--color-terminal-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-x-small);
+    white-space: nowrap;
+  }
+
+  .terminal__command {
+    --btn-background: transparent;
+    --btn-color: var(--color-terminal-text);
+
+    font-weight: normal;
   }
 
   .terminal__menu {
     display: none;
     list-style: none;
-    transition: display 1000ms allow-discrete;
 
     .terminal--open & {
       display: flex;
     }
+  }
+
+  .terminal__item {
+    @media (any-hover: hover) {
+      &:where(:not(:active):hover),
+      &:where(:not(:active)):focus-visible {
+        background: color-mix(in srgb, var(--color-terminal-text) 15%, var(--color-terminal-bg));
+      }
+    }
+  }
+
+  .terminal--error .terminal__input {
+    outline: 2px solid var(--color-negative);
+    outline-offset: 2px;
   }
 }
