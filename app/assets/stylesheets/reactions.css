@@ -1,6 +1,5 @@
 @layer components {
   .reactions {
-    --reaction-size: 2rem;
     --column-gap: 0.4ch;
     --reaction-border-color: var(--color-ink-lighter);
     --row-gap: 0;
@@ -71,6 +70,8 @@
   }
 
   .reaction__form {
+    --btn-icon-size: 1.3em;
+
     transition: none;
 
     &.expanded {
@@ -109,7 +110,14 @@
     font-size: 0.75em;
   }
 
-  .reaction__popup {
+  /* Quick reactions
+  /* ------------------------------------------------------------------------ */
+
+  .quick-reaction {
+    position: relative;
+  }
+
+  .quick-reaction__popup {
     --panel-border-radius: 1.2em;
     --panel-padding: 0.5ch;
     --offset: calc(-1 * var(--panel-padding));
@@ -119,7 +127,7 @@
     transform: none;
   }
 
-  .reaction__quick-emojis {
+  .quick-reaction__emojis {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 
