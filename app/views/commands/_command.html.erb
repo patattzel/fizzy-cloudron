@@ -1,5 +1,5 @@
 <%= tag.li class: "min-width full-width flex gap-half terminal__item justify-start", tabindex: 0, data: {
-      action: "keydown.enter->terminal#restoreCommand:π",
+      action: "keydown.enter->terminal#restoreCommand:prevent keydown.enter->toggle-class#remove:prevent",
       navigable_list_target: "item" } do %>
   <%= button_tag command.title, type: "button", class: "btn btn--plain overflow-ellipsis terminal__command flex-item-grow justify-start",
         data: { action: "toggle-class#remove terminal#restoreCommand", line: command.line } %>

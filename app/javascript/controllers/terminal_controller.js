@@ -21,8 +21,11 @@ export default class extends Controller {
   }
 
   restoreCommand(event) {
-    this.#reset(event.target.dataset.line)
-    this.focus()
+    const target = event.target.querySelector("[data-line]") || event.target
+    if (target.dataset.line) {
+      this.#reset(target.dataset.line)
+      this.focus()
+    }
   }
 
   async #handleErrorResponse(response) {

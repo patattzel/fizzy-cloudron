@@ -13,7 +13,15 @@ export default class extends Controller {
     }
   }
 
-  selectLast(event) {
+  selectCurrentOrLast(event) {
+    if (this.currentItem) {
+      this.#setCurrentFrom(this.currentItem)
+    } else {
+      this.selectLast()
+    }
+  }
+
+  selectLast() {
     this.#setCurrentFrom(this.itemTargets[this.itemTargets.length - 1])
   }
 
