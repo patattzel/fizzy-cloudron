@@ -1,5 +1,6 @@
 @layer components {
   .reactions {
+    --btn-icon-size: 1.3em;
     --column-gap: 0.4ch;
     --reaction-border-color: var(--color-ink-lighter);
     --row-gap: 0;
@@ -80,8 +81,6 @@
   }
 
   .reaction__form {
-    --btn-icon-size: 1.3em;
-
     transition: none;
 
     &.expanded {
