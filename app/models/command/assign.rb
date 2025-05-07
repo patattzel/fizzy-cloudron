@@ -43,6 +43,10 @@ class Command::Assign < Command
     true
   end
 
+  def needs_confirmation?
+    cards.many?
+  end
+
   private
     def assignees
       User.where(id: assignee_ids)

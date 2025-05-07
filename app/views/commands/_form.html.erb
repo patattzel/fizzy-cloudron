@@ -3,7 +3,8 @@
       class: [ "flex align-center gap-half" ],
       data: {
         controller: "form",
-        action: "turbo:submit-end->terminal#focus keydown.meta+k@document->terminal#focus turbo:submit-end->terminal#handleSubmit"
+        terminal_target: "form",
+        action: "turbo:submit-end->terminal#focus keydown.meta+k@document->terminal#focus turbo:submit-end->terminal#executeCommand"
       } do %>
   <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
 
@@ -18,5 +19,7 @@
           turbo_permanent: true
         },
         placeholder: "Press ⌘+K to search or type commands…" %>
+
+  <%=  hidden_field_tag "confirmed", nil, data: { terminal_target: "confirmation" } %>
 <% end %>
 
