@@ -251,6 +251,8 @@
     color: var(--card-color);
     display: flex;
     flex-direction: column;
+    font-family: var(--font-mono);
+    font-weight: bold;
     inset: auto var(--block-space) var(--block-space-double) auto;
     justify-content: center;
     max-inline-size: 25ch;
@@ -258,6 +260,7 @@
     mix-blend-mode: multiply;
     padding: 1ch;
     position: absolute;
+    text-transform: uppercase;
     transform: rotate(-10deg);
 
     @media (prefers-color-scheme: dark) {
@@ -271,15 +274,24 @@
   }
 
   .card__closed-title {
-    -webkit-text-stroke: 0.12ch var(--card-color);
+    -webkit-text-stroke: 0.25ch var(--card-color);
     color: var(--color-ink-inverted);
+    font-family: var(--font-sans);
     font-size: 1.5em;
-    font-weight: 900;
-    letter-spacing: 0.05ch;
+    font-weight: 600;
+    letter-spacing: 0.1ch;
     line-height: 1.2;
     position: relative;
     text-align: center;
-    text-transform: uppercase;
+
+    /* Lay a copy of the text on top to make up for the center-aligned stroke */
+    &:after {
+      -webkit-text-stroke: 0;
+      color: var(--color-canvas);
+      content: attr(data-text);
+      inset: 0;
+      position: absolute;
+    }
   }
 
   .card__closed-by {
