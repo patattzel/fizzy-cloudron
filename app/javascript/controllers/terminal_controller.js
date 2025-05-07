@@ -3,7 +3,7 @@ import { HttpStatus } from "helpers/http_helpers"
 
 export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
-  static classes = [ "error", "confirmation" ]
+  static classes = [ "error", "confirmation", "help" ]
 
   // Actions
 
@@ -12,6 +12,23 @@ export default class extends Controller {
   }
 
   executeCommand(event) {
+    if (this.#hasShowHelpMenuCommand) {
+      this.#showHelpMenu()
+      event.preventDefault()
+      event.stopPropagation()
+    } else {
+      this.hideHelpMenu()
+    }
+  }
+
+  hideHelpMenu() {
+    if (this.#isHelpMenuOpened && this.#hasShowHelpMenuCommand) {
+      this.#reset()
+      this.element.classList.remove(this.helpClass)
+    }
+  }
+
+  handleCommandResponse(event) {
     if (event.detail.success) {
       this.#reset()
     } else {
@@ -26,6 +43,18 @@ export default class extends Controller {
       this.#reset(target.dataset.line)
       this.focus()
     }
+  }
+
+  get #hasShowHelpMenuCommand() {
+    return this.inputTarget.value == "/help" || this.inputTarget.value == "/?"
+  }
+
+  #showHelpMenu() {
+    this.element.classList.add(this.helpClass)
+  }
+
+  get #isHelpMenuOpened() {
+    return this.element.classList.contains(this.helpClass)
   }
 
   async #handleErrorResponse(response) {

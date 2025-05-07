@@ -2,6 +2,7 @@
       controller: "toggle-class terminal navigable-list",
       terminal_error_class: "terminal--error",
       terminal_confirmation_class: "terminal--confirmation",
+      terminal_help_class: "terminal--showing-help",
       toggle_class_toggle_class: "terminal--open",
       action: "keydown->navigable-list#navigate keydown.esc->toggle-class#remove:stop keydown.esc->terminal#focus keydown.esc->navigable-list#selectLast" } do %>
   <%= turbo_frame_tag :recent_commands, src: commands_path, refresh: "morph" %>

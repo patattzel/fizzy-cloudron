@@ -65,6 +65,14 @@
     }
   }
 
+  .terminal__help {
+    display: none;
+
+    .terminal--showing-help & {
+      display: block;
+    }
+  }
+
   .terminal__item {
     @media (any-hover: hover) {
       &:where(:not(:active):hover),
