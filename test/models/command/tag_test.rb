@@ -15,7 +15,7 @@ class Command::TagTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "tag card on perma with new card" do
+  test "tag card on perma with new tag" do
     assert_difference -> { @card.tags.count }, +1 do
       execute_command "/tag some-new-tag", context_url: collection_card_url(@card.collection, @card)
     end
