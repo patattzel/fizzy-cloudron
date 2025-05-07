@@ -11,6 +11,7 @@ class CommandsController < ApplicationController
         result = command.execute
         respond_with_execution_result(result)
       else
+        command.destroy
         render plain: command.title, status: :conflict
       end
     else

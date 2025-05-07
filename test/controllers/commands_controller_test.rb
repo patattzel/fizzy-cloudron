@@ -22,7 +22,7 @@ class CommandsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "commands requiring confirmation return a 409 conflict response" do
-    assert_difference -> { users(:kevin).commands.count }, +1 do
+    assert_no_difference -> { users(:kevin).commands.count } do
       post commands_path, params: { command: "/assign @kevin" }, headers: { "HTTP_REFERER" => cards_path }
     end
 
