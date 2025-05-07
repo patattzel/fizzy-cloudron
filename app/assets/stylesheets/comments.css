@@ -81,6 +81,20 @@
     }
   }
 
+  .comment__reaction {
+    opacity: 0.66;
+
+    @media (any-hover: hover) {
+      .comment:not(:hover) & {
+        opacity: 0;
+      }
+    }
+
+    .comment--mine & {
+      display: none;
+    }
+  }
+
   .comment__event {
     max-inline-size: var(--comment-max);
 

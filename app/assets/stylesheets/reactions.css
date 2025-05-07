@@ -108,6 +108,10 @@
     --btn-size: var(--reaction-size);
 
     font-size: 0.75em;
+
+    .reactions:not(:has(.reaction)) & {
+      display: none;
+    }
   }
 
   /* Quick reactions
