@@ -1,18 +1,13 @@
 class Command::FilterByTag < Command
-  store_accessor :data, :tag_id, :params
+  include Command::Tags
 
-  validates_presence_of :tag_id
+  store_accessor :data, :params
 
   def title
-    "Filter by tag ##{tag&.title || tag_id} "
+    "Filter by tag ##{tag_title}"
   end
 
   def execute
-    redirect_to cards_path(**params.merge(tag_ids: [ tag_id ]))
+    redirect_to cards_path(**params.merge(tag_ids: [ tag.id ]))
   end
-
-  private
-    def tag
-      Tag.find_by_id(tag_id)
-    end
 end
