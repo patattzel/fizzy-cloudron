@@ -6,12 +6,12 @@ class CommandsController < ApplicationController
   def create
     command = parse_command(params[:command])
 
-    if command&.valid?
+    if command.valid?
       if confirmed?(command)
+        command.save!
         result = command.execute
         respond_with_execution_result(result)
       else
-        command.destroy
         render plain: command.title, status: :conflict
       end
     else
@@ -21,9 +21,7 @@ class CommandsController < ApplicationController
 
   private
     def parse_command(string)
-      Command::Parser.new(parsing_context).parse(string).tap do |command|
-        Current.user.commands << command
-      end
+      Command::Parser.new(parsing_context).parse(string)
     end
 
     def parsing_context

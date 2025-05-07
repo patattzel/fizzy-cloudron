@@ -9,7 +9,8 @@ class Command::Parser
 
   def parse(string)
     parse_command(string).tap do |command|
-      command&.line = string
+      command.user = user
+      command.line = string
     end
   end
 
