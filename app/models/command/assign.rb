@@ -1,27 +1,23 @@
 class Command::Assign < Command
-  store_accessor :data, :card_ids, :assignee_ids, :toggled_assignees_by_card
+  include Command::Cards
 
-  validates_presence_of :card_ids, :assignee_ids
+  store_accessor :data, :assignee_ids, :toggled_assignees_by_card
+
+  validates_presence_of :assignee_ids
 
   def title
-    card_description = if cards.one?
-      "card '#{cards.first.title}'"
-    else
-      "#{cards.count} cards"
-    end
-
     assignee_description = assignees.collect(&:first_name).join(", ")
 
-    "Assign #{assignee_description} to #{card_description}"
+    "Assign #{assignee_description} to #{cards_description}"
   end
 
   def execute
     toggled_assignees_by_card = {}
 
     transaction do
-      cards.each do |card|
+      cards.find_each do |card|
         toggled_assignees_by_card[card.id] = []
-        assignees.each do |assignee|
+        assignees.find_each do |assignee|
           assign(assignee, card, toggled_assignees_by_card)
         end
       end
@@ -39,21 +35,9 @@ class Command::Assign < Command
     end
   end
 
-  def undoable?
-    true
-  end
-
-  def needs_confirmation?
-    cards.many?
-  end
-
   private
     def assignees
       User.where(id: assignee_ids)
-    end
-
-    def cards
-      user.accessible_cards.where(id: card_ids)
     end
 
     def assign(assignee, card, toggled_assignees_by_card)
