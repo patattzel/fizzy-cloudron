@@ -19,10 +19,6 @@ export default class extends Controller {
     event.target.select()
   }
 
-  reset(event) {
-    this.element.reset()
-  }
-
   showPicker(event) {
     if ("showPicker" in HTMLInputElement.prototype) {
       event.target.showPicker()

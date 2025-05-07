@@ -16,7 +16,7 @@ class CommandsController < ApplicationController
         redirect_back_or_to root_path
       end
     else
-      render turbo_stream: turbo_stream.replace("commands_form", partial: "commands/form", locals: { error: true })
+      head :unprocessable_entity
     end
   end
 
