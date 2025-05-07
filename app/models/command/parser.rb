@@ -11,14 +11,14 @@ class Command::Parser
     command_name, *command_arguments = string.strip.split(" ")
 
     case command_name
-      when "/assign", "/assignto"
-        Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
-      when "/close"
-        Command::Close.new(card_ids: cards.ids, reason: command_arguments.join(" "))
-      when /^@/
-        Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
-      else
-        search(string)
+    when "/assign", "/assignto"
+      Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+    when "/close"
+      Command::Close.new(card_ids: cards.ids, reason: command_arguments.join(" "))
+    when /^@/
+      Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
+    else
+      parse_free_string(string)
     end
   end
 
@@ -36,7 +36,7 @@ class Command::Parser
       User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
     end
 
-    def search(string)
+    def parse_free_string(string)
       if cards = multiple_cards_from(string)
         Command::FilterCards.new(card_ids: cards.ids, params: filter.as_params)
       elsif card = user.accessible_cards.find_by_id(string)
