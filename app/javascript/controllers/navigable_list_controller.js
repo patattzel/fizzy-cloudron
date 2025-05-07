@@ -73,10 +73,6 @@ export default class extends Controller {
     },
     ArrowLeft(event) {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
-    },
-    Enter(event) {
-      // this.#currentFirstFocusableControl?.focus()
-      // event.preventDefault()
     }
   }
 }
