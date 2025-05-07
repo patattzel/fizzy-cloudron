@@ -4,7 +4,7 @@ module Command::Cards
   included do
     store_accessor :data, :card_ids
 
-    validates_presence_of :card_ids
+    validates_presence_of :card_ids, :cards
   end
 
   def undoable?
