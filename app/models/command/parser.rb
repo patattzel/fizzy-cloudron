@@ -23,6 +23,8 @@ class Command::Parser
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/close"
         Command::Close.new(card_ids: cards.ids, reason: command_arguments.join(" "))
+      when /^#/
+        Command::FilterByTag.new(tag_id: tag_from(string).id, params: filter.as_params)
       when /^@/
         Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
       else
@@ -42,6 +44,11 @@ class Command::Parser
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
       User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+    end
+
+    def tag_from(string)
+      title = string.gsub(/^#/, "")
+      Tag.find_or_create_by!(title: title)
     end
 
     def parse_free_string(string)
