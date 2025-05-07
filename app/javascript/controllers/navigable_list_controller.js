@@ -25,12 +25,6 @@ export default class extends Controller {
     this.#setCurrentFrom(this.itemTargets[this.itemTargets.length - 1])
   }
 
-  #handleArrowKey(event, fn) {
-    if (event.shiftKey || event.metaKey || event.ctrlKey) { return }
-    fn.call()
-    event.preventDefault()
-  }
-
   #selectPrevious() {
     if (this.currentItem.previousElementSibling) {
       this.#setCurrentFrom(this.currentItem.previousElementSibling)
@@ -59,6 +53,12 @@ export default class extends Controller {
     for (const item of this.itemTargets) {
       item.removeAttribute(this.selectionAttributeValue)
     }
+  }
+
+  #handleArrowKey(event, fn) {
+    if (event.shiftKey || event.metaKey || event.ctrlKey) { return }
+    fn.call()
+    event.preventDefault()
   }
 
   #keyHandlers = {
