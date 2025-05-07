@@ -77,4 +77,8 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
+
+  if Rails.root.join("tmp/structured-logging.txt").exist?
+    config.structured_logging.logger = ActiveSupport::Logger.new("log/structured-development.log")
+  end
 end
