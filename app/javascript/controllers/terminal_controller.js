@@ -45,6 +45,10 @@ export default class extends Controller {
     }
   }
 
+  hideError() {
+    this.element.classList.remove(this.errorClass)
+  }
+
   get #hasHelpMenuCommand() {
     return this.inputTarget.value == "/help" || this.inputTarget.value == "/?"
   }

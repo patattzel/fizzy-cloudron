@@ -36,17 +36,22 @@
   }
 
   .terminal__button {
+    --btn-background: var(--color-terminal-bg);
     --btn-color: var(--color-terminal-text);
-    --btn-border-radius: 1em;
+    --btn-border-radius: 0;
     --btn-border-color: var(--color-terminal-text);
     --btn-padding: 0.1em 0.7em;
     --btn-border-size: 1px;
     --hover-color: var(--color-terminal-text);
-    --hover-size: 2px;
+    --hover-size: 1px;
 
     font-family: var(--font-mono);
     font-size: var(--text-x-small);
     white-space: nowrap;
+
+    &:where(:not(:active)):focus-visible {
+      outline: 2px solid var(--color-terminal-text);
+    }
   }
 
   .terminal__command {
@@ -54,6 +59,7 @@
     --btn-color: var(--color-terminal-text);
 
     font-weight: normal;
+    transition: unset;
   }
 
   .terminal__menu {
@@ -113,16 +119,28 @@
   }
 
   .terminal__item {
+    &:where(:not(:active)):focus-visible {
+      --btn-color: var(--color-terminal-bg);
+
+      background: var(--color-terminal-text);
+      color: var(--color-terminal-bg);
+      outline: 2px solid var(--color-terminal-text);
+
+      .terminal__command {
+        color: var(--color-terminal-bg);
+      }
+    }
+
     @media (any-hover: hover) {
-      &:where(:not(:active):hover),
-      &:where(:not(:active)):focus-visible {
-        background: color-mix(in srgb, var(--color-terminal-text) 15%, var(--color-terminal-bg));
+      &:where(:not(:active):hover) {
+        background: color-mix(in srgb, var(--color-terminal-text) 20%, var(--color-terminal-bg));
       }
     }
   }
 
   .terminal--error .terminal__input {
-    outline: 2px solid var(--color-negative);
-    outline-offset: 2px;
+    accent-color: var(--color-negative);
+    caret-color: var(--color-negative);
+    color: var(--color-negative);
   }
 }
