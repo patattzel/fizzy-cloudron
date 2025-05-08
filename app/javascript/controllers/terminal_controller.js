@@ -48,7 +48,7 @@ export default class extends Controller {
   }
 
   get #showHelpCommandEntered() {
-    return this.inputTarget.value == "/help" || this.inputTarget.value == "/?"
+    return [ "/help", "/?" ].includes(this.inputTarget.value)
   }
 
   #showHelpMenu() {
