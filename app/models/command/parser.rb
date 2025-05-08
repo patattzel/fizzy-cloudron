@@ -25,6 +25,8 @@ class Command::Parser
         Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
       when "/assign", "/assignto"
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+      when "/clear"
+        Command::ClearFilters.new(params: filter.as_params)
       when "/close"
         Command::Close.new(card_ids: cards.ids, reason: command_arguments.join(" "))
       when "/tag"
