@@ -115,11 +115,10 @@
   .card-perma__notch--top {
     grid-area: notch-top;
     inline-size: 100%;
-    inset-inline-start: 50%;
+    margin-block-start: -4ch;
     max-inline-size: 36ch;
     padding-inline: 1ch;
-    position: absolute;
-    translate: -50% -50%;
+    translate: 0 50%;
 
     .btn {
       --btn-border-color: var(--card-color);
@@ -131,6 +130,10 @@
         --btn-background: var(--card-color);
         --btn-color: var(--color-ink-inverted);
       }
+    }
+
+    @media (max-width: 580px) {
+      margin-block-start: -2ch;
     }
   }
 
