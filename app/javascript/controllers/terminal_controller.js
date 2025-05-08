@@ -12,7 +12,7 @@ export default class extends Controller {
   }
 
   executeCommand(event) {
-    if (this.#hasHelpMenuCommand) {
+    if (this.#showHelpCommandEntered) {
       this.#showHelpMenu()
       event.preventDefault()
       event.stopPropagation()
@@ -22,7 +22,7 @@ export default class extends Controller {
   }
 
   hideHelpMenu() {
-    if (this.#hasHelpMenuCommand) { this.#reset() }
+    if (this.#showHelpCommandEntered) { this.#reset() }
     this.element.classList.remove(this.helpClass)
   }
 
@@ -47,7 +47,7 @@ export default class extends Controller {
     this.element.classList.remove(this.errorClass)
   }
 
-  get #hasHelpMenuCommand() {
+  get #showHelpCommandEntered() {
     return this.inputTarget.value == "/help" || this.inputTarget.value == "/?"
   }
 
