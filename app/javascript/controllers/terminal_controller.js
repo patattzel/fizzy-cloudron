@@ -5,6 +5,10 @@ export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
   static classes = [ "error", "confirmation", "help" ]
 
+  disconnect() {
+    if (this.waitingForConfirmation) { this.#reset() }
+  }
+
   // Actions
 
   focus() {
@@ -24,6 +28,13 @@ export default class extends Controller {
   hideHelpMenu() {
     if (this.#showHelpCommandEntered) { this.#reset() }
     this.element.classList.remove(this.helpClass)
+  }
+
+  handleKeyPress(event) {
+    if (this.waitingForConfirmation) {
+      this.#handleConfirmationKey(event.key.toLowerCase())
+      event.preventDefault()
+    }
   }
 
   handleCommandResponse(event) {
@@ -74,6 +85,8 @@ export default class extends Controller {
     this.formTarget.reset()
     this.inputTarget.value = inputValue
     this.confirmationTarget.value = ""
+    this.waitingForConfirmation = false
+    this.originalInputValue = null
 
     this.element.classList.remove(this.errorClass)
     this.element.classList.remove(this.confirmationClass)
@@ -84,35 +97,23 @@ export default class extends Controller {
   }
 
   async #requestConfirmation(message) {
-    const originalInputValue = this.inputTarget.value
+    this.originalInputValue = this.inputTarget.value
     this.element.classList.add(this.confirmationClass)
     this.inputTarget.value = `${message}? [Y/n] `
 
-    try {
-      await this.#waitForConfirmation()
-      this.#submitWithConfirmation(originalInputValue)
-    } catch {
-      this.#reset(originalInputValue)
+    this.waitingForConfirmation = true
+  }
+
+  #handleConfirmationKey(key) {
+    if (key === "enter" || key === "y") {
+      this.#submitWithConfirmation()
+    } else if (key === "escape" || key === "n") {
+      this.#reset(this.originalInputValue)
     }
   }
 
-  #waitForConfirmation() {
-    return new Promise((resolve, reject) => {
-      this.inputTarget.addEventListener("keydown", (event) => {
-        event.preventDefault()
-        const key = event.key.toLowerCase()
-
-        if (key === "enter" || key === "y") {
-          resolve()
-        } else {
-          reject()
-        }
-      }, { once: true })
-    })
-  }
-
-  #submitWithConfirmation(inputValue) {
-    this.inputTarget.value = inputValue
+  #submitWithConfirmation() {
+    this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
     this.formTarget.requestSubmit()
   }
