@@ -3,7 +3,11 @@ import { HttpStatus } from "helpers/http_helpers"
 
 export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
-  static classes = [ "error", "confirmation" ]
+  static classes = [ "error", "confirmation", "help" ]
+
+  disconnect() {
+    if (this.waitingForConfirmation) { this.#reset() }
+  }
 
   // Actions
 
@@ -12,6 +16,28 @@ export default class extends Controller {
   }
 
   executeCommand(event) {
+    if (this.#showHelpCommandEntered) {
+      this.#showHelpMenu()
+      event.preventDefault()
+      event.stopPropagation()
+    } else {
+      this.hideHelpMenu()
+    }
+  }
+
+  hideHelpMenu() {
+    if (this.#showHelpCommandEntered) { this.#reset() }
+    this.element.classList.remove(this.helpClass)
+  }
+
+  handleKeyPress(event) {
+    if (this.waitingForConfirmation) {
+      this.#handleConfirmationKey(event.key.toLowerCase())
+      event.preventDefault()
+    }
+  }
+
+  handleCommandResponse(event) {
     if (event.detail.success) {
       this.#reset()
     } else {
@@ -32,6 +58,18 @@ export default class extends Controller {
     this.element.classList.remove(this.errorClass)
   }
 
+  get #showHelpCommandEntered() {
+    return [ "/help", "/?" ].includes(this.inputTarget.value)
+  }
+
+  #showHelpMenu() {
+    this.element.classList.add(this.helpClass)
+  }
+
+  get #isHelpMenuOpened() {
+    return this.element.classList.contains(this.helpClass)
+  }
+
   async #handleErrorResponse(response) {
     const status = response.status
     const message = await response.text()
@@ -47,6 +85,8 @@ export default class extends Controller {
     this.formTarget.reset()
     this.inputTarget.value = inputValue
     this.confirmationTarget.value = ""
+    this.waitingForConfirmation = false
+    this.originalInputValue = null
 
     this.element.classList.remove(this.errorClass)
     this.element.classList.remove(this.confirmationClass)
@@ -57,35 +97,23 @@ export default class extends Controller {
   }
 
   async #requestConfirmation(message) {
-    const originalInputValue = this.inputTarget.value
+    this.originalInputValue = this.inputTarget.value
     this.element.classList.add(this.confirmationClass)
-    this.inputTarget.value = `${message}? [y/n] `
+    this.inputTarget.value = `${message}? [Y/n] `
 
-    try {
-      await this.#waitForConfirmation()
-      this.#submitWithConfirmation(originalInputValue)
-    } catch {
-      this.#reset(originalInputValue)
+    this.waitingForConfirmation = true
+  }
+
+  #handleConfirmationKey(key) {
+    if (key === "enter" || key === "y") {
+      this.#submitWithConfirmation()
+    } else if (key === "escape" || key === "n") {
+      this.#reset(this.originalInputValue)
     }
   }
 
-  #waitForConfirmation() {
-    return new Promise((resolve, reject) => {
-      this.inputTarget.addEventListener("keydown", (event) => {
-        event.preventDefault()
-        const key = event.key.toLowerCase()
-
-        if (key === "enter" || key === "y") {
-          resolve()
-        } else {
-          reject()
-        }
-      }, { once: true })
-    })
-  }
-
-  #submitWithConfirmation(inputValue) {
-    this.inputTarget.value = inputValue
+  #submitWithConfirmation() {
+    this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
     this.formTarget.requestSubmit()
   }

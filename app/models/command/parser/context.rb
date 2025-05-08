@@ -10,7 +10,7 @@ class Command::Parser::Context
     if controller == "cards" && action == "show"
       user.accessible_cards.where id: params[:id]
     elsif controller == "cards" && action == "index"
-      filter.cards
+      filter.cards.published
     else
       Card.none
     end
