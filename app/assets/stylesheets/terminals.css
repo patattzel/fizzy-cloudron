@@ -120,7 +120,7 @@
   }
 
   .terminal__item {
-    &:where(:not(:active)):focus-visible, &:where(:not(:active))[aria-current] {
+    &[aria-current] {
       --btn-color: var(--color-terminal-bg);
 
       background: var(--color-terminal-text);
