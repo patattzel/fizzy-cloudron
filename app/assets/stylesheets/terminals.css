@@ -78,7 +78,8 @@
   .terminal__help {
     display: none;
 
-    .terminal--showing-help & {
+    .terminal--showing-help &,
+    .terminal--open .terminal__menu:empty ~ & {
       border-block-end: 1px dashed;
       display: block;
       margin-block-end: 0.5lh;
