@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { HttpStatus } from "helpers/http_helpers"
+import { delay } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
@@ -39,7 +40,15 @@ export default class extends Controller {
 
   handleCommandResponse(event) {
     if (event.detail.success) {
-      this.#reset()
+      const response = event.detail.fetchResponse;
+      if (response && response.response.headers.get("Content-Type")?.includes("application/json")) {
+        response.response.json().then((commands) => {
+          this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
+          this.#executeCommands(commands)
+        });
+      } else {
+        this.#reset()
+      }
     } else {
       const response = event.detail.fetchResponse.response
       this.#handleErrorResponse(response)
@@ -116,5 +125,19 @@ export default class extends Controller {
     this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
     this.formTarget.requestSubmit()
+  }
+
+  async #executeCommands(commands) {
+    for (const command of commands) {
+      if (command.command == "/search") {
+        const params = new URLSearchParams(command)
+        // Clunky example, for PoC purposes
+        Turbo.visit(`/cards?${params.toString()}`)
+        await delay(2000)
+      } else {
+        this.inputTarget.value = command.command
+        this.formTarget.requestSubmit()
+      }
+    }
   }
 }
