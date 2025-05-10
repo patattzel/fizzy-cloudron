@@ -33,7 +33,7 @@ class Command::ChatQuery < Command
         asks for a certain set of cards, you can use the /search command to filter. It supports the following
         conditions:
 
-          - assignment_status: can be "unassigned"
+          - assignment_status: can be "unassigned". Only include if asking for unassigned cards explicitly
           - indexed_by: can be "newest", "oldest", "latest", "stalled", "closed"
           - engagement_status: can be "considering" or "doing"
           - card_ids: a list of card ids
@@ -56,6 +56,9 @@ class Command::ChatQuery < Command
 
         { command: "/search", indexed_by: "closed", collection_ids: [ "Writebook", "Design" ] }
 
+        Notice that there are overlapping commands (filter by assignee or assign cards). Favor filtering/queries for
+        commands like "cards assigned to someone".
+
         Notice that only /search commands carry additional JSON params. For /tag, /close and /assign just append the
         param to the string command.
 
@@ -67,8 +70,8 @@ class Command::ChatQuery < Command
     def replace_names_with_ids(commands)
       commands.each do |command|
         if command["command"] == "/search"
-          command["assignee_ids"] = command["assignee_ids"]&.filter_map { |name| assignee_from(name).id }
-          command["creator_id"] = assignee_from(command["creator_id"]).id if command["creator_id"]
+          command["assignee_ids"] = command["assignee_ids"]&.filter_map { |name| assignee_from(name)&.id }
+          command["creator_id"] = assignee_from(command["creator_id"])&.id if command["creator_id"]
           command["collection_ids"] = command["collection_ids"]&.filter_map { |name| Collection.where("lower(name) = ?", name.downcase).first&.id }
           command["tag_ids"] = command["tag_ids"]&.filter_map { |name| ::Tag.find_by_title(name)&.id }
           command.compact!

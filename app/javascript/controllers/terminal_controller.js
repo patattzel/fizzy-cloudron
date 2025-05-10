@@ -40,12 +40,12 @@ export default class extends Controller {
 
   handleCommandResponse(event) {
     if (event.detail.success) {
-      const response = event.detail.fetchResponse;
+      const response = event.detail.fetchResponse
       if (response && response.response.headers.get("Content-Type")?.includes("application/json")) {
         response.response.json().then((commands) => {
           this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
           this.#executeCommands(commands)
-        });
+        })
       } else {
         this.#reset()
       }
@@ -130,9 +130,8 @@ export default class extends Controller {
   async #executeCommands(commands) {
     for (const command of commands) {
       if (command.command == "/search") {
-        const params = new URLSearchParams(command)
         // Clunky example, for PoC purposes
-        Turbo.visit(`/cards?${params.toString()}`)
+        Turbo.visit(`/cards?${toQueryString(command)}`)
         await delay(2000)
       } else {
         this.inputTarget.value = command.command
@@ -140,4 +139,19 @@ export default class extends Controller {
       }
     }
   }
+}
+
+function toQueryString(obj) {
+  const params = new URLSearchParams()
+  for (const key in obj) {
+    const value = obj[key]
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        params.append(`${key}[]`, item)
+      }
+    } else if (value !== undefined && value !== null) {
+      params.append(key, value)
+    }
+  }
+  return params.toString()
 }
