@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { HttpStatus } from "helpers/http_helpers"
 import { delay } from "helpers/timing_helpers"
+import { marked } from "marked"
 
 export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
@@ -43,7 +44,11 @@ export default class extends Controller {
       const response = event.detail.fetchResponse
       if (response && response.response.headers.get("Content-Type")?.includes("application/json")) {
         response.response.json().then((commands) => {
-          this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
+          if (commands.reply) {
+            this.element.querySelector("#chat-insight").innerHTML = marked.parse(commands.reply)
+          } else {
+            this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
+          }
           this.#executeCommands(commands)
         })
       } else {

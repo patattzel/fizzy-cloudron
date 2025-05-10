@@ -1,0 +1,75 @@
+class Command::GetInsight < Command
+  include Command::Cards
+
+  store_accessor :data, :query
+
+  def title
+    "Insight query '#{query}'"
+  end
+
+  def execute
+    response = chat.ask query
+    Command::Result::ChatResponse.new({ reply: response.content })
+  end
+
+  def undoable?
+    false
+  end
+
+  def needs_confirmation?
+    false
+  end
+
+  private
+    def chat
+      chat = RubyLLM.chat
+      chat.with_instructions(prompt + cards_context)
+    end
+
+    def prompt
+      <<~PROMPT
+        You are a helpful assistant that is able to provide answers and insights about cards.
+
+        A card has a title, a description and a list of comments. When presenting some insight, at the end,
+        list the sources as: 
+
+        Try to be concise and accurate.
+  
+        See: card id 1, card id 2, and comment id 123.
+
+        Use markdown for the response format.
+      PROMPT
+    end
+
+    def cards_context
+      "".tap do |context|
+        cards.order("created_at desc").limit(25).collect do |card|
+          context << card_context_for(card)
+
+          card.comments.each do |comment|
+            context << comment_context_for(comment)
+          end
+        end
+      end
+    end
+
+    def card_context_for(card)
+      <<~CONTEXT
+        Card created by: #{card.creator.name}}
+        Id: #{card.id}
+        Title: #{card.title}
+        Description: #{card.description.to_plain_text}
+        Assigned to: #{card.assignees.map(&:name).join(", ")}}
+        Created at: #{card.created_at}}
+      CONTEXT
+    end
+
+    def comment_context_for(comment)
+      <<~CONTEXT
+        Card: #{comment.card.id}
+        Id: #{comment.id}
+        Content: #{comment.body.to_plain_text}}
+        Comment created by: #{comment.creator.name}}
+      CONTEXT
+    end
+end
