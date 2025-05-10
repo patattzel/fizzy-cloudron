@@ -60,7 +60,8 @@ class Command::ChatQuery < Command
         For example, to assign a card, you invoke `assign kevin`. For insight about "something", you invoke "/insight something".
 
         Important: When using the /insight command, ALWAYS add first a /search command that filters out the relevant cards to answer 
-        the question. Then, reformulate pass the query itself VERBATIM to /insight as in "/insight ORIGINAL QUERY VERBATIM", no additional keys in the JSON.
+        the question. If there are relevant keywords to filter, pass those to /search but avoid passing generic ones. Then, reformulate
+        pass the query itself VERBATIM to /insight as in "/insight ORIGINAL QUERY VERBATIM", no additional keys in the JSON.
 
         For example, for "summarize performance issues", the JSON could be:
 
@@ -74,7 +75,8 @@ class Command::ChatQuery < Command
             }
           ]
 
-        Unless asking for explicit filtering, always prefer /insight over /search.
+        Unless asking for explicit filtering, always prefer /insight over /search. When asking about "cards" with properties that can
+        be satisfied with /search, then use /search
 
         Please combine commands to satisfy what the user needs. E.g: search with keywords and filters and then apply
         as many commands as needed. Make sure you don't leave actions mentioned in the query needs unattended.'
