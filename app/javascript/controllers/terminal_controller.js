@@ -43,14 +43,7 @@ export default class extends Controller {
     if (event.detail.success) {
       const response = event.detail.fetchResponse
       if (response && response.response.headers.get("Content-Type")?.includes("application/json")) {
-        response.response.json().then((commands) => {
-          if (commands.reply) {
-            this.element.querySelector("#chat-insight").innerHTML = marked.parse(commands.reply)
-          } else {
-            this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
-          }
-          this.#executeCommands(commands)
-        })
+        this.#handleJsonCommandResponse(response)
       } else {
         this.#reset()
       }
@@ -93,6 +86,17 @@ export default class extends Controller {
     } else if (status === HttpStatus.CONFLICT) {
       this.#requestConfirmation(message)
     }
+  }
+
+  #handleJsonCommandResponse(response) {
+    response.response.json().then((commands) => {
+      if (commands.reply) {
+        this.element.querySelector("#chat-insight").innerHTML = marked.parse(commands.reply)
+      } else {
+        this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
+      }
+      this.#executeCommands(commands)
+    })
   }
 
   #reset(inputValue = "") {
