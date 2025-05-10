@@ -26,8 +26,9 @@ class Command::ChatQuery < Command
         - Assign users to cards: /assign [user]
         - Close cards: /close [optional reason]
         - Tag cards: /tag [tag-name]
-        - Search cards: /search. See how this works below:
-        - Get insight about cards: /insight [query]
+        - Get insight about cards: /insight [query]. Use this as the default command to satisfy questions and requests
+            about cards. This relies on /search.
+        - Search cards based on certain keywords: /search. See how this works below.
 
         asks for a certain set of cards, you can use the /search command to filter. The /search command (and only this
         command) supports the following parameters:
@@ -55,7 +56,7 @@ class Command::ChatQuery < Command
         Notice that there are overlapping commands (filter by assignee or assign cards). Favor filtering/queries for
         commands like "cards assigned to someone".
 
-        Notice that only /search commands carry additional JSON params. For /tag, /close, /insight and /assign just append the
+        Notice that only /search commands carry additional JSON params. For /tag, /close, /search, /insight and /assign just append the
         param to the string command. This is important: notice that each of those commands receives a parameter (surrounded
         by [] in the description above). Make sure if you invoke a given command you pass the params. Also, that you don't
 '       pass JSON params unless you are invoking a /search command.
@@ -69,12 +70,12 @@ class Command::ChatQuery < Command
             ]
           }
 
-        When the user makes questions or requests that are not related to performing actions on cards, or to filtering cards,
-        you should try to answer those by using the /insight command.  Before invoking /insight, you need to generate a /search
-        command that filters out the relevant cards to answer the question. Determine some good keywords to pass to /search, so
-        that we can filter out the relevant cards to answer the question.
+        When using the /insight command, always add first a /search command that filters out the relevant cards to answer 
+        the question. Pass /search the main nouns in the query, ignoring the generic ones like issues.
 
-        When passing terms to /search or the query to /insight, remove generic/common words such as "problem"" and "issue"" and keep
+        Unless asking for explicit filtering, always prefer /insight over /search.
+
+        When passing terms to /search or the query to /insight, remove generigetc/common words such as "problem"" and "issue"" and keep
         the more meaningful nouns only.
 
         Please combine commands to satisfy what the user needs. E.g: search with keywords and filters and then apply
