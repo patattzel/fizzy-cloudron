@@ -67,6 +67,10 @@ class Command::GetInsight < Command
         Description: #{card.description.to_plain_text}
         Assigned to: #{card.assignees.map(&:name).join(", ")}}
         Created at: #{card.created_at}}
+        Closed: #{card.closed?}
+        Closed by: #{card.closed_by&.name}
+        Closed at: #{card.closed_at}
+
       CONTEXT
     end
 
@@ -76,6 +80,7 @@ class Command::GetInsight < Command
         Id: #{comment.id}
         Content: #{comment.body.to_plain_text}}
         Comment created by: #{comment.creator.name}}
+
       CONTEXT
     end
 end
