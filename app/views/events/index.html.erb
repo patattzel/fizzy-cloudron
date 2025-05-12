@@ -16,11 +16,7 @@
   </nav>
 <% end %>
 
-<div class="events__container align-start gap">
-  <div class="flex flex-column">
-    <div id="activity" class="events__index flex flex-column">
-      <%= render "events/day", day_timeline: @day_timeline %>
-    </div>
-    <%= event_next_page_link(@day_timeline.next_day) %>
-  </div>
+<div class="events" id="activity">
+  <%= render "events/day", day_timeline: @day_timeline %>
+  <%= event_next_page_link(@day_timeline.next_day) %>
 </div>

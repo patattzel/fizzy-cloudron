@@ -1,7 +1,7 @@
-<div class="events--day" data-controller="related-element"
+<div class="events__day" data-controller="related-element"
   data-related-element-highlight-class="event--related">
   <% if day_timeline.has_activity? %>
-    <h2 class="txt-medium events__day-header center">
+    <h2 class="events__day-header">
       <span class="events__day-header-content">
         <%= local_datetime_tag day_timeline.day, style: :agoorweekday, class: "txt-ink" %>
       </span>
