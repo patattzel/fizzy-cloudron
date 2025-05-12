@@ -63,6 +63,8 @@ class Command::ChatQuery < Command
         the question. If there are relevant keywords to filter, pass those to /search but avoid passing generic ones. Then, reformulate
         pass the query itself VERBATIM to /insight as in "/insight ORIGINAL QUERY VERBATIM", no additional keys in the JSON.
 
+        You can consider cards, issues and tickets as synonymous.
+
         For example, for "summarize performance issues", the JSON could be:
 
           [
@@ -89,6 +91,8 @@ class Command::ChatQuery < Command
 
         Make sure to place into double quotes the strings in JSON values and that you generate valid JSON. I want a
         JSON list like [{}, {}...]
+
+        Respond only with the JSON.
       PROMPT
     end
 
