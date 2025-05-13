@@ -35,16 +35,16 @@ class Command::ChatQuery < Command
 
         ## Supported commands:
 
-        - Assign users to cards: /assign [user]. E.g: "/assign kevin"
-        - Close cards: /close [optional reason]. E.g: "/close" or "/close not now"
-        - Tag cards: /tag [tag-name]. E.g: "/tag performance"
-        - Clear filters: /clear
-        - Get insight about cards: /insight [query]. Use this as the default command to satisfy questions and requests
-            about cards. This relies on /search. Example: "/insight summarize performance issues".
-        - Search cards based on certain keywords: /search. It supports the following parameters:
-          * assignment_status: can be "unassigned". Only include if asking for unassigned cards explicitly
+        - Assign users to cards: Syntax: /assign [user]. Example: "/assign kevin"
+        - Close cards: Syntax: /close [optional reason]. Example: "/close" or "/close not now"
+        - Tag cards: Syntax: /tag [tag-name]. Example: "/tag performance"
+        - Clear filters: Syntax: /clear
+        - Get insight about cards: Syntax: /insight [query]. Example: "/insight summarize performance issues".
+        - Search cards based on certain keywords: Syntax: /search. It supports the following parameters:
+          * assignment_status: can be "unassigned". Only use assignment_status asking for unassigned cards.
+            Never use in other circumstances.
           * indexed_by: can be "newest", "oldest", "latest", "stalled", "closed"
-          * engagement_status: can be "considering" or "doing".
+          * engagement_status: can be "considering" or "doing". This refers to whether the team is working on something.
           * card_ids: a list of card ids
           * assignee_ids: a list of assignee names
           * creator_id: the name of a person
@@ -57,23 +57,25 @@ class Command::ChatQuery < Command
         ## How to translate requests into commands
 
         1. Determine if you have the right context based on the "current context":
-          - If it is is "inside a card", assume you are in the right context unless the
-            query is clearly referring to a different set of cards.
-          - If it is "viewing a list of cards", consider emitting a /search command to filter the cards.
+          - If it is is "inside a card", assume you are in the right context.
+          - If it is "viewing a list of cards":
+            a) consider emitting a /search command to filter the cards.
+            b) consider emitting also a /insight command to refine context if needed. Pass the original query verbatim
+            to insight as the [query]. If the query is "why is it taking so long?", add "/insight why is it taking so long?".
 
         2. Create the sequence of commands to satisfy the user's request.
-          - If the request is just about finding some cards, a /search command is enough.
-          - If the request is about answering some question about cards, add an /insight command.
+          - If the request is about answering some question about cards, add an /insight command. You can only
+            add ONE /insight command in total.
           - If the request requires acting on cards, add the sequence of commands that satisfy those. You can combine
             all of them except /search and /insight, which have an special consideration.
 
        ## JSON format
 
-        Each command will be a JSON object like:
+        Each command will be a JSON object like. All the commands JSON objects a "command" key with the command.
 
         { command: "/close" }
 
-        Only the /search command can contain additional keys for the params in the JSON:
+        The "/search"" command can contain additional keys for the params in the JSON:
 
         { command: "/search", indexed_by: "closed", collection_ids: [ "Writebook", "Design" ] }
 
@@ -85,6 +87,10 @@ class Command::ChatQuery < Command
         # Other
 
         * Avoid empty preambles like "Based on the provided cards". Be friendly, favor an active voice.
+        * Be concise and direct.
+        * When emitting search commands, if searching for terms, remove generic ones.
+        * There are similar commands to filter and act on cards (e.g: filter by assignee or assign 
+          cards). Favor filtering/queries for commands like "cards assigned to someone".
       PROMPT
     end
 
