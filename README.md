@@ -22,6 +22,13 @@ To work on AI features you need the OpenAI API key stored in the development's c
 you need to create a file named `development.key` in `config/credentials`. You can copy the file from One Password in 
 "Fizzy - development.key".
 
+To get semantic searches working for existing data you need to calculate all the vector embeds:
+
+```ruby
+Card.find_each(&:refresh_search_embedding)
+Comment.find_each(&:refresh_search_embedding)
+```
+
 ## Running tests
 
 For fast feedback loops, unit tests can be run with:
