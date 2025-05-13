@@ -136,12 +136,27 @@ export default class extends Controller {
   }
 
   async #requestConfirmation(commands) {
-    const message = commands[0]
-
     this.element.classList.add(this.confirmationClass)
-    this.inputTarget.value = `${message}? [Y/n] `
+
+    if (commands.length > 1) {
+      this.#requestMultiLineConfirmation(commands)
+    } else {
+      this.#requestSingleLineConfirmation(commands)
+    }
 
     this.waitingForConfirmationValue = true
+  }
+
+  #requestMultiLineConfirmation(commands) {
+    const commandsDescription = commands.map(command => `- ${command}`).join(`<br>`)
+    const message = `This will:<br>${commandsDescription}`
+    this.#showOutput(message)
+    this.inputTarget.value = `Do you confirm? [Y/n] `
+  }
+
+  #requestSingleLineConfirmation(commands) {
+    const message = commands[0]
+    this.inputTarget.value = `${message}? [Y/n] `
   }
 
   #handleConfirmationKey(key) {
@@ -149,13 +164,16 @@ export default class extends Controller {
       this.#submitWithConfirmation()
     } else if (key === "escape" || key === "n") {
       this.#reset(this.originalInputValue)
+      this.#hideOutput()
     }
   }
 
   #submitWithConfirmation() {
     this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
+    this.#hideOutput()
     this.formTarget.requestSubmit()
+    this.#reset()
   }
 
   #submitAfterRedirection() {
