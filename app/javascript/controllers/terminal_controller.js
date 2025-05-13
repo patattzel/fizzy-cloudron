@@ -4,7 +4,7 @@ import { marked } from "marked"
 
 export default class extends Controller {
   static targets = [ "input", "form", "output", "confirmation", "redirected" ]
-  static classes = [ "error", "confirmation", "help", "output" ]
+  static classes = [ "error", "confirmation", "help", "output", "busy" ]
   static values = { originalInput: String, waitingForConfirmation: Boolean, autoSubmitAfterRedirection: Boolean }
 
   connect() {
@@ -63,6 +63,10 @@ export default class extends Controller {
     this.element.classList.remove(this.errorClass)
   }
 
+  commandSubmitted() {
+    this.element.classList.add(this.busyClass)
+  }
+
   get #showHelpCommandEntered() {
     return [ "/help", "/?" ].includes(this.inputTarget.value)
   }
@@ -109,6 +113,7 @@ export default class extends Controller {
 
     this.element.classList.remove(this.errorClass)
     this.element.classList.remove(this.confirmationClass)
+    this.element.classList.remove(this.busyClass)
   }
 
   #showError() {
