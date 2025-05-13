@@ -1,4 +1,36 @@
 module EventsHelper
+
+  def event_column_info(event_type, day_timeline)
+    case event_type
+    when "added"
+      events = day_timeline.events.where(action: "card_published")
+      {
+        title: events.count > 0 ? "Added (#{events.count})" : "Added",
+        index: 1,
+        events: events
+      }
+    when "closed"
+      events = day_timeline.events.where(action: "card_closed")
+      {
+        title: events.count > 0 ? "Closed (#{events.count})" : "Closed",
+        index: 3,
+        events: events
+      }
+    else
+      {
+        title: "Updated",
+        index: 2,
+        events: day_timeline.events.where.not(action: ["card_published", "card_closed"])
+      }
+    end
+  end
+
+
+
+
+
+
+
   def event_column(event)
     case event.action
     when "card_closed"
