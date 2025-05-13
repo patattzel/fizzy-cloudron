@@ -78,7 +78,8 @@
   .terminal__help {
     display: none;
 
-    .terminal--showing-help & {
+    .terminal--showing-help &,
+    .terminal--open .terminal__menu:empty ~ & {
       border-block-end: 1px dashed;
       display: block;
       margin-block-end: 0.5lh;
@@ -119,7 +120,7 @@
   }
 
   .terminal__item {
-    &:where(:not(:active)):focus-visible, &:where(:not(:active))[aria-current] {
+    &[aria-current] {
       --btn-color: var(--color-terminal-bg);
 
       background: var(--color-terminal-text);
