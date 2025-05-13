@@ -50,11 +50,15 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_chat_response(result)
-      command = chat_response_to_command(result)
+      command = command_from_chat_response(result)
 
       if confirmed?(command)
-        result = command.execute
-        respond_with_execution_result result
+        if result.has_context_url? && params["redirected"].blank?
+          respond_with_needs_redirection redirect_to: result.context_url
+        else
+          chat_response_result = command.execute
+          respond_with_execution_result chat_response_result
+        end
       else
         respond_with_needs_confirmation(command.commands, redirect_to: result.context_url)
       end
@@ -64,7 +68,11 @@ class CommandsController < ApplicationController
       render json: { commands: Array(commands).collect(&:title), redirect_to: redirect_to }, status: :conflict
     end
 
-    def chat_response_to_command(chat_response)
+    def respond_with_needs_redirection(redirect_to:)
+      render json: { redirect_to: redirect_to }, status: :conflict
+    end
+
+    def command_from_chat_response(chat_response)
       context = Command::Parser::Context.new(Current.user, url: chat_response.context_url || request.referrer)
       parser = Command::Parser.new(context)
       Command::Composite.new(chat_response.command_lines.collect { parser.parse it })

@@ -4,20 +4,19 @@ import { delay, nextFrame } from "helpers/timing_helpers"
 import { marked } from "marked"
 
 export default class extends Controller {
-  static targets = [ "input", "form", "confirmation" ]
+  static targets = [ "input", "form", "confirmation", "redirected" ]
   static classes = [ "error", "confirmation", "help" ]
-  static values = { originalInput: String, waitingForConfirmation: Boolean }
+  static values = { originalInput: String, waitingForConfirmation: Boolean, autoSubmitAfterRedirection: Boolean }
 
   connect() {
-    if (this.waitingForConfirmationValue) {
-      this.inputTarget.setSelectionRange(this.inputTarget.value.length, this.inputTarget.value.length)
-      this.inputTarget.focus()
-    }
+    if (this.waitingForConfirmationValue) { this.focus() }
+    if (this.autoSubmitAfterRedirectionValue) { this.submitAfterRedirection() }
   }
 
   // Actions
 
   focus() {
+    this.inputTarget.setSelectionRange(this.inputTarget.value.length, this.inputTarget.value.length)
     this.inputTarget.focus()
   }
 
@@ -88,16 +87,17 @@ export default class extends Controller {
     if (status === HttpStatus.UNPROCESSABLE) {
       this.#showError()
     } else if (status === HttpStatus.CONFLICT) {
-      const jsonResponse = await response.json()
-      this.#requestConfirmation(jsonResponse)
+      await this.#handleConflictResponse(response)
     }
   }
 
   #reset(inputValue = "") {
     this.inputTarget.value = inputValue
     this.confirmationTarget.value = ""
+    this.redirectedTarget.value = ""
     this.waitingForConfirmationValue = false
     this.originalInputValue = null
+    this.autoSubmitAfterRedirectionValue = false
 
     this.element.classList.remove(this.errorClass)
     this.element.classList.remove(this.confirmationClass)
@@ -107,19 +107,28 @@ export default class extends Controller {
     this.element.classList.add(this.errorClass)
   }
 
-  async #requestConfirmation(jsonResponse) {
-    const message = jsonResponse.commands[0]
+  async #handleConflictResponse(response) {
+    const { commands, redirect_to } = await response.json()
+
     this.originalInputValue = this.inputTarget.value
 
+    if (commands && commands.length) {
+      this.#requestConfirmation(commands)
+    } else {
+      this.autoSubmitAfterRedirectionValue = true
+    }
+    if (redirect_to) {
+      Turbo.visit(redirect_to, { frame: "cards" })
+    }
+  }
+
+  async #requestConfirmation(commands) {
+    const message = commands[0]
 
     this.element.classList.add(this.confirmationClass)
     this.inputTarget.value = `${message}? [Y/n] `
 
     this.waitingForConfirmationValue = true
-
-    if (jsonResponse.redirect_to) {
-      Turbo.visit(jsonResponse.redirect_to, { frame: "cards" })
-    }
   }
 
   #handleConfirmationKey(key) {
@@ -133,6 +142,12 @@ export default class extends Controller {
   #submitWithConfirmation() {
     this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
+    this.formTarget.requestSubmit()
+  }
+
+  submitAfterRedirection() {
+    this.inputTarget.value = this.originalInputValue
+    this.redirectedTarget.value = "redirected"
     this.formTarget.requestSubmit()
   }
 }

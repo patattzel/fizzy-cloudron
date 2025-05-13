@@ -77,6 +77,7 @@ class Command::ChatQuery < Command
         for commands like "cards assigned to someone".
         - Assume that card's creators are expressing a need or informating about something captured in the card description.
         - As a general rule, don't /search if the context is inside a card.
+        - Remove any /search command without params from the generated list of commands.
 
         The context determines the user's intent. For example, for "summarize performance issues", if the context is viewing
         the list of cards, the JSON could be:
@@ -106,9 +107,7 @@ class Command::ChatQuery < Command
         /assign don't support additional JSON keys, they will only contain the "command:" key". For /search, it can contain additional
         JSON keys matching the /search params described above.
 
-        Don't generate any /search without params. Just don't add it.
-
-        Avoid empty preambles like "Based on the provided cards". Also, prefer a natural a friendly language favoring active voice.
+        Avoid empty preambles like "Based on the provided cards". Be friendly, favor an active voice.
 
         Make sure to place into double quotes the strings in JSON values and that you generate valid JSON. I want a
         JSON list like [{}, {}...]
