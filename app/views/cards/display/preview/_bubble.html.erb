@@ -1,9 +1,10 @@
-<div class="bubble <%= local_assigns[:class] || "" %>">
+<div class="bubble <%= local_assigns[:class] %>">
   <svg viewBox="0 0 200 100">
     <path id="top-half" fill="transparent" d="M 20,100 A 80,80 0 0,1 180,100" />
     <text text-anchor="middle" fill="currentColor">
       <textPath href="#top-half" startOffset="50%" dominant-baseline="middle">
-        <%= days < 1 ? "Closes" : "Closes in" %>
+        <%= local_assigns[:label] %>
+        <%= " in" if days < 1 %>
       </textPath>
     </text>
   </svg>

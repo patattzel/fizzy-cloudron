@@ -51,3 +51,8 @@
   inset-inline-start: calc(-1 * var(--bubble-gap));
   translate: -100% -50%;
 }
+
+.bubble--considering {
+  inset-inline-end: calc(-1 * var(--bubble-gap));
+  translate: 100% -50%;
+}
