@@ -29,7 +29,7 @@ class CommandsController < ApplicationController
     end
 
     def parsing_context
-      Command::Parser::Context.new(Current.user, url: request.referrer)
+      @parsing_context ||= Command::Parser::Context.new(Current.user, url: request.referrer)
     end
 
     def confirmed?(command)
@@ -50,7 +50,8 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_needs_confirmation(command)
-      render json: { confirmation: command.confirmation_prompt, redirect_to: command.context.url }, status: :conflict
+      redirection_url = command.context.url unless command.context.url == parsing_context.url
+      render json: { confirmation: command.confirmation_prompt, redirect_to: redirection_url }, status: :conflict
     end
 
     def respond_with_composite_response(results)
