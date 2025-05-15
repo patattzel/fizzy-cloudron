@@ -15,6 +15,10 @@ class Command::Ai::Parser
   end
 
   private
+    def command_translator
+      Command::Ai::Translator.new(context)
+    end
+
     def build_composite_command_for(query_json, query)
       query_context = context_from_query(query_json)
       resolved_context = query_context || context
@@ -28,8 +32,11 @@ class Command::Ai::Parser
       Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
     end
 
-    def command_translator
-      Command::Ai::Translator.new(context)
+    def commands_from_query(query_json, context)
+      parser = Command::Parser.new(context)
+      if command_lines = query_json["commands"].presence
+        command_lines.collect { parser.parse(it) }
+      end
     end
 
     def resolve_named_params_to_ids(query_json)
@@ -53,13 +60,6 @@ class Command::Ai::Parser
       if context_properties = query_json["context"].presence
         url = cards_path(**context_properties)
         Command::Parser::Context.new(user, url: url)
-      end
-    end
-
-    def commands_from_query(query_json, context)
-      parser = Command::Parser.new(context)
-      if command_lines = query_json["commands"].presence
-        command_lines.collect { parser.parse(it) }
       end
     end
 end
