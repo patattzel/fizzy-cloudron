@@ -72,6 +72,7 @@ class Command::Ai::Translator
         - The user may refer to "my" or "I" to refer to the cards assigned to him/her.
         - To search cards completed by someone filter by cards assigned to that person that are completed.
         - My cards are cards assigned to me. Someone's cards are cards assigned to that person.
+        - My recent cards are cards assigned to me with indexed_by:newest.
 
         If a new context is needed, the output json will contain a "context"" property with the required properties:
 
