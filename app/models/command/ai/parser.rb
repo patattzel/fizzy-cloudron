@@ -11,19 +11,23 @@ class Command::Ai::Parser
 
   def parse(query)
     query_json = resolve_named_params_to_ids command_translator.as_normalized_json(query)
-    query_context = context_from_query(query_json)
-    resolved_context = query_context || context
-
-    commands = Array.wrap(commands_from_query(query_json, resolved_context))
-
-    if query_context
-      commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
-    end
-
-    Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
+    build_composite_command_for query_json, query
   end
 
   private
+    def build_composite_command_for(query_json, query)
+      query_context = context_from_query(query_json)
+      resolved_context = query_context || context
+
+      commands = Array.wrap(commands_from_query(query_json, resolved_context))
+
+      if query_context
+        commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
+      end
+
+      Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
+    end
+
     def command_translator
       Command::Ai::Translator.new(context)
     end
