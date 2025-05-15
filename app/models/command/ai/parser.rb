@@ -11,7 +11,16 @@ class Command::Ai::Parser
 
   def parse(query)
     query_json = resolve_named_params_to_ids command_translator.as_normalized_json(query)
-    build_chat_response_with query, query_json
+    query_context = context_from_query(query_json)
+    resolved_context = query_context || context
+
+    commands = Array.wrap(commands_from_query(query_json, resolved_context))
+
+    if query_context
+      commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
+    end
+
+    Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
   end
 
   private
@@ -34,19 +43,6 @@ class Command::Ai::Parser
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
       User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
-    end
-
-    def build_chat_response_with(query, query_json)
-      query_context = context_from_query(query_json)
-      resolved_context = query_context || context
-
-      commands = Array.wrap(commands_from_query(query_json, resolved_context))
-
-      if query_context
-        commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
-      end
-
-      Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
     end
 
     def context_from_query(query_json)
