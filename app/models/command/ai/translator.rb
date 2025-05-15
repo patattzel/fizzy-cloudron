@@ -1,9 +1,12 @@
 class Command::Ai::Translator
   attr_reader :context
 
+  delegate :user, to: :context
+
   def initialize(context)
     @context = context
   end
+
   def as_normalized_json(query)
     response = chat.ask query
     Rails.logger.info "*** Commands: #{response.content}"
@@ -28,9 +31,11 @@ class Command::Ai::Translator
             * The new context properties, when a new context is needed.
             * A **single JSON array** of command objects to execute
 
+        The name of the user making requests is #{user.first_name.downcase}.
+
         Fizzy data includes cards and comments contained in those. A card can represent an issue, a feature,
         a bug, a task, etc. Cards are contained in collections.
- 
+
         ## Current view:
 
         The user is currently #{context_description} }.
@@ -58,8 +63,11 @@ class Command::Ai::Translator
         - To filter cards created by someone, use "creator_id".
         - To filter cards with certain tags, use "tag_ids" and pass the name of the tag or tags.
         - To filter unassigned cards, use "assignment_status" and pass "unassigned".
+        - To filter someone's card, filter the cards where that person is the assignee.
         - To filter cards by certain subject, use "terms" to pass relevant keywords. Avoid generic keywords, 
           extract the relevant ones.
+        - The user may refer to "my" or "I" to refer to the cards assigned to him/her.
+        - To search cards completed by someone filter by cards assigned to that person that are completed.
 
         If a new context is needed, the output json will contain a "context"" property with the required properties:
 
