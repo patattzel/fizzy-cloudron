@@ -41,7 +41,7 @@ class Command::Ai::Translator
             * A **single JSON array** of command objects to execute
 
         Fizzy data includes cards and comments contained in those. A card can represent an issue, a feature,
-        a bug, a task, etc. Cards are contained in collections.
+        a bug, a task, a problem, etc. Cards are contained in collections.
 
         ## Determine context
 
@@ -73,6 +73,7 @@ class Command::Ai::Translator
         - To search cards completed by someone filter by cards assigned to that person that are completed.
         - My cards are cards assigned to me. Someone's cards are cards assigned to that person.
         - My recent cards are cards assigned to me with indexed_by:newest.
+        - To filter cards or problems reported by someone use "creator_id" and pass the name of the person.
 
         If a new context is needed, the output json will contain a "context"" property with the required properties:
 
@@ -96,7 +97,7 @@ class Command::Ai::Translator
         - Tag cards with certain one or multiple tags: Syntax: /tag [tag-name]. The tag can be prefixed with #. Example: "/tag performance" or "/tag #peformance"
         - Clear filters: Syntax: /clear
         - Get AI insight about cards: Syntax: /insight [query]. Example: "/insight summarize". Notice that this can be combined with
-          creating a new context to get insight from.
+          creating a new context to get insight from. Always use /insight when the user asks a question.
 
         Notice that commands can be combined with filtering to specify the context. For example: "close cards assigned to jorge" should
         generate a context to search cards assigned to jorge and a /close command to act on those.
@@ -139,7 +140,7 @@ class Command::Ai::Translator
         * An unassigned card can be closed or not. "unassigned" and "closed" are different unrelated concepts.
         * An unassigned card can be "considering" or "doing". "unassigned" and "engagement_status" are different unrelated concepts.
         * Only use assignment_status asking for unassigned cards. Never use in other circumstances.
-
+        * If the question ends with question mark ALWAYS use an /insight command passing a question extracted from the query.
       PROMPT
     end
 
