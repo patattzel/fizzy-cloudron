@@ -107,9 +107,11 @@ class Command::Ai::Translator
         Each command will be a JSON object containing two properties: "commands" and "context". Notice that both are optional
         but at least ONE must be present. All these examples are valid:
 
-        { context: [ terms: [ "performance" ] ], commands: ["/assign jorge", "/close"] }
-        { context: [ terms: [ "performance" ] ] }
-        { commands: [ "/assign jorge", "/close"] }
+        { "context": [ "terms": [ "performance" ] ], "commands": ["/assign jorge", "/close"] }
+        { "context": [ "terms": [ "performance" ] ] }
+        { "commands": [ "/assign jorge", "/close"] }
+
+        Make sure you generate valid JSON with both keys and values within quotes.
 
         # Other
 
