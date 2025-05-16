@@ -21,7 +21,7 @@ module Searchable
 
       scope :search, ->(query) { joins("join #{using} idx on #{table_name}.id = idx.rowid").where("idx.#{as} match ?", query) }
       scope :search_similar, ->(query) do
-        query_embedding = Rails.cache.fetch("embed-search:#{query}") { RubyLLM.embed(query) }
+        query_embedding = Rails.cache.fetch("embed-search:#{query}") { RubyLLM.embed(Ai::Tokenizer.truncate(query)) }
         joins(:search_embedding)
           .where("embedding MATCH ? AND k = ?", query_embedding.vectors.to_json, 20)
           .order(:distance)
@@ -34,7 +34,7 @@ module Searchable
   end
 
   def refresh_search_embedding
-    embedding = RubyLLM.embed(search_embedding_content)
+    embedding = RubyLLM.embed(Ai::Tokenizer.truncate(search_embedding_content))
     search_embedding = self.search_embedding || build_search_embedding
     search_embedding.update! embedding: embedding.vectors.to_json
   end
