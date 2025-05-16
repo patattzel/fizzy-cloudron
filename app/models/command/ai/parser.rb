@@ -34,18 +34,18 @@ class Command::Ai::Parser
 
     def commands_from_query(normalized_query, context)
       parser = Command::Parser.new(context)
-      if command_lines = normalized_query["commands"].presence
+      if command_lines = normalized_query[:commands].presence
         command_lines.collect { parser.parse(it) }
       end
     end
 
     def resolve_named_params_to_ids(normalized_query)
       normalized_query.tap do |query_json|
-        if query_context = query_json["context"].presence
-          query_context["assignee_ids"] = query_context["assignee_ids"]&.filter_map { |name| assignee_from(name)&.id }
-          query_context["creator_id"] = assignee_from(query_context["creator_id"])&.id if query_context["creator_id"]
-          query_context["collection_ids"] = query_context["collection_ids"]&.filter_map { |name| Collection.where("lower(name) like ?", "%#{name.downcase}%").first&.id }
-          query_context["tag_ids"] = query_context["tag_ids"]&.filter_map { |name| ::Tag.find_by_title(name)&.id }
+        if query_context = query_json[:context].presence
+          query_context[:assignee_ids] = query_context[:assignee_ids]&.filter_map { |name| assignee_from(name)&.id }
+          query_context[:creator_id] = assignee_from(query_context[:creator_id])&.id if query_context[:creator_id]
+          query_context[:collection_ids] = query_context[:collection_ids]&.filter_map { |name| Collection.where("lower(name) like ?", "%#{name.downcase}%").first&.id }
+          query_context[:tag_ids] = query_context[:tag_ids]&.filter_map { |name| ::Tag.find_by_title(name)&.id }
           query_context.compact!
         end
       end
@@ -57,7 +57,7 @@ class Command::Ai::Parser
     end
 
     def context_from_query(query_json)
-      if context_properties = query_json["context"].presence
+      if context_properties = query_json[:context].presence
         url = cards_path(**context_properties)
         Command::Parser::Context.new(user, url: url)
       end
