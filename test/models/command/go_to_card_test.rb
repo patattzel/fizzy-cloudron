@@ -5,8 +5,6 @@ class Command::GoToCardTest < ActionDispatch::IntegrationTest
 
   include VcrTestHelper
 
-  vcr_record!
-
   setup do
     @card = cards(:logo)
   end
@@ -20,10 +18,10 @@ class Command::GoToCardTest < ActionDispatch::IntegrationTest
   test "result in a regular search if the card does not exist" do
     command = parse_command "123"
 
-    puts command.commands.first.inspect
-    assert command.valid?
+    visit_command = command.commands.first
+    assert visit_command.valid?
 
-    result = command.execute
-    assert_equal cards_path(indexed_by: "newest", terms: [ "123" ]), result.url
+    result = visit_command.execute
+    assert_equal cards_path(terms: [ "123" ]), result.url
   end
 end
