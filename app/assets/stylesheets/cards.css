@@ -78,8 +78,12 @@
   }
 
   .card__header {
+    align-items: center;
+    display: flex;
+    gap: var(--inline-space-half);
     margin-block-start: calc(-1 * var(--card-padding-block));
     margin-inline-start: calc(-1 * var(--card-padding-inline));
+    min-inline-size: 0;
   }
 
   .card__collection {

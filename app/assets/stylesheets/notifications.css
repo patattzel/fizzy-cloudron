@@ -1,7 +1,6 @@
 @layer components {
-  .notification {
-    position: relative;
-  }
+  /* Tray
+  /* ------------------------------------------------------------------------ */
 
   .notification-tray {
     inset: auto var(--inline-space) var(--block-space-half) auto;
@@ -38,22 +37,82 @@
     }
   }
 
-  .notification__content {
-    --border-color: transparent;
-    --border-radius: 0.2em;
-    --padding: 0.75em 0.5em;
+  /* Notification
+  /* ------------------------------------------------------------------------ */
 
-    padding: var(--padding);
+  .notification {
+    --avatar-size: 2lh;
+    --card-color: var(--color-card-default);
+    --notification-border-color: transparent;
+    --notification-padding-block: 0.75em;
+    --notification-padding-inline: 0.5em;
+
+    align-items: flex-start;
+    background-color: var(--color-canvas);
+    border: 1px solid var(--color-ink-lighter);
+    border-radius: 0.5em;
+    box-shadow: var(--shadow);
+    color: var(--color-ink);
+    display: block;
+    font-size: 10px;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    padding: var(--notification-padding-block) var(--notification-padding-inline);
+    position: relative;
+    text-align: start;
 
     @media (prefers-color-scheme: dark) {
-      --border-color: var(--color-ink-medium);
+      --notification-border-color: var(--color-ink-medium);
     }
 
     .notificiations-list--read & {
-      --border-color: var(--color-ink-lighter);
+      --notification-border-color: var(--color-ink-lighter);
 
       box-shadow: none !important;
     }
+  }
+
+  .notification__header {
+    align-items: center;
+    display: flex;
+    gap: var(--inline-space);
+    margin-block-end: var(--notification-padding-block);
+    margin-block-start: calc(-1 * var(--notification-padding-block));
+    margin-inline-start: calc(-1 * var(--notification-padding-inline));
+    min-inline-size: 0;
+  }
+
+  .notification__collection {
+    background-color: var(--card-color);
+    border-radius: 0.2em 0 0.2em 0;
+    color: var(--color-ink-inverted);
+    font-weight: 800;
+    inline-size: fit-content;
+    padding: 0.25ch var(--inline-space) 0.25ch var(--inline-space-double);
+    text-transform: uppercase;
+  }
+
+  .notification__id {
+    display: inline-flex;
+    margin-inline-start: calc(var(--inline-space) * -1);
+  }
+
+  .notification__collection-name {
+    border-inline-start: 1px solid color-mix(in srgb, var(--color-ink-inverted) 33%, var(--card-color));
+    color: currentcolor;
+    display: inline-flex;
+    margin-inline-start: var(--inline-space-half);
+    padding-inline-start: calc(var(--inline-space) * 0.75);
+  }
+
+  .notification__time {
+    opacity: 0.66;
+  }
+
+  .notification__body {
+    display: flex;
+    flex-grow: 1;
+    gap: var(--inline-space-half);
   }
 
   .notification__title {

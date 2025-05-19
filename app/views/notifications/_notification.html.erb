@@ -1,11 +1,26 @@
 <% cache notification do %>
   <%= notification_tag notification do %>
-    <div class="avatar txt-x-small flex-item-no-shrink">
-      <%= avatar_image_tag notification.creator %>
-    </div>
 
-    <div class="flex flex-column min-width flex-item-grow">
-      <%= render "notifications/notification/#{notification.source_type.underscore}", notification: notification %>
+    <header class="notification__header">
+      <div class="notification__collection">
+        <span class="notification__id"><%= notification.source.id %></span>
+        <span class="notification__collection-name overflow-ellipsis">
+          <%= notification.source.collection.name %>
+        </span>
+      </div>
+      <span class="notification__time">
+        <%= local_datetime_tag(notification.created_at, style: :ago) %>
+      </span>
+    </header>
+
+    <div class="notification__body">
+      <div class="avatar txt-x-small flex-item-no-shrink">
+        <%= avatar_image_tag notification.creator %>
+      </div>
+
+      <div class="flex flex-column min-width flex-item-grow">
+        <%= render "notifications/notification/#{notification.source_type.underscore}", notification: notification %>
+      </div>
     </div>
   <% end %>
 <% end %>

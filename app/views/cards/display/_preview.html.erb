@@ -1,6 +1,6 @@
 <% cache card do %>
   <%= card_article_tag card, class: "card" do %>
-    <header class="card__header flex align-center gap min-width">
+    <header class="card__header">
       <span class="card__collection">
         <span class="card__id"><%= card.id %></span>
         <%= link_to card.collection.name, cards_path(collection_ids: [ card.collection ]),
