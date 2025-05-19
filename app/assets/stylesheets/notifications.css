@@ -50,11 +50,11 @@
     align-items: flex-start;
     background-color: var(--color-canvas);
     border: 1px solid var(--color-ink-lighter);
-    border-radius: 0.5em;
+    border-radius: 0.2em;
     box-shadow: var(--shadow);
     color: var(--color-ink);
     display: block;
-    font-size: 10px;
+    font-size: var(--text-normal);
     inline-size: 100%;
     max-inline-size: 100%;
     padding: var(--notification-padding-block) var(--notification-padding-inline);
@@ -76,7 +76,7 @@
     align-items: center;
     display: flex;
     gap: var(--inline-space);
-    margin-block-end: var(--notification-padding-block);
+    margin-block-end: 1ch;
     margin-block-start: calc(-1 * var(--notification-padding-block));
     margin-inline-start: calc(-1 * var(--notification-padding-inline));
     min-inline-size: 0;
@@ -86,10 +86,15 @@
     background-color: var(--card-color);
     border-radius: 0.2em 0 0.2em 0;
     color: var(--color-ink-inverted);
+    font-size: 0.6em;
     font-weight: 800;
     inline-size: fit-content;
     padding: 0.25ch var(--inline-space) 0.25ch var(--inline-space-double);
     text-transform: uppercase;
+
+    .tray & {
+      font-size: 10px;
+    }
   }
 
   .notification__id {
