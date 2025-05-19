@@ -149,7 +149,7 @@ export default class extends Controller {
   #showConfirmationPrompt(confirmationPrompt) {
     if (isMultiLineString(confirmationPrompt)) {
       this.#showOutput(confirmationPrompt)
-      this.inputTarget.value = `Do you confirm? [Y/n] `
+      this.inputTarget.value = `Apply these changes? [Y/n] `
     } else {
       this.inputTarget.value = `${confirmationPrompt}? [Y/n] `
     }

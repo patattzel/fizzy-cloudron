@@ -21,10 +21,10 @@ class Command::Composite < Command
   end
 
   def confirmation_prompt
-    confirmations = commands_excluding_redirections.collect(&:confirmation_prompt).collect { "- #{it}" }.join("\n")
+    confirmations = commands_excluding_redirections.collect(&:confirmation_prompt).collect { "- #{it}." }.join("\n")
 
     <<~MD
-      This will:
+      You are about to:
 
       #{confirmations}
     MD
