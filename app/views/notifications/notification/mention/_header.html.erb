@@ -1,3 +1,4 @@
 <div class="notification__collection">
   <span class="notification__id"><%= notification.source.id %></span>
 </div>
+<div class="notification__time overflow-ellipsis"> <%= local_datetime_tag(notification.created_at, style: :ago) %></div>
