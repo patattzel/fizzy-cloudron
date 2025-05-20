@@ -1,41 +1,4 @@
 @layer components {
-  /* Tray
-  /* ------------------------------------------------------------------------ */
-
-  .notification-tray {
-    inset: auto var(--inline-space) var(--block-space-half) auto;
-
-    .notification {
-      &:nth-child(1n + 7) { display: none; }
-    }
-  }
-
-  .notification-tray__actions {
-    .notification-tray:not(:has(.notification)) & {
-      .notification-tray__all_action {
-        --btn-border-radius: 50%;
-        --btn-padding: 0;
-
-        aspect-ratio: 1;
-        block-size: var(--btn-size);
-        display: grid;
-        inline-size: var(--btn-size);
-        place-items: center;
-
-        > * {
-          grid-area: 1/1;
-        }
-
-        span {
-          display: none;
-        }
-      }
-
-      .notification-tray__read_action {
-        visibility: hidden;
-      }
-    }
-  }
 
   /* Notification
   /* ------------------------------------------------------------------------ */
@@ -115,12 +78,10 @@
   }
 
   .notification__time {
-    font-size: 0.6em;
-    font-weight: 500;
     opacity: 0.66;
 
     .tray & {
-      font-size: 10px;
+      display: none;
     }
   }
 

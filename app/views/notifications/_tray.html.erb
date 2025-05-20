@@ -1,6 +1,6 @@
 <%= turbo_stream_from Current.user, :notifications %>
 
-<dialog class="tray notification-tray"
+<dialog class="tray tray--notifications"
     data-controller="dialog" data-dialog-modal-value="false" data-dialog-target="dialog"
     data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside">
   <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
@@ -13,9 +13,9 @@
     </div>
   <% end %>
 
-  <div class="tray__actions notification-tray__actions border border-radius">
+  <div class="tray__actions">
     <%= button_to read_all_notifications_path,
-          class: "notification-tray__read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small",
+          class: "tray__notification-read_action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small",
           data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       <%= icon_tag "check" %> <span class="for-screen-reader">Mark all read</span>
     <% end %>
