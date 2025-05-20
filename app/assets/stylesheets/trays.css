@@ -4,9 +4,9 @@
 
 @layer components {
   .tray {
-    /* FIXME: Magic number */
-    --tray-item-height: calc(2.625lh + var(--block-space));
-    --tray-item-height: 76px;
+    --tray-item-duration: 350ms;
+    --tray-item-height: 76px; /* FIXME: Magic number */
+    --tray-item-offset: var(--block-space);
     --tray-bottom-padding: var(--block-space-half);
 
     background-color: transparent;
@@ -22,7 +22,7 @@
     z-index: var(--z-tray);
 
     .tray__item {
-      --tray-item-offset: var(--block-space);
+      --tray-item-delay: calc((var(--tray-item-index) - 1) * 10ms);
       --tray-item-y: calc((var(--tray-item-index) - 1) * (var(--tray-item-offset) * -1) - var(--tray-bottom-padding));
       --tray-item-index: 1;
       --tray-item-scale: calc(1 - var(--tray-item-index) / 30);
@@ -38,7 +38,13 @@
       scale: var(--tray-item-scale);
       transform: translateY(var(--tray-item-y));
       transform-origin: center;
-      transition: scale 0.2s ease-out, transform 0.2s ease-out;
+      transition:
+        border-radius var(--tray-item-duration),
+        box-shadow var(--tray-item-duration),
+        scale var(--tray-item-duration),
+        transform var(--tray-item-duration);
+      transition-delay: var(--tray-item-delay);
+      transition-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
       z-index: var(--tray-item-z);
       container-type: inline-size;
 
@@ -53,9 +59,13 @@
         --tray-item-y: calc(-100% * var(--tray-item-index) + var(--tray-item-height) - var(--footer-height));
         --tray-item-scale: 1;
 
-        /* FIXME: Space below the list when open */
-        /* margin-block-end: calc(var(--block-space) * -1); */
         pointer-events: unset;
+
+        .card {
+          box-shadow: 0 0 0 1px var(--color-ink-lighter);
+          border: 0;
+          border-radius: 0;
+        }
       }
 
       .tray:has(.tray__item:only-child) & {
@@ -69,6 +79,7 @@
 
     align-items: center;
     border: 1px dashed color-mix(in srgb, var(--color-white) 40%, var(--color-ink));
+    border-radius: 0.5em;
     color: var(--color-ink-inverted);
     display: flex;
     gap: var(--inline-space-half);
@@ -118,38 +129,22 @@
     }
   }
 
-  .tray__overflow {
-    --hover-size: 0;
-    --tray-item-index: 7;
-    --tray-item-scale: calc(1 - var(--tray-item-index) / 30);
-    --tray-item-y: calc((var(--tray-item-index) - 1) * (var(--tray-item-offset) * -1) - var(--tray-bottom-padding));
-    --tray-item-z: calc(6 - var(--tray-item-index));
+  .tray__item--overflow {
+    --tray-item-index: 7 !important;
 
-    background-color: var(--color-canvas);
-    block-size: var(--tray-item-height);
-    border-radius: 0.2em;
-    box-shadow: var(--shadow);
-    color: var(--color-ink);
     display: none;
-    font-size: var(--text-small);
-    font-weight: bold;
-    inline-size: var(--tray-size);
-    inset: auto 0 0;
     opacity: 0;
-    place-content: center;
-    pointer-events: none;
-    position: absolute;
-    scale: var(--tray-item-scale);
-    transform: translateY(var(--tray-item-y));
-    transform-origin: center;
-    transition:
-      opacity 0.2s ease-out,
-      scale 0.2s ease-out,
-      transform 0.2s ease-out;
-    z-index: var(--tray-item-z);
+
+    .card {
+      align-items: center;
+      background-color: var(--color-canvas);
+      font-size: var(--text-small);
+      font-weight: bold;
+      justify-content: center;
+    }
 
     .tray:has(.tray__item:nth-child(7)) & {
-      display: grid;
+      display: flex;
     }
 
     .tray[open] & {
@@ -270,7 +265,7 @@
       display: none;
     }
 
-    &:not(:has(.notification)) {
+    &:not(:has(.card--notification)) {
       .tray__notification-read_action {
         visibility: hidden;
       }
