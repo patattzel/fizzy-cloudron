@@ -19,10 +19,10 @@ module NotificationsHelper
   end
 
   def notification_tag(notification, &)
-    tag.div id: dom_id(notification), class: "notification tray__item border-radius txt-normal" do
+    tag.div id: dom_id(notification), class: "tray__item" do
       concat(
         link_to(notification,
-          class: "notification__content border-radius shadow fill-white flex align-start txt-align-start gap flex-item-grow max-width border txt-ink",
+          class: "card card--notification",
           data: { action: "click->dialog#close", turbo_frame: "_top" },
           &)
       )
@@ -32,7 +32,7 @@ module NotificationsHelper
 
   def notification_mark_read_button(notification)
     button_to read_notification_path(notification),
-        class: "notification__unread_indicator btn btn--circle borderless",
+        class: "card__notification-unread-indicator btn btn--circle borderless",
         title: "Mark as read",
         data: { turbo_frame: "_top" } do
       concat(icon_tag("remove-med"))

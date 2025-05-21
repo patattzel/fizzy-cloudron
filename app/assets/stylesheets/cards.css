@@ -1,4 +1,7 @@
 @layer components {
+  /* Base
+  /* -------------------------------------------------------------------------- */
+
   .card {
     --card-padding-inline: var(--inline-space-double);
     --card-padding-block: var(--block-space);
@@ -8,7 +11,7 @@
 
     aspect-ratio: var(--card-aspect-ratio, auto);
     background-color: color-mix(in srgb, var(--card-color) 4%, var(--color-canvas));
-    border-radius: 0.5em;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
     display: flex;
@@ -24,25 +27,8 @@
     }
   }
 
-  .card--golden.card--doing {
-    --lch-golden: 89.1% 0.178 95.7;
-
-    background-color: var(--color-canvas);
-    background-image: linear-gradient(60deg,
-      oklch(var(--lch-golden) / 0.5) 0%,
-      oklch(var(--lch-golden) / 0.15) 33%,
-      oklch(var(--lch-golden) / 0.05) 66%,
-      oklch(var(--lch-golden) / 0.5) 100%
-    );
-    box-shadow:
-      0 0 0 1px oklch(var(--lch-golden) / 75%),
-      0 0 0.5em 0.2em oklch(var(--lch-golden) / 25%),
-      0 0 1em 0.8em oklch(var(--lch-golden) / 25%) !important;
-
-    @media (prefers-color-scheme: dark) {
-      --lch-golden: var(--lch-blue-medium);
-    }
-  }
+  /* Children
+  /* ------------------------------------------------------------------------ */
 
   .card__background {
     inset: 0;
@@ -67,16 +53,6 @@
     }
   }
 
-  .card__id {
-    display: inline-flex;
-    margin-inline-start: calc(var(--inline-space) * -1);
-
-    .card-perma &:before {
-      content: "No.";
-      opacity: 0.5;
-    }
-  }
-
   .card__link {
     --hover-size: 0;
 
@@ -87,8 +63,12 @@
   }
 
   .card__header {
+    align-items: center;
+    display: flex;
+    gap: var(--inline-space-half);
     margin-block-start: calc(-1 * var(--card-padding-block));
     margin-inline-start: calc(-1 * var(--card-padding-inline));
+    min-inline-size: 0;
 
     .cards--considering & {
       color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
@@ -102,6 +82,7 @@
     color: var(--color-ink-inverted);
     font-weight: 800;
     padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--inline-space-double);
+    text-transform: uppercase;
 
     .cards--considering & {
       background-color: var(--color-canvas);
@@ -110,9 +91,19 @@
     }
   }
 
+  .card__id {
+    display: inline-flex;
+    margin-inline-start: calc(var(--inline-space) * -1);
+
+    .card-perma &:before {
+      content: "No.";
+      opacity: 0.5;
+    }
+  }
+
   .card__collection-name {
     border-inline-start: 1px solid color-mix(in srgb, var(--color-ink-inverted) 33%, var(--card-color));
-    color: var(--color-ink-inverted);
+    color: currentcolor;
     display: inline-flex;
     margin-inline-start: var(--inline-space-half);
     padding-inline-start: calc(var(--inline-space) * 0.75);
@@ -135,6 +126,10 @@
   }
 
   .card__body {
+    display: flex;
+    flex-grow: 1;
+    gap: var(--card-padding-inline);
+    inline-size: 100%;
     padding-block: var(--card-padding-block);
   }
 
@@ -256,6 +251,10 @@
     }
   }
 
+  .card__timestamp {
+    opacity: 0.66;
+  }
+
   .card__closed {
     align-items: center;
     aspect-ratio: 8/5;
@@ -304,4 +303,98 @@
 
   .card:nth-child(2n+1) .bubble { --bubble-rotate: -90deg; }
   .card:nth-child(3n+1) .bubble { --bubble-rotate: 45deg; }
+
+  /* Variants
+  /* ------------------------------------------------------------------------ */
+
+  .card--golden.card--doing {
+    --lch-golden: 89.1% 0.178 95.7;
+
+    background-color: var(--color-canvas);
+    background-image: linear-gradient(60deg,
+      oklch(var(--lch-golden) / 0.5) 0%,
+      oklch(var(--lch-golden) / 0.15) 33%,
+      oklch(var(--lch-golden) / 0.05) 66%,
+      oklch(var(--lch-golden) / 0.5) 100%
+    );
+    box-shadow:
+      0 0 0 1px oklch(var(--lch-golden) / 75%),
+      0 0 0.5em 0.2em oklch(var(--lch-golden) / 25%),
+      0 0 1em 0.8em oklch(var(--lch-golden) / 25%) !important;
+
+    @media (prefers-color-scheme: dark) {
+      --lch-golden: var(--lch-blue-medium);
+    }
+  }
+
+  .card--notification {
+    --card-color: var(--color-card-default);
+    --card-padding-inline: 1ch;
+    --card-padding-block: 1ch;
+
+    background-color: var(--color-canvas);
+
+    .card__collection {
+      font-size: var(--text-xx-small);
+      padding-block: 0.5ch;
+    }
+
+    .card__body {
+      padding-block-end: 0;
+    }
+
+    .card__title {
+      font-size: var(--text-small);
+      font-weight: bold;
+      min-block-size: 0;
+    }
+
+    .card__notification-meta {
+      font-size: var(--text-small);
+    }
+  }
+
+  .card__notification-unread-indicator {
+    --btn-background: var(--color-canvas);
+    --btn-border-color: var(--color-canvas);
+    --btn-icon-size: 0.75em;
+    --btn-padding: 0;
+    --btn-size: 1.25em;
+    --hover-size: 0;
+
+    inset: 0 0 auto auto;
+    position: absolute;
+    z-index: 1;
+
+    &:before,
+    .icon {
+      transition: opacity 150ms ease;
+    }
+
+    /* The red dot */
+    &:before {
+      aspect-ratio: 1;
+      background-color: var(--color-marker);
+      border-radius: 50%;
+      content: "";
+      inline-size: 50%;
+      inset: 50% auto auto 50%;
+      position: absolute;
+      translate: -50% -50%;
+    }
+
+    /* The X */
+    .icon {
+      opacity: 0;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        --btn-background: transparent;
+
+        &:before { opacity: 0; }
+           .icon { opacity: 1; }
+      }
+    }
+  }
 }

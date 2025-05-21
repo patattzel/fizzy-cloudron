@@ -1,11 +1,18 @@
 <% cache notification do %>
   <%= notification_tag notification do %>
-    <div class="avatar txt-x-small flex-item-no-shrink">
-      <%= avatar_image_tag notification.creator %>
-    </div>
 
-    <div class="flex flex-column min-width flex-item-grow">
-      <%= render "notifications/notification/#{notification.source_type.underscore}", notification: notification %>
+    <header class="card__header">
+      <%= render "notifications/notification/#{notification.source_type.underscore}/header", notification: notification %>
+    </header>
+
+    <div class="card__body">
+      <div class="avatar txt-x-small flex-item-no-shrink">
+        <%= avatar_image_tag notification.creator %>
+      </div>
+
+      <div class="flex flex-column min-width flex-item-grow">
+        <%= render "notifications/notification/#{notification.source_type.underscore}/body", notification: notification %>
+      </div>
     </div>
   <% end %>
 <% end %>

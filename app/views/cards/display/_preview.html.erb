@@ -2,7 +2,7 @@
   <%= card_article_tag card, class: "card" do %>
     <div class="flex gap">
       <div class="flex flex-column flex-item-grow">
-        <header class="card__header flex align-center gap min-width">
+        <header class="card__header">
           <span class="card__collection">
             <span class="card__id"><%= card.id %></span>
             <%= link_to card.collection.name, cards_path(collection_ids: [ card.collection ]),
@@ -11,7 +11,7 @@
           <%= render "cards/display/preview/tags", card: card %>
         </header>
 
-        <div class="card__body flex gap full-width flex-item-grow justify-space-between">
+        <div class="card__body justify-space-between">
           <div class="card__content">
             <h1 class="card__title overflow-line-clamp">
               <%= card.title %>
