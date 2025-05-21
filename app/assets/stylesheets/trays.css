@@ -89,7 +89,7 @@
       transform: translateY(0);
     }
 
-    .tray:not(:has(.tray__item)) & {
+    .tray:not(:has(.tray__item:not(.tray__item--overflow))) & {
       opacity: 1;
       scale: 1;
       transform: none;
