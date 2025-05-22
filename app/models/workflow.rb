@@ -1,5 +1,5 @@
 class Workflow < ApplicationRecord
-  DEFAULT_STAGES = [ "Triage", "In progress", "On Hold", "Review" ]
+  DEFAULT_STAGES = [ "Figuring it out", "In progress" ]
 
   has_many :stages, dependent: :delete_all
 
