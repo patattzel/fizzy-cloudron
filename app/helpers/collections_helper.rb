@@ -1,10 +1,11 @@
 module CollectionsHelper
   def collection_auto_close_options
     [
-      [ "7 days", 7.days ],
-      [ "30 days", 30.days ],
+      [ "3 days", 3.days ],
+      [ "1 week", 7.days ],
+      [ "1 month", 30.days ],
       [ "90 days", 90.days ],
-      [ "Never", nil ]
+      [ "1 year", 365.days ]
     ]
   end
 
@@ -13,9 +14,10 @@ module CollectionsHelper
       [ "1 day", 1.days ],
       [ "2 days", 2.days ],
       [ "3 days", 3.days ],
-      [ "7 days", 7.days ],
-      [ "30 days", 30.days ],
-      [ "Never", nil ]
+      [ "1 week", 7.days ],
+      [ "2 weeks", 14.days ],
+      [ "1 month", 30.days ],
+      [ "1 year", 365.days ]
     ]
   end
 end
