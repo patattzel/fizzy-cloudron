@@ -69,8 +69,7 @@
     z-index: calc(var(--z-tray) + 1);
 
     .tray__dialog[open] ~ &,
-    .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ &,
-    .tray__dialog:has(.tray__item:not(.tray__item--overflow):only-child) ~ & {
+    .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ & {
       display: none;
     }
   }
@@ -236,6 +235,15 @@
 
   .tray--pins {
     inset-inline: var(--tray-margin) auto;
+
+    /* Don't expand if there's only one pin */
+    .tray__dialog:has(.tray__item:only-child) {
+      pointer-events: unset;
+
+      ~ .tray__expander {
+        display: none;
+      }
+    }
 
     .tray__item {
       --tray-item-z: calc(10 - var(--tray-item-index));
