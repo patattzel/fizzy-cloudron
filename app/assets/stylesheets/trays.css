@@ -7,17 +7,15 @@
   /* ------------------------------------------------------------------------ */
 
   .tray {
-    --tray-action-z: 11;
-    --tray-bottom-padding: var(--block-space-half);
-    --tray-padding: var(--inline-space);
     --tray-duration: 350ms;
+    --tray-margin: var(--inline-space);
     --tray-radius: 0.25rem;
     --tray-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
 
     align-items: end;
-    block-size: calc(var(--footer-height) - var(--tray-padding) * 2);
+    block-size: calc(var(--footer-height) - var(--tray-margin) * 2);
     display: grid;
-    inset-block: auto var(--tray-padding);
+    inset-block: auto var(--tray-margin);
     inline-size: var(--tray-size);
     position: fixed;
     z-index: var(--z-tray);
@@ -49,8 +47,10 @@
 
     &[open] {
       border-radius: var(--tray-radius);
-      box-shadow: 0 0 16px oklch(var(--lch-black) / 33%);
-      inset-block-end: calc(var(--footer-height) - var(--tray-padding));
+      box-shadow:
+        0 0 0 1px var(--color-ink-lighter),
+        0 0 16px oklch(var(--lch-black) / 33%);
+      inset-block-end: calc(var(--footer-height) - var(--tray-margin));
       overflow: hidden;
     }
   }
@@ -65,8 +65,8 @@
     align-self: stretch;
     background: transparent;
     border: 0;
-    margin-block: calc(-1 * var(--tray-padding));
-    z-index: var(--tray-action-z);
+    margin-block: calc(-1 * var(--tray-margin));
+    z-index: calc(var(--z-tray) + 1);
 
     .tray__dialog[open] ~ &,
     .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ &,
@@ -80,7 +80,7 @@
 
     align-self: center;
     align-items: stretch;
-    border: 1px dashed color-mix(in srgb, var(--color-white) 40%, var(--color-ink));
+    border: 1px dashed oklch(var(--lch-white) / 50%);
     border-radius: 0.5em;
     color: var(--color-ink-inverted);
     display: flex;
@@ -88,7 +88,6 @@
     opacity: 0;
     transition: translate var(--tray-duration) var(--tray-timing-function);
     translate: 0 var(--footer-height);
-    z-index: var(--tray-action-z);
 
     .tray__dialog[open] ~ &,
     .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ & {
@@ -132,7 +131,6 @@
     --tray-item-margin: calc(-1 * var(--tray-item-height) + var(--tray-item-offset));
     --tray-item-offset: var(--block-space-half); /* The amount they overlap */
     --tray-item-scale: calc(1 - (var(--tray-item-index) - 1) / 30);
-    --tray-item-y: calc((var(--tray-item-index) - 1) * (var(--tray-item-offset) * -1) - var(--tray-bottom-padding));
     --tray-item-z: calc(6 - var(--tray-item-index));
 
     position: relative;
@@ -162,7 +160,6 @@
     }
 
     .tray__dialog[open] & {
-      --tray-item-y: calc(-100% * var(--tray-item-index) + var(--tray-item-height) - var(--footer-height));
       --tray-item-margin: 0;
       --tray-item-scale: 1;
     }
@@ -170,6 +167,7 @@
 
   .tray__item--overflow {
     --tray-item-index: 7 !important;
+    --tray-item-z: 1;
 
     display: none;
     opacity: 0;
@@ -187,11 +185,9 @@
     }
 
     .tray__dialog[open] & {
-      --tray-item-y: calc(-100% * var(--tray-item-index) + var(--tray-bottom-padding));
       --tray-item-scale: 1;
 
       opacity: 1;
-      pointer-events: unset;
     }
   }
 
@@ -214,10 +210,7 @@
       }
 
       @media (prefers-color-scheme: dark) {
-        &,
-        [open] & {
-          box-shadow: 0 0 0 1px var(--color-ink-light);
-        }
+        box-shadow: 0 0 0 1px var(--color-ink-lighter);
       }
     }
 
@@ -242,7 +235,7 @@
   /* ------------------------------------------------------------------------ */
 
   .tray--pins {
-    inset-inline: var(--tray-padding) auto;
+    inset-inline: var(--tray-margin) auto;
 
     .tray__item {
       --tray-item-z: calc(10 - var(--tray-item-index));
@@ -305,7 +298,7 @@
   /* ------------------------------------------------------------------------ */
 
   .tray--notifications {
-    inset-inline: auto var(--tray-padding);
+    inset-inline: auto var(--tray-margin);
 
     .tray__item:nth-child(1n + 7) {
       display: none;
