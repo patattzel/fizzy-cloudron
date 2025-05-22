@@ -1,35 +1,37 @@
 <%= turbo_stream_from Current.user, :notifications %>
 
-<dialog class="tray tray--notifications"
-    data-controller="dialog" data-dialog-modal-value="false" data-dialog-target="dialog"
-    data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside">
-  <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
+<section class="tray tray--notifications" data-controller="dialog">
+  <dialog class="tray__dialog"
+      data-dialog-modal-value="false" data-dialog-target="dialog"
+      data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside">
+    <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
 
-  <div class="tray__item tray__item--overflow">
-    <%= link_to notifications_path, class: "card", data: { action: "click->dialog#close" } do %>
-      + More…
-    <% end %>
-  </div>
-
-  <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack"></button>
+    <div class="tray__item tray__item--overflow">
+      <%= link_to notifications_path, class: "card", data: { action: "click->dialog#close" } do %>
+        + More…
+      <% end %>
+    </div>
+  </dialog>
 
   <div class="tray__actions">
     <%= button_to read_all_notifications_path,
-          class: "tray__notification-read-action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small",
+          class: "tray__notification-read-action btn btn--reversed fill-transparent borderless flex-item-justify-start txt-xx-small",
           title: "Mark all as read",
           data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
       <%= icon_tag "check" %>
     <% end %>
 
     <%= link_to tag.span("Notifications"), notifications_path,
-          class: "btn btn--reversed borderless fill-transparent shadow center txt-uppercase txt-x-small full-width",
+          class: "btn btn--reversed borderless fill-transparent center txt-uppercase txt-x-small full-width",
           data: { action: "click->dialog#close" } %>
 
     <%= link_to settings_notifications_path,
-          class: "tray__notification-settings-action btn btn--reversed fill-transparent borderless flex-item-justify-start shadow txt-xx-small",
+          class: "tray__notification-settings-action btn btn--reversed fill-transparent borderless flex-item-justify-start txt-xx-small",
           title: "Notification settings",
           data: { action: "click->dialog#close" } do %>
       <%= icon_tag "settings" %>
     <% end %>
   </div>
-</dialog>
+
+  <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack"></button>
+</section>

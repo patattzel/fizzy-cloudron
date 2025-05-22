@@ -7,6 +7,12 @@
       position: relative;
     }
 
+    .card {
+      @media (prefers-color-scheme: dark) {
+        box-shadow: 0 0 0 1px var(--color-ink-lighter);
+      }
+    }
+
     &:has(.card--notification) {
       .notifications-list__empty-message {
         display: none;
