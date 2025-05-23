@@ -72,7 +72,10 @@
 
     :is(blockquote, .quote) {
       font-style: italic;
-      margin: 0 3ch;
+      margin: 1ch 3ch;
+      border-inline-start: 0.25rem solid var(--color-ink-lighter);
+      margin-inline: 0;
+      padding: 0.5rem 1rem;
 
       :is(p) {
         hyphens: none;
@@ -127,6 +130,10 @@
     }
 
     /* Code */
+    code[data-language] {
+      display: block;
+    }
+
     code:not([data-language]) {
       background-color: #f5f5f5;
       border: 1px solid #e0e0e0;
