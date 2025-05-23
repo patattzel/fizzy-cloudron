@@ -1,0 +1,15 @@
+.lexical-editor__content {
+  padding: 1rem 0.5rem;
+}
+
+lexical-editor {
+  .node--selected:has(img) {
+    img {
+      border: 2px solid blue;
+    }
+  }
+
+  .node--selected:not(:has(img)) {
+    border: 2px solid blue;
+  }
+}

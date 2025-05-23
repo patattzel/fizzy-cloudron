@@ -4,7 +4,7 @@
       <h1 class="card__title flex align-start gap-half">
         <%= link_to card.title, edit_collection_card_path(card.collection, card), class: "card__title-link" %>
       </h1>
-      <div class="card__description markdown-content margin-block-half">
+      <div class="card__description rich-text-content margin-block-half rich-text-content">
         <%= card.description %>
       </div>
     </div>
@@ -17,7 +17,7 @@
             autofocus: card.title.blank?,
             data: { action: "auto-save#change blur->auto-save#submit keydown.enter->auto-save#submit:prevent keydown.ctrl+enter->auto-save#submit:prevent" } %>
     </h1>
-    <div class="card__description markdown-content margin-block-start-half margin-block-end">
+    <div class="card__description rich-text-content margin-block-start-half margin-block-end">
       <%= rich_textarea_toolbar "editor-toolbar" %>
       <%= form.rich_textarea :description, class: "input input--textarea full-width borderless txt-align-start card-field__description",
             toolbar: "the-toolbar",
