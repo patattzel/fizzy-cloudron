@@ -6,10 +6,6 @@ export default class extends Controller {
     modal: { type: Boolean, default: false }
   }
 
-  connect() {
-    console.log("connect")
-  }
-
   open() {
     const modal = this.modalValue
 
