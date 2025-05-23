@@ -132,6 +132,7 @@
     /* Code */
     code[data-language] {
       display: block;
+      white-space: pre;
     }
 
     code:not([data-language]) {
@@ -159,37 +160,77 @@
     }
 
     /* Syntax token colors */
-    .code-token__attr {
-      color: #b000b5; /* violet-ish for keywords and attributes */
-    }
+    code[data-language] {
+      /* Keywords and attributes */
+      .code-token__attr,
+      .token.atrule,
+      .token.attr,
+      .token.keyword {
+        color: #d73a49;
+      }
 
-    .code-token__property {
-      color: #007acc; /* cool blue for numbers, booleans, constants, etc. */
-    }
+      /* Constants, booleans, numbers, properties, tags */
+      .code-token__property,
+      .token.boolean,
+      .token.constant,
+      .token.deleted,
+      .token.number,
+      .token.property,
+      .token.symbol,
+      .token.tag {
+        color: #005cc5;
+      }
 
-    .code-token__selector {
-      color: #22863a; /* green for strings, selectors, inserted, etc. */
-    }
+      /* Strings, selectors, and built-in constructs */
+      .code-token__selector,
+      .token.builtin,
+      .token.char,
+      .token.inserted,
+      .token.selector,
+      .token.string {
+        color: #032f62;
+      }
 
-    .code-token__comment {
-      color: #90a4ae; /* soft gray-blue for comments */
-      font-style: italic;
-    }
+      /* Comments and meta information */
+      .code-token__comment,
+      .token.cdata,
+      .token.comment,
+      .token.doctype,
+      .token.prolog {
+        color: #6a737d;
+        font-style: italic;
+      }
 
-    .code-token__operator {
-      color: #d73a49; /* red for operators, URLs, etc. */
-    }
+      /* Operators and symbolic entities */
+      .code-token__operator,
+      .token.entity,
+      .token.operator,
+      .token.url {
+        color: #d73a49;
+      }
 
-    .code-token__function {
-      color: #005cc5; /* bold blue for function and class names */
-    }
+      /* Functions and class names */
+      .code-token__function,
+      .token.class,
+      .token.class-name,
+      .token.function {
+        color: #6f42c1;
+      }
 
-    .code-token__variable {
-      color: #e36209; /* orange for variables, important things */
-    }
+      /* Variables, regex, namespaces, important */
+      .code-token__variable,
+      .token.important,
+      .token.namespace,
+      .token.regex,
+      .token.variable {
+        color: #e36209;
+      }
 
-    .code-token__punctuation {
-      color: #607d8b; /* muted blue-gray for punctuation */
+      /* Punctuation */
+      .code-token__punctuation,
+      .token.punctuation {
+        color: #24292e;
+      }
     }
   }
 }
