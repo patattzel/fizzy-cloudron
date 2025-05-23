@@ -26,7 +26,7 @@ gem "geared_pagination", "~> 1.2"
 gem "rqrcode"
 gem "rouge"
 gem "jbuilder"
-gem "actiontext-lexical", path: "/Users/jorge/Work/jorgemanrubia/actiontext-lexical"
+gem "actiontext-lexical", github: "basecamp/actiontext-lexical", branch: "initial"
 gem "image_processing", "~> 1.14"
 
 # Telemetry and logging
