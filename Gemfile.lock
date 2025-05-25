@@ -26,15 +26,16 @@ GIT
 
 GIT
   remote: https://github.com/crmne/ruby_llm.git
-  revision: 8412d51e869f1ee8e5229831a9a0bb5e9b8f3847
+  revision: 87a86f70cb64e23d5b76994edf8080618f07e071
   specs:
-    ruby_llm (1.2.0)
+    ruby_llm (1.3.0rc1)
       base64
       event_stream_parser (~> 1)
-      faraday (~> 2)
-      faraday-multipart (~> 1)
-      faraday-net_http (~> 3)
-      faraday-retry (~> 2)
+      faraday (>= 1.10.0)
+      faraday-multipart (>= 1)
+      faraday-net_http (>= 1)
+      faraday-retry (>= 1)
+      marcel (~> 1.0)
       zeitwerk (~> 2)
 
 GIT
@@ -205,7 +206,7 @@ GEM
       addressable (>= 2.5.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    hashdiff (1.1.2)
+    hashdiff (1.2.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -327,6 +328,7 @@ GEM
     rdoc (6.14.0)
       erb
       psych (>= 4.0.0)
+    redcarpet (3.6.1)
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -479,6 +481,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails!
   rails_structured_logging!
+  redcarpet
   rouge
   rqrcode
   rubocop-rails-omakase

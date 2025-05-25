@@ -24,6 +24,7 @@ gem "thruster", require: false
 gem "bcrypt", "~> 3.1.7"
 gem "geared_pagination", "~> 1.2"
 gem "rqrcode"
+gem "redcarpet"
 gem "rouge"
 gem "jbuilder"
 gem "actiontext-lexical", github: "basecamp/actiontext-lexical", branch: "initial"
@@ -52,4 +53,3 @@ group :test do
   gem "webmock"
   gem "vcr"
 end
-
