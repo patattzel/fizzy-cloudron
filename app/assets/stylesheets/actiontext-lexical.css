@@ -22,8 +22,13 @@ lexical-toolbar {
   display: inline-flex;
   font-size: inherit;
   max-inline-size: 100%;
-  overflow-x: auto;
   padding: 0.2em;
+  position: relative;
+  overflow: visible;
+
+  dialog {
+    position: absolute;
+  }
 
   button, label {
     aspect-ratio: 4/3;
