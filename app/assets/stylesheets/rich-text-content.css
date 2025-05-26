@@ -79,6 +79,18 @@
         justify-content: center;
         margin: var(--block-space-half) var(--inline-space);
         text-align: center;
+
+        .input {
+          inline-size: 100%;
+          max-inline-size: 100%;
+          text-align: center;
+
+          @supports (field-sizing: content) {
+            field-sizing: content;
+            inline-size: auto;
+            min-inline-size: 20ch;
+          }
+        }
       }
 
       :where(a) {
