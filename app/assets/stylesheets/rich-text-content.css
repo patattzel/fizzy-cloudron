@@ -87,6 +87,11 @@
         color: var(--color-link);
         text-decoration: underline;
       }
+
+      :where(progress) {
+        inline-size: 100%;
+        margin: auto;
+      }
     }
 
     .attachment__size {
