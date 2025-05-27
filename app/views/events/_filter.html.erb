@@ -2,7 +2,7 @@
 		data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
 	<%= tag.button class:"events__filter-btn input input--select flex-inline center min-width max-width txt-small",
 			data: {
-				action: "click->dialog#open:stop keydown.meta+j@document->hotkey#click",
+				action: "click->dialog#open:stop keydown.meta+j@document->hotkey#click keydown.ctrl+j@document->hotkey#click",
 				controller: "hotkey" } do %>
 		<span class="overflow-ellipsis center">
 			<%= filter_selected_collections_label(filter) %>
@@ -35,7 +35,7 @@
 		<% end %>
 
 		<p class="txt-small txt-nowrap txt-align-center margin-block-half full-width">
-			Press <kbd class="kbd">⌘j</kbd> anytime to open this, <kbd class="kbd">esc</kbd> to close.
+			Press <kbd class="kbd"><%= hotkey_label(["ctrl", "K"]) -%></kbd> anytime to open this, <kbd class="kbd">esc</kbd> to close.
 		</p>
 	<% end %>
 </div>
