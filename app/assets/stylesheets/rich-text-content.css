@@ -43,7 +43,7 @@
     }
 
     :where(img, video, embed, object) {
-      max-inline-size: 25rem;
+      margin-inline: auto;
       max-block-size: 32rem;
 
       /* Links should hug media contained within */
