@@ -27,6 +27,7 @@ gem "rqrcode"
 gem "redcarpet"
 gem "rouge"
 gem "jbuilder"
+gem "platform_agent"
 
 # Telemetry and logging
 gem "sentry-ruby"
