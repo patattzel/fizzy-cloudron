@@ -147,10 +147,14 @@
       }
 
       .attachment--psd &,
+      .attachment--key &,
+      .attachment--sketch &,
       .attachment--ai &,
       .attachment--eps &,
       .attachment--indd &,
-      .attachment--svg & {
+      .attachment--svg &,
+      .attachment--ppt &,
+      .attachment--pptx & {
         color: oklch(var(--lch-red-dark));
         background-color: oklch(var(--lch-red-lightest));
         border-color: oklch(var(--lch-red-medium));
@@ -160,7 +164,9 @@
         }
       }
 
-      .attachment--css &
+      .attachment--css &,
+      .attachment--php &,
+      .attachment--json &,
       .attachment--htm &,
       .attachment--html &,
       .attachment--rb &,
@@ -177,20 +183,30 @@
       }
 
       .attachment--txt &,
+      .attachment--pages &,
       .attachment--rtf &,
       .attachment--md &,
       .attachment--doc &,
-      .attachment--docx &,
-      .attachment--xls &,
-      .attachment--xlsx &,
-      .attachment--ppt &,
-      .attachment--pptx & {
+      .attachment--docx & {
         color: oklch(var(--lch-blue-dark));
         background-color: oklch(var(--lch-blue-lightest));
         border-color: oklch(var(--lch-blue-medium));
 
         &::before {
           background-color: oklch(var(--lch-blue-medium));
+        }
+      }
+
+      .attachment--csv &,
+      .attachment--numbers &,
+      .attachment--xls &,
+      .attachment--xlsx & {
+        color: oklch(var(--lch-green-dark));
+        background-color: oklch(var(--lch-green-lightest));
+        border-color: oklch(var(--lch-green-medium));
+
+        &::before {
+          background-color: oklch(var(--lch-green-medium));
         }
       }
     }
