@@ -4,7 +4,7 @@ class Command::GoToCard < Command
   validates_presence_of :card
 
   def title
-    "Visit card '#{card.title}'"
+    "Visit card '#{card&.title}'"
   end
 
   def execute
@@ -13,6 +13,6 @@ class Command::GoToCard < Command
 
   private
     def card
-      user.accessible_cards.find(card_id)
+      user.accessible_cards.find_by_id(card_id)
     end
 end
