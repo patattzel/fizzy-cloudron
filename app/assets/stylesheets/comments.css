@@ -110,7 +110,6 @@
   .comment--system {
     --comment-padding-block: calc(var(--block-space) * 0.66);
 
-    line-height: 1.2;
     max-inline-size: var(--comment-max);
     text-align: center;
     
@@ -129,8 +128,11 @@
     }
 
     .comment__body {
-      margin-block-start: calc(var(--block-space-half) * -0.33);
       text-align: center !important;
+    }
+
+    .quick-reaction {
+      display: none !important;
     }
   }
 
