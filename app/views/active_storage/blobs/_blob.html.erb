@@ -8,27 +8,35 @@
       <% else %>
         <span class="attachment__name"><%= blob.filename %></span>
       <% end %>
+      <span> · </span>
       <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
-      <%= link_to rails_blob_path(blob, disposition: :attachment), class: "attachment__file-link", download: blob.filename, title: "Download #{blob.filename}" do %>
+      <span> · </span>
+      <%= link_to rails_blob_path(blob, disposition: :attachment), class: "attachment__link", download: blob.filename, title: "Download #{blob.filename}" do %>
         <span>Download</span>
       <% end %>
     </figcaption>
   </figure>
 <% else %>
-  <%= link_to rails_blob_path(blob, disposition: :attachment),
-        class: "attachment attachment--file attachment--#{blob.filename.extension}",
-        download: blob.filename,
-        title: "Download #{blob.filename}" do
-  %>
-    <%= render "active_storage/blobs/web/representation", blob: blob %>
+  <div class="attachment attachment--file attachment--<%= blob.filename.extension -%>">
+    <%= link_to rails_blob_path(blob, disposition: :attachment), class: "attachment__figure", download: blob.filename, title: "Download #{blob.filename}" do %>
+      <%= render "active_storage/blobs/web/representation", blob: blob %>
+    <% end %>
 
     <div class="attachment__caption">
-      <% if caption = blob.try(:caption) %>
-        <span><%= caption %></span>
-      <% else %>
-        <span class="attachment__name"><%= blob.filename %></span>
-      <% end %>
-      <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
+      <div>
+        <% if caption = blob.try(:caption) %>
+          <strong><%= caption %></strong>
+        <% else %>
+          <strong class="attachment__name"><%= blob.filename %></strong>
+        <% end %>
+      </div>
+      <div>
+        <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
+        <span> · </span>
+        <%= link_to rails_blob_path(blob, disposition: :attachment), class: "attachment__link", download: blob.filename, title: "Download #{blob.filename}" do %>
+          <span>Download</span>
+        <% end %>
+      </div>
     </div>
-  <% end %>
+  </div>
 <% end %>
