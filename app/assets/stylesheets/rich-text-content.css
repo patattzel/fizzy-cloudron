@@ -131,14 +131,14 @@
       font-weight: 800;
       inline-size: auto;
       overflow: clip;
-      padding-block-start: 15%;
+      padding-block-start: 0.4lh;
       place-content: center;
       position: relative;
       text-transform: uppercase;
 
       &::before {
         background-color: var(--color-ink-medium);
-        block-size: 20%;
+        block-size: 0.5lh;
         content: "";
         display: block;
         inline-size: 100%;
