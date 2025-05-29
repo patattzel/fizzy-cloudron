@@ -21,7 +21,7 @@ class Cards::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update another user's comment" do
-    assert_no_changes ->{ comments(:logo_agreement_jz).reload.body.to_s } do
+    assert_no_changes -> { comments(:logo_agreement_jz).reload.body.to_s } do
       put card_comment_path(cards(:logo), comments(:logo_agreement_jz)), params: { comment: { body: "I've changed my mind" } }
     end
 

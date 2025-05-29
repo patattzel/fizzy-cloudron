@@ -13,7 +13,7 @@ module ActionTextTestHelper
     Nokogiri::HTML.fragment(html).tap do |fragment|
       fragment.traverse do |node|
         if node.text?
-          node.content = node.text.strip.gsub(/\s+/, ' ')
+          node.content = node.text.strip.gsub(/\s+/, " ")
         end
       end
     end.to_html.strip
