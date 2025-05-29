@@ -22,7 +22,7 @@ module ActiveSupport
     fixtures :all
 
     include ActiveJob::TestHelper
-    include ActionTextTestHelper, CardTestHelper, ChangeTestHelper, SessionTestHelper
+    include CardTestHelper, ChangeTestHelper, SessionTestHelper
   end
 end
 

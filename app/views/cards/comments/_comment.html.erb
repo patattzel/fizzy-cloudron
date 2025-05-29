@@ -28,8 +28,8 @@
           <% end %>
         </div>
 
-        <div class="comment__body rich-text-content txt-align-start" data-controller="syntax-highlight">
-          <%= comment.body %>
+        <div class="comment__body markdown-content txt-align-start">
+          <%= sanitize comment.body_html %>
         </div>
 
         <%= render "cards/comments/reactions/reactions", comment: comment %>

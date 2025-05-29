@@ -2,6 +2,4 @@
 import "@hotwired/turbo-rails"
 import "initializers"
 import "controllers"
-
-import "actiontext-lexical"
-import "@rails/actiontext"
+import "house"

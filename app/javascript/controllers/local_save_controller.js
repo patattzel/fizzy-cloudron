@@ -30,10 +30,9 @@ export default class extends Controller {
 
   async restoreContent() {
     await nextFrame()
-    let savedContent = localStorage.getItem(this.keyValue)
+    const savedContent = localStorage.getItem(this.keyValue)
 
     if (savedContent) {
-      savedContent = `<div>${savedContent}</div>` // temporary for old markdown saves
       this.inputTarget.value = savedContent
       this.#triggerChangeEvent(savedContent)
     }
@@ -46,8 +45,8 @@ export default class extends Controller {
   }
 
   #triggerChangeEvent(newValue) {
-    if (this.inputTarget.tagName === "LEXICAL-EDITOR") {
-      this.inputTarget.dispatchEvent(new CustomEvent('actiontext:change', {
+    if (this.inputTarget.tagName === "HOUSE-MD") {
+      this.inputTarget.dispatchEvent(new CustomEvent('house-md:change', {
         bubbles: true,
         detail: {
           previousContent: '',
