@@ -77,10 +77,12 @@ class RedcarpetRenderer
   end
 end
 
-ApplicationRecord.with_each_tenant do |tenant|
-  puts "Processing tenant: #{tenant}"
+def process_all(klass, field)
+  klass.find_each do |record|
+    markdown = ActionText::Markdown.find_by(record: record, name: field)
+    next unless markdown
 
-  ActionText::Markdown.find_each do |markdown|
+    puts "markdown.id=#{markdown.id}"
     next unless markdown.record
 
     html = RedcarpetRenderer.render(markdown.content.to_s)
@@ -101,4 +103,13 @@ ApplicationRecord.with_each_tenant do |tenant|
   rescue => e
     warn "✗ Failed to process markdown ##{markdown.id}: #{e.class} - #{e.message}"
   end
+end
+
+ApplicationRecord.with_each_tenant do |tenant|
+  puts "Processing tenant: #{tenant}"
+
+  ActionText::RichText.delete_all
+
+  process_all(Card, :description)
+  process_all(Comment, :body)
 end
