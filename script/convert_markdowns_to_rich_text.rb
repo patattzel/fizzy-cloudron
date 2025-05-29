@@ -29,7 +29,6 @@ class MarkdownToActionTextConverter
         src = img["src"].presence
         if src && match = src.match(ATTACHMENT_URL_REGEX)
           if (attachment = find_attachment(match[:slug]))
-            puts "REEMPLAZO #{build_attachment_node(attachment).to_html}"
             img.replace(build_attachment_node(attachment))
             @attachments << attachment
           end
@@ -104,13 +103,3 @@ ApplicationRecord.with_each_tenant do |tenant|
     warn "✗ Failed to process markdown ##{markdown.id}: #{e.class} - #{e.message}"
   end
 end
-
-# create_table "action_text_markdowns", force: :cascade do |t|
-#   t.text "content", default: "", null: false
-#   t.datetime "created_at", null: false
-#   t.string "name", null: false
-#   t.integer "record_id", null: false
-#   t.string "record_type", null: false
-#   t.datetime "updated_at", null: false
-#   t.index ["record_type", "record_id"], name: "index_action_text_markdowns_on_record"
-# end
