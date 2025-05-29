@@ -17,11 +17,11 @@ class Cards::CommentsControllerTest < ActionDispatch::IntegrationTest
     put card_comment_path(cards(:logo), comments(:logo_agreement_kevin)), params: { comment: { body: "I've changed my mind" } }
 
     assert_response :success
-    assert_equal "I've changed my mind", comments(:logo_agreement_kevin).reload.body.content
+    assert_action_text "I've changed my mind", comments(:logo_agreement_kevin).reload.body
   end
 
   test "update another user's comment" do
-    assert_no_changes "comments(:logo_agreement_jz).body.content" do
+    assert_no_changes -> { comments(:logo_agreement_jz).reload.body.to_s } do
       put card_comment_path(cards(:logo), comments(:logo_agreement_jz)), params: { comment: { body: "I've changed my mind" } }
     end
 
