@@ -27,7 +27,7 @@ gem "rqrcode"
 gem "redcarpet"
 gem "rouge"
 gem "jbuilder"
-gem "actiontext-lexical", github: "basecamp/actiontext-lexical", branch: "main"
+gem "actiontext-lexical", bc: "actiontext-lexical"
 gem "image_processing", "~> 1.14"
 gem "platform_agent"
 
