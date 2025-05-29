@@ -32,7 +32,7 @@ class Command::CloseTest < ActionDispatch::IntegrationTest
 
     execute_command "/close", context_url: collection_cards_url(@card.collection)
 
-    cards.each { it.reload.closed? }
+    assert cards.map(&:reload).all?(&:closed?)
   end
 
   test "undo close" do
@@ -42,10 +42,10 @@ class Command::CloseTest < ActionDispatch::IntegrationTest
     command = parse_command "/close", context_url: collection_cards_url(@card.collection)
     command.execute
 
-    cards.each { it.reload.closed? }
+    assert cards.map(&:reload).all?(&:closed?)
 
     command.undo
 
-    cards.each { it.reload.open? }
+    assert cards.map(&:reload).all?(&:open?)
   end
 end

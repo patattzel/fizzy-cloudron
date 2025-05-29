@@ -29,6 +29,7 @@ gem "rouge"
 gem "jbuilder"
 gem "actiontext-lexical", github: "basecamp/actiontext-lexical"
 gem "image_processing", "~> 1.14"
+gem "platform_agent"
 
 # Telemetry and logging
 gem "sentry-ruby"
