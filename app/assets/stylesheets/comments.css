@@ -110,7 +110,7 @@
   }
 
   .comment--system {
-    --comment-padding-block: calc(var(--block-space) * 0.66);
+    --comment-padding-block: var(--block-space-half);
 
     max-inline-size: var(--comment-max);
     text-align: center;
@@ -133,6 +133,17 @@
       text-align: center !important;
     }
 
+    .comment__content {
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--color-canvas),
+        var(--color-canvas) 1px,
+        var(--color-ink-lightest) 1px,
+        var(--color-ink-lightest) 0.5em
+      );
+    }
+
+    .reactions,
     .quick-reaction {
       display: none !important;
     }
