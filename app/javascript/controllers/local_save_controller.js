@@ -34,7 +34,6 @@ export default class extends Controller {
 
     if (savedContent) {
       savedContent = `<div>${savedContent}</div>` // temporary for old markdown saves
-      console.debug("Es", savedContent);
       this.inputTarget.value = savedContent
       this.#triggerChangeEvent(savedContent)
     }
