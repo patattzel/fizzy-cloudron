@@ -12,6 +12,7 @@ class Card < ApplicationRecord
   has_rich_text :description
 
   before_save :set_default_title, if: :published?
+  after_save :grant_access_to_assignees, if: :saved_change_to_collection_id?
 
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
@@ -38,5 +39,10 @@ class Card < ApplicationRecord
   private
     def set_default_title
       self.title = "Untitled" if title.blank?
+    end
+
+    def grant_access_to_assignees
+      return if collection.all_access?
+      collection.accesses.grant_to(assignees)
     end
 end
