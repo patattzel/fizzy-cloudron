@@ -26,6 +26,10 @@ export default class extends Controller {
     }
   }
 
+  reset() {
+    this.#timer = null
+  }
+
   // Private
 
   #scheduleSave() {
