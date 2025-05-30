@@ -28,3 +28,4 @@ env:
 
 aliases:
   console: app exec -i --reuse "bin/rails console"
+  ssh: app exec -i --reuse /bin/bash
