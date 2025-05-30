@@ -113,6 +113,8 @@ module EventsHelper
       "comment"
     when "card_title_changed"
       "rename"
+    when "card_collection_changed"
+      "move"
     else
       "person"
     end
