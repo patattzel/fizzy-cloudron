@@ -3,11 +3,7 @@
     <div class="flex gap">
       <div class="flex flex-column flex-item-grow">
         <header class="card__header">
-          <span class="card__collection">
-            <span class="card__id"><%= card.id %></span>
-            <%= link_to card.collection.name, cards_path(collection_ids: [ card.collection ]),
-                  class: "card__collection-name txt-uppercase overflow-ellipsis" %>
-          </span>
+          <%= render "cards/display/preview/collection", card: card %>
           <%= render "cards/display/preview/tags", card: card %>
         </header>
 
