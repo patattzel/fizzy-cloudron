@@ -133,10 +133,10 @@ class CardTest < ActiveSupport::TestCase
     card = cards(:logo)
     assignee = users(:david)
     card.toggle_assignment(assignee)
-    
+
     collection = collections(:private)
     assert_not_includes collection.users, assignee
-    
+
     card.update!(collection: collection)
     assert_includes collection.users.reload, assignee
   end

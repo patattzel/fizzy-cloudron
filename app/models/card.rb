@@ -45,7 +45,7 @@ class Card < ApplicationRecord
       transaction do
         old_collection = Collection.find_by(id: collection_id_before_last_save)
         if old_collection.present?
-          track_event "collection_changed", particulars: { 
+          track_event "collection_changed", particulars: {
             old_collection: old_collection.name,
             new_collection: collection.name
           }
