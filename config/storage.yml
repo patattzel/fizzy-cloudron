@@ -6,10 +6,11 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage", "tenants", Rails.env, "%{tenant}", "files") %>
 
-<% purestorage_env_name = Rails.env.beta? ? "staging" : Rails.env %>
+# We have "development", "staging", and "production" buckets configured. Note that we don't have a
+# "beta" bucket. (As of 2025-06-01.)
 purestorage:
   service: S3
-  bucket: fizzy-<%= purestorage_env_name %>-activestorage
+  bucket: fizzy-<%= Rails.env %>-activestorage
   endpoint: "https://storage.basecamp.com"
   ssl_verify_peer: false # FIXME: using self-signed cert internally
   force_path_style: true
@@ -19,6 +20,7 @@ purestorage:
   access_key_id: <%= Rails.application.credentials.dig(:active_storage, :purestorage_service, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:active_storage, :purestorage_service, :secret_access_key) %>
 
+# TODO: remove this after we update existing blobs' service names to purestorage.
 mirror:
   service: Mirror
   primary: purestorage
