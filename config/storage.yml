@@ -21,5 +21,5 @@ purestorage:
 
 mirror:
   service: Mirror
-  primary: local
-  mirrors: [ purestorage ]
+  primary: purestorage
+  mirrors: [ local ]
