@@ -15,7 +15,7 @@
         class: "terminal__input input fill-transparent unpad",
         data: {
           terminal_target: "input",
-          action: "keydown.up->toggle-class#add:prevent keydown.up->navigable-list#selectCurrentOrLast terminal#hideError"
+          action: "keydown.up->toggle-class#add:prevent keydown.up->navigable-list#selectCurrentOrReset:stop terminal#hideError"
         },
         placeholder: "Press #{ hotkey_label(["ctrl", "K"]) } to search or type commands…",
         spellcheck: "false" %>

@@ -9,19 +9,22 @@
 		</span>
 		<% end %>
 
-	<%= tag.dialog class: "events__popup popup popup--animated panel flex-column align-start gap-half fill-white shadow", 
-			style: "z-index: 5;", 
-			data: { 
-				action: "turbo:before-cache@document->dialog#close",
-				controller: "filter", 
+	<%= tag.dialog class: "events__popup popup popup--animated panel flex-column align-start gap-half fill-white shadow",
+			style: "z-index: 5;",
+			data: {
+				action: "turbo:before-cache@document->dialog#close keydown->navigable-list#navigate filter:changed->navigable-list#reset",
+				controller: "filter navigable-list",
 				dialog_target: "dialog",
-				filter_active_class: "filter--active", 
+				navigable_list_focus_on_selection_value: false,
+				navigable_list_actionable_items_value: true,
+				filter_active_class: "filter--active",
 				filter_selected_class: "selected" } do %>
 		<%= render "events/filter/header" %>
 		<%= render "events/filter/new_collection_option" %>
-		<% if Current.user.collections.count > 15 %>
-			<input placeholder="Find a collection…" class="input input--transparent txt-small" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-action="input->filter#filter" autofocus>
-		<% end %>
+
+		<%= text_field_tag :search, nil, placeholder: "Find a collection…", class: "input input--transparent txt-small", autofocus: true,
+					type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
+
 		<%= render "events/filter/custom_collections" %>
 		<%= form_with url: events_path, method: :get, class: "flex flex-column max-width popup__list full-width",
 					data: { controller: "form" } do |form| %>

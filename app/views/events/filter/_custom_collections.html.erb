@@ -1,5 +1,5 @@
 <div class="flex flex-column max-width popup__list full-width">
-  <div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
+  <div class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-filter-target="item" data-navigable-list-target="item">
     <%= link_to cards_path(assignee_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
       <%= icon_tag "filter" %>
       <span class="overflow-ellipsis">Assigned to me</span>
@@ -7,7 +7,7 @@
     <% end %>
   </div>
 
-  <div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
+  <div class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-filter-target="item" data-navigable-list-target="item">
     <%= link_to cards_path(creator_ids: [Current.user.id]), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
       <%= icon_tag "filter" %>
       <span class="overflow-ellipsis">Added by me</span>
@@ -16,7 +16,7 @@
   </div>
 
   <% @filters.each do |filter| %>
-    <div class="popup__group flex align-center full-width gap-half overflow-ellipsis">
+    <div class="popup__group flex align-center full-width gap-half overflow-ellipsis" data-filter-target="item" data-navigable-list-target="item">
       <%= link_to cards_path(**filter.as_params), class: "btn popup__new popup__item", style: "view-transition-name: new-collection" do %>
         <%= icon_tag "filter" %>
         <span class="overflow-ellipsis"><%= filter.summary %></span>

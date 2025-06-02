@@ -48,6 +48,10 @@
       }
     }
 
+    &[aria-selected] {
+      background: var(--color-selected);
+    }
+
     &:has(:focus-visible) {
       background: var(--color-selected-dark);
 

@@ -3,57 +3,81 @@ import { nextFrame } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "item" ]
-  static values = { selectionAttribute: { type: String, default: "aria-selected" } }
+  static values = {
+    reverseOrder: { type: Boolean, default: false },
+    selectionAttribute: { type: String, default: "aria-selected" },
+    focusOnSelection: { type: Boolean, default: true },
+    actionableItems: { type: Boolean, default: false }
+  }
 
   connect() {
-    this.selectLast()
+    this.reset()
   }
 
   // Actions
 
-  navigate(event) {
-    if (this.itemTargets.includes(event.target)) {
-      this.#keyHandlers[event.key]?.call(this, event)
+  reset(event) {
+    console.debug("SE LLEGA REVERSE", this.reverseOrderValue);
+    if (this.reverseOrderValue) {
+      this.selectLast()
+    } else {
+      this.selectFirst()
     }
+  }
+
+  navigate(event) {
+    this.#keyHandlers[event.key]?.call(this, event)
   }
 
   select({ target }) {
     this.#setCurrentFrom(target)
   }
 
-  selectCurrentOrLast(event) {
+  selectCurrentOrReset(event) {
     if (this.currentItem) {
       this.#setCurrentFrom(this.currentItem)
     } else {
-      this.selectLast()
+      this.reset()
     }
   }
 
+  selectFirst() {
+    this.#setCurrentFrom(this.#visibleItems[0])
+  }
+
   selectLast() {
-    this.#setCurrentFrom(this.itemTargets[this.itemTargets.length - 1])
+    this.#setCurrentFrom(this.#visibleItems[this.#visibleItems.length - 1])
+  }
+
+  // Private
+
+  get #visibleItems() {
+    return this.itemTargets.filter(item => !item.hidden)
   }
 
   #selectPrevious() {
-    if (this.currentItem.previousElementSibling) {
-      this.#setCurrentFrom(this.currentItem.previousElementSibling)
+    const index = this.#visibleItems.indexOf(this.currentItem)
+    if (index > 0) {
+      this.#setCurrentFrom(this.#visibleItems[index - 1])
     }
   }
 
   #selectNext() {
-    if (this.currentItem.nextElementSibling) {
-      this.#setCurrentFrom(this.currentItem.nextElementSibling)
+    const index = this.#visibleItems.indexOf(this.currentItem)
+    if (index >= 0 && index < this.#visibleItems.length - 1) {
+      this.#setCurrentFrom(this.#visibleItems[index + 1])
     }
   }
 
   async #setCurrentFrom(element) {
-    const selectedItem = this.itemTargets.find(item => item.contains(element))
+    const selectedItem = this.#visibleItems.find(item => item.contains(element))
 
     if (selectedItem) {
       this.#clearSelection()
       selectedItem.setAttribute(this.selectionAttributeValue, "true")
       this.currentItem = selectedItem
       await nextFrame()
-      this.currentItem.focus()
+      if (this.focusOnSelectionValue) { this.currentItem.focus() }
     }
   }
 
@@ -69,6 +93,13 @@ export default class extends Controller {
     event.preventDefault()
   }
 
+  #triggerActionOnCurrentItem() {
+    if (this.actionableItemsValue && this.currentItem) {
+      const clickableElement = this.currentItem.querySelector("a,button") || this.currentItem
+      clickableElement.click()
+    }
+  }
+
   #keyHandlers = {
     ArrowDown(event) {
       this.#handleArrowKey(event, this.#selectNext.bind(this))
@@ -81,6 +112,9 @@ export default class extends Controller {
     },
     ArrowLeft(event) {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
+    },
+    Enter(event) {
+      this.#triggerActionOnCurrentItem()
     }
   }
 }
