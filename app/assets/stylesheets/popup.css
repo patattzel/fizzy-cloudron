@@ -44,6 +44,8 @@
 
     @media (any-hover: hover) {
       &:hover {
+        --hover-size: 0;
+
         background: var(--color-selected);
       }
     }
@@ -94,6 +96,7 @@
 
       @media (any-hover: hover) {
         &:where(:not(:active):hover) {
+          --hover-size: 0;
           --btn-background: var(--color-selected);
         }
       }

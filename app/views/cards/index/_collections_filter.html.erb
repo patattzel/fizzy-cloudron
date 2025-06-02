@@ -12,8 +12,8 @@
       <% end %>
     <% end %>
   <% elsif Current.user.collections.many? %>
-    <%= link_to cards_path(filter.as_params.except(:collection_ids)), class: "popup__group flex align-center", style: "--hover-size: 0", data: { filter_target: "item", navigable_list_target: "item" } do %>
-      <label class="btn txt-xx-small flex-item-no-shrink" style="--hover-size: 0.15rem">
+    <%= link_to cards_path(filter.as_params.except(:collection_ids)), class: "popup__group flex align-center", data: { filter_target: "item", navigable_list_target: "item" } do %>
+      <label class="btn txt-xx-small flex-item-no-shrink">
         <input type="checkbox" <%= "checked" if filter.collection_ids.empty? %>>
 
         <span class="for-screen-reader">
