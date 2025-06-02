@@ -47,4 +47,14 @@ class Card::EntropyTest < ActiveSupport::TestCase
     assert cards(:logo).reload.considering?
     assert_equal Time.current, cards(:logo).last_active_at
   end
+
+  test "entropy_cleaned_at returns when the entropy will be cleaned" do
+    cards(:logo).reconsider
+    assert_equal cards(:logo).auto_close_at, cards(:logo).entropy_cleaned_at
+    assert_not_nil cards(:logo).entropy_cleaned_at
+
+    cards(:logo).engage
+    assert_equal cards(:logo).auto_reconsider_at, cards(:logo).entropy_cleaned_at
+    assert_not_nil cards(:logo).entropy_cleaned_at
+  end
 end
