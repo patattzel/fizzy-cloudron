@@ -29,9 +29,9 @@
 			<%= render "events/filter/all_collections_option", form: form, filter: filter %>
 
 			<% if Current.user.collections.many? %>
-				<menu data-filter-target="list" contents>
+				<div contents>
 					<%= render partial: "events/filter/collection_option", collection: Current.user.collections.alphabetically, as: :collection, locals: { form: form, filter: filter } %>
-				</menu>
+				</div>
 			<% end %>
 		<% end %>
 
