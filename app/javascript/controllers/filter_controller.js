@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = [ "input", "item" ]
 
   initialize() {
-    this.filter = debounce(this.filter.bind(this), 300)
+    this.filter = debounce(this.filter.bind(this), 100)
   }
 
   filter() {
