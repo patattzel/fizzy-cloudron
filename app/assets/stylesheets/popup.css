@@ -81,6 +81,10 @@
       }
     }
 
+    &[aria-selected] {
+      --btn-background: var(--color-selected);
+    }
+
     &:has(input:checked)  {
       --btn-background: var(--color-ink-lightest);
       --btn-color: var(--color-ink);

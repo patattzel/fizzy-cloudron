@@ -92,10 +92,11 @@ export default class extends Controller {
     event.preventDefault()
   }
 
-  #triggerActionOnCurrentItem() {
-    if (this.actionableItemsValue && this.currentItem) {
+  #triggerActionOnCurrentItem(event) {
+    if (this.actionableItemsValue && this.currentItem && this.#visibleItems.length) {
       const clickableElement = this.currentItem.querySelector("a,button") || this.currentItem
       clickableElement.click()
+      event.preventDefault()
     }
   }
 
@@ -113,7 +114,7 @@ export default class extends Controller {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
     },
     Enter(event) {
-      this.#triggerActionOnCurrentItem()
+      this.#triggerActionOnCurrentItem(event)
     }
   }
 }
