@@ -1,15 +1,15 @@
 <%= turbo_frame_tag @card, :tagging do %>
-  <dialog class="popup panel flex-column align-start justify-start fill-white shadow"
+  <dialog class="popup panel flex-column align-start justify-start fill-white shadow txt-small"
     data-controller="filter navigable-list"
     data-dialog-target="dialog filter navigable-list"
     data-navigable-list-focus-on-selection-value="false"
     data-navigable-list-actionable-items-value="true"
     data-action="keydown->navigable-list#navigate filter:changed->navigable-list#reset"
   >
-    <strong class="popup__title margin-block-end-half pad-inline-half">Tag this…</strong>
+    <strong class="popup__title txt-nowrap">Tag this…</strong>
 
-    <%= form_with url: card_taggings_path(@card), class: "flex gap-half align-center full-width pad-inline-half margin-block-end" do |form| %>
-      <%= form.text_field :tag_title, placeholder: "New tag name...", class: "input txt-small full-width",
+    <%= form_with url: card_taggings_path(@card), class: "flex gap-half align-center full-width margin-block-half" do |form| %>
+      <%= form.text_field :tag_title, placeholder: "Filter…", class: "input txt-small full-width",
             autocomplete: "off", data: { filter_target: "input", action: "input->filter#filter" } %>
       <%= form.button "Add a tag…", type: "submit", class: "btn txt-small" do %>
         <%= icon_tag "add" %>
@@ -17,14 +17,17 @@
       <% end %>
     <% end %>
 
-    <div class="flex flex-column full-width popup__list">
+    <ul class="flex flex-column full-width popup__list margin-none unpad max-width" data-filter-target="list">
       <% @tags.each do |tag| %>
-        <%= button_to card_taggings_path(@card, params: { tag_title: tag.title }),
-              method: :post, class: "btn full-width popup__item", data: { filter_target: "item", navigable_list_target: "item" } do %>
-          <span class="overflow-ellipsis"><%= tag.hashtag %></span>
-          <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" if @card.tagged_with?(tag) %>
-        <% end %>
+        <li class="popup__group flex align-center full-width" data-value="<%= tag.hashtag.downcase %>" data-filter-target="item" data-navigable-list-target="item">
+          <%= button_to card_taggings_path(@card, params: { tag_title: tag.title }), method: :post,
+              class: "btn popup__item min-width flex-item-grow full-width unpad-inline",
+              form_class: "max-width flex-item-grow" do %>
+            <span class="overflow-ellipsis flex-item-grow"><%= tag.hashtag %></span>
+            <%= icon_tag "check", size: 18, class: "checked flex-item-no-shrink flex-item-justify-end", style: "--icon-size: 1em" if @card.tagged_with?(tag) %>
+          <% end %>
+        </li>
       <% end %>
-    </div>
+    </ul>
   </dialog>
 <% end %>

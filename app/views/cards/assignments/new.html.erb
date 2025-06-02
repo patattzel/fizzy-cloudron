@@ -5,10 +5,10 @@
 				dialog_target: "dialog",
 				navigable_list_focus_on_selection_value: false,
 				navigable_list_actionable_items_value: true } do %>
-    <strong class="popup__title pad-inline-half txt-nowrap">Assign this to…</strong>
+    <strong class="popup__title txt-nowrap">Assign this to…</strong>
 
     <% if @collection.users.active.count > 1 %>
-			<%= text_field_tag :search, nil, placeholder: "Find someone…", class: "input input--transparent txt-small margin-block-half", autofocus: true,
+			<%= text_field_tag :search, nil, placeholder: "Filter…", class: "input input--transparent txt-small margin-block-half", autofocus: true,
 						type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
     <% end %>
 
