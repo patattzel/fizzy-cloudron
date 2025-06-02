@@ -9,16 +9,14 @@
 		</span>
 		<% end %>
 
-	<%= tag.dialog class: "events__popup popup popup--animated panel flex-column align-start gap-half fill-white shadow",
+	<%= tag.dialog class: "filter events__popup popup popup--animated panel flex-column align-start gap-half fill-white shadow",
 			style: "z-index: 5;",
 			data: {
 				action: "turbo:before-cache@document->dialog#close keydown->navigable-list#navigate filter:changed->navigable-list#reset",
 				controller: "filter navigable-list",
 				dialog_target: "dialog",
 				navigable_list_focus_on_selection_value: false,
-				navigable_list_actionable_items_value: true,
-				filter_active_class: "filter--active",
-				filter_selected_class: "selected" } do %>
+				navigable_list_actionable_items_value: true } do %>
 		<%= render "events/filter/header" %>
 		<%= render "events/filter/new_collection_option" %>
 

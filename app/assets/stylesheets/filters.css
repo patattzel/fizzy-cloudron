@@ -10,6 +10,12 @@
     }
   }
 
+  .filter {
+    &[aria-selected] {
+      display: flex;
+    }
+  }
+
   .filter__button {
     --btn-border-size: 0;
     --btn-font-weight: 400;
@@ -112,10 +118,3 @@
   }
 }
 
-.filter--active li {
-  display: none;
-
-  &.selected {
-    display: flex;
-  }
-}
