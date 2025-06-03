@@ -96,6 +96,8 @@ module EventsHelper
       "#{event_creator_name(event)} removed the date on <span style='color: var(--card-color)'>#{ title }</span>"
     when "card_title_changed"
       "#{event_creator_name(event)} renamed <span style='color: var(--card-color)'>#{ title }</span> (was: '#{event.particulars.dig('particulars', 'old_title')})'".html_safe
+    when "card_collection_changed"
+      "#{event_creator_name(event)} moved <span style='color: var(--card-color)'>#{ title }</span> to '#{event.particulars.dig('particulars', 'new_collection')}'".html_safe
     end
   end
 
@@ -113,6 +115,8 @@ module EventsHelper
       "comment"
     when "card_title_changed"
       "rename"
+    when "card_collection_changed"
+      "move"
     else
       "person"
     end

@@ -28,7 +28,9 @@ class CardsController < ApplicationController
   def update
     @card.update! card_params
 
-    if @card.published?
+    if params[:card][:collection_id].present?
+      redirect_to collection_card_path(@card.collection, @card)
+    elsif @card.published?
       render_card_replacement
     else
       redirect_to @card
@@ -54,7 +56,7 @@ class CardsController < ApplicationController
     end
 
     def card_params
-      params.expect(card: [ :status, :title, :description, :image, tag_ids: [] ])
+      params.expect(card: [ :collection_id, :status, :title, :description, :image, tag_ids: [] ])
     end
 
     def render_card_replacement
