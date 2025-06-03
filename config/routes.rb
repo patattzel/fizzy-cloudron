@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resource :recover
       resource :staging
       resource :watch
+      resource :collection, only: :update
 
       resources :assignments
       resources :taggings
