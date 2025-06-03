@@ -25,7 +25,8 @@ export default class extends Controller {
   }
 
   navigate(event) {
-    this.#keyHandlers[event.key]?.call(this, event)
+    const key = event.key === " " ? "Space" : event.key
+    this.#keyHandlers[key]?.call(this, event)
   }
 
   select({ target }) {
@@ -92,10 +93,19 @@ export default class extends Controller {
     event.preventDefault()
   }
 
-  #triggerActionOnCurrentItem(event) {
+  #clickCurrentItem(event) {
     if (this.actionableItemsValue && this.currentItem && this.#visibleItems.length) {
       const clickableElement = this.currentItem.querySelector("a,button") || this.currentItem
       clickableElement.click()
+      event.preventDefault()
+    }
+  }
+
+  #toggleCurrentItem(event) {
+    if (this.actionableItemsValue && this.currentItem && this.#visibleItems.length) {
+      const toggleable = this.currentItem.querySelector("input[type=checkbox]")
+      toggleable.checked = !toggleable.checked
+      toggleable.dispatchEvent(new Event('change', { bubbles: true }))
       event.preventDefault()
     }
   }
@@ -114,7 +124,10 @@ export default class extends Controller {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
     },
     Enter(event) {
-      this.#triggerActionOnCurrentItem(event)
+      this.#clickCurrentItem(event)
+    },
+    Space(event) {
+      this.#toggleCurrentItem(event)
     }
   }
 }
