@@ -113,7 +113,7 @@
     &:focus::placeholder {
       opacity: 0.7;
     }
-    
+
     .terminal--confirmation & {
       color: var(--color-terminal-text-light);
     }
@@ -145,7 +145,7 @@
   }
 
   .terminal__item {
-    &[aria-current] {
+    &[aria-selected] {
       --btn-color: var(--color-terminal-bg);
 
       background: var(--color-terminal-text);

@@ -44,16 +44,15 @@
 
     @media (any-hover: hover) {
       &:hover {
+        --hover-size: 0;
+
         background: var(--color-selected);
       }
     }
 
-    &:has(:focus-visible) {
-      background: var(--color-selected-dark);
-
-      .popup__item {
-        --outline-size: 0;
-      }
+    &[aria-selected] {
+      border-radius: 0.3em;
+      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
     }
   }
 
@@ -77,6 +76,11 @@
       }
     }
 
+    &[aria-selected] {
+      border-radius: 0.3em;
+      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
+    }
+
     &:has(input:checked)  {
       --btn-background: var(--color-ink-lightest);
       --btn-color: var(--color-ink);
@@ -92,6 +96,7 @@
 
       @media (any-hover: hover) {
         &:where(:not(:active):hover) {
+          --hover-size: 0;
           --btn-background: var(--color-selected);
         }
       }

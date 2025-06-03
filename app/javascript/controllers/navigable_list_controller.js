@@ -3,57 +3,81 @@ import { nextFrame } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "item" ]
-  static values = { selectionAttribute: { type: String, default: "aria-current" } }
+  static values = {
+    reverseOrder: { type: Boolean, default: false },
+    selectionAttribute: { type: String, default: "aria-selected" },
+    focusOnSelection: { type: Boolean, default: true },
+    actionableItems: { type: Boolean, default: false }
+  }
 
   connect() {
-    this.selectLast()
+    this.reset()
   }
 
   // Actions
 
-  navigate(event) {
-    if (this.itemTargets.includes(event.target)) {
-      this.#keyHandlers[event.key]?.call(this, event)
+  reset(event) {
+    if (this.reverseOrderValue) {
+      this.selectLast()
+    } else {
+      this.selectFirst()
     }
+  }
+
+  navigate(event) {
+    const key = event.key === " " ? "Space" : event.key
+    this.#keyHandlers[key]?.call(this, event)
   }
 
   select({ target }) {
     this.#setCurrentFrom(target)
   }
 
-  selectCurrentOrLast(event) {
+  selectCurrentOrReset(event) {
     if (this.currentItem) {
       this.#setCurrentFrom(this.currentItem)
     } else {
-      this.selectLast()
+      this.reset()
     }
   }
 
+  selectFirst() {
+    this.#setCurrentFrom(this.#visibleItems[0])
+  }
+
   selectLast() {
-    this.#setCurrentFrom(this.itemTargets[this.itemTargets.length - 1])
+    this.#setCurrentFrom(this.#visibleItems[this.#visibleItems.length - 1])
+  }
+
+  // Private
+
+  get #visibleItems() {
+    return this.itemTargets.filter(item => !item.hidden)
   }
 
   #selectPrevious() {
-    if (this.currentItem.previousElementSibling) {
-      this.#setCurrentFrom(this.currentItem.previousElementSibling)
+    const index = this.#visibleItems.indexOf(this.currentItem)
+    if (index > 0) {
+      this.#setCurrentFrom(this.#visibleItems[index - 1])
     }
   }
 
   #selectNext() {
-    if (this.currentItem.nextElementSibling) {
-      this.#setCurrentFrom(this.currentItem.nextElementSibling)
+    const index = this.#visibleItems.indexOf(this.currentItem)
+    if (index >= 0 && index < this.#visibleItems.length - 1) {
+      this.#setCurrentFrom(this.#visibleItems[index + 1])
     }
   }
 
   async #setCurrentFrom(element) {
-    const selectedItem = this.itemTargets.find(item => item.contains(element))
+    const selectedItem = this.#visibleItems.find(item => item.contains(element))
 
     if (selectedItem) {
       this.#clearSelection()
       selectedItem.setAttribute(this.selectionAttributeValue, "true")
       this.currentItem = selectedItem
       await nextFrame()
-      this.currentItem.focus()
+      if (this.focusOnSelectionValue) { this.currentItem.focus() }
     }
   }
 
@@ -69,6 +93,25 @@ export default class extends Controller {
     event.preventDefault()
   }
 
+  #clickCurrentItem(event) {
+    if (this.actionableItemsValue && this.currentItem && this.#visibleItems.length) {
+      const clickableElement = this.currentItem.querySelector("a,button") || this.currentItem
+      clickableElement.click()
+      event.preventDefault()
+    }
+  }
+
+  #toggleCurrentItem(event) {
+    if (this.actionableItemsValue && this.currentItem && this.#visibleItems.length) {
+      const toggleable = this.currentItem.querySelector("input[type=checkbox]")
+      if (toggleable) {
+        toggleable.checked = !toggleable.checked
+        toggleable.dispatchEvent(new Event('change', { bubbles: true }))
+        event.preventDefault()
+      }
+    }
+  }
+
   #keyHandlers = {
     ArrowDown(event) {
       this.#handleArrowKey(event, this.#selectNext.bind(this))
@@ -81,6 +124,12 @@ export default class extends Controller {
     },
     ArrowLeft(event) {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
+    },
+    Enter(event) {
+      this.#clickCurrentItem(event)
+    },
+    Space(event) {
+      this.#toggleCurrentItem(event)
     }
   }
 }
