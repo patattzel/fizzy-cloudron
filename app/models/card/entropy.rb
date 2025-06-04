@@ -11,14 +11,8 @@ module Card::Entropy
         Entropy::Configuration.where(id: Account.sole.default_entropy_configuration).select(period_name).limit(1))
     end
 
-    scope :stagnated, -> do
-      doing.entropic_by(:auto_reconsider_period)
-    end
-
-    scope :due_to_be_closed, -> do
-      considering.entropic_by(:auto_close_period)
-    end
-
+    scope :stagnated, -> { doing.entropic_by(:auto_reconsider_period) }
+    scope :due_to_be_closed, -> { considering.entropic_by(:auto_close_period) }
     delegate :auto_close_period, :auto_reconsider_period, to: :collection
   end
 
