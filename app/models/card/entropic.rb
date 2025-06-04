@@ -29,7 +29,7 @@ module Card::Entropic
     Card::Entropy.for(self)
   end
 
-  def has_entropy?
+  def entropic?
     entropy.present?
   end
 end
