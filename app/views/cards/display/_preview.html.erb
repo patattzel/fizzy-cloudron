@@ -29,7 +29,7 @@
 
     <%= render "cards/display/common/background", card: card %>
 
-    <% if card.subject_to_entropy? %>
+    <% if card.has_entropy? %>
       <%= render "cards/display/preview/bubble", card: card %>
     <% end %>
   <% end %>

@@ -1,5 +1,5 @@
 class Collection < ApplicationRecord
-  include AutoClosing, Accessible, Broadcastable, Entropy, Filterable, Workflowing
+  include AutoClosing, Accessible, Broadcastable, Entropic, Filterable, Workflowing
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
 

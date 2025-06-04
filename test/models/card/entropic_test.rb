@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Card::EntropyTest < ActiveSupport::TestCase
+class Card::EntropicTest < ActiveSupport::TestCase
   setup do
     Current.session = sessions(:david)
   end
@@ -11,7 +11,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
     entropy_configurations(:writebook_collection).destroy
     entropy_configurations("37s_account").reload.update! auto_close_period: 456.days
     cards(:layout).update! last_active_at: 2.day.ago
-    assert_equal (456 - 2).days.from_now, cards(:layout).auto_close_at
+    assert_equal (456 - 2).days.from_now, cards(:layout).entropy.auto_clean_at
   end
 
   test "auto_close_at infers the period from the collection when present" do
@@ -19,7 +19,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
 
     entropy_configurations(:writebook_collection).update! auto_close_period: 123.days
     cards(:layout).update! last_active_at: 2.day.ago
-    assert_equal (123 - 2).days.from_now, cards(:layout).auto_close_at
+    assert_equal (123 - 2).days.from_now, cards(:layout).entropy.auto_clean_at
   end
 
   test "auto_reconsider_at uses the period defined in the account by default" do
@@ -29,7 +29,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
     entropy_configurations(:writebook_collection).destroy
     entropy_configurations("37s_account").reload.update! auto_reconsider_period: 456.days
     cards(:layout).update! last_active_at: 2.day.ago
-    assert_equal (456 - 2).days.from_now, cards(:layout).auto_reconsider_at
+    assert_equal (456 - 2).days.from_now, cards(:layout).entropy.auto_clean_at
   end
 
   test "auto_reconsider_at infers the period from the collection when present" do
@@ -38,7 +38,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
     cards(:layout).engage
     entropy_configurations(:writebook_collection).update! auto_reconsider_period: 123.days
     cards(:layout).update! last_active_at: 2.day.ago
-    assert_equal (123 - 2).days.from_now, cards(:layout).auto_reconsider_at
+    assert_equal (123 - 2).days.from_now, cards(:layout).entropy.auto_clean_at
   end
 
   test "auto close all due using the default account entropy configuration" do
@@ -105,11 +105,11 @@ class Card::EntropyTest < ActiveSupport::TestCase
     assert_equal Time.current, cards(:logo).last_active_at
   end
 
-  test "entropy_cleaned_at returns when the entropy will be cleaned" do
-    assert_equal cards(:layout).auto_close_at, cards(:layout).entropy_cleaned_at
-    assert_not_nil cards(:layout).entropy_cleaned_at
+  test ".entropy.auto_clean_at returns when the entropy will be cleaned" do
+    assert_equal cards(:layout).entropy.auto_clean_at, cards(:layout).entropy.auto_clean_at
+    assert_not_nil cards(:layout).entropy.auto_clean_at
 
-    assert_equal cards(:logo).auto_reconsider_at, cards(:logo).entropy_cleaned_at
-    assert_not_nil cards(:logo).entropy_cleaned_at
+    assert_equal cards(:logo).entropy.auto_clean_at, cards(:logo).entropy.auto_clean_at
+    assert_not_nil cards(:logo).entropy.auto_clean_at
   end
 end

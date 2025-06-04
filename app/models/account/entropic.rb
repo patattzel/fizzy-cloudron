@@ -1,4 +1,4 @@
-module Account::Entropy
+module Account::Entropic
   extend ActiveSupport::Concern
 
   included do

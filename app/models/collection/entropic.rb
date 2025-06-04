@@ -1,4 +1,4 @@
-module Collection::Entropy
+module Collection::Entropic
   extend ActiveSupport::Concern
 
   included do
