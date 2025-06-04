@@ -11,7 +11,6 @@ export default class extends Controller {
     const index = e.target.value
     this.#setIndex(index)
     this.#setValue(index)
-    console.log(index)
   }
 
   #setIndex(index) {
