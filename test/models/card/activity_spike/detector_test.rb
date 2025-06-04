@@ -1,1 +1,4 @@
-# See tests in +Card::StallableTest+
+require "test_helper"
+
+class Card::ActivitySpike::DetectorTest < ActiveSupport::TestCase
+end
