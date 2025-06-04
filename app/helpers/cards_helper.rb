@@ -56,4 +56,8 @@ module CardsHelper
       "Closes"
     end
   end
+
+  def cacheable_preview_parts_for(card)
+    [card, card.collection.workflow, Entroy::Configuration::Default]
+  end
 end
