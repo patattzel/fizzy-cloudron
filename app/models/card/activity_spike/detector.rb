@@ -34,7 +34,7 @@ class Card::ActivitySpike::Detector
     end
 
     def recent_period
-      card.entropy.auto_clean_period * 0.25
+      card.entropy.auto_clean_period * 0.33
     end
 
     def minimum_participants
