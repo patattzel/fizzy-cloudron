@@ -1,6 +1,6 @@
 .knob {
   --knob-angle-reserve: 120deg;
-  --knob-angle: calc((360deg - var(--knob-angle-reserve)) / (var(--knob-options) - 1));
+  --knob-option-angle: calc((360deg - var(--knob-angle-reserve)) / (var(--knob-options) - 1));
   --knob-option-size: 3ch;
   --knob-chamfer-size: 1ch;
   --knob-color: oklch(var(--lch-ink-light));
@@ -53,7 +53,7 @@
   position: absolute;
   transform:
     translate(-50%, -50%)
-    rotate(calc(-1 * var(--knob-angle-reserve) + (var(--knob-angle) * var(--i))))
+    rotate(calc(-1 * ((360deg - var(--knob-angle-reserve)) / 2) + (var(--knob-option-angle) * var(--i))))
     translateY(calc(-1 * var(--knob-radius) - 50% - var(--knob-tick-size)));
   z-index: 1;
 
@@ -79,7 +79,7 @@
 
   /* The value text */
   span {
-    rotate: calc(var(--knob-angle-reserve) - (var(--knob-angle) * var(--i)));
+    rotate: calc(((360deg - var(--knob-angle-reserve)) / 2) - (var(--knob-option-angle) * var(--i)));
   }
 
   input {
@@ -126,7 +126,7 @@
     border-radius: 50% 50% 2px 2px;
     inline-size: 4px;
     inset: auto auto 50% 50%;
-    rotate: calc(-1 * var(--knob-angle-reserve) + (var(--knob-angle) * var(--knob-index)));
+    rotate: calc(-1 * ((360deg - var(--knob-angle-reserve)) / 2) + (var(--knob-option-angle) * var(--knob-index)));
     transform-origin: center bottom;
     transition: rotate 100ms;
     translate: -50% 0;
