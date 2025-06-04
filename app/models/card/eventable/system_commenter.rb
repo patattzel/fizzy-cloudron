@@ -22,6 +22,8 @@ class Card::Eventable::SystemCommenter
         "#{event.creator.name} moved this to '#{event.stage_name}'."
       when "card_closed"
         "Closed as “#{ card.closure.reason }” by #{ event.creator.name }"
+      when "card_reopened"
+        "Reopened by #{ event.creator.name }"
       when "card_title_changed"
         "#{event.creator.name} changed the title from '#{event.particulars.dig('particulars', 'old_title')}' to '#{event.particulars.dig('particulars', 'new_title')}'."
       when "card_collection_changed"

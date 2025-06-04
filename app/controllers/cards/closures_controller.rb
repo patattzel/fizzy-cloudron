@@ -7,7 +7,7 @@ class Cards::ClosuresController < ApplicationController
   end
 
   def destroy
-    @card.reopen
+    @card.reopen(user: Current.user)
     render_card_replacement
   end
 end
