@@ -5,10 +5,9 @@ module Card::Entropy
   ENTROPY_REMINDER_BEFORE = 7.days
 
   included do
-    scope :in_auto_closing_collection, -> { joins(:collection).merge(Collection.auto_closing) }
-
-    scope :stagnated,        -> { doing.where(last_active_at: ..AUTO_RECONSIDER_PERIOD.ago) }
-    scope :due_to_be_closed, -> { considering.in_auto_closing_collection.where("last_active_at <= DATETIME('now', '-' || entropy_configurations.auto_close_period || ' seconds')") }
+    scope :with_entropy_configuration, -> { joins(collection: :entropy_configuration) }
+    scope :stagnated,        -> { doing.with_entropy_configuration.where(last_active_at: ..AUTO_RECONSIDER_PERIOD.ago) }
+    scope :due_to_be_closed, -> { considering.with_entropy_configuration.where("last_active_at <= DATETIME('now', '-' || entropy_configurations.auto_close_period || ' seconds')") }
 
     delegate :auto_close_period, :auto_reconsider_period, to: :collection
   end
@@ -34,7 +33,7 @@ module Card::Entropy
   end
 
   def auto_closing?
-    considering? && collection.auto_closing? && last_active_at
+    considering? && last_active_at
   end
 
   def auto_close_at
