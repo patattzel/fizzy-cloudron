@@ -6,7 +6,7 @@ module Collection::Entropy
   end
 
   def entropy_configuration
-    super || Account.sole.default_entropy_configuration
+    super || Entropy::Configuration.default
   end
 
   def auto_close_period=(new_value)
