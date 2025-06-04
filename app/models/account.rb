@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Joinable
+  include Entropy, Joinable
 
   has_many_attached :uploads
 end

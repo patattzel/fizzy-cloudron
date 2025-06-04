@@ -8,9 +8,9 @@ module Card::Entropy
     scope :in_auto_closing_collection, -> { joins(:collection).merge(Collection.auto_closing) }
 
     scope :stagnated,        -> { doing.where(last_active_at: ..AUTO_RECONSIDER_PERIOD.ago) }
-    scope :due_to_be_closed, -> { considering.in_auto_closing_collection.where("last_active_at <= DATETIME('now', '-' || auto_close_period || ' seconds')") }
+    scope :due_to_be_closed, -> { considering.in_auto_closing_collection.where("last_active_at <= DATETIME('now', '-' || entropy_configurations.auto_close_period || ' seconds')") }
 
-    delegate :auto_close_period, to: :collection
+    delegate :auto_close_period, :auto_reconsider_period, to: :collection
   end
 
   class_methods do

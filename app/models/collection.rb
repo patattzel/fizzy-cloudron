@@ -1,11 +1,12 @@
 class Collection < ApplicationRecord
-  include AutoClosing, Accessible, Broadcastable, Filterable, Workflowing
+  include AutoClosing, Accessible, Broadcastable, Entropy, Filterable, Workflowing
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
 
   has_many :cards, dependent: :destroy
   has_many :tags, -> { distinct }, through: :cards
   has_many :events
+  has_one :entropy_configuration, class_name: "Entropy::Configuration", as: :container, dependent: :destroy
 
   scope :alphabetically, -> { order("lower(name)") }
 

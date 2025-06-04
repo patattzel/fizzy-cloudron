@@ -8,7 +8,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
   test "auto_close_at infers the period from the collection" do
     freeze_time
 
-    collections(:writebook).update! auto_close_period: 123.days
+    entropy_configurations(:writebook_collection).update! auto_close_period: 123.days
     cards(:layout).update! last_active_at: 2.day.ago
     assert_equal (123-2).days.from_now, cards(:layout).auto_close_at
   end
@@ -16,8 +16,8 @@ class Card::EntropyTest < ActiveSupport::TestCase
   test "auto close all due" do
     cards(:logo, :shipping).each(&:reconsider)
 
-    cards(:logo).update!(last_active_at: 1.day.ago - collections(:writebook).auto_close_period)
-    cards(:shipping).update!(last_active_at: 1.day.from_now - collections(:writebook).auto_close_period)
+    cards(:logo).update!(last_active_at: 1.day.ago - entropy_configurations(:writebook_collection).auto_close_period)
+    cards(:shipping).update!(last_active_at: 1.day.from_now - entropy_configurations(:writebook_collection).auto_close_period)
 
     assert_difference -> { Card.closed.count }, +1 do
       Card.auto_close_all_due
@@ -30,7 +30,7 @@ class Card::EntropyTest < ActiveSupport::TestCase
   test "don't auto close those cards where the collection has no auto close period" do
     cards(:logo, :shipping).each(&:reconsider)
 
-    collections(:writebook).update auto_close_period: nil
+    collections(:writebook).entropy_configuration.destroy
 
     assert_no_difference -> { Card.closed.count } do
       Card.auto_close_all_due
