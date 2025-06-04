@@ -8,7 +8,7 @@ module Card::Entropy
     scope :entropic_by, ->(period_name) do
       left_outer_joins(collection: :entropy_configuration)
         .where("last_active_at <= DATETIME('now', '-' || COALESCE(entropy_configurations.#{period_name}, (?)) || ' seconds')",
-        Entropy::Configuration.where(id: Account.sole.default_entropy_configuration).limit(1).to_sql)
+        Entropy::Configuration.where(id: Account.sole.default_entropy_configuration).select("id").limit(1))
     end
 
     scope :stagnated, -> do
