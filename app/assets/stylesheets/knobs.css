@@ -1,22 +1,20 @@
 .knob {
   --knob-angle-reserve: 120deg;
   --knob-angle: calc((360deg - var(--knob-angle-reserve)) / (var(--knob-options) - 1));
-  --knob-button-size: 3ch;
+  --knob-option-size: 3ch;
   --knob-chamfer-size: 1ch;
   --knob-color: oklch(var(--lch-ink-light));
-  --knob-color-accent: oklch(var(--lch-red-medium));
+  --knob-color-accent: oklch(var(--lch-blue-medium));
   --knob-tick-size: 1ch;
   --knob-radius: calc(var(--knob-size) / 2);
   --knob-size: 96px;
 
-  aspect-ratio: 1;
-  block-size: calc(var(--knob-size) + var(--knob-button-size) * 2);
   border: none;
-  display: grid;
+  display: block;
   font-weight: 500;
-  inline-size: fit-content;
-  place-content: center;
+  padding: var(--knob-option-size) 0 0;
   position: relative;
+  text-align: center;
 }
 
 .knob__slider {
@@ -45,11 +43,11 @@
 }
 
 .knob__option {
-  block-size: var(--knob-button-size);
+  block-size: var(--knob-option-size);
   border-radius: 50%;
   cursor: pointer;
   display: grid;
-  inline-size: var(--knob-button-size);
+  inline-size: var(--knob-option-size);
   inset: 50% auto auto 50%;
   place-content: center;
   position: absolute;
@@ -99,6 +97,7 @@
     0 2px 4px rgba(0,0,0,0.15),
     0 2px 8px rgba(0,0,0,0.20);
   inline-size: var(--knob-size);
+  margin-inline: auto;
   position: relative;
 
   &:before,
@@ -136,8 +135,6 @@
 
 .knob__label {
   font-weight: bold;
-  inset: 50% auto auto 50%;
-  position: absolute;
+  margin-block-start: 1ch;
   text-transform: uppercase;
-  transform: translate(-50%, calc(var(--knob-radius) + var(--knob-tick-size)));
 }
