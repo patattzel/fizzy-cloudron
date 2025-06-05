@@ -49,15 +49,15 @@ class Card::ActivitySpike::Detector
     end
 
     def card_was_just_assigned?
-      card.assigned? && last_recent_event_was?(:card_assigned)
+      card.assigned? && card_was_just?(:assigned)
     end
 
     def card_was_just_reopened?
-      card.open? && last_recent_event_was?(:card_reopened)
+      card.open? && card_was_just?(:reopened)
     end
 
-    def last_recent_event_was?(action)
-      last_event&.action&.to_s == action.to_s && last_event.created_at > 1.minute.ago
+    def card_was_just?(action)
+      last_event&.action&.to_s == "card_#{action}" && last_event.created_at > 1.minute.ago
     end
 
     def last_event
