@@ -45,6 +45,7 @@
     :where(img, video, embed, object) {
       margin-inline: auto;
       max-block-size: 32rem;
+      object-fit: contain;
 
       /* Links should hug media contained within */
       a:has(&) {
@@ -61,7 +62,8 @@
       margin-inline: 0;
       max-inline-size: 100%;
 
-      &:is(figure) img {
+      &:is(figure) img,
+      &:is(figure) video {
         block-size: auto;
         display: block;
         margin-inline: auto;
