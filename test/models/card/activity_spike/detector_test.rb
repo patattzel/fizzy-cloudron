@@ -20,6 +20,12 @@ class Card::ActivitySpike::DetectorTest < ActiveSupport::TestCase
     end
   end
 
+  test "detect reopened cards" do
+    assert_activity_spike_detected(card: cards(:shipping)) do
+      cards(:shipping).reopen
+    end
+  end
+
   test "refresh the activity spike on new spikes" do
     multiple_people_comment_on(@card)
 

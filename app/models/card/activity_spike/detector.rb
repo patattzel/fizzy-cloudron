@@ -16,7 +16,7 @@ class Card::ActivitySpike::Detector
 
   private
     def has_activity_spike?
-      card.entropic? && (multiple_people_commented? || card_was_just_assigned?)
+      card.entropic? && (multiple_people_commented? || card_was_just_assigned? || card_was_just_reopened?)
     end
 
     def register_activity_spike
@@ -49,7 +49,15 @@ class Card::ActivitySpike::Detector
     end
 
     def card_was_just_assigned?
-      last_event&.action&.card_assigned? && card.assigned? && last_event.created_at > 1.minute.ago
+      card.assigned? && last_recent_event_was?(:card_assigned)
+    end
+
+    def card_was_just_reopened?
+      card.open? && last_recent_event_was?(:card_reopened)
+    end
+
+    def last_recent_event_was?(action)
+      last_event&.action&.to_s == action.to_s && last_event.created_at > 1.minute.ago
     end
 
     def last_event
