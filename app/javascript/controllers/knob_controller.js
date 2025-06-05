@@ -15,15 +15,15 @@ export default class extends Controller {
     this.#index = target.value
   }
 
+  set #index(index) {
+    this.fieldTarget.style.setProperty("--knob-index", `${index}`);
+    this.sliderTarget.value = index
+  }
+
   get #selectedOption() {
     return this.optionTargets.find(option => {
       return option.checked
     })
-  }
-
-  set #index(index) {
-    this.fieldTarget.style.setProperty("--knob-index", `${index}`);
-    this.sliderTarget.value = index
   }
 
   set #value(index) {
