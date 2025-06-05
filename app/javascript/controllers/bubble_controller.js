@@ -56,7 +56,11 @@ export default class extends Controller {
   }
 
   #showStalled() {
-    this.#toggleDisplayedContainer(false)
+    this.entropyTopTarget.innerHTML = "Stalled for"
+    this.entropyDaysTarget.innerHTML = signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date())
+    this.entropyBottomTarget.innerHTML = "days"
+
+    this.#toggleDisplayedContainer(true)
   }
 
   #hide() {

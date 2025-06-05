@@ -15,7 +15,8 @@ module EntropyHelper
     if card.last_activity_spike_at
       {
         stalledAfterDays: card.entropy.days_before_reminder,
-        lastActivitySpikeAt: card.last_activity_spike_at.iso8601
+        lastActivitySpikeAt: card.last_activity_spike_at.iso8601,
+        action: "Stalled"
       }
     end
   end
