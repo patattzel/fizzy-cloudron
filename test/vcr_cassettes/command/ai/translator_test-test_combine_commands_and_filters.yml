@@ -171,7 +171,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 05 Jun 2025 10:35:53 GMT
+      - Thu, 05 Jun 2025 10:43:04 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -183,11 +183,11 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '706'
+      - '916'
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '711'
+      - '928'
       X-Ratelimit-Limit-Requests:
       - '500'
       X-Ratelimit-Limit-Tokens:
@@ -201,31 +201,31 @@ http_interactions:
       X-Ratelimit-Reset-Tokens:
       - 464ms
       X-Request-Id:
-      - req_4fc2a231f69f43157a13da79f50938ce
+      - req_a42d4ac0aeb8efd48ba7fe1217a8abb8
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=GtWh.n_GVDR05dpD9QEUZWNIdlwdy_ZzWY7ms9j9yVE-1749119753-1.0.1.1-vt1Hdb43dxURFrCjPHyKIgWKaVLX9Eoaj9R3ZP_3neocDmTXSIBzoqhnyspiuGQ_Twxr3lPdYH52dlfdfG7_Ypy2Z0O3gabkq5vrpaOtj9s;
-        path=/; expires=Thu, 05-Jun-25 11:05:53 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=ujrb3Z2ZQVhYE4CCwSGjnRxQd36du.B..sVV4_TN300-1749120184-1.0.1.1-T53RWrQ5bCKVzOxKuDCFNlQJXImiiqN0QZXK0oiZBU.bUJBLoJv_lC6c8yFT49il6ssk7KZ.H4EdM6sQf0ZRih4Vx0uRXkGeG_VT41WcjrQ;
+        path=/; expires=Thu, 05-Jun-25 11:13:04 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=VxbxirD_mUfJoza_SsFHaw257hvuwsOqM26iK4qmbAs-1749119753779-0.0.1.1-604800000;
+      - _cfuvid=cFM88k4OoE4ucbQlgCVpfZ3rieibSZM4n2s654jtsEI-1749120184713-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       X-Content-Type-Options:
       - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 94af0696ffa0ec95-MAD
+      - 94af111ae842f77d-MAD
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJFcWh3VWo2WElWWUVONzFHWW5QZkRQ
-        NHRjTSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc0OTExOTc1MiwKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
+        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJMbkR3emF1OFB4cXBWSG53T2djRGhK
+        V3NWZCIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc0OTEyMDE4MywKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
         MjUtMDQtMTQiLAogICJjaG9pY2VzIjogWwogICAgewogICAgICAiaW5kZXgi
         OiAwLAogICAgICAibWVzc2FnZSI6IHsKICAgICAgICAicm9sZSI6ICJhc3Np
         c3RhbnQiLAogICAgICAgICJjb250ZW50IjogIntcbiAgXCJjb250ZXh0XCI6
@@ -237,14 +237,14 @@ http_interactions:
         b3AiCiAgICB9CiAgXSwKICAidXNhZ2UiOiB7CiAgICAicHJvbXB0X3Rva2Vu
         cyI6IDE1NzQsCiAgICAiY29tcGxldGlvbl90b2tlbnMiOiA0MCwKICAgICJ0
         b3RhbF90b2tlbnMiOiAxNjE0LAogICAgInByb21wdF90b2tlbnNfZGV0YWls
-        cyI6IHsKICAgICAgImNhY2hlZF90b2tlbnMiOiAxNDA4LAogICAgICAiYXVk
-        aW9fdG9rZW5zIjogMAogICAgfSwKICAgICJjb21wbGV0aW9uX3Rva2Vuc19k
-        ZXRhaWxzIjogewogICAgICAicmVhc29uaW5nX3Rva2VucyI6IDAsCiAgICAg
-        ICJhdWRpb190b2tlbnMiOiAwLAogICAgICAiYWNjZXB0ZWRfcHJlZGljdGlv
-        bl90b2tlbnMiOiAwLAogICAgICAicmVqZWN0ZWRfcHJlZGljdGlvbl90b2tl
-        bnMiOiAwCiAgICB9CiAgfSwKICAic2VydmljZV90aWVyIjogImRlZmF1bHQi
-        LAogICJzeXN0ZW1fZmluZ2VycHJpbnQiOiAiZnBfMzgzNDNhMmY4ZiIKfQo=
-  recorded_at: Thu, 05 Jun 2025 10:35:53 GMT
+        cyI6IHsKICAgICAgImNhY2hlZF90b2tlbnMiOiAwLAogICAgICAiYXVkaW9f
+        dG9rZW5zIjogMAogICAgfSwKICAgICJjb21wbGV0aW9uX3Rva2Vuc19kZXRh
+        aWxzIjogewogICAgICAicmVhc29uaW5nX3Rva2VucyI6IDAsCiAgICAgICJh
+        dWRpb190b2tlbnMiOiAwLAogICAgICAiYWNjZXB0ZWRfcHJlZGljdGlvbl90
+        b2tlbnMiOiAwLAogICAgICAicmVqZWN0ZWRfcHJlZGljdGlvbl90b2tlbnMi
+        OiAwCiAgICB9CiAgfSwKICAic2VydmljZV90aWVyIjogImRlZmF1bHQiLAog
+        ICJzeXN0ZW1fZmluZ2VycHJpbnQiOiAiZnBfMzgzNDNhMmY4ZiIKfQo=
+  recorded_at: Thu, 05 Jun 2025 10:43:04 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -415,7 +415,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 05 Jun 2025 10:35:54 GMT
+      - Thu, 05 Jun 2025 10:43:05 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -427,11 +427,11 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '492'
+      - '711'
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '499'
+      - '713'
       X-Ratelimit-Limit-Requests:
       - '500'
       X-Ratelimit-Limit-Tokens:
@@ -439,37 +439,37 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '499'
       X-Ratelimit-Remaining-Tokens:
-      - '198457'
+      - '198458'
       X-Ratelimit-Reset-Requests:
       - 120ms
       X-Ratelimit-Reset-Tokens:
       - 462ms
       X-Request-Id:
-      - req_f583137e30ae136fe16070ed326330a4
+      - req_05c54793f444b000fceab7662a347659
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=5U9g20XB_7N2L1tMYxNE.CERP2y_C5Or.E5CUNK4Kys-1749119754-1.0.1.1-O2KARH.hIdTAfoY0b8iUBYOSzzSBZ.0TmN_js0BrK9oNODVOh0kZ1jUFK21J73NDwSk_j7TV7YumZj3DM7.ueAb9wMO1CXNTUElsgSCDfZo;
-        path=/; expires=Thu, 05-Jun-25 11:05:54 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=B_158Ro_ybMuDvMnpTvLWHvkBXShTFmeOXSD6RJ1zXA-1749120185-1.0.1.1-Ec516mzyp9VZ.nuF4Jn0MLMQA2J9nUCnIG_cA14lsby0yK5laI1d17ugyU.qYrbhHSBuyutE_rTFuJ61Ekw25Cs2ll_j4gChF74Rl3bgjo4;
+        path=/; expires=Thu, 05-Jun-25 11:13:05 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=62cIxzBH4XnOFtme9AKOfQSQ5COdZSV2O.fVEeHGYe4-1749119754620-0.0.1.1-604800000;
+      - _cfuvid=9EPoQdFEr1qt.xV5Hn7mK4YFtONQYQsIsGAm5Tmw_QU-1749120185836-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       X-Content-Type-Options:
       - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 94af069d7acb2160-MAD
+      - 94af1122dbce026a-MAD
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJFc2tMd0dLdWhjREVocVNOeE1PeTlT
-        dXdPVSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc0OTExOTc1NCwKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
+        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJMb1ZxSmZ6bEZOak9iS3Flc0Z5dTVT
+        d29KSCIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc0OTEyMDE4NCwKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
         MjUtMDQtMTQiLAogICJjaG9pY2VzIjogWwogICAgewogICAgICAiaW5kZXgi
         OiAwLAogICAgICAibWVzc2FnZSI6IHsKICAgICAgICAicm9sZSI6ICJhc3Np
         c3RhbnQiLAogICAgICAgICJjb250ZW50IjogIntcbiAgXCJjb250ZXh0XCI6
@@ -488,7 +488,7 @@ http_interactions:
         dGVkX3ByZWRpY3Rpb25fdG9rZW5zIjogMAogICAgfQogIH0sCiAgInNlcnZp
         Y2VfdGllciI6ICJkZWZhdWx0IiwKICAic3lzdGVtX2ZpbmdlcnByaW50Ijog
         ImZwXzM4MzQzYTJmOGYiCn0K
-  recorded_at: Thu, 05 Jun 2025 10:35:54 GMT
+  recorded_at: Thu, 05 Jun 2025 10:43:05 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -660,7 +660,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 05 Jun 2025 10:35:56 GMT
+      - Thu, 05 Jun 2025 10:43:06 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -672,11 +672,11 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '781'
+      - '794'
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '786'
+      - '797'
       X-Ratelimit-Limit-Requests:
       - '500'
       X-Ratelimit-Limit-Tokens:
@@ -690,31 +690,31 @@ http_interactions:
       X-Ratelimit-Reset-Tokens:
       - 464ms
       X-Request-Id:
-      - req_75ba5e458d79097e160b44d8e06ec536
+      - req_a08fda4697afed4ab9f29009c997ba00
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=mop1ddbtyX769KvlUkQqiCBUcW9ozLos6xHCtvYDx0A-1749119756-1.0.1.1-Qx9yu56SGLI2_UF17LJk.jiXMQ0Kbt5LxmCCIgjYwHrIvPrusmjwO058etb8gGqUcdjZ7dTzdo7BLn9Yf_zfOaDtVokbCTeNv6G1t9jJjhk;
-        path=/; expires=Thu, 05-Jun-25 11:05:56 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=2o56QAH7G_znZgf5otYAFkLSMZWA9knhX8KDPhqRIn0-1749120186-1.0.1.1-Q8Xb7TgZroPH9YxGUp9Oe7mXcQGlW3UCfpw1dtCU.V_FSXhScCJVtaiEhe1uRLW0f8ISqSFshf_4egt0hJoQgWygCTo0uB5zKWj4jMsbK58;
+        path=/; expires=Thu, 05-Jun-25 11:13:06 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=XIHed.7QbQ0MYtusREUUk3UhWXSohTsgMbOrzRQVMpM-1749119756039-0.0.1.1-604800000;
+      - _cfuvid=HpnSTclPq7Vy35bEED5OValf4GafDhXJVDxD.QyBIBw-1749120186982-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       X-Content-Type-Options:
       - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 94af06a2bba0f767-MAD
+      - 94af1129ccd2038d-MAD
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJFdHhGcnc1VnF1ZWtSMERSTHdCeGRo
-        STFwUSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc0OTExOTc1NSwKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
+        ewogICJpZCI6ICJjaGF0Y21wbC1CZjJMcUlGcm1RV1hPd0k3UkNTcGFPTXhU
+        blJtbiIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc0OTEyMDE4NiwKICAibW9kZWwiOiAiZ3B0LTQuMS1uYW5vLTIw
         MjUtMDQtMTQiLAogICJjaG9pY2VzIjogWwogICAgewogICAgICAiaW5kZXgi
         OiAwLAogICAgICAibWVzc2FnZSI6IHsKICAgICAgICAicm9sZSI6ICJhc3Np
         c3RhbnQiLAogICAgICAgICJjb250ZW50IjogIntcbiAgXCJjb250ZXh0XCI6
@@ -733,5 +733,5 @@ http_interactions:
         bl90b2tlbnMiOiAwLAogICAgICAicmVqZWN0ZWRfcHJlZGljdGlvbl90b2tl
         bnMiOiAwCiAgICB9CiAgfSwKICAic2VydmljZV90aWVyIjogImRlZmF1bHQi
         LAogICJzeXN0ZW1fZmluZ2VycHJpbnQiOiAiZnBfMzgzNDNhMmY4ZiIKfQo=
-  recorded_at: Thu, 05 Jun 2025 10:35:55 GMT
+  recorded_at: Thu, 05 Jun 2025 10:43:06 GMT
 recorded_with: VCR 6.3.1
