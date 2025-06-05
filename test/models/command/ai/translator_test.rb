@@ -3,8 +3,6 @@ require "test_helper"
 class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   include VcrTestHelper
 
-  vcr_record!
-
   setup do
     @user= users(:david)
   end
