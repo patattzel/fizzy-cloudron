@@ -9,16 +9,21 @@ class Card::StallableTest < ActiveSupport::TestCase
 
   test "a card without activity spike is not stalled" do
     assert_not cards(:logo).stalled?
+    assert_not_includes Card.stalled, cards(:logo)
   end
 
   test "a card with a recent activity spike is not stalled" do
     cards(:logo).create_activity_spike!
+
     assert_not cards(:logo).stalled?
+    assert_not_includes Card.stalled, cards(:logo)
   end
 
   test "a card with an old activity spike is stalled" do
     cards(:logo).create_activity_spike!(updated_at: 3.months.ago)
+
     assert cards(:logo).stalled?
+    assert_includes Card.stalled, cards(:logo)
   end
 
   # More fine-grained testing in Card::ActivitySpike::Detector
@@ -28,5 +33,6 @@ class Card::StallableTest < ActiveSupport::TestCase
 
     travel_to 1.month.from_now
     assert cards(:logo).reload.stalled?
+    assert_includes Card.stalled, cards(:logo)
   end
 end
