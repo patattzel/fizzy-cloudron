@@ -1,1 +1,21 @@
-<%= render "entropy/auto_close", model: @account.default_entropy_configuration, url: account_entropy_configuration_path %>
+<% @page_title = "Account Settings" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to_back fallback_path: root_path %>
+
+    <header class="center">
+      <h1 class="txt-large margin-none"><%= @page_title %></h1>
+    </header>
+
+    <%= link_to workflows_path, class: "btn flex-item-justify-end" do %>
+      <%= icon_tag "bolt" %>
+      <span class="for-screen-reader">Workflows</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<section class="panels--two-up margin-block">
+  <%= render "accounts/settings/users", users: @users %>
+  <%= render "accounts/settings/entropy_configuration", account: @account %>
+</section>

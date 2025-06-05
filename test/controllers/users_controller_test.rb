@@ -1,14 +1,6 @@
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  test "index" do
-    sign_in_as :kevin
-
-    get users_path
-    assert_in_body users(:david).name
-    assert_in_body users(:kevin).name
-  end
-
   test "new" do
     get new_user_path(params: { join_code: "bad" })
     assert_response :forbidden

@@ -1,14 +1,9 @@
 class UsersController < ApplicationController
-  include UserTimelineScoped
   require_unauthenticated_access only: %i[ new create ]
 
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :ensure_join_code_is_valid, only: %i[ new create ]
   before_action :ensure_permission_to_change_user, only:  %i[ update destroy ]
-
-  def index
-    @users = User.active
-  end
 
   def new
     @user = User.new
@@ -21,6 +16,11 @@ class UsersController < ApplicationController
   end
 
   def edit
+  end
+
+  def show
+    @filter = Current.user.filters.new(creator_ids: [ @user.id ])
+    @day_timeline = Current.user.timeline_for(Time.current, filter: @filter)
   end
 
   def update

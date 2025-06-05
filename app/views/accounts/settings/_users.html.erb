@@ -1,0 +1,7 @@
+<div class="panel shadow center flex flex-column">
+  <strong class="divider txt-large margin-block-end">People on the account</strong>
+  <%= render "accounts/invite" %>
+  <div class="flex flex-column gap margin-block-start">
+    <%= render partial: "accounts/user", collection: users %>
+  </div>
+</div>
