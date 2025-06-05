@@ -27,7 +27,7 @@ class Card::ActivitySpike::Detector
       end
     end
 
-    def multiple_people_commented?
+    def multiple_people_commented?(minimum_comments: 3, minimum_participants: 2)
       card.comments
         .where("created_at >= ?", recent_period.seconds.ago)
         .group(:card_id)
@@ -38,14 +38,6 @@ class Card::ActivitySpike::Detector
 
     def recent_period
       card.entropy.auto_clean_period * 0.33
-    end
-
-    def minimum_participants
-      2
-    end
-
-    def minimum_comments
-      3
     end
 
     def card_was_just_assigned?
