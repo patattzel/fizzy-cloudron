@@ -23,7 +23,7 @@ class Card < ApplicationRecord
     when "newest"  then reverse_chronologically
     when "oldest"  then chronologically
     when "latest"  then latest
-    when "stalled" then chronologically
+    when "stalled" then stalled.chronologically
     when "closed"  then closed
     end
   end
