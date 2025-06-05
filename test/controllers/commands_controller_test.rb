@@ -44,7 +44,7 @@ class CommandsControllerTest < ActionDispatch::IntegrationTest
 
     json = JSON.parse(response.body)
     assert_match /Close 2 cards/, json["confirmation"]
-    assert_equal cards_path(assignee_ids: [users(:jz)]), json["redirect_to"]
+    assert_equal cards_path(assignee_ids: [ users(:jz) ]), json["redirect_to"]
   end
 
   test "get insight" do

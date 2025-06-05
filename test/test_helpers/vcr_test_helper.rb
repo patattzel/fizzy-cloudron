@@ -35,6 +35,6 @@ module VcrTestHelper
   end
 
   def without_vcr_body_matching(&block)
-    VCR.use_cassette("#{@casette_name}_without_body", match_requests_on: [:method, :uri], &block)
+    VCR.use_cassette("#{@casette_name}_without_body", match_requests_on: [ :method, :uri ], &block)
   end
 end

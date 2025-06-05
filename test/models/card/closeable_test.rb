@@ -6,7 +6,7 @@ class Card::CloseableTest < ActiveSupport::TestCase
   end
 
   test "closed scope" do
-    assert_equal [cards(:shipping)], Card.closed
+    assert_equal [ cards(:shipping) ], Card.closed
     assert_not_includes Card.open, cards(:shipping)
   end
 
