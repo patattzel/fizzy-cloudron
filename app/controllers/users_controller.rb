@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  include UserTimelineScoped
   require_unauthenticated_access only: %i[ new create ]
 
   before_action :set_user, only: %i[ show edit update destroy ]
@@ -17,6 +16,11 @@ class UsersController < ApplicationController
   end
 
   def edit
+  end
+
+  def show
+    @filter = Current.user.filters.new(creator_ids: [ @user.id ])
+    @day_timeline = Current.user.timeline_for(Time.current, filter: @filter)
   end
 
   def update
