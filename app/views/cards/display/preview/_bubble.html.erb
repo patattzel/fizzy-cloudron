@@ -2,7 +2,8 @@
       data: {
             controller: "bubble",
             action: "turbo:morph-element->bubble#update",
-            bubble_entropy_value: entropy_bubble_options_for(card).to_json
+            bubble_entropy_value: entropy_bubble_options_for(card).to_json,
+            bubble_stalled_value: stalled_bubble_options_for(card).to_json
       } do %>
 
   <div data-bubble-target="entropy">
@@ -25,5 +26,6 @@
   </div>
 
   <div data-bubble-target="stalled">
+    😴
   </div>
 <% end %>

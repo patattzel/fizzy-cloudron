@@ -11,6 +11,15 @@ module EntropyHelper
     }
   end
 
+  def stalled_bubble_options_for(card)
+    if card.last_activity_spike_at
+      {
+        stalledAfterDays: Card::Stallable::STALLED_AFTER_LAST_SPIKE_PERIOD.in_days.to_i,
+        lastActivitySpikeAt: card.last_activity_spike_at.iso8601
+      }
+    end
+  end
+
   def card_entropy_action(card)
     if card.doing?
       "Falls Back"
