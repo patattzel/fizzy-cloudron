@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Colored, Engageable, Entropy, Eventable,
+  include Assignable, Colored, Engageable, Entropic, Eventable,
     Golden, Mentions, Pinnable, Closeable, Readable, Searchable,
     Staged, Statuses, Taggable, Watchable
 

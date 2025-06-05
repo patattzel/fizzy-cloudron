@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_01_161653) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_04_080022) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -141,13 +141,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_01_161653) do
 
   create_table "collections", force: :cascade do |t|
     t.boolean "all_access", default: false, null: false
-    t.bigint "auto_close_period"
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.integer "workflow_id"
-    t.index ["auto_close_period"], name: "index_collections_on_auto_close_period"
     t.index ["creator_id"], name: "index_collections_on_creator_id"
     t.index ["workflow_id"], name: "index_collections_on_workflow_id"
   end
@@ -186,6 +184,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_01_161653) do
     t.integer "filter_id", null: false
     t.index ["creator_id"], name: "index_creators_filters_on_creator_id"
     t.index ["filter_id"], name: "index_creators_filters_on_filter_id"
+  end
+
+  create_table "entropy_configurations", force: :cascade do |t|
+    t.bigint "auto_close_period", default: 2592000, null: false
+    t.bigint "auto_reconsider_period", default: 2592000, null: false
+    t.integer "container_id", null: false
+    t.string "container_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["container_type", "container_id", "auto_close_period"], name: "idx_on_container_type_container_id_auto_close_perio_74dc880875"
+    t.index ["container_type", "container_id", "auto_reconsider_period"], name: "idx_on_container_type_container_id_auto_reconsider__583aaddbea"
+    t.index ["container_type", "container_id"], name: "index_entropy_configurations_on_container", unique: true
   end
 
   create_table "events", force: :cascade do |t|

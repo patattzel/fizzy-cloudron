@@ -2,12 +2,7 @@ module Collection::AutoClosing
   extend ActiveSupport::Concern
 
   included do
-    scope :auto_closing, -> { where.not(auto_close_period: nil) }
     before_create :set_default_auto_close_period
-  end
-
-  def auto_closing?
-    auto_close_period.present?
   end
 
   private

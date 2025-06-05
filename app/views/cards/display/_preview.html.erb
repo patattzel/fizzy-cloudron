@@ -1,4 +1,4 @@
-<% cache [ card, card.collection.workflow ] do %>
+<% cache cacheable_preview_parts_for(card) do %>
   <%= card_article_tag card, class: "card" do %>
     <div class="flex gap">
       <div class="flex flex-column flex-item-grow">
@@ -29,7 +29,7 @@
 
     <%= render "cards/display/common/background", card: card %>
 
-    <% if card.subject_to_entropy? %>
+    <% if card.entropic? %>
       <%= render "cards/display/preview/bubble", card: card %>
     <% end %>
   <% end %>
