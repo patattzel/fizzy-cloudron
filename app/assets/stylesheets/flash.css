@@ -1,10 +1,11 @@
 @layer components {
   .flash {
     display: flex;
-    inline-size: 100%;
-    inset: var(--block-space) auto auto auto;
+    inset-block-start: var(--block-space);
+    inset-inline-start: 50%;
     justify-content: center;
     position: fixed;
+    transform: translate(-50%);
     z-index: 6;
   }
 
