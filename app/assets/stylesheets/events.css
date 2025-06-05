@@ -143,10 +143,17 @@
     }
 
     .card__collection {
-      border-end-end-radius: 0.3em;
-      font-size: var(--text-xx-small);
-      margin: -1.2em auto 0.8em -1.2em;
-      padding-block: 0.6em;
+      background-color: transparent;
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      font-size: 0.7em;
+      margin:  calc(var(--panel-padding) * -0.5) 0 var(--panel-padding) var(--panel-padding);
+      padding: 0;
+    }
+
+    .card__collection-name {
+      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      margin: 0 0 0 calc(var(--inline-space) * 0.75);
     }
   }
 
@@ -202,17 +209,14 @@
   }
 
   .event__icon {
-    background-color: var(--card-color);
-    border-end-start-radius: 0.3em;
     display: grid;
-    font-size: var(--text-xx-small);
-    margin: -1.2em -1.2em 0.8em auto;
-    padding: 0.6em 0.9em 0.6em 0.7em;
+    margin: -0.3em -0.3em auto auto;
     place-content: center;
 
     .icon {
-      block-size: 1.4em;
-      inline-size: 1.4em;
+      background-color: var(--card-color);
+      block-size: 1em;
+      inline-size: 1em;
       grid-area: 1 / 1;
     }
   }
