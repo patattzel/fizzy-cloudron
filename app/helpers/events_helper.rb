@@ -19,7 +19,7 @@ module EventsHelper
       {
         title: "Updated",
         index: 2,
-        events: day_timeline.events.where.not(action: [ "card_published", "card_closed" ])
+        events: day_timeline.events.where.not(action: [ "card_published", "card_closed", "card_reopened" ])
       }
     end
   end
