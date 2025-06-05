@@ -1,4 +1,4 @@
-<div class="flex align-center gap-half pad-inline">
+<li class="flex align-center gap-half pad-inline" data-filter-target="item" data-value="<%= user.name.downcase %>">
   <%= avatar_tag user, class: "flex-item-no-shrink" %>
 
   <strong class="overflow-ellipsis">
@@ -22,4 +22,4 @@
     <%= icon_tag "minus" %>
     <span class="for-screen-reader">Remove <%= user.name %> from the account</span>
   <% end %>
-</div>
+</li>
