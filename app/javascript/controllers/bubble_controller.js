@@ -5,7 +5,7 @@ const REFRESH_INTERVAL = 3_600_000 // 1 hour (in milliseconds)
 
 export default class extends Controller {
   static targets = [ "top", "days", "bottom" ]
-  static values = { "closesAt": String, "reminderBefore": Number, "entropyAction": String }
+  static values = { entropy: Object }
 
   #timer
 
@@ -19,14 +19,14 @@ export default class extends Controller {
   }
 
   update() {
-    const closesInDays = signedDifferenceInDays(new Date(), new Date(this.closesAtValue))
+    const closesInDays = signedDifferenceInDays(new Date(), new Date(this.entropyValue.closesAt))
 
-    if (closesInDays > this.reminderBeforeValue) {
+    if (closesInDays > this.entropyValue.daysBeforeReminder) {
       this.#hide()
       return
     }
 
-    this.topTarget.innerHTML = closesInDays < 1 ? this.entropyActionValue : `${this.entropyActionValue} in`
+    this.topTarget.innerHTML = closesInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`
     this.daysTarget.innerHTML = closesInDays < 1 ? "!" : closesInDays
     this.bottomTarget.innerHTML = closesInDays < 1 ? "Today" : (closesInDays === 1 ? "day" : "days")
 
