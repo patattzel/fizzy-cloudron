@@ -133,6 +133,12 @@
       }
     }
 
+    @media (max-width: 799px) {
+      .tray__dialog:not([open]) ~ & {
+        opacity: 0 !important;
+      }
+    }
+
     @media (prefers-color-scheme: dark) {
       .btn--reversed {
         color: var(--color-ink);
@@ -264,15 +270,6 @@
   .tray--pins {
     inset-inline: var(--tray-margin) auto;
 
-    /* Don't expand if there's only one pin */
-    .tray__dialog:has(.tray__item:only-child) {
-      pointer-events: unset;
-
-      ~ .tray__expander {
-        display: none;
-      }
-    }
-
     .tray__item {
       --tray-item-z: calc(10 - var(--tray-item-index));
 
@@ -327,6 +324,17 @@
 
     .card__bubble {
       display: none;
+    }
+
+    /* Don't expand if there's only one pin on large viewports */
+    @media (min-width: 800px) {
+      .tray__dialog:has(.tray__item:only-child) {
+        pointer-events: unset;
+
+        ~ .tray__expander {
+          display: none;
+        }
+      }
     }
 
     @media (max-width: 799px) {
