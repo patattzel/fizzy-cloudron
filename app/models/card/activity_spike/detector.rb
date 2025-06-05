@@ -7,12 +7,7 @@ class Card::ActivitySpike::Detector
 
   def detect
     if has_activity_spike?
-      if card.activity_spike
-        card.activity_spike.touch
-      else
-        card.create_activity_spike!
-      end
-
+      register_activity_spike
       true
     else
       false
@@ -22,6 +17,14 @@ class Card::ActivitySpike::Detector
   private
     def has_activity_spike?
       card.entropic? && (multiple_people_commented? || card_was_just_assigned?)
+    end
+
+    def register_activity_spike
+      if card.activity_spike
+        card.activity_spike.touch
+      else
+        card.create_activity_spike!
+      end
     end
 
     def multiple_people_commented?
