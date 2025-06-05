@@ -131,15 +131,29 @@
     --column-gap: 0.7ch;
     --panel-border-color: transparent;
     --panel-border-radius: 0.2em;
-    --panel-padding: 0.6em 1.2em 0.6em 0.6em;
+    --panel-padding: 0.6em;
     --panel-size: auto;
 
     margin: var(--inline-space);
+    overflow: clip;
     position: relative;
-    /* z-index: 1; */
 
     @media (max-width: 639px) {
       --panel-size: 100%;
+    }
+
+    .card__collection {
+      background-color: transparent;
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      font-size: 0.7em;
+      margin:  calc(var(--panel-padding) * -0.5) 0 var(--panel-padding) var(--panel-padding);
+      padding: 0;
+    }
+
+    .card__collection-name {
+      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      margin: 0 0 0 calc(var(--inline-space) * 0.75);
     }
   }
 
@@ -194,6 +208,19 @@
     text-transform: uppercase;
   }
 
+  .event__icon {
+    display: grid;
+    margin: -0.3em -0.3em auto auto;
+    place-content: center;
+
+    .icon {
+      background-color: var(--card-color);
+      block-size: 1em;
+      inline-size: 1em;
+      grid-area: 1 / 1;
+    }
+  }
+
   .event__timestamp {
     align-self: start;
     display: grid;
@@ -206,22 +233,5 @@
 
     font-size: 1.1em;
     line-height: 1.2;
-  }
-
-  .event__icon {
-    aspect-ratio: 1;
-    background-color: var(--card-color);
-    block-size: 1.7em;
-    border-radius: 1.7em;
-    inline-size: 1.7em;
-    display: grid;
-    place-content: center;
-    margin-inline-end: -0.75em;
-
-    .icon {
-      block-size: 1.1em;
-      inline-size: 1.1em;
-      grid-area: 1 / 1;
-    }
   }
 }

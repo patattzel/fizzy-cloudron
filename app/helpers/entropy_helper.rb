@@ -1,6 +1,6 @@
 module EntropyHelper
   def entropy_auto_close_options
-    [ 3, 7, 11, 30, 90, 365 ]
+    [ 3, 7, 30, 90, 365, 11 ]
   end
 
   def entropy_bubble_options_for(card)
