@@ -4,24 +4,24 @@
   <div class="flex flex-column full-width" style="flex-basis: 48%">
     <strong>Cards in Considering</strong>
     <p class="txt-x-small margin-none-block-start">Auto-close after…</p>
-    <%= form_with model: model, url: url || collection_path(model), data: { controller: "form" } do |form| %>
-      <%= render "entropy/knob", 
-          knob_options: collection_auto_close_options.map(&:first).map(&:to_i), 
-          label: "Days until auto-close",
-          period: model.auto_close_period,
-          field_name: url ? "entropy_configuration[auto_close_period]" : "collection[auto_close_period]" %>
+    <%= form_with model: model, url: url, data: { controller: "form" } do |form| %>
+      <%= render "entropy/knob",
+            form: form,
+            name: :auto_close_period,
+            knob_options: collection_auto_close_options.map(&:first).map(&:to_i),
+            label: "Days until auto-close" %>
     <% end %>
   </div>
   <div class="separator margin-block-half" style="--border-color: var(--color-ink-light); min-block-size: 3lh;"></div>
   <div class="flex flex-column full-width" style="flex-basis: 48%">
     <strong>Cards in Doing</strong>
     <p class="txt-x-small margin-none-block-start">Fall back to Considering after…</p>
-    <%= form_with model: model, url: url || collection_path(model), data: { controller: "form" } do |form| %>
-      <%= render "entropy/knob", 
-          knob_options: collection_auto_close_options.map(&:first).map(&:to_i), 
-          label: "Days until auto-close",
-          period: model.auto_reconsider_period,
-          field_name: url ? "entropy_configuration[auto_reconsider_period]" : "collection[auto_reconsider_period]" %>
+    <%= form_with model: model, url: url, data: { controller: "form" } do |form| %>
+      <%= render "entropy/knob",
+            form: form,
+            name: :auto_reconsider_period,
+            knob_options: collection_auto_close_options.map(&:first).map(&:to_i),
+            label: "Days until auto-close" %>
     <% end %>
   </div>
 </div>

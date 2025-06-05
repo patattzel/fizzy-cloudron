@@ -1,42 +1,33 @@
-<% 
-  name = label.parameterize
-  default_index = if period
-    knob_options.index(period.to_i / 1.day)
-  else
-    knob_options.index(Entropy::Configuration.default.auto_close_period.to_i / 1.day)
-  end
+<%
+  period = form.object.send(name)
+  current_index = knob_options.index(period.to_i / 1.day)
 %>
 
-<fieldset class="knob" data-controller="knob" data-knob-target="field" style="--knob-options: <%= knob_options.length %>; --knob-index: <%= default_index %>;">
-
-  <div class="position-relative" role="radiogroup" aria-labelledby="<%= name %>">
-    <% knob_options.each_with_index do |value, i| %>
-      <label class="knob__option" style="--i: <%= i %>">
-        <input
-          <%= "checked" if value == knob_options[default_index] %>
-          data-action="change->knob#optionChanged change->form#submit"
-          data-index="<%= i %>"
-          data-knob-target="option"
-          name="<%= field_name %>"
-          type="radio"
-          value="<%= value.days %>"
-        />
+<fieldset class="knob" data-controller="knob" data-knob-target="field" style="--knob-options: <%= knob_options.length %>; --knob-index: <%= current_index %>">
+  <div class="position-relative" role="radiogroup" aria-labelledby="<%= dom_id(form.object, name) %>">
+    <% knob_options.each_with_index do |value, index| %>
+      <label class="knob__option" style="--i: <%= index %>">
+        <%= form.radio_button name,
+              value.days,
+              data: {
+                action: "change->knob#optionChanged change->form#submit",
+                index: index,
+                knob_target: "option"
+              } %>
         <span><%= value %></span>
       </label>
     <% end %>
-    <input
-      aria-hidden
-      class="knob__slider"
-      data-action="input->knob#sliderChanged change->form#submit"
-      data-knob-target="slider"
-      max="<%= knob_options.length - 1 %>"
-      min="0"
-      type="range"
-      value="<%= default_index %>"
-    />
+
+    <%= form.range_field :slider,
+          class: "knob__slider",
+          data: { action: "input->knob#sliderChanged change->form#submit", knob_target: "slider" },
+          "aria-hidden": true,
+          max: knob_options.length - 1,
+          min: 0
+    %>
 
     <div class="knob__knob" aria-hidden></div>
   </div>
 
-  <div id="<%= name %>" class="knob__label">Days</div>
+  <div id="<%= dom_id(form.object, name) %>" class="knob__label">Days</div>
 </fieldset>
