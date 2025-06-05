@@ -37,7 +37,7 @@ module Mentions
     end
 
     def mentionable_content_changed?
-      rich_text_associations.any? { send(it.name).body_previously_changed? }
+      rich_text_associations.any? { send(it.name)&.body_previously_changed? }
     end
 
     def create_mentions_later
