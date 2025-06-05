@@ -106,7 +106,7 @@ module EventsHelper
     when "card_assigned"
       "assigned"
     when "card_unassigned"
-      "remove-med"
+      "minus"
     when "card_staged"
       "bolt"
     when "card_unstaged"
