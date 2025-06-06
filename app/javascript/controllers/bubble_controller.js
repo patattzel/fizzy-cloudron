@@ -4,7 +4,7 @@ import { signedDifferenceInDays } from "helpers/date_helpers"
 const REFRESH_INTERVAL = 3_600_000 // 1 hour (in milliseconds)
 
 export default class extends Controller {
-  static targets = [ "entropy", "entropyTop", "entropyCenter", "entropyBottom", "stalled", "stalledTop", "stalledCenter", "stalledBottom" ]
+  static targets = [ "entropy", "stalled", "top", "center", "bottom" ]
   static values = { entropy: Object, stalled: Object }
 
   #timer
@@ -39,21 +39,16 @@ export default class extends Controller {
 
   #showEntropy() {
     this.#render({
-      target: "entropy",
       top: this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`,
       center: this.#entropyCleanupInDays < 1 ? "!" : this.#entropyCleanupInDays,
       bottom: this.#entropyCleanupInDays < 1 ? "Today" : (this.#entropyCleanupInDays === 1 ? "day" : "days"),
     })
   }
 
-  #render({ target, top, center, bottom }) {
-    this[`${target}TopTarget`].innerHTML = top
-    this[`${target}CenterTarget`].innerHTML = center
-    this[`${target}BottomTarget`].innerHTML = bottom
-
-    const entropyTarget = target === "entropy"
-    this.entropyTarget.toggleAttribute("hidden", !entropyTarget)
-    this.stalledTarget.toggleAttribute("hidden", entropyTarget)
+  #render({ top, center, bottom }) {
+    this.topTarget.innerHTML = top
+    this.centerTarget.innerHTML = center
+    this.bottomTarget.innerHTML = bottom
 
     this.#show()
   }
@@ -64,7 +59,6 @@ export default class extends Controller {
 
   #showStalled() {
     this.#render({
-      target: "stalled",
       top: "Stalled for",
       center: signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date()),
       bottom: "days"
