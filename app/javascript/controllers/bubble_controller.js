@@ -4,7 +4,7 @@ import { signedDifferenceInDays } from "helpers/date_helpers"
 const REFRESH_INTERVAL = 3_600_000 // 1 hour (in milliseconds)
 
 export default class extends Controller {
-  static targets = [ "entropy", "top", "center", "bottom", "stalled" ]
+  static targets = [ "entropy", "entropyTop", "entropyCenter", "entropyBottom", "stalled", "stalledTop", "stalledCenter", "stalledBottom" ]
   static values = { entropy: Object, stalled: Object }
 
   #timer
@@ -47,9 +47,9 @@ export default class extends Controller {
   }
 
   #render({ target, top, center, bottom }) {
-    this.topTarget.innerHTML = top
-    this.centerTarget.innerHTML = center
-    this.bottomTarget.innerHTML = bottom
+    this[`${target}TopTarget`].innerHTML = top
+    this[`${target}CenterTarget`].innerHTML = center
+    this[`${target}BottomTarget`].innerHTML = bottom
 
     const entropyTarget = target === "entropy"
     this.entropyTarget.toggleAttribute("hidden", !entropyTarget)
