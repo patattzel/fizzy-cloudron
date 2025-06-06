@@ -4,8 +4,8 @@ import { signedDifferenceInDays } from "helpers/date_helpers"
 const REFRESH_INTERVAL = 3_600_000 // 1 hour (in milliseconds)
 
 export default class extends Controller {
-  static targets = [ "top", "days", "bottom" ]
-  static values = { "closesAt": String, "reminderBefore": Number, "entropyAction": String }
+  static targets = [ "entropy", "stalled", "top", "center", "bottom" ]
+  static values = { entropy: Object, stalled: Object }
 
   #timer
 
@@ -19,22 +19,54 @@ export default class extends Controller {
   }
 
   update() {
-    const closesInDays = signedDifferenceInDays(new Date(), new Date(this.closesAtValue))
-
-    if (closesInDays > this.reminderBeforeValue) {
+    if (this.#hasEntropy) {
+      this.#showEntropy()
+    } else if (this.#isStalled) {
+      this.#showStalled()
+    } else {
       this.#hide()
-      return
     }
+  }
 
-    this.topTarget.innerHTML = closesInDays < 1 ? this.entropyActionValue : `${this.entropyActionValue} in`
-    this.daysTarget.innerHTML = closesInDays < 1 ? "!" : closesInDays
-    this.bottomTarget.innerHTML = closesInDays < 1 ? "Today" : (closesInDays === 1 ? "day" : "days")
+  get #hasEntropy() {
+    return this.#entropyCleanupInDays < this.entropyValue.daysBeforeReminder
+  }
+
+  get #entropyCleanupInDays() {
+    this.entropyCleanupInDays ??= signedDifferenceInDays(new Date(), new Date(this.entropyValue.closesAt))
+    return this.entropyCleanupInDays
+  }
+
+  #showEntropy() {
+    this.#render({
+      top: this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`,
+      center: this.#entropyCleanupInDays < 1 ? "!" : this.#entropyCleanupInDays,
+      bottom: this.#entropyCleanupInDays < 1 ? "Today" : (this.#entropyCleanupInDays === 1 ? "day" : "days"),
+    })
+  }
+
+  #render({ top, center, bottom }) {
+    this.topTarget.innerHTML = top
+    this.centerTarget.innerHTML = center
+    this.bottomTarget.innerHTML = bottom
 
     this.#show()
   }
 
+  get #isStalled() {
+    return this.stalledValue.lastActivitySpikeAt && signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date()) > this.stalledValue.stalledAfterDays
+  }
+
+  #showStalled() {
+    this.#render({
+      top: "Stalled for",
+      center: signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date()),
+      bottom: "days"
+    })
+  }
+
   #hide() {
-    this.element.setAttribute("hidden", "")
+    this.element.toggleAttribute("hidden", true)
   }
 
   #show() {

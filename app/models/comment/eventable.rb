@@ -8,7 +8,7 @@ module Comment::Eventable
   end
 
   def event_was_created(event)
-    card.touch(:last_active_at)
+    card.touch_last_active_at
   end
 
   private
@@ -17,6 +17,6 @@ module Comment::Eventable
     end
 
     def track_creation
-      track_event("created", collection: card.collection)
+      track_event("created", collection: card.collection, creator: creator)
     end
 end

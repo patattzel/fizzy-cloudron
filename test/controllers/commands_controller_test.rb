@@ -48,14 +48,16 @@ class CommandsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "get insight" do
-    assert_difference -> { users(:kevin).commands.root.count }, +1 do
-      post commands_path, params: { command: "summarize this" }, headers: { "HTTP_REFERER" => card_path(cards(:logo)) }
+    without_vcr_body_matching do
+      assert_difference -> { users(:kevin).commands.root.count }, +1 do
+        post commands_path, params: { command: "summarize this" }, headers: { "HTTP_REFERER" => card_path(cards(:logo)) }
+      end
+
+      assert_response :accepted
+
+      json = JSON.parse(response.body)
+      assert_not_nil json["message"]
     end
-
-    assert_response :accepted
-
-    json = JSON.parse(response.body)
-    assert_not_nil json["message"]
   end
 
   test "get a 422 on errors" do

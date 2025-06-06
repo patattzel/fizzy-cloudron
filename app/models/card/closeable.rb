@@ -35,7 +35,12 @@ module Card::Closeable
     end
   end
 
-  def reopen
-    closure&.destroy
+  def reopen(user: Current.user)
+    if closed?
+      transaction do
+        closure&.destroy
+        track_event :reopened, creator: user
+      end
+    end
   end
 end

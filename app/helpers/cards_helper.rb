@@ -49,14 +49,6 @@ module CardsHelper
     title.join(" ")
   end
 
-  def card_entropy_action(card)
-    if card.doing?
-      "Falls Back"
-    elsif card.considering?
-      "Closes"
-    end
-  end
-
   def cacheable_preview_parts_for(card)
     [ card, card.collection.workflow, card.collection.entropy_configuration ]
   end

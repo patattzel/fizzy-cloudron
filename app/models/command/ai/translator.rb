@@ -54,7 +54,9 @@ class Command::Ai::Translator
         * **terms**: Array of keywords (split individually, e.g., ["some", "term"]). Avoid redundancy.
         * **indexed_by**: "newest", "oldest", "latest", "stalled", "closed".
           * "closed": completed cards.
-          * "newest": by creation date, "latest": by update date.
+          * "newest": by creation date
+          * "latest": by update date.
+          * "stalled": cards that stopped showing activity after an initial activity spike.
         * **assignee_ids**: Array of assignee names.
         * **assignment_status**: "unassigned".
         * **engagement_status**: "considering" or "doing".

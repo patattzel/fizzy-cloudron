@@ -12,6 +12,7 @@ module NotificationsHelper
 
     case event_notification_action(event)
     when "card_closed" then "Closed by #{name}"
+    when "card_reopened" then "Reopened by #{name}"
     when "card_published" then "Added by #{name}"
     when "comment_created" then comment_notification_body(event)
     else name

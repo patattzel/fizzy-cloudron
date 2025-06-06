@@ -37,6 +37,9 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
     assert_command({ context: { indexed_by: "newest" } }, "recent cards")
     assert_command({ context: { indexed_by: "latest" } }, "cards with recent activity")
+
+    assert_command({ context: { indexed_by: "stalled" } }, "stalled cards")
+    assert_command({ context: { indexed_by: "stalled" } }, "stagnated cards")
   end
 
   test "filter by card id" do

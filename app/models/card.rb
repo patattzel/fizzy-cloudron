@@ -1,7 +1,7 @@
 class Card < ApplicationRecord
   include Assignable, Colored, Engageable, Entropic, Eventable,
     Golden, Mentions, Pinnable, Closeable, Readable, Searchable,
-    Staged, Statuses, Taggable, Watchable
+    Staged, Stallable, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
@@ -23,7 +23,7 @@ class Card < ApplicationRecord
     when "newest"  then reverse_chronologically
     when "oldest"  then chronologically
     when "latest"  then latest
-    when "stalled" then chronologically
+    when "stalled" then stalled.chronologically
     when "closed"  then closed
     end
   end

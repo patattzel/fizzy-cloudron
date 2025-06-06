@@ -2,7 +2,7 @@ module EventsHelper
   def event_columns(event_type, day_timeline)
     case event_type
     when "added"
-      events = day_timeline.events.where(action: "card_published")
+      events = day_timeline.events.where(action: [ "card_published", "card_reopened" ])
       {
         title: events.count > 0 ? "Added (#{events.count})" : "Added",
         index: 1,
@@ -19,7 +19,7 @@ module EventsHelper
       {
         title: "Updated",
         index: 2,
-        events: day_timeline.events.where.not(action: [ "card_published", "card_closed" ])
+        events: day_timeline.events.where.not(action: [ "card_published", "card_closed", "card_reopened" ])
       }
     end
   end
@@ -28,7 +28,7 @@ module EventsHelper
     case event.action
     when "card_closed"
       3
-    when "card_published"
+    when "card_published", "card_reopened"
       1
     else
       2
@@ -84,6 +84,8 @@ module EventsHelper
       "#{ event_creator_name(event) } added <span style='color: var(--card-color)'>#{ title }</span>".html_safe
     when "card_closed"
       "#{ event_creator_name(event) } closed <span style='color: var(--card-color)'>#{ title }</span>".html_safe
+    when "card_reopened"
+      "#{ event_creator_name(event) } reopened <span style='color: var(--card-color)'>#{ title }</span>".html_safe
     when "card_staged"
       "#{event_creator_name(event)} moved <span style='color: var(--card-color)'>#{ title }</span> to the #{event.stage_name} stage".html_safe
     when "card_unstaged"
