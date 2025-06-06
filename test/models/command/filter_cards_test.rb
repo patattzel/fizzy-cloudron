@@ -16,6 +16,6 @@ class Command::FilterCardsTest < ActionDispatch::IntegrationTest
   test "respect existing filters" do
     result = execute_command "#{@card_ids.join(",")}", context_url: "http://37signals.fizzy.localhost:3006/cards?collection_ids%5B%5D=#{collections(:writebook).id}"
 
-    assert_equal cards_path(collection_ids: [collections(:writebook).id], card_ids: @card_ids), result.url
+    assert_equal cards_path(collection_ids: [ collections(:writebook).id ], card_ids: @card_ids), result.url
   end
 end
