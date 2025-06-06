@@ -4,7 +4,7 @@ import { signedDifferenceInDays } from "helpers/date_helpers"
 const REFRESH_INTERVAL = 3_600_000 // 1 hour (in milliseconds)
 
 export default class extends Controller {
-  static targets = [ "entropy", "entropyTop", "entropyDays", "entropyBottom", "stalled" ]
+  static targets = [ "entropy", "top", "center", "bottom", "stalled" ]
   static values = { entropy: Object, stalled: Object }
 
   #timer
@@ -38,16 +38,23 @@ export default class extends Controller {
   }
 
   #showEntropy() {
-    this.entropyTopTarget.innerHTML = this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`
-    this.entropyDaysTarget.innerHTML = this.#entropyCleanupInDays < 1 ? "!" : this.#entropyCleanupInDays
-    this.entropyBottomTarget.innerHTML = this.#entropyCleanupInDays < 1 ? "Today" : (this.#entropyCleanupInDays === 1 ? "day" : "days")
-
-    this.#toggleDisplayedContainer(true)
+    this.#render({
+      target: "entropy",
+      top: this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`,
+      center: this.#entropyCleanupInDays < 1 ? "!" : this.#entropyCleanupInDays,
+      bottom: this.#entropyCleanupInDays < 1 ? "Today" : (this.#entropyCleanupInDays === 1 ? "day" : "days"),
+    })
   }
 
-  #toggleDisplayedContainer(entropyOrStalled) {
-    this.entropyTarget.toggleAttribute("hidden", !entropyOrStalled)
-    this.stalledTarget.toggleAttribute("hidden", entropyOrStalled)
+  #render({ target, top, center, bottom }) {
+    this.topTarget.innerHTML = top
+    this.centerTarget.innerHTML = center
+    this.bottomTarget.innerHTML = bottom
+
+    const entropyTarget = target === "entropy"
+    this.entropyTarget.toggleAttribute("hidden", !entropyTarget)
+    this.stalledTarget.toggleAttribute("hidden", entropyTarget)
+
     this.#show()
   }
 
@@ -56,11 +63,12 @@ export default class extends Controller {
   }
 
   #showStalled() {
-    this.entropyTopTarget.innerHTML = "Stalled for"
-    this.entropyDaysTarget.innerHTML = signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date())
-    this.entropyBottomTarget.innerHTML = "days"
-
-    this.#toggleDisplayedContainer(true)
+    this.#render({
+      target: "stalled",
+      top: "Stalled for",
+      center: signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date()),
+      bottom: "days"
+    })
   }
 
   #hide() {
