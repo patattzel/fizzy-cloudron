@@ -47,7 +47,6 @@
 
     &:not([open]) {
       block-size: var(--footer-height);
-      /* padding-block-end: var(--tray-margin); */
       pointer-events: none;
     }
 
@@ -61,7 +60,7 @@
     }
   }
 
-  /* Expander & Actions
+  /* Expander
   /* ------------------------------------------------------------------------ */
 
   .tray__expander {
@@ -92,6 +91,17 @@
       .icon {
         display: block;
       }
+
+      /* Show a red dot if there are items to show*/
+      .tray__dialog:has(.tray__item:not(.tray__item--overflow)) ~ &:after {
+        background: tomato;
+        block-size: 1ch;
+        border-radius: 50%;
+        content: "";
+        inline-size: 1ch;
+        inset: 25% 25% auto auto;
+        position: absolute;
+      }
     }
 
     /* On desktop, hide if there aren't any items to show */
@@ -101,6 +111,9 @@
       }
     }
   }
+
+  /* Actions
+  /* ------------------------------------------------------------------------ */
 
   .tray__actions {
     --hover-size: 0;
@@ -392,10 +405,17 @@
       font-size: var(--text-x-small);
     }
 
+    /* On mobile… */
     @media (max-width: 799px) {
+      /* Add a border to the expander */
       .tray__expander {
         border-inline-start: 1px dashed oklch(var(--lch-white) / 50%);
         translate: var(--tray-margin) 0;
+      }
+
+      /* Hide the dialog if there aren't items */
+      .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) {
+        display: none;
       }
     }
   }
