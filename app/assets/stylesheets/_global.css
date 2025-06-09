@@ -33,6 +33,10 @@
   --footer-height: 3.5rem;
   --tray-size: clamp(12rem, 25dvw, 24rem);
 
+  @media (max-width: 799px) {
+    --tray-size: var(--footer-height);
+  }
+
   /* Z-index */
   --z-events-column-header: 1;
   --z-events-day-header: 2;
