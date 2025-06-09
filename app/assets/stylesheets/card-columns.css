@@ -86,7 +86,7 @@
     .card__background {
       .card:has(& img:not([src=""])) {
         .card__body,
-        .card__footer,
+        .card__meta,
         .workflow-stage:not(.workflow-stage--current) {
           opacity: 0;
           transition: opacity 0.2s ease-in-out;
