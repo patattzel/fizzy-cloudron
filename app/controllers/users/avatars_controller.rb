@@ -1,6 +1,8 @@
 class Users::AvatarsController < ApplicationController
   include ActiveStorage::Streaming
 
+  allow_unauthenticated_access only: :show
+
   before_action :set_user
 
   def show
