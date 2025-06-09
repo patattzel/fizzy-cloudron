@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_04_120033) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_09_102553) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -144,6 +144,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_04_120033) do
     t.index ["card_id", "created_at"], name: "index_closures_on_card_id_and_created_at"
     t.index ["card_id"], name: "index_closures_on_card_id", unique: true
     t.index ["user_id"], name: "index_closures_on_user_id"
+  end
+
+  create_table "collection_publications", force: :cascade do |t|
+    t.integer "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.string "key"
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_collection_publications_on_collection_id"
+    t.index ["key"], name: "index_collection_publications_on_key", unique: true
   end
 
   create_table "collections", force: :cascade do |t|
@@ -361,6 +370,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_04_120033) do
   add_foreign_key "cards", "workflow_stages", column: "stage_id"
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"
+  add_foreign_key "collection_publications", "collections"
   add_foreign_key "collections", "workflows"
   add_foreign_key "commands", "commands", column: "parent_id"
   add_foreign_key "commands", "users"

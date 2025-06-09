@@ -481,6 +481,21 @@ columns:
     default_function:
     collation:
     comment:
+  collection_publications:
+  - *23
+  - *5
+  - *6
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: key
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - *9
   collections:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -1032,6 +1047,7 @@ primary_keys:
   cards: id
   closure_reasons: id
   closures: id
+  collection_publications: id
   collections: id
   collections_filters:
   commands: id
@@ -1072,6 +1088,7 @@ data_sources:
   cards: true
   closure_reasons: true
   closures: true
+  collection_publications: true
   collections: true
   collections_filters: true
   commands: true
@@ -1496,6 +1513,39 @@ indexes:
     unique: false
     columns:
     - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  collection_publications:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: collection_publications
+    name: index_collection_publications_on_collection_id
+    unique: false
+    columns:
+    - collection_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: collection_publications
+    name: index_collection_publications_on_key
+    unique: true
+    columns:
+    - key
     lengths: {}
     orders: {}
     opclasses: {}
@@ -2235,4 +2285,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250604120033
+version: 20250609102553
