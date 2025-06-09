@@ -1,0 +1,38 @@
+class Public::CollectionsController < ApplicationController
+  allow_unauthenticated_access only: :show
+
+  before_action :set_collection
+
+  layout "public"
+
+  PAGE_SIZE = 50
+
+  def show
+    @filter = Current.user.filters.build
+
+    @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
+    @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
+    @closed = page_and_filter_for_closed_cards
+  end
+
+  private
+    def set_collection
+      @collection = Collection.find_by_published_key(params[:id])
+    end
+
+    def page_and_filter_for(filter, per_page: nil)
+      cards = block_given? ? yield(filter.cards) : filter.cards
+
+      OpenStruct.new \
+        page: GearedPagination::Recordset.new(cards, per_page:).page(1),
+        filter: filter
+    end
+
+    def page_and_filter_for_closed_cards
+      if @filter.indexed_by.stalled?
+        page_and_filter_for(@filter, per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
+      else
+        page_and_filter_for(@filter.with(indexed_by: "closed"), per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
+      end
+    end
+end

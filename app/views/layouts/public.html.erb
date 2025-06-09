@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <%= render "layouts/shared/head" %>
+
+  <body data-controller="lightbox local-time timezone-cookie" data-action="turbo:morph@window->local-time#refreshAll">
+    <main id="main">
+      <%= yield %>
+    </main>
+  </body>
+</html>

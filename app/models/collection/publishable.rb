@@ -6,6 +6,12 @@ module Collection::Publishable
     scope :published, ->{ joins(:publication) }
   end
 
+  class_methods do
+    def find_by_published_key(key)
+      Collection::Publication.find_by!(key: key).collection
+    end
+  end
+
   def published?
     publication.present?
   end

@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <%= page_title_tag %>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="view-transition" content="same-origin">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= tag.meta name: "current-user-id", content: Current.user.id if Current.user %>
-
-    <% turbo_refreshes_with method: :morph, scroll: :preserve %>
-
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  </head>
+  <%= render "layouts/shared/head" %>
 
   <body data-controller="lightbox local-time timezone-cookie" data-action="turbo:morph@window->local-time#refreshAll">
     <header id="header">
@@ -47,7 +24,7 @@
       <%= yield :footer %>
 
       <% if Current.user && !@hide_footer_frames %>
-        <div id="footer_frames" data-turbo-permanent="true" >
+        <div id="footer_frames" data-turbo-permanent="true">
           <%= render "my/pins/tray" %>
           <%= render "commands/terminal" %>
           <%= render "notifications/tray" %>

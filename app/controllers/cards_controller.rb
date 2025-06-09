@@ -41,14 +41,6 @@ class CardsController < ApplicationController
   end
 
   private
-    def page_and_filter_for_closed_cards
-      if @filter.indexed_by.stalled?
-        page_and_filter_for(@filter, per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
-      else
-        page_and_filter_for(@filter.with(indexed_by: "closed"), per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
-      end
-    end
-
     def set_card
       @card = @collection.cards.find params[:id]
     end
@@ -59,6 +51,14 @@ class CardsController < ApplicationController
       OpenStruct.new \
         page: GearedPagination::Recordset.new(cards, per_page:).page(1),
         filter: filter
+    end
+
+    def page_and_filter_for_closed_cards
+      if @filter.indexed_by.stalled?
+        page_and_filter_for(@filter, per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
+      else
+        page_and_filter_for(@filter.with(indexed_by: "closed"), per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
+      end
     end
 
     def card_params
