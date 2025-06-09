@@ -8,7 +8,7 @@ class Public::CollectionsController < ApplicationController
   PAGE_SIZE = 50
 
   def show
-    @filter = Current.user.filters.build
+    @filter = Current.user.filters.build(collection_ids: [ @collection.id ])
 
     @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
     @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
