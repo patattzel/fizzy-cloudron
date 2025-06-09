@@ -52,14 +52,13 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :notifications do
     scope module: :notifications do
-      get "tray",     to: "trays#show", on: :collection
+      get "tray", to: "trays#show", on: :collection
       get "settings", to: "settings#show", on: :collection
 
       post "readings", to: "readings#create_all", on: :collection, as: :read_all
-      post "reading",  to: "readings#create",     on: :member,     as: :read
+      post "reading", to: "readings#create", on: :member, as: :read
     end
   end
 
@@ -104,7 +103,11 @@ Rails.application.routes.draw do
   end
 
   namespace :public do
-    resources :collections
+    resources :collections do
+      scope module: :collections do
+        resources :card_previews
+      end
+    end
   end
 
   direct :published_collection do |collection, options|
@@ -134,7 +137,6 @@ Rails.application.routes.draw do
 
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
 
   root "events#index"
 

@@ -7,6 +7,7 @@
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: true %>
 
     <% unless page.last? %>
+      <%= public_collection_cards_next_page_link collection, "considering-cards", page: page %>
     <% end %>
   <% else %>
     <p class="txt-medium translucent">Nothing here</p>

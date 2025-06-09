@@ -1,8 +1,8 @@
 <% @page_title = @collection.name %>
 
 <div class="card-columns">
-  <%= render "public/collections/show/considering", page: @page %>
-  <%= render "public/collections/show/doing", page: @page %>
+  <%= render "public/collections/show/considering", collection: @collection, page: @considering %>
+  <%= render "public/collections/show/doing", collection: @collection, page: @doing %>
 </div>
 
-<%= render "public/collections/show/closed", page: @page %>
+<%= render "public/collections/show/closed", collection: @collection, page: @closed %>
