@@ -1,15 +1,45 @@
-<strong class="txt-large">Publish this collection</strong>
+<div class="margin-block">
+  <strong class="divider txt-large">Public link</strong>
+  <p class="margin-none-block-start">Turn on the Public link to share this collection with anyone in the world. They won’t need to log in and they won’t be able to see anything else in Fizzy.</p>
 
-<% if collection.published? %>
-  <div class="flex justify-center margin-block-end">This collection is public.</div>
-  <%= button_to "Unpublish", collection_publication_path(collection), method: :delete, class: "btn btn--negative" %>
-  <%= text_field_tag :publication_url, published_collection_url(collection), disabled: true %>
-  <%= button_to_copy_to_clipboard(published_collection_url(collection)) do %>
-    <%= icon_tag "copy-paste" %>
-    <span class="for-screen-reader">Copy join link</span>
+  <% if collection.published? %>
+    <div class="border-radius pad fill-selected">
+      <div class="flex-inline center justify-between gap">
+        <span class="txt-large"><%= icon_tag "lock" %></span>
+        <label class="switch flex align-center justify-between">
+          <%= form_with url: collection_publication_path(collection), method: :delete, data: { controller: "form" } do |form| %>
+            <%= form.check_box :published, class: "switch__input", checked: true, data: { action: "change->form#submit" } %>
+            <span class="switch__btn round"></span>
+            <span class="for-screen-reader">Turn off the public link</span>
+          <% end %> 
+        </label>
+        <span class="txt-large"><%= icon_tag "world" %></span>
+      </div>
+
+      <div class="flex align-center gap margin-block">
+        <%= text_field_tag :publication_url, published_collection_url(collection), disabled: true, class: "full-width input" %>
+        <div class="flex align-center justify-center gap-half">
+        <%= button_to_copy_to_clipboard(published_collection_url(collection)) do %>
+            <%= icon_tag "copy-paste" %>
+            <span class="for-screen-reader">Copy join link</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="border-radius pad fill-shade">
+      <div class="flex-inline center justify-between gap">
+        <span class="txt-large"><%= icon_tag "lock" %></span>
+        <label class="switch flex align-center justify-between">
+          <%= form_with url: collection_publication_path(collection), method: :post, data: { controller: "form" } do |form| %>
+            <%= form.check_box :published, class: "switch__input", checked: false, data: { action: "change->form#submit" } %>
+            <span class="switch__btn round"></span>
+            <span class="for-screen-reader">Turn on the public link</span>
+          <% end %> 
+        </label>
+        <span class="txt-large"><%= icon_tag "world" %></span>
+      </div>
+    </div>
   <% end %>
-<% else %>
-  <div class="flex justify-center margin-block-end">Make this collection public.</div>
-  <%= button_to "Publish", collection_publication_path(collection), method: :post, class: "btn" %>
-<% end %>
+</div>
 
