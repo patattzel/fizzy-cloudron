@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resource :subscriptions
       resource :workflow, only: :update
       resource :involvement
+      resource :publication
     end
 
     resources :cards
@@ -102,6 +103,13 @@ Rails.application.routes.draw do
     resources :pins
   end
 
+  namespace :public do
+    resources :collections
+  end
+
+  direct :published_collection do |collection, options|
+    route_for :public_collection, collection.publication.key
+  end
 
   resolve "Card" do |card, options|
     route_for :collection_card, card.collection, card, options

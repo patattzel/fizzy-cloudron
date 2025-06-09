@@ -1,0 +1,15 @@
+<strong class="txt-large">Publish this collection</strong>
+
+<% if collection.published? %>
+  <div class="flex justify-center margin-block-end">This collection is public.</div>
+  <%= button_to "Unpublish", collection_publication_path(collection), method: :delete, class: "btn btn--negative" %>
+  <%= text_field_tag :publication_url, published_collection_url(collection), disabled: true %>
+  <%= button_to_copy_to_clipboard(published_collection_url(collection)) do %>
+    <%= icon_tag "copy-paste" %>
+    <span class="for-screen-reader">Copy join link</span>
+  <% end %>
+<% else %>
+  <div class="flex justify-center margin-block-end">Make this collection public.</div>
+  <%= button_to "Publish", collection_publication_path(collection), method: :post, class: "btn" %>
+<% end %>
+
