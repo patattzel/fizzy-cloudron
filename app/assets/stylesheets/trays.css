@@ -80,16 +80,24 @@
       display: none;
     }
 
-    .tray__dialog[open] ~ &,
-    .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ & {
+    /* Always hide when dialog is open */
+    .tray__dialog[open] ~ & {
       display: none;
     }
 
+    /* On mobile, add an icon */
     @media (max-width: 799px) {
       inline-size: var(--footer-height);
 
       .icon {
         display: block;
+      }
+    }
+
+    /* On desktop, hide if there aren't any items to show */
+    @media (min-width: 800px) {
+      .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ & {
+        display: none
       }
     }
   }
@@ -136,6 +144,10 @@
     @media (max-width: 799px) {
       .tray__dialog:not([open]) ~ & {
         opacity: 0 !important;
+
+        .btn {
+          pointer-events: none;
+        }
       }
     }
 
@@ -326,7 +338,24 @@
       display: none;
     }
 
-    /* Don't expand if there's only one pin on large viewports */
+    /* On mobile, add a border */
+    @media (max-width: 799px) {
+      .tray__expander {
+        border-inline-end: 1px dashed oklch(var(--lch-white) / 50%);
+        translate: calc(-1 * var(--tray-margin)) 0;
+      }
+
+      /* …and disable the expander if there aren't items to show */
+      .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ .tray__expander {
+        pointer-events: none;
+
+        .icon {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    /* On desktop, don't expand if there's only one pin */
     @media (min-width: 800px) {
       .tray__dialog:has(.tray__item:only-child) {
         pointer-events: unset;
@@ -334,13 +363,6 @@
         ~ .tray__expander {
           display: none;
         }
-      }
-    }
-
-    @media (max-width: 799px) {
-      .tray__expander {
-        border-inline-end: 1px dashed oklch(var(--lch-white) / 50%);
-        translate: calc(-1 * var(--tray-margin)) 0;
       }
     }
   }
