@@ -10,10 +10,8 @@ export default class extends Controller {
     const modal = this.modalValue
 
     if (modal) {
-      console.log(modal)
       this.dialogTarget.showModal()
     } else {
-      console.log("NOT FOUND")
       this.dialogTarget.show()
     }
   }
