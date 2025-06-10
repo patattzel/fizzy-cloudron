@@ -6,3 +6,10 @@
 </div>
 
 <%= render "public/collections/show/closed", collection: @collection, page: @closed %>
+
+<% content_for :footer do %>
+  <div class="justify-center center margin-block-double flex align-end gap-half">
+    <%= image_tag "logo-color.svg", aria: { hidden: true }, size: 30 %>
+    <strong><a href="http://37signals.com" class="txt-ink">Made with Fizzy&trade;</a></strong>
+  </div>
+<% end %>
