@@ -25,9 +25,8 @@
 
     <footer class="card__footer">
       <%= render "cards/display/preview/meta", card: card %>
+      <%= render "cards/display/common/background", card: card %>
     </footer>
-
-    <%= render "cards/display/common/background", card: card %>
 
     <% if card.entropic? %>
       <%= render "cards/display/preview/bubble", card: card %>
