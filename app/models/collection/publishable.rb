@@ -3,7 +3,7 @@ module Collection::Publishable
 
   included do
     has_one :publication, class_name: "Collection::Publication", dependent: :destroy
-    scope :published, ->{ joins(:publication) }
+    scope :published, -> { joins(:publication) }
   end
 
   class_methods do

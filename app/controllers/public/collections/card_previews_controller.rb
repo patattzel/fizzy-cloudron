@@ -10,15 +10,15 @@ class Public::Collections::CardPreviewsController < ApplicationController
   private
     def find_cards
       case params[:target]
-        when "considering-cards"
-          @collection.cards.considering.latest
-        when "doing-cards"
-          @collection.cards.doing.latest
-        when "closed-cards"
-          @collection.cards.closed.recently_closed_first
-        else
-          head :bad_request
-          Card.none
+      when "considering-cards"
+        @collection.cards.considering.latest
+      when "doing-cards"
+        @collection.cards.doing.latest
+      when "closed-cards"
+        @collection.cards.closed.recently_closed_first
+      else
+        head :bad_request
+        Card.none
       end
     end
 end
