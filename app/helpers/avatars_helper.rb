@@ -12,8 +12,16 @@ module AvatarsHelper
 
   def avatar_tag(user, hidden_for_screen_reader: false, **options)
     link_to user_path(user), class: "btn avatar", data: { turbo_frame: "_top" },
-        aria: { hidden: hidden_for_screen_reader, label: user.name },
-        tabindex: hidden_for_screen_reader ? -1 : nil do
+      aria: { hidden: hidden_for_screen_reader, label: user.name },
+      tabindex: hidden_for_screen_reader ? -1 : nil do
+      avatar_image_tag(user, **options)
+    end
+  end
+
+  def avatar_preview_tag(user, hidden_for_screen_reader: false, **options)
+    tag.span class: "avatar",
+      aria: { hidden: hidden_for_screen_reader, label: user.name },
+      tabindex: hidden_for_screen_reader ? -1 : nil do
       avatar_image_tag(user, **options)
     end
   end

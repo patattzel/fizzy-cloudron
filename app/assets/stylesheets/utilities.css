@@ -94,6 +94,11 @@
     white-space: normal;
   }
 
+  /* Mouse pointer */
+  .non-clickable {
+    cursor: default;
+  }
+
   /* Padding */
   .pad { padding: var(--block-space) var(--inline-space); }
   .pad-double { padding: var(--block-space-double) var(--inline-space-double); }

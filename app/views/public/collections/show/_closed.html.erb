@@ -1,6 +1,6 @@
 <section id="closed-cards" class="cards cards--closed">
   <% if page.used? %>
-    <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: true %>
+    <%= render partial: "cards/display/public_preview", collection: page.records, as: :card, cached: true %>
 
     <% unless page.last? %>
       <%= public_collection_cards_next_page_link collection, "closed-cards", fetch_on_visible: true, page: page %>
