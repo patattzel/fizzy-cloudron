@@ -6,6 +6,13 @@
   <%= render "cards/index/header", filter: @filter %>
 <% end %>
 
+<header class="margin-block-start-none margin-block-end">
+  <h1 class="txt-large overflow-ellipsis margin-none font-black">
+    <span><%= filter_title @filter %></span>
+  </h1>
+  <%= render "filters/settings", filter: @filter %>
+</header>
+
 <div class="card-columns">
   <%= render "cards/index/engagement/considering", **@considering.to_h %>
   <%= render "cards/index/engagement/doing", **@doing.to_h %>

@@ -4,23 +4,9 @@
   <nav class="align-start">
     <div class="btn btn--circle btn--placeholder flex-item-justify-start"></div>
 
-    <div class="flex-inline flex-column center gap-half margin-block-end-double txt-align-center min-width">
-      <h2 class="font-black txt-large center max-width flex align-center">
-        <div class="overflow-ellipsis">
-        <%= Account.sole.name %> / Latest activity
-          <% if @filter.creators.any? %>
-            by <%= @filter.creators.each_with_object([]) { |creator, names| names << creator.familiar_name }.to_sentence %>
-          <% end %>
-        </div>
-        <% if @filter.creators.any? %>
-          <%= link_to events_path(@filter.as_params.except(:creator_ids)), class: "btn btn--remove txt-xx-small margin-inline-start" do %>
-            <%= icon_tag "close" %>
-            <span class="for-screen-reader">Clear all</span>
-          <% end %>
-        <% end %>
-      </h2>
+    <header class="flex flex-inline flex-column center flex-shrink">
       <%= render "events/filter", filter: @filter %>
-    </div>
+    </header>
 
     <%= link_to account_settings_path, class: "btn flex-item-justify-end" do %>
       <%= icon_tag "settings" %>
@@ -29,6 +15,26 @@
   </nav>
 <% end %>
 
+<header>
+  <h1 class="txt-large overflow-ellipsis margin-block-start-none margin-block-end-double font-black">
+    <div class="overflow-ellipsis">
+      <% if @filter.collections.any? %>
+        <%= filter_selected_collections_label(@filter) %>
+      <% else %>
+        <%= Account.sole.name %> / Latest activity
+        <% if @filter.creators.any? %>
+          by <%= @filter.creators.each_with_object([]) { |creator, names| names << creator.familiar_name }.to_sentence %>
+        <% end %>
+      <% end %>
+    </div>
+    <% if @filter.creators.any? %>
+      <%= link_to events_path(@filter.as_params.except(:creator_ids)), class: "btn btn--remove txt-xx-small margin-inline-start" do %>
+        <%= icon_tag "close" %>
+        <span class="for-screen-reader">Clear all</span>
+      <% end %>
+    <% end %>
+  </h1>
+</header>
 <div class="events" id="activity">
   <%= render "events/day", day_timeline: @day_timeline %>
   <%= event_next_page_link(@day_timeline.next_day) %>
