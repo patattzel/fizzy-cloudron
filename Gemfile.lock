@@ -16,6 +16,12 @@ GIT
       zeitwerk
 
 GIT
+  remote: https://github.com/basecamp/file_repository
+  revision: 17e90fc35ccb9f0a0dae1ed8623f01386696002d
+  specs:
+    file_repository (1.4.5)
+
+GIT
   remote: https://github.com/basecamp/kamal
   revision: 344e2d7995e0134aa52f195a984d8d5e24e31d94
   ref: 344e2d79
@@ -33,12 +39,52 @@ GIT
       zeitwerk (>= 2.6.18, < 3.0)
 
 GIT
+  remote: https://github.com/basecamp/portfolio
+  revision: 26dd0ccbe4aad5a5c539f90c00e82b6175443636
+  specs:
+    portfolio (5.2.0)
+      activesupport
+      file_repository (>= 1.4.4)
+
+GIT
+  remote: https://github.com/basecamp/queuety
+  revision: bf7e2a552fb674533d3e092f06dbf9b5d1ebc753
+  branch: rails4
+  specs:
+    queuety (4.0.2)
+      activerecord
+      service_concurrency_prevention
+
+GIT
   remote: https://github.com/basecamp/rails-structured-logging
   revision: 76960cb5c15fc2b6b5f7542e05d7dcc031cef9e6
   specs:
     rails_structured_logging (0.2.1)
       json
       rails (>= 6.0.0)
+
+GIT
+  remote: https://github.com/basecamp/service_concurrency_prevention
+  revision: 320da99431718615ed86f8723e8b9d3259c602a3
+  specs:
+    service_concurrency_prevention (1.1.1)
+      activesupport
+
+GIT
+  remote: https://github.com/basecamp/signal_id
+  revision: 7090b0d518b6656d8c8792da8301146da40f3eae
+  branch: rails4
+  specs:
+    signal_id (4.3.2)
+      bcrypt-ruby (>= 3.0.0)
+      google-id-token (>= 1.4.0)
+      mocha
+      multi_json
+      portfolio (>= 4.0)
+      pwned (~> 2.0)
+      queuety (>= 3.0)
+      rails (>= 4.0.2)
+      rails-controller-testing
 
 GIT
   remote: https://github.com/crmne/ruby_llm.git
@@ -182,6 +228,8 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bcrypt (3.1.20)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.1)
     bigdecimal (3.2.2)
@@ -243,6 +291,8 @@ GEM
       addressable (>= 2.5.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-id-token (1.4.2)
+      jwt (>= 1)
     hashdiff (1.2.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -263,6 +313,8 @@ GEM
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
     json (2.12.2)
+    jwt (2.10.1)
+      base64
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -292,8 +344,12 @@ GEM
       railties (>= 7.1)
       stimulus-rails
       turbo-rails
+    mocha (2.7.1)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
+    multi_json (1.15.0)
     multipart-post (2.4.1)
+    mysql2 (0.5.6)
     net-http (0.6.0)
       uri
     net-imap (0.5.8)
@@ -343,6 +399,7 @@ GEM
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
+    pwned (2.4.1)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.16)
@@ -355,6 +412,10 @@ GEM
       rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -410,6 +471,7 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
+    ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.33.0)
@@ -513,15 +575,19 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
+  file_repository (~> 1.4.5)!
   geared_pagination (~> 1.2)
   image_processing (~> 1.14)
   importmap-rails
   jbuilder
   kamal!
   mission_control-jobs
+  mysql2
   platform_agent
+  portfolio (>= 4.6)!
   propshaft
   puma (>= 5.0)
+  queuety!
   rails!
   rails_structured_logging!
   redcarpet
@@ -532,6 +598,8 @@ DEPENDENCIES
   selenium-webdriver
   sentry-rails
   sentry-ruby
+  service_concurrency_prevention!
+  signal_id!
   solid_cable (>= 3.0)
   solid_cache (~> 1.0)
   solid_queue (~> 1.1)
