@@ -24,7 +24,7 @@ module NotificationsHelper
       concat(
         link_to(notification,
           class: [ "card card--notification", { "card--closed": notification.card.closed? } ],
-          data: { action: "click->dialog#close", turbo_frame: "_top" },
+          data: { turbo_frame: "_top" },
           style: { "--card-color:": notification.card.color },
           &)
       )
