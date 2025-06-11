@@ -35,6 +35,12 @@ lexical-editor {
 
     inline-size: 100%;
     justify-content: center;
+
+    &:is([type="submit"]) {
+      --btn-background: var(--card-color, var(--color-link));
+      --btn-color: var(--color-ink-inverted);
+      --outline-color: var(--card-color, var(--color-link));
+    }
   }
 
   span {
@@ -86,6 +92,11 @@ lexical-toolbar {
     color: var(--color-ink);
     padding: var(--block-space) calc(var(--inline-space) * 1.5);
     position: absolute;
+    z-index: 1;
+
+    .input[type="url"] {
+      min-inline-size: 30ch;
+    }
   }
 
   > button {
