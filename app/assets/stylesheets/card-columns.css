@@ -7,16 +7,15 @@
   #main:has(.card-columns) {
     --cards-gap: min(2cqi, 1rem);
     --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink-lighter) 3%, var(--color-ink-lighter) 97%, var(--color-canvas));
+    --reserved-bubble-space: calc(var(--bubble-size) + var(--bubble-gap));
+    --bubble-gap: 0.5rem;
+    --bubble-size: 4rem;
 
     container-type: inline-size;
     max-inline-size: 1400px;
   }
 
   .card-columns {
-    --bubble-gap: 0.5rem;
-    --bubble-size: 4rem;
-    --reserved-bubble-space: calc(var(--bubble-size) + var(--bubble-gap));
-
     margin: auto;
     max-inline-size: 100%;
     position: relative;
@@ -45,10 +44,10 @@
     gap: var(--cards-gap);
     justify-content: start;
     padding: 0 var(--reserved-bubble-space) var(--cards-gap) var(--cards-gap);
+    position: relative;
 
     /* Make sure filter dialogs don't end up behind sticky headers */
     &:has([open]) {
-      position: relative;
       z-index: 3;
     }
 
@@ -60,7 +59,8 @@
     }
 
     @media (max-width: 639px) {
-      padding-inline-start: 0;
+      padding-block-end: calc(var(--cards-gap) * 2);
+      padding-inline-start: var(--reserved-bubble-space);
     }
 
     .card {
@@ -143,10 +143,6 @@
       font-weight: normal;
       text-transform: none;
     }
-
-    @media (max-width: 639px) {
-      margin-inline-end: calc(-1 * var(--reserved-bubble-space) - var(--cards-gap));
-    }
   }
 
   /* Considering
@@ -210,14 +206,12 @@
   /* ------------------------------------------------------------------------ */
 
   @media (max-width: 639px) {
-    .cards--doing {
-      .cards__heading:before {
-        background: var(--gradient-border);
-        block-size: 1px;
-        content: "";
-        inset: 0 0 auto;
-        position: absolute;
-      }
+    .cards--doing:before {
+      background: var(--gradient-border);
+      block-size: 1px;
+      content: "";
+      inset: 0 0 auto;
+      position: absolute;
     }
   }
 
@@ -242,6 +236,7 @@
 
     @media (max-width: 639px) {
       flex-direction: column;
+      padding-inline: var(--reserved-bubble-space);
     }
 
     .cards__heading {
