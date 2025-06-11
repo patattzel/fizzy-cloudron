@@ -1,33 +1,37 @@
 @layer components {
-  /* Coluns
+  /* Columns
   /* ------------------------------------------------------------------------ */
 
   /* Card contents are resized via container queries. We're using #main here as
      the primary container so all cards have the same container reference */
   #main:has(.card-columns) {
+    --cards-gap: min(2cqi, 1rem);
+    --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink-lighter) 3%, var(--color-ink-lighter) 97%, var(--color-canvas));
+
     container-type: inline-size;
     max-inline-size: 1400px;
   }
 
   .card-columns {
-    --bubble-size: 4rem;
     --bubble-gap: 0.5rem;
+    --bubble-size: 4rem;
     --reserved-bubble-space: calc(var(--bubble-size) + var(--bubble-gap));
 
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
     margin: auto;
     max-inline-size: 100%;
     position: relative;
 
     &:before {
-      background: linear-gradient(to right,var(--color-canvas), var(--color-ink-lighter) 3%, var(--color-ink-lighter) 97%, var(--color-canvas));
+      background: var(--gradient-border);
       block-size: 1px;
       content: "";
-      display: block;
-      inline-size: calc(100% + 1.2em);
       inset: 0 -0.6em 100% -0.6em;
       position: absolute;
+    }
+
+    @media (min-width: 640px) {
+      display: grid;
+      grid-template-columns: repeat(2, 50%);
     }
   }
 
@@ -35,22 +39,28 @@
   /* ------------------------------------------------------------------------ */
 
   .cards {
-    --cards-gap: min(2cqi, 1rem);
-
-    align-items: center;
+    align-items: stretch;
     display: flex;
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    padding: var(--cards-gap);
+    padding: 0 var(--reserved-bubble-space) var(--cards-gap) var(--cards-gap);
 
-    &:first-child {
-      border-inline-end: 1px solid var(--color-ink-lighter);
-      padding-inline-start: var(--reserved-bubble-space);
+    /* Make sure filter dialogs don't end up behind sticky headers */
+    &:has([open]) {
+      position: relative;
+      z-index: 3;
     }
 
-    &:last-child {
-      padding-inline-end: var(--reserved-bubble-space);
+    &:first-child {
+      @media (min-width: 640px) {
+        border-inline-end: 1px solid var(--color-ink-lighter);
+        padding-inline: var(--reserved-bubble-space) var(--cards-gap);
+      }
+    }
+
+    @media (max-width: 639px) {
+      padding-inline-start: 0;
     }
 
     .card {
@@ -101,12 +111,42 @@
     }
   }
 
+  /* Column elements
+  /* ------------------------------------------------------------------------ */
+
   .cards__heading {
-    display: inline-flex;
+    background-color: var(--color-canvas);
+    display: flex;
     font-size: var(--text-medium);
-    inline-size: 100%;
+    inset-block-start: 0;
     justify-content: center;
-    text-transform: uppercase;
+    margin-block-start: 1px;
+    margin-inline: calc(-1 * var(--cards-gap) + 1px);
+    padding-block: var(--cards-gap);
+    position: sticky;
+    z-index: 2;
+
+    &, button {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    button {
+      --hover-size: 0;
+
+      inline-size: auto;
+      margin-inline-start: 2em;
+      padding: 0 2em 0 0;
+    }
+
+    dialog {
+      font-weight: normal;
+      text-transform: none;
+    }
+
+    @media (max-width: 639px) {
+      margin-inline-end: calc(-1 * var(--reserved-bubble-space) - var(--cards-gap));
+    }
   }
 
   /* Considering
@@ -166,6 +206,21 @@
     }
   }
 
+  /* Doing
+  /* ------------------------------------------------------------------------ */
+
+  @media (max-width: 639px) {
+    .cards--doing {
+      .cards__heading:before {
+        background: var(--gradient-border);
+        block-size: 1px;
+        content: "";
+        inset: 0 0 auto;
+        position: absolute;
+      }
+    }
+  }
+
   /* Closed
   /* ------------------------------------------------------------------------ */
 
@@ -178,17 +233,23 @@
     position: relative;
 
     &:before {
-      background: linear-gradient(to right,var(--color-canvas), var(--color-ink-lighter) 3%, var(--color-ink-lighter) 97%, var(--color-canvas));
+      background: var(--gradient-border);
       block-size: 1px;
       content: "";
-      display: block;
-      inline-size: calc(100% + 1.2em);
       inset: 0 -0.6em 100% -0.6em;
       position: absolute;
     }
 
     @media (max-width: 639px) {
       flex-direction: column;
+    }
+
+    .cards__heading {
+      min-inline-size: 100%;
+
+      @media (max-width: 639px) {
+        margin-inline-end: calc(-1 * var(--cards-gap));
+      }
     }
 
     .card {

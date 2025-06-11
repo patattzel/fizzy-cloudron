@@ -24,5 +24,6 @@ class Card::Entropy
 
   def days_before_reminder
     (auto_clean_period * 0.25).seconds.in_days.round
+    30
   end
 end
