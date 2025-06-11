@@ -12,12 +12,13 @@ lexical-editor {
   }
 
   &.lexical-editor--empty {
-    .lexical-editor__content:not(:focus):before {
+    .lexical-editor__content:not(:focus)::before {
       content: attr(placeholder);
       color: currentColor;
-      opacity: 0.5;
+      cursor: text;
+      opacity: 0.66;
       pointer-events: none;
-      display: block;
+      white-space: pre-line;
     }
   }
 }
