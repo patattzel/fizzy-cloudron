@@ -37,9 +37,9 @@ export default class extends Controller {
 
     if (!container) { return }
 
-    await this.#submitDropRequest(this.dragItem, container)
-
     this.wasDropped = true
+
+    await this.#submitDropRequest(this.dragItem, container)
   }
 
   dragEnd() {
