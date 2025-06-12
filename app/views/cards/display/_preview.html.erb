@@ -1,7 +1,7 @@
 <% cache cacheable_preview_parts_for(card) do %>
   <%= card_article_tag card, class: "card" do %>
     <div class="flex gap">
-      <div class="flex flex-column flex-item-grow">
+      <div class="flex flex-column flex-item-grow max-inline-size">
         <header class="card__header">
           <%= render "cards/display/preview/collection", card: card %>
           <%= render "cards/display/preview/tags", card: card %>
