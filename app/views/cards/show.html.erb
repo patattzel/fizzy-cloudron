@@ -23,10 +23,7 @@
     </div>
   <% end %>
 
-  <nav class="align-start max-width">
-    <%= link_to_home %>
-    <%= link_to_back fallback_path: cards_path(collection_id: @card.collection) %>
-  </nav>
+  <%= render "cards/show/header" %>
 <% end %>
 
 <header class="card-perma__collection-header">

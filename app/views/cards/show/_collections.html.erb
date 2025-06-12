@@ -1,0 +1,48 @@
+<%= form_with url: cards_path, method: :get, class: "flex flex-column max-width popup__list full-width",
+      data: { controller: "form" } do |form| %>
+  <% if Current.user.collections.one? %>
+    <%= link_to cards_path, class: "popup__group flex align-center", data: { value: Current.user.collections.first.name.downcase, filter_target: "item", navigable_list_target: "item" } do %>
+      <%= tag.div class: "btn popup__item min-width flex-item-grow" do %>
+        <span class="overflow-ellipsis"><%= Current.user.collections.first.name %></span>
+        <span class="txt-ink translucent flex-item-no-shrink flex-item-justify-end"><span class="txt-x-small txt-uppercase">GO TO</span> ›</span>
+      <% end %>
+    <% end %>
+  <% elsif Current.user.collections.many? %>
+    <%= link_to cards_path, class: "popup__group flex align-center", data: { value: "all collections", filter_target: "item", navigable_list_target: "item" } do %>
+      <label class="btn txt-xx-small flex-item-no-shrink">
+        <input type="checkbox">
+
+        <span class="for-screen-reader">
+          See everything in all collections
+        </span>
+        <%= icon_tag "check", size: 18, class: "checked" %>
+      </label>
+      <%= tag.div class: "btn popup__item min-width flex-item-grow" do %>
+        <span class="overflow-ellipsis">All collections</span>
+        <span class="txt-ink translucent flex-item-no-shrink flex-item-justify-end"><span class="txt-x-small txt-uppercase">GO TO</span> ›</span>
+      <% end %>
+    <% end %>
+
+    <% Current.user.collections.order(:name).each do |collection| %>
+      <li class="popup__group flex align-center" data-value="<%= collection.name.downcase %>" data-filter-target="item" data-navigable-list-target="item">
+        <label class="btn txt-xx-small flex-item-no-shrink">
+          <%= form.check_box "collection_ids[]", {
+                checked: collection == @collection,
+                data: { action: "change->form#submit" },
+                include_hidden: false,
+          }, collection.id %>
+
+          <span class="for-screen-reader">
+            Toggle filter for <%= collection.name %>
+          </span>
+          <%= icon_tag "check", size: 18, class: "checked" %>
+        </label>
+
+        <%= link_to cards_path(collection_ids: [ collection ]), class: "btn popup__item min-width flex-item-grow" do %>
+          <span class="overflow-ellipsis"><%= collection.name %></span>
+          <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>
