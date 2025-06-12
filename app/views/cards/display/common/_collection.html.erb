@@ -1,6 +1,5 @@
-<div class="card__collection flex align-start">
+<label class="card__collection flex align-center">
   <span class="card__id"><%= card.id %></span>
-  <%= link_to card.collection.name, cards_path(collection_ids: [ card.collection ]),
-        class: "card__collection-name overflow-ellipsis" %>
+  <%= tag.span card.collection.name, class: "card__collection-name overflow-ellipsis" %>
   <%= yield %>
-</div>
+</label>
