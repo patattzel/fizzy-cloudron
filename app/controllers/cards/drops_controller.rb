@@ -2,13 +2,7 @@ class Cards::DropsController < ApplicationController
   before_action :set_filter, :set_card, :set_drop_target
 
   def create
-    case @drop_target
-    when :considering
-      @card.reconsider
-    when :doing
-      @card.engage
-    end
-
+    perform_drop_action
     render_column_replacement
   end
 
@@ -28,6 +22,15 @@ class Cards::DropsController < ApplicationController
         @drop_target = params[:drop_target].to_sym
       else
         head :bad_request
+      end
+    end
+
+    def perform_drop_action
+      case @drop_target
+        when :considering
+          @card.reconsider
+        when :doing
+          @card.engage
       end
     end
 
