@@ -4,7 +4,11 @@ class Cards::PublishesController < ApplicationController
   def create
     @card.publish
 
-    redirect_to add_another_param? ? @collection.cards.create! : @card
+    if add_another_param?
+      redirect_to @collection.cards.create!, notice: "Card added"
+    else
+      redirect_to @card
+    end
   end
 
   private
