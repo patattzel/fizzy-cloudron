@@ -15,11 +15,6 @@ class CardsController < ApplicationController
   end
 
   def create
-    if params[:publish_current]
-      @card = Card.find(params[:publish_current])
-      @card.publish
-      flash[:notice] = "Card added"
-    end
     card = @collection.cards.create!
     redirect_to card
   end
