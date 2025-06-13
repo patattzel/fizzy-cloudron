@@ -35,7 +35,7 @@ export default class extends Controller {
   async drop(event) {
     const container = this.#containerContaining(event.target)
 
-    if (!container) { return }
+    if (!container || container === this.sourceContainer) { return }
 
     this.wasDropped = true
 
