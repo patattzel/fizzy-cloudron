@@ -24,9 +24,9 @@ class Cards::DropsController < ApplicationController
 
     def perform_drop_action
       case @drop_target
-        when :considering
+      when :considering
           @card.reconsider
-        when :doing
+      when :doing
           @card.engage
       end
     end
