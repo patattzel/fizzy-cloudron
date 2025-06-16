@@ -2,6 +2,7 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
+    before_action :set_current_account
     before_action :require_authentication
     helper_method :authenticated?
   end
@@ -15,6 +16,11 @@ module Authentication
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
       before_action :resume_session, **options
+    end
+
+    def require_untenanted_access(**options)
+      skip_before_action :require_authentication, **options
+      before_action :redirect_tenanted_request, **options
     end
   end
 
@@ -40,6 +46,10 @@ module Authentication
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
+
+      # # When we're ready to flip the switch to Launchpad authentication, uncomment this line:
+      # redirect_to Launchpad.login_url(account: Current.account), allow_other_host: true
+
       redirect_to new_session_path
     end
 
@@ -51,6 +61,9 @@ module Authentication
       redirect_to root_url if authenticated?
     end
 
+    def redirect_tenanted_request
+      redirect_to root_url if ApplicationRecord.current_tenant
+    end
 
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
@@ -62,6 +75,10 @@ module Authentication
       logger.struct "  Authorized User##{session.user.id}", authentication: { user: { id: session.user.id } }
       Current.session = session
       cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :lax }
+    end
+
+    def set_current_account
+      Current.account = Account.first
     end
 
     def terminate_session
