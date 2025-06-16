@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   #shouldIgnore(event) {
-    return event.defaultPrevented || event.target.closest("input, textarea")
+    return event.defaultPrevented || event.target.closest("input, textarea, lexical-editor")
   }
 
   get #isClickable() {
