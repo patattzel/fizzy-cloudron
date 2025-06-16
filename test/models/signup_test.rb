@@ -10,7 +10,7 @@ class SignupTest < ActiveSupport::TestCase
     )
   end
 
-  test "#process creates all the necessary objects" do
+  test "#process creates all the necessary objects for a new identity" do
     Account.any_instance.expects(:setup_basic_template).once
 
     assert @signup.process, @signup.errors.full_messages.to_sentence(words_connector: ". ")
@@ -24,12 +24,47 @@ class SignupTest < ActiveSupport::TestCase
 
     assert @signup.signal_account
     assert @signup.signal_account.persisted?
+    assert_equal @signup.signal_identity, @signup.signal_account.owner.identity
 
     assert @signup.account
     assert @signup.account.persisted?
 
     assert @signup.user
     assert @signup.user.persisted?
+    assert_equal @signup.user.signal_user, @signup.signal_account.owner
+
+    assert_includes ApplicationRecord.tenants, @signup.signal_account.subdomain
+  end
+
+  test "#process creates all the necessary objects for an existing identity" do
+    signal_identity = SignalId::Identity.find_by_email_address("david@37signals.com")
+
+    @signup = Signup.new(
+      signal_identity: signal_identity,
+      company_name: "Team LeMans",
+    )
+
+    Account.any_instance.expects(:setup_basic_template).once
+
+    assert @signup.process, @signup.errors.full_messages.to_sentence(words_connector: ". ")
+    assert_empty @signup.errors
+
+    assert @signup.signal_identity
+    assert_equal signal_identity, @signup.signal_identity
+
+    assert @signup.queenbee_account
+    assert @signup.queenbee_account.id
+
+    assert @signup.signal_account
+    assert @signup.signal_account.persisted?
+    assert_equal @signup.signal_identity, @signup.signal_account.owner.identity
+
+    assert @signup.account
+    assert @signup.account.persisted?
+
+    assert @signup.user
+    assert @signup.user.persisted?
+    assert_equal @signup.user.signal_user, @signup.signal_account.owner
 
     assert_includes ApplicationRecord.tenants, @signup.signal_account.subdomain
   end

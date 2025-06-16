@@ -3,22 +3,27 @@ class Signup
   include ActiveModel::Attributes
   include ActiveModel::Validations
 
-  attribute :full_name, :string
-  attribute :email_address, :string
-  attribute :password, :string
-  attribute :company_name, :string
+  # Input attribute
+  attr_accessor :company_name
 
-  attr_reader :signal_identity, :queenbee_account, :signal_account, :account, :user
+  # Input attributes when not using an existing identity
+  attr_accessor :full_name, :email_address, :password
+
+  # Input attribute when using an existing identity, output when creating new identity
+  attr_accessor :signal_identity
+
+  # Output attributes
+  attr_reader :queenbee_account, :signal_account, :account, :user
 
   validate :validate_new_identity
 
   def initialize(...)
-    super
-
     @signal_identity = nil
     @queenbee_account = nil
     @account = nil
     @user = nil
+
+    super
   end
 
   def process
@@ -41,8 +46,10 @@ class Signup
 
   private
     def create_signal_identity
-      SignalId::Database.on_master do
-        @signal_identity = build_new_identity.tap(&:save!)
+      unless signal_identity.present?
+        SignalId::Database.on_master do
+          @signal_identity = build_new_identity.tap(&:save!)
+        end
       end
     end
 
@@ -82,9 +89,11 @@ class Signup
     end
 
     def validate_new_identity
-      build_new_identity.tap do |identity|
-        unless identity.valid?
-          identity.errors.each { |error| errors.add(error.attribute, error.message) }
+      unless signal_identity.present?
+        build_new_identity.tap do |identity|
+          unless identity.valid?
+            identity.errors.each { |error| errors.add(error.attribute, error.message) }
+          end
         end
       end
     end
