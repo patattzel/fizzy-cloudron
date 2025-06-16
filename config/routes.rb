@@ -88,6 +88,11 @@ Rails.application.routes.draw do
     get "launchpad", to: "sessions/launchpad#show"
   end
 
+  namespace :signup do
+    get "/" => "accounts#new"
+    resources :accounts, only: %i[ new create ]
+  end
+
   resources :users do
     scope module: :users do
       resource :avatar

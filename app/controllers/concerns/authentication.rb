@@ -19,6 +19,7 @@ module Authentication
     end
 
     def require_untenanted_access(**options)
+      skip_before_action :set_current_account, **options
       skip_before_action :require_authentication, **options
       before_action :redirect_tenanted_request, **options
     end
