@@ -1,5 +1,6 @@
 <label class="card__collection flex align-center">
   <span class="card__id"><%= card.id %></span>
-  <%= tag.span card.collection.name, class: "card__collection-name overflow-ellipsis" %>
+  <span class="card__collection-name">
+    <span class="overflow-ellipsis"><%= card.collection.name %></span>
   <%= yield %>
 </label>
