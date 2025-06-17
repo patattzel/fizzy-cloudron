@@ -63,24 +63,27 @@
     align-items: center;
     border-radius: var(--border-radius) 0 0 0;
     display: flex;
+    flex-wrap: nowrap;
     gap: var(--inline-space-half);
     margin-block-start: calc(-1 * var(--card-padding-block));
     margin-inline-start: calc(-1 * var(--card-padding-inline));
     max-inline-size: 100%;
     min-inline-size: 0;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .card__collection {
     background-color: var(--card-color);
     border-radius: var(--border-radius) 0 var(--border-radius) 0;
     color: var(--color-ink-inverted);
+    display: flex;
     font-weight: 800;
+    overflow: hidden;
     padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--inline-space-double);
   }
 
   .card__id {
-    display: inline-flex;
+    flex-shrink: 0;
     margin-inline-start: calc(var(--inline-space) * -1);
 
     .card-perma &:before {
@@ -92,7 +95,6 @@
   .card__collection-name {
     border-inline-start: 1px solid color-mix(in srgb, var(--color-ink-inverted) 33%, var(--card-color));
     color: currentcolor;
-    display: inline-flex;
     margin-inline-start: var(--inline-space-half);
     padding-inline-start: calc(var(--inline-space) * 0.75);
     text-transform: uppercase;
@@ -358,7 +360,7 @@
     }
 
     .card__notification-meta {
-      font-size: var(--text-small);
+      font-size: var(--text-x-small);
     }
   }
 

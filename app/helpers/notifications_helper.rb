@@ -2,7 +2,6 @@ module NotificationsHelper
   def event_notification_title(event)
     case event_notification_action(event)
     when "comment_created" then "RE: #{card_notification_title(event.eventable.card)}"
-    when "card_assigned" then "Assigned to #{event.assignees.none? ? "self" : event.assignees.pluck(:name).to_sentence}: #{card_notification_title(event.eventable)}"
     else card_notification_title(event.eventable)
     end
   end
@@ -11,10 +10,11 @@ module NotificationsHelper
     name = event.creator.name
 
     case event_notification_action(event)
-    when "card_closed" then "Closed by #{name}"
+    when "card_closed" then "Closed as “#{event.card.closure.reason}” by #{name}"
     when "card_reopened" then "Reopened by #{name}"
     when "card_published" then "Added by #{name}"
     when "comment_created" then comment_notification_body(event)
+    when "card_assigned" then "Assigned to #{event.assignees.none? ? "self" : event.assignees.pluck(:name).to_sentence}"
     else name
     end
   end
@@ -59,7 +59,7 @@ module NotificationsHelper
 
     def comment_notification_body(event)
       comment = event.eventable
-      "#{strip_tags(comment.body.to_s).blank? ? "#{event.creator.name} replied" : "#{event.creator.name}:" } #{strip_tags(comment.body.to_s).truncate(200)}"
+      strip_tags(comment.body.to_s).truncate(200)
     end
 
     def card_notification_title(card)
