@@ -280,12 +280,13 @@
       display: none;
     }
 
-    .card__collection {
-      padding-block: 0.25ch;
+    .card__body {
+      margin-block-start: -0.3em;
+      padding-block-end: 0;
     }
 
-    .card__body {
-      padding-block-end: 0;
+    .card__collection {
+      padding-block: 0.25ch;
     }
 
     .card__title {
@@ -320,6 +321,11 @@
 
     .card__body {
       display: block;
+      margin: 0;
+    }
+
+    .card__footer {
+      margin-block: -0.2em 2em;
     }
 
     .card__header {
