@@ -2,27 +2,25 @@
 
 <% cache cacheable_preview_parts_for(card, draggable) do %>
   <%= card_article_tag card, class: "card", draggable: draggable, data: { id: card.id, drag_and_drop_target: "item" } do %>
-    <div class="flex gap">
-      <div class="flex flex-column flex-item-grow max-inline-size">
-        <header class="card__header">
-          <%= render "cards/display/preview/collection", card: card %>
-          <%= render "cards/display/preview/tags", card: card %>
-        </header>
+    <div class="flex flex-column flex-item-grow max-inline-size">
+      <header class="card__header">
+        <%= render "cards/display/preview/collection", card: card %>
+        <%= render "cards/display/preview/tags", card: card %>
+      </header>
 
-        <div class="card__body justify-space-between">
-          <div class="card__content">
-            <h1 class="card__title overflow-line-clamp">
-              <%= card.title %>
-            </h1>
+      <div class="card__body justify-space-between">
+        <div class="card__content">
+          <h1 class="card__title overflow-line-clamp">
+            <%= card.title %>
+          </h1>
 
-            <%= link_to collection_card_path(card.collection, card), draggable: false, class: "card__link", title: card_title_tag(card), data: { action: "dialog#close", turbo_frame: "_top" } do %>
-              <span class="for-screen-reader"><%= card.title %></span>
-            <% end %>
-          </div>
+          <%= link_to collection_card_path(card.collection, card), draggable: false, class: "card__link", title: card_title_tag(card), data: { action: "dialog#close", turbo_frame: "_top" } do %>
+            <span class="for-screen-reader"><%= card.title %></span>
+          <% end %>
         </div>
-      </div>
 
-      <%= render "cards/stagings/stages", card: card if card.doing? %>
+        <%= render "cards/stagings/stages", card: card if card.doing? %>
+      </div>
     </div>
 
     <footer class="card__footer">

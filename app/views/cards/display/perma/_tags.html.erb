@@ -1,4 +1,4 @@
-<div id="<%= dom_id(card, :tags) %>" class="card__tags flex-item-grow min-width gap-half">
+<div id="<%= dom_id(card, :tags) %>" class="card__tags flex-item-grow flex-item-no-shrink min-width gap-half">
   <div class="overflow-ellipsis">
     <% if card.tags.any? || card.creating? %>
       <span class="margin-inline-start-half"># </span>
