@@ -66,7 +66,7 @@
     font-weight: 800;
     max-inline-size: 100%;
     min-inline-size: 0;
-    padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--inline-space-double);
+    padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--card-padding-inline);
   }
 
   .card__collection-name {
@@ -423,6 +423,21 @@
         &:before { opacity: 0; }
            .icon { opacity: 1; }
       }
+    }
+  }
+
+  .card--search {
+    --card-color: var(--color-ink);
+
+    background-color: var(--color-canvas);
+
+    .card__collection {
+      background-color: var(--color-canvas);
+      color: var(--color-ink-medium);
+    }
+
+    .card__title {
+      font-size: var(--text-medium);
     }
   }
 }
