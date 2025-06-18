@@ -170,12 +170,9 @@
       }
     }
 
-    .card--drafted {
-      --card-color: var(--color-ink-medium) !important;
-
-      border-color: var(--card-color) !important;
-      border-style: dashed !important;
-      box-shadow: none !important;
+    .card__body {
+      padding-block-start: calc(var(--card-padding-block) / 2);
+      padding-inline: 0;
     }
 
     .card__collection {
@@ -188,21 +185,24 @@
       color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
     }
 
-    .card__header {
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+    .card--drafted {
+      --card-color: var(--color-ink-medium) !important;
+
+      border-color: var(--card-color) !important;
+      border-style: dashed !important;
+      box-shadow: none !important;
     }
 
-    .card__title {
-      margin-block-start: 0.1em;
-      min-block-size: 0;
+    .card__header {
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
     }
 
     .card__people-label {
       display: none;
     }
 
-    .card__body {
-      padding-inline: 0;
+    .card__title {
+      min-block-size: 0;
     }
 
     .card__tags {
