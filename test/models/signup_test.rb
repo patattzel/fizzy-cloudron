@@ -25,6 +25,7 @@ class SignupTest < ActiveSupport::TestCase
     assert @signup.signal_account
     assert @signup.signal_account.persisted?
     assert_equal @signup.signal_identity, @signup.signal_account.owner.identity
+    assert_equal @signup.company_name, @signup.signal_account.name
 
     assert @signup.account
     assert @signup.account.persisted?
@@ -34,6 +35,16 @@ class SignupTest < ActiveSupport::TestCase
     assert_equal @signup.user.signal_user, @signup.signal_account.owner
 
     assert_includes ApplicationRecord.tenants, @signup.signal_account.subdomain
+  end
+
+  test "the new account is named with company name if present" do
+    assert_equal @signup.company_name, @signup.send(:queenbee_account_name)
+  end
+
+  test "in beta, the new account is named distinctly" do
+    Rails.stubs(:env).returns(stub(beta?: true))
+
+    assert_equal "#{@signup.company_name} (Beta)", @signup.send(:queenbee_account_name)
   end
 
   test "#process creates all the necessary objects for an existing identity" do

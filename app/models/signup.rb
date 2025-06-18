@@ -116,7 +116,7 @@ class Signup
       {
         skip_remote: true, # Fizzy creates its own local account
         product_name: "fizzy",
-        name: company_name.presence || signal_identity.name,
+        name: queenbee_account_name,
         owner_identity_id: signal_identity.id,
         trial: false,
         subscription: subscription_attributes,
@@ -130,5 +130,11 @@ class Signup
 
     def request_attributes
       { remote_address: Current.ip_address, user_agent: Current.user_agent, referrer: Current.referrer }
+    end
+
+    def queenbee_account_name
+      name = company_name.presence || signal_identity.name
+      name += " (Beta)" if Rails.env.beta?
+      name
     end
 end
