@@ -1,16 +1,16 @@
 require "test_helper"
 
 class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
-  test "new at a tenanted domain" do
+  test "new under a tenanted domain redirects to the root" do
     get new_signup_account_url
 
     assert_redirected_to root_url
   end
 
-  test "new at an untenanted domain" do
+  test "new under an untenanted domain is OK" do
     integration_session.host = "example.com" # no subdomain
 
-    get new_signup_account_url
+    get new_signup_account_url, headers: auth_headers
 
     assert_response :success
   end
@@ -18,7 +18,9 @@ class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
   test "create with invalid params" do
     integration_session.host = "example.com" # no subdomain
 
-    post signup_accounts_url, params: { signup: { full_name: "Jim", email_address: "jim@example.com", password: "", company_name: "" } }
+    post signup_accounts_url,
+         headers: auth_headers,
+         params: { signup: { full_name: "Jim", email_address: "jim@example.com", password: "", company_name: "" } }
 
     assert_response :unprocessable_entity
     assert_select "div.alert--error", text: /you need to choose a password/i
@@ -29,7 +31,15 @@ class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference -> { SignalId::Identity.count }, +1 do
       assert_difference -> { SignalId::Account.count }, +1 do
-        post signup_accounts_url, params: { signup: { full_name: "Jim", email_address: "jim@example.com", password: SecureRandom.hex(12), company_name: "signup-accounts-controller-test-1" } }
+        post signup_accounts_url, headers: auth_headers,
+             params: {
+               signup: {
+                 full_name: "Jim",
+                 email_address: "jim@example.com",
+                 password: SecureRandom.hex(12),
+                 company_name: "signup-accounts-controller-test-1"
+               }
+             }
       end
     end
 
@@ -42,7 +52,9 @@ class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     identity = signal_identities(:david)
 
-    post signup_accounts_url, params: { signup: { email_address: identity.email_address, company_name: "signup-accounts-controller-test-2" } }
+    post signup_accounts_url, headers: auth_headers,
+         params: { signup: { email_address: identity.email_address, company_name: "signup-accounts-controller-test-2" } }
+
     assert_authentication_requested_for identity
 
     assert_no_difference -> { SignalId::Identity.count } do
@@ -59,20 +71,38 @@ class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def assert_authentication_requested_for(identity)
-    assert_response :redirect
-    assert_match(/#{Regexp.escape(Launchpad.url("/authenticate", login_hint: identity.email_address))}.*&purpose=signup/, redirect_to_url)
+  test "actions require HTTP basic authentication while we're in internal-only mode" do
+    integration_session.host = "example.com" # no subdomain
+
+    get new_signup_account_url
+
+    assert_response :unauthorized
   end
 
-  def authenticate_via_launchpad_as(identity)
-    get signup_session_url, params: { sig: identity.perishable_signature }
-    assert_equal identity.id, session[:signup]["identity_id"]
-    assert_redirected_to new_signup_completion_url
-    post signup_completions_url
-  end
+  private
+    def auth_headers
+      {
+        "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials(
+          Rails.application.credentials.dig(:account_signup_http_basic_auth, :name),
+          Rails.application.credentials.dig(:account_signup_http_basic_auth, :password)
+        )
+      }
+    end
 
-  def assert_redirected_to_account(signal_account = SignalId::Account.last)
-    assert_response :redirect
-    assert_match(/#{Regexp.escape(signal_account.url("/session/launchpad"))}.*&sig=/, redirect_to_url)
-  end
+    def assert_authentication_requested_for(identity)
+      assert_response :redirect
+      assert_match(/#{Regexp.escape(Launchpad.url("/authenticate", login_hint: identity.email_address))}.*&purpose=signup/, redirect_to_url)
+    end
+
+    def authenticate_via_launchpad_as(identity)
+      get signup_session_url, headers: auth_headers, params: { sig: identity.perishable_signature }
+      assert_equal identity.id, session[:signup]["identity_id"]
+      assert_redirected_to new_signup_completion_url
+      post signup_completions_url, headers: auth_headers
+    end
+
+    def assert_redirected_to_account(signal_account = SignalId::Account.last)
+      assert_response :redirect
+      assert_match(/#{Regexp.escape(signal_account.url("/session/launchpad"))}.*&sig=/, redirect_to_url)
+    end
 end

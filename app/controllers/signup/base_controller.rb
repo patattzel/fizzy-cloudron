@@ -1,6 +1,11 @@
 class Signup::BaseController < ApplicationController
   require_untenanted_access
 
+  http_basic_authenticate_with(
+    name: Rails.application.credentials.dig(:account_signup_http_basic_auth, :name),
+    password: Rails.application.credentials.dig(:account_signup_http_basic_auth, :password)
+  )
+
   attr_reader :authenticated_identity
 
   private
