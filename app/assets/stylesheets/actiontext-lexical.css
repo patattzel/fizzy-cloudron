@@ -157,6 +157,7 @@
     min-inline-size: var(--lexical-prompt-min-width);
     padding: var(--lexical-prompt-padding);
     visibility: hidden;
+    z-index: var(--z-popup);
   }
 
   .lexical-prompt-menu--visible {
