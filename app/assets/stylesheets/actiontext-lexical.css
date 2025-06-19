@@ -172,8 +172,16 @@
     gap: var(--lexical-prompt-padding);
     padding: var(--lexical-prompt-padding);
 
+    &:hover {
+      background-color: var(--color-selected);
+    }
+
     &[aria-selected] {
-      background-color: var(--color-ink-lighter);
+      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
+
+      &:hover {
+        --hover-size: 0;
+      }
     }
 
     img {
