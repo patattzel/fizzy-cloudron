@@ -1,32 +1,56 @@
+<% @page_title = "Search" %>
 
-<ul class="search-results list-style-none">
-  <% 7.times do %>
+<% content_for :header do %>
+  <nav>
+    <%= link_to_back fallback_path: root_path %>
+
+    <header class="center">
+      <h1 class="txt-large margin-none"><%= @page_title %></h1>
+    </header>
+
+    <div class="btn btn--placeholder flex-item-justify-end"></div>
+  </nav>
+<% end %>
+
+<section class="search">
+  <div class="search__field">
+    <input class="input" type="search" placeholder="What are you looking for, beautiful stranger?" />
+    <span class="search__field-icon btn btn--circle borderless">
+      <%= icon_tag "search" %>
+    </span>
+    <button class="search__field-clear btn btn--circle borderless">
+      <%= icon_tag "close" %>
+    </button>
+  </div>
+
+  <ul class="search__list">
     <li>
-      <div class="card card--search">
-        <header class="card__header">
-          <label class="card__collection flex align-center">
-            <span class="card__id">864</span>
-            <span class="card__collection-name">
-              <span class="overflow-ellipsis">[BC4] New Hey! menu</span>
-            </span>
-          </label>
-        </header>
-
-        <div class="card__body justify-space-between">
-          <div class="card__content">
-            <h3 class="card__title overflow-line-clamp">
-              Ping will land on placeholder page if previous ping is exited by tapping Hey! menu
-            </h3>
-            <div>
-              <mark class="circled-text">
-                Fugiat proident ex
-                <span aria-hidden></span>
-              </mark>
-              occaecat labore tempor Proident sit anim id laboris ipsum proident.
-            </div>
+      <%= render "search/result", collection: "Fizzy: Issues", title: "Recently #{circled_text('close')}d cards aren't centered" %>
+    </li>
+    <li>
+      <%= render "search/result", collection: "Fizzy: Issues", title: "Inaccurate subscriber list" do %>
+        <div class="search__excerpt">
+          That's <%= circled_text "close" %>, but no cigar, I'm afraid!
+        </div>
+      <% end %>
+    </li>
+    <li>
+      <%= render "search/result", collection: "Fizzy: Issues", title: "Lexical stuck in formatting mode" do %>
+        <div class="search__excerpt search__excerpt--comment">
+          <figure class="avatar"></figure>
+          <div>
+            …have to reach into the <%= circled_text "close" %>t of discarded dreams to make this one work.
           </div>
         </div>
-      </div>
+      <% end %>
     </li>
-  <% end %>
-</ul>
+  </ul>
+
+  <ul class="search__history">
+    <% 7.times do %>
+      <li>
+        <%= link_to "historic search term", "#" %>
+      </li>
+    <% end %>
+  </ul>
+</section>

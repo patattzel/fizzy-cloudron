@@ -428,12 +428,24 @@
 
   .card--search {
     --card-color: var(--color-ink);
+    --card-padding-inline: 1rem;
 
     background-color: var(--color-canvas);
 
     .card__collection {
       background-color: var(--color-canvas);
       color: var(--color-ink-medium);
+      font-size: var(--text-x-small);
+      font-weight: 600;
+      padding-block-end: 1ch;
+    }
+
+    .card__id {
+      margin: 0;
+    }
+
+    .card__body {
+      padding: 0;
     }
 
     .card__title {
