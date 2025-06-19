@@ -29,16 +29,17 @@
   }
 
   .fizzy-menu__hotkeys {
-    --gap: 3px;
+    --gap: 8px;
 
     gap: var(--gap);
-    margin: var(--block-space-half) auto calc(var(--block-space-half) / 2);
+    margin: var(--block-space) auto calc(var(--block-space-half) / 2);
 
     .btn {
       --btn-border-radius: 0.4em;
 
       align-content: end;
       aspect-ratio: 5/3;
+      background-color: var(--color-ink-lightest);
       flex-basis: calc((100% - var(--gap) * 2) / 3);
       flex-direction: column;
       font-size: var(--text-small);

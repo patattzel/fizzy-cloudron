@@ -49,7 +49,8 @@
   }
 
   .popup__group {
-    background: var(--color-ink-lightest);
+    background: transparent;
+    border-radius: 0.3em;
     max-inline-size: 100%;
     padding-inline: var(--inline-space);
 
@@ -66,13 +67,12 @@
     }
 
     &[aria-selected] {
-      border-radius: 0.3em;
       box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
     }
   }
 
   .popup__item {
-    --btn-background: var(--color-ink-lightest);
+    --btn-background: transparent;
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
     --btn-font-weight: 500;
