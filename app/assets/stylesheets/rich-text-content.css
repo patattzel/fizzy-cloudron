@@ -329,30 +329,44 @@
         }
       }
     }
-  }
 
-  /* Debug styles by Jorge  */
-  /* Custom attachments such as mentions, etc. */
-  .attachment--custom {
-    display: inline;
-    padding: 0;
-    margin: 0;
-    white-space: normal;
-  }
+    /* Custom attachments such as mentions, etc. */
+    .attachment--custom {
+      display: inline;
+      padding: 0;
+      margin: 0;
+      white-space: normal;
+    }
 
-  .attachment--custom,
-  action-text-attachment {
-    --attachment-image-size: 1em;
+    .attachment--custom,
+    action-text-attachment {
+      --attachment-image-size: 1em;
+      --attachment-selected-color: oklch(var(--lch-blue-dark));
 
-    align-items: center;
-    display: inline-flex;
-    gap: 0.25ch;
-    vertical-align: bottom;
+      align-items: center;
+      display: inline-flex;
+      gap: 0.25ch;
+      position: relative;
+      vertical-align: bottom;
 
-    img {
-      block-size: var(--attachment-image-size);
-      border-radius: 50%;
-      inline-size: var(--attachment-image-size);
+      lexical-editor & {
+        cursor: pointer;
+      }
+
+      img {
+        block-size: var(--attachment-image-size);
+        border-radius: 50%;
+        inline-size: var(--attachment-image-size);
+      }
+
+      &.node--selected {
+        background: var(--attachment-selected-color);
+        box-shadow:
+          -0.25ch 0 0 var(--attachment-selected-color),
+           0.5ch 0 0 var(--attachment-selected-color);
+        border-radius: 99rem;
+        color: var(--color-ink-inverted);
+      }
     }
   }
 }
