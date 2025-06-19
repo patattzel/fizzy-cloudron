@@ -340,10 +340,14 @@
     white-space: normal;
   }
 
-  .attachment--custom, .lexical-prompt-menu__item, action-text-attachment {
+  .attachment--custom,
+  action-text-attachment {
+    --attachment-image-size: 24px;
+
     img {
+      block-size: var(--attachment-image-size);
       display: inline;
-      width: 24px;
+      inline-size: var(--attachment-image-size);
     }
   }
 }
