@@ -25,10 +25,6 @@ class User < ApplicationRecord
     update! active: false, email_address: deactived_email_address
   end
 
-  def to_attachable_partial_path
-    "users/attachable"
-  end
-
   private
     def deactived_email_address
       email_address.sub(/@/, "-deactivated-#{SecureRandom.uuid}@")
