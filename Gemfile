@@ -32,6 +32,16 @@ gem "image_processing", "~> 1.14"
 gem "platform_agent"
 gem "aws-sdk-s3", require: false
 
+# 37id and Queenbee integration
+gem "signal_id", bc: "signal_id", branch: "rails4"
+gem "mysql2" # needed by signal_id
+gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
+gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety
+gem "portfolio", ">= 4.6", bc: "portfolio" # needed by signal_id
+gem "file_repository", "~> 1.4.5", bc: "file_repository" # needed by portfolio
+gem "queenbee", bc: "queenbee-plugin"
+gem "activeresource", require: "active_resource" # needed by queenbee
+
 # Telemetry, logging, and operations
 gem "mission_control-jobs"
 gem "sentry-ruby"
@@ -55,4 +65,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webmock"
   gem "vcr"
+  gem "mocha"
 end

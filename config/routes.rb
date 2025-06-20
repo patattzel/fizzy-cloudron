@@ -85,6 +85,14 @@ Rails.application.routes.draw do
     scope module: "sessions" do
       resources :transfers, only: %i[ show update ]
     end
+    resource :launchpad, only: %i[ show update ], controller: "sessions/launchpad"
+  end
+
+  namespace :signup do
+    get "/" => "accounts#new"
+    resources :accounts, only: %i[ new create ]
+    get "/session" => "sessions#create" # redirect from Launchpad after mid-signup authentication
+    resources :completions, only: %i[ new create ]
   end
 
   resources :users do
@@ -149,6 +157,8 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   root "events#index"
+
+  Queenbee.routes(self)
 
   namespace :admin do
     mount MissionControl::Jobs::Engine, at: "/jobs"
