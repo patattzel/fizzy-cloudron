@@ -48,10 +48,11 @@ module Authentication
     def request_authentication
       session[:return_to_after_authenticating] = request.url
 
-      # # When we're ready to flip the switch to Launchpad authentication, uncomment this line:
-      # redirect_to Launchpad.login_url(account: Current.account), allow_other_host: true
-
-      redirect_to new_session_path
+      if Rails.application.config.x.local_authentication
+        redirect_to new_session_path
+      else
+        redirect_to Launchpad.login_url(account: Current.account), allow_other_host: true
+      end
     end
 
     def after_authentication_url
