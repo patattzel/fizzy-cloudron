@@ -1,5 +1,7 @@
 require "signal_id"
 
+ENV["SIGNAL_ID_SECRET"] = Rails.application.credentials.signal_id_secret
+
 Rails.application.config.to_prepare do
   SignalId.product = "fizzy"
 
