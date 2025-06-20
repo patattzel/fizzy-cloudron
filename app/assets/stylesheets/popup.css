@@ -42,9 +42,12 @@
   .popup__footer {
     background-color: var(--color-canvas);
     border-block-start: 1px solid var(--color-ink-lighter);
-    inset: auto 0 0 0;
+    font-size: var(--text-small);
+    inset: auto 0 0;
+    margin-inline: calc(var(--block-space) * -1);
     padding: var(--block-space-half) var(--inline-space) var(--block-space);
     position: sticky;
+    text-align: center;
     z-index: 1;
   }
 
@@ -134,6 +137,13 @@
 
   .popup__title {
     font-weight: 800;
+  }
+
+  .popup__group-title {
+    font-size: var(--text-small);
+    margin-block: var(--block-space-half);
+    padding-inline: var(--inline-space);
+    text-transform: uppercase;
   }
 }
 
