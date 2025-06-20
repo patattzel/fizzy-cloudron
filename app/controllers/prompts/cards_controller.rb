@@ -24,7 +24,7 @@ class Prompts::CardsController < ApplicationController
 
     def prepending_exact_matches_by_id(cards)
       if card_by_id = Current.user.accessible_cards.find_by_id(params[:filter])
-        [card_by_id] + cards
+        [ card_by_id ] + cards
       else
         cards
       end
