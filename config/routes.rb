@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resource :first_run
-
   resource :account do
     resource :join_code, module: :accounts
 
