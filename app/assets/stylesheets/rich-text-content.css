@@ -220,15 +220,6 @@
       text-decoration: underline;
     }
 
-    /* Attachment junk gets wrapped in a paragraph causing unwanted space */
-    p:has(action-text-attachment[src]) {
-      display: none;
-
-      + * {
-        margin-block-start: 0;
-      }
-    }
-
     /* Avoid extra space due to empty paragraphs */
     p:empty {
       display: none;
@@ -339,7 +330,7 @@
     }
 
     .attachment--custom,
-    action-text-attachment {
+    action-text-attachment[content-type^='application/vnd.actiontext'] {
       --attachment-image-size: 1em;
       --attachment-selected-color: oklch(var(--lch-blue-dark));
 
