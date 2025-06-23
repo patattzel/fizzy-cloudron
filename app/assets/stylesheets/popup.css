@@ -4,11 +4,10 @@
     --panel-padding: var(--block-space);
     --panel-size: auto;
 
-    inline-size: auto;
     inset: 0 auto auto 50%;
     max-block-size: 80vh;
-    min-inline-size: min(25ch, 90vw);
-    max-inline-size: min(55ch, 90vw);
+    min-inline-size: min(25ch, calc(100dvw - var(--block-space-double)));
+    max-inline-size: min(55ch, calc(100dvw - var(--block-space-double)));
     overflow: auto;
     position: absolute;
     transform: translateX(-50%);
@@ -26,11 +25,6 @@
       max-inline-size: 100vw;
       position: relative;
       z-index: 5;
-
-      .popup {
-        min-inline-size: 40ch;
-        max-inline-size: 40ch;
-      }
     }
 
     .card & {
@@ -155,7 +149,6 @@
 
 .popup--animated {
   --backdrop-speed: 150ms;
-  --panel-size: max-content;
   --speed: 150ms;
 
   opacity: 0;
