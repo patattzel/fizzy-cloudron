@@ -30,9 +30,20 @@
     translate: -50% -50%;
     z-index: 1;
 
+    &::-moz-range-track {
+      block-size: var(--knob-size);
+      cursor: grab;
+    }
+
     &::-webkit-slider-runnable-track {
       block-size: var(--knob-size);
       cursor: grab;
+    }
+
+    &::-moz-range-thumb {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
     }
 
     &::-webkit-slider-thumb {
