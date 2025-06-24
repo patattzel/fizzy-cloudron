@@ -1,14 +1,13 @@
 @layer components {
   .popup {
     --panel-border-radius: 0.5em;
-    --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space);
+    --panel-padding: var(--block-space);
     --panel-size: auto;
 
-    inline-size: auto;
     inset: 0 auto auto 50%;
     max-block-size: 80vh;
-    min-inline-size: min(25ch, 90vw);
-    max-inline-size: min(55ch, 90vw);
+    min-inline-size: min(25ch, calc(100dvw - var(--block-space-double)));
+    max-inline-size: min(55ch, calc(100dvw - var(--block-space-double)));
     overflow: auto;
     position: absolute;
     transform: translateX(-50%);
@@ -18,15 +17,14 @@
       display: flex;
     }
 
+    &:has(.popup__footer) {
+      --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space)
+    }
+
     #header:has(&) {
       max-inline-size: 100vw;
       position: relative;
       z-index: 5;
-
-      .popup {
-        min-inline-size: 40ch;
-        max-inline-size: 40ch;
-      }
     }
 
     .card & {
@@ -37,14 +35,19 @@
 
   .popup__footer {
     background-color: var(--color-canvas);
-    inset: auto 0 0 0;
-    padding: var(--block-space);
+    border-block-start: 1px solid var(--color-ink-lighter);
+    font-size: var(--text-small);
+    inset: auto 0 0;
+    margin-inline: calc(var(--block-space) * -1);
+    padding: var(--block-space-half) var(--inline-space) var(--block-space);
     position: sticky;
+    text-align: center;
     z-index: 1;
   }
 
   .popup__group {
-    background: var(--color-ink-lightest);
+    background: transparent;
+    border-radius: 0.3em;
     max-inline-size: 100%;
     padding-inline: var(--inline-space);
 
@@ -61,13 +64,12 @@
     }
 
     &[aria-selected] {
-      border-radius: 0.3em;
       box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
     }
   }
 
   .popup__item {
-    --btn-background: var(--color-ink-lightest);
+    --btn-background: transparent;
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
     --btn-font-weight: 500;
@@ -114,27 +116,39 @@
   }
 
   .popup__list {
+    display: flex;
+    flex-direction: column;
+    inline-size: 100%;
+    margin: 0;
+    max-inline-size: 100%;
+    padding: 0;
     row-gap: 2px;
   }
 
   .popup__new {
     --btn-icon-size: 1em;
 
+    padding-inline-start: var(--inline-space-half);
+
     .icon {
       margin-inline-end: 0.5em;
     }
-
-    padding-inline-start: var(--inline-space-half);
   }
 
   .popup__title {
     font-weight: 800;
   }
+
+  .popup__group-title {
+    font-size: var(--text-small);
+    margin-block: var(--block-space-half);
+    padding-inline: var(--inline-space);
+    text-transform: uppercase;
+  }
 }
 
 .popup--animated {
   --backdrop-speed: 150ms;
-  --panel-size: max-content;
   --speed: 150ms;
 
   opacity: 0;

@@ -10,6 +10,7 @@ CI.run do
   step "Security: Brakeman code analysis", "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
 
   step "Tests: Rails", "bin/rails test"
+  step "Tests: 37id", "bin/rails 37id:test:units"
 
   if success?
     step "Signoff: All systems go. Ready for merge and deploy.", "gh signoff"

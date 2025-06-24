@@ -1,12 +1,13 @@
 create_tenant "37signals"
 
-david = create_first_run "David Heinemeier Hansson", "david@37signals.com"
+david = find_or_create_user "David Heinemeier Hansson", "david@37signals.com"
+jason = find_or_create_user "Jason Fried", "jason@37signals.com"
+jz    = find_or_create_user "Jason Zimdars", "jz@37signals.com"
+kevin = find_or_create_user "Kevin Mcconnell", "kevin@37signals.com"
+
 login_as david
 
-jz    = create_user "Jason Zimdars", "jz@37signals.com"
-kevin = create_user "Kevin Mcconnell", "kevin@37signals.com"
-
-create_collection("Fizzy", access_to: [ jz, kevin ]).tap do |fizzy|
+create_collection("Fizzy", access_to: [ jason, jz, kevin ]).tap do |fizzy|
   create_card("Prepare sign-up page", description: "We need to do this before the launch.", collection: fizzy)
 
   create_card("Prepare sign-up page", description: "We need to do this before the launch.", collection: fizzy).tap do |card|

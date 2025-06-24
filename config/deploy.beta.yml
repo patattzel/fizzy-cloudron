@@ -13,6 +13,7 @@ proxy:
 env:
   clear:
     RAILS_ENV: beta
+    LOCAL_AUTHENTICATION: t
 
 x-beamer-accessory: &beamer-accessory
   image: basecamp/beamer

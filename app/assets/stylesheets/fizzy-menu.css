@@ -1,28 +1,72 @@
-.fizzy-dialog {
-  --panel-border-color: var(--color-selected-dark);
-  --panel-border-radius: 1.4em;
+@layer components {
+  .fizzy-dialog:is(.panel) {
+    --panel-border-color: var(--color-selected-dark);
+    --panel-border-radius: 1.4em;
+    --panel-size: 45ch;
 
-  box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
-              0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
-              0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
-              0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
-  z-index: 5;
-}
+    box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
+                0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
+                0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
+                0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
+  }
 
-.fizzy-menu {
-  --input-border-color: var(--color-selected-dark);
-  --input-padding: 0.2em 2em 0.2em 0.9em;
+  .input:is(.fizzy-menu) {
+    --input-border-color: var(--color-selected-dark);
+    --input-padding: 0.2em 2em 0.2em 0.9em;
 
-  box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
-              0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
-              0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
-              0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
-  margin-block-start: 0.1em;
+    box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
+                0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
+                0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
+                0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
+    margin-block-start: 0.1em;
 
-  svg {
-    block-size: auto;
-    inline-size: 1.3em;
-    margin-block-end: 0.2em;
-    margin-inline-end: 0.8ch;
+    svg {
+      block-size: auto;
+      inline-size: 1.3em;
+      margin-block-end: 0.2em;
+      margin-inline-end: 0.8ch;
+    }
+  }
+
+  .fizzy-menu__hotkeys {
+    --gap: 8px;
+
+    gap: var(--gap);
+    margin: var(--block-space) auto calc(var(--block-space-half) / 2);
+
+    .btn {
+      --btn-border-radius: 0.4em;
+
+      align-content: end;
+      aspect-ratio: 5/3;
+      background-color: var(--color-ink-lightest);
+      border-radius: 0.5em;
+      flex-basis: calc((100% - var(--gap) * 2) / 3);
+      flex-direction: column;
+      font-size: var(--text-small);
+      line-height: 1;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      row-gap: 0.3lh;
+      text-align: center;
+
+      kbd {
+        border: none;
+        box-shadow: none;
+        inset: 0.66em 0.33em auto auto;
+        opacity: 0.5;
+        position: absolute;
+      }
+
+      .icon {
+        --icon-size: 2em !important;
+      }
+
+      span {
+        display: flex;
+        text-wrap: nowrap;
+      }
+    }
   }
 }
