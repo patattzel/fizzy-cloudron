@@ -17,15 +17,22 @@
 <section class="search">
   <%= render "searches/form", query_terms: @query_terms %>
 
-  <% if @query_terms.present? && @search_results.none? %>
-    <p>No search results</p>/
-  <% end %>
+  <div class="search__results">
+    <% if @query_terms.present? && @search_results.none? %>
+      <div class="search__empty">
+        No search results
+      </div>
+    <% end %>
 
-  <ul class="search__list">
-    <%= render partial: "searches/result", collection: @search_results %>
-  </ul>
+    <ul class="search__list">
+      <%= render partial: "searches/result", collection: @search_results %>
+    </ul>
+  </div>
 
-  <ul class="search__history">
-    <%= render partial: "searches/search_query", collection: @recent_search_queries %>
-  </ul>
+  <aside class="search__history">
+    <h3>Your recent searches…</h3>
+    <ul class="search__list">
+      <%= render partial: "searches/search_query", collection: @recent_search_queries.first(10) %>
+    </ul>
+  </aside>
 </section>
