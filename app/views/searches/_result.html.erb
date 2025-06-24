@@ -1,5 +1,5 @@
 <li>
-  <div class="card card--search">
+  <%= link_to result.source, class: "card card--search" do %>
     <header class="card__header">
       <label class="card__collection flex align-center">
         <span class="card__id"><%= result.card_id %></span>
@@ -22,7 +22,7 @@
         <% else
              if result.comment_body.present? %>
             <div class="search__excerpt search__excerpt--comment">
-              <%= avatar_tag result.creator %>
+              <%= avatar_preview_tag result.creator %>
               <div>
                 <%= result.comment_body.html_safe %>
               </div>
@@ -31,5 +31,5 @@
         <% end %>
       </div>
     </div>
-  </div>
+  <% end %>
 </li>

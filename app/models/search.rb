@@ -16,24 +16,24 @@ class Search
     cards = user.accessible_cards.search(query)
       .select([
         "cards.id as card_id",
+        "null as comment_id",
         "highlight(cards_search_index, 0, '<mark class=\"circled-text\"><span></span>', '</mark>') AS card_title",
         "snippet(cards_search_index, 1, '<mark class=\"circled-text\"><span></span>', '</mark>', '...', 20) AS card_description",
         "null as comment_body",
         "collections.name as collection_name",
         "cards.creator_id",
-        "'card' as source",
         "bm25(cards_search_index, 10.0, 2.0) AS score"
       ].join(","))
 
     comments = user.accessible_comments.search(query)
       .select([
         "comments.card_id as card_id",
+        "comments.id as comment_id",
         "cards.title AS card_title",
         "null AS card_description",
         "snippet(comments_search_index, 0, '<mark class=\"circled-text\"><span></span>', '</mark>', '...', 20) AS comment_body",
         "collections.name as collection_name",
         "comments.creator_id",
-        "'comment' as source",
         "bm25(comments_search_index, 1.0) AS score"
       ].join(","))
 
