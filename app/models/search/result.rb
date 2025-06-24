@@ -1,10 +1,8 @@
 class Search::Result < ApplicationRecord
+  belongs_to :creator, class_name: "User"
+
   def source
     self[:source]&.inquiry
-  end
-
-  def creator
-    User.find(creator_id)
   end
 
   def readonly?
