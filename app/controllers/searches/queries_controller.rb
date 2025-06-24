@@ -1,11 +1,8 @@
 class Searches::QueriesController < ApplicationController
+  include Search::QueryTermsScoped
+
   def create
-    Current.user.remember_search(terms_params)
+    Current.user.remember_search(@query_terms)
     head :ok
   end
-
-  private
-    def terms_params
-      params[:terms]
-    end
 end

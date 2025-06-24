@@ -12,7 +12,7 @@
   </nav>
 <% end %>
 
-<%= auto_submit_form_with url: searches_queries_path(terms: @query_terms), method: :post %>
+<%= auto_submit_form_with url: searches_queries_path(q: @query_terms), method: :post %>
 
 <section class="search">
   <%= render "searches/form", query_terms: @query_terms %>
