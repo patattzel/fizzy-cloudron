@@ -59,9 +59,9 @@ module Searchable
 
   private
     def create_in_search_index
-      fields_sql = ["rowid", *search_fields].join(", ")
-      placeholders = (["?"] * (search_fields.size + 1)).join(", ")
-      values = [id, *search_values]
+      fields_sql = [ "rowid", *search_fields ].join(", ")
+      placeholders = ([ "?" ] * (search_fields.size + 1)).join(", ")
+      values = [ id, *search_values ]
 
       execute_sql_with_binds(
         "insert into #{search_table}(#{fields_sql}) values (#{placeholders})",
@@ -72,7 +72,7 @@ module Searchable
     def update_in_search_index
       transaction do
         set_clause = search_fields.map { |field| "#{field} = ?" }.join(", ")
-        binds = search_values + [id]
+        binds = search_values + [ id ]
 
         updated = execute_sql_with_binds(
           "update #{search_table} set #{set_clause} where rowid = ?",
