@@ -1,14 +1,13 @@
 class Search
-  attr_reader :user, :query, :max_results
+  attr_reader :user, :query
 
   def self.table_name_prefix
     "search_"
   end
 
-  def initialize(user, query, max_results: 50)
+  def initialize(user, query)
     @user = user
     @query = Query.wrap(query)
-    @max_results = max_results
   end
 
   def results
@@ -39,6 +38,6 @@ class Search
       ].join(","))
 
     union_sql = "(#{cards.to_sql} UNION #{comments.to_sql}) as search_results"
-    Search::Result.from(union_sql).order(score: :desc).limit(max_results)
+    Search::Result.from(union_sql).order(score: :desc)
   end
 end

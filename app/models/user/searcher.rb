@@ -5,8 +5,8 @@ module User::Searcher
     has_many :search_queries, class_name: "Search::Query", dependent: :destroy
   end
 
-  def search(terms, max_results: 50)
-    Search.new(self, terms, max_results: max_results).results
+  def search(terms)
+    Search.new(self, terms).results
   end
 
   def remember_search(terms)
