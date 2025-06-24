@@ -31,7 +31,8 @@ module Searchable
       after_destroy_commit :remove_from_search_index
 
       scope :search, ->(query) do
-        if query = Search::Query.wrap(query)
+        query = Search::Query.wrap(query)
+        if query.valid?
           joins("join #{using} idx on #{table_name}.id = idx.rowid").where("#{using} match ?", query.to_s)
         else
           none
