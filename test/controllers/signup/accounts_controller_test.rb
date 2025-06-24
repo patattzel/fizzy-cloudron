@@ -81,12 +81,7 @@ class Signup::AccountsControllerTest < ActionDispatch::IntegrationTest
 
   private
     def auth_headers
-      {
-        "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials(
-          Rails.application.credentials.dig(:account_signup_http_basic_auth, :name),
-          Rails.application.credentials.dig(:account_signup_http_basic_auth, :password)
-        )
-      }
+      { "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials("testname", "testpassword") }
     end
 
     def assert_authentication_requested_for(identity)

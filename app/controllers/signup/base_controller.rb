@@ -2,9 +2,10 @@ class Signup::BaseController < ApplicationController
   require_untenanted_access
   before_action :redirect_if_local_auth
 
+  # TODO: Remove this auth before launch.
   http_basic_authenticate_with(
-    name: Rails.application.credentials.dig(:account_signup_http_basic_auth, :name),
-    password: Rails.application.credentials.dig(:account_signup_http_basic_auth, :password)
+    name: Rails.env.test? ? "testname" : Rails.application.credentials.account_signup_http_basic_auth.name,
+    password: Rails.env.test? ? "testpassword" : Rails.application.credentials.account_signup_http_basic_auth.password
   )
 
   attr_reader :authenticated_identity
