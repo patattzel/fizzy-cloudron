@@ -12,10 +12,10 @@
   </nav>
 <% end %>
 
+<%= auto_submit_form_with url: searches_queries_path(terms: params[:q]), method: :post %>
+
 <section class="search">
   <%= render "searches/form" %>
-
-  <%= auto_submit_form_with url: search_path(q: params[:q]), method: :post %>
 
   <ul class="search__list">
     <%= render partial: "searches/result", collection: @search_results %>

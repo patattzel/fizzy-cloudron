@@ -62,6 +62,9 @@ Rails.application.routes.draw do
   end
 
   resource :search
+  namespace :searches do
+    resources :queries
+  end
 
   resources :filters
 

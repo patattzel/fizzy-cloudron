@@ -16,7 +16,7 @@ class Search::Query < ApplicationRecord
 
   private
     def sanitize_query_syntax
-      self.terms = begin
+      self.terms = if terms.present?
         terms = remove_invalid_search_characters(self.terms)
         terms = remove_unbalanced_quotes(terms)
         terms.presence
