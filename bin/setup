@@ -6,6 +6,10 @@ puts "== Installing dependencies =="
 system("gem install bundler --conservative")
 system("bundle check") || system!("bundle install")
 
+puts "\n== Starting MySQL =="
+system!("git -C ~/Work/basecamp/shipyard pull || true")
+system!("~/Work/basecamp/shipyard/app-dev/setup mysql80")
+
 puts "\n== Preparing database =="
 if ARGV.include?("--reset")
   system! "bin/rails db:drop db:create db:schema:load db:prepare"
