@@ -1,6 +1,9 @@
 class Search
   attr_reader :user, :query
 
+  HIGHLIGHT_OPENING_MARK = "<mark class=\"circled-text\"><span></span>"
+  HIGHLIGHT_CLOSING_MARK = "</mark>"
+
   def self.table_name_prefix
     "search_"
   end
@@ -17,8 +20,8 @@ class Search
       .select([
         "cards.id as card_id",
         "null as comment_id",
-        "highlight(cards_search_index, 0, '<mark class=\"circled-text\"><span></span>', '</mark>') AS card_title",
-        "snippet(cards_search_index, 1, '<mark class=\"circled-text\"><span></span>', '</mark>', '...', 20) AS card_description",
+        "highlight(cards_search_index, 0, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}') AS card_title",
+        "snippet(cards_search_index, 1, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}', '...', 20) AS card_description",
         "null as comment_body",
         "collections.name as collection_name",
         "cards.creator_id",
@@ -31,7 +34,7 @@ class Search
         "comments.id as comment_id",
         "cards.title AS card_title",
         "null AS card_description",
-        "snippet(comments_search_index, 0, '<mark class=\"circled-text\"><span></span>', '</mark>', '...', 20) AS comment_body",
+        "snippet(comments_search_index, 0, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}', '...', 20) AS comment_body",
         "collections.name as collection_name",
         "comments.creator_id",
         "bm25(comments_search_index, 1.0) AS score"
