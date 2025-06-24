@@ -1,6 +1,6 @@
 class Search::Query < ApplicationRecord
   validates :terms, presence: true
-  before_validation :sanitize_query_syntax
+  before_validation :sanitize_terms
 
   class << self
     def wrap(query)
@@ -15,11 +15,17 @@ class Search::Query < ApplicationRecord
   alias_attribute :to_s, :terms
 
   private
-    def sanitize_query_syntax
-      self.terms = if terms.present?
+    def sanitize_terms
+      self.terms = sanitize(terms)
+    end
+
+    def sanitize(terms)
+      if terms.present?
         terms = remove_invalid_search_characters(self.terms)
         terms = remove_unbalanced_quotes(terms)
         terms.presence
+      else
+        terms
       end
     end
 
