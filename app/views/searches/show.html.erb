@@ -12,12 +12,12 @@
   </nav>
 <% end %>
 
-<%= auto_submit_form_with url: searches_queries_path(terms: params[:q]), method: :post %>
+<%= auto_submit_form_with url: searches_queries_path(terms: @query_terms), method: :post %>
 
 <section class="search">
-  <%= render "searches/form" %>
+  <%= render "searches/form", query_terms: @query_terms %>
 
-  <% if params[:q].present? && @search_results.none? %>
+  <% if @query_terms.present? && @search_results.none? %>
     <p>No search results</p>/
   <% end %>
 
