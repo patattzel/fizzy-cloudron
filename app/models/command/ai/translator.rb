@@ -51,7 +51,7 @@ class Command::Ai::Translator
 
         ## Context Properties for Filtering (use explicitly):
 
-        * **terms**: Array of keywords (split individually, e.g., ["some", "term"]). Avoid redundancy.
+        * **terms**: Array of keywords (split individually, e.g., ["some", "term"]). Avoid redundancy. Only use if the query explicitly refers to cards.
         * **indexed_by**: "newest", "oldest", "latest", "stalled", "closed".
           * "closed": completed cards.
           * "newest": by creation date
@@ -67,6 +67,7 @@ class Command::Ai::Translator
 
         ## Explicit Filtering Rules:
 
+        * Only use "terms" if the query explicitly refers to cards. If just searching for an expression, ALWAYS use /search.
         * Numbers entered without explicit "card" or "cards" prefix should default to `terms`.
           * Examples:
             * "123": `terms: ["123"]`
@@ -89,6 +90,9 @@ class Command::Ai::Translator
 
         ## Command Interpretation Rules:
 
+        * Unless you can clearly match the query with a command, pass the expression verbatim to /search to perform a search with it.
+        * When searching for nouns (singular or plural), if they don't refer to a person, favor /search with them instead of using the "terms" filter.
+        * When using /search, pass the expression to search verbatim, don't interpret it.
         * "tag with #design": always `/tag #design`. Do NOT create `tag_ids` context.
         * "#design cards" or "cards tagged with #design": use `tag_ids`.
         * "Assign cards tagged with #design to jz": filter by `tag_ids`, command `/assign jz`. Do NOT generate `/tag` command.
@@ -96,7 +100,6 @@ class Command::Ai::Translator
         * "close": always `/close`, even if no reason is given or no cards are explicitly described.
             - If the user just says “close”, assume they mean to close the current set of visible cards or context.
         * Always generate commands in the order they appear in the query.
-        * If you don't understand the command, default to use /search with the expression.
 
         ## ⚠️ Crucial Rules to Avoid Confusion:
 
