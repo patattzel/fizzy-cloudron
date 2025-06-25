@@ -31,6 +31,10 @@ class Command::Parser
         Command::ClearFilters.new(params: filter.as_params)
       when "/close"
         Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
+      when "/consider", "/reconsider"
+        Command::Consider.new(card_ids: cards.ids)
+      when "/do"
+        Command::Do.new(card_ids: cards.ids)
       when "/insight"
         Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
       when "/search"
