@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_25_073215) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_25_111932) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -406,6 +406,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_25_073215) do
 
   # Virtual tables defined in this database.
   # Note that virtual tables may not work with other database engines. Be careful if changing database.
-  create_virtual_table "cards_search_index", "fts5", ["title", "description"]
-  create_virtual_table "comments_search_index", "fts5", ["body"]
+  create_virtual_table "cards_search_index", "fts5", ["title", "description", "tokenize='porter'"]
+  create_virtual_table "comments_search_index", "fts5", ["body", "tokenize='porter'"]
 end
