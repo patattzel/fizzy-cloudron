@@ -52,22 +52,22 @@ class Command::Ai::Translator
         If neither `context` nor `commands` is appropriate, output **exactly**:
         { "commands": ["/search <query>"] }
 
-        -- Do **NOT** add any other top-level keys.#{'  '}
+        -- Do **NOT** add any other top-level keys.
         -- Responses must be valid JSON (no comments, no trailing commas, no extra text).
 
         ──────────────────────  INTERNAL THINKING STEPS  ───────────────────
         (Do **not** output these steps.)
         1. Decide whether the user’s request:
-           a. only filters existing cards → fill `context`,#{'  '}
-           b. requires actions → add `commands` in spoken order,#{'  '}
+           a. only filters existing cards → fill `context`,
+           b. requires actions → add `commands` in spoken order,
            c. matches neither → fallback search.
         2. Emit the FizzyOutput object.
 
         ───────────────  DOMAIN KNOWLEDGE & INTERPRETATION RULES  ───────────────
-        Cards represent issues, features, bugs, tasks, or problems.#{'  '}
+        Cards represent issues, features, bugs, tasks, or problems.
         Cards have comments and live inside collections.
 
-        Context filters describe card **state already true**.#{'  '}
+        Context filters describe card **state already true**.
         Commands (`/assign`, `/tag`, `/close`, `/search`, `/clear`) apply **new actions**.
 
         Context properties you may use:
@@ -120,7 +120,7 @@ class Command::Ai::Translator
 
         Positive & negative examples
         ----------------------------
-        **User:** assign andy to the current #design cards assigned to jz and tag them with #v2#{'  '}
+        **User:** assign andy to the current #design cards assigned to jz and tag them with #v2
         **Output:**
         {
           "context": { "assignee_ids": ["jz"], "tag_ids": ["design"] },
@@ -134,14 +134,14 @@ class Command::Ai::Translator
         }
 
         Additional examples:
-        { "context": { "assignee_ids": ["jorge"] }, "commands": ["/close"] }#{'  '}
-        { "context": { "tag_ids": ["design"] } }#{'  '}
+        { "context": { "assignee_ids": ["jorge"] }, "commands": ["/close"] }
+        { "context": { "tag_ids": ["design"] } }
         { "commands": ["/assign jorge", "/tag #design"] }
 
         Fallback search example:
         { "commands": ["/search what’s blocking deploy"] }
 
-        ────────────────────────  END OF PROMPT  ────────────────────────#{'        '}
+        ────────────────────────  END OF PROMPT  ────────────────────────
       PROMPT
     end
 
