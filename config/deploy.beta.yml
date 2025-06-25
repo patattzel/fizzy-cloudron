@@ -1,14 +1,20 @@
 servers:
   web:
     hosts:
-      - fizzy.37signals.works
+      - fizzy-beta-app-01
   jobs:
     hosts:
-      - fizzy.37signals.works
+      - fizzy-beta-app-01
+  web-replica:
+    hosts:
+      - fizzy-beta-app-101
+    proxy: true
 
 proxy:
-  hosts:
-    - fizzy.37signals.works # the single tenant is named "fizzy"
+  ssl: false
+
+ssh:
+  user: app
 
 env:
   clear:
@@ -16,7 +22,7 @@ env:
     LOCAL_AUTHENTICATION: t
 
 x-beamer-accessory: &beamer-accessory
-  image: basecamp/beamer
+  image: basecamp/beamer:vfs
   registry:
     username: bcbot
     password:
@@ -26,11 +32,30 @@ x-beamer-accessory: &beamer-accessory
   volumes:
     - fizzy:/storage
 
+
 accessories:
   beamer-primary:
     <<: *beamer-accessory
     service: beamer-primary
-    cmd: beamer primary --remove-after=1h --dir=/storage
+    cmd: beamer primary --remove-after=1h --dir=/storage --disable-tls
     port: 5000:80
     roles:
       - web
+
+  beamer-replica:
+    <<: *beamer-accessory
+    service: beamer-replica
+    cmd: beamer replica --primary=http://fizzy-beta-app-01:5000/ --dir=/storage
+    roles:
+      - web-replica
+
+  load-balancer:
+    image: basecamp/kamal-proxy:lb
+    roles:
+      - web
+    options:
+      publish:
+        - 80:80
+        - 443:443
+    volumes:
+      - load-balancer:/home/kamal-proxy/.config/kamal-proxy
