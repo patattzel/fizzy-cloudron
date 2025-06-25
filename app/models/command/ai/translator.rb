@@ -33,7 +33,7 @@ class Command::Ai::Translator
 
         ────────────────────────  OUTPUT FORMAT  ────────────────────────
         Return one **valid JSON** object that matches exactly this type:
-        
+
         type FizzyOutput = {
           context?: {
             terms?: string[];
@@ -48,30 +48,30 @@ class Command::Ai::Translator
           };
           commands?: string[];      // each entry starts with '/' exactly
         }
-        
+
         If neither `context` nor `commands` is appropriate, output **exactly**:
         { "commands": ["/search <query>"] }
-        
-        -- Do **NOT** add any other top-level keys.  
+
+        -- Do **NOT** add any other top-level keys.
         -- Responses must be valid JSON (no comments, no trailing commas, no extra text).
-        
+
         ──────────────────────  INTERNAL THINKING STEPS  ───────────────────
         (Do **not** output these steps.)
         1. Decide whether the user’s request:
-           a. only filters existing cards → fill `context`,  
-           b. requires actions → add `commands` in spoken order,  
+           a. only filters existing cards → fill `context`,
+           b. requires actions → add `commands` in spoken order,
            c. matches neither → fallback search.
         2. Emit the FizzyOutput object.
-        
+
         ───────────────  DOMAIN KNOWLEDGE & INTERPRETATION RULES  ───────────────
-        Cards represent issues, features, bugs, tasks, or problems.  
+        Cards represent issues, features, bugs, tasks, or problems.
         Cards have comments and live inside collections.
-        
-        Context filters describe card **state already true**.  
+
+        Context filters describe card **state already true**.
         Commands (`/assign`, `/tag`, `/close`, `/search`, `/clear`) apply **new actions**.
-        
+
         Context properties you may use:
-        
+
         * terms — array of keywords
         * indexed_by — "newest", "oldest", "latest", "stalled", "closed"
         * assignee_ids — array of assignee names
@@ -81,7 +81,7 @@ class Command::Ai::Translator
         * creator_id — creator’s name
         * collection_ids — array of collections
         * tag_ids — array of tag names
-        
+
         Explicit filtering rules
         ------------------------
         * Use **terms** only if the query explicitly refers to cards; plain text searches go to `/search`.
@@ -98,7 +98,7 @@ class Command::Ai::Translator
         * “Cards with recent activity” → indexed_by: "latest"
         * “Completed/closed cards” → indexed_by: "closed"
         * If cards are described as “assigned to X” (state) and later “assign X” (action), **only** the first is a filter.
-        
+
         Command interpretation rules
         ----------------------------
         * Unless a clear command applies, fallback to `/search` with the verbatim text.
@@ -109,7 +109,7 @@ class Command::Ai::Translator
         * “Assign cards tagged with #design to jz” → context.tag_ids = ["design"]; command `/assign jz`
         * “close as [reason]” or “close because [reason]” → `/close [reason]`
         * Lone “close” → `/close` (acts on current context)
-        
+
         Crucial don’ts
         --------------
         * **Never** use names or tags mentioned inside commands as filters.
@@ -117,31 +117,31 @@ class Command::Ai::Translator
         * **All** filters, including terms, must live inside `context`.
         * Do not duplicate terms across properties.
         * Avoid redundant terms.
-        
+
         Positive & negative examples
         ----------------------------
-        **User:** assign andy to the current #design cards assigned to jz and tag them with #v2  
+        **User:** assign andy to the current #design cards assigned to jz and tag them with #v2
         **Output:**
         {
           "context": { "assignee_ids": ["jz"], "tag_ids": ["design"] },
           "commands": ["/assign andy", "/tag #v2"]
         }
-        
+
         **Incorrect (do NOT do this):**
         {
           "context": { "assignee_ids": ["andy"], "tag_ids": ["v2"] },
           "commands": ["/assign andy", "/tag #v2"]
         }
-        
+
         Additional examples:
-        { "context": { "assignee_ids": ["jorge"] }, "commands": ["/close"] }  
-        { "context": { "tag_ids": ["design"] } }  
+        { "context": { "assignee_ids": ["jorge"] }, "commands": ["/close"] }
+        { "context": { "tag_ids": ["design"] } }
         { "commands": ["/assign jorge", "/tag #design"] }
-        
+
         Fallback search example:
         { "commands": ["/search what’s blocking deploy"] }
-        
-        ────────────────────────  END OF PROMPT  ────────────────────────        
+
+        ────────────────────────  END OF PROMPT  ────────────────────────
       PROMPT
     end
 
