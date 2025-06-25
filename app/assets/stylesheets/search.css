@@ -1,6 +1,6 @@
 @layer components {
   .search {
-    --gap: 4vw;
+    --gap: 4vmin;
 
     display: grid;
     gap: var(--gap);
@@ -67,6 +67,15 @@
     text-align: start;
   }
 
+  .search__results {
+    /* Full-width when there isn't a search history */
+    @media (min-width: 640px) {
+      &:not(:has(+ .search__history li)) {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
   .search__empty {
     opacity: 0.66;
     border: 2px dashed var(--color-ink-light);
@@ -75,14 +84,18 @@
   }
 
   .search__history {
+    align-self: start;
+    background-color: var(--color-ink-lightest);
+    border-radius: 0.5em;
     display: none;
     flex-direction: column;
     gap: 1ch;
+    padding: 1em;
     text-align: start;
 
     /* Only show on larger screens when there's a search history to show */
     @media (min-width: 640px) {
-      &:has(.search__list li) {
+      &:has(li) {
         display: flex;
       }
     }
