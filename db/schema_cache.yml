@@ -900,6 +900,7 @@ columns:
     collation:
     comment:
   - *9
+  - *25
   search_results:
   - *5
   - *6
@@ -2180,9 +2181,26 @@ indexes:
   search_queries:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: search_queries
-    name: index_search_queries_on_terms
+    name: index_search_queries_on_user_id
     unique: false
     columns:
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: search_queries
+    name: index_search_queries_on_user_id_and_terms
+    unique: false
+    columns:
+    - user_id
     - terms
     lengths: {}
     orders: {}
