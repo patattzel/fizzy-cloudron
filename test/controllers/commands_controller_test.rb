@@ -3,8 +3,6 @@ require "test_helper"
 class CommandsControllerTest < ActionDispatch::IntegrationTest
   include VcrTestHelper
 
-  vcr_record!
-
   setup do
     sign_in_as :kevin
   end
