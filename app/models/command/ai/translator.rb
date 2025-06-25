@@ -9,7 +9,6 @@ class Command::Ai::Translator
 
   def translate(query)
     response = translate_query_with_llm(query)
-    Rails.logger.debug "Commands: #{response}"
     normalize JSON.parse(response)
   end
 
@@ -92,9 +91,10 @@ class Command::Ai::Translator
 
         * Unless you can clearly match the query with a command, pass the expression verbatim to /search to perform a search with it.
         * When searching for nouns (singular or plural), if they don't refer to a person, favor /search with them instead of using the "terms" filter.
+        * Respect strictly the order of commands as the appear in the user request.
         * When using /search, pass the expression to search verbatim, don't interpret it.
         * "tag with #design": always `/tag #design`. Do NOT create `tag_ids` context.
-        * "#design cards" or "cards tagged with #design": use `tag_ids`.
+        * "#design cards" or "cards tagged with #design": use `tag_ids`. Do not use the /tag command in this case.
         * "Assign cards tagged with #design to jz": filter by `tag_ids`, command `/assign jz`. Do NOT generate `/tag` command.
         * "close as [reason]" or "close because [reason]": include the reason in the `/close` command, e.g., `/close not now`.
         * "close": always `/close`, even if no reason is given or no cards are explicitly described.
@@ -144,6 +144,8 @@ class Command::Ai::Translator
         { "commands": ["/assign jorge", "/tag #design"] }
 
         Omit empty arrays or unnecessary properties. At least one property (`context` or `commands`) must exist.
+
+        Never include JSON outside of "context" or "commands".
 
         ## Other Strict Instructions:
 

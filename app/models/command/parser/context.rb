@@ -12,7 +12,7 @@ class Command::Parser::Context
     if viewing_card_contents?
       user.accessible_cards.where id: params[:id]
     elsif viewing_list_of_cards?
-      filtered_cards
+      filter.cards.published
     else
       Card.none
     end
@@ -42,12 +42,5 @@ class Command::Parser::Context
       @controller = route[:controller]
       @action = route[:action]
       @params =  ActionController::Parameters.new(Rack::Utils.parse_nested_query(uri.query).merge(route.except(:controller, :action)))
-    end
-
-    def filtered_cards
-      open_cards = filter.cards.published.limit(MAX_CARDS)
-      closed_cards = filter.indexed_by.stalled? || filter.indexed_by.closed? ? Card.none : filter.with(indexed_by: "closed").cards.limit(MAX_CLOSED_CARDS)
-      Rails.logger.info "CLOSED CARDS: #{closed_cards.collect(&:title)}"
-      user.accessible_cards.where(id: open_cards.ids + closed_cards.ids)
     end
 end
