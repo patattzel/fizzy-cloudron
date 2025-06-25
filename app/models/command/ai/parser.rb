@@ -11,6 +11,7 @@ class Command::Ai::Parser
 
   def parse(query)
     normalized_query = resolve_named_params_to_ids command_translator.translate(query)
+
     build_composite_command_for normalized_query, query
   end
 
