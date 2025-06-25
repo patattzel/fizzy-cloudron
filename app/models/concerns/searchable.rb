@@ -4,22 +4,41 @@ module Searchable
   included do
     has_one :search_embedding, as: :record, dependent: :destroy, class_name: "Search::Embedding"
 
-    after_create_commit  :refresh_search_embedding_later
-    after_update_commit  :refresh_search_embedding_later
+    after_create_commit :refresh_search_embedding_later
+    after_update_commit :refresh_search_embedding_later
     after_destroy_commit :remove_search_embedding
   end
 
   class_methods do
-    def searchable_by(field, using:, as: field)
-      define_method :search_value do send(field); end
-      define_method :search_field do as; end
-      define_method :search_table do using; end
+    def searchable_by(*fields, using:)
+      define_method :search_fields do
+        fields
+      end
 
-      after_create_commit  :create_in_search_index
-      after_update_commit  :update_in_search_index
+      define_method :search_values do
+        fields.map do
+          value = send(it)
+          value.respond_to?(:to_plain_text) ? value.to_plain_text : value
+        end
+      end
+
+      define_method :search_table do
+        using
+      end
+
+      after_create_commit :create_in_search_index
+      after_update_commit :update_in_search_index
       after_destroy_commit :remove_from_search_index
 
-      scope :search, ->(query) { joins("join #{using} idx on #{table_name}.id = idx.rowid").where("idx.#{as} match ?", query) }
+      scope :search, ->(query) do
+        query = Search::Query.wrap(query)
+        if query.valid?
+          joins("join #{using} idx on #{table_name}.id = idx.rowid").where("#{using} match ?", query.to_s)
+        else
+          none
+        end
+      end
+
       scope :search_similar, ->(query) do
         query_embedding = Rails.cache.fetch("embed-search:#{query}") { RubyLLM.embed(Ai::Tokenizer.truncate(query)) }
         joins(:search_embedding)
@@ -41,12 +60,26 @@ module Searchable
 
   private
     def create_in_search_index
-      execute_sql_with_binds "insert into #{search_table}(rowid, #{search_field}) values (?, ?)", id, search_value
+      fields_sql = [ "rowid", *search_fields ].join(", ")
+      placeholders = ([ "?" ] * (search_fields.size + 1)).join(", ")
+      values = [ id, *search_values ]
+
+      execute_sql_with_binds(
+        "insert into #{search_table}(#{fields_sql}) values (#{placeholders})",
+        *values
+      )
     end
 
     def update_in_search_index
       transaction do
-        updated = execute_sql_with_binds "update #{search_table} set #{search_field} = ? where rowid = ?", search_value, id
+        set_clause = search_fields.map { |field| "#{field} = ?" }.join(", ")
+        binds = search_values + [ id ]
+
+        updated = execute_sql_with_binds(
+          "update #{search_table} set #{set_clause} where rowid = ?",
+          *binds
+        )
+
         create_in_search_index unless updated
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_12_163028) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_24_080408) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -304,6 +304,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_12_163028) do
 #   Unknown type '' for column 'rowid'
 
 
+  create_table "search_queries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "terms", limit: 2000, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "terms"], name: "index_search_queries_on_user_id_and_terms"
+    t.index ["user_id"], name: "index_search_queries_on_user_id"
+  end
+
+  create_table "search_results", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -387,6 +401,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_12_163028) do
   add_foreign_key "notifications", "users", column: "creator_id"
   add_foreign_key "pins", "cards"
   add_foreign_key "pins", "users"
+  add_foreign_key "search_queries", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "taggings", "cards"
   add_foreign_key "taggings", "tags"
@@ -396,7 +411,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_12_163028) do
 
   # Virtual tables defined in this database.
   # Note that virtual tables may not work with other database engines. Be careful if changing database.
-  create_virtual_table "cards_search_index", "fts5", ["title"]
+  create_virtual_table "cards_search_index", "fts5", ["title", "description"]
   create_virtual_table "comments_search_index", "fts5", ["body"]
   create_virtual_table "search_embeddings", "vec0", ["id INTEGER PRIMARY KEY", "record_type TEXT NOT NULL", "record_id INTEGER NOT NULL", "embedding FLOAT[1536] distance_metric=cosine"]
 end
