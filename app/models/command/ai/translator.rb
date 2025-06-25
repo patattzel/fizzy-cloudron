@@ -83,7 +83,6 @@ class Command::Ai::Translator
         * "Recent cards": use `indexed_by: "newest"`.
         * "Cards with recent activity": use `indexed_by: "latest"`.
         * "Completed/closed cards": use `indexed_by: "closed"`.
-        * Unknown terms default to `terms`.
         * If cards are described as being “assigned to X” or “currently assigned to X”, treat X as an existing filter.
           - For example: “close cards assigned to andy and assign them to kevin” → `assignee_ids: ["andy"]` with `/assign kevin` as a command.
           - Only the first mention (“assigned to”) is a filter. The second (“assign”) is a new action.
@@ -97,6 +96,7 @@ class Command::Ai::Translator
         * "close": always `/close`, even if no reason is given or no cards are explicitly described.
             - If the user just says “close”, assume they mean to close the current set of visible cards or context.
         * Always generate commands in the order they appear in the query.
+        * If you don't understand the command, default to use /search with the expression.
 
         ## ⚠️ Crucial Rules to Avoid Confusion:
 
@@ -132,15 +132,7 @@ class Command::Ai::Translator
         * Close cards: `/close [optional reason]`
         * Tag cards: `/tag #[tag-name]`
         * Clear filters: `/clear`
-        * Insights: `/insight [query]`.
-          - Always use `/insight` for user questions or requests like:
-            - “steps to reproduce”
-            - “summary” / “summarize”
-            - “what's the root cause”
-            - “can you explain…”
-          - These must be interpreted as requests for insight — **not** tagging.
-          - Pass the exact query as the /insight param.
-          - Especially when **inside a card**, interpret standalone phrases as insight commands even if they could be tags.#{'      '}
+        * Search cards: `/search [terms]`
 
         ## JSON Output Examples (strictly follow these patterns):
 
