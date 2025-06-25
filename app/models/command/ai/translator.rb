@@ -50,7 +50,7 @@ class Command::Ai::Translator
         }
 
         If neither `context` nor `commands` is appropriate, output **exactly**:
-        { "commands": ["/search <query>"] }
+        { "commands": ["/search <query>"] } where <query> is the user’s request.
 
         -- Do **NOT** add any other top-level keys.
         -- Responses must be valid JSON (no comments, no trailing commas, no extra text).
