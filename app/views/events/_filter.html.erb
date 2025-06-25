@@ -32,7 +32,7 @@
 				<ul class="popup__list">
 					<%= render "events/filter/custom_collections" %>
 					<%= render "events/filter/all_collections_option", form: form, filter: filter %>
-					<%= render partial: "events/filter/collection_option", collection: Current.user.collections.alphabetically, as: :collection, locals: { form: form, filter: filter } %>
+					<%= render partial: "events/filter/collection_option", collection: Current.user.collections.ordered_by_recently_accessed, as: :collection, locals: { form: form, filter: filter } %>
 				</ul>
 			<% end %>
 		<% end %>

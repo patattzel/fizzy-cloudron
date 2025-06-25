@@ -27,7 +27,7 @@
       <% end %>
     <% end %>
 
-    <% Current.user.collections.order(:name).each do |collection| %>
+    <% Current.user.collections.ordered_by_recently_accessed.each do |collection| %>
       <li class="popup__group flex align-center" data-value="<%= collection.name.downcase %>" data-filter-target="item" data-navigable-list-target="item">
         <label class="btn txt-xx-small flex-item-no-shrink">
           <%= form.check_box "collection_ids[]", {
