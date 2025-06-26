@@ -14,7 +14,7 @@ class FiltersControllerTest < ActionDispatch::IntegrationTest
         assignee_ids: [ users(:jz).id ],
         collection_ids: [ collections(:writebook).id ] }
     end
-    assert_redirected_to cards_path(Filter.last.as_params)
+    assert_redirected_to cards_path(filter_id: Filter.last.id)
 
     filter = Filter.last
     assert_predicate filter.indexed_by, :closed?
