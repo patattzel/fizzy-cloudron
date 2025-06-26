@@ -28,6 +28,6 @@ class FiltersControllerTest < ActionDispatch::IntegrationTest
     assert_difference "users(:david).filters.count", -1 do
       delete filter_path(filters(:jz_assignments))
     end
-    assert_redirected_to cards_path(filters(:jz_assignments).as_params)
+    assert_redirected_to cards_path
   end
 end
