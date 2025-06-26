@@ -4,7 +4,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   include VcrTestHelper
 
   setup do
-    @user= users(:david)
+    @user = users(:david)
   end
 
   test "filter by assignments" do
@@ -66,7 +66,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   test "assign cards" do
     # List context
     assert_command({ commands: [ "/assign jz" ] }, "assign to jz")
-    assert_command({ context: { tag_ids: [ "design" ] }, commands: [ "/assign jz" ] }, "assign cards agged with #design to jz", context: :card)
+    assert_command({ context: { tag_ids: [ "design" ] }, commands: [ "/assign jz" ] }, "assign cards tagged with #design to jz", context: :card)
   end
 
   test "tag cards" do
@@ -78,7 +78,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: [ "/consider" ] }, "consider")
     assert_command({ commands: [ "/consider" ] }, "move to consider")
 
-    assert_command({ commands: [ "/do" ] }, "doing")
+    assert_command({ commands: [ "/do" ] }, "do")
     assert_command({ commands: [ "/do" ] }, "move to doing")
   end
 
@@ -88,9 +88,37 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   end
 
   test "combine commands and filters" do
-    assert_command({ context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] }, "assign andy to the current #design cards assigned to jz and tag them with #v2")
-    assert_command({ context: { assignee_ids: [ "andy" ] }, commands: [ "/close", "/assign kevin" ] }, "close cards assigned to andy and assign them to kevin")
-    assert_command({ context: { tag_ids: [ "design" ], assignee_ids: [ "jz" ] }, commands: [ "/assign andy", "/tag #v2" ] },  "assign cards tagged with #design assigned to jz to andy and tag them with #v2")
+    assert_command(
+      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign david", "/stage Investigating" ] },
+      "Move 176 and 170 to doing, assign to me and set the stage to Investigating")
+    assert_command(
+      { context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] },
+      "assign andy to the current #design cards assigned to jz and tag them with #v2")
+    assert_command(
+      { context: { assignee_ids: [ "andy" ] }, commands: [ "/close", "/assign kevin" ] },
+      "close cards assigned to andy and assign them to kevin")
+    assert_command(
+      { context: { tag_ids: [ "design" ], assignee_ids: [ "jz" ] }, commands: [ "/assign andy", "/tag #v2" ] },
+      "assign cards tagged with #design assigned to jz to andy and tag them with #v2")
+  end
+
+  test "default to search" do
+    assert_command({ commands: [ "/search backups" ] }, "backups")
+    assert_command({ context: { terms: [ "backups" ] } }, "cards about backups")
+  end
+
+  test "visit screens" do
+    assert_command({ commands: [ "/visit #{user_path(@user)}" ] }, "my profile")
+    assert_command({ commands: [ "/visit #{edit_user_path(@user)}" ] }, "edit my profile")
+    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "manage users")
+    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "account settings")
+  end
+
+  test "create cards" do
+    assert_command({ commands: [ "/add_card" ] }, "add card")
+    assert_command({ commands: [ "/add_card new task" ] }, "add card new task")
+    assert_command({ commands: [ "/add_card" ] }, "create card")
+    assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
   end
 
   private
