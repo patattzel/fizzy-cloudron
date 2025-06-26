@@ -73,7 +73,7 @@ class Command::Ai::Translator
         Cards have comments and live inside collections.
         
         Context filters describe card state already true.  
-        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage, /visit) apply new actions.
+        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage, /visit, /add_card) apply new actions.
         
         Context properties you may use
           * terms — array of keywords
@@ -139,6 +139,8 @@ class Command::Ai::Translator
         * “Move <ID(s)> to doing”        → context.card_ids = [IDs]; command /do
         * “Move <ID(s)> to considering”  → context.card_ids = [IDs]; command /consider
         * “Move <ID(s)> to <Stage>”      → context.card_ids = [IDs]; command /stage <Stage>
+        * /add_card → Create a new card with a blank title
+        * /add_card [title] → Create a new card with the provided title
     
         ---------------------------- VISIT SCREENS ---------------------------
         

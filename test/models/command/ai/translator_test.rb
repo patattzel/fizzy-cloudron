@@ -114,6 +114,13 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: ["/visit #{account_settings_path}"] }, "account settings")
   end
 
+  test "create cards" do
+    assert_command({ commands: ["/add_card"] }, "add card")
+    assert_command({ commands: ["/add_card new task"] }, "add card new task")
+    assert_command({ commands: ["/add_card"] }, "create card")
+    assert_command({ commands: ["/add_card urgent issue"] }, "create card urgent issue")
+  end
+
   private
     def assert_command(expected, query, context: :list)
       assert_equal expected, translate(query, context:)

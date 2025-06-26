@@ -37,6 +37,8 @@ class Command::Parser
         Command::Do.new(card_ids: cards.ids)
       when "/insight"
         Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
+      when "/add_card"
+        Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
       when "/search"
         Command::Search.new(terms: combined_arguments)
       when "/stage"
@@ -68,6 +70,10 @@ class Command::Parser
       candidate_stages.find do |stage|
         stage.name.downcase.include?(combined_arguments.downcase)
       end
+    end
+
+    def guess_collection
+      cards.first&.collection || Collection.first
     end
 
     def candidate_stages
