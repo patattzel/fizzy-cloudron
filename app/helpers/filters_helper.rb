@@ -22,12 +22,16 @@ module FiltersHelper
   end
 
   def filter_selected_collections_sentence(filter)
-    filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
+    if filter.collections.any?
+      filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
+    else
+      tag.strong "All collections"
+    end
   end
 
   def filter_selected_collections_label(filter)
     selected_collections = if filter.collections.any?
-      filter_selected_collections_sentence(filter)
+      filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
     else
       "all collections"
     end
