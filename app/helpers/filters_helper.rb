@@ -21,9 +21,13 @@ module FiltersHelper
     hidden_field_tag name, value, id: nil
   end
 
+  def filter_selected_collections_sentence(filter)
+    filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
+  end
+
   def filter_selected_collections_label(filter)
     selected_collections = if filter.collections.any?
-      filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
+      filter_selected_collections_sentence(filter)
     else
       "all collections"
     end
