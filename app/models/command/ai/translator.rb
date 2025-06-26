@@ -23,7 +23,7 @@ class Command::Ai::Translator
     end
 
     def chat
-      chat = ::RubyLLM.chat
+      chat = RubyLLM.chat.with_temperature(0)
       chat.with_instructions(prompt + custom_context)
     end
 
