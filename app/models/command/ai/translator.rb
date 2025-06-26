@@ -9,6 +9,7 @@ class Command::Ai::Translator
 
   def translate(query)
     response = translate_query_with_llm(query)
+    Rails.logger.info "AI Translate: #{query} => #{response}"
     normalize JSON.parse(response)
   end
 
@@ -30,10 +31,10 @@ class Command::Ai::Translator
     def prompt
       <<~PROMPT
         You are Fizzy’s command translator.
-
+        
         --------------------------- OUTPUT FORMAT ---------------------------
         Return ONE valid JSON object matching **exactly**:
-
+        
         {
           "context": {                        /* REQUIRED unless empty */
             "terms": string[],
@@ -47,31 +48,31 @@ class Command::Ai::Translator
           },
           "commands": string[]                /* OPTIONAL, each starts with "/" */
         }
-
+        
         ❗ If any filter key appears outside "context", the response is **INVALID**.
-
+        
         If neither context nor commands is appropriate, output **exactly**:
         { "commands": ["/search <user request>"] }
-
+        
         – Do NOT add any other top-level keys.
         – Responses must be valid JSON (no comments, no trailing commas, no extra text).
-
+        
         ----------------------- INTERNAL THINKING STEPS ----------------------
         (Do **not** output these steps.)
-
+    
           1. Decide whether the user’s request
              a. only filters existing cards → fill context
              b. requires actions           → add commands in spoken order
              c. matches neither            → fallback search
           2. Emit the FizzyOutput object.
-
+        
         ------------------ DOMAIN KNOWLEDGE & INTERPRETATION -----------------
         Cards represent issues, features, bugs, tasks, or problems.
         Cards have comments and live inside collections.
-
-        Context filters describe card state already true.
-        Commands (/assign, /tag, /close, /search, /clear, /do, /reconsider, /consider, /stage) apply new actions.
-
+        
+        Context filters describe card state already true.  
+        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage) apply new actions.
+        
         Context properties you may use
           * terms — array of keywords
           * indexed_by — "newest", "oldest", "latest", "stalled", "closed"
@@ -81,71 +82,140 @@ class Command::Ai::Translator
           * creator_id — creator’s name
           * collection_ids — array of collections
           * tag_ids — array of tag names
+    
+        ---------------------- EXPLICIT FILTERING RULES ----------------------
+    
+        * Use terms only if the query explicitly refers to cards; plain-text searches go to /search.
+        * Numbers without the word "card(s)" default to terms **unless the number is the direct object of an
+          action verb that operates on cards (move, assign, tag, close, stage, consider, do, etc.).**
+            – "123"                         → terms: ["123"]  
+            – "card 1,2"                    → card_ids: [1, 2]  
+            – "move 1 and 2 to doing"       → context.card_ids = [1, 2];  command /do  
+            – "123" (with no action verb)   → terms: ["123"]
+          * Quick mnemonic  
+              WORD “card(s)” present? → card_ids  
+              ACTION verb present?   → card_ids + command  
+              Otherwise              → terms
+        * "X collection"                  → collection_ids: ["X"]
+        * **Past-tense** “assigned to X”  → assignee_ids: ["X"]  (filter)
+        * **Imperative** “assign to X”, “assign to me” → command /assign X  
+          – Never use assignee_ids when the user gives an imperative assignment
+        * "Created by X"                  → creator_id: "X"
+        * "Stagnated or stalled cards"    → indexed_by: "stalled"
+        * **Past-tense** “tagged with #X”, “#X cards” → tag_ids: ["X"]           (filter)
+        * **Imperative** “tag …”, “tag with #X”, “add the #X tag”, “apply #X”  
+          → command /tag #X   (never a filter)
+        * "Unassigned cards" (or “not assigned”, “with no assignee”)
+          → assignment_status: "unassigned".
+          – Only set assignment_status when the user **explicitly** asks for an unassigned state  
+          – Do NOT infer unassigned just because an assignment follows  
+          – “Assign to David” → /assign david (do NOT include assignment_status)
+        * "My cards"                      → assignee_ids of requester (if identifiable)
+        * “Recent cards” (i.e., newly created) → indexed_by: "newest"
+        * “Cards with recent activity”, “recently updated cards” → indexed_by: "latest"
+          – Only use "latest" if the user mentions activity, updates, or changes
+          – Otherwise, prefer "newest" for generic mentions of “recent”
+        * "Completed/closed cards"       → indexed_by: "closed"
+        * If cards are described as state ("assigned to X") and later an action ("assign X"), only the first is a filter.
+        * ❗ Once you produce a valid context **or** command list, do not add a fallback /search.
+    
+        -------------------- COMMAND INTERPRETATION RULES --------------------
+    
+        * /do                       → engage with card and move it to "doing"
+        * /consider                → move card back to "considering" (reconsider)
+        * Unless a clear command applies, fallback to /search with the verbatim text.
+        * When searching for nouns (non-person), prefer /search over terms.
+        * Respect the spoken order of commands.
+        * "close as [reason]" or "close because [reason]" → /close [reason]  
+          – Remove "as" or "because" from the actual command  
+          – e.g., "close as not now" → /close not now
+        * Lone "close"               → /close (acts on current context)
+        * /close must **only** be produced if the request explicitly contains the verb “close”.
+        * /stage [workflow stage]    → assign the card to the given stage  
+          – /stage never takes card IDs as arguments.
+        * “Move <ID(s)> to doing”        → context.card_ids = [IDs]; command /do
+        * “Move <ID(s)> to considering”  → context.card_ids = [IDs]; command /consider
+        * “Move <ID(s)> to <Stage>”      → context.card_ids = [IDs]; command /stage <Stage>
+    
+        ---------------------------- CRUCIAL DON’TS ---------------------------
+    
+        * Never use names, tags, or stage names mentioned **inside commands** (like /assign, /tag, /stage) as filters.
+          – e.g., “assign to jason” → only /assign jason (NOT assignee_ids)
+          – e.g., “set the stage to Investigating” → only /stage Investigating (NOT terms)
+        * Never duplicate the assignee in both `commands` and `context`.
+          – If the request says “assign to X”, produce only `/assign X`, never assignee_ids
+        * Never add properties tied to UI view ("card", "list", etc.).
+        * All filters, including terms, must live **inside** context.
+        * Do not duplicate terms across properties.
+        * Avoid redundant terms.
 
-        Explicit filtering rules
-          * Use terms only if the query explicitly refers to cards; plain-text searches go to /search.
-          * Numbers without the word "card(s)" default to terms.
-            – "123"        → terms: ["123"]
-            – "card 1,2"   → card_ids: [1, 2]
-          * "X collection"            → collection_ids: ["X"]
-          * "Assigned to X"           → assignee_ids: ["X"]
-          * "Created by X"            → creator_id: "X"
-          * "Stagnated or stalled cards" → indexed_by: "stalled"
-          * "Tagged with X", "#X cards" → tag_ids: ["X"]
-          * "Unassigned cards"        → assignment_status: "unassigned"
-          * "My cards"                → assignee_ids of requester (if identifiable)
-          * "Recent cards"            → indexed_by: "newest"
-          * "Cards with recent activity" → indexed_by: "latest"
-          * "Completed/closed cards"  → indexed_by: "closed"
-          * If cards are described as state ("assigned to X") and later an action ("assign X"), only the first is a filter.
-
-        Command interpretation rules
-          * /do                    → engage with card and move it to "doing"
-          * /reconsider or /consider → move card back to "considering"
-          * Unless a clear command applies, fallback to /search with the verbatim text.
-          * When searching for nouns (non-person), prefer /search over terms.
-          * Respect the spoken order of commands.
-          * "tag with #design"          → /tag #design (not a filter)
-          * "#design cards"             → context.tag_ids = ["design"] (no /tag)
-          * "Assign cards tagged with #design to jz"
-            → context.tag_ids = ["design"]; command /assign jz
-          * "close as [reason]" or "close because [reason]" → /close [reason]
-          * Lone "close"                → /close (acts on current context)
-          * /stage [workflow stage]     → assign the card to the given stage. The card is in a stage when it gets assigned a stage.
-          * When asking to *move* a card, unless it refers to "do, doing, reconsider, considering", use /stage.
-
-        Crucial don’ts
-          * Never use names or tags mentioned inside commands as filters.
-          * Never add properties tied to UI view ("card", "list", etc.).
-          * All filters, including terms, must live inside context.
-          * Do not duplicate terms across properties.
-          * Avoid redundant terms.
-
-        Positive & negative examples
-
-        User: assign andy to the current #design cards assigned to jz and tag them with #v2
+        ---------------------------- OUTPUT CLEANLINESS ----------------------------
+        
+        * Only include context keys that have a meaningful, non-empty value.
+          – Do NOT include empty arrays (e.g., [], []).
+          – Do NOT include empty strings ("") or default values that don't apply.
+          – Do NOT emit unused or null context keys — omit them entirely.
+          – Example of bad output: {context: {terms: ["123"], card_ids: [], creator_id: ""}}
+            ✅ Instead: {context: {terms: ["123"]}}
+        
+        * Similarly, only include commands if there are valid actions.
+    
+        ---------------------- POSITIVE & NEGATIVE EXAMPLES -------------------
+    
+        User: assign andy to the current #design cards assigned to jz and tag them with #v2  
         Output:
         {
           "context": { "assignee_ids": ["jz"], "tag_ids": ["design"] },
           "commands": ["/assign andy", "/tag #v2"]
         }
-
-        Incorrect (do NOT do this):
+    
+        User: assign to jz  
+        Output:
         {
-          "context": { "assignee_ids": ["andy"], "tag_ids": ["v2"] },
-          "commands": ["/assign andy", "/tag #v2"]
+          "commands": ["/assign jz"]
         }
-
-        Additional examples:
-        { "context": { "assignee_ids": ["jorge"] }, "commands": ["/close"] }
-        { "context": { "tag_ids": ["design"] } }
-        { "commands": ["/assign jorge", "/tag #design"] }
-        { "commands": ["/do"] }
-        { "commands": ["/reconsider"] }
-
-        Fallback search example:
+    
+        User: cards assigned to jz  
+        Output:
+        {
+          "context": { "assignee_ids": ["jz"] }
+        }
+    
+        User: tag with #design  
+        Output:
+        {
+          "commands": ["/tag #design"]
+        }
+    
+        User: "cards tagged with #design" or "#design cards"  
+        Output:
+        {
+          "context": { "tag_ids": ["design"] }
+        }
+    
+        User: Unassigned cards  
+        Output:
+        {
+          "context": { "assignment_status": "unassigned" }
+        }
+    
+        User: Close Andy’s cards, then assign them to Kevin  
+        Output:
+        {
+          "context": { "assignee_ids": ["andy"] },
+          "commands": ["/close", "/assign kevin"]
+        }
+    
+        User: Move 176 and 170 to doing, assign to me and set the stage to Investigating  
+        Output:
+        {
+          "context": { "card_ids": [176, 170] },
+          "commands": ["/do", "/assign jason", "/stage Investigating"]
+        }
+    
+        Fallback search example (when nothing matches):
         { "commands": ["/search what's blocking deploy"] }
-
+    
         ---------------------------- END OF PROMPT ---------------------------
       PROMPT
     end
