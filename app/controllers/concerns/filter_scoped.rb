@@ -10,6 +10,10 @@ module FilterScoped
 
     def set_filter
       @expand_all = params[:expand_all]
-      @filter = Current.user.filters.from_params params.reverse_merge(**DEFAULT_PARAMS).permit(*Filter::PERMITTED_PARAMS)
+      if params[:filter_id].present?
+        @filter = Current.user.filters.find(params[:filter_id])
+      else
+        @filter = Current.user.filters.from_params params.reverse_merge(**DEFAULT_PARAMS).permit(*Filter::PERMITTED_PARAMS)
+      end
     end
 end

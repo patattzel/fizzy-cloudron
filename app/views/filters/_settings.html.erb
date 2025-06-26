@@ -28,9 +28,8 @@
     <% end %>
 
     <% if any_filters?(filter) %>
-      <% existing_filter = Current.user.filters.find_by_params(filter.as_params) %>
-      <% if existing_filter&.persisted? %>
-        <%= button_to filter_path(existing_filter), method: :delete, class: "btn txt-x-small btn--reversed", form_class: "inline" do %>
+      <% if filter.persisted? %>
+        <%= button_to filter_path(filter), method: :delete, class: "btn txt-x-small btn--reversed", form_class: "inline" do %>
           <%= icon_tag "bookmark" %>
           <span class="for-screen-reader">Remove saved filter</span>
         <% end %>

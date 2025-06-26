@@ -3,7 +3,7 @@ class FiltersController < ApplicationController
 
   def create
     @filter = Current.user.filters.remember filter_params
-    redirect_to cards_path(@filter.as_params)
+    redirect_to cards_path(filter_id: @filter.id)
   end
 
   def destroy
