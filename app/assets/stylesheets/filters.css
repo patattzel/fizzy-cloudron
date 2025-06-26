@@ -98,7 +98,7 @@
   }
 
   .quick-filter {
-    &:has(input:not(.default-value):checked) {
+    &:not(.default-value):has(.checked) {
       .input--select {
         --input-background: var(--color-selected);
       }
