@@ -1,4 +1,6 @@
 class Command::Ai::Translator
+  include Rails.application.routes.url_helpers
+
   attr_reader :context
 
   delegate :user, to: :context
@@ -71,7 +73,7 @@ class Command::Ai::Translator
         Cards have comments and live inside collections.
         
         Context filters describe card state already true.  
-        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage) apply new actions.
+        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage, /visit) apply new actions.
         
         Context properties you may use
           * terms — array of keywords
@@ -131,12 +133,22 @@ class Command::Ai::Translator
           – e.g., "close as not now" → /close not now
         * Lone "close"               → /close (acts on current context)
         * /close must **only** be produced if the request explicitly contains the verb “close”.
+        * /visit [url or path] lets you visit arbitrary URLs and paths. E.g: /visit /cards/123
         * /stage [workflow stage]    → assign the card to the given stage  
           – /stage never takes card IDs as arguments.
         * “Move <ID(s)> to doing”        → context.card_ids = [IDs]; command /do
         * “Move <ID(s)> to considering”  → context.card_ids = [IDs]; command /consider
         * “Move <ID(s)> to <Stage>”      → context.card_ids = [IDs]; command /stage <Stage>
     
+        ---------------------------- VISIT SCREENS ---------------------------
+        
+        You can open these screens by using /visits with their urls:
+
+        * My profile → /visit #{user_path(user)}
+        * Edit my profile (including your name and avatar) → /visit #{edit_user_path(user)}
+        * Manage users → /visit #{account_settings_path}
+        * Account settings → /visit #{account_settings_path}
+
         ---------------------------- CRUCIAL DON’TS ---------------------------
     
         * Never use names, tags, or stage names mentioned **inside commands** (like /assign, /tag, /stage) as filters.
@@ -145,6 +157,7 @@ class Command::Ai::Translator
         * Never duplicate the assignee in both `commands` and `context`.
           – If the request says “assign to X”, produce only `/assign X`, never assignee_ids
         * Never add properties tied to UI view ("card", "list", etc.).
+        * When you see a word with a # prefix, assume it refers to a tag (either a filter or a command argument, but don't search for it').
         * All filters, including terms, must live **inside** context.
         * Do not duplicate terms across properties.
         * Avoid redundant terms.

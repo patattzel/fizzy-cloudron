@@ -107,6 +107,13 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { terms: ["backups"] } }, "cards about backups" )
   end
 
+  test "visit screens" do
+    assert_command({ commands: ["/visit #{user_path(@user)}"] }, "my profile")
+    assert_command({ commands: ["/visit #{edit_user_path(@user)}"] }, "edit my profile")
+    assert_command({ commands: ["/visit #{account_settings_path}"] }, "manage users")
+    assert_command({ commands: ["/visit #{account_settings_path}"] }, "account settings")
+  end
+
   private
     def assert_command(expected, query, context: :list)
       assert_equal expected, translate(query, context:)
