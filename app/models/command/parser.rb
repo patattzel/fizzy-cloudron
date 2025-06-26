@@ -37,6 +37,8 @@ class Command::Parser
         Command::Do.new(card_ids: cards.ids)
       when "/insight"
         Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
+      when "/add_card"
+        Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
       when "/search"
         Command::Search.new(terms: combined_arguments)
       when "/stage"
@@ -70,6 +72,10 @@ class Command::Parser
       end
     end
 
+    def guess_collection
+      cards.first&.collection || Collection.first
+    end
+
     def candidate_stages
       Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
     end
@@ -89,8 +95,9 @@ class Command::Parser
     end
 
     def multiple_cards_from(string)
-      if tokens = string.split(/[\s,]+/).filter { it =~ /\A\d+\z/ }.presence
-        user.accessible_cards.where(id: tokens).presence if tokens.many?
+      if string.match?(/^[\d\s,]+$/)
+        tokens = string.split(/[\s,]+/)
+        user.accessible_cards.where(id: tokens).presence if tokens&.many?
       end
     end
 
