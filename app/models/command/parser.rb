@@ -89,8 +89,9 @@ class Command::Parser
     end
 
     def multiple_cards_from(string)
-      if tokens = string.split(/[\s,]+/).filter { it =~ /\A\d+\z/ }.presence
-        user.accessible_cards.where(id: tokens).presence if tokens.many?
+      if string.match?(/^[\d\s,]+$/)
+        tokens = string.split(/[\s,]+/)
+        user.accessible_cards.where(id: tokens).presence if tokens&.many?
       end
     end
 
