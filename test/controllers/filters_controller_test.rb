@@ -25,9 +25,12 @@ class FiltersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
+    filter = filters(:jz_assignments)
+    expected_params = filter.as_params
+
     assert_difference "users(:david).filters.count", -1 do
-      delete filter_path(filters(:jz_assignments))
+      delete filter_path(filter)
     end
-    assert_redirected_to cards_path
+    assert_redirected_to cards_path(expected_params)
   end
 end
