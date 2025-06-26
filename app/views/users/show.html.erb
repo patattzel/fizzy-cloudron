@@ -54,7 +54,7 @@
   </div>
 <% end %>
 
-<h1 class="font-black txt-large margin-block-double"><%= "What #{ Current.user == @user ? "have you" : "has #{ @user.first_name }" } been up to?" %></h1>
+<h1 class="font-weight-black txt-large margin-block-double"><%= "What #{ Current.user == @user ? "have you" : "has #{ @user.first_name }" } been up to?" %></h1>
 
 <div class="events margin-block-double" id="activity">
   <%= render "events/day", day_timeline: @day_timeline %>

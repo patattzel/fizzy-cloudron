@@ -8,7 +8,12 @@
 
 <header class="header">
   <div class="header__actions header__actions--start">
-    <%= link_to_home %>
+    <% if collection = @filter.single_collection || Current.user.collections.first %>
+      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-small", form_class: "full-width" do %>
+        <%= icon_tag "add" %>
+        <span>Add a card</span>
+      <% end %>
+    <% end %>
   </div>
 
   <h1 class="header__title overflow-ellipsis" style="view-transistion-name: card-collection-title">
@@ -16,6 +21,7 @@
   </h1>
 
   <div class="header__actions header__actions--end">
+    <%= render "filters/settings", filter: @filter %>
     <% if collection = @filter.single_collection %>
       <%= access_involvement_advance_button collection, Current.user %>
 
@@ -25,8 +31,6 @@
       <% end %>
     <% end %>
   </div>
-
-  <%= render "filters/settings", filter: @filter %>
 </header>
 
 <%= tag.div data: {

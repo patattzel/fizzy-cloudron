@@ -6,34 +6,28 @@
     --header-button-count: 0;
     --header-actions-width: calc((var(--header-btn-size) + var(--header-gap)) * var(--header-button-count));
 
-    display: grid;
-    grid-template-columns: var(--header-actions-width) 1fr var(--header-actions-width);
+    align-items: center;
+    display: flex;
     padding: var(--block-space-half) var(--inline-space);
 
     /* Change the grid size depending on how many buttons are present */
     &:has(.header__actions > *:nth-child(1)) { --header-button-count: 1; }
     &:has(.header__actions > *:nth-child(2)) { --header-button-count: 2; }
     &:has(.header__actions > *:nth-child(3)) { --header-button-count: 3; }
-
-    &:not(:has(.header__title)) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    &:not(:has(.header__actions)) {
-      grid-template-columns: 1fr;
-    }
   }
 
   .header__actions {
     display: flex;
     gap: var(--header-gap);
+    inline-size: var(--header-actions-width);
+    min-inline-size: fit-content;
   }
 
-  .header__actions--end {
-    justify-content: flex-end;
-  }
+  .header__actions--start { margin-inline-end: auto; }
+  .header__actions--end { margin-inline-start: auto; }
 
   .header__title {
+    color: inherit;
     font-size: var(--text-large);
     font-weight: 900;
     margin: 0 auto;

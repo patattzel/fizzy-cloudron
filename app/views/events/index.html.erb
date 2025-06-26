@@ -8,8 +8,17 @@
   </nav>
 <% end %>
 
-<header>
-  <h1 class="txt-large overflow-ellipsis margin-block-start-none margin-block-end-half font-black">
+<header class="header margin-block-end" style="--header-button-count: 3;">
+  <div class="header__actions header_-actions--start">
+    <% if collection = @filter.single_collection || Current.user.collections.first %>
+      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-small" do %>
+        <%= icon_tag "add" %>
+        <span>Add a card</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h1 class="header__title overflow-ellipsis">
     <div class="overflow-ellipsis">
       <% if @filter.collections.any? %>
         <%= filter_selected_collections_label(@filter) %>
@@ -27,12 +36,8 @@
       <% end %>
     <% end %>
   </h1>
-  <% if collection = @filter.single_collection || Current.user.collections.first %>
-    <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-x-small margin-block-end-double", form_class: "center" do %>
-      <%= icon_tag "add" %>
-      <span>Add a card</span>
-    <% end %>
-  <% end %>
+
+  <div class="header__actions header_-actions--end"></div>
 </header>
 <div class="events" id="activity">
   <%= render "events/day", day_timeline: @day_timeline %>
