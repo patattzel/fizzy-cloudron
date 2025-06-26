@@ -107,7 +107,7 @@ class Command::Ai::Translator
           → command /tag #X   (never a filter)
         * "Unassigned cards" (or “not assigned”, “with no assignee”)
           → assignment_status: "unassigned".
-          – Only set assignment_status when the user **explicitly** asks for an unassigned state  
+          – IMPORTANT: Only set assignment_status when the user **explicitly** asks for an unassigned state  
           – Do NOT infer unassigned just because an assignment follows  
           – “Assign to David” → /assign david (do NOT include assignment_status)
         * "My cards"                      → assignee_ids of requester (if identifiable)
@@ -204,13 +204,6 @@ class Command::Ai::Translator
         {
           "context": { "assignee_ids": ["andy"] },
           "commands": ["/close", "/assign kevin"]
-        }
-    
-        User: Move 176 and 170 to doing, assign to me and set the stage to Investigating  
-        Output:
-        {
-          "context": { "card_ids": [176, 170] },
-          "commands": ["/do", "/assign jason", "/stage Investigating"]
         }
     
         Fallback search example (when nothing matches):
