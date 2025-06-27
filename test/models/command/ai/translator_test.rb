@@ -121,9 +121,11 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
   end
 
+  vcr_record!
   test "filter by time ranges" do
     assert_command({ context: { closure: "thisweek", indexed_by: "closed" } }, "cards completed this week")
     assert_command({ context: { creation: "thisweek", tag_ids: [ "design" ], creator_ids: [ "jz" ] } }, "cards created this week by jz tagged as #design")
+    assert_command({ context: { creation: "thismonth", creator_ids: [ "Gabriel", "Michael" ] } }, "cards created by Gabriel or Michael this month")
   end
 
   test "closing soon and falling back soon" do

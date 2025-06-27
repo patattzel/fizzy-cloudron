@@ -53,7 +53,7 @@ class Command::Ai::Parser
 
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
     end
 
     def context_from_query(query_json)

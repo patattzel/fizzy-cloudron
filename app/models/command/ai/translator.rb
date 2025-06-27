@@ -85,7 +85,7 @@ class Command::Ai::Translator
           * assignee_ids — array of assignee names
           * assignment_status — "unassigned". Important: ONLY when the user asks for unassigned cards.
           * card_ids — array of card IDs
-          * creator_id — array of creator’s names
+          * creator_ids — array of creator’s names
           * collection_ids — array of collections
           * tag_ids — array of tag names
           * creation — relative range when the card was **created** (values listed above). Use it only
@@ -124,7 +124,7 @@ class Command::Ai::Translator
         * **Past-tense** “assigned to X”  → assignee_ids: ["X"]  (filter)
         * **Imperative** “assign to X”, “assign to me” → command /assign X
           – Never use assignee_ids when the user gives an imperative assignment
-        * "Created by X"                  → creator_id: ["X"]
+        * "Created by X"                  → creator_ids: ["X"]
         * "Stagnated or stalled cards"    → indexed_by: "stalled"
         * "Closing soon" cards            → indexed_by: "closing_soon"
         * "Falling back soon" cards       → indexed_by: "falling_back_soon"
@@ -203,7 +203,7 @@ class Command::Ai::Translator
           – Do NOT include empty arrays (e.g., [], []).
           – Do NOT include empty strings ("") or default values that don't apply.
           – Do NOT emit unused or null context keys — omit them entirely.
-          – Example of bad output: {context: {terms: ["123"], card_ids: [], creator_id: []}}
+          – Example of bad output: {context: {terms: ["123"], card_ids: [], creator_ids: []}}
             ✅ Instead: {context: {terms: ["123"]}}
 
         * Similarly, only include commands if there are valid actions.
