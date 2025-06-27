@@ -25,6 +25,8 @@ class Command::Parser
         Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
       when /^@/
         Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
+      when "/user"
+        Command::GoToUser.new(user_id: assignee_from(combined_arguments)&.id)
       when "/assign", "/assignto"
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/clear"

@@ -77,7 +77,7 @@ class Command::Ai::Translator
         Cards have comments and live inside collections.
 
         Context filters describe card state already true.
-        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage, /visit, /add_card) apply new actions.
+        Commands (/assign, /tag, /close, /search, /clear, /do, /consider, /stage, /visit, /add_card, /user) apply new actions.
 
         Context properties you may use
           * terms — array of keywords
@@ -114,12 +114,9 @@ class Command::Ai::Translator
         * "Completed/closed cards" ( **and NO words like
           today, yesterday, thisweek, thismonth, thisyear,
           lastweek, lastmonth, lastyear** ) → indexed_by: "closed"
+          – Never add "closure" unless one of the eight timeframe tokens is present.
 
-          – Never add "closure" unless one of the eight
-            timeframe tokens is present in the user text.
-
-        * Never add the literal words "card" or "cards" to terms; treat them as
-          stop-words that simply introduce the query scope.
+        * Never add the literal words "card" or "cards" to terms; treat them as stop-words that simply introduce the query scope.
         * "X collection"                  → collection_ids: ["X"]
         * **Past-tense** “assigned to X”  → assignee_ids: ["X"]  (filter)
         * **Imperative** “assign to X”, “assign to me” → command /assign X
@@ -129,13 +126,13 @@ class Command::Ai::Translator
         * "Closing soon" cards            → indexed_by: "closing_soon"
         * "Falling back soon" cards       → indexed_by: "falling_back_soon"
         * **Past-tense** “tagged with #X”, “#X cards” → tag_ids: ["X"]           (filter)
-        * **Imperative** “tag …”, “tag with #X”, “add the #X tag”, “apply #X”
-          → command /tag #X   (never a filter)
-        * "Unassigned cards" (or “not assigned”, “with no assignee”)
-          → assignment_status: "unassigned".
+        * **Imperative** “tag …”, “tag with #X”, “add the #X tag”, “apply #X” → command /tag #X   (never a filter)
+        * "Unassigned cards" (or “not assigned”, “with no assignee”) → assignment_status: "unassigned".
           – IMPORTANT: Only set assignment_status when the user **explicitly** asks for an unassigned state
           – Do NOT infer unassigned just because an assignment follows
-        * "My cards"                      → assignee_ids of requester (if identifiable)
+        * **Possessive “my” in front of “card” or “cards”***
+          → assignee_ids: [ #{user.name} ] — applies **even when other filters are present***
+          (e.g., “my cards closing soon”, “my stalled cards”, “my cards created yesterday”).
         * “Recent cards” (i.e., newly created) → indexed_by: "newest"
         * “Cards with recent activity”, “recently updated cards” → indexed_by: "latest"
           – Only use "latest" if the user mentions activity, updates, or changes
@@ -146,51 +143,54 @@ class Command::Ai::Translator
           (If the timeframe is supplied with “closed” instead of “completed”, treat it the same way.)
 
         * If cards are described as state ("assigned to X") and later an action ("assign X"), only the first is a filter.
-
         * ❗ Once you produce a valid context **or** command list, do not add a fallback /search.
 
         -------------------- COMMAND INTERPRETATION RULES --------------------
 
-        * /do                        → engage with card and move it to "doing"
-        * /consider                 → move card back to "considering" (reconsider)
+        * /user <Name>           → open that person’s profile or activity feed.
+          – Phrases like “visit user <Name>”, “view user <Name>”, “see <Name>’s profile” must map to **/user**, **never** to /visit.
+        * /visit <url|path>      → open any other URL or internal path (cards, settings, etc.).
+        * /do                    → engage with card and move it to "doing"
+        * /consider              → move card back to "considering" (reconsider)
         * Unless a clear command applies, fallback to /search with the verbatim text.
         * When searching for nouns (non-person), prefer /search over terms.
         * Respect the spoken order of commands.
         * "close as [reason]" or "close because [reason]" → /close [reason]
           – Remove "as" or "because" from the actual command
-          – e.g., "close as not now" → /close not now
-        * Lone "close"               → /close (acts on current context)
+        * Lone "close"           → /close (acts on current context)
         * /close must **only** be produced if the request explicitly contains the verb “close”.
-        * /visit [url or path] lets you visit arbitrary URLs and paths. E.g: /visit /cards/123
-        * /stage [workflow stage]    → assign the card to the given stage
-          – /stage never takes card IDs as arguments.
+        * /stage [workflow stage]→ assign the card to the given stage (never takes card IDs).
         * “Move <ID(s)> to <Stage>”      → context.card_ids = [IDs]; command /stage <Stage>
         * “Move <ID(s)> to doing”        → context.card_ids = [IDs]; command /do
-          - Unless using explicit terms like "do" or "doing", assume that the verb move refers to
-            moving to a stage.#{'        '}
         * “Move <ID(s)> to considering”  → context.card_ids = [IDs]; command /consider
-        * /add_card → Create a new card with a blank title
-        * /add_card [title] → Create a new card with the provided title
+        * /add_card            → Create a new card with a blank title
+        * /add_card [title]    → Create a new card with the provided title
 
         ---------------------------- VISIT SCREENS ---------------------------
 
-        You can open these screens by using /visit with their urls:
+        You can open these screens by using /visit:
 
-        * My profile → /visit #{user_path(user)}
-        * Edit my profile (including your name and avatar) → /visit #{edit_user_path(user)}
+        * "View my profile" → /visit #{user_path(user)}.
+        * "My profile" → /visit #{user_path(user)}.
+        * "Edit my profile" (including your name and avatar) → /visit #{edit_user_path(user)}.
         * Manage users → /visit #{account_settings_path}
         * Account settings → /visit #{account_settings_path}
 
+        ------------------------- VISIT USER PROFILES ------------------------
+
+        Use **/user <Name>** (not /visit) whenever the request is about viewing a person’s profile or activity:
+
+          • visit user mike   → /user mike*
+          • view user kevin   → /user kevin*
+          • see mike’s profile → /user mike
+
         ---------------------------- CRUCIAL DON’TS ---------------------------
 
+        * Don’t output “/visit /users/<name>”. Profile requests must use **/user <name>**.
         * Never use names, tags, or stage names mentioned **inside commands** (like /assign, /tag, /stage) as filters.
-          – e.g., “assign to jason” → only /assign jason (NOT assignee_ids)
-          – e.g., “set the stage to Investigating” → only /stage Investigating (NOT terms)
         * Never duplicate the assignee in both commands and context.
-          – If the request says “assign to X”, produce only /assign X, never assignee_ids
         * Never add properties tied to UI view ("card", "list", etc.).
-        * To filter completed or closed cards, use "indexed_by: closed", don't set a "closure" filter unless the user is
-          asking for cards completed in a certain window of time.
+        * To filter completed or closed cards, use "indexed_by: closed"; don't set a "closure" filter unless the user is asking for cards completed in a specific window of time.
         * When you see a word with a # prefix, assume it refers to a tag (either a filter or a command argument, but don't search for it).
         * All filters, including terms, must live **inside** context.
         * Do not duplicate terms across properties.
@@ -200,85 +200,97 @@ class Command::Ai::Translator
         ---------------------------- OUTPUT CLEANLINESS ----------------------------
 
         * Only include context keys that have a meaningful, non-empty value.
-          – Do NOT include empty arrays (e.g., [], []).
-          – Do NOT include empty strings ("") or default values that don't apply.
-          – Do NOT emit unused or null context keys — omit them entirely.
-          – Example of bad output: {context: {terms: ["123"], card_ids: [], creator_ids: []}}
-            ✅ Instead: {context: {terms: ["123"]}}
-
-        * Similarly, only include commands if there are valid actions.
+        * Do NOT include empty arrays, empty strings, or default values that don't apply.
 
         ---------------------- POSITIVE & NEGATIVE EXAMPLES -------------------
 
-        User: assign andy to the current #design cards assigned to jz and tag them with #v2
+        User: assign andy to the current #design cards assigned to jz and tag them with #v2*
         Output:
         {
           "context": { "assignee_ids": ["jz"], "tag_ids": ["design"] },
           "commands": ["/assign andy", "/tag #v2"]
         }
 
-        User: assign to jz
+        User: assign to jz*
         Output:
         {
           "commands": ["/assign jz"]
         }
 
-        User: cards assigned to jz
+        User: cards assigned to jz*
         Output:
         {
           "context": { "assignee_ids": ["jz"] }
         }
 
-        User: tag with #design
+        User: tag with #design*
         Output:
         {
           "commands": ["/tag #design"]
         }
 
-        User: completed cards
+        User: completed cards*
         Output:
         {
           "context": { "indexed_by": "closed" }
         }
 
-        User: completed cards yesterday
+        User: completed cards yesterday*
         Output:
         {
           "context": { "indexed_by": "closed", "closure": "yesterday" }
         }
 
-        User: "cards tagged with #design" or "#design cards"
+        User: "cards tagged with #design"*
         Output:
         {
           "context": { "tag_ids": ["design"] }
         }
 
-        User: Unassigned cards
+        User: Unassigned cards*
         Output:
         {
           "context": { "assignment_status": "unassigned" }
         }
 
-        User: Close Andy’s cards, then assign them to Kevin
+        User: Close Andy’s cards, then assign them to Kevin*
         Output:
         {
           "context": { "assignee_ids": ["andy"] },
           "commands": ["/close", "/assign kevin"]
         }
 
-        User: cards created yesterday
+        User: cards created yesterday*
         Output:
         {
           "context": { "creation": "yesterday" }
         }
 
-        User: cards completed last week
+        User: cards completed last week*
         Output:
         {
           "context": { "closure": "lastweek", "indexed_by": "closed" }
         }
 
-        Fallback search example (when nothing matches):
+        User: my cards that are going to be auto closed*
+        Output:
+        {
+          "context": { "assignee_ids": ["<current user>"], "indexed_by": "closing_soon" }
+        }
+
+        User: visit user kevin*
+        Output:
+        {
+          "commands": ["/user kevin"]
+        }
+
+        User: visit /users/kevin*
+        Output:
+        {
+          "commands": ["/visit /users/kevin"]
+        }
+
+        Fallback search example (when nothing matches):*
         { "commands": ["/search what's blocking deploy"] }
 
         ---------------------------- END OF PROMPT ---------------------------
