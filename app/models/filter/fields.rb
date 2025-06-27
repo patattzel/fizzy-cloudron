@@ -16,7 +16,8 @@ module Filter::Fields
   end
 
   included do
-    store_accessor :fields, :assignment_status, :indexed_by, :terms, :engagement_status, :card_ids
+    store_accessor :fields, :assignment_status, :indexed_by, :terms,
+      :engagement_status, :card_ids, :creation, :close
 
     def assignment_status
       super.to_s.inquiry
@@ -28,6 +29,14 @@ module Filter::Fields
 
     def engagement_status
       super&.inquiry
+    end
+
+    def creation_window
+      TimeWindowParser.parse(creation)
+    end
+
+    def close_window
+      TimeWindowParser.parse(close)
     end
 
     def terms
