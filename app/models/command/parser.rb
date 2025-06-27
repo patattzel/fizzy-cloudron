@@ -63,7 +63,7 @@ class Command::Parser
     #   under the hood instead, as determined by the user picker. E.g: @1234.
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
     end
 
     def stage_from(combined_arguments)
