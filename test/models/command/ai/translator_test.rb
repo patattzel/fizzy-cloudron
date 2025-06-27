@@ -126,8 +126,6 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { creation: "thisweek", tag_ids: [ "design" ], creator_ids: [ "jz" ] } }, "cards created this week by jz tagged as #design")
   end
 
-  vcr_record!
-
   test "closing soon and falling back soon" do
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
