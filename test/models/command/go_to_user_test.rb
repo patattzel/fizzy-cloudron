@@ -6,7 +6,7 @@ class Command::GoToUserTest < ActionDispatch::IntegrationTest
   test "redirect to the user perma" do
     result = execute_command "@kevin"
 
-    assert_equal users(:kevin), result.url
+    assert_equal user_path(users(:kevin)), result.url
   end
 
   test "result in an invalid command if the user does not exist" do

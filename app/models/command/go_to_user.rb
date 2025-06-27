@@ -8,7 +8,7 @@ class Command::GoToUser < Command
   end
 
   def execute
-    redirect_to user
+    redirect_to user_path(user)
   end
 
   private

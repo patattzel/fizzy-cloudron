@@ -25,6 +25,8 @@ class Command::Parser
         Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
       when /^@/
         Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
+      when "/user"
+        Command::GoToUser.new(user_id: assignee_from(combined_arguments)&.id)
       when "/assign", "/assignto"
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/clear"
@@ -63,7 +65,7 @@ class Command::Parser
     #   under the hood instead, as determined by the user picker. E.g: @1234.
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
     end
 
     def stage_from(combined_arguments)

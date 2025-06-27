@@ -121,7 +121,6 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
   end
 
-  vcr_record!
   test "filter by time ranges" do
     assert_command({ context: { closure: "thisweek", indexed_by: "closed" } }, "cards completed this week")
     assert_command({ context: { creation: "thisweek", tag_ids: [ "design" ], creator_ids: [ "jz" ] } }, "cards created this week by jz tagged as #design")
@@ -132,6 +131,11 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
     assert_command({ context: { assignee_ids: [ "david" ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
+  end
+
+  test "view users profiles" do
+    assert_command({ commands: [ "/user jz" ] }, "check what jz has been up to")
+    assert_command({ commands: [ "/user kevin" ] }, "view kevin")
   end
 
   private
