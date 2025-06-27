@@ -9,7 +9,7 @@
     <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow"
       aria-label="Created…" aria-description="Created…"
       data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
-      <strong class="popup__title margin-block-start-half pad-inline-half">Created…</strong>
+      <strong class="popup__title margin-block-start-half pad-inline-half"><%= label %>…</strong>
       <%= form_with url: cards_path, method: :get, class: "popup__list",
             data: { controller: "form" } do |form| %>
         <% filter.as_params.except(name).each do |key, value| %>

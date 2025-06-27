@@ -6,7 +6,7 @@ module Filter::Params
     :indexed_by,
     :engagement_status,
     :creation,
-    :close,
+    :closure,
     card_ids: [],
     assignee_ids: [],
     creator_ids: [],
