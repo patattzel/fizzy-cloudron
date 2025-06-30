@@ -10,7 +10,7 @@ export default class extends Controller {
 
   filter() {
     this.itemTargets.forEach(item => {
-      if (item.dataset.filterTextValue.toLowerCase().includes(this.inputTarget.value.toLowerCase())) {
+      if (this.#convertDiacritics(item.innerText).toLowerCase().includes(this.inputTarget.value.toLowerCase())) {
         item.removeAttribute("hidden")
       } else {
         item.toggleAttribute("hidden", true)
@@ -18,5 +18,9 @@ export default class extends Controller {
     })
 
     this.dispatch("changed")
+  }
+
+  #convertDiacritics(text) {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   }
 }
