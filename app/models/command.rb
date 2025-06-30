@@ -51,19 +51,19 @@ class Command < ApplicationRecord
     def error_message_for(attribute, message)
       case attribute.to_sym
       when :cards, :card_ids
-        "No cards in this context"
+        ""
       when :card
-        "Can't find the card"
+        "Needs one or more cards to apply to (#123, #124)."
       when :collection
-        "The collection is missing"
+        "You need to specificy a Collection"
       when :assignee_ids
-        "Assignees are missing"
+        "Needs at leaset one assignee (@person)."
       when :user
-        "Can't find that user"
+        "Can’t find that person."
       when :stage
-        "Can't find that workflow stage"
+        "Can’t find that Workflow Stage."
       when :tag_title
-        "A tag is required"
+        "Needs at least one tag (#tag, #name)"
       else
         message
       end
