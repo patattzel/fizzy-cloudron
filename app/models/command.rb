@@ -37,8 +37,35 @@ class Command < ApplicationRecord
     false
   end
 
+  def error_messages
+    errors.to_hash.flat_map do |attribute, message|
+      error_message_for(attribute, message)
+    end.uniq
+  end
+
   private
     def redirect_to(...)
       Command::Result::Redirection.new(...)
+    end
+
+    def error_message_for(attribute, message)
+      case attribute.to_sym
+      when :cards, :card_ids
+        "No cards in this context"
+      when :card
+        "Can't find the card"
+      when :collection
+        "The collection is missing"
+      when :assignee_ids
+        "Assignees are missing"
+      when :user
+        "Can't find that user"
+      when :stage
+        "Can't find that workflow stage"
+      when :tag_title
+        "A tag is required"
+      else
+        message
+      end
     end
 end
