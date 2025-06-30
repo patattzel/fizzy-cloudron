@@ -38,7 +38,7 @@
       <% else %>
         <% filter_params = filter.as_params.transform_values { |v| v.respond_to?(:to_str) ? v.to_str : v } %>
         <%= button_to filters_path, method: :post, params: filter_params, class: "btn txt-x-small", form_class: "inline" do %>
-          <%= icon_tag "bookmark" %>
+          <%= icon_tag "bookmark-outline" %>
           <span class="for-screen-reader">Save filter</span>
         <% end %>
       <% end %>
