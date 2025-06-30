@@ -31,23 +31,6 @@
       text-align: start;
     }
 
-    /* Circle buttons */
-    &.btn--circle,
-    &[aria-label]:where(:has(.icon)),
-    &:where(:has(.for-screen-reader):has(.icon)) {
-      --btn-padding: 0;
-
-      aspect-ratio: 1;
-      block-size: var(--btn-size);
-      display: grid;
-      inline-size: var(--btn-size);
-      place-items: center;
-
-      > * {
-        grid-area: 1/1;
-      }
-    }
-
     /* With radios and checkboxes */
     &:has(input[type=radio]),
     &:has(input[type=checkbox]) {
@@ -119,6 +102,22 @@
     --btn-border-color: var(--color-canvas);
     --btn-color: var(--color-ink-inverted);
     --outline-color: var(--color-link);
+  }
+
+  .btn--circle,
+  .btn[aria-label]:where(:has(.icon)),
+  .btn:where(:has(.for-screen-reader):has(.icon)) {
+    --btn-padding: 0;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    display: grid;
+    inline-size: var(--btn-size);
+    place-items: center;
+
+    > * {
+      grid-area: 1/1;
+    }
   }
 
   .btn--negative {
