@@ -43,7 +43,7 @@ class Command::Ai::Parser
       normalized_query.tap do |query_json|
         if query_context = query_json[:context].presence
           query_context[:assignee_ids] = query_context[:assignee_ids]&.filter_map { |name| assignee_from(name)&.id }
-          query_context[:creator_id] = assignee_from(query_context[:creator_id])&.id if query_context[:creator_id]
+          query_context[:creator_ids] = query_context[:creator_ids]&.filter_map { |name| assignee_from(name)&.id }
           query_context[:collection_ids] = query_context[:collection_ids]&.filter_map { |name| Collection.where("lower(name) like ?", "%#{name.downcase}%").first&.id }
           query_context[:tag_ids] = query_context[:tag_ids]&.filter_map { |name| ::Tag.find_by_title(name)&.id }
           query_context.compact!
@@ -53,7 +53,7 @@ class Command::Ai::Parser
 
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
     end
 
     def context_from_query(query_json)

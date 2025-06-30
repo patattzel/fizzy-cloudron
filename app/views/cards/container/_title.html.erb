@@ -1,4 +1,4 @@
-<% if card.published? %>
+<% if card.published? && !params[:focus_on_title]%>
   <%= turbo_frame_tag card, :edit do %>
     <div class="card__content">
       <h1 class="card__title flex align-start gap-half">
@@ -14,7 +14,7 @@
     <h1 class="card__title autoresize__wrapper" data-autoresize-target="wrapper" data-autoresize-clone-value="">
       <%= form.text_area :title, placeholder: "Name it…",
             class: "input input--textarea full-width borderless txt-align-start autoresize__textarea",
-            autofocus: card.title.blank?, rows: 1,
+            autofocus: card.title.blank? || params[:focus_on_title], rows: 1,
             data: { autoresize_target: "textarea", action: "input->autoresize#resize auto-save#change blur->auto-save#submit keydown.enter->auto-save#submit:prevent keydown.ctrl+enter->auto-save#submit:prevent" } %>
     </h1>
     <div class="card__description rich-text-content margin-block-start-half margin-block-end">

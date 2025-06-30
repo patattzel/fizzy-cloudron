@@ -4,7 +4,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   include VcrTestHelper
 
   setup do
-    @user= users(:david)
+    @user = users(:david)
   end
 
   test "filter by assignments" do
@@ -66,7 +66,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   test "assign cards" do
     # List context
     assert_command({ commands: [ "/assign jz" ] }, "assign to jz")
-    assert_command({ context: { tag_ids: [ "design" ] }, commands: [ "/assign jz" ] }, "assign cards agged with #design to jz", context: :card)
+    assert_command({ context: { tag_ids: [ "design" ] }, commands: [ "/assign jz" ] }, "assign cards tagged with #design to jz", context: :card)
   end
 
   test "tag cards" do
@@ -74,10 +74,68 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: [ "/tag #design" ] }, "tag with #design")
   end
 
+  test "move cards between considering and doing" do
+    assert_command({ commands: [ "/consider" ] }, "consider")
+    assert_command({ commands: [ "/consider" ] }, "move to consider")
+
+    assert_command({ commands: [ "/do" ] }, "do")
+    assert_command({ commands: [ "/do" ] }, "move to doing")
+  end
+
+  test "assign stages to card" do
+    assert_command({ commands: [ "/stage in progress" ] }, "move to stage in progress")
+    assert_command({ commands: [ "/stage in progress" ] }, "move to in progress")
+  end
+
   test "combine commands and filters" do
-    assert_command({ context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] }, "assign andy to the current #design cards assigned to jz and tag them with #v2")
-    assert_command({ context: { assignee_ids: [ "andy" ] }, commands: [ "/close", "/assign kevin" ] }, "close cards assigned to andy and assign them to kevin")
-    assert_command({ context: { tag_ids: [ "design" ], assignee_ids: [ "jz" ] }, commands: [ "/assign andy", "/tag #v2" ] },  "assign cards tagged with #design assigned to jz to andy and tag them with #v2")
+    assert_command(
+      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign david", "/stage Investigating" ] },
+      "Move 176 and 170 to doing, assign to me and set the stage to Investigating")
+    assert_command(
+      { context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] },
+      "assign andy to the current #design cards assigned to jz and tag them with #v2")
+    assert_command(
+      { context: { assignee_ids: [ "andy" ] }, commands: [ "/close", "/assign kevin" ] },
+      "close cards assigned to andy and assign them to kevin")
+    assert_command(
+      { context: { tag_ids: [ "design" ], assignee_ids: [ "jz" ] }, commands: [ "/assign andy", "/tag #v2" ] },
+      "assign cards tagged with #design assigned to jz to andy and tag them with #v2")
+  end
+
+  test "default to search" do
+    assert_command({ commands: [ "/search backups" ] }, "backups")
+    assert_command({ context: { terms: [ "backups" ] } }, "cards about backups")
+  end
+
+  test "visit screens" do
+    assert_command({ commands: [ "/visit #{user_path(@user)}" ] }, "my profile")
+    assert_command({ commands: [ "/visit #{edit_user_path(@user)}" ] }, "edit my profile")
+    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "manage users")
+    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "account settings")
+  end
+
+  test "create cards" do
+    assert_command({ commands: [ "/add_card" ] }, "add card")
+    assert_command({ commands: [ "/add_card new task" ] }, "add card new task")
+    assert_command({ commands: [ "/add_card" ] }, "create card")
+    assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
+  end
+
+  test "filter by time ranges" do
+    assert_command({ context: { closure: "thisweek", indexed_by: "closed" } }, "cards completed this week")
+    assert_command({ context: { creation: "thisweek", tag_ids: [ "design" ], creator_ids: [ "jz" ] } }, "cards created this week by jz tagged as #design")
+    assert_command({ context: { creation: "thismonth", creator_ids: [ "Gabriel", "Michael" ] } }, "cards created by Gabriel or Michael this month")
+  end
+
+  test "closing soon and falling back soon" do
+    assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
+    assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
+    assert_command({ context: { assignee_ids: [ "david" ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
+  end
+
+  test "view users profiles" do
+    assert_command({ commands: [ "/user jz" ] }, "check what jz has been up to")
+    assert_command({ commands: [ "/user kevin" ] }, "view kevin")
   end
 
   private

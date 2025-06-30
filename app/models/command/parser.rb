@@ -25,16 +25,26 @@ class Command::Parser
         Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
       when /^@/
         Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
+      when "/user"
+        Command::GoToUser.new(user_id: assignee_from(combined_arguments)&.id)
       when "/assign", "/assignto"
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/clear"
         Command::ClearFilters.new(params: filter.as_params)
       when "/close"
         Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
+      when "/consider", "/reconsider"
+        Command::Consider.new(card_ids: cards.ids)
+      when "/do"
+        Command::Do.new(card_ids: cards.ids)
       when "/insight"
         Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
+      when "/add_card"
+        Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
       when "/search"
         Command::Search.new(terms: combined_arguments)
+      when "/stage"
+        Command::Stage.new(stage_id: stage_from(combined_arguments)&.id, card_ids: cards.ids)
       when "/visit"
         Command::VisitUrl.new(url: command_arguments.first)
       when "/tag"
@@ -55,7 +65,21 @@ class Command::Parser
     #   under the hood instead, as determined by the user picker. E.g: @1234.
     def assignee_from(string)
       string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
+      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
+    end
+
+    def stage_from(combined_arguments)
+      candidate_stages.find do |stage|
+        stage.name.downcase.include?(combined_arguments.downcase)
+      end
+    end
+
+    def guess_collection
+      cards.first&.collection || Collection.first
+    end
+
+    def candidate_stages
+      Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
     end
 
     def tag_title_from(string)
@@ -73,8 +97,9 @@ class Command::Parser
     end
 
     def multiple_cards_from(string)
-      if tokens = string.split(/[\s,]+/).filter { it =~ /\A\d+\z/ }.presence
-        user.accessible_cards.where(id: tokens).presence if tokens.many?
+      if string.match?(/^[\d\s,]+$/)
+        tokens = string.split(/[\s,]+/)
+        user.accessible_cards.where(id: tokens).presence if tokens&.many?
       end
     end
 
