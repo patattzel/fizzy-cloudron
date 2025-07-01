@@ -51,13 +51,13 @@ class Command < ApplicationRecord
     def error_message_for(attribute, message)
       case attribute.to_sym
       when :cards, :card_ids
-        ""
+        "Needs one or more cards to apply to"
       when :card
         "Needs one or more cards to apply to (#123, #124)."
       when :collection
-        "You need to specificy a Collection"
+        "You need to specify a Collection"
       when :assignee_ids
-        "Needs at leaset one assignee (@person)."
+        "Needs at least one assignee (@person)."
       when :user
         "Can’t find that person."
       when :stage
