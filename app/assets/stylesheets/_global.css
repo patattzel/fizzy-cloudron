@@ -10,6 +10,10 @@
   --block-space-double: calc(var(--block-space) * 2);
 
   /* Text */
+  --font-sans: system-ui;
+  --font-serif: ui-serif, serif;
+  --font-mono: ui-monospace, monospace;
+
   --text-xx-small: 0.55rem;
   --text-x-small: 0.75rem;
   --text-small: 0.85rem;
@@ -32,6 +36,14 @@
   --btn-size: 2.65em;
   --footer-height: 3.5rem;
   --tray-size: clamp(12rem, 25dvw, 24rem);
+
+  /* Focus & Hover */
+  --hover-color: var(--color-ink-medium);
+  --hover-size: 2px;
+
+  --focus-ring-color: var(--color-link);
+  --focus-ring-offset: 1px;
+  --focus-ring-size: 2px;
 
   @media (max-width: 799px) {
     --tray-size: var(--footer-height);

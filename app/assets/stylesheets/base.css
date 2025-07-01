@@ -8,13 +8,6 @@
   }
 
   body {
-    --font-sans: system-ui;
-    --font-serif: ui-serif, serif;
-    --font-mono: ui-monospace, monospace;
-    --hover-color: var(--color-ink-medium);
-    --hover-size: 0.15rem;
-    --hover-filter: brightness(1);
-
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
@@ -41,47 +34,49 @@
   }
 
   :is(a, button, input, textarea, .switch, .btn) {
+    touch-action: manipulation;
+
+    /* Keyboard navigation */
+    &:where(:focus-visible) {
+      border-radius: 0.25ch;
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
+    }
+  }
+
+  /* Hover
+  /* ------------------------------------------------------------------------ */
+
+  /* :is(a, button, input, textarea, .switch, .btn) {
     --outline-size: 2px;
 
-    caret-color: var(--color-link);
-    touch-action: manipulation;
     transition:
       box-shadow 150ms ease,
       outline-offset 150ms ease,
       background-color 150ms ease,
-      opacity 150ms ease,
-      filter 150ms ease;
+      opacity 150ms ease;
 
-    /* Hover */
     @media (any-hover: hover) {
       &:where(:not(:active):hover) {
         box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
       }
     }
 
-    /* Keyboard navigation */
-    &:where(:not(:active)):focus-visible {
-      outline-color: var(--outline-color, currentColor);
-      outline-width: var(--outline-size);
-      outline-offset: var(--outline-offset, calc(var(--outline-size) * 2));
-    }
 
     &:where(:focus-visible):focus,
     &:where(:focus-visible):active {
       outline: 0;
     }
 
-    /* Pressing */
     &:focus:not(:focus-visible) {
       --outline-offset: 0;
     }
 
-    /* Disabled */
     &:where([disabled]):not(:hover):not(:active) {
       cursor: not-allowed;
       filter: brightness(0.75);
     }
-  }
+  } */
 
   ::selection {
     background-color: var(--color-selected);
