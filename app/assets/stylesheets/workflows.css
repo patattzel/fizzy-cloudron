@@ -11,7 +11,7 @@
 
     @media (hover: hover) {
       &:hover {
-        background-color: color(from var(--card-color) srgb r g b / 0.15);
+        --btn-background: color(from var(--card-color) srgb r g b / 0.15);
       }
     }
   }
@@ -23,7 +23,7 @@
 
     @media (hover: hover) {
       &:hover {
-        background-color: color(from var(--card-color) srgb r g b / 0.65);
+        --btn-background: var(--card-color);
       }
     }
   }

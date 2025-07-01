@@ -64,6 +64,17 @@
     max-inline-size: 100%;
     min-inline-size: 0;
     padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--card-padding-inline);
+
+    &:has(.collection-picker__button) {
+      cursor: pointer;
+      transition: background-color: 100ms ease-out;
+
+      @media (any-hover: hover) {
+        &:hover {
+          background-color: color-mix(in srgb, var(--card-color) 90%, var(--color-ink));
+        }
+      }
+    }
   }
 
   .card__collection-name {
