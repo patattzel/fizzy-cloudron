@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "helpers/timing_helpers"
+import { filterMatches } from "helpers/text_helpers"
 
 export default class extends Controller {
   static targets = [ "input", "item" ]
@@ -10,7 +11,7 @@ export default class extends Controller {
 
   filter() {
     this.itemTargets.forEach(item => {
-      if (item.innerText.toLowerCase().includes(this.inputTarget.value.toLowerCase())) {
+      if (filterMatches(item.innerText, this.inputTarget.value)) {
         item.removeAttribute("hidden")
       } else {
         item.toggleAttribute("hidden", true)
