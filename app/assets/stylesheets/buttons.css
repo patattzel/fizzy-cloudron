@@ -17,6 +17,7 @@
     justify-content: center;
     padding: var(--btn-padding, 0.5em 1.1em);
     pointer-events: auto;
+    position: relative;
     transition:
       background-color var( --transition),
       border var( --transition),
@@ -24,44 +25,6 @@
       filter var( --transition),
       opacity var( --transition),
       scale var( --transition);
-
-    /* With radios and checkboxes */
-    &:has(input[type=radio]),
-    &:has(input[type=checkbox]) {
-      position: relative;
-
-      :is(input[type=radio]),
-      :is(input[type=checkbox]) {
-        --hover-size: 0;
-
-        appearance: none;
-        border-radius: var(--btn-border-radius);
-        cursor: pointer;
-        display: flex;
-        inset: 0;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-
-        &:focus-visible {
-          outline: none;
-        }
-      }
-
-      .checked {
-        display: none;
-      }
-    }
-
-    &:has(input:checked)  {
-      --btn-background: var(--color-ink);
-      --btn-color: var(--color-ink-inverted);
-      --outline-color: var(--color-ink);
-
-      .checked {
-        display: block;
-      }
-    }
 
     &[disabled],
     &:has([disabled]),
@@ -152,6 +115,42 @@
     --btn-border-color: var(--color-canvas);
     --btn-color: var(--color-canvas);
     --outline-color: var(--color-ink);
+  }
+
+  /* Toggleable buttons
+  /* ------------------------------------------------------------------------ */
+
+  .btn {
+    :is(input[type=radio], input[type=checkbox]) {
+      --hover-size: 0;
+
+      appearance: none;
+      border-radius: var(--btn-border-radius);
+      cursor: pointer;
+      display: flex;
+      inset: 0;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    .checked {
+      display: none;
+    }
+
+    &:has(input:checked)  {
+      --btn-background: var(--color-ink);
+      --btn-color: var(--color-ink-inverted);
+      --outline-color: var(--color-ink);
+
+      .checked {
+        display: block;
+      }
+    }
   }
 
   /* Button groups
