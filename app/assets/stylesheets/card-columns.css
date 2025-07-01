@@ -114,6 +114,7 @@
   /* ------------------------------------------------------------------------ */
 
   .cards__heading {
+
     background-color: var(--color-canvas);
     display: flex;
     font-size: var(--text-medium);
@@ -125,17 +126,20 @@
     position: sticky;
     z-index: 2;
 
-    &, button {
+    &, .cards__filter {
       font-weight: bold;
       text-transform: uppercase;
     }
 
-    button {
+    .cards__filter {
+      --filter-block-padding: 0.5rem;
       --hover-size: 0;
 
+      background-color: var(--color-canvas);
+      border-radius: 99rem;
       inline-size: auto;
-      margin-inline-start: 2em;
-      padding: 0 2em 0 0;
+      margin-block: calc(-1 * var(--filter-block-padding));
+      padding-block: var(--filter-block-padding);
     }
 
     dialog {
