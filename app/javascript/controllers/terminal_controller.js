@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { HttpStatus } from "helpers/http_helpers"
 import { isMultiLineString } from "helpers/text_helpers";
 import { marked } from "marked"
+import { nextFrame } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static targets = [ "input", "form", "output", "confirmation", "recentCommands" ]
@@ -14,9 +15,11 @@ export default class extends Controller {
 
   // Actions
 
-  focus() {
-    this.inputTarget.setSelectionRange(this.inputTarget.value.length, this.inputTarget.value.length)
+  async focus() {
+    await nextFrame()
+
     this.inputTarget.focus()
+    this.inputTarget.selection.placeCursorAtTheEnd()
   }
 
   executeCommand(event) {
@@ -36,6 +39,11 @@ export default class extends Controller {
   hideMenus() {
     this.#hideHelpMenu()
     this.#hideOutput()
+  }
+
+  submitCommand() {
+    this.formTarget.requestSubmit()
+    this.#reset()
   }
 
   handleKeyPress(event) {
@@ -175,8 +183,7 @@ export default class extends Controller {
     this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
     this.#hideOutput()
-    this.formTarget.requestSubmit()
-    this.#reset()
+    this.submitCommand()
   }
 
   #showOutput(markdown) {

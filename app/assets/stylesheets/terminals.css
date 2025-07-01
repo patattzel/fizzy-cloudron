@@ -122,6 +122,22 @@
       caret-color: var(--color-negative);
       color: var(--color-negative);
     }
+
+    .lexical-editor__content {
+      min-block-size: initial;
+      margin: 0;
+
+      b, strong, i, em {
+        font-weight: inherit;
+        font-style: inherit;
+      }
+
+      ul, li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
 
   .terminal__label {
