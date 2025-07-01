@@ -28,19 +28,22 @@
     text-size-adjust: none;
   }
 
-  a:not([class]) {
-    --hover-size: 0;
+  a {
+    text-decoration: none;
 
-    color: var(--color-link);
-    text-decoration: underline;
-    text-decoration-skip-ink: auto;
+    &:not([class]) {
+      --hover-size: 0;
+
+      color: var(--color-link);
+      text-decoration: underline;
+      text-decoration-skip-ink: auto;
+    }
   }
 
   :is(a, button, input, textarea, .switch, .btn) {
     --outline-size: 2px;
 
     caret-color: var(--color-link);
-    text-decoration: none;
     touch-action: manipulation;
     transition:
       box-shadow 150ms ease,
