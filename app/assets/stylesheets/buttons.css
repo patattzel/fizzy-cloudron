@@ -2,7 +2,6 @@
   .btn {
     --icon-size: var(--btn-icon-size, 1.3em);
     --btn-border-radius: 99rem;
-    --transition: 150ms ease;
 
     align-items: center;
     background-color: var(--btn-background, var(--color-canvas));
@@ -18,17 +17,12 @@
     padding: var(--btn-padding, 0.5em 1.1em);
     pointer-events: auto;
     position: relative;
-    transition:
-      background-color var( --transition),
-      border var( --transition),
-      color var( --transition),
-      filter var( --transition),
-      opacity var( --transition),
-      scale var( --transition);
+    transition: 100ms ease-out;
+    transition-property: background-color, border, color, filter, opacity, scale;
 
     @media (any-hover: hover) {
       &:hover {
-        filter: brightness(0.8);
+        filter: brightness(0.85);
       }
     }
 
@@ -146,6 +140,11 @@
 
     .checked {
       display: none;
+    }
+
+    &:has(input:focus-visible)  {
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
     }
 
     &:has(input:checked)  {

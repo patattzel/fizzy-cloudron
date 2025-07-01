@@ -23,12 +23,6 @@
       max-inline-size: 100%;
       object-fit: cover;
     }
-
-    @media (any-hover: hover) {
-      &:where(a):hover {
-        filter: brightness(0.8);
-      }
-    }
   }
 
   .avatar__form {
