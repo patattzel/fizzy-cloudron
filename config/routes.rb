@@ -116,6 +116,8 @@ Rails.application.routes.draw do
 
   namespace :prompts do
     resources :cards
+    resources :users
+
     resources :collections do
       scope module: :collections do
         resources :users
