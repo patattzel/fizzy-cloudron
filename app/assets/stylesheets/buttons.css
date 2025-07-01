@@ -1,7 +1,8 @@
 @layer components {
   .btn {
-    --transition: 150ms ease;
+    --icon-size: var(--btn-icon-size, 1.3em);
     --btn-border-radius: 99rem;
+    --transition: 150ms ease;
 
     align-items: center;
     background-color: var(--btn-background, var(--color-canvas));
@@ -23,13 +24,6 @@
       filter var( --transition),
       opacity var( --transition),
       scale var( --transition);
-
-    /* Default icon styles */
-    &:where(:has(.icon)) {
-      --icon-size: var(--btn-icon-size, 1.3em);
-
-      text-align: start;
-    }
 
     /* With radios and checkboxes */
     &:has(input[type=radio]),
