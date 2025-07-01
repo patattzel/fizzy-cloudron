@@ -204,4 +204,14 @@
       }
     }
   }
+
+  /* Lexical prompt insertions
+  /* ------------------------------------------------------------------------ */
+
+  .terminal {
+    .attachment--custom:not(.node--selected) {
+      --attachment-bg-color: oklch(var(--lch-white) / 15%);
+      --attachment-text-color: var(--color-terminal-text);
+    }
+  }
 }
