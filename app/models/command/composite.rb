@@ -34,6 +34,10 @@ class Command::Composite < Command
     commands.any?(&:needs_confirmation?)
   end
 
+  def error_messages
+    commands.flat_map(&:error_messages).uniq
+  end
+
   private
     def commands_excluding_redirections
       commands.reject { it.is_a?(Command::VisitUrl) }

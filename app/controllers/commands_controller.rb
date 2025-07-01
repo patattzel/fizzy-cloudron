@@ -68,6 +68,7 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_error(command)
-      render json: { error: command.errors.full_messages.join(", "), context_url: command.context.url }, status: :unprocessable_entity
+      error_message = command.error_messages.map { |msg| "- #{msg}\n" }.join
+      render json: { error: error_message, context_url: command.context.url }, status: :unprocessable_entity
     end
 end

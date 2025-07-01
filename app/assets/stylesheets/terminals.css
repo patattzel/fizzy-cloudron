@@ -170,6 +170,10 @@
       color: var(--color-terminal-text-light);
     }
 
+    .terminal--error & {
+      color: var(--color-negative);
+    }
+
     .terminal--showing-output & {
       display: block;
     }

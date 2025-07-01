@@ -64,6 +64,7 @@ export default class extends Controller {
   }
 
   hideError() {
+    this.#hideOutput()
     this.element.classList.remove(this.errorClass)
   }
 
@@ -113,13 +114,15 @@ export default class extends Controller {
     const status = response.status
 
     if (status === HttpStatus.UNPROCESSABLE) {
-      this.#showError()
+      this.#showError(response)
     } else if (status === HttpStatus.CONFLICT) {
       await this.#handleConflictResponse(response)
     }
   }
 
-  #showError() {
+  async #showError(response) {
+    const message = await response.json()
+    this.#showOutput(message.error)
     this.element.classList.add(this.errorClass)
   }
 
