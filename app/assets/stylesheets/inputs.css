@@ -21,17 +21,8 @@
       -webkit-box-shadow: 0 0 0px 1000px var(--color-selected) inset;
     }
 
-    &:where(:not(:active)):focus {
-      --input-border-color: var(--color-selected-dark);
-      --hover-color: var(--color-selected-dark);
-      --outline-size: 0;
-      --outline-color: transparent;
-
-      box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
-    }
-
-    &:where([disabled]):not(:hover):not(:active) {
-      filter: none;
+    &:where(:focus) {
+      --focus-ring-offset: -1px;
     }
   }
 

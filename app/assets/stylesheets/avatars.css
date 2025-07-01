@@ -24,9 +24,9 @@
       object-fit: cover;
     }
 
-    &:where(a):not(:active):hover {
-      @media (any-hover: hover) {
-        filter: brightness(0.7);
+    @media (any-hover: hover) {
+      &:where(a):hover {
+        filter: brightness(0.8);
       }
     }
   }

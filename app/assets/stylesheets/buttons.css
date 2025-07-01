@@ -26,6 +26,12 @@
       opacity var( --transition),
       scale var( --transition);
 
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+
     &[disabled],
     &:has([disabled]),
     [disabled] &[type=submit],
@@ -79,7 +85,7 @@
 
   .btn--negative {
     --btn-background: var(--color-negative);
-    --btn-border-color: var(--color-canvas);
+    --btn-border-color: var(--color-negative);
     --btn-color: var(--color-ink-inverted);
     --outline-color: var(--color-negative);
   }
@@ -144,6 +150,7 @@
 
     &:has(input:checked)  {
       --btn-background: var(--color-ink);
+      --btn-border-color: var(--color-ink);
       --btn-color: var(--color-ink-inverted);
       --outline-color: var(--color-ink);
 
