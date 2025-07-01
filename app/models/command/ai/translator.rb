@@ -146,7 +146,8 @@ class Command::Ai::Translator
         * ❗ Once you produce a valid context **or** command list, do not add a fallback /search.
 
         ---------------------- RESOLVE COMMAND ARGUMENTS ----------------------
-        * A person can be express by its name or via a global ID URL like gid://fizzy/User/773524000?tenant=37signals.
+        * A person can be expressed by its name or via a global ID URL like gid://fizzy/User/1234?tenant=37signals.
+        * A tag can be expressed by its text or via a global ID URL like gid://fizzy/Tag/5678?tenant=37signals.
 
         -------------------- COMMAND INTERPRETATION RULES --------------------
         * /user <Name>           → open that person’s profile or activity feed.

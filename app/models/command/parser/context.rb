@@ -29,11 +29,12 @@ class Command::Parser::Context
   end
 
   def find_user(string)
+    string = string.delete_prefix("@")
+
     if string.starts_with?("gid://")
       User.find_by_id(GlobalID::Locator.locate(string).id)
     else
-      string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
+      User.all.find { |user| user.mentionable_handles.include?(string.downcase) }
     end
   end
 
@@ -44,7 +45,12 @@ class Command::Parser::Context
   end
 
   def find_tag(string)
-    Tag.find_by_title(string)
+    string = string.delete_prefix("#")
+    if string.starts_with?("gid://")
+      Tag.find_by_id(GlobalID::Locator.locate(string).id)
+    else
+      Tag.find_by_title(string)
+    end
   end
 
   def find_collection(string)

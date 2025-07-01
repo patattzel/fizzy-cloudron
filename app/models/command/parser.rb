@@ -24,10 +24,11 @@ class Command::Parser
       ActionText::Content.new(string).to_plain_text
     end
 
-  private
     def parse_command(string)
       rich_text_command = as_plain_text_with_attachable_references(string)
       plain_text_command = as_plain_text(string)
+
+      Rails.logger.info "COMMANDS: #{rich_text_command} AND #{plain_text_command}"
 
       parse_plain_text_command(plain_text_command) || parse_rich_text_command(rich_text_command)
     end
@@ -36,10 +37,10 @@ class Command::Parser
       command_name, *_ = string.strip.split(" ")
 
       case command_name
-      when /^#/
-        Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
-      when /^@/
-        Command::GoToUser.new(user_id: context.find_user(command_name)&.id)
+        when /^#/
+          Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
+        when /^@/
+          Command::GoToUser.new(user_id: context.find_user(command_name)&.id)
       end
     end
 
@@ -88,7 +89,7 @@ class Command::Parser
     end
 
     def tag_title_from(string)
-      string.gsub(/^#/, "")
+      context.find_tag(string)&.title || string.gsub(/^#/, "")
     end
 
     def parse_free_string(string)

@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  include Filterable
+  include ActionText::Attachable, Filterable
 
   has_many :taggings, dependent: :destroy
   has_many :cards, through: :taggings
@@ -12,5 +12,10 @@ class Tag < ApplicationRecord
 
   def hashtag
     "#" + title
+  end
+
+  # TODO: Move to attachable along with the concern
+  def attachable_plain_text_representation(...)
+    "##{title}"
   end
 end
