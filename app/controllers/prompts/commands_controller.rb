@@ -1,6 +1,8 @@
 class Prompts::CommandsController < ApplicationController
   def index
-    if stale? etag: @tags
+    @commands = []
+
+    if stale? etag: @commands
       render layout: false
     end
   end
