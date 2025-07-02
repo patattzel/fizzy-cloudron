@@ -37,9 +37,9 @@ class Command::Parser
       command_name, *_ = string.strip.split(" ")
 
       case command_name
-        when /^#/
+      when /^#/
           Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
-        when /^@/
+      when /^@/
           Command::GoToUser.new(user_id: context.find_user(command_name)&.id)
       end
     end
@@ -49,31 +49,31 @@ class Command::Parser
       combined_arguments = command_arguments.join(" ")
 
       case command_name
-        when "/user"
+      when "/user"
           Command::GoToUser.new(user_id: context.find_user(combined_arguments)&.id)
-        when "/assign", "/assignto"
+      when "/assign", "/assignto"
           Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
-        when "/clear"
+      when "/clear"
           Command::ClearFilters.new(params: filter.as_params)
-        when "/close"
+      when "/close"
           Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
-        when "/consider", "/reconsider"
+      when "/consider", "/reconsider"
           Command::Consider.new(card_ids: cards.ids)
-        when "/do"
+      when "/do"
           Command::Do.new(card_ids: cards.ids)
-        when "/insight"
+      when "/insight"
           Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
-        when "/add_card"
+      when "/add_card"
           Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
-        when "/search"
+      when "/search"
           Command::Search.new(terms: combined_arguments)
-        when "/stage"
+      when "/stage"
           Command::Stage.new(stage_id: context.find_workflow_stage(combined_arguments)&.id, card_ids: cards.ids)
-        when "/visit"
+      when "/visit"
           Command::VisitUrl.new(url: command_arguments.first)
-        when "/tag"
+      when "/tag"
           Command::Tag.new(tag_title: tag_title_from(combined_arguments), card_ids: cards.ids)
-        else
+      else
           parse_free_string(string)
       end
     end

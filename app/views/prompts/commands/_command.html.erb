@@ -1,0 +1,10 @@
+<% command, description, editor_version = command %>
+
+<lexical-prompt-item search="<%= description %>">
+  <template type="menu">
+    <code><%= command %></code> <%= description %>
+  </template>
+  <template type="editor">
+    <%= editor_version %>
+  </template>
+</lexical-prompt-item>
