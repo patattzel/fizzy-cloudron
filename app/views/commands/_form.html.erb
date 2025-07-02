@@ -27,7 +27,7 @@
         data: {
           terminal_target: "input"
         },
-        placeholder: platform.desktop? ? "Press #{ hotkey_label(["ctrl", "K"]) } to search or type commands…" : "Search or type commands…",
+        placeholder: platform.desktop? ? "Press #{ hotkey_label(["ctrl", "K"]) } to search or type /commands…" : "Search or type /commands…",
         spellcheck: "false" do %>
     <%= global_mentions_prompt %>
     <%= tags_prompt %>

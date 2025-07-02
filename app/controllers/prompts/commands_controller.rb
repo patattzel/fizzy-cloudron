@@ -1,16 +1,16 @@
 class Prompts::CommandsController < ApplicationController
   def index
     @commands = [
-      [ "/add_card", "Create a new card", "/add_card " ],
-      [ "/assign", "Assign cards to users", "/assign @" ],
-      [ "/clear", "Clear current filters", "/clear" ],
-      [ "/close", "Close cards with a reason", "/close " ],
-      [ "/consider", "Reconsider cards", "/consider" ],
-      [ "/do", "Move cards to doing", "/do" ],
-      [ "/reconsider", "Move cards to reconsidering", "/reconsider" ],
+      [ "/add_card", "Add a new card", "/add_card " ],
+      [ "/assign", "Assign cards to people", "/assign @" ],
+      [ "/clear", "Clear all filters", "/clear" ],
+      [ "/close", "Close cards (with optional reason)", "/close " ],
+      [ "/consider", "Move cards back to Considering", "/consider" ],
+      [ "/do", "Move cards to Doing", "/do" ],
+      [ "/reconsider", "Move cards back to Considering", "/reconsider" ],
       [ "/search", "Search cards and comments", "/search " ],
       [ "/tag", "Tag selected cards", "/tag #" ],
-      [ "/stage", "Set cards to a workflow stage", "/stage " ]
+      [ "/stage", "Move cards to a Workflow Stage", "/stage " ]
     ]
 
     if stale? etag: @commands
