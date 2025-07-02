@@ -74,6 +74,11 @@
           background-color: color-mix(in srgb, var(--card-color) 90%, var(--color-ink));
         }
       }
+
+      &:has(.btn:focus-visible) {
+        outline: var(--focus-ring-size) solid var(--focus-ring-color);
+        outline-offset: var(--focus-ring-offset);
+      }
     }
   }
 
