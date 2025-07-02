@@ -91,7 +91,8 @@ export default class extends Controller {
   }
 
   get #showHelpCommandEntered() {
-    return [ "/help", "/?" ].includes(this.inputTarget.value)
+    console.debug("CALLED?", this.inputTarget.value);
+    return [ "/help", "/?" ].find(command => this.inputTarget.value.includes(command))
   }
 
   get #isHelpMenuOpened() {
