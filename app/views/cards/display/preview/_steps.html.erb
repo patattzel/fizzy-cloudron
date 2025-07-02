@@ -3,6 +3,6 @@
     <span class="steps__icon">
       <%= icon_tag "check" %>
     </span>
-    <strong><%= "#{card.completed_steps_count}/#{card.steps.count}" %></strong>
+    <strong><%= "#{card.steps.completed.count}/#{card.steps.count}" %></strong>
   </div>
 <% end %>
