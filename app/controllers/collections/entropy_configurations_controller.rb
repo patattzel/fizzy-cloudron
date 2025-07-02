@@ -4,7 +4,7 @@ class Collections::EntropyConfigurationsController < ApplicationController
   def update
     @collection.entropy_configuration.update!(entropy_configuration_params)
 
-    redirect_to edit_collection_path(@collection), notice: "Collection updated"
+    render turbo_stream: turbo_stream.replace([ @collection, :entropy_configuration ], partial: "collections/edit/auto_close", locals: { collection: @collection })
   end
 
   private

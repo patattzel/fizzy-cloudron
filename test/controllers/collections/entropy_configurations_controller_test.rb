@@ -12,6 +12,6 @@ class Collections::EntropyConfigurationsControllerTest < ActionDispatch::Integra
     assert_equal 1.day, @collection.entropy_configuration.reload.auto_close_period
     assert_equal 2.days, @collection.entropy_configuration.reload.auto_reconsider_period
 
-    assert_redirected_to edit_collection_path(@collection)
+    assert_turbo_stream action: :replace, target: dom_id(@collection, :entropy_configuration)
   end
 end
