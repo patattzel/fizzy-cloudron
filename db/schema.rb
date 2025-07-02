@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_02_211937) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -331,8 +331,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_id", "completed"], name: "index_steps_on_card_id_and_completed"
     t.index ["card_id"], name: "index_steps_on_card_id"
-    t.index ["completed"], name: "index_steps_on_completed"
   end
 
   create_table "taggings", force: :cascade do |t|
