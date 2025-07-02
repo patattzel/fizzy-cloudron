@@ -20,7 +20,7 @@
     :where(h5) { font-size: 0.83em; }
     :where(h6) { font-size: 0.67em; }
 
-    :where(p, ul, ol, dl, blockquote, figure:not(.attachment--custom), .attachment:not(.attachment--custom)) {
+    :where(p, ul, ol, dl, blockquote, figure, .attachment) {
       margin-block: var(--block-margin);
       overflow-wrap: break-word;
       text-wrap: pretty;
@@ -158,7 +158,7 @@
   /* Attachments
   /* ------------------------------------------------------------------------ */
 
-  .attachment:not(.attachment--custom) {
+  .attachment {
     block-size: auto;
     display: inline-block;
     inline-size: 100%;
@@ -325,18 +325,15 @@
   }
 
   /* Custom attachments such as mentions, etc. */
-  .attachment--custom {
-    display: inline;
-    padding: 0;
-    margin: 0;
-    white-space: normal;
-  }
-
-  .attachment--custom,
   action-text-attachment[content-type^='application/vnd.actiontext'] {
     --attachment-bg-color: transparent;
     --attachment-image-size: 1em;
     --attachment-text-color: var(--color-ink);
+
+    display: inline;
+    padding: 0;
+    margin: 0;
+    white-space: normal;
 
     align-items: center;
     color: var(--attachment-text-color);

@@ -4,7 +4,7 @@
     position: relative;
     overflow: visible;
 
-    .node--selected:not(.attachment--custom) {
+    figure.node--selected {
       &:not(:has(img)) {
         box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
       }
