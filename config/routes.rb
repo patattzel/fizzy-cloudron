@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
       resources :assignments
       resources :taggings
+      resources :steps
 
       resources :comments do
         resources :reactions, module: :comments

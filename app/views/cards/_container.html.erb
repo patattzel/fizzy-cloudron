@@ -19,6 +19,8 @@
         <%= render "cards/stagings/stages", card: card if card.doing? %>
       </div>
 
+      <%= render "cards/display/perma/steps", card: card %>
+
       <footer class="card__footer full-width flex align-start gap">
         <%= render "cards/display/perma/meta", card: card %>
         <%= render "cards/display/perma/background", card: card %>

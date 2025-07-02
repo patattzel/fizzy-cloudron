@@ -6,6 +6,7 @@
       <header class="card__header">
         <%= render "cards/display/preview/collection", card: card %>
         <%= render "cards/display/preview/tags", card: card %>
+        <%= render "cards/display/preview/steps", card: card %>
 
         <% if card.staged? && card.doing? %>
           <span class="btn justify-start workflow-stage workflow-stage--current txt-uppercase min-width max-width">
