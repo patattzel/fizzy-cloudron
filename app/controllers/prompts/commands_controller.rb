@@ -10,7 +10,8 @@ class Prompts::CommandsController < ApplicationController
       [ "/reconsider", "Move cards back to Considering", "/reconsider" ],
       [ "/search", "Search cards and comments", "/search " ],
       [ "/tag", "Tag selected cards", "/tag #" ],
-      [ "/stage", "Move cards to a Workflow Stage", "/stage " ]
+      [ "/stage", "Move cards to a Workflow Stage", "/stage " ],
+      [ "/help", "Show help menu", "/help" ]
     ]
 
     if stale? etag: @commands
