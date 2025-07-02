@@ -328,7 +328,7 @@
   action-text-attachment[content-type^='application/vnd.actiontext'] {
     --attachment-bg-color: transparent;
     --attachment-image-size: 1em;
-    --attachment-text-color: var(--color-ink);
+    --attachment-text-color: currentColor;
 
     display: inline;
     padding: 0;
