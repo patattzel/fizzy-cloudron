@@ -66,6 +66,16 @@
     &::placeholder {
       color: var(--card-color);
     }
+
+    &:is(input) {
+      max-inline-size: 70ch;
+      min-inline-size: 30ch;
+
+      @supports (field-sizing: content) {
+        field-sizing: content;
+        min-inline-size: 15ch;
+      }
+    }
   }
 
   .step__content--edit {
