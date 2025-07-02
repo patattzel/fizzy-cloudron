@@ -45,7 +45,7 @@
       &:is([type="submit"]) {
         --btn-background: var(--card-color, var(--color-link));
         --btn-color: var(--color-ink-inverted);
-        --outline-color: var(--card-color, var(--color-link));
+        --focus-ring-color: var(--card-color, var(--color-link));
       }
     }
 
@@ -55,8 +55,6 @@
   }
 
   .lexical-editor__content {
-    --outline-size: max(2px, 0.08em);
-
     margin: var(--block-space-half) 0;
     min-block-size: calc(7lh + var(--block-space));
     outline: 0;

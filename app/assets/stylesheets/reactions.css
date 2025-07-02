@@ -86,6 +86,11 @@
       transform-origin: left center;
     }
 
+    &:has(.input:focus) {
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
+    }
+
     .reaction__form-label:focus {
       outline: none;
     }
@@ -95,7 +100,6 @@
     --input-background: transparent;
     --input-border-size: 0;
     --input-padding: 0;
-    --outline-size: 0;
 
     box-shadow: none;
     display: inherit;

@@ -132,9 +132,7 @@
 
     &:has(:focus-visible) {
       .switch__btn {
-        box-shadow:
-          0 0 0 var(--outline-size) var(--color-canvas),
-          0 0 0 calc(var(--outline-size) * 2) var(--color-ink);
+        outline: var(--focus-ring-size) solid var(--focus-ring-color);
       }
     }
   }
@@ -150,6 +148,7 @@
     border-radius: 2em;
     cursor: pointer;
     inset: 0;
+    outline-offset: var(--focus-ring-offset);
     position: absolute;
     transition: 150ms ease;
 
@@ -195,8 +194,6 @@
       --input-border-radius: 0;
       --input-background: transparent;
       --input-border-size: 0;
-      --outline-size: 0;
-      --outline-color: transparent;
 
       inline-size: 100%;
       outline: 0;
@@ -223,7 +220,6 @@
     --input-border-radius: 0;
     --input-border-size: 0;
     --input-padding: 0;
-    --outline-size: 0;
 
     color: inherit;
     font-size: inherit;
