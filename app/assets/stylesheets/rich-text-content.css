@@ -363,4 +363,14 @@
       --attachment-text-color: var(--color-ink-inverted);
     }
   }
+
+  [data-lexical-cursor] {
+    height: 1lh;
+    border-left: 1px solid black;
+    animation: blink 1s step-end infinite;
+
+    p & {
+      display: inline-block;
+    }
+  }
 }
