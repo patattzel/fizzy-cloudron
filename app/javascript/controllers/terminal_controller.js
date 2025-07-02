@@ -101,6 +101,7 @@ export default class extends Controller {
   }
 
   #showHelpMenu() {
+    this.#reset()
     this.element.classList.add(this.helpClass)
   }
 
