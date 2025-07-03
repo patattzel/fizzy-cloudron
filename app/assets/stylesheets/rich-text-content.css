@@ -217,6 +217,8 @@
   .attachment--file {
     align-items: center;
     display: inline-flex;
+    flex-wrap: wrap;
+    inline-size: auto;
 
     .attachment__caption {
       flex-direction: column;
@@ -228,12 +230,17 @@
         color: var(--color-ink);
       }
     }
+
+    .attachment__name {
+      color: var(--color-ink);
+      font-weight: bold;
+    }
   }
 
   .attachment__icon {
     aspect-ratio: 4/5;
     background-color: var(--color-canvas);
-    block-size: calc(2.5lh + 0.5ch);
+    block-size: calc(2lh + (var(--block-space) - 2px));
     border: 2px solid var(--color-ink-medium);
     border-radius: 0.3em;
     color: var(--color-ink-dark);
@@ -252,7 +259,6 @@
       block-size: 0.5lh;
       content: "";
       display: block;
-      inline-size: 100%;
       inset: 0 0 auto;
       position: absolute;
     }
