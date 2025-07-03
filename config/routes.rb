@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resource :workflow, only: :update
       resource :involvement
       resource :publication
+      resource :entropy_configuration
     end
 
     resources :cards

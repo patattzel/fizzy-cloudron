@@ -5,7 +5,7 @@ class Collections::WorkflowsController < ApplicationController
 
   def update
     @collection.update! workflow: @workflow
-    redirect_to cards_path(collection_ids: [ @collection ])
+    render turbo_stream: turbo_stream.replace([ @collection, :workflows ], partial: "collections/edit/workflows", locals: { collection: @collection })
   end
 
   private
