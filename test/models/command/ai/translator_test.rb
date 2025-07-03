@@ -130,10 +130,10 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   end
 
   test "create cards" do
-    assert_command({ commands: [ "/add_card" ] }, "add card")
-    assert_command({ commands: [ "/add_card new task" ] }, "add card new task")
-    assert_command({ commands: [ "/add_card" ] }, "create card")
-    assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
+    assert_command({ commands: [ "/add" ] }, "add card")
+    assert_command({ commands: [ "/add new task" ] }, "add card new task")
+    assert_command({ commands: [ "/add" ] }, "create card")
+    assert_command({ commands: [ "/add urgent issue" ] }, "create card urgent issue")
   end
 
   test "filter by time ranges" do
