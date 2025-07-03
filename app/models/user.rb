@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, ActionText::Attachable, Assignee, Mentionable, Named, Role, Searcher,
+  include Accessor, Attachable, Assignee, Mentionable, Named, Role, Searcher,
     SignalUser, Transferable
   include Timelined # Depends on Accessor
 
@@ -24,11 +24,6 @@ class User < ApplicationRecord
     sessions.delete_all
     accesses.destroy_all
     update! active: false, email_address: deactived_email_address
-  end
-
-  # TODO: Move to attachable along with the concern
-  def attachable_plain_text_representation(...)
-    "@#{first_name.downcase}"
   end
 
   private
