@@ -38,6 +38,10 @@ class Card < ApplicationRecord
     self
   end
 
+  def has_attachments?
+    description&.body&.attachments&.any? { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) }
+  end
+
   private
     def set_default_title
       self.title = "Untitled" if title.blank?

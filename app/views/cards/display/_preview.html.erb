@@ -7,6 +7,7 @@
         <%= render "cards/display/preview/collection", card: card %>
         <%= render "cards/display/preview/tags", card: card %>
         <%= render "cards/display/preview/steps", card: card %>
+        <%= icon_tag "attachment", class: "card__attachments-indicator translucent txt-x-small" if card.has_attachments? %>
 
         <% if card.staged? && card.doing? %>
           <span class="btn justify-start workflow-stage workflow-stage--current txt-uppercase min-width max-width">
