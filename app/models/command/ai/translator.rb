@@ -93,7 +93,7 @@ class Command::Ai::Translator
           * assignment_status — "unassigned". Important: ONLY when the user asks for unassigned cards.
           * card_ids — array of card IDs
           * creator_ids — array of creator’s names
-          * closer_ids  — array of closer’s names (people who closed the card)
+          * closer_ids  — array of closer’s names: people who closed or completed the card
           * collection_ids — array of collections
           * tag_ids — array of tag names
           * creation — relative range when the card was **created** (values listed above). Use it only
@@ -133,6 +133,8 @@ class Command::Ai::Translator
         * "Stagnated or stalled cards"    → indexed_by: "stalled"
         * "Closing soon" cards            → indexed_by: "closing_soon"
         * "Falling back soon" cards       → indexed_by: "falling_back_soon"
+        * Completed by X →  closer_ids: ["X"]
+        * Cards I completed → closer_ids: ["#{ME_REFERENCE}"]
         * **Past-tense** “tagged with #X”, “#X cards” → tag_ids: ["X"]           (filter)
         * **Imperative** “tag …”, “tag with #X”, “add the #X tag”, “apply #X” → command /tag #X   (never a filter)
         * For command that acts on cards, you can reference those by their ID (number). Use the filter "card_ids" when the user passes numbers as command arguments.
@@ -147,7 +149,7 @@ class Command::Ai::Translator
           – IMPORTANT: Only set assignment_status when the user **explicitly** asks for an unassigned state
           – Do NOT infer unassigned just because an assignment follows.
         * **Possessive “my” in front of “card” or “cards”***
-          → assignee_ids: [ #{ME_REFERENCE} ] — applies **even when other filters are present***
+          → assignee_ids: [ "#{ME_REFERENCE}" ] — applies **even when other filters are present***
           (e.g., “my cards closing soon”, “my stalled cards”, “my cards created yesterday”, "cards assigned to me").
         * “Recent cards” (i.e., newly created) → indexed_by: "newest"
         * “Cards with recent activity”, “recently updated cards” → indexed_by: "latest"
@@ -201,7 +203,7 @@ class Command::Ai::Translator
           • visit user mike   → /user mike*
           • view user kevin   → /user kevin*
           • see mike’s profile → /user mike
-          • what david has been up to → /user david
+          • check what david has been up to → /user david
 
         ---------------------------- CRUCIAL DON’TS ---------------------------
 
