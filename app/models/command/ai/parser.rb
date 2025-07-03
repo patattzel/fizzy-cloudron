@@ -43,6 +43,7 @@ class Command::Ai::Parser
       end
     end
 
+    # This saves unnecessary interchanges with browser for redirect responses
     def build_standalone_command(commands, query)
       commands.first.tap do |command|
         command.line = query
