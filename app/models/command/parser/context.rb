@@ -40,7 +40,7 @@ class Command::Parser::Context
 
   def find_workflow_stage(string)
     candidate_stages.find do |stage|
-      stage.name.downcase.include?(combined_arguments.downcase)
+      stage.name.downcase.include?(string.downcase)
     end
   end
 
@@ -54,7 +54,7 @@ class Command::Parser::Context
   end
 
   def find_collection(string)
-    Collection.where("lower(name) like ?", "%#{name.downcase}%").first
+    Collection.where("lower(name) like ?", "%#{string.downcase}%").first
   end
 
   private

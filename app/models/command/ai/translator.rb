@@ -132,7 +132,7 @@ class Command::Ai::Translator
           – Do NOT infer unassigned just because an assignment follows.
         * **Possessive “my” in front of “card” or “cards”***
           → assignee_ids: [ #{user.to_gid} ] — applies **even when other filters are present***
-          (e.g., “my cards closing soon”, “my stalled cards”, “my cards created yesterday”).
+          (e.g., “my cards closing soon”, “my stalled cards”, “my cards created yesterday”, "cards assigned to me").
         * “Recent cards” (i.e., newly created) → indexed_by: "newest"
         * “Cards with recent activity”, “recently updated cards” → indexed_by: "latest"
           – Only use "latest" if the user mentions activity, updates, or changes
@@ -157,6 +157,7 @@ class Command::Ai::Translator
         * /consider              → move card back to "considering" (reconsider)
         * Unless a clear command applies, fallback to /search with the verbatim text.
         * When searching for nouns (non-person), prefer /search over terms.
+        * When the person to pass to a command is "me" or "myself", use "#{user.to_gid}"
         * Respect the spoken order of commands.
         * "close as [reason]" or "close because [reason]" → /close [reason]
           – Remove "as" or "because" from the actual command
@@ -193,6 +194,7 @@ class Command::Ai::Translator
         * Never use names, tags, or stage names mentioned **inside commands** (like /assign, /tag, /stage) as filters.
         * Never duplicate the assignee in both commands and context.
         * Never add properties tied to UI view ("card", "list", etc.).
+        * When using infinitive verbs such as "assign" or "close", always use the corresponding command, NEVER a filter.
         * To filter completed or closed cards, use "indexed_by: closed"; don't set a "closure" filter unless the user is asking for cards completed in a specific window of time.
         * When you see a word with a # prefix, assume it refers to a tag (either a filter or a command argument, but don't search for it).
         * All filters, including terms, must live **inside** context.

@@ -18,10 +18,9 @@ class Command::GoToCardTest < ActionDispatch::IntegrationTest
   test "result in a regular search if the card does not exist" do
     command = parse_command "123"
 
-    visit_command = command.commands.first
-    assert visit_command.valid?
+    assert command.valid?
 
-    result = visit_command.execute
+    result = command.execute
     assert_equal cards_path(terms: [ "123" ]), result.url
   end
 end

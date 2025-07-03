@@ -3,6 +3,8 @@ require "test_helper"
 class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   include VcrTestHelper
 
+  vcr_record!
+
   setup do
     @user = users(:david)
   end
@@ -89,7 +91,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "combine commands and filters" do
     assert_command(
-      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign david", "/stage Investigating" ] },
+      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign #{users(:david).to_gid}", "/stage Investigating" ] },
       "Move 176 and 170 to doing, assign to me and set the stage to Investigating")
     assert_command(
       { context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] },
@@ -129,8 +131,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "closing soon and falling back soon" do
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
-    assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
-    assert_command({ context: { assignee_ids: [ "david" ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
+    assert_command({ context: { assignee_ids: [ users(:david).to_gid.to_s ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
   end
 
   test "view users profiles" do
