@@ -6,6 +6,9 @@ class Notifications::ReadingsController < ApplicationController
 
   def create_all
     Current.user.notifications.unread.read_all
-    redirect_to notifications_path
+    respond_to do |format|
+      format.html { redirect_to notifications_path }
+      format.turbo_stream { } # No action needed, readings will have been broadcast
+    end
   end
 end
