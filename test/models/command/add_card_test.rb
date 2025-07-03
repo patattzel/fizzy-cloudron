@@ -10,7 +10,7 @@ class Command::AddCardTest < ActionDispatch::IntegrationTest
 
   test "create a new untitled card" do
     result = assert_difference -> { users(:david).accessible_cards.count }, +1 do
-      execute_command "/add_card", context_url: collection_card_url(@card.collection, @card)
+      execute_command "/add", context_url: collection_card_url(@card.collection, @card)
     end
 
     new_card = users(:david).accessible_cards.last
@@ -21,7 +21,7 @@ class Command::AddCardTest < ActionDispatch::IntegrationTest
 
   test "create a new titled card" do
     result = assert_difference -> { users(:david).accessible_cards.count }, +1 do
-      execute_command "/add_card Review report", context_url: collection_card_url(@card.collection, @card)
+      execute_command "/add Review report", context_url: collection_card_url(@card.collection, @card)
     end
 
     new_card = users(:david).accessible_cards.last
@@ -31,7 +31,7 @@ class Command::AddCardTest < ActionDispatch::IntegrationTest
   end
 
   test "undo card creation" do
-    command = parse_command "/add_card", context_url: collection_cards_url(@card.collection)
+    command = parse_command "/add", context_url: collection_cards_url(@card.collection)
     command.execute
 
     assert_difference -> { users(:david).accessible_cards.count }, -1 do
