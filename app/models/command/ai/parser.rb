@@ -30,24 +30,13 @@ class Command::Ai::Parser
         commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
       end
 
-      if commands.many?
-        Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
-      else
-        build_standalone_command(commands, query)
-      end
+      Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
     end
 
     def commands_from_query(normalized_query, context)
       parser = Command::Parser.new(context)
       if command_lines = normalized_query[:commands].presence
         command_lines.collect { parser.parse(it) }
-      end
-    end
-
-    # This saves unnecessary interchanges with browser for redirect responses
-    def build_standalone_command(commands, query)
-      commands.first.tap do |command|
-        command.line = query
       end
     end
 

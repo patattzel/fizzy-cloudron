@@ -21,6 +21,7 @@ class Command::GoToCardTest < ActionDispatch::IntegrationTest
     assert command.valid?
 
     result = command.execute
-    assert_equal cards_path(terms: [ "123" ]), result.url
+    assert_equal 1, result.size
+    assert_equal cards_path(terms: [ "123" ]), result.first.url
   end
 end
