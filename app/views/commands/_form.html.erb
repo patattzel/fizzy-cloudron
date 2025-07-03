@@ -18,7 +18,7 @@
             turbo:submit-end->terminal#handleCommandResponse
         "
       } do %>
-  <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>
+  <label class="terminal__label txt-nowrap" for="command">Fizzy do &gt;</label>
 
   <%= rich_textarea_tag "command", nil,
         toolbar: false,
@@ -35,5 +35,5 @@
     <%= commands_prompt %>
   <% end %>
 
-  <%=  hidden_field_tag "confirmed", nil, data: { terminal_target: "confirmation" } %>
+  <%= hidden_field_tag "confirmed", nil, data: { terminal_target: "confirmation" } %>
 <% end %>

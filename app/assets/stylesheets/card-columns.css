@@ -85,7 +85,7 @@
 
     .card__background {
       .card:has(& img:not([src=""])) {
-        .card__body,
+        .card__content,
         .card__meta,
         .workflow-stage:not(.workflow-stage--current) {
           opacity: 0;
@@ -107,6 +107,10 @@
           }
         }
       }
+    }
+
+    .card__steps {
+      display: flex;
     }
   }
 
@@ -197,7 +201,7 @@
 
     .card__header {
       color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-      margin-inline-start: calc(-0.5 * var(--card-padding-inline));
+      margin-inline: calc(-0.5 * var(--card-padding-inline)) calc(-0.25 * var(--card-padding-inline));
     }
 
     .card__people-label {

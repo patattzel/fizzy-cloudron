@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resource :workflow, only: :update
       resource :involvement
       resource :publication
+      resource :entropy_configuration
     end
 
     resources :cards
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
 
       resources :assignments
       resources :taggings
+      resources :steps
 
       resources :comments do
         resources :reactions, module: :comments
@@ -84,11 +86,11 @@ Rails.application.routes.draw do
   get "join/:join_code", to: "users#new", as: :join
   post "join/:join_code", to: "users#create"
 
-  resource :session do
+  resource :session, only: :destroy do
     scope module: "sessions" do
       resources :transfers, only: %i[ show update ]
+      resource :launchpad, only: %i[ show update ], controller: "launchpad"
     end
-    resource :launchpad, only: %i[ show update ], controller: "sessions/launchpad"
   end
 
   namespace :signup do

@@ -1,5 +1,8 @@
 raise "Seeding is just for development" unless Rails.env.development?
 
+require "active_support/testing/time_helpers"
+include ActiveSupport::Testing::TimeHelpers
+
 # Seed DSL
 def seed_account(name)
   print "  #{name}…"
@@ -9,7 +12,7 @@ end
 
 def create_tenant(signal_account_name)
   signal_account = SignalId::Account.find_by_product_and_name!("fizzy", signal_account_name)
-  tenant_name = signal_account.subdomain
+  tenant_name = signal_account.queenbee_id
 
   ApplicationRecord.destroy_tenant tenant_name
   ApplicationRecord.create_tenant(tenant_name) do

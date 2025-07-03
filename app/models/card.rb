@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   include Assignable, Colored, Engageable, Entropic, Eventable,
-    Golden, Mentions, Pinnable, Closeable, Readable, Searchable,
+    Golden, Mentions, Multistep, Pinnable, Closeable, Readable, Searchable,
     Staged, Stallable, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
