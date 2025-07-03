@@ -38,9 +38,9 @@ class Command::Parser
 
       case command_name
       when /^#/
-          Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
+        Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
       when /^@/
-          Command::GoToUser.new(user_id: context.find_user(command_name)&.id)
+        Command::GoToUser.new(user_id: context.find_user(command_name)&.id)
       end
     end
 
@@ -50,31 +50,31 @@ class Command::Parser
 
       case command_name
       when "/user"
-          Command::GoToUser.new(user_id: context.find_user(combined_arguments)&.id)
+        Command::GoToUser.new(user_id: context.find_user(combined_arguments)&.id)
       when "/assign", "/assignto"
-          Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
+        Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/clear"
-          Command::ClearFilters.new(params: filter.as_params)
+        Command::ClearFilters.new(params: filter.as_params)
       when "/close"
-          Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
+        Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
       when "/consider", "/reconsider"
-          Command::Consider.new(card_ids: cards.ids)
+        Command::Consider.new(card_ids: cards.ids)
       when "/do"
-          Command::Do.new(card_ids: cards.ids)
+        Command::Do.new(card_ids: cards.ids)
       when "/insight"
-          Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
+        Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
       when "/add_card"
-          Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
+        Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
       when "/search"
-          Command::Search.new(terms: combined_arguments)
+        Command::Search.new(terms: combined_arguments)
       when "/stage"
-          Command::Stage.new(stage_id: context.find_workflow_stage(combined_arguments)&.id, card_ids: cards.ids)
+        Command::Stage.new(stage_id: context.find_workflow_stage(combined_arguments)&.id, card_ids: cards.ids)
       when "/visit"
-          Command::VisitUrl.new(url: command_arguments.first)
+        Command::VisitUrl.new(url: command_arguments.first)
       when "/tag"
-          Command::Tag.new(tag_title: tag_title_from(combined_arguments), card_ids: cards.ids)
+        Command::Tag.new(tag_title: tag_title_from(combined_arguments), card_ids: cards.ids)
       else
-          parse_free_string(string)
+        parse_free_string(string)
       end
     end
 
