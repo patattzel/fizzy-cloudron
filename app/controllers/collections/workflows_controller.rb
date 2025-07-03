@@ -10,6 +10,7 @@ class Collections::WorkflowsController < ApplicationController
 
   private
     def set_workflow
-      @workflow = Workflow.find(params[:collection][:workflow_id])
+      workflow_id = params[:collection][:workflow_id]
+      @workflow = workflow_id.present? ? Workflow.find(workflow_id) : nil
     end
 end
