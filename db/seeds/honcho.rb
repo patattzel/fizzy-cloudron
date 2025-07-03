@@ -50,19 +50,29 @@ collections = [
   "Documentation"
 ]
 
+time_range = (60 .. 30.days.in_minutes)
+
 collections.each_with_index do |collection_name, index|
   create_collection(collection_name, access_to: authors.sample(3)).tap do |collection|
     # Create 20 unique cards for each collection
     card_titles.each do |title|
-      create_card(title,
-        description: "#{title} for #{collection_name} phase #{index + 1}.",
-        collection: collection
-      ).tap do |card|
+      travel(-rand(time_range).minutes) do
+        card = create_card title,
+                           description: "#{title} for #{collection_name} phase #{index + 1}.",
+                           collection: collection,
+                           creator: authors.sample
+
         # Randomly assign to 1-2 authors
+        travel rand(0..20).minutes
         card.toggle_assignment(authors.sample)
-        card.toggle_assignment(authors.sample) if rand > 0.5
+
+        if rand > 0.5
+          travel rand(0..20).minutes
+          card.toggle_assignment(authors.sample)
+        end
 
         # Randomly set card state
+        travel rand(0..20).minutes
         case rand(3)
         when 0
           card.engage

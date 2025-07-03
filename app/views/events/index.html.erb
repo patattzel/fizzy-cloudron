@@ -36,5 +36,5 @@
 </header>
 <div class="events" id="activity">
   <%= render "events/day", day_timeline: @day_timeline %>
-  <%= event_next_page_link(@day_timeline.next_day) %>
 </div>
+<%= event_next_page_link(@day_timeline.next_day) %>
