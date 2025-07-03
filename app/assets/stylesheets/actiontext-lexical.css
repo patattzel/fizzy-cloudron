@@ -4,7 +4,7 @@
     position: relative;
     overflow: visible;
 
-    .node--selected:not(.attachment--custom) {
+    figure.node--selected {
       &:not(:has(img)) {
         box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
       }
@@ -148,6 +148,8 @@
     background-color: var(--color-canvas);
     border-radius: calc(var(--lexical-prompt-padding) * 2);
     box-shadow: var(--shadow);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
     font-size: var(--text-small);
     list-style: none;
     margin: 0;
@@ -155,6 +157,9 @@
     padding: var(--lexical-prompt-padding);
     visibility: hidden;
     z-index: var(--z-popup);
+
+    max-height: 200px;
+    overflow: scroll;
   }
 
   .lexical-prompt-menu--visible {
@@ -187,6 +192,13 @@
 
     + & {
       margin-top: 2px;
+    }
+
+    code {
+      background-color: var(--color-terminal-text-light);
+      border-radius: 0.25ch;
+      font-size: 0.95em;
+      padding-inline: 0.5ch;
     }
   }
 

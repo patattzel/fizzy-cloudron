@@ -1,5 +1,8 @@
 raise "Seeding is just for development" unless Rails.env.development?
 
+require "active_support/testing/time_helpers"
+include ActiveSupport::Testing::TimeHelpers
+
 # Seed DSL
 def seed_account(name)
   print "  #{name}…"

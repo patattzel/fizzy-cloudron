@@ -13,7 +13,7 @@ class Notification < ApplicationRecord
   delegate :card, to: :source
 
   def self.read_all
-    update!(read_at: Time.current)
+    all.each { |notification| notification.read }
   end
 
   def read

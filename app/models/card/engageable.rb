@@ -44,6 +44,7 @@ module Card::Engageable
     transaction do
       reopen
       engagement&.destroy
+      activity_spike&.destroy
       touch_last_active_at
     end
   end

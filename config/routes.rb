@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resource :workflow, only: :update
       resource :involvement
       resource :publication
+      resource :entropy_configuration
     end
 
     resources :cards
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
 
       resources :assignments
       resources :taggings
+      resources :steps
 
       resources :comments do
         resources :reactions, module: :comments
@@ -116,6 +118,10 @@ Rails.application.routes.draw do
 
   namespace :prompts do
     resources :cards
+    resources :users
+    resources :tags
+    resources :commands
+
     resources :collections do
       scope module: :collections do
         resources :users

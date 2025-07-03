@@ -31,7 +31,6 @@
   }
 
   .input--file {
-    border: 0;
     cursor: pointer;
     display: grid;
     inline-size: auto;
@@ -46,6 +45,7 @@
     }
 
     input[type="file"] {
+      --hover-size: 0;
       --input-border-color: transparent;
       --input-border-radius: 8px;
 
@@ -63,9 +63,9 @@
 
       &:focus,
       &:focus-visible {
-        --input-border-color: var(--color-selected-dark);
-        --input-border-radius: 8px;
-        --input-border-size: 0.15rem;
+        .input--file:has(&) {
+          outline: 0.15rem solid var(--color-selected-dark);
+        } 
       }
     }
 

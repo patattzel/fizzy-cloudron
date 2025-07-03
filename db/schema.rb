@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_02_211937) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -131,6 +131,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
     t.index ["collection_id"], name: "index_cards_on_collection_id"
     t.index ["last_active_at", "status"], name: "index_cards_on_last_active_at_and_status"
     t.index ["stage_id"], name: "index_cards_on_stage_id"
+  end
+
+  create_table "closers_filters", id: false, force: :cascade do |t|
+    t.integer "closer_id", null: false
+    t.integer "filter_id", null: false
+    t.index ["closer_id"], name: "index_closers_filters_on_closer_id"
+    t.index ["filter_id"], name: "index_closers_filters_on_filter_id"
   end
 
   create_table "closure_reasons", force: :cascade do |t|
@@ -325,6 +332,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "steps", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.boolean "completed", default: false, null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id", "completed"], name: "index_steps_on_card_id_and_completed"
+    t.index ["card_id"], name: "index_steps_on_card_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
@@ -400,6 +417,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_160230) do
   add_foreign_key "pins", "users"
   add_foreign_key "search_queries", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "steps", "cards"
   add_foreign_key "taggings", "cards"
   add_foreign_key "taggings", "tags"
   add_foreign_key "watches", "cards"
