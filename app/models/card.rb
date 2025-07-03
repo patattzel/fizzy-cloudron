@@ -38,6 +38,10 @@ class Card < ApplicationRecord
     self
   end
 
+  def attachments
+    description&.body&.attachments&.select { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) } || []
+  end
+
   def has_attachments?
     description&.body&.attachments&.any? { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) }
   end

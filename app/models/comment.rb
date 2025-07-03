@@ -18,6 +18,14 @@ class Comment < ApplicationRecord
     "cards/#{super}"
   end
 
+  def attachments
+    body&.body&.attachments&.select { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) } || []
+  end
+
+  def has_attachments?
+    body&.body&.attachments&.any? { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) }
+  end
+
   private
     def watch_card_by_creator
       card.watch_by creator
