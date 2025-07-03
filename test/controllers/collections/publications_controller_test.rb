@@ -13,7 +13,7 @@ class Collections::PublicationsControllerTest < ActionDispatch::IntegrationTest
       post collection_publication_path(@collection)
     end
 
-    assert_redirected_to edit_collection_path(@collection)
+    assert_turbo_stream action: :replace, target: dom_id(@collection, :publication)
   end
 
   test "unpublish a collection" do
@@ -24,6 +24,6 @@ class Collections::PublicationsControllerTest < ActionDispatch::IntegrationTest
       delete collection_publication_path(@collection)
     end
 
-    assert_redirected_to edit_collection_path(@collection)
+    assert_turbo_stream action: :replace, target: dom_id(@collection, :publication)
   end
 end
