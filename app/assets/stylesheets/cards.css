@@ -4,6 +4,7 @@
 
   .card {
     --avatar-size: 2.75em;
+    --card-bg-color: color-mix(in srgb, var(--card-color) 4%, var(--color-canvas));
     --card-padding-inline: var(--inline-space-double);
     --card-padding-block: var(--block-space);
     --border-color: transparent;
@@ -11,7 +12,7 @@
     --border-size: 0;
 
     aspect-ratio: var(--card-aspect-ratio, auto);
-    background-color: color-mix(in srgb, var(--card-color) 4%, var(--color-canvas));
+    background-color: var(--card-bg-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));

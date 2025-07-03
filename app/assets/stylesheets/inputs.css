@@ -24,6 +24,10 @@
     &:where(:focus) {
       --focus-ring-offset: -1px;
     }
+
+    &[readonly] {
+      --focus-ring-size: 0;
+    }
   }
 
   .input--file {
@@ -124,6 +128,9 @@
 
   /* Switches */
   .switch {
+    --switch-color: var(--color-ink-medium);
+    --switch-hover-brightness: 0.9;
+
     block-size: 1.75em;
     border-radius: 2em;
     display: inline-flex;
@@ -144,7 +151,7 @@
   }
 
   .switch__btn {
-    background-color: var(--color-ink-medium);
+    background-color: var(--switch-color);
     border-radius: 2em;
     cursor: pointer;
     inset: 0;
@@ -164,13 +171,20 @@
       transition: 150ms ease;
     }
 
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: color-mix(in srgb, var(--switch-color) 80%, var(--color-ink));
+      }
+    }
+
     .switch__input:disabled + & {
-      background-color: var(--color-ink-medium) !important;
+      --switch-color: var(--color-ink-medium) !important;
+
       cursor: not-allowed;
     }
 
     .switch__input:checked + & {
-      background-color: var(--color-link);
+      --switch-color: var(--color-link);
 
       &::before {
         transform: translateX(1.2em);

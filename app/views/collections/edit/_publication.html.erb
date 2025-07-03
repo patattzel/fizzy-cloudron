@@ -11,13 +11,13 @@
             <%= form.check_box :published, class: "switch__input", checked: true, data: { action: "change->form#submit" } %>
             <span class="switch__btn round"></span>
             <span class="for-screen-reader">Turn off the public link</span>
-          <% end %> 
+          <% end %>
         </label>
         <span class="txt-large"><%= icon_tag "world" %></span>
       </div>
 
       <div class="flex align-center gap-half margin-block">
-        <%= text_field_tag :publication_url, published_collection_url(collection), disabled: true, class: "full-width input fill-white" %>
+        <%= text_field_tag :publication_url, published_collection_url(collection), readonly: true, class: "full-width input fill-white" %>
         <div class="flex align-center justify-center gap-half">
           <%= button_to_copy_to_clipboard(published_collection_url(collection)) do %>
             <%= icon_tag "copy-paste" %>
@@ -44,7 +44,7 @@
             <%= form.check_box :published, class: "switch__input", checked: false, data: { action: "change->form#submit" } %>
             <span class="switch__btn round"></span>
             <span class="for-screen-reader">Turn on the public link</span>
-          <% end %> 
+          <% end %>
         </label>
         <span class="txt-large"><%= icon_tag "world" %></span>
       </div>
