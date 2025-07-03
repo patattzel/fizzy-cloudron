@@ -127,6 +127,7 @@ class Command::Ai::Translator
         * "Falling back soon" cards       → indexed_by: "falling_back_soon"
         * **Past-tense** “tagged with #X”, “#X cards” → tag_ids: ["X"]           (filter)
         * **Imperative** “tag …”, “tag with #X”, “add the #X tag”, “apply #X” → command /tag #X   (never a filter)
+        * When using past-tense verbs such as "assigned" or "closed", always use the corresponding filter, NEVER a command.
         * "Unassigned cards" (or “not assigned”, “with no assignee”) → assignment_status: "unassigned".
           – IMPORTANT: Only set assignment_status when the user **explicitly** asks for an unassigned state
           – Do NOT infer unassigned just because an assignment follows.
@@ -155,6 +156,7 @@ class Command::Ai::Translator
         * /visit <url|path>      → open any other URL or internal path (cards, settings, etc.).
         * /do                    → engage with card and move it to "doing"
         * /consider              → move card back to "considering" (reconsider)
+        * When using infinitive verbs such as "assign" or "close", always use the corresponding command, NEVER a filter.
         * Unless a clear command applies, fallback to /search with the verbatim text.
         * When searching for nouns (non-person), prefer /search over terms.
         * When the person to pass to a command is "me" or "myself", use "#{user.to_gid}"
@@ -194,7 +196,6 @@ class Command::Ai::Translator
         * Never use names, tags, or stage names mentioned **inside commands** (like /assign, /tag, /stage) as filters.
         * Never duplicate the assignee in both commands and context.
         * Never add properties tied to UI view ("card", "list", etc.).
-        * When using infinitive verbs such as "assign" or "close", always use the corresponding command, NEVER a filter.
         * To filter completed or closed cards, use "indexed_by: closed"; don't set a "closure" filter unless the user is asking for cards completed in a specific window of time.
         * When you see a word with a # prefix, assume it refers to a tag (either a filter or a command argument, but don't search for it).
         * All filters, including terms, must live **inside** context.
