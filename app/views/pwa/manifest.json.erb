@@ -18,7 +18,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "<%= root_url %>",
   "display": "standalone",
   "scope": "/",
   "description": "Card-up the biggest issues in your projects",
@@ -27,13 +27,13 @@
     {
       "name": "Notifications",
       "description": "Catch up on recent notifications",
-      "url": "/notifications",
+      "url": "<%= notifications_path %>",
       "icons": [{ "src": "<%= image_url("bell.svg") %>", "sizes": "any" }]
     },
     {
       "name": "Latest Activity",
       "description": "See what’s new",
-      "url": "/",
+      "url": "<%= root_url %>",
       "icons": [{ "src": "<%= image_url("activity.svg") %>", "sizes": "any" }]
     }
   ],
