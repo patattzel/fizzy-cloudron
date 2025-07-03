@@ -1,7 +1,7 @@
 class Prompts::CommandsController < ApplicationController
   def index
     @commands = [
-      [ "/add_card", "Add a new card", "/add_card " ],
+      [ "/add", "Add a new card", "/add " ],
       [ "/assign", "Assign cards to people", "/assign @" ],
       [ "/close", "Close cards (with optional reason)", "/close " ],
       [ "/reopen", "Reopen cards", "/reopen" ],
