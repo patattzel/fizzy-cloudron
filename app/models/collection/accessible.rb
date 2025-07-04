@@ -36,8 +36,27 @@ module Collection::Accessible
     accesses.find_by(user: user)
   end
 
+  def accessible_to?(user)
+    access_for(user).present?
+  end
+
+  def clean_inaccessible_data_for(user)
+    return if accessible_to?(user)
+
+    clean_inaccessible_records user.notifications
+    clean_inaccessible_records user.mentions
+  end
+
   private
     def grant_access_to_everyone
       accesses.grant_to(User.all) if all_access_previously_changed?(to: true)
+    end
+
+    def clean_inaccessible_records(records)
+      records.find_each do |record|
+        if record.card&.collection == self
+          record.destroy
+        end
+      end
     end
 end
