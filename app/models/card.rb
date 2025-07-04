@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Colored, Engageable, Entropic, Eventable,
+  include Assignable, Attachments, Colored, Engageable, Entropic, Eventable,
     Golden, Mentions, Multistep, Pinnable, Closeable, Readable, Searchable,
     Staged, Stallable, Statuses, Taggable, Watchable
 
@@ -36,14 +36,6 @@ class Card < ApplicationRecord
 
   def card
     self
-  end
-
-  def attachments
-    description&.body&.attachments&.select { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) } || []
-  end
-
-  def has_attachments?
-    description&.body&.attachments&.any? { |attachment| attachment.attachable.is_a?(ActiveStorage::Blob) }
   end
 
   private
