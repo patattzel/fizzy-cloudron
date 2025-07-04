@@ -141,7 +141,7 @@ class CardTest < ActiveSupport::TestCase
     assert_includes collection.users.reload, assignee
   end
 
-  test "move_to moves events to new collection" do
+  test "move cards to a different collection" do
     card = cards(:logo)
     old_collection = collections(:writebook)
     new_collection = collections(:private)
