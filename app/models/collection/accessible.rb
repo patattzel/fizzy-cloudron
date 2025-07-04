@@ -36,7 +36,13 @@ module Collection::Accessible
     accesses.find_by(user: user)
   end
 
+  def accessible_to?(user)
+    access_for(user).present?
+  end
+
   def clean_inaccessible_notifications_for(user)
+    return if accessible_to?(user)
+
     user.notifications.find_each do |notification|
       if notification.card&.collection == self
         notification.destroy
