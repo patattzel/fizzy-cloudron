@@ -162,13 +162,15 @@ export default class extends Controller {
     this.waitingForConfirmationValue = true
   }
 
-  #showConfirmationPrompt(confirmationPrompt) {
+  async #showConfirmationPrompt(confirmationPrompt) {
     if (isMultiLineString(confirmationPrompt)) {
       this.#showOutput(confirmationPrompt)
       this.inputTarget.value = `Apply these changes? [Y/n] `
     } else {
       this.inputTarget.value = `${confirmationPrompt}? [Y/n] `
     }
+
+    await nextFrame()
   }
 
   #handleConfirmationKey(key) {
@@ -180,16 +182,17 @@ export default class extends Controller {
     }
   }
 
-  #submitWithConfirmation() {
+  async #submitWithConfirmation() {
     this.inputTarget.value = this.originalInputValue
     this.confirmationTarget.value = "confirmed"
     this.#hideOutput()
+
+    await nextFrame()
     this.#submitCommand()
   }
 
   #submitCommand() {
     this.formTarget.requestSubmit()
-    this.#reset()
   }
 
   #showOutput(markdown) {
