@@ -108,11 +108,13 @@ class Command::Ai::Translator
 
         ### Filters only
 
-        #### Assignments      
+        #### Assignments
+
         - cards assigned to ann  → { context: { assignee_ids: ["ann"] } }
         - #tricky cards  → { context: { tag_ids: ["#tricky"] } }
 
-        #### Tags      
+        #### Tags
+
         - cards tagged with tricky  → { context: { tag_ids: ["tricky"] } }
         - cards tagged with #tricky  → { context: { tag_ids: ["tricky"] } }
         - #tricky cards  → { context: { tag_ids: ["tricky"] } }
