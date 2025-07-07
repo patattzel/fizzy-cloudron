@@ -6,11 +6,27 @@
       data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside">
     <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
 
-    <div class="tray__item tray__item--overflow">
-      <%= link_to notifications_path, class: "card", data: { action: "click->dialog#close" } do %>
-        + More…
+    <div class="tray__item tray__item--overflow txt-x-small">
+      <%= button_to read_all_notifications_path,
+            class: "btn btn--circle borderless",
+            title: "Mark all notifications as read",
+            data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
+        <%= icon_tag "check" %>
+      <% end %>
+
+      <%= link_to notifications_path, class: "btn borderless flex-item-grow position-relative", data: { action: "click->dialog#close" } do %>
+        <span class="tray__more-notifications">See more…</span>
+        <span class="tray__all-notifications">See all notifications</span>
+      <% end %>
+
+      <%= link_to settings_notifications_path,
+            class: "btn btn--circle borderless",
+            title: "Notification settings",
+            data: { action: "click->dialog#close" } do %>
+        <%= icon_tag "settings" %>
       <% end %>
     </div>
+
   </dialog>
 
   <div class="tray__actions">

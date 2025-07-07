@@ -222,30 +222,31 @@
   }
 
   .tray__item--overflow {
-    --tray-item-index: 7 !important;
-    --tray-item-z: 1;
+    --tray-item-height: 56px;
+    --tray-item-scale: 1;
 
-    display: none;
+    background-color: var(--color-ink-lightest);
+    display: flex;
+    gap: 1ch;
+    padding: 1ch;
     opacity: 0;
 
-    .card {
-      align-items: center;
-      background-color: var(--color-canvas);
-      font-size: var(--text-small);
-      font-weight: bold;
-      justify-content: center;
-    }
-
-    /* Only show when there are 7+ items */
-    .tray__dialog:has(.tray__item:nth-child(7)) & {
-      display: flex;
+    .btn {
+      --btn-background: var(--color-ink-lightest);
     }
 
     .tray__dialog[open] & {
-      --tray-item-scale: 1;
-
       opacity: 1;
     }
+  }
+
+  .tray__more-notifications {
+    display: none;
+  }
+
+  .tray__dialog:has(.tray__item:nth-child(1n + var(--tray-max-items))) {
+    .tray__all-notifications { display: none; }
+    .tray__more-notifications { display: block; }
   }
 
   /* Tray cards
