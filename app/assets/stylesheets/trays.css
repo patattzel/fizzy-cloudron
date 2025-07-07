@@ -5,6 +5,7 @@
   .tray {
     --tray-duration: 350ms;
     --tray-margin: 0.5rem;
+    --tray-max-items: 7;
     --tray-radius: 0.25rem;
     --tray-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
 
@@ -62,7 +63,7 @@
   /* Expander
   /* ------------------------------------------------------------------------ */
 
-  .tray__expander {
+  .tray__toggle {
     align-self: stretch;
     background: transparent;
     border: 0;
@@ -298,12 +299,14 @@
   /* ------------------------------------------------------------------------ */
 
   .tray--pins {
+    --tray-max-items: 11;
+
     inset-inline: var(--tray-margin) auto;
 
     .tray__item {
       --tray-item-z: calc(10 - var(--tray-item-index));
 
-      &:nth-child(1n + 11) { display: none; }
+      &:nth-child(1n + var(--tray-max-items)) { display: none; }
     }
 
     .avatar,
@@ -370,13 +373,13 @@
     /* On mobile… */
     @media (max-width: 799px) {
       /* …add a border */
-      .tray__expander {
+      .tray__toggle {
         border-inline-end: 1px dashed oklch(var(--lch-white) / 50%);
         translate: calc(-1 * var(--tray-margin)) 0;
       }
 
       /* …and disable the expander if there aren't items to show */
-      .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ .tray__expander {
+      .tray__dialog:not(:has(.tray__item:not(.tray__item--overflow))) ~ .tray__toggle {
         pointer-events: none;
 
         .icon {
@@ -390,7 +393,7 @@
       .tray__dialog:has(.tray__item:only-child) {
         pointer-events: unset;
 
-        ~ .tray__expander {
+        ~ .tray__toggle {
           display: none;
         }
       }
@@ -403,7 +406,7 @@
   .tray--notifications {
     inset-inline: auto var(--tray-margin);
 
-    .tray__item:nth-child(1n + 7) {
+    .tray__item:nth-child(1n + var(--tray-max-items)) {
       display: none;
     }
 
@@ -421,7 +424,7 @@
     /* On mobile… */
     @media (max-width: 799px) {
       /* …add a border */
-      .tray__expander {
+      .tray__toggle {
         border-inline-start: 1px dashed oklch(var(--lch-white) / 50%);
         translate: var(--tray-margin) 0;
       }
