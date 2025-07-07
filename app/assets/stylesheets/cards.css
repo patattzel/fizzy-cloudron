@@ -363,6 +363,21 @@
     @media (prefers-color-scheme: dark) {
       --lch-golden: var(--lch-blue-medium);
     }
+
+    &.card--considering {
+      .card__collection {
+        background-color: oklch(var(--lch-golden));
+        color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      }
+
+      .card__collection-name {
+        border-color: color-mix(in srgb, var(--color-ink) 33%, oklch(var(--lch-golden)));
+      }
+
+      .card__header {
+        margin-inline: calc(-1 * var(--card-padding-inline)) calc(-0.5 * var(--card-padding-inline));
+      }
+    }
   }
 
   .card--notification {
