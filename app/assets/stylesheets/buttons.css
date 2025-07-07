@@ -124,28 +124,27 @@
   /* ------------------------------------------------------------------------ */
 
   .btn {
-    :is(input[type=radio], input[type=checkbox]) {
-      appearance: none;
-      border-radius: var(--btn-border-radius);
-      cursor: pointer;
-      display: flex;
-      inset: 0;
-      margin: 0;
-      padding: 0;
-      position: absolute;
+    &:has(input[type=radio], input[type=checkbox]) {
+      position: relative;
 
-      &:focus-visible {
-        outline: none;
+      :is(input[type=radio], input[type=checkbox]) {
+        appearance: none;
+        border-radius: var(--btn-border-radius);
+        cursor: pointer;
+        display: flex;
+        inset: 0;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+
+        &:focus-visible {
+          outline: none;
+        }
       }
-    }
 
-    .checked {
-      display: none;
-    }
-
-    &:has(input:focus-visible)  {
-      outline: var(--focus-ring-size) solid var(--focus-ring-color);
-      outline-offset: var(--focus-ring-offset);
+      .checked {
+        display: none;
+      }
     }
 
     &:has(input:checked)  {
@@ -157,6 +156,11 @@
       .checked {
         display: block;
       }
+    }
+
+    &:has(input:focus-visible)  {
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
     }
   }
 
