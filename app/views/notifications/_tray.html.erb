@@ -14,7 +14,7 @@
         <%= icon_tag "check" %>
       <% end %>
 
-      <%= link_to notifications_path, class: "btn borderless flex-item-grow position-relative", data: { action: "click->dialog#close" } do %>
+      <%= link_to notifications_path, class: "btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
         <span class="tray__more-notifications">See more…</span>
         <span class="tray__all-notifications">See all notifications</span>
       <% end %>
