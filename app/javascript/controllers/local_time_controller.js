@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { differenceInDays } from "helpers/date_helpers"
 
 export default class extends Controller {
-  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago", "agoorweekday" ]
+  static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago", "agoorweekday", "timeordate" ]
   static values = { refreshInterval: Number }
   static classes = [ "local-time-value"]
 
@@ -19,6 +19,7 @@ export default class extends Controller {
     this.datewithweekdayFormatter = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric" })
     this.indaysFormatter = new InDaysFormatter()
     this.agoorweekdayFormatter = new DaysAgoOrWeekdayFormatter()
+    this.timeordateFormatter = new TimeOrDateFormatter()
   }
 
   connect() {
@@ -73,6 +74,10 @@ export default class extends Controller {
 
   agoorweekdayTargetConnected(target) {
     this.#formatTime(this.agoorweekdayFormatter, target)
+  }
+
+  timeordateTargetConnected(target) {
+    this.#formatTime(this.timeordateFormatter, target)
   }
 
   #refreshRelativeTimes() {
@@ -145,6 +150,18 @@ class InDaysFormatter {
     if (days <= 0) return styleableValue("today")
     if (days === 1) return styleableValue("tomorrow")
     return `in ${styleableValue(days)} days`
+  }
+}
+
+class TimeOrDateFormatter {
+  format(date) {
+    const days = differenceInDays(date, new Date())
+
+    if (days >= 1) {
+      return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date)
+    } else {
+      return new Intl.DateTimeFormat(undefined, { timeStyle: "short" }).format(date)
+    }
   }
 }
 
