@@ -98,12 +98,15 @@
   }
 
   .comment__edit {
+    background-color: var(--color-ink-lightest);
+
     .comment:not(.comment--mine) & {
       display: none;
     }
   }
 
   .comment__reaction {
+    background-color: var(--color-ink-lightest);
     opacity: 0.66;
 
     @media (any-hover: hover) {
