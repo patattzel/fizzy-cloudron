@@ -1,15 +1,24 @@
 <% @page_title = "Home" %>
 
 <% content_for :header do %>
-  <nav class="align-start">
-    <header class="flex flex-inline flex-column center flex-shrink">
+  <nav class="header">
+    <header class="center">
       <%= render "events/filter", filter: @filter %>
     </header>
   </nav>
 <% end %>
 
-<header>
-  <h1 class="txt-large overflow-ellipsis margin-block-start-none margin-block-end-half font-black">
+<header class="header margin-block-end" style="--header-button-count: 3;">
+  <div class="header__actions header__actions--start">
+    <% if collection = @filter.single_collection || Current.user.collections.first %>
+      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link" do %>
+        <%= icon_tag "add" %>
+        <span>Add a card</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h1 class="header__title overflow-ellipsis">
     <div class="overflow-ellipsis">
       <% if @filter.collections.any? %>
         <%= filter_selected_collections_label(@filter) %>
@@ -27,12 +36,8 @@
       <% end %>
     <% end %>
   </h1>
-  <% if collection = @filter.single_collection || Current.user.collections.first %>
-    <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-x-small margin-block-end-double", form_class: "center" do %>
-      <%= icon_tag "add" %>
-      <span>Add a card</span>
-    <% end %>
-  <% end %>
+
+  <div class="header__actions header__actions--end"></div>
 </header>
 <div class="events" id="activity">
   <%= render "events/day", day_timeline: @day_timeline %>

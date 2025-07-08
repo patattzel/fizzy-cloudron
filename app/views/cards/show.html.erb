@@ -26,8 +26,8 @@
   <%= render "cards/show/header" %>
 <% end %>
 
-<header class="card-perma__collection-header">
-  <%= link_to cards_path(collection_ids: [ @card.collection ]), class: "btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: card-collection-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+<header class="header card-perma__collection-header">
+  <%= link_to cards_path(collection_ids: [ @card.collection ]), class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: card-collection-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
     <span>
       &larr;
       <strong class="font-black"><%= @card.collection.name %></strong>
