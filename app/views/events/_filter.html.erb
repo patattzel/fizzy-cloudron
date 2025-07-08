@@ -1,6 +1,6 @@
 <div class="max-width"
 		data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-	<%= tag.button class:"events__filter-btn fizzy-menu input input--select center flex-inline align-center txt-normal shadow",
+	<%= tag.button class:"fizzy-menu input input--select center flex-inline align-center txt-normal shadow",
 			data: {
 				action: "click->dialog#open:stop keydown.meta+j@document->hotkey#click keydown.ctrl+j@document->hotkey#click",
 				controller: "hotkey" } do %>

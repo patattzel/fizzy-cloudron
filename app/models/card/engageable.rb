@@ -9,7 +9,7 @@ module Card::Engageable
 
     scope :by_engagement_status, ->(status) do
       case status.to_s
-      when "considering" then considering
+      when "considering" then considering.with_golden_first
       when "doing"       then doing.with_golden_first
       end
     end

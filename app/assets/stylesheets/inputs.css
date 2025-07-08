@@ -21,18 +21,12 @@
       -webkit-box-shadow: 0 0 0px 1000px var(--color-selected) inset;
     }
 
-    &:where(:not(:active)):focus {
-      --input-border-color: var(--color-selected-dark);
-      --hover-color: var(--color-selected-dark);
-      --outline-size: 0;
-      --outline-color: transparent;
-
-      filter: var(--hover-filter);
-      box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+    &:where(:focus) {
+      --focus-ring-offset: -1px;
     }
 
-    &:where([disabled]):not(:hover):not(:active) {
-      filter: none;
+    &[readonly] {
+      --focus-ring-size: 0;
     }
   }
 
@@ -134,6 +128,9 @@
 
   /* Switches */
   .switch {
+    --switch-color: var(--color-ink-medium);
+    --switch-hover-brightness: 0.9;
+
     block-size: 1.75em;
     border-radius: 2em;
     display: inline-flex;
@@ -142,9 +139,7 @@
 
     &:has(:focus-visible) {
       .switch__btn {
-        box-shadow:
-          0 0 0 var(--outline-size) var(--color-canvas),
-          0 0 0 calc(var(--outline-size) * 2) var(--color-ink);
+        outline: var(--focus-ring-size) solid var(--focus-ring-color);
       }
     }
   }
@@ -156,10 +151,11 @@
   }
 
   .switch__btn {
-    background-color: var(--color-ink-medium);
+    background-color: var(--switch-color);
     border-radius: 2em;
     cursor: pointer;
     inset: 0;
+    outline-offset: var(--focus-ring-offset);
     position: absolute;
     transition: 150ms ease;
 
@@ -175,13 +171,20 @@
       transition: 150ms ease;
     }
 
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: color-mix(in srgb, var(--switch-color) 80%, var(--color-ink));
+      }
+    }
+
     .switch__input:disabled + & {
-      background-color: var(--color-ink-medium) !important;
+      --switch-color: var(--color-ink-medium) !important;
+
       cursor: not-allowed;
     }
 
     .switch__input:checked + & {
-      background-color: var(--color-link);
+      --switch-color: var(--color-link);
 
       &::before {
         transform: translateX(1.2em);
@@ -191,15 +194,13 @@
 
   /* Containers that act like (and contain) inputs */
   .input--actor {
+    outline-offset: -1px;
     transition: box-shadow 150ms ease, outline-offset 150ms ease;
 
     &:focus-within {
       --input-border-color: var(--color-selected-dark);
-      --hover-color: var(--color-selected-dark);
-      --outline-size: 0;
 
-      filter: var(--hover-filter);
-      box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
     }
 
     .input {
@@ -207,9 +208,6 @@
       --input-border-radius: 0;
       --input-background: transparent;
       --input-border-size: 0;
-      --hover-size: 0;
-      --outline-size: 0;
-      --outline-color: transparent;
 
       inline-size: 100%;
       outline: 0;
@@ -233,11 +231,9 @@
   }
 
   .input.boost__input {
-    --hover-size: 0;
     --input-border-radius: 0;
     --input-border-size: 0;
     --input-padding: 0;
-    --outline-size: 0;
 
     color: inherit;
     font-size: inherit;

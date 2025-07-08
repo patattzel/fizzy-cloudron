@@ -6,12 +6,31 @@
   <%= render "cards/index/header", filter: @filter %>
 <% end %>
 
-<header class="margin-block-end">
-  <h1 class="txt-large overflow-ellipsis margin-none font-black" style="view-transistion-name: card-collection-title">
-    <span><%= filter_title @filter %></span>
+<header class="header" style="--header-actions-width: 7rem;">
+  <div class="header__actions header__actions--start">
+    <% if collection = @filter.single_collection || Current.user.collections.first %>
+      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link" do %>
+        <%= icon_tag "add" %>
+        Add a card
+      <% end %>
+    <% end %>
+  </div>
+  <h1 class="header__title" style="view-transistion-name: card-collection-title">
+    <span class="overflow-ellipsis"><%= filter_title @filter %></span>
   </h1>
-  <%= render "filters/settings", filter: @filter %>
+  <div class="header__actions header__actions--end">
+    <% if collection = @filter.single_collection %>
+      <%= access_involvement_advance_button collection, Current.user %>
+
+      <%= link_to edit_collection_path(collection), class: "btn" do %>
+        <%= icon_tag "settings" %>
+        <span class="for-screen-reader">Settings for <%= collection.name %></span>
+      <% end %>
+    <% end %>
+  </div>
 </header>
+
+<%= render "filters/settings", filter: @filter %>
 
 <%= tag.div data: {
       controller: "drag-and-drop",

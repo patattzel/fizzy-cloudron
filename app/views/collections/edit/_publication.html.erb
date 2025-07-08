@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex align-center gap-half margin-block">
-          <%= text_field_tag :publication_url, published_collection_url(collection), disabled: true, class: "full-width input fill-white" %>
+          <%= text_field_tag :publication_url, published_collection_url(collection), readonly: true, class: "full-width input fill-white" %>
           <div class="flex align-center justify-center gap-half">
             <%= button_to_copy_to_clipboard(published_collection_url(collection)) do %>
               <%= icon_tag "copy-paste" %>

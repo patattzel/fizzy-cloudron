@@ -10,7 +10,7 @@
 </div>
 
 <div class="card__notification-meta overflow-ellipsis flex-item-no-shrink">
-  <span class="card__timestamp"><%= local_datetime_tag(notification.created_at) %></span>
+  <span class="card__timestamp"><%= local_datetime_tag(notification.created_at, style: :timeordate) %></span>
 </div>
 
 <div class="card__notification-meta flex-item-no-shrink">
