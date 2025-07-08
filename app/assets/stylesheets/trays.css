@@ -189,25 +189,54 @@
 
     background-color: var(--color-ink-lightest);
     display: flex;
-    padding: 1ch;
+    /* display: grid;
+    grid-template-columns: 1fr 2fr 1fr; */
     opacity: 0;
+    padding: 0.5ch;
 
     .btn {
       --btn-background: var(--color-ink-lightest);
+      --btn-border-radius: 0.5ch;
+      --btn-padding: 1ch;
+
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      font-weight: normal;
+      gap: 0.25ch;
+      inline-size: 100%;
+    }
+
+    > *:is(:first-child, :last-child) {
+      inline-size: 128px;
     }
 
     .tray__dialog[open] & {
       opacity: 1;
     }
-  }
 
-  .tray__more-notifications {
-    display: none;
-  }
+    .tray__new-notifications {
+      display: none;
+      position: relative;
 
-  .tray__dialog:has(.tray__item:nth-child(1n + 7)) {
-    .tray__all-notifications { display: none; }
-    .tray__more-notifications { display: block; }
+      /* Red dot */
+      &:after {
+        background-color: oklch(var(--lch-red-medium));
+        block-size: 1ch;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px var(--color-ink-lightest);
+        content: "";
+        inline-size: 1ch;
+        inset: 25% auto auto 50%;
+        position: absolute;
+        translate: 25% -75%;
+      }
+    }
+
+    .tray__dialog:has(.tray__item:nth-child(1n + 7)) {
+      .tray__old-notifications { display: none; }
+      .tray__new-notifications { display: block; }
+    }
   }
 
   /* Tray cards

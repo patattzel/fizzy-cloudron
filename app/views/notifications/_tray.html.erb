@@ -7,23 +7,30 @@
     <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
 
     <div class="tray__item tray__item--overflow txt-x-small">
-      <%= button_to read_all_notifications_path,
-            class: "btn btn--circle borderless",
-            title: "Mark all notifications as read",
-            data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
-        <%= icon_tag "check" %>
-      <% end %>
-
-      <%= link_to notifications_path, class: "btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
-        <span class="tray__more-notifications">See more…</span>
-        <span class="tray__all-notifications">See all notifications</span>
-      <% end %>
-
       <%= link_to settings_notifications_path,
-            class: "btn btn--circle borderless",
+            class: "btn borderless",
             title: "Notification settings",
             data: { action: "click->dialog#close" } do %>
         <%= icon_tag "settings" %>
+        Settings
+      <% end %>
+
+      <%= link_to notifications_path, class: "tray__new-notifications btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
+        <%= icon_tag "bell" %>
+        See more new items…
+      <% end %>
+
+      <%= link_to notifications_path, class: "tray__old-notifications btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
+        <%= icon_tag "bell" %>
+        See all past items
+      <% end %>
+
+      <%= button_to read_all_notifications_path,
+            class: "btn borderless",
+            title: "Mark all notifications as read",
+            data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
+        <%= icon_tag "check" %>
+        Clear all
       <% end %>
     </div>
   </dialog>
