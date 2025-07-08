@@ -233,9 +233,9 @@
       }
     }
 
-    .tray__dialog:has(.tray__item:nth-child(1n + 7)) {
+    .tray__dialog:has(.tray__item:nth-child(1n + 7)) & {
       .tray__old-notifications { display: none; }
-      .tray__new-notifications { display: block; }
+      .tray__new-notifications { display: flex; }
     }
   }
 
