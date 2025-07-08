@@ -2,7 +2,7 @@ module Attachments
   extend ActiveSupport::Concern
 
   def attachments
-    rich_text_record.embeds
+    rich_text_record&.embeds || []
   end
 
   def has_attachments?
