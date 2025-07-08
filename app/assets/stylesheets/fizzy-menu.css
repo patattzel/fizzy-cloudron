@@ -14,11 +14,18 @@
     --input-border-color: var(--color-selected-dark);
     --input-padding: 0.2em 2em 0.2em 0.9em;
 
+    background-color: var(--color-canvas);
     box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
                 0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
                 0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
                 0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
     margin-block-start: 0.1em;
+
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
 
     svg {
       block-size: auto;

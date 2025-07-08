@@ -1,7 +1,8 @@
 @layer components {
   .btn {
-    --transition: 150ms ease;
-    --btn-border-radius: 2em;
+    --icon-size: var(--btn-icon-size, 1.3em);
+    --btn-border-radius: 99rem;
+    --btn-hover-brightness: 0.9;
 
     align-items: center;
     background-color: var(--btn-background, var(--color-canvas));
@@ -16,81 +17,117 @@
     justify-content: center;
     padding: var(--btn-padding, 0.5em 1.1em);
     pointer-events: auto;
-    transition:
-      background-color var( --transition),
-      border var( --transition),
-      color var( --transition),
-      filter var( --transition),
-      opacity var( --transition),
-      scale var( --transition);
+    position: relative;
+    transition: 100ms ease-out;
+    transition-property: background-color, border, box-shadow, color, filter, opacity, scale;
 
-    /* Default icon styles */
-    &:where(:has(.icon)) {
-      text-align: start;
-
-      .icon {
-        --icon-size: var(--btn-icon-size, 1.3em);
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(var(--btn-hover-brightness));
       }
     }
 
-    &:where(.avatar) {
-      --btn-border-radius: var(--avatar-border-radius);
-      --btn-padding: 0;
-      --btn-border-size: 0;
-      --hover-size: 0;
-
-      aspect-ratio: 1;
-      block-size: var(--btn-size);
-      display: grid;
-      inline-size: var(--btn-size);
-      justify-content: unset;
-      place-items: center;
-
-      > * {
-        grid-area: 1/1;
-      }
-
-      img {
-        --icon-size: 100%;
-        block-size: 100%;
-        inline-size: 100%;
-        max-inline-size: unset;
-      }
-
-      @media (any-hover: hover) {
-        &:where(:not(:active):hover) {
-          filter: brightness(0.7);
-        }
-      }
+    @media (prefers-color-scheme: dark) {
+      --btn-hover-brightness: 1.25;
     }
 
-    /* Circle buttons */
-    &.btn--circle,
-    &[aria-label]:where(:has(.icon)),
-    &:where(:has(.for-screen-reader):has(.icon)) {
-      --btn-border-radius: 50%;
-      --btn-padding: 0;
-
-      aspect-ratio: 1;
-      block-size: var(--btn-size);
-      display: grid;
-      inline-size: var(--btn-size);
-      place-items: center;
-
-      > * {
-        grid-area: 1/1;
-      }
+    &[disabled],
+    &:has([disabled]),
+    [disabled] &[type=submit],
+    &[type=submit]:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
+      pointer-events: none;
     }
 
-    /* With radios and checkboxes */
-    &:has(input[type=radio]),
-    &:has(input[type=checkbox]) {
+    @media print {
+      display: none;
+    }
+  }
+
+  /* Variants
+  /* ------------------------------------------------------------------------ */
+
+  .btn--plain {
+    --btn-background: transparent;
+    --btn-border-radius: 0;
+    --btn-border-size: 0;
+    --btn-color: inherit;
+    --btn-icon-size: 100%;
+    --btn-padding: 0;
+  }
+
+  .btn--link {
+    --btn-background: var(--color-link);
+    --btn-border-color: var(--color-canvas);
+    --btn-color: var(--color-ink-inverted);
+    --focus-ring-color: var(--color-link);
+  }
+
+  .btn--circle,
+  .btn[aria-label]:where(:has(.icon)),
+  .btn:where(:has(.for-screen-reader):has(.icon)) {
+    --btn-padding: 0;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    display: grid;
+    inline-size: var(--btn-size);
+    place-items: center;
+
+    > * {
+      grid-area: 1/1;
+    }
+  }
+
+  .btn--negative {
+    --btn-background: var(--color-negative);
+    --btn-border-color: var(--color-negative);
+    --btn-color: var(--color-ink-inverted);
+    --focus-ring-color: var(--color-negative);
+  }
+
+  .btn--positive {
+    --btn-background: var(--color-positive);
+    --btn-border-color: var(--color-canvas);
+    --btn-color: var(--color-ink-inverted);
+    --focus-ring-color: var(--color-positive);
+  }
+
+  .btn--success {
+    --success-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
+    animation: success 1s var(--success-timing-function);
+
+    .icon {
+      animation: zoom-fade 500ms var(--success-timing-function);
+    }
+  }
+
+  /* Fake button used to help space things out */
+  .btn--placeholder {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .btn--remove {
+    --btn-icon-size: 0.7em;
+  }
+
+  .btn--reversed {
+    --btn-background: var(--color-ink);
+    --btn-border-color: var(--color-canvas);
+    --btn-color: var(--color-canvas);
+    --focus-ring-color: var(--color-ink);
+  }
+
+  /* Toggleable buttons
+  /* ------------------------------------------------------------------------ */
+
+  .btn {
+    &:has(input[type=radio], input[type=checkbox]) {
       position: relative;
 
-      :is(input[type=radio]),
-      :is(input[type=checkbox]) {
-        --hover-size: 0;
-
+      :is(input[type=radio], input[type=checkbox]) {
         appearance: none;
         border-radius: var(--btn-border-radius);
         cursor: pointer;
@@ -112,85 +149,23 @@
 
     &:has(input:checked)  {
       --btn-background: var(--color-ink);
+      --btn-border-color: var(--color-ink);
       --btn-color: var(--color-ink-inverted);
-      --outline-color: var(--color-ink);
+      --focus-ring-color: var(--color-ink);
 
       .checked {
         display: block;
       }
     }
 
-    &[disabled],
-    &:has([disabled]),
-    [disabled] &[type=submit],
-    &[type=submit]:disabled {
-      cursor: not-allowed;
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    @media print {
-      display: none;
+    &:has(input:focus-visible)  {
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
     }
   }
 
-  /* Variants */
-  .btn--link {
-    --btn-background: var(--color-link);
-    --btn-color: var(--color-ink-inverted);
-    --outline-color: var(--color-link);
-  }
-
-  .btn--negative {
-    --btn-background: var(--color-negative);
-    --btn-color: var(--color-ink-inverted);
-    --outline-color: var(--color-negative);
-  }
-
-  .btn--placeholder {
-    pointer-events: none;
-    visibility: hidden;
-  }
-
-  .btn--plain {
-    --btn-background: transparent;
-    --btn-border-radius: 0;
-    --btn-border-size: 0;
-    --btn-color: inherit;
-    --btn-icon-size: 100%;
-    --btn-padding: 0;
-    --hover-size: 0;
-    --outline-size: 0;
-  }
-
-  .btn--positive {
-    --btn-background: var(--color-positive);
-    --btn-color: var(--color-ink-inverted);
-    --outline-color: var(--color-positive);
-  }
-
-  .btn--remove {
-    --btn-icon-size: 0.7em;
-  }
-
-  .btn--reversed {
-    --btn-background: var(--color-ink);
-    --btn-color: var(--color-canvas);
-    --outline-color: var(--color-ink);
-  }
-
-  :is(.btn--link, .btn--negative, .btn--positive, .btn--reversed) {
-    --btn-border-color: var(--color-canvas);
-  }
-
-  .btn--success {
-    --success-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
-    animation: success 1s var(--success-timing-function);
-
-    .icon {
-      animation: zoom-fade 500ms var(--success-timing-function);
-    }
-  }
+  /* Button groups
+  /* ------------------------------------------------------------------------ */
 
   .btn__group {
     .btn {

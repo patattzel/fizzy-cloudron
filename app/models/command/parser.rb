@@ -1,7 +1,7 @@
 class Command::Parser
   attr_reader :context
 
-  delegate :user, :cards, :filter, to: :context
+  delegate :user, :cards, :filter, :script_name, to: :context
 
   def initialize(context)
     @context = context
@@ -10,13 +10,26 @@ class Command::Parser
   def parse(string)
     parse_command(string).tap do |command|
       command.user = user
-      command.line ||= string
+      command.line ||= as_plain_text(string)
       command.context ||= context
+      command.default_url_options[:script_name] = script_name
     end
   end
 
   private
+    def as_plain_text(string)
+      ActionText::Content.new(string).to_plain_text
+    end
+
     def parse_command(string)
+      parse_rich_text_command as_plain_text_with_attachable_references(string)
+    end
+
+    def as_plain_text_with_attachable_references(string)
+      ActionText::Content.new(string).render_attachments(&:to_gid).fragment.to_plain_text
+    end
+
+    def parse_rich_text_command(string)
       command_name, *command_arguments = string.strip.split(" ")
       combined_arguments = command_arguments.join(" ")
 
@@ -24,53 +37,50 @@ class Command::Parser
       when /^#/
         Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
       when /^@/
-        Command::GoToUser.new(user_id: assignee_from(command_name)&.id)
-      when "/user"
-        Command::GoToUser.new(user_id: assignee_from(combined_arguments)&.id)
+        Command::GoToUser.new(user_id: context.find_user(string)&.id)
       when "/assign", "/assignto"
         Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
       when "/clear"
         Command::ClearFilters.new(params: filter.as_params)
       when "/close"
         Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
+      when "/reopen"
+        Command::Reopen.new(card_ids: cards.ids)
       when "/consider", "/reconsider"
         Command::Consider.new(card_ids: cards.ids)
       when "/do"
         Command::Do.new(card_ids: cards.ids)
       when "/insight"
         Command::GetInsight.new(query: combined_arguments, card_ids: cards.ids)
-      when "/add_card"
+      when "/add"
         Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
       when "/search"
         Command::Search.new(terms: combined_arguments)
       when "/stage"
-        Command::Stage.new(stage_id: stage_from(combined_arguments)&.id, card_ids: cards.ids)
+        Command::Stage.new(stage_id: context.find_workflow_stage(combined_arguments)&.id, card_ids: cards.ids)
       when "/visit"
         Command::VisitUrl.new(url: command_arguments.first)
       when "/tag"
         Command::Tag.new(tag_title: tag_title_from(combined_arguments), card_ids: cards.ids)
+      when /^gid:\/\//
+        parse_gid command_name
       else
         parse_free_string(string)
       end
     end
 
-  private
-    def assignees_from(strings)
-      Array(strings).filter_map do |string|
-        assignee_from(string)
+    def parse_gid(command_name)
+      case record = GlobalID::Locator.locate(command_name)
+      when Tag
+        Command::FilterByTag.new(tag_title: record.title, params: filter.as_params)
+      when User
+        Command::GoToUser.new(user_id: record.id)
       end
     end
 
-    # TODO: This is temporary as it can be ambiguous. We should inject the user ID in the command
-    #   under the hood instead, as determined by the user picker. E.g: @1234.
-    def assignee_from(string)
-      string_without_at = string.delete_prefix("@")
-      User.all.find { |user| user.mentionable_handles.include?(string_without_at.downcase) }
-    end
-
-    def stage_from(combined_arguments)
-      candidate_stages.find do |stage|
-        stage.name.downcase.include?(combined_arguments.downcase)
+    def assignees_from(strings)
+      Array(strings).filter_map do |string|
+        context.find_user(string)
       end
     end
 
@@ -78,12 +88,8 @@ class Command::Parser
       cards.first&.collection || Collection.first
     end
 
-    def candidate_stages
-      Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
-    end
-
     def tag_title_from(string)
-      string.gsub(/^#/, "")
+      context.find_tag(string)&.title || string.gsub(/^#/, "")
     end
 
     def parse_free_string(string)

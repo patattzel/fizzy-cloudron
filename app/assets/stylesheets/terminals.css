@@ -23,8 +23,6 @@
     --btn-border-color: var(--color-terminal-text);
     --btn-padding: 0.1em 0.7em;
     --btn-border-size: 1px;
-    --hover-color: var(--color-terminal-text);
-    --hover-size: 1px;
 
     font-family: var(--font-mono);
     font-size: var(--text-x-small);
@@ -49,14 +47,21 @@
   }
 
   .terminal__help {
+    background: var(--color-terminal-bg);
+    border-radius: 1em;
     display: none;
+
+    inline-size: auto;
+    inset: 50% auto auto 50%;
+    max-inline-size: 90vw;
+    
+    padding: calc(var(--block-space) * 1.5) var(--block-space-double);
+    position: fixed;
+    transform: translate(-50%, -50%);
 
     .terminal--showing-help &,
     .terminal--open .terminal__menu:empty ~ & {
-      border-block-end: 1px dashed;
       display: block;
-      margin-block-end: 0.5lh;
-      padding-block-end: 0.5lh;
     }
 
     h2 {
@@ -76,7 +81,7 @@
     dl {
       display: grid;
       grid-template-columns: min-content 1fr;
-      gap: 0.5em 1em;
+      gap: var(--inline-space);
       font-size: var(--text-small);
       margin: 0;
     }
@@ -89,16 +94,14 @@
 
     dd {
       grid-column: 2;
+      white-space: nowrap;
     }
   }
 
   .terminal__input:is(.input) {
     --input-border-color: transparent;
     --input-border-radius: 0.3em;
-    --hover-color: transparent;
     --input-color: var(--color-terminal-text);
-    --outline-size: 0;
-    --outline-color: transparent;
 
     accent-color: var(--color-terminal-text);
     caret-color: var(--color-terminal-text);
@@ -121,6 +124,22 @@
       accent-color: var(--color-negative);
       caret-color: var(--color-negative);
       color: var(--color-negative);
+    }
+
+    .lexical-editor__content {
+      min-block-size: initial;
+      margin: 0;
+
+      b, strong, i, em {
+        font-weight: inherit;
+        font-style: inherit;
+      }
+
+      ul, li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 
@@ -170,6 +189,10 @@
       color: var(--color-terminal-text-light);
     }
 
+    .terminal--error & {
+      color: var(--color-negative);
+    }
+
     .terminal--showing-output & {
       display: block;
     }
@@ -182,6 +205,16 @@
       &:has(+ ul) {
         margin-block-end: 0;
       }
+    }
+  }
+
+  /* Lexical prompt insertions
+  /* ------------------------------------------------------------------------ */
+
+  .terminal {
+    action-text-attachment:not(.node--selected) {
+      --attachment-bg-color: oklch(var(--lch-white) / 15%);
+      --attachment-text-color: var(--color-terminal-text);
     }
   }
 }

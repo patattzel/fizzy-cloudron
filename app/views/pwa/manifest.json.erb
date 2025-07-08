@@ -1,5 +1,5 @@
 {
-  "name": "Fizzy",
+  "name": "<%= [ Account.sole.name, "Fizzy", Rails.env.production? ? nil : Rails.env ].compact.join(" - ") %>",
   "icons": [
     {
       "src": "/app-icon-192.png",
@@ -18,22 +18,22 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "<%= root_path %>",
   "display": "standalone",
-  "scope": "/",
+  "scope": "<%= root_path %>",
   "description": "Card-up the biggest issues in your projects",
   "categories": ["bugs", "business", "productivity"],
   "shortcuts": [
     {
       "name": "Notifications",
       "description": "Catch up on recent notifications",
-      "url": "/notifications",
+      "url": "<%= notifications_path %>",
       "icons": [{ "src": "<%= image_url("bell.svg") %>", "sizes": "any" }]
     },
     {
       "name": "Latest Activity",
       "description": "See what’s new",
-      "url": "/",
+      "url": "<%= root_path %>",
       "icons": [{ "src": "<%= image_url("activity.svg") %>", "sizes": "any" }]
     }
   ],

@@ -43,10 +43,15 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   end
 
   test "filter by card id" do
-    # List context
     assert_command({ context: { card_ids: [ 123 ] } }, "card 123")
     assert_command({ context: { card_ids: [ 123, 456 ] } }, "card 123, 456")
     assert_command({ context: { terms: [ "123" ] } }, "123") # Notice existing cards will be intercepted earlier
+  end
+
+  test "acts on cards passing their ids" do
+    assert_command({ context: { card_ids: [ 123, 456 ] }, commands: [ "/close" ] }, "close 123 and 456")
+    assert_command({ context: { card_ids: [ 123 ] }, commands: [ "/close" ] }, "close 123")
+    assert_command({ context: { card_ids: [ 1, 5, 9 ] }, commands: [ "/assign #{users(:david).to_gid}" ] }, "assign 1, 5 and 9 to myself")
   end
 
   test "filter by collections" do
@@ -61,6 +66,16 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
     # Card context
     assert_command({ commands: [ "/close" ] }, "close", context: :card)
+  end
+
+  test "reopen cards" do
+    # List context
+    assert_command({ commands: [ "/reopen" ] }, "reopen")
+    assert_command({ context: { assignee_ids: [ "jz" ] }, commands: [ "/reopen" ] }, "reopen cards assigned to jz")
+    assert_command({ context: { closure: "thisweek", indexed_by: "closed" }, commands: [ "/reopen" ] }, "reopen cards closed this week")
+
+    # Card context
+    assert_command({ commands: [ "/reopen" ] }, "reopen", context: :card)
   end
 
   test "assign cards" do
@@ -89,7 +104,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "combine commands and filters" do
     assert_command(
-      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign david", "/stage Investigating" ] },
+      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign #{users(:david).to_gid}", "/stage Investigating" ] },
       "Move 176 and 170 to doing, assign to me and set the stage to Investigating")
     assert_command(
       { context: { assignee_ids: [ "jz" ], tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] },
@@ -108,17 +123,17 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   end
 
   test "visit screens" do
-    assert_command({ commands: [ "/visit #{user_path(@user)}" ] }, "my profile")
-    assert_command({ commands: [ "/visit #{edit_user_path(@user)}" ] }, "edit my profile")
-    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "manage users")
-    assert_command({ commands: [ "/visit #{account_settings_path}" ] }, "account settings")
+    assert_command({ commands: [ "/visit #{user_path(@user, script_name: nil)}" ] }, "my profile")
+    assert_command({ commands: [ "/visit #{edit_user_path(@user, script_name: nil)}" ] }, "edit my profile")
+    assert_command({ commands: [ "/visit #{account_settings_path(script_name: nil)}" ] }, "manage users")
+    assert_command({ commands: [ "/visit #{account_settings_path(script_name: nil)}" ] }, "account settings")
   end
 
   test "create cards" do
-    assert_command({ commands: [ "/add_card" ] }, "add card")
-    assert_command({ commands: [ "/add_card new task" ] }, "add card new task")
-    assert_command({ commands: [ "/add_card" ] }, "create card")
-    assert_command({ commands: [ "/add_card urgent issue" ] }, "create card urgent issue")
+    assert_command({ commands: [ "/add" ] }, "add card")
+    assert_command({ commands: [ "/add new task" ] }, "add card new task")
+    assert_command({ commands: [ "/add" ] }, "create card")
+    assert_command({ commands: [ "/add urgent issue" ] }, "create card urgent issue")
   end
 
   test "filter by time ranges" do
@@ -129,13 +144,17 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "closing soon and falling back soon" do
     assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
-    assert_command({ context: { indexed_by: "falling_back_soon" } }, "cards to be reconsidered soon")
-    assert_command({ context: { assignee_ids: [ "david" ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
+    assert_command({ context: { assignee_ids: [ users(:david).to_gid.to_s ], indexed_by: "closing_soon" } }, "my cards that are going to be auto closed")
   end
 
   test "view users profiles" do
     assert_command({ commands: [ "/user jz" ] }, "check what jz has been up to")
     assert_command({ commands: [ "/user kevin" ] }, "view kevin")
+  end
+
+  test "filter by closed by" do
+    assert_command({ context: { closer_ids: [ users(:david).to_gid.to_s ], indexed_by: "closed" } }, "cards closed by me")
+    assert_command({ context: { closure: "thisweek", closer_ids: [ "Jorge", "Kevin" ], indexed_by: "closed" } }, "cards closed by Jorge or Kevin this week")
   end
 
   private
@@ -146,7 +165,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     def translate(query, user: @user, context: :list)
       raise "Context must be :card or _list" unless context.in?(%i[ card list ])
       url = context == :card ? card_url(cards(:logo)) : cards_url
-      context = Command::Parser::Context.new(user, url: url)
+      context = Command::Parser::Context.new(user, url: url, script_name: integration_session.default_url_options[:script_name])
       translator = Command::Ai::Translator.new(context)
       translator.translate(query)
     end

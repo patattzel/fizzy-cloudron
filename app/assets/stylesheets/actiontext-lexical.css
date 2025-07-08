@@ -4,14 +4,14 @@
     position: relative;
     overflow: visible;
 
-    .node--selected:not(.attachment--custom) {
+    figure.node--selected {
       &:not(:has(img)) {
-        box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+        box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
       }
 
       &:has(img) {
         img {
-          box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+          box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
         }
       }
     }
@@ -45,7 +45,7 @@
       &:is([type="submit"]) {
         --btn-background: var(--card-color, var(--color-link));
         --btn-color: var(--color-ink-inverted);
-        --outline-color: var(--card-color, var(--color-link));
+        --focus-ring-color: var(--card-color, var(--color-link));
       }
     }
 
@@ -55,12 +55,9 @@
   }
 
   .lexical-editor__content {
-    --outline-size: max(2px, 0.08em);
-
     margin: var(--block-space-half) 0;
     min-block-size: calc(7lh + var(--block-space));
     outline: 0;
-    padding: var(--block-space-half) var(--inline-space);
 
     * {
       &:first-child {
@@ -151,6 +148,8 @@
     background-color: var(--color-canvas);
     border-radius: calc(var(--lexical-prompt-padding) * 2);
     box-shadow: var(--shadow);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
     font-size: var(--text-small);
     list-style: none;
     margin: 0;
@@ -158,6 +157,9 @@
     padding: var(--lexical-prompt-padding);
     visibility: hidden;
     z-index: var(--z-popup);
+
+    max-height: 200px;
+    overflow: scroll;
   }
 
   .lexical-prompt-menu--visible {
@@ -173,15 +175,11 @@
     padding: var(--lexical-prompt-padding);
 
     &:hover {
-      background-color: var(--color-selected);
+      background-color: var(--color-ink-lightest);
     }
 
     &[aria-selected] {
-      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
-
-      &:hover {
-        --hover-size: 0;
-      }
+      background-color: var(--color-selected);
     }
 
     img {
@@ -190,6 +188,17 @@
       flex-shrink: 0;
       inline-size: var(--lexical-prompt-avatar-size);
       margin: 0;
+    }
+
+    + & {
+      margin-top: 2px;
+    }
+
+    code {
+      background-color: var(--color-terminal-text-light);
+      border-radius: 0.25ch;
+      font-size: 0.95em;
+      padding-inline: 0.5ch;
     }
   }
 

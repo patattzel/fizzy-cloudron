@@ -29,7 +29,7 @@ class CommandsController < ApplicationController
     end
 
     def parsing_context
-      @parsing_context ||= Command::Parser::Context.new(Current.user, url: request.referrer)
+      @parsing_context ||= Command::Parser::Context.new(Current.user, url: request.referrer, script_name: request.script_name)
     end
 
     def confirmed?(command)
@@ -37,6 +37,9 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_execution_result(result)
+      # This saves unnecessary back and forth between server and client (e.g: to redirect)-
+      result = result.is_a?(Array) && result.one? ? result.first : result
+
       case result
       when Array
         respond_with_composite_response(result)
@@ -68,6 +71,7 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_error(command)
-      render json: { error: command.errors.full_messages.join(", "), context_url: command.context.url }, status: :unprocessable_entity
+      error_message = command.error_messages.map { |msg| "- #{msg}\n" }.join
+      render json: { error: error_message, context_url: command.context.url }, status: :unprocessable_entity
     end
 end

@@ -37,8 +37,35 @@ class Command < ApplicationRecord
     false
   end
 
+  def error_messages
+    errors.to_hash.flat_map do |attribute, message|
+      error_message_for(attribute, message)
+    end.uniq
+  end
+
   private
     def redirect_to(...)
       Command::Result::Redirection.new(...)
+    end
+
+    def error_message_for(attribute, message)
+      case attribute.to_sym
+      when :cards, :card_ids
+        "Needs one or more cards to apply to (#123, #124)"
+      when :card
+        "Needs one card to apply to."
+      when :collection
+        "You need to specify a Collection"
+      when :assignee_ids
+        "Needs at least one assignee (@person)."
+      when :user
+        "Can’t find that person."
+      when :stage
+        "Can’t find that Workflow Stage."
+      when :tag_title
+        "Needs at least one tag (#tag, #name)"
+      else
+        message
+      end
     end
 end

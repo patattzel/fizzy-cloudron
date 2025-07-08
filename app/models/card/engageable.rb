@@ -9,7 +9,7 @@ module Card::Engageable
 
     scope :by_engagement_status, ->(status) do
       case status.to_s
-      when "considering" then considering
+      when "considering" then considering.with_golden_first
       when "doing"       then doing.with_golden_first
       end
     end
@@ -44,6 +44,7 @@ module Card::Engageable
     transaction do
       reopen
       engagement&.destroy
+      activity_spike&.destroy
       touch_last_active_at
     end
   end

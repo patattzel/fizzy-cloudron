@@ -10,7 +10,12 @@ module NotificationsHelper
     name = event.creator.name
 
     case event_notification_action(event)
-    when "card_closed" then "Closed as “#{event.card.closure.reason}” by #{name}"
+    when "card_closed"
+      if event.card.closure
+        "Closed as “#{event.card.closure.reason}” by #{name}"
+      else
+        "Closed by #{name}"
+      end
     when "card_reopened" then "Reopened by #{name}"
     when "card_published" then "Added by #{name}"
     when "comment_created" then comment_notification_body(event)

@@ -4,20 +4,20 @@ class Command::Ai::ParserTest < ActionDispatch::IntegrationTest
   include CommandTestHelper, VcrTestHelper
 
   test "parse command strings into a composite command containing the individual commands" do
-    result = parse_command "assign @kevin and close"
+    command = parse_command "assign @kevin and close"
 
-    assert_instance_of Command::Composite, result
-    commands = result.commands
+    assert_equal "assign @kevin and close", command.line
+    assert_instance_of Command::Composite, command
+    commands = command.commands
 
     assert_instance_of Command::Assign, commands.first
     assert_instance_of Command::Close, commands.last
   end
 
   test "resolve filter string params as ids" do
-    result = parse_command "cards assigned to kevin, tagged with #web, in the collection writebook"
-    assert_equal 1, result.commands.size
+    command = parse_command "cards assigned to kevin, tagged with #web, in the collection writebook"
 
-    url = result.commands.first.url
+    url = command.commands.first.url
     query_string = URI.parse(url).query
     params = Rack::Utils.parse_nested_query(query_string).with_indifferent_access
 

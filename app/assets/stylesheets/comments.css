@@ -37,8 +37,16 @@
   }
 
   .comment__author {
-    .comment--system & strong {
-      display: none;
+    margin-inline-end: calc(var(--comment-padding-inline) * -0.66);
+
+    .comment--system & {
+      h3 {
+        margin-inline: auto;
+      }
+
+      strong {
+        display: none;
+      }
     }
 
     .btn {
@@ -90,12 +98,15 @@
   }
 
   .comment__edit {
+    background-color: var(--color-ink-lightest);
+
     .comment:not(.comment--mine) & {
       display: none;
     }
   }
 
   .comment__reaction {
+    background-color: var(--color-ink-lightest);
     opacity: 0.66;
 
     @media (any-hover: hover) {

@@ -3,11 +3,12 @@ class Collections::PublicationsController < ApplicationController
 
   def create
     @collection.publish
-    redirect_to edit_collection_path(@collection)
+    render turbo_stream: turbo_stream.replace([ @collection, :publication ], partial: "collections/edit/publication", locals: { collection: @collection })
   end
 
   def destroy
     @collection.unpublish
-    redirect_to edit_collection_path(@collection)
+    @collection.reload
+    render turbo_stream: turbo_stream.replace([ @collection, :publication ], partial: "collections/edit/publication", locals: { collection: @collection })
   end
 end

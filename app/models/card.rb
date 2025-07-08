@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   include Assignable, Colored, Engageable, Entropic, Eventable,
-    Golden, Mentions, Pinnable, Closeable, Readable, Searchable,
+    Golden, Mentions, Multistep, Pinnable, Closeable, Readable, Searchable,
     Staged, Stallable, Statuses, Taggable, Watchable
 
   belongs_to :collection, touch: true
@@ -36,6 +36,13 @@ class Card < ApplicationRecord
 
   def card
     self
+  end
+
+  def move_to(new_collection)
+    transaction do
+      card.update!(collection: new_collection)
+      card.events.update_all(collection_id: new_collection.id)
+    end
   end
 
   private

@@ -3,7 +3,7 @@
   <%= render "cards/container/engagement", card: card %>
 
   <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
-    <%= render "cards/container/gild", card: card if card.doing? %>
+    <%= render "cards/container/gild", card: card if @card.published? && !@card.closed? %>
     <%= render "cards/container/image", card: card %>
   </aside>
 
@@ -18,6 +18,8 @@
         <%= render "cards/container/title", card: card %>
         <%= render "cards/stagings/stages", card: card if card.doing? %>
       </div>
+
+      <%= render "cards/display/perma/steps", card: card %>
 
       <footer class="card__footer full-width flex align-start gap">
         <%= render "cards/display/perma/meta", card: card %>
