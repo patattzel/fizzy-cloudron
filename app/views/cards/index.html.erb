@@ -6,9 +6,19 @@
   <%= render "cards/index/header", filter: @filter %>
 <% end %>
 
-<header class="header">
-  <h1 class="header__title header__title--actions" style="view-transistion-name: card-collection-title">
+<header class="header" style="--header-actions-width: 7rem;">
+  <div class="header__actions header__actions--start">
+    <% if collection = @filter.single_collection || Current.user.collections.first %>
+      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link" do %>
+        <%= icon_tag "add" %>
+        Add a card
+      <% end %>
+    <% end %>
+  </div>
+  <h1 class="header__title" style="view-transistion-name: card-collection-title">
     <span class="overflow-ellipsis"><%= filter_title @filter %></span>
+  </h1>
+  <div class="header__actions header__actions--end">
     <% if collection = @filter.single_collection %>
       <%= access_involvement_advance_button collection, Current.user %>
 
@@ -17,7 +27,7 @@
         <span class="for-screen-reader">Settings for <%= collection.name %></span>
       <% end %>
     <% end %>
-  </h1>
+  </div>
 </header>
 
 <%= render "filters/settings", filter: @filter %>
