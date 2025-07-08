@@ -1,0 +1,19 @@
+<%= render "events/event/layout", card: event.eventable, event: event do %>
+  <span class="txt-break overflow-line-clamp txt-tight-lines">
+    <%= format_excerpt(event&.eventable.description, length: 200) -%>
+  </span>
+
+  <% if event.eventable.has_attachments? %>
+    <span class="event_attachments margin-block-half flex align-center gap-half">
+      <% event.eventable.attachments.each do |attachment| %>
+        <% if attachment.representable? %>
+          <%= image_tag attachment, class: "attachment attachment--image" %>
+        <% else %>
+          <div class="attachment attachment--file attachment--<%= attachment.filename.extension -%>">
+            <span class="attachment__icon"><%= attachment.filename.extension&.downcase.presence || "unknown" %></span>
+          </div>
+        <% end %>
+      <% end %>
+    </span>
+  <% end %>
+<% end %> 
