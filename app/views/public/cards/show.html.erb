@@ -25,7 +25,7 @@
         <%= render "cards/display/public_preview/stages", card: @card if @card.doing? %>
       </div>
 
-      <%= render "cards/display/perma/steps", card: @card %>
+      <%= render "public/cards/show/steps", card: @card %>
 
       <footer class="card__footer full-width flex align-start gap">
         <%= render "cards/display/public_preview/meta", card: @card %>
