@@ -1,0 +1,40 @@
+<% @page_title = @card.title %>
+
+<% content_for :header do %>
+  <header class="header card-perma__collection-header">
+  <%= link_to published_collection_url(@card.collection), class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: card-collection-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <span>
+      &larr;
+      <strong class="font-black"><%= @card.collection.name %></strong>
+    </span>
+  <% end %>
+</header>
+<% end %>
+
+<section id="<%= dom_id(@card, :card_container) %>"
+    class="card-perma card-perma--public" style="--card-color: <%= @card.color %>;">
+  <div class="card-perma__bg">
+    <%= card_article_tag @card, class: "card" do %>
+      <header class="card__header">
+        <%= render "cards/display/common/collection", card: @card %>
+        <%= render "cards/display/preview/tags", card: @card %>
+      </header>
+
+      <div class="card__body justify-space-between">
+        <%= render "cards/container/title", card: @card %>
+        <%= render "cards/display/preview/stages", card: @card if @card.doing? %>
+      </div>
+
+      <%= render "cards/display/perma/steps", card: @card %>
+
+      <footer class="card__footer full-width flex align-start gap">
+        <%= render "cards/display/preview/meta", card: @card %>
+        <%= render "cards/display/perma/background", card: @card %>
+      </footer>
+    <% end %>
+  </div>
+
+  <% if @card.creating? %>
+    <%= render "cards/container/footer/draft", card: @card %>
+  <% end %>
+</section> 

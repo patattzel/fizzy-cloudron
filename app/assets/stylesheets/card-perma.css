@@ -74,6 +74,18 @@
     }
   }
 
+  .card-perma--public {
+    .card__hide-on-public {
+      display: none;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .card__disable-on-public {
+      pointer-events: none;
+    }
+  }
+
   .card-perma__collection-header {
     margin-block-end: var(--block-space);
 
