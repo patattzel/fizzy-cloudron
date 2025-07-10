@@ -6,13 +6,13 @@
 
     figure.node--selected {
       &:not(:has(img)) {
-        box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+        outline: var(--focus-ring);
+        outline-offset: var(--focus-ring-offset);
       }
 
-      &:has(img) {
-        img {
-          box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
-        }
+      &:has(img) img {
+        outline: var(--focus-ring);
+        outline-offset: var(--focus-ring-offset);
       }
     }
 
