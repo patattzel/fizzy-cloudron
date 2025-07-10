@@ -371,7 +371,7 @@
       /* …add a border */
       .tray__expander {
         border-inline-end: 1px dashed oklch(var(--lch-white) / 50%);
-        translate: calc(-1 * var(--tray-margin)) 0;
+        translate: calc(-1 * var(--tray-margin)) calc(-1 * env(safe-area-inset-bottom));
       }
 
       /* …and disable the expander if there aren't items to show */
@@ -422,7 +422,7 @@
       /* …add a border */
       .tray__expander {
         border-inline-start: 1px dashed oklch(var(--lch-white) / 50%);
-        translate: var(--tray-margin) 0;
+        translate: var(--tray-margin) calc(-1 * env(safe-area-inset-bottom));
       }
 
       /* …and hide the dialog if there aren't items to show */
