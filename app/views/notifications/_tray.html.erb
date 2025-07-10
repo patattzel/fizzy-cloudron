@@ -6,9 +6,9 @@
       data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside">
     <%= turbo_frame_tag "notifications", src: tray_notifications_path, refresh: "morph" %>
 
-    <div class="tray__item tray__item--overflow txt-x-small">
+    <div class="tray__item tray__hat txt-x-small">
       <%= link_to settings_notifications_path,
-            class: "btn borderless",
+            class: "btn borderless tray__notification-settings",
             title: "Notification settings",
             data: { action: "click->dialog#close" } do %>
         <%= icon_tag "settings" %>
@@ -26,7 +26,7 @@
       <% end %>
 
       <%= button_to read_all_notifications_path,
-            class: "btn borderless",
+            class: "btn borderless tray__clear-notifications",
             title: "Mark all notifications as read",
             data: { action: "click->dialog#close", turbo_frame: "notifications" } do %>
         <%= icon_tag "check" %>
