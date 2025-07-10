@@ -118,7 +118,6 @@
   /* ------------------------------------------------------------------------ */
 
   .cards__heading {
-
     background-color: var(--color-canvas);
     display: flex;
     font-size: var(--text-medium);
@@ -172,11 +171,14 @@
 
     .card {
       --avatar-size: 2.75em;
-      --text-xx-large: 1.6em;
       --text-small: 1.1em;
 
       background-color: var(--color-canvas);
       line-height: 1.2;
+
+      @media (min-width: 640px) {
+        --text-xx-large: 1.6em;
+      }
     }
 
     .card__body {
