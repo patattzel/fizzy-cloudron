@@ -1,4 +1,6 @@
 class NotificationPusher
+  include Rails.application.routes.url_helpers
+
   attr_reader :notification
 
   def initialize(notification)
@@ -34,7 +36,7 @@ class NotificationPusher
     def build_event_payload
       event = notification.source
       card = event.card
-      
+
       case event.action
       when "comment_created"
         {
@@ -78,7 +80,7 @@ class NotificationPusher
     def build_mention_payload
       mention = notification.source
       card = mention.card
-      
+
       {
         title: "#{mention.mentioner.first_name} mentioned you",
         body: mention.source.mentionable_content.truncate(200),
