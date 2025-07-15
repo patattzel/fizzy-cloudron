@@ -53,12 +53,11 @@ export default class extends Controller {
   }
 
   get #serviceWorkerRegistration() {
-    return navigator.serviceWorker.getRegistration(window.location.host)
+    return navigator.serviceWorker.getRegistration("/service-worker.js", { scope: window.location.pathname.split('/')[1]})
   }
 
   #registerServiceWorker() {
-    // Use absolute path to register from root, regardless of current account scope
-    return navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
+    return navigator.serviceWorker.register("/service-worker.js", { scope: window.location.pathname.split('/')[1]})
   }
 
   async #subscribe(registration) {
