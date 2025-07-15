@@ -57,7 +57,8 @@ export default class extends Controller {
   }
 
   #registerServiceWorker() {
-    return navigator.serviceWorker.register("/service-worker.js")
+    // Use absolute path to register from root, regardless of current account scope
+    return navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
   }
 
   async #subscribe(registration) {
