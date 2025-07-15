@@ -8,6 +8,13 @@
 
     <div class="header__actions header__actions--end">
       <% if Current.user == @user %>
+        <span data-controller="notifications" data-notifications-subscriptions-url-value="<%= user_push_subscriptions_path(Current.user) %>">
+          <button class="btn" data-action="notifications#attemptToSubscribe">
+            <%= icon_tag "bell" %>
+            <span class="for-screen-reader">Turn on push notifications</span>
+          </button>
+        </span>
+
         <%= link_to edit_user_path(@user), class: "btn flex-item-justify-end" do %>
           <%= icon_tag "pencil" %>
           <span class="for-screen-reader">Edit</span>

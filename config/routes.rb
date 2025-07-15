@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resource :role, module: :users
+    resources :push_subscriptions, module: :users
   end
 
   resources :collections do
@@ -169,7 +170,8 @@ Rails.application.routes.draw do
   end
 
   get "up", to: "rails/health#show", as: :rails_health_check
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "manifest" => "pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "pwa#service_worker"
 
   root "events#index"
 
