@@ -24,6 +24,6 @@ class WebPush::Notification
     end
 
     def icon_path
-      "/app-icon.png"
+      "/apple-touch-icon.png"
     end
 end
