@@ -121,6 +121,12 @@
       opacity: 0.7;
     }
 
+    &.lexical-editor--empty {
+      overflow: hidden;
+      text-overflow: ellipsis; 
+      white-space: nowrap;
+    }
+
     .terminal--confirmation & {
       color: var(--color-terminal-text-light);
     }
