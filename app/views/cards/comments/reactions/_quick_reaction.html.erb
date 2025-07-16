@@ -8,7 +8,6 @@
           <%= hidden_field_tag "reaction[content]", character %>
           <%= form.button type: "submit", title: title, class: "reaction__quick-emoji-btn btn btn--circle", data: { emoji: character } do %>
             <span><%= character %></span>
-            <span class="for-screen-reader"><%= title %></span>
           <% end %>
         <% end %>
       <% end %>
