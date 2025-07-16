@@ -158,6 +158,12 @@
     .terminal--busy:is(:not(.terminal--confirmation)) & {
       animation: pulse 1s infinite;
     }
+
+    &:has(~ .terminal__input:focus-within) {
+      @media (max-width: 640px) {
+        display: none;
+      }
+    }
   }
 
   .terminal__menu {
