@@ -6,18 +6,9 @@ export default class extends Controller {
   static values = { subscriptionsUrl: String }
 
   async connect() {
-    if (!pageIsTurboPreview()) {
-      if (window.notificationsPreviouslyReady) {
-        onNextEventLoopTick(() => this.dispatch("ready"))
-      } else {
-        const firstTimeReady = await this.isEnabled()
-
-        if (firstTimeReady) {
-          onNextEventLoopTick(() => this.dispatch("ready"))
-          window.notificationsPreviouslyReady = true
-        }
-      }
-    }
+    const state = await this.getCurrentState()
+  
+    this.updateUI(state)
   }
 
   async attemptToSubscribe() {
@@ -100,5 +91,36 @@ export default class extends Controller {
     }
 
     return outputArray
+  }
+
+  updateUI(state) {
+    console.log(state)
+  }
+
+  async getCurrentState() {
+    if (!this.#allowed) {
+      return { status: 'not-supported' }
+    }
+
+    const registration = await this.#getServiceWorkerRegistration()
+    const subscription = await registration?.pushManager?.getSubscription()
+    
+    return {
+      permission: Notification.permission,
+      hasRegistration: !!registration,
+      hasSubscription: !!subscription,
+      status: this.#determineStatus(Notification.permission, registration, subscription)
+    }
+  }
+
+  #determineStatus(permission, registration, subscription) {
+    if (permission === "denied") return "permission-denied"
+    if (permission === "default") return "permission-not-requested"
+    if (permission === "granted") {
+      if (!registration) return "service-worker-missing"
+      if (!subscription) return "subscription-missing"
+      return "enabled"
+    }
+    return "unknown"
   }
 }
