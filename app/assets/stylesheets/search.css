@@ -37,7 +37,8 @@
   }
 
   .search__form-input {
-    padding-inline:var(--search-btn-size);
+    padding-inline: var(--search-btn-size);
+    position: relative;
 
     &::-webkit-search-cancel-button {
       --clear-icon-size: 0.75rem;
@@ -50,8 +51,9 @@
       block-size: var(--clear-icon-size);
       cursor: pointer;
       inline-size: var(--clear-icon-size);
-      inset-inline-end: 1ch;
+      inset: 50% 1ch auto auto;
       position: absolute;
+      translate: 0 -50%;
     }
   }
 

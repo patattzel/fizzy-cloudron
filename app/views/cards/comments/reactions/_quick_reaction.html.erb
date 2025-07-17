@@ -8,7 +8,6 @@
           <%= hidden_field_tag "reaction[content]", character %>
           <%= form.button type: "submit", title: title, class: "reaction__quick-emoji-btn btn btn--circle", data: { emoji: character } do %>
             <span><%= character %></span>
-            <span class="for-screen-reader"><%= title %></span>
           <% end %>
         <% end %>
       <% end %>
@@ -17,7 +16,8 @@
         <%= link_to new_card_comment_reaction_path(comment.card, comment), role: "button",
               class: "btn btn--circle", action: "soft-keyboard#open",
               data: { turbo_frame: dom_id(comment, :new_reaction), action: "dialog#close" } do %>
-          <%= icon_tag "reaction" %> <span class="for-screen-reader">Add a reaction</span>
+          <%= icon_tag "reaction" %> 
+          <span class="for-screen-reader">Add your own reaction</span>
         <% end %>
       </div>
     </div>

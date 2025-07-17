@@ -22,9 +22,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "deactivate" do
+    users(:jz).sessions.create!
+
     assert_changes -> { users(:jz).active? }, from: true, to: false do
-      users(:jz).deactivate
+      assert_changes -> { users(:jz).accesses.count }, from: 1, to: 0 do
+        assert_changes -> { users(:jz).sessions.count }, from: 1, to: 0 do
+          users(:jz).deactivate
+        end
+      end
     end
+    assert_nil users(:jz).reload.signal_user
   end
 
   test "initials" do
