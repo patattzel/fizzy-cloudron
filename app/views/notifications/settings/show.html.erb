@@ -12,6 +12,16 @@
   </nav>
 <% end %>
 
-<section class="panel center flex flex-column gap-half margin-block">
+<section class="panel unpad borderless center flex flex-column gap-half margin-block-start">
+  <div class="pad fill-shade margin-block-end-double border-radius border" data-controller="notifications" data-notifications-subscriptions-url-value="<%= user_push_subscriptions_path(Current.user) %>">
+    <span>
+      <button class="btn txt-small" data-action="notifications#attemptToSubscribe">
+        <%= icon_tag "bell" %>
+        <span>Receive push notifications on this device</span>
+      </button>
+    </span>
+  </div>
+
+  <h2 class="txt-medium txt-uppercase divider">Collections</h2>
   <%= render partial: "notifications/settings/collection", collection: @collections, locals: { user: Current.user } %>
 </section>
