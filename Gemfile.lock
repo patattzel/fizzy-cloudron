@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: https://github.com/basecamp/portfolio
-  revision: 34b48dd3c6dc78abd162ef26481971a228084d04
+  revision: ecf5bf98b638c3169e8ec0913bbcaefb9c0efd79
   specs:
     portfolio (5.2.0)
       activesupport
@@ -82,7 +82,7 @@ GIT
 
 GIT
   remote: https://github.com/basecamp/signal_id
-  revision: 32758d0bff9f17e938905ff5bec53fff359e21b0
+  revision: 0b18e9665f8a9295b84a18d329ff272f494a2249
   branch: rails4
   specs:
     signal_id (4.3.2)
@@ -98,9 +98,9 @@ GIT
 
 GIT
   remote: https://github.com/crmne/ruby_llm.git
-  revision: a35aa111a0bb36b7f0363b1f1f2a25e3d5378fd3
+  revision: 0924d2eedaafe0f0656ca133b0d84b89c5cdc8db
   specs:
-    ruby_llm (1.3.1)
+    ruby_llm (1.3.2)
       base64
       event_stream_parser (~> 1)
       faraday (>= 1.10.0)
@@ -112,7 +112,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 58a2187f7b2ac391eba841e9ec6bb1a6d4e486dd
+  revision: 78d5233b1f36b678662f2bc00c386071aaafa7da
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -208,6 +208,7 @@ GIT
       rackup (>= 1.0.0)
       rake (>= 12.2)
       thor (~> 1.0, >= 1.2.2)
+      tsort (>= 0.2)
       zeitwerk (~> 2.6)
 
 GEM
@@ -227,7 +228,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1124.0)
+    aws-partitions (1.1129.0)
     aws-sdk-core (3.226.2)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -238,7 +239,7 @@ GEM
     aws-sdk-kms (1.106.0)
       aws-sdk-core (~> 3, >= 3.225.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.192.0)
+    aws-sdk-s3 (1.193.0)
       aws-sdk-core (~> 3, >= 3.225.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -282,12 +283,12 @@ GEM
     dotenv (3.1.8)
     drb (2.2.3)
     ed25519 (1.4.0)
-    erb (5.0.1)
+    erb (5.0.2)
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
     event_stream_parser (1.0.0)
-    faraday (2.13.1)
+    faraday (2.13.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -321,7 +322,7 @@ GEM
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
-    io-console (0.8.0)
+    io-console (0.8.1)
     irb (1.15.2)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
@@ -330,7 +331,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
-    json (2.12.2)
+    json (2.13.0)
     jwt (3.1.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -352,7 +353,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (5.25.5)
-    mission_control-jobs (1.0.2)
+    mission_control-jobs (1.1.0)
       actioncable (>= 7.1)
       actionpack (>= 7.1)
       activejob (>= 7.1)
@@ -406,11 +407,10 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
-    propshaft (1.1.0)
+    propshaft (1.2.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
-      railties (>= 7.0.0)
     psych (5.2.6)
       date
       stringio
@@ -513,18 +513,18 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_queue (1.1.5)
+    solid_queue (1.2.0)
       activejob (>= 7.1)
       activerecord (>= 7.1)
       concurrent-ruby (>= 1.3.1)
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sqlite3 (2.7.1)
+    sqlite3 (2.7.2)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (2.7.1-arm64-darwin)
-    sqlite3 (2.7.1-x86_64-darwin)
-    sqlite3 (2.7.1-x86_64-linux-gnu)
+    sqlite3 (2.7.2-arm64-darwin)
+    sqlite3 (2.7.2-x86_64-darwin)
+    sqlite3 (2.7.2-x86_64-linux-gnu)
     sshkit (1.24.0)
       base64
       logger
@@ -546,6 +546,7 @@ GEM
     tiktoken_ruby (0.0.11.1-x86_64-darwin)
     tiktoken_ruby (0.0.11.1-x86_64-linux)
     timeout (0.4.3)
+    tsort (0.2.0)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
