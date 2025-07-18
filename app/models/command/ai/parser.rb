@@ -47,6 +47,7 @@ class Command::Ai::Parser
           query_context[:creator_ids] = query_context[:creator_ids]&.filter_map { |name| context.find_user(name)&.id }
           query_context[:closer_ids] = query_context[:closer_ids]&.filter_map { |name| context.find_user(name)&.id }
           query_context[:collection_ids] = query_context[:collection_ids]&.filter_map { |name| context.find_collection(name)&.id }
+          query_context[:stage_ids] = query_context[:stage_ids]&.filter_map { |name| context.find_workflow_stage(name)&.id }
           query_context[:tag_ids] = query_context[:tag_ids]&.filter_map { |name| context.find_tag(name)&.id }
           query_context.compact!
         end
