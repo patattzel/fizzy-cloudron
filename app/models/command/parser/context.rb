@@ -64,7 +64,7 @@ class Command::Parser::Context
   end
 
   def candidate_stages
-    Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
+    Workflow::Stage.where(workflow_id: user.collections.select("collections.workflow_id").distinct)
   end
 
   private
