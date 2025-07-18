@@ -15,7 +15,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { assignment_status: "unassigned" } }, "unassigned cards")
     assert_command({ context: { assignment_status: "unassigned" } }, "not assigned")
     assert_command({ context: { assignee_ids: [ "jorge" ], terms: [ "performance" ] } }, "cards about performance assigned to jorge")
-    assert_command({ context: {assignee_ids: ["jz"], indexed_by: "latest"} }, "stuff that jz has done lately")
+    assert_command({ context: { closer_ids: [ "jz" ], indexed_by: "latest" } }, "stuff that jz has done lately")
 
     # Card context
     assert_command({ context: { assignee_ids: [ "jz" ] } }, "cards assigned to jz", context: :card)
@@ -44,24 +44,21 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { indexed_by: "stalled" } }, "stagnated cards")
   end
 
-  vcr_record!
-
-
   test "filter by stage" do
     assert_command({ context: { stage_ids: [ "uphill" ] } }, "cards in uphill")
-    assert_command({ context: { stage_ids: [ "On Hold" ] } }, "on hold cards")
+    assert_command({ context: { stage_ids: [ "on hold" ] } }, "on hold cards")
   end
 
   test "filter by card id" do
     assert_command({ context: { card_ids: [ 123 ] } }, "card 123")
     assert_command({ context: { card_ids: [ 123, 456 ] } }, "card 123, 456")
-    assert_command({ commands: ["/search 123"] }, "123") # Notice existing cards will be intercepted earlier
+    assert_command({ commands: [ "/search 123" ] }, "123") # Notice existing cards will be intercepted earlier
   end
 
   test "filter by time ranges" do
     assert_command({ context: { closure: "thisweek", indexed_by: "closed" } }, "cards completed this week")
     assert_command({ context: { creation: "thisweek", tag_ids: [ "design" ], creator_ids: [ "jz" ] } }, "cards created this week by jz tagged as #design")
-    assert_command({ context: { creation: "thismonth", creator_ids: [ "Gabriel", "Michael" ] } }, "cards created by Gabriel or Michael this month")
+    assert_command({ context: { creation: "thismonth", creator_ids: [ "gabriel", "michael" ] } }, "cards created by gabriel or michael this month")
   end
 
   test "acts on cards passing their ids" do
@@ -121,8 +118,8 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   end
 
   test "assign stages to card" do
-    assert_command({ commands: [ "/stage In progress" ] }, "move to stage in progress")
-    assert_command({ commands: [ "/stage In progress" ] }, "move to in progress")
+    assert_command({ commands: [ "/stage in progress" ] }, "move to stage in progress")
+    assert_command({ commands: [ "/stage in progress" ] }, "move to in progress")
   end
 
   test "visit screens" do
@@ -135,6 +132,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   test "view users profiles" do
     assert_command({ commands: [ "/user jz" ] }, "check what jz has been up to")
     assert_command({ commands: [ "/user kevin" ] }, "view kevin")
+    assert_command({ commands: [ "/user john" ] }, "view john")
   end
 
   test "create cards" do
@@ -146,17 +144,17 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "filter by closed by" do
     assert_command({ context: { closer_ids: [ users(:david).to_gid.to_s ], indexed_by: "closed" } }, "cards closed by me")
-    assert_command({ context: { closure: "thisweek", closer_ids: [ "Jorge", "Kevin" ], indexed_by: "closed" } }, "cards closed by Jorge or Kevin this week")
+    assert_command({ context: { closure: "thisweek", closer_ids: [ "jorge", "kevin" ], indexed_by: "closed" } }, "cards closed by Jorge or kevin this week")
   end
 
   test "default to search" do
     assert_command({ commands: [ "/search backups" ] }, "backups")
-    assert_command({ commands: [ "/search backups" ] }, "cards about backups")
+    assert_command({ context: { terms: [ "backups" ] } }, "cards about backups")
   end
 
   test "combine commands and filters" do
     assert_command(
-      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign #{users(:david).to_gid}", "/stage Investigating" ] },
+      { context: { card_ids: [ 176, 170 ] }, commands: [ "/do", "/assign #{users(:david).to_gid}", "/stage investigating" ] },
       "Move 176 and 170 to doing, assign to me and set the stage to Investigating")
     assert_command(
       { context: { tag_ids: [ "design" ] }, commands: [ "/assign andy", "/tag #v2" ] },

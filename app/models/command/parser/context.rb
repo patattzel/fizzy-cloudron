@@ -35,7 +35,8 @@ class Command::Parser::Context
     if string.starts_with?("gid://")
       User.find_by_id(GlobalID::Locator.locate(string).id)
     else
-      User.all.find { |user| user.mentionable_handles.include?(string.downcase) }
+      string = string.downcase
+      User.all.find { |user| user.name.downcase == string || user.mentionable_handles.include?(string) }
     end
   end
 
