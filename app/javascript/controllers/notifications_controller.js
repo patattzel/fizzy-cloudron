@@ -79,6 +79,8 @@ export default class extends Controller {
 
   // VAPID public key comes encoded as base64 but service worker registration needs it as a Uint8Array
   #urlBase64ToUint8Array(base64String) {
+    base64String = base64String.trim()
+    
     const padding = "=".repeat((4 - base64String.length % 4) % 4)
     const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/")
 
@@ -86,7 +88,7 @@ export default class extends Controller {
     const outputArray = new Uint8Array(rawData.length)
 
     for (let i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i)
+      outputArray[i] = rawData.charCodeAt(i) & 0xff
     }
 
     return outputArray
