@@ -29,7 +29,7 @@ class Command::Ai::Translator
     end
 
     def cache_key_for(query)
-      "command_translator:v1:#{user.id}:#{query}:#{current_view_description}"
+      "command_translator:v2:#{user.id}:#{query}:#{current_view_description}"
     end
 
     def chat
@@ -69,8 +69,8 @@ class Command::Ai::Translator
 
         ### Type Definitions
 
-        <person>   ::= simple‑name | "gid://User/<uuid>"
-        <tag>      ::= tag-name | "gid://Tag/<uuid>". The input could optionally contain a # prefix.
+        <person>   ::= simple‑name | "gid://User/<uuid>?tenant=<number>"
+        <tag>      ::= tag-name | "gid://Tag/<uuid>?tenant=<number>". The input could optionally contain a # prefix.
         <card_id>  ::= positive‑integer
         <stage>    ::= a workflow stage (users name those freely)
 
