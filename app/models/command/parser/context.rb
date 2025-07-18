@@ -66,6 +66,7 @@ class Command::Parser::Context
   def candidate_stages
     Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
   end
+
   private
     attr_reader :controller, :action, :params
 
