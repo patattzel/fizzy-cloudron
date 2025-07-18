@@ -69,13 +69,7 @@ export default class extends Controller {
 
   get #vapidPublicKey() {
     const encodedVapidPublicKey = document.querySelector('meta[name="vapid-public-key"]').content
-    console.log('Raw VAPID key:', encodedVapidPublicKey)
-    console.log('Key length:', encodedVapidPublicKey.length)
-    
-    const result = this.#urlBase64ToUint8Array(encodedVapidPublicKey)
-    console.log('Decoded key length:', result.length)
-    console.log('First few bytes:', Array.from(result.slice(0, 10)))
-    return result
+    return this.#urlBase64ToUint8Array(encodedVapidPublicKey)
   }
 
   #extractJsonPayloadAsString(subscription) {
