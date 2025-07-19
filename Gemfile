@@ -34,7 +34,7 @@ gem "aws-sdk-s3", require: false
 
 # 37id and Queenbee integration
 gem "signal_id", bc: "signal_id", branch: "rails4"
-gem "mysql2" # needed by signal_id
+gem "mysql2", github: "jeremy/mysql2", branch: "force_latin1_to_utf8" # needed by signal_id
 gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
 gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety
 gem "portfolio", ">= 4.6", bc: "portfolio" # needed by signal_id
