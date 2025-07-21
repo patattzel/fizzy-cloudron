@@ -48,8 +48,11 @@
   }
 
   .popup__group {
+    align-items: center;
     background: transparent;
     border-radius: 0.3em;
+    display: flex;
+    inline-size: 100%;
     max-inline-size: 100%;
 
     .btn {

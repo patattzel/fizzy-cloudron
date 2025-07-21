@@ -17,7 +17,7 @@
 
       <ul class="popup__list" data-filter-target="list">
         <% Filter::INDEXES.each do |index| %>
-          <li class="popup__group flex align-center" data-navigable-list-target="item">
+          <li class="popup__group" data-navigable-list-target="item">
             <%= form_with url: cards_path, method: :get, class: "full-width", data: { controller: "form" } do |form| %>
               <% filter.as_params.except(:indexed_by).each do |key, value| %>
                 <%= filter_hidden_field_tag key, value %>
