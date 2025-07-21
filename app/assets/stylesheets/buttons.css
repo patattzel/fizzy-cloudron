@@ -73,6 +73,7 @@
     block-size: var(--btn-size);
     display: grid;
     inline-size: var(--btn-size);
+    justify-content: normal; /* FF fix */
     place-items: center;
 
     > * {
