@@ -17,12 +17,12 @@
         <%= filter_hidden_field_tag key, value %>
       <% end %>
 
-      <%= link_to cards_path(filter.as_params.except(:stage_ids)), class: "btn popup__item" do %>
+      <%= link_to cards_path(filter.as_params.except(:stage_ids)), class: "popup__item btn" do %>
         <span class="overflow-ellipsis">All stages</span>
       <% end %>
 
       <% workflow.stages.each do |stage| %>
-        <div class="btn popup__item">
+        <div class="popup__item btn">
           <%= form.check_box :stage_ids, {
                 multiple: true,
                 checked: filter.stages.include?(stage),

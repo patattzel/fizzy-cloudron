@@ -48,10 +48,12 @@
   }
 
   .popup__group {
+    align-items: center;
     background: transparent;
     border-radius: 0.3em;
+    display: flex;
+    inline-size: 100%;
     max-inline-size: 100%;
-    padding-inline: var(--inline-space);
 
     .btn {
       --btn-background: transparent;
@@ -79,10 +81,12 @@
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
     --btn-font-weight: 500;
-    --btn-padding: var(--inline-space-half) 0 var(--inline-space-half) var(--inline-space);
+    --btn-padding: var(--inline-space-half) var(--inline-space);
 
     flex: 1 1 auto;
     justify-content: start;
+    inline-size: 100%;
+    min-inline-size: 0;
     max-inline-size: 100%;
     text-align: start;
 
@@ -143,48 +147,48 @@
     padding-inline: var(--inline-space);
     text-transform: uppercase;
   }
-}
 
-.popup--animated {
-  --backdrop-speed: 150ms;
-  --speed: 150ms;
+  .popup--animated {
+    --backdrop-speed: 150ms;
+    --speed: 150ms;
 
-  opacity: 0;
-  transform: scale(0.2) translateX(-50%);
-  transform-origin: top left;
-  transition:
-      display var(--speed) allow-discrete,
-      opacity var(--speed),
-      overlay var(--speed) allow-discrete,
-      transform var(--speed);
-
-  &::backdrop {
-    background-color: var(--color-always-black);
     opacity: 0;
-    transform: scale(1);
+    transform: scale(0.2) translateX(-50%);
+    transform-origin: top left;
     transition:
-      display var(--backdrop-speed) allow-discrete,
-      opacity var(--backdrop-speed),
-      overlay var(--backdrop-speed) allow-discrete;
-  }
-
-  &[open] {
-    opacity: 1;
-    transform: scale(1) translateX(-50%);
+        display var(--speed) allow-discrete,
+        opacity var(--speed),
+        overlay var(--speed) allow-discrete,
+        transform var(--speed);
 
     &::backdrop {
-      opacity: 0.5;
+      background-color: var(--color-always-black);
+      opacity: 0;
+      transform: scale(1);
+      transition:
+        display var(--backdrop-speed) allow-discrete,
+        opacity var(--backdrop-speed),
+        overlay var(--backdrop-speed) allow-discrete;
     }
-  }
 
-  @starting-style {
     &[open] {
-      opacity: 0;
-      transform: scale(0.2) translateX(-50%);
+      opacity: 1;
+      transform: scale(1) translateX(-50%);
+
+      &::backdrop {
+        opacity: 0.5;
+      }
     }
 
-    &[open]::backdrop {
-      opacity: 0;
+    @starting-style {
+      &[open] {
+        opacity: 0;
+        transform: scale(0.2) translateX(-50%);
+      }
+
+      &[open]::backdrop {
+        opacity: 0;
+      }
     }
   }
 }

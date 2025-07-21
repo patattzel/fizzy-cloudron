@@ -17,7 +17,7 @@
         <% end %>
 
         <% TimeWindowParser::VALUES.each do |value| %>
-          <div class="btn popup__item">
+          <div class="popup__item btn">
             <%= form.radio_button name, value,
                   checked: filter.public_send(name) == value,
                   data: { action: "change->form#submit" } %>

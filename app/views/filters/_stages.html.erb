@@ -25,7 +25,7 @@
         <% end %>
 
         <% filter.stages.first.workflow.stages.each do |stage| %>
-          <div class="btn popup__item">
+          <div class="popup__item btn">
             <%= form.check_box :stage_ids, {
               multiple: true,
               checked: filter.stages.include?(stage),
