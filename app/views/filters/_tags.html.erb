@@ -46,7 +46,7 @@
                 <%= hidden_field_tag :expand_all, @expand_all %>
               <% end %>
 
-              <%= form.button type: "submit", class: "popup__item btn unpad-inline" do %>
+              <%= form.button type: "submit", class: "popup__item btn" do %>
                 <span class="overflow-ellipsis flex-item-grow"><%= tag.hashtag %></span>
                 <% if filter.tags.include?(tag) %>
                   <%= icon_tag "check", class: "checked flex-item-justify-end" %>

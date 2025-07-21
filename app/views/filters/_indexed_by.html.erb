@@ -29,7 +29,7 @@
                 <%= hidden_field_tag :expand_all, @expand_all %>
               <% end %>
 
-              <%= form.button type: "submit", class: "popup__item btn unpad-inline" do %>
+              <%= form.button type: "submit", class: "popup__item btn" do %>
                 <span class="overflow-ellipsis flex-item-grow"><%= index.humanize %></span>
                 <% if filter.indexed_by == index %>
                   <%= icon_tag "check", class: "checked flex-item-justify-end" %>
