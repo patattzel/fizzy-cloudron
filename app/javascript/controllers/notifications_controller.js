@@ -1,14 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
-import { pageIsTurboPreview } from "helpers/turbo_helpers"
-import { onNextEventLoopTick } from "helpers/timing_helpers"
 export default class extends Controller {
+  static classes = [ "enabled" ]
+  static targets = [ "subscribeButton", "explainer" ]
   static values = { subscriptionsUrl: String }
-
-  async connect() {
-    const state = await this.getCurrentState()
   
-    this.updateUI(state)
+  async connect() {
+    if (this.#allowed && Notification.permission == "default") {
+      this.subscribeButtonTarget.hidden = false
+      this.explainerTarget.hidden = true
+    }
+
+    if (this.#allowed && Notification.permission == "granted") {
+      const registration = await this.#getServiceWorkerRegistration()
+      const subscription = await registration?.pushManager?.getSubscription()
+
+      if (registration && subscription) {
+        this.element.classList.add(this.enabledClass)
+      }
+    }
   }
 
   async attemptToSubscribe() {
@@ -20,8 +30,6 @@ export default class extends Controller {
         case "granted": { this.#subscribe(registration); break }
         case "default": { this.#requestPermissionAndSubscribe(registration) }
       }
-    } else {
-      console.log("Should display not-allowed notice")
     }
   }
 
@@ -31,9 +39,6 @@ export default class extends Controller {
       const existingSubscription = await registration?.pushManager?.getSubscription()
 
       return Notification.permission == "granted" && registration && existingSubscription
-    } else {
-      console.log("Not alllowed")
-      return false
     }
   }
 
@@ -59,7 +64,12 @@ export default class extends Controller {
 
   async #syncPushSubscription(subscription) {
     const response = await post(this.subscriptionsUrlValue, { body: this.#extractJsonPayloadAsString(subscription), responseKind: "turbo-stream" })
-    if (!response.ok) subscription.unsubscribe()
+    if (response.ok) {
+      this.element.classList.add(this.enabledClass)
+      this.subscribeButtonTarget.hidden = true
+    } else {
+      subscription.unsubscribe()
+    }
   }
 
   async #requestPermissionAndSubscribe(registration) {
@@ -90,36 +100,5 @@ export default class extends Controller {
     }
 
     return outputArray
-  }
-
-  updateUI(state) {
-    console.log(state)
-  }
-
-  async getCurrentState() {
-    if (!this.#allowed) {
-      return { status: 'not-supported' }
-    }
-
-    const registration = await this.#getServiceWorkerRegistration()
-    const subscription = await registration?.pushManager?.getSubscription()
-    
-    return {
-      permission: Notification.permission,
-      hasRegistration: !!registration,
-      hasSubscription: !!subscription,
-      status: this.#determineStatus(Notification.permission, registration, subscription)
-    }
-  }
-
-  #determineStatus(permission, registration, subscription) {
-    if (permission === "denied") return "permission-denied"
-    if (permission === "default") return "permission-not-requested"
-    if (permission === "granted") {
-      if (!registration) return "service-worker-missing"
-      if (!subscription) return "subscription-missing"
-      return "enabled"
-    }
-    return "unknown"
   }
 }
