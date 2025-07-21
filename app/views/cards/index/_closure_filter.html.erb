@@ -13,12 +13,12 @@
         <%= filter_hidden_field_tag key, value %>
       <% end %>
 
-      <%= link_to cards_path(filter.as_params.except(:closure_reason_ids)), class: "btn popup__item" do %>
+      <%= link_to cards_path(filter.as_params.except(:closure_reason_ids)), class: "popup__item btn" do %>
         <span class="overflow-ellipsis">All recently closed</span>
       <% end %>
 
       <% Closure::Reason.all.each do |reason| %>
-        <div class="btn popup__item">
+        <div class="popup__item btn">
           <%= form.check_box :closure_reason_ids, {
                 multiple: true,
                 checked: false,

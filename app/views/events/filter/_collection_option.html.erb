@@ -1,4 +1,4 @@
-<li class="popup__group flex align-center" data-filter-target="item" data-navigable-list-target="item">
+<li class="popup__group" data-filter-target="item" data-navigable-list-target="item">
   <label class="btn txt-xx-small">
     <%= form.check_box "collection_ids[]", {
           checked: filter.collections.include?(collection),
@@ -12,7 +12,7 @@
     <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
   </label>
 
-  <%= link_to cards_path(collection_ids: [ collection ]), class: "btn popup__item min-width flex-item-grow" do %>
+  <%= link_to cards_path(collection_ids: [ collection ]), class: "popup__item btn" do %>
     <span class="overflow-ellipsis"><%= collection.name %></span>
     <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
   <% end %>
