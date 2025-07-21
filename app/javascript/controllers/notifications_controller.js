@@ -29,7 +29,7 @@ export default class extends Controller {
       const registration = await this.#getServiceWorkerRegistration() || await this.#registerServiceWorker()
 
       switch(Notification.permission) {
-        case "denied":  { console.log("Notification.permission: denied"); break }
+        case "denied":  { break }
         case "granted": { this.#subscribe(registration); break }
         case "default": { this.#requestPermissionAndSubscribe(registration) }
       }
