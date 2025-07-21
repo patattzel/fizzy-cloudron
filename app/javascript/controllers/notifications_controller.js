@@ -6,18 +6,21 @@ export default class extends Controller {
   static values = { subscriptionsUrl: String }
   
   async connect() {
-    if (this.#allowed && Notification.permission == "default") {
-      this.subscribeButtonTarget.hidden = false
-      this.explainerTarget.hidden = true
-    }
+    if (!this.#allowed) return
 
-    if (this.#allowed && Notification.permission == "granted") {
-      const registration = await this.#getServiceWorkerRegistration()
-      const subscription = await registration?.pushManager?.getSubscription()
+    switch(Notification.permission) {
+      case "default":
+        this.subscribeButtonTarget.hidden = false
+        this.explainerTarget.hidden = true
+        break
+      case "granted":
+        const registration = await this.#getServiceWorkerRegistration()
+        const subscription = await registration?.pushManager?.getSubscription()
 
-      if (registration && subscription) {
-        this.element.classList.add(this.enabledClass)
-      }
+        if (registration && subscription) {
+          this.element.classList.add(this.enabledClass)
+        }
+        break
     }
   }
 
