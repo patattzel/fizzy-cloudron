@@ -1,4 +1,13 @@
 @layer components {
+  /* Events header
+  /* ------------------------------------------------------------------------ */
+
+  .header.events-header {
+    @media (min-width: 640px) {
+      --header-actions-width: 7rem;
+    }
+  }
+
   /* Event column layout
   /* ------------------------------------------------------------------------ */
 

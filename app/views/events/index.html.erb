@@ -8,7 +8,7 @@
   </nav>
 <% end %>
 
-<header class="header margin-block-end" style="--header-button-count: 3;">
+<header class="events-header header margin-block-end">
   <div class="header__actions header__actions--start">
     <% if collection = @filter.single_collection || Current.user.collections.ordered_by_recently_accessed.first %>
       <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link btn--circle-mobile" do %>
