@@ -3,6 +3,8 @@ class Event::ActivitySummary < ApplicationRecord
 
   store_accessor :data, :event_ids
 
+  after_create_commit :broadcast_activity_summarized
+
   class << self
     def create_for(events)
       summary = Event::Summarizer.new(events).summarize
@@ -17,10 +19,9 @@ class Event::ActivitySummary < ApplicationRecord
       find_by key: key_for(events)
     end
 
-    private
-      def key_for(events)
-        Digest::SHA256.hexdigest(events.ids.sort.join("-"))
-      end
+    def key_for(events)
+      Digest::SHA256.hexdigest(events.ids.sort.join("-"))
+    end
   end
 
   def to_html
@@ -28,4 +29,9 @@ class Event::ActivitySummary < ApplicationRecord
     markdowner = Redcarpet::Markdown.new(renderer, autolink: true, tables: true, fenced_code_blocks: true, strikethrough: true, superscript: true,)
     markdowner.render(contents).html_safe
   end
+
+  private
+    def broadcast_activity_summarized
+      broadcast_replace_later_to :activity_summaries, target: key, partial: "events/day_timeline/activity_summary", locals: { summary: self }
+    end
 end

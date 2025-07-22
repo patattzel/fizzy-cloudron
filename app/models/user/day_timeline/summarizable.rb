@@ -13,6 +13,10 @@ module User::DayTimeline::Summarizable
     Event::ActivitySummary.create_for(events)
   end
 
+  def summary_key
+    Event::ActivitySummary.key_for(events)
+  end
+
   def summarize_later
     User::DayTimeline::SummarizeJob.perform_later(self)
   end
