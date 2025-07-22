@@ -14,7 +14,7 @@ class Event::Summarizer
   end
 
   private
-    MAX_WORDS = 120
+    MAX_WORDS = 150
 
     def chat
       chat = RubyLLM.chat
@@ -33,6 +33,8 @@ class Event::Summarizer
         * Try to aggregate information based on common themes and such.
         * New created cards.
         * Include who does what, who participates in discussion, etc.
+        * Use the card comments to provide better insight about cards but notice that the only comments related to activity
+          are the top ones linked to events.
 
         ### Style
 
@@ -66,7 +68,7 @@ class Event::Summarizer
            `Wrong ✗  Ann and Arthur worked on [Safari Layout issues](/collections/…/cards/613325334)`
            `Wrong ✗  [card 613325334](/collections/…/cards/613325334)`
 
-          Try to make that link anchors read naturally as if the link itself wasn't present. 
+        4. Try to make that link anchors read naturally as if the link itself wasn't present. 
       PROMPT
     end
 
@@ -142,7 +144,24 @@ class Event::Summarizer
         * Closed by: #{card.closed_by&.name}
         * Closed at: #{card.closed_at}
         * Collection id: #{card.collection_id}
+        * Number of comments: #{card.comments.count}
         * URL:#{collection_card_path(card.collection, card)}
+
+        #### Comments
+        
+        #{card_comments_context_for(card)}
+      PROMPT
+    end
+
+    def card_comments_context_for(card)
+      combine card.comments.last(30).collect { |comment| card_comment_context_for(comment) }
+    end
+
+    def card_comment_context_for(comment)
+      <<~PROMPT
+        ##### #{comment.creator.name} commented on #{comment.created_at}:
+
+        #{comment.body.to_plain_text}
       PROMPT
     end
 
