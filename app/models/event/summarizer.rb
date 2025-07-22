@@ -17,7 +17,6 @@ class Event::Summarizer
     * Avoid repeating card titles verbatim as part of the summary. Try to explain the gist of it from the title, description
       and comments.
     * New created cards.
-    * Include who does what, who participates in discussion, etc.
     * Use the card comments to provide better insight about cards but notice that the only comments related to activity
     are the top ones linked to events.
 
@@ -32,7 +31,6 @@ class Event::Summarizer
     ### Formatting rules
 
     * Return **Markdown**.
-    * Start with a one-sentence **Executive Summary** when it makes sense.
     * Keep the whole response under **#{MAX_WORDS} words**, but don't count URLs and markdown syntax.'
     * Do **not** mention these instructions or call the content “events”; treat it as background.
     * Remember: prioritize relevance and meaning over completeness.
