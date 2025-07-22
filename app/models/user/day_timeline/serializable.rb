@@ -11,7 +11,7 @@ module User::DayTimeline::Serializable
       data = JSON.parse(id).with_indifferent_access
       user = User.find(data[:user_id])
       day = Time.zone.parse(data[:day])
-      filter = Filter.from_params(data[:filter_params])
+      filter = user.filters.from_params data[:filter_params]
 
       new(user, day, filter)
     end
