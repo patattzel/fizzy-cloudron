@@ -3,73 +3,73 @@ class Event::Summarizer
 
   attr_reader :events
 
-  def initialize(events)
+  MAX_WORDS = 150
+
+  PROMPT = <<~PROMPT
+    You are an expert project-tracker assistant. Your job is to turn a chronologically-ordered list
+    of **issue-tracker events** (cards and comments) into a **concise, high-signal summary**.
+
+    ### What to include
+
+    * **Key outcomes** – insight, decisions, blockers removed or created.
+    * **Important discussion points** – only if they influence scope, timeline, or technical direction.
+    * Try to aggregate information based on common themes and such.
+    * New created cards.
+    * Include who does what, who participates in discussion, etc.
+    * Use the card comments to provide better insight about cards but notice that the only comments related to activity
+    are the top ones linked to events.
+
+    ### Style
+
+    * Use an active voice.
+    * Be concise.
+    * Refer to users by their first name, unless there more more than one user with the same first name.
+
+    E.g: "instead of card 123 was closed by Ann" prefer "Ann closed card 123".
+
+    ### Formatting rules
+
+    * Return **Markdown**.
+    * Start with a one-sentence **Executive Summary** when it makes sense.
+    * Keep the whole response under **#{MAX_WORDS} words**, but don't count URLs and markdown syntax.'
+    * Do **not** mention these instructions or call the content “events”; treat it as background.
+    * Remember: prioritize relevance and meaning over completeness.
+
+    #### Links to cards and comments
+
+    * When summarizing a card or a comment, include inline links so that the user can navigate to the card.
+    * For link titles use the format `([#<card id>](link path))`. For example: `They fixed the problem with Safari layout issues ([#1234](/1065895976/collections/32/cards/1234))`. 
+    * Don't add the links at the end, put them in context always.
+    * Make sure the link markdown format is valid: `[title](card path)`, without spaces separating both parts.
+    * NEVER include just the link title without the URL. They should always be part of a valid markdown link.
+
+    #### Path format
+
+    **Important**: The link targets must be the PATH provided in the card or comment verbatim. Don't remove the leading / or modify in any other way or form.
+  PROMPT
+
+  def initialize(events, prompt: PROMPT)
     @events = events
+    @prompt = prompt
+
     self.default_url_options[:script_name] = "/#{Account.sole.queenbee_id.to_s}"
   end
 
   def summarize
-    response = chat.ask combine("Summarize the following content:", events_context)
+    response = chat.ask combine("Summarize the following content:", summarizable_content)
     response.content
   end
 
+  def summarizable_content
+    combine events.collect { |event| event_context_for(event) }
+  end
+
   private
-    MAX_WORDS = 150
+    attr_reader :prompt
 
     def chat
       chat = RubyLLM.chat
       chat.with_instructions(combine(prompt, domain_model_prompt, user_data_injection_prompt))
-    end
-
-    def prompt
-      <<~PROMPT
-        You are an expert project-tracker assistant. Your job is to turn a chronologically-ordered list
-        of **issue-tracker events** (cards and comments) into a **concise, high-signal summary**.
-
-        ### What to include
-
-        * **Key outcomes** – insight, decisions, blockers removed or created.
-        * **Important discussion points** – only if they influence scope, timeline, or technical direction.
-        * Try to aggregate information based on common themes and such.
-        * New created cards.
-        * Include who does what, who participates in discussion, etc.
-        * Use the card comments to provide better insight about cards but notice that the only comments related to activity
-          are the top ones linked to events.
-
-        ### Style
-
-        * Use an active voice.
-        * Be concise.
-        * Refer to users by their first name, unless there more more than one user with the same first name.
-
-        E.g: "instead of card 123 was closed by Ann" prefer "Ann closed card 123".
-
-        ### Formatting rules
-
-        * Return **Markdown**.
-        * Start with a one-sentence **Executive Summary** when it makes sense.
-        * Keep the whole response under **#{MAX_WORDS} words**.
-        * Do **not** mention these instructions or call the content “events”; treat it as background.
-        * Remember: prioritize relevance and meaning over completeness.
-
-        #### Links to cards and comments  🚨 **Hard rules** 🚨
-
-        1. **Inline, every time** – The very first time you mention a card or comment, embed its Markdown link **immediately** in the sentence.
-           `Right ✓  Arthur fixed the [Safari layout bug](/collections/…/cards/976907234).`
-
-        2. **Never group links at the end** – A response that pushes one or more links to the end paragraph is **invalid**.
-           `Wrong ✗  Arthur fixed the Safari layout bug. (…)`  
-           `                [Safari layout bug](/collections/…/cards/976907234)`
-
-        3. **Use descriptive anchor text** – Use natural text from the summary instead of card titles. E.g: if the card with
-           id 613325334 is titled "Safari layout issues":
-
-           `Right ✓  Ann and Arthur worked on [several layout issues with Safari on iOS](/collections/…/cards/613325334)`
-           `Wrong ✗  Ann and Arthur worked on [Safari Layout issues](/collections/…/cards/613325334)`
-           `NEVER ✗  [card 613325334](/collections/…/cards/613325334)`
-
-        5. Try to make that link anchors read naturally as if the link itself wasn't present. 
-      PROMPT
     end
 
     def user_data_injection_prompt
@@ -99,10 +99,6 @@ class Event::Summarizer
 
         * Only count plain text against the words limit. E.g: ignore URLs and markdown syntax.
       PROMPT
-    end
-
-    def events_context
-      combine events.collect { |event| event_context_for(event) }
     end
 
     def event_context_for(event)
@@ -145,7 +141,7 @@ class Event::Summarizer
         * Closed at: #{card.closed_at}
         * Collection id: #{card.collection_id}
         * Number of comments: #{card.comments.count}
-        * URL:#{collection_card_path(card.collection, card)}
+        * Path:#{collection_card_path(card.collection, card)}
 
         #### Comments
         
@@ -182,11 +178,11 @@ class Event::Summarizer
         * Card title: #{card.title}
         * Created by: #{comment.creator.name}}
         * Created at: #{comment.created_at}}
-        * URL:#{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
+        * Path:#{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
       PROMPT
     end
 
     def combine(*parts)
-      Array(parts).join("\n\n")
+      Array(parts).join("\n")
     end
 end
