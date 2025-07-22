@@ -8,20 +8,25 @@ class Event::ActivitySummaryTest < ActiveSupport::TestCase
   end
 
   test "create summaries only once for a given set of events" do
-    event = assert_difference -> { Event::ActivitySummary.count }, +1 do
+    summary = assert_difference -> { Event::ActivitySummary.count }, +1 do
       Event::ActivitySummary.create_for(@events)
     end
 
     assert_no_difference -> { Event::ActivitySummary.count } do
-      assert_equal event, Event::ActivitySummary.create_for(@events)
-      assert_equal event, Event::ActivitySummary.create_for(@events.order("action desc").where(id: events.ids)) # order does not matter
+      assert_equal summary, Event::ActivitySummary.create_for(@events)
+      assert_equal summary, Event::ActivitySummary.create_for(@events.order("action desc").where(id: events.ids)) # order does not matter
     end
   end
 
   test "fetching a existing summary" do
     assert_nil Event::ActivitySummary.for(@events)
 
-    event = Event::ActivitySummary.create_for(@events)
-    assert_equal event, Event::ActivitySummary.for(@events)
+    summary = Event::ActivitySummary.create_for(@events)
+    assert_equal summary, Event::ActivitySummary.for(@events)
+  end
+
+  test "getting an HTML summary for a set of events" do
+    summary = Event::ActivitySummary.create_for(@events)
+    assert_includes summary.to_html, "layout"
   end
 end
