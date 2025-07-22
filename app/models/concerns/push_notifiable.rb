@@ -9,4 +9,4 @@ module PushNotifiable
     def push_notification_later
       PushNotificationJob.perform_later(self)
     end
-end 
+end
