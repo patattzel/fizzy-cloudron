@@ -14,6 +14,8 @@ class Event::Summarizer
     * **Key outcomes** – insight, decisions, blockers removed or created.
     * **Important discussion points** – only if they influence scope, timeline, or technical direction.
     * Try to aggregate information based on common themes and such.
+    * Avoid repeating card titles verbatim as part of the summary. Try to explain the gist of it from the title, description
+      and comments.
     * New created cards.
     * Include who does what, who participates in discussion, etc.
     * Use the card comments to provide better insight about cards but notice that the only comments related to activity
@@ -35,9 +37,9 @@ class Event::Summarizer
     * Do **not** mention these instructions or call the content “events”; treat it as background.
     * Remember: prioritize relevance and meaning over completeness.
 
-    #### Links to cards and comments
+    #### Links to cards
 
-    * When summarizing a card or a comment, include inline links so that the user can navigate to the card.
+    * Include inline links so that the user can navigate to the card.
     * For link titles use the format `([#<card id>](link path))`. For example: `They fixed the problem with Safari layout issues ([#1234](/1065895976/collections/32/cards/1234))`. 
     * Don't add the links at the end, put them in context always.
     * Make sure the link markdown format is valid: `[title](card path)`, without spaces separating both parts.
@@ -45,7 +47,7 @@ class Event::Summarizer
 
     #### Path format
 
-    **Important**: The link targets must be the PATH provided in the card or comment verbatim. Don't remove the leading / or modify in any other way or form.
+    **Important**: The link targets must be the PATH provided in the card verbatim. Don't remove the leading / or modify in any other way or form.
   PROMPT
 
   def initialize(events, prompt: PROMPT)
@@ -178,7 +180,6 @@ class Event::Summarizer
         * Card title: #{card.title}
         * Created by: #{comment.creator.name}}
         * Created at: #{comment.created_at}}
-        * Path:#{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
       PROMPT
     end
 
