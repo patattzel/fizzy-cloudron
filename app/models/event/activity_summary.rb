@@ -11,7 +11,7 @@ class Event::ActivitySummary < ApplicationRecord
       key = key_for(events)
 
       unless find_by key: key
-        create!(key: key, contents: summary)
+        create!(key: key, content: summary)
       end
     end
 
@@ -27,7 +27,7 @@ class Event::ActivitySummary < ApplicationRecord
   def to_html
     renderer = Redcarpet::Render::HTML.new
     markdowner = Redcarpet::Markdown.new(renderer, autolink: true, tables: true, fenced_code_blocks: true, strikethrough: true, superscript: true,)
-    markdowner.render(contents).html_safe
+    markdowner.render(content).html_safe
   end
 
   private
