@@ -1,4 +1,6 @@
 class User::DayTimeline
+  include Serializable, Summarizable
+
   attr_reader :user, :day, :filter
 
   def initialize(user, day, filter)

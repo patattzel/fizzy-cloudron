@@ -1,0 +1,8 @@
+<div>
+  <% if day_timeline.summarized? %>
+    <%= day_timeline.summary.to_html %>
+  <% else %>
+    <%= auto_submit_form_with url: events_activity_summaries_path(day: day_timeline.day, **day_timeline.filter.to_param), method: :post %>
+    Generating summary...
+  <% end %>
+</div>

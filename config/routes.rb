@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
   resources :events, only: :index
   namespace :events do
+    resources :activity_summaries
     resources :days
   end
 
