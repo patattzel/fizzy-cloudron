@@ -41,43 +41,37 @@ class NotificationPusher
       event = notification.source
       card = event.card
 
+      base_payload = {
+        title: card_notification_title(card),
+        path: card_path(card)
+      }
+
       case event.action
       when "comment_created"
-        {
-          title: "RE: #{card_notification_title(card)}",
-          body: comment_notification_body(event),
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          title: "RE: #{base_payload[:title]}",
+          body: comment_notification_body(event)
+        )
       when "card_assigned"
-        {
-          title: card_notification_title(card),
-          body: "Assigned to you by #{event.creator.name}",
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          body: "Assigned to you by #{event.creator.name}"
+        )
       when "card_published"
-        {
-          title: card_notification_title(card),
-          body: "Added by #{event.creator.name}",
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          body: "Added by #{event.creator.name}"
+        )
       when "card_closed"
-        {
-          title: card_notification_title(card),
-          body: card.closure ? "Closed as \"#{card.closure.reason}\" by #{event.creator.name}" : "Closed by #{event.creator.name}",
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          body: card.closure ? "Closed as \"#{card.closure.reason}\" by #{event.creator.name}" : "Closed by #{event.creator.name}"
+        )
       when "card_reopened"
-        {
-          title: card_notification_title(card),
-          body: "Reopened by #{event.creator.name}",
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          body: "Reopened by #{event.creator.name}"
+        )
       else
-        {
-          title: card_notification_title(card),
-          body: event.creator.name,
-          path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
-        }
+        base_payload.merge(
+          body: event.creator.name
+        )
       end
     end
 
@@ -88,7 +82,7 @@ class NotificationPusher
       {
         title: "#{mention.mentioner.first_name} mentioned you",
         body: mention.source.mentionable_content.truncate(200),
-        path: "#{account_prefix}#{collection_card_path(card.collection, card)}"
+        path: card_path(card)
       }
     end
 
@@ -120,5 +114,9 @@ class NotificationPusher
 
     def strip_tags(text)
       ActionView::Base.full_sanitizer.sanitize(text)
+    end
+
+    def card_path(card)
+      "#{account_prefix}#{collection_card_path(card.collection, card)}"
     end
 end
