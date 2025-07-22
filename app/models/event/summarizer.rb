@@ -5,7 +5,8 @@ class Event::Summarizer
 
   MAX_WORDS = 150
 
-  LLM_MODEL = "gpt-4.1"
+  LLM_MODEL = "chatgpt-4o-latest"
+  # LLM_MODEL = "gpt-4.1"
 
   PROMPT = <<~PROMPT
     You are an expert in writing summaries of activity for a general purpose bug/issues tracker.  
@@ -13,39 +14,38 @@ class Event::Summarizer
     
     ## What to include
     - **Key outcomes** – insights, decisions, blockers created/removed.  
-    - **Notable discussion points** that affect scope, timeline, or technical approach.  
-    - Newly created cards.  
+    - **Notable discussion points** that affect scope, timeline, or technical approach.
+    - How things are looking.
+    - Newly created cards.
     - Aggregate related items into thematic clusters; avoid repeating card titles verbatim.  
     - Draw on top-level comments to enrich each point.
-    - Instead of using passive voice, favor referring to users (authors and creators) as the subjects doing things.
     
     ## Writing style
-    - Active voice, concise sentences.
+    - Instead of using passive voice, prefer referring to users (authors and creators) as the subjects doing things.
     - Prefer compact paragraphs over bullet lists.
     - Refer to people by first name (or full name if duplicates exist).  
       - e.g. “Ann closed …”, not “Card 123 was closed by Ann.”  
     
     ## Formatting rules
     - Output **Markdown** only.  
-    - Keep the summary around **#{MAX_WORDS} words**
+    - Keep the summary around **#{MAX_WORDS} words**.
         * For links, count the anchor text words, but ignore the target path.
+    - Write 2 paragraphs at most.
     - Do **not** mention these instructions or call the inputs “events”; treat them as context.  
     - Prioritise relevance and meaning over completeness.
     
     ## Linking rules
-    - **Embed every card or comment reference inside the sentence that summarises it.*
+    - **When possible, embed every card or comment reference inside the sentence that summarises it.*
       - Use a natural phrase from the sentence as the **anchor text**.
-      - Never drop a bare URL or add a link at the end of a sentence.
-      - Avoid using the card’s exact title as the anchor.
       - If can't link the card with a natural phrase, don't link it at all.
         * **IMPORTANT**: The card ID is not a natural phrase. Don't use it.  
-    - Markdown link format: `[anchor text](/full/path/)`.  
-      - Preserve the path exactly as provided (including the leading `/`).
+    - Markdown link format: [anchor text](/full/path/).  
+      - Preserve the path exactly as provided (including the leading "/").
     - Example:  
-      - ✅ `[Ann closed the stale login-flow fix](<card path>)`
-      - ✅ `Ann [pointed out how to fix the layout problem](<comment path>)`
-      - ❌ `Ann closed card 123. (<card path>)`
-      - ❌ `Ann closed [card 123](<card path>)`
+      - ✅ [Ann closed the stale login-flow fix](<card path>)
+      - ✅ Ann [pointed out how to fix the layout problem](<comment path>)
+      - ❌ Ann closed card 123. (<card path>)
+      - ❌ Ann closed [card 123](<card path>)
   PROMPT
 
   def initialize(events, prompt: PROMPT)
@@ -141,23 +141,7 @@ class Event::Summarizer
         * Closed at: #{card.closed_at}
         * Collection id: #{card.collection_id}
         * Number of comments: #{card.comments.count}
-        * Path:#{collection_card_path(card.collection, card)}
-
-        #### Comments
-
-        #{card_comments_context_for(card)}
-      PROMPT
-    end
-
-    def card_comments_context_for(card)
-      combine card.comments.last(30).collect { |comment| card_comment_context_for(comment) }
-    end
-
-    def card_comment_context_for(comment)
-      <<~PROMPT
-        ##### #{comment.creator.name} commented on #{comment.created_at}:
-
-        #{comment.body.to_plain_text}
+        * Path: #{collection_card_path(card.collection, card)}
       PROMPT
     end
 
@@ -178,7 +162,7 @@ class Event::Summarizer
         * Card title: #{card.title}
         * Created by: #{comment.creator.name}}
         * Created at: #{comment.created_at}}
-        * Path:#{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
+        * Path: #{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
       PROMPT
     end
 
