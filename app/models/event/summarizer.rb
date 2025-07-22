@@ -38,7 +38,7 @@ class Event::Summarizer
     #### Links to cards
 
     * Include inline links so that the user can navigate to the card.
-    * For link titles use the format `([#<card id>](link path))`. For example: `They fixed the problem with Safari layout issues ([#1234](/1065895976/collections/32/cards/1234))`. 
+    * For link titles use the format `([#<card id>](link path))`. For example: `They fixed the problem with Safari layout issues ([#1234](/1065895976/collections/32/cards/1234))`.
     * Don't add the links at the end, put them in context always.
     * Make sure the link markdown format is valid: `[title](card path)`, without spaces separating both parts.
     * NEVER include just the link title without the URL. They should always be part of a valid markdown link.
@@ -52,7 +52,7 @@ class Event::Summarizer
     @events = events
     @prompt = prompt
 
-    self.default_url_options[:script_name] = "/#{Account.sole.queenbee_id.to_s}"
+    self.default_url_options[:script_name] = "/#{Account.sole.queenbee_id}"
   end
 
   def summarize
@@ -144,7 +144,7 @@ class Event::Summarizer
         * Path:#{collection_card_path(card.collection, card)}
 
         #### Comments
-        
+
         #{card_comments_context_for(card)}
       PROMPT
     end

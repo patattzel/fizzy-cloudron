@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class User::StaffTest < ActiveSupport::TestCase
   test "only 37s email addresses are considered staff" do
