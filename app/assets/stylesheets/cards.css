@@ -107,7 +107,7 @@
 
   .card__description {
     /* Hide the empty element that Lexical saves when nothing is added to the description <p><br /></p> */
-    p:only-child:has(br:only-child) {
+    action-text-content p:only-child:has(br:only-child) {
       display: none;
     }
 
