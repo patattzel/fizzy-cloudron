@@ -66,9 +66,9 @@ class Event::Summarizer
 
            `Right ✓  Ann and Arthur worked on [several layout issues with Safari on iOS](/collections/…/cards/613325334)`
            `Wrong ✗  Ann and Arthur worked on [Safari Layout issues](/collections/…/cards/613325334)`
-           `Wrong ✗  [card 613325334](/collections/…/cards/613325334)`
+           `NEVER ✗  [card 613325334](/collections/…/cards/613325334)`
 
-        4. Try to make that link anchors read naturally as if the link itself wasn't present. 
+        5. Try to make that link anchors read naturally as if the link itself wasn't present. 
       PROMPT
     end
 
