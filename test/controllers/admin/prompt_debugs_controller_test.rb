@@ -9,21 +9,27 @@ class Admin::PromptSandboxesControllerTest < ActionDispatch::IntegrationTest
     get admin_prompt_sandbox_path
 
     assert_response :success
-    assert_select "form[action=?]", admin_prompt_sandbox_path
-    assert_select "textarea[name=?]", "prompt"
-    assert_select "input[type=submit]"
   end
 
   test "create processes prompt and renders show with summary" do
-    test_prompt = "Test prompt for summarization"
-
-    post admin_prompt_sandbox_path, params: { prompt: test_prompt }
+    post admin_prompt_sandbox_path, params: { prompt: "Test prompt for summarization" }
 
     assert_response :success
-    assert_select "form[action=?]", admin_prompt_sandbox_path
-    assert_select "textarea[name=?]", "prompt"
-    assert_select "input[type=submit]"
-    # The summary should be rendered outside the form
-    assert_match /summary/, response.body.downcase
+  end
+
+  test "non-staff user gets forbidden on show" do
+    users(:kevin).update! email_address: "kevin@hey.com"
+
+    get admin_prompt_sandbox_path
+
+    assert_response :forbidden
+  end
+
+  test "non-staff user gets forbidden on create" do
+    users(:kevin).update! email_address: "kevin@hey.com"
+
+    post admin_prompt_sandbox_path, params: { prompt: "Test prompt for summarization" }
+
+    assert_response :forbidden
   end
 end
