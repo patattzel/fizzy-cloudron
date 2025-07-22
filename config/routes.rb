@@ -140,6 +140,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resource :prompt_debug
+  end
+
   direct :published_collection do |collection, options|
     route_for :public_collection, collection.publication.key
   end
