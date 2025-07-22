@@ -5,11 +5,13 @@ class Event::ActivitySummary < ApplicationRecord
 
   class << self
     def create_for(events)
-      summary = Event::Summarizer.new(events).summarize
       key = key_for(events)
 
-      unless find_by key: key
-        create!(key: key, content: summary)
+      # Outside to avoid holding the transaction during the LLM request
+      summary = Event::Summarizer.new(events).summarize
+
+      create_or_find_by!(key: key) do |record|
+        record.content = summary
       end
     end
 
