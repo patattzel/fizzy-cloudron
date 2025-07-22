@@ -1,5 +1,5 @@
 <div class="events__activity-summary margin-block txt-small border border-radius">
-  <% if !day_timeline.summarized? %>
+  <% if day_timeline.summarized? %>
     <div class="position-relative">
       <%= render "events/day_timeline/activity_summary", summary: day_timeline.summary %>
 
