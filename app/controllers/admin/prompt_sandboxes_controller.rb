@@ -21,6 +21,7 @@ class Admin::PromptSandboxesController < AdminController
       cookies[:prompt] = nil
     else
       @prompt = Event::Summarizer::PROMPT
+      @summary = @day_timeline.summary&.to_html
     end
   end
 
