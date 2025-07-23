@@ -7,9 +7,13 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     @user = users(:david)
   end
 
+  vcr_record!
+
   test "filter by assignments" do
     # List context
     assert_command({ context: { assignee_ids: [ "jz" ] } }, "cards assigned to jz")
+    assert_command({ context: { assignee_ids: [ "jz" ] } }, "issues assigned to jz")
+    assert_command({ context: { assignee_ids: [ "jz" ] } }, "bugs assigned to jz")
     assert_command({ context: { assignee_ids: [ "kevin" ] } }, "stuff assigned to kevin")
     assert_command({ context: { assignee_ids: [ "jz" ] } }, "assigned to jz")
     assert_command({ context: { assignment_status: "unassigned" } }, "unassigned cards")
@@ -19,6 +23,14 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
     # Card context
     assert_command({ context: { assignee_ids: [ "jz" ] } }, "cards assigned to jz", context: :card)
+  end
+
+  test "filter by terms" do
+    assert_command({ context: { terms: [ "backups" ] } }, "cards about backups")
+    assert_command({ context: { terms: [ "cables" ] } }, "issues about cables")
+    assert_command({ context: { terms: [ "infrastructure" ] } }, " infrastructure bugs")
+    assert_command({ context: { terms: [ "infrastructure" ] } }, " bugs about infrastructure")
+    assert_command({ context: { terms: [ "infrastructure" ] } }, " infrastructure stuff")
   end
 
   test "filter by tag" do
@@ -151,7 +163,6 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   test "default to search" do
     assert_command({ commands: [ "/search backups" ] }, "backups")
-    assert_command({ context: { terms: [ "backups" ] } }, "cards about backups")
   end
 
   test "combine commands and filters" do

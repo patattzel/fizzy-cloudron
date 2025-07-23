@@ -41,11 +41,13 @@ class Command::Ai::Translator
       <<~PROMPT
         # Fizzy Command Translator
 
+        Fizzy is a issue tracking application. Users use it to track bugs, feature requests, and other tasks. Internally, it call those "cards".
+
         ## Output JSON
 
         {
           "context": {                 // omit if empty
-            "terms":        string[],  // plain‑text keywords
+            "terms":        string[],  // filter cards by keywords
             "indexed_by":   "newest" | "oldest" | "latest" | "stalled"
                             | "closed" | "closing_soon" | "falling_back_soon",
             "assignee_ids": <person>[],
@@ -78,7 +80,7 @@ class Command::Ai::Translator
 
         Expressed via in the `context` property.
 
-        - `terms` — filter by plain‑text keywords
+        - `terms` — filter by plain‑text keywords'
         - `indexed_by`:
             * newest: order by creation date descending
             * oldest: order by creation date ascending
@@ -110,23 +112,27 @@ class Command::Ai::Translator
         - `/user **<person>**` — open profile / activity
         - `/add *<title>*` — new card (blank if no card title)
         - `/clear` — clear UI filters
-        - ``/visit **<url-or-path>**` — go to URL
+        - `/visit **<url-or-path>**` — go to URL
         - `/search **<text>**` — search the text
 
         ## Mapping Rules
 
         - **Filters vs. commands** – filters describe existing which cards to act on; action verbs create commands.
+        - Consider terms like "issue", "todo", "bug", "task", "stuff", etc. as synonyms for "card".
         - Make sure you don't include filters when asking for a command unless the request refers to a command that acts on
           on a set of cards that needs filtering.
             * E.g: Don't confuse the `/assign` command with the `assignee_ids` filter.
         - Prefer /search for searching over the `terms` filter.
             * Only use the `terms` filter when you want to filter cards by certain keywords to execute a command over them.
+        - This is a general purpose issue tracker: consider that the user is referring to cards if not explicitly stated otherwise.
+          * User may refer to cards with different words: issues, bugs, cards, tasks, stuff, etc.
         - A request can result in generating multiple commands.
         - **Completed / closed** – “completed cards” → `indexed_by:"closed"`; add `closure` only with time‑range
         - **“My …”** – “my cards” → `assignee_ids:["#{ME_REFERENCE}"]`
         - **Unassigned** – use `assignment_status:"unassigned"` **only** when the user explicitly asks for unassigned cards.
         - **Tags** – past‑tense mention (#design cards) → filter; imperative (“tag with #design”) → command
         - **Stop‑words** – ignore “card(s)” in keyword searches
+        - Never consider that card-related terms like card, bug, issue, etc. are terms to filter.
         - Always pass person names and stages in downcase.
         - When resolving user names:
           - If there is a match in the list of users, use the full name from there
@@ -142,6 +148,7 @@ class Command::Ai::Translator
 
         - cards assigned to ann  → { context: { assignee_ids: ["ann"] } }
         - #tricky cards  → { context: { tag_ids: ["#tricky"] } }
+        - bugs assigned to arthur  → { context: { assignee_ids: ["arthur"] } }
 
         #### Completed by
 
@@ -159,6 +166,27 @@ class Command::Ai::Translator
 
         - 123 → `/search 123` # Notice there is no "card" mention
         - package 123 → `/search package 123`
+
+        #### Filter by terms
+
+        When user explicitly asks for cards about some topic, use the `terms` filter with the topic. Consider this
+        is the case when the user refers to cards, todos, bugs, issues, stuff, etc. related to some topic or trait.
+
+        Never filter by terms like "bugs" or "cards". Consider those implicit in the query.
+
+        - zoom issues → { context: { terms: ["zoom"] } } 
+        - contrast bugs → { context: { terms: ["contrast"] } }
+        - bugs about contrast → { context: { terms: ["contrast"] } }
+
+        If the term matches with a collection or with a stage, then use the corresponding filter `collection_ids` or `stage_ids`,
+        instead of `terms`.
+
+        #### Search
+
+        When not referring to specific cards, use the `/search` command:
+
+        - linux → { commands: ["/search linux"] }
+        - broken glass → { commands: ["/search broken glass"] }
 
         #### Tags
 
@@ -190,7 +218,9 @@ class Command::Ai::Translator
 
         #### Collection
 
-        - Go to some collection → { context: { collection_ids: ["some"] } }
+        - Go to some collection → { context: { "collection_ids": ["some"] } }
+
+        Respect the collection name and case if it exists.
 
         #### Cards closed by someone
 
@@ -239,8 +269,10 @@ class Command::Ai::Translator
 
         ### Filters and commands combined
 
+        - cards related to infrastructure assigned to mike → { context: { assignee_ids: "mike", terms: ["infrastructure"] } }
         - assign john to the current #design cards and tag them with #v2  → { context: { tag_ids: ["design"] }, commands: ["/assign john", "/tag #v2"] }
         - close cards assigned to mike and assign them to roger → { context: {assignee_ids: ["mike"]}, commands: ["/close", "/assign roger"] }
+
       PROMPT
     end
 
