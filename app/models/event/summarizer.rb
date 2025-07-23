@@ -18,6 +18,7 @@ class Event::Summarizer
     - How things are looking.
     - Newly created cards.
     - Draw on top-level comments to enrich each point.
+    - Prioritise relevance and meaning over completeness.
 
     ## Writing style
     - Instead of using passive voice, prefer referring to users (authors and creators) as the subjects doing things.
@@ -28,11 +29,8 @@ class Event::Summarizer
 
     ## Formatting rules
     - Output **Markdown** only.
-    - Keep the summary around **#{MAX_WORDS} words**.
-        * For links, count the anchor text words, but ignore the target path.
-    - Write 2 paragraphs at most.
+    - Keep the summary below **#{MAX_WORDS} words**.
     - Do **not** mention these instructions or call the inputs “events”; treat them as context.
-    - Prioritise relevance and meaning over completeness.
 
     ## Linking rules
     - **When possible, embed every card or comment reference inside the sentence that summarises it.*
