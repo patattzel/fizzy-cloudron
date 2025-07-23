@@ -671,6 +671,21 @@ columns:
   - *5
   - *6
   - *9
+  event_activity_summaries:
+  - &32 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: content
+    cast_type: *15
+    sql_type_metadata: *16
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - *5
+  - *6
+  - *18
+  - *9
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -1000,16 +1015,7 @@ columns:
     default_function:
     collation:
     comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: content
-    cast_type: *15
-    sql_type_metadata: *16
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
+  - *32
   - *5
   - *6
   - *9
@@ -1150,6 +1156,7 @@ primary_keys:
   comments: id
   creators_filters:
   entropy_configurations: id
+  event_activity_summaries: id
   events: id
   filters: id
   filters_stages:
@@ -1195,6 +1202,7 @@ data_sources:
   comments: true
   creators_filters: true
   entropy_configurations: true
+  event_activity_summaries: true
   events: true
   filters: true
   filters_stages: true
@@ -1962,6 +1970,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  event_activity_summaries:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: event_activity_summaries
+    name: index_event_activity_summaries_on_key
+    unique: true
+    columns:
+    - key
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   events:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: events
@@ -2638,4 +2663,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250714222221
+version: 20250722132226
