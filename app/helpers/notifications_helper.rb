@@ -36,7 +36,7 @@ module NotificationsHelper
     end
   end
 
-  def notification_mark_read_button(notification)
+  def notification_toggle_read_button(notification)
     if notification.read?
       button_to read_notification_path(notification),
           method: :delete,
