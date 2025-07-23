@@ -174,7 +174,10 @@ class Command::Ai::Translator
 
         Never filter by terms like "bugs" or "cards". Consider those implicit in the query.
 
+        Pass the expression as an array of a single element with the expression, not as an array of words.
+
         - zoom issues → { context: { terms: ["zoom"] } } 
+        - apple and android issues → { context: { terms: ["apple and android"] } } 
         - contrast bugs → { context: { terms: ["contrast"] } }
         - bugs about contrast → { context: { terms: ["contrast"] } }
 
