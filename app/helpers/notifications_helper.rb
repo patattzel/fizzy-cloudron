@@ -42,7 +42,8 @@ module NotificationsHelper
           method: :delete,
           class: "card__notification-unread-indicator btn btn--circle borderless",
           title: "Mark as unseen",
-          data: { action: "form#submit:stop", controller: "form", form_target: "submit", turbo_frame: "_top" } do
+          data: { action: "form#submit:stop", form_target: "submit" },
+          form: { data: { controller: "form" } } do
         concat(icon_tag("unseen"))
         concat(tag.span("Mark as unseen", class: "for-screen-reader"))
       end
@@ -50,7 +51,8 @@ module NotificationsHelper
       button_to read_notification_path(notification),
           class: "card__notification-unread-indicator btn btn--circle borderless",
           title: "Mark as read",
-          data: { action: "form#submit:stop", controller: "form", form_target: "submit", turbo_frame: "_top" } do
+          data: { action: "form#submit:stop", form_target: "submit" },
+          form: { data: { controller: "form" } } do
         concat(icon_tag("remove-med"))
         concat(tag.span("Mark as read", class: "for-screen-reader"))
       end
