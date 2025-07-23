@@ -15,10 +15,11 @@ class Admin::PromptSandboxesController < AdminController
     @llm_model = params[:llm_model] || Event::Summarizer::LLM_MODEL
 
     if @prompt = cookies[:prompt].presence
-      summarize
-      cookies[:prompt] = nil
+      @activity_summary = build_activity_summary
+      cookies.delete :prompt
     else
-      show_default_prompt
+      @activity_summary = @day_timeline.summary
+      @prompt = Event::Summarizer::PROMPT
     end
   end
 
@@ -30,14 +31,8 @@ class Admin::PromptSandboxesController < AdminController
   end
 
   private
-    def summarize
+    def build_activity_summary
       summarizer = Event::Summarizer.new(@day_timeline.events, prompt: @prompt, llm_model: @llm_model)
-      @summary = Event::ActivitySummary.new(content: summarizer.summarize).to_html
-      @summarizable_content == summarizer.summarizable_content.html_safe
-    end
-
-    def show_default_prompt
-      @prompt = Event::Summarizer::PROMPT
-      @summary = @day_timeline.summary&.to_html
+      Event::ActivitySummary.new(content: summarizer.summarize)
     end
 end

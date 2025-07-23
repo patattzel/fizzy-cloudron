@@ -21,6 +21,10 @@ module User::DayTimeline::Summarizable
     Event::ActivitySummary.key_for(events)
   end
 
+  def summarizable_content
+    Event::Summarizer.new(events).summarizable_content
+  end
+
   def summarize_later
     User::DayTimeline::SummarizeJob.perform_later(self)
   end

@@ -15,8 +15,8 @@
     <div class="field">
       <%= form.label :llm_model, "LLM Model:" %>
       <%= form.select :llm_model,
-          options_for_select(@llm_models, @llm_model),
-          {} %>
+            options_for_select(@llm_models, @llm_model),
+            {} %>
     </div>
 
     <div class="actions">
@@ -25,20 +25,18 @@
 
   <% end %>
 
-  <% if @summary.present? %>
-    <div class="summary" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ddd; background-color: #f9f9f9;">
-      <h2>Summary</h2>
-      <div class="summary-content">
-        <%= @summary %>
-      </div>
+  <div class="summary" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ddd; background-color: #f9f9f9;">
+    <h2>Summary</h2>
+    <div class="summary-content">
+      <%= @activity_summary.to_html %>
     </div>
-  <% end %>
+  </div>
 
   <div class="summary" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ddd; background-color: #f9f9f9;">
     <h2>Summarized Contents</h2>
     <div class="summary-content">
     <pre>
-<%= @summarizable_content %>
+<%= @day_timeline.summarizable_content %>
     </pre>
     </div>
   </div>
