@@ -295,9 +295,11 @@
         inline-size: 100%;
         margin-inline: auto;
         max-inline-size: 110ch;
-        padding-block: 0 var(--cards-gap);
+        padding: 0 0 var(--cards-gap);
 
-        .card__meta {
+        .card__meta,
+        .card__closed-by-line,
+        .card__closed-date {
           display: none;
         }
 
@@ -308,13 +310,8 @@
         .card__closed {
           border-width: 0.5ch;
           font-size: 0.75em;
-          inset: auto 0 var(--block-space-double) auto;
+          inset: auto 0 var(--cards-gap) auto;
           transform: none;
-        }
-
-        .card__closed-by-line,
-        .card__closed-date {
-          display: none;
         }
 
         .card__header {
