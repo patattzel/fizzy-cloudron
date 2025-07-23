@@ -6,6 +6,6 @@ module User::Staff
   end
 
   def staff?
-    email_address.ends_with?("@37signals.com")
+    email_address.ends_with?("@37signals.com") || email_address.ends_with?("@basecamp.com")
   end
 end
