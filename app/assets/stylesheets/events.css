@@ -18,7 +18,17 @@
     margin-inline: auto;
     max-inline-size: 80ch;
     padding: 1.3lh 1lh 1lh;
-    transition: all 300ms ease;
+    position: relative;
+    text-align: start;
+
+    &:has(.events__activity--generating) {
+      --border-color: var(--color-selected-dark);
+
+      animation: gradient 4s ease infinite;
+      background: linear-gradient(-45deg, var(--color-gradient-1), var(--color-gradient-2), var(--color-gradient-3), var(--color-gradient-4));
+      background-size: 300%;
+      text-align: center;
+    }
 
     a {
       font-weight: 500;
@@ -32,7 +42,12 @@
       }
     }
 
-    + .btn {
+    span {
+      font-weight: 500;
+      opacity: 0.5;
+    }
+
+    .btn {
       --btn-background: var(--color-selected-light);
       --btn-border-color: var(--color-selected-dark);
 
