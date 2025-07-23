@@ -23,15 +23,15 @@
       <h2 class="txt-medium txt-uppercase txt-alert">New for you</h2>
       <%= button_to "Mark all as read", read_all_notifications_path, class: "btn txt-small" %>
     </div>
-
-    <div id="notifications_list" contents>
-      <%= render partial: "notifications/notification", collection: @unread, cached: true %>
-    </div>
   <% else %>
     <div class="notifications-list__empty-message pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
       <strong>Nothing new for you.</strong>
     </div>
   <% end %>
+
+  <div id="notifications_list" contents>
+    <%= render partial: "notifications/notification", collection: @unread, cached: true %>
+  </div>
 </section>
 
 <section class="notifications-list notifications-list--read panel center borderless unpad flex flex-column gap-half margin-block-start">
