@@ -28,7 +28,7 @@
   <div class="summary" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ddd; background-color: #f9f9f9;">
     <h2>Summary</h2>
     <div class="summary-content">
-      <%= @activity_summary.to_html %>
+      <%= @activity_summary&.to_html %>
     </div>
   </div>
 

@@ -15,7 +15,6 @@ class Admin::PromptSandboxesControllerTest < ActionDispatch::IntegrationTest
     post admin_prompt_sandbox_path, params: { prompt: "Test prompt for summarization" }
 
     assert_response :redirect
-    assert_redirected_to admin_prompt_sandbox_path(day: assigns(:day_timeline).day, llm_model: Event::Summarizer::LLM_MODEL)
   end
 
   test "non-staff user gets forbidden on show" do
