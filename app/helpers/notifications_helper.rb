@@ -37,12 +37,23 @@ module NotificationsHelper
   end
 
   def notification_mark_read_button(notification)
-    button_to read_notification_path(notification),
-        class: "card__notification-unread-indicator btn btn--circle borderless",
-        title: "Mark as read",
-        data: { action: "form#submit:stop", controller: "form", form_target: "submit", turbo_frame: "_top" } do
-      concat(icon_tag("remove-med"))
-      concat(tag.span("Mark as read", class: "for-screen-reader"))
+    if notification.read?
+      button_to read_notification_path(notification),
+          method: :delete,
+          class: "card__notification-unread-indicator btn btn--circle borderless",
+          title: "Mark as unseen",
+          data: { action: "form#submit:stop", controller: "form", form_target: "submit", turbo_frame: "_top" } do
+        concat(icon_tag("unseen"))
+        concat(tag.span("Mark as unseen", class: "for-screen-reader"))
+      end
+    else
+      button_to read_notification_path(notification),
+          class: "card__notification-unread-indicator btn btn--circle borderless",
+          title: "Mark as read",
+          data: { action: "form#submit:stop", controller: "form", form_target: "submit", turbo_frame: "_top" } do
+        concat(icon_tag("remove-med"))
+        concat(tag.span("Mark as read", class: "for-screen-reader"))
+      end
     end
   end
 

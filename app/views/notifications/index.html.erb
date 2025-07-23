@@ -24,7 +24,9 @@
       <%= button_to "Mark all as read", read_all_notifications_path, class: "btn txt-small" %>
     </div>
 
-    <%= render partial: "notifications/notification", collection: @unread, cached: true %>
+    <div id="notifications_list" contents>
+      <%= render partial: "notifications/notification", collection: @unread, cached: true %>
+    </div>
   <% else %>
     <div class="notifications-list__empty-message pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
       <strong>Nothing new for you.</strong>

@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
       post "readings", to: "readings#create_all", on: :collection, as: :read_all
       post "reading", to: "readings#create", on: :member, as: :read
+      delete "reading", to: "readings#destroy", on: :member
     end
   end
 

@@ -4,6 +4,11 @@ class Notifications::ReadingsController < ApplicationController
     @notification.read
   end
 
+  def destroy
+    @notification = Current.user.notifications.find(params[:id])
+    @notification.unread
+  end
+
   def create_all
     Current.user.notifications.unread.read_all
     respond_to do |format|

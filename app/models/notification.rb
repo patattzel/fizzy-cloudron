@@ -23,6 +23,11 @@ class Notification < ApplicationRecord
     broadcast_read
   end
 
+  def unread
+    update!(read_at: nil)
+    broadcast_unread
+  end
+
   def read?
     read_at.present?
   end
