@@ -172,9 +172,9 @@ class Command::Ai::Translator
         When user explicitly asks for cards about some topic, use the `terms` filter with the topic. Consider this
         is the case when the user refers to cards, todos, bugs, issues, stuff, etc. related to some topic or trait.
 
-        Never filter by terms like "bugs" or "cards". Consider those implicit in the query.
+        Never filter by terms like "bugs", "issues", "cards", etc. Consider those implicit in the query.
 
-        Pass the expression as an array of a single element with the expression, not as an array of words.
+        Pass the terms to filter as a single-element array.
 
         - zoom issues → { context: { terms: ["zoom"] } } 
         - apple and android issues → { context: { terms: ["apple and android"] } } 
