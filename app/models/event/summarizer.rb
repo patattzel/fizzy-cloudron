@@ -49,9 +49,10 @@ class Event::Summarizer
       - ❌ Ann closed [card 123](<card path>)
   PROMPT
 
-  def initialize(events, prompt: PROMPT)
+  def initialize(events, prompt: PROMPT, llm_model: LLM_MODEL)
     @events = events
     @prompt = prompt
+    @llm_model = llm_model
 
     self.default_url_options[:script_name] = "/#{Account.sole.queenbee_id}"
   end
@@ -66,10 +67,10 @@ class Event::Summarizer
   end
 
   private
-    attr_reader :prompt
+    attr_reader :prompt, :llm_model
 
     def chat
-      chat = RubyLLM.chat(model: LLM_MODEL)
+      chat = RubyLLM.chat(model: llm_model)
       chat.with_instructions(combine(prompt, domain_model_prompt, user_data_injection_prompt))
     end
 

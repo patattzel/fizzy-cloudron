@@ -12,9 +12,17 @@
       <%= form.date_field :day, value: @day_timeline.day.to_date %>
     </div>
 
+    <div class="field">
+      <%= form.label :llm_model, "LLM Model:" %>
+      <%= form.select :llm_model,
+          options_for_select(@llm_models, @llm_model),
+          {} %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Generate Summary", class: "btn btn-primary" %>
     </div>
+
   <% end %>
 
   <% if @summary.present? %>

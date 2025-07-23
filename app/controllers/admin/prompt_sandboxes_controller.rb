@@ -1,23 +1,33 @@
 class Admin::PromptSandboxesController < AdminController
   include DayTimelinesScoped
 
+  MODELS = %w[
+      chatgpt-4o-latest
+      gpt-4.1
+      gpt-3.5-turbo
+      gpt-4.1-mini
+      gpt-4.1-nano
+      gpt-4o-mini
+    ]
+
   def show
-    @prompt = cookies[:prompt].presence || Event::Summarizer::PROMPT
-    @summary, @summarizable_content = summarize(@day_timeline, @prompt)
+    @llm_models = MODELS.map { |model| [ model, model ] }
+    @llm_model = params[:llm_model] || Event::Summarizer::LLM_MODEL
+
+    if @prompt = cookies[:prompt].presence
+      summarizer = Event::Summarizer.new(@day_timeline.events, prompt: @prompt, llm_model: @llm_model)
+      @summary = Event::ActivitySummary.new(content: summarizer.summarize).to_html
+      @summarizable_content == summarizer.summarizable_content.html_safe
+      cookies[:prompt] = nil
+    else
+      @prompt = Event::Summarizer::PROMPT
+    end
   end
 
   def create
     @prompt = params[:prompt]
+    @llm_model = params[:llm_model]
     cookies[:prompt] = @prompt
-    @summary, @summarizable_content = summarize(@day_timeline, @prompt)
-    redirect_to admin_prompt_sandbox_path(day: @day_timeline.day)
+    redirect_to admin_prompt_sandbox_path(day: @day_timeline.day, llm_model: @llm_model)
   end
-
-  private
-    def summarize(day_timeline, prompt)
-      summarizer = Event::Summarizer.new(day_timeline.events, prompt: prompt)
-      summary = summarizer.summarize
-      activity_summary = Event::ActivitySummary.new(content: summary)
-      [ activity_summary.to_html, summarizer.summarizable_content.html_safe ]
-    end
 end
