@@ -219,6 +219,18 @@
   [hidden] { display: none !important; }
   [contents] { display: contents; }
 
+  .hide-in-pwa {
+    @media (display-mode: standalone) {
+      display: none;
+    }
+  }
+
+  .hide-in-browser {
+    @media (display-mode: browser) {
+      display: none;
+    }
+  }
+
   .hide-focus-ring {
     --focus-ring-size: 0;
   }

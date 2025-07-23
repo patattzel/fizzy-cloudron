@@ -44,5 +44,53 @@
       display: none;
     }
   }
+
+
+ /* Help
+ /* ------------------------------------------------------------------------ */
+  .notifications-help {
+    h2 {
+      font-size: var(--text-medium);
+      margin: 0;
+    }
+
+    .icon {
+      --icon-size: 1.2em;
+
+      vertical-align: text-top;
+    }
+
+    ol {
+      margin-block: var(--block-space-half) var(--block-space);
+
+      &:last-of-type {
+        margin-block-end: var(--block-space-half);
+      }
+    }
+  }
+
+  .notifications-help__explainer {
+    padding: var(--block-space);
+  }
+
+  .notifications__on-message {
+    display: none;
+
+    .notifications--on & {
+      display: block;
+    }
+  }
+
+  .notifications__off-message {
+    display: block;
+
+    .notifications--on & {
+      display: none;
+    }
+  }
+
+  .notifications__status {
+    --panel-padding: var(--block-space);
+  }
 }
 
