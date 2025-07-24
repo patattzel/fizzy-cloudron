@@ -14,8 +14,6 @@ export default class extends Controller {
       if (this.#available) {
         const unreadCount = this.#unreadCount
 
-        console.log(unreadCount, this.unreadTargets)
-
         if (unreadCount > 0) {
           navigator.setAppBadge(unreadCount)
         } else {
