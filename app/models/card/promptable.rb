@@ -21,6 +21,7 @@ module Card::Promptable
       * Id: #{id}
       * Created by: #{creator.name}}
       * Assigned to: #{assignees.map(&:name).join(", ")}}
+      * Workflow stage: #{stage&.name}
       * Created at: #{created_at}}
       * Closed: #{closed?}
       * Closed by: #{closed_by&.name}
