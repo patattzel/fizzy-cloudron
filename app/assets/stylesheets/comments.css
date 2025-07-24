@@ -126,6 +126,9 @@
     max-inline-size: var(--comment-max);
     text-align: center;
 
+    strong {
+      font-weight: 600;
+    }
 
     &::before {
       /* Make up space for lack of avatar */
