@@ -289,10 +289,12 @@
   }
 
   .card__closed {
+    --stamp-color: oklch(var(--lch-green-light));
+
     align-items: center;
     border-radius: 0.2em;
-    border: 0.75ch solid var(--card-color);
-    color: var(--card-color);
+    border: 0.5ch solid var(--stamp-color);
+    color: var(--stamp-color);
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -303,8 +305,8 @@
     mix-blend-mode: multiply;
     padding: 1ch;
     position: absolute;
-    transform-origin: bottom left;
-    transform: rotate(-10deg);
+    rotate: 5deg;
+    transform-origin: top right;
 
     @media (prefers-color-scheme: dark) {
       mix-blend-mode: screen;
