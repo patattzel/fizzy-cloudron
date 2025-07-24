@@ -21,7 +21,7 @@ class Command::GetInsight < Command
   end
 
   private
-    MAX_COMPLETED_CARDS = 50
+    MAX_COMPLETED_CARDS = 40
 
     def chat
       chat = RubyLLM.chat(model: "chatgpt-4o-latest")

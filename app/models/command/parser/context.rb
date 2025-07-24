@@ -1,7 +1,7 @@
 class Command::Parser::Context
   attr_reader :user, :url, :script_name, :source_context
 
-  MAX_CARDS = 100
+  MAX_CARDS = 75
 
   def initialize(user, url:, script_name: "", source_context: nil)
     @user = user
