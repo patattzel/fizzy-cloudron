@@ -26,7 +26,7 @@ class Card < ApplicationRecord
     when "stalled" then stalled.chronologically
     when "closing_soon" then closing_soon.chronologically
     when "falling_back_soon" then falling_back_soon.chronologically
-    when "closed" then closed
+    when "closed" then closed.recently_closed_first
     end
   end
 
