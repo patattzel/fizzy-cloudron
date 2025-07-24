@@ -183,6 +183,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ commands: [ "/insight are there blockers?" ] }, "are there blockers?", context: :card)
 
     assert_command({ context: { indexed_by: "latest" }, commands: [ "/insight cards with much activity" ] }, "cards with much activity")
+    assert_command({ context: { stage_ids: [ "triage" ] }, commands: [ "/insight summarize" ] }, "summarize cards in triage")
   end
 
   test "combine commands and filters" do
