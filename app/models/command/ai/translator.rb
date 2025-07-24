@@ -1,4 +1,5 @@
 class Command::Ai::Translator
+  include Ai::Prompts
   include Rails.application.routes.url_helpers
 
   attr_reader :context
@@ -34,7 +35,7 @@ class Command::Ai::Translator
 
     def chat
       chat = RubyLLM.chat.with_temperature(0)
-      chat.with_instructions(prompt + custom_context)
+      chat.with_instructions(join_prompts(prompt, current_view_prompt, custom_context))
     end
 
     def prompt
@@ -91,7 +92,7 @@ class Command::Ai::Translator
         - `indexed_by`:
             * newest: order by creation date descending
             * oldest: order by creation date ascending
-            * latest: order by last activity date descending
+            * latest: order by last update date descending
             * stalled: filter cards that are stalled (stagnated)
             * closed: filter cards that are closed (completed)
             * closing_soon: filter cards that are auto-closing soon
@@ -146,25 +147,36 @@ class Command::Ai::Translator
           - If not, use the full name in the query verbatim
         - **No duplication** – a name in a command must not appear as a filter
         - If no command inferred, use /search to search the query expression verbatim.
-  
+
         ## How to get insight about the system
 
         The /insight command can be used to:
-    
+
         - Perform queries on the system for which there is no suitable filters.
         - Get any insight about cards and comments.
           * Answer questions about the data.
           * Getting insight about data: how things are progressing, blockers, highlights, etc.
+          * Perform advanced querying and filtering on the data, not supported by the preset filters.
           * Summarize information
           * Check what a person has done
-        - If the /insight commands needs to query the data to extract insight, and there is no suitable filter, 
-          use the `indexed_by` filter with `latest`.
+          * Any other question about cards, comments, discussions, persons, etc.
         - The `/insight` command is used to get insight about the system. It takes a free text query and responds with a textual
         response.
         - The /insight command can be combined with filters if those help to create a better context for the query.
         - There is no need to set filters if there aren't filters suitable for the query.
-        - Pass the query verbatim to the /insight command.
         - When asking about user's activity, don't use the +assignee_ids+ filters. Just pass the query.
+        - **IMPORTANT**: Pass the query VERBATIM to the /insight command, don't change it or omit any redundant terms.
+
+        ### Context to get insight
+
+        - When answering implies analyzing cards and comments, it always needs a context filter.
+          * When there is no suitable filter, use `indexed_by` with `latest`.
+        - Queries that require analyzing cards, comments, people activity, etc. to extract information, ALWAYS
+          require a `context` filter.
+          If no suitable filter derived from the query, then always use `indexed_by` with `latest`.
+        - If the current context is "inside a card" and the query makes sense in that context, you
+          can omit context filter properties.
+          * Inside a card you are seeing the card description and the discussion around it. The query may refer to that context.
 
         ## Examples
 
@@ -231,8 +243,6 @@ class Command::Ai::Translator
 
         - closed cards  → { context: { indexed_by: "closed" } }
         - recent cards  → { context: { indexed_by: "newest" } }
-        - cards with recent activity  → { context: { indexed_by: "latest" } }
-        - stagnated cards  → { context: { indexed_by: "stalled" } }
         - falling back soon cards  → { context: { indexed_by: "falling_back_soon" } }
         - cards to be reconsidered soon  → { context: { indexed_by: "falling_back_soon" } }
         - to be auto closed soon  → { context: { indexed_by: "closing soon" } }
@@ -302,8 +312,10 @@ class Command::Ai::Translator
         #### Getting insight
 
         - most commented cards → { context: { indexed_by: "latest" }, commands: ["/insight most commented cards"] }
+        - very active cards → { context: { indexed_by: "latest" }, commands: ["/insight very active cards"] }
         - what has mike done → { context: { indexed_by: "latest" }, commands: ["/insight what has mike done"] }
         - summarize cards completed by mike → { context: { closer_ids: ["mike"] }, commands: ["/insight summarize"] }
+        - who is working on the most challenging stuff → { context: { indexed_by: "latest" }, commands: ["/insight who is working on the most challenging stuff"] }
 
         ### Filters and commands combined
 
