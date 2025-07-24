@@ -221,8 +221,8 @@ class Command::Ai::Translator
 
         Pass the terms to filter as a single-element array.
 
-        - zoom issues → { context: { terms: ["zoom"] } } 
-        - apple and android issues → { context: { terms: ["apple and android"] } } 
+        - zoom issues → { context: { terms: ["zoom"] } }#{' '}
+        - apple and android issues → { context: { terms: ["apple and android"] } }#{' '}
         - contrast bugs → { context: { terms: ["contrast"] } }
         - bugs about contrast → { context: { terms: ["contrast"] } }
 
