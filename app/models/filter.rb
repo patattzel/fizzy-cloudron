@@ -61,6 +61,6 @@ class Filter < ApplicationRecord
 
   private
     def include_closed_cards?
-      indexed_by.closed? || closure_window || closers.present? || card_ids.present? || indexed_by.all?
+      indexed_by.closed? || closure_window || closers.present? || card_ids.present?
     end
 end

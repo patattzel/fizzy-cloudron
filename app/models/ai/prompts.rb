@@ -1,12 +1,21 @@
 module Ai::Prompts
   private
     def current_view_prompt
+      current_card_contents = if context.viewing_card_contents?
+        <<~PROMPT
+          BEGIN OF CURRENT CARD
+          #{context.cards.first.to_prompt}
+          END OF CURRENT CARD
+        PROMPT
+      end
+
       <<~PROMPT
         ## Current context:
 
-        Today is #{Time.current}
+        * Today: #{Time.current}
+        * **Current view where the user is**: #{context.viewing_card_contents? ? 'inside a card' : 'viewing a list of cards' }.
 
-        The user is currently #{context.viewing_card_contents? ? 'inside a card' : 'viewing a list of cards' }.     
+        #{current_card_contents}
       PROMPT
     end
 

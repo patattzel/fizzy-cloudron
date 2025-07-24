@@ -20,18 +20,18 @@ class Card < ApplicationRecord
 
   scope :indexed_by, ->(index) do
     case index
-    when "newest"  then reverse_chronologically
-    when "oldest"  then chronologically
-    when "latest"  then latest
+    when "newest" then reverse_chronologically
+    when "oldest" then chronologically
+    when "latest" then latest
     when "stalled" then stalled.chronologically
     when "closing_soon" then closing_soon.chronologically
     when "falling_back_soon" then falling_back_soon.chronologically
-    when "closed"  then closed
+    when "closed" then closed
     end
   end
 
   def cache_key
-    [ super, collection.name ].compact.join("/")
+    [super, collection.name].compact.join("/")
   end
 
   def card

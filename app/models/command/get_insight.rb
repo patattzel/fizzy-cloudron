@@ -1,7 +1,7 @@
 class Command::GetInsight < Command
   include ::Ai::Prompts, Command::Cards
 
-  store_accessor :data, :query
+  store_accessor :data, :query, :params
 
   def title
     "Insight query '#{query}'"
@@ -21,7 +21,7 @@ class Command::GetInsight < Command
   end
 
   private
-    MAX_CARDS = 100
+    MAX_COMPLETED_CARDS = 50
 
     def chat
       chat = RubyLLM.chat(model: "chatgpt-4o-latest")
@@ -40,6 +40,15 @@ class Command::GetInsight < Command
         - When asking for summaries, try to highlight key outcomes.
         - If you need further details or clarifications, indicate it.
         - When referencing cards or comments, always link them (see rules below).
+        - **NEVER** answer with cards that don't exist.
+
+        ## Critical rules
+
+        - Always assume that the user is querying about information in the system, not asking you to generate similar data.
+        - Never include cards that don't exist in your answers.
+        - When asking for similar cards, tickets, bugs, etc., never imagine those, just analyze the data and suggest existing
+          cards that are similar.
+        - If you are missing cards or information, indicate it instead of making up a response.
 
         ## Linking rules
 
@@ -48,11 +57,35 @@ class Command::GetInsight < Command
           * Don't add these as standalone links, but referencing words from the insight
         - Markdown link format: [anchor text](/full/path/).
           - Preserve the path exactly as provided (including the leading "/").
+        - Prefer anchor text links that read naturally over numbers.
         - When showing the card title as the link anchor text, also include #<card id> at the end between parentheses.
       PROMPT
     end
 
     def cards_context
-      cards.limit(MAX_CARDS).collect(&:to_prompt).join("\n")
+      promptable_cards.collect(&:to_prompt).join("\n")
+    end
+
+    def promptable_cards
+      if filter.indexed_by.latest? && context.viewing_list_of_cards?
+        cards_including_closed_ones
+      else
+        cards
+      end
+    end
+
+    def cards_including_closed_ones
+      closed_cards = user.accessible_cards.closed.recently_closed_first.limit(MAX_COMPLETED_CARDS)
+      open_cards = cards
+
+      open_sql = open_cards.to_sql
+      closed_sql = "SELECT * FROM (#{closed_cards.to_sql})" # isolate limit
+      sql = " SELECT * FROM ( #{open_sql} UNION ALL #{closed_sql} ) AS cards "
+
+      Card.from("(#{sql}) AS cards")
+    end
+
+    def filter
+      user.filters.from_params(params.reverse_merge(**FilterScoped::DEFAULT_PARAMS))
     end
 end

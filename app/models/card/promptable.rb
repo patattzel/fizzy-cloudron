@@ -9,7 +9,7 @@ module Card::Promptable
 
   def to_prompt
     <<~PROMPT
-      ### Card #{id}
+      BEGIN OF CARD #{id}
 
       **Title:** #{title}
       **Description:**
@@ -31,6 +31,7 @@ module Card::Promptable
       * Path: #{collection_card_path(collection, self, script_name: Account.script_name)}
 
       #{comments.last(MAX_COMMENTS).collect(&:to_prompt).join("\n")}
+      END OF CARD #{id}
     PROMPT
   end
 end

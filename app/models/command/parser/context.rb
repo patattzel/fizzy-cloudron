@@ -1,6 +1,8 @@
 class Command::Parser::Context
   attr_reader :user, :url, :script_name
 
+  MAX_CARDS = 100
+
   def initialize(user, url:, script_name: "")
     @user = user
     @url = url
@@ -10,15 +12,7 @@ class Command::Parser::Context
   end
 
   def cards
-    if viewing_card_contents?
-      user.accessible_cards.where id: params[:id]
-    elsif viewing_cards_index?
-      filter.cards.published
-    elsif viewing_search_results?
-      user.accessible_cards.where(id: user.search(params[:q]).select(:card_id))
-    else
-      Card.none
-    end
+    cards_from_current_view.limit(MAX_CARDS)
   end
 
   def viewing_card_contents?
@@ -69,6 +63,18 @@ class Command::Parser::Context
 
   private
     attr_reader :controller, :action, :params
+
+    def cards_from_current_view
+      if viewing_card_contents?
+        user.accessible_cards.where id: params[:id]
+      elsif viewing_cards_index?
+        filter.cards.published
+      elsif viewing_search_results?
+        user.accessible_cards.where(id: user.search(params[:q]).select(:card_id))
+      else
+        Card.none
+      end
+    end
 
     def viewing_card_perma?
       controller == "cards" && action == "show"
