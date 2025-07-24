@@ -26,7 +26,7 @@ class Command::Ai::Parser
 
       commands = Array.wrap(commands_from_query(normalized_query, resolved_context))
 
-      if query_context
+      if query_context && !commands.last.is_a?(Command::GetInsight)
         commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
       end
 
