@@ -5,9 +5,9 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:david)
-  end
 
-  vcr_record!
+    freeze_timestamps
+  end
 
   test "filter by assignments" do
     # List context
@@ -165,8 +165,6 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
   test "default to search" do
     assert_command({ commands: [ "/search backups" ] }, "backups")
   end
-
-  vcr_record!
 
   test "get insight" do
     assert_command({ context: { indexed_by: "latest" }, commands: [ "/insight cards similar to 1234" ] }, "cards similar to 1234")
