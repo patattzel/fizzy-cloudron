@@ -11,10 +11,10 @@ module Card::Promptable
     <<~PROMPT
       BEGIN OF CARD #{id}
 
-      **Title:** #{title}
+      **Title:** #{title.first(1000)}
       **Description:**
 
-      #{description.to_plain_text}
+      #{description.to_plain_text.first(10_000)}
 
       #### Metadata
 

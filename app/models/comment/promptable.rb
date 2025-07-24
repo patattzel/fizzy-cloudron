@@ -11,7 +11,7 @@ module Comment::Promptable
 
         **Content:**
 
-        #{body.to_plain_text}
+        #{body.to_plain_text.first(5000)}
 
         #### Metadata
 
