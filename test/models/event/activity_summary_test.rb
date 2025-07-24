@@ -3,6 +3,8 @@ require "test_helper"
 class Event::ActivitySummaryTest < ActiveSupport::TestCase
   include VcrTestHelper
 
+  vcr_record!
+
   setup do
     @events = Event.limit(3)
 

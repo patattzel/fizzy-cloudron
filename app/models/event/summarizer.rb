@@ -54,8 +54,6 @@ class Event::Summarizer
     @events = events
     @prompt = prompt
     @llm_model = llm_model
-
-    self.default_url_options[:script_name] = "/#{Account.sole.queenbee_id}"
   end
 
   def summarize
@@ -64,7 +62,7 @@ class Event::Summarizer
   end
 
   def summarizable_content
-    combine events.collect { |event| event_context_for(event) }
+    combine events.collect(&:to_prompt)
   end
 
   private
@@ -101,92 +99,6 @@ class Event::Summarizer
         ### Other
 
         * Only count plain text against the words limit. E.g: ignore URLs and markdown syntax.
-      PROMPT
-    end
-
-    def event_context_for(event)
-      <<~PROMPT
-        ## Event #{event.action} (#{event.eventable_type} #{event.eventable_id}))
-
-        * Created at: #{event.created_at}
-        * Created by: #{event.creator.name}
-
-        #{eventable_context_for(event.eventable)}
-      PROMPT
-    end
-
-    def eventable_context_for(eventable)
-      case eventable
-      when Card
-        card_context_for(eventable)
-      when Comment
-        comment_context_for(eventable)
-      end
-    end
-
-    def card_context_for(card)
-      <<~PROMPT
-        ### Card #{card.id}
-
-        **Title:** #{card.title}
-        **Description:**
-
-        #{card.description.to_plain_text}
-
-        #### Metadata
-
-        * Id: #{card.id}
-        * Created by: #{card.creator.name}}
-        * Assigned to: #{card.assignees.map(&:name).join(", ")}}
-        * Created at: #{card.created_at}}
-        * Closed: #{card.closed?}
-        * Closed by: #{card.closed_by&.name}
-        * Closed at: #{card.closed_at}
-        * Collection id: #{card.collection_id}
-        * Collection name: #{card.collection.name}
-        * Number of comments: #{card.comments.count}
-        * Path: #{collection_card_path(card.collection, card)}
-
-        #### Comments
-
-        #{card_comments_context_for(card)}
-      PROMPT
-    end
-
-    def card_comments_context_for(card)
-      combine card.comments.last(10).collect { |comment| card_comment_context_for(comment) }
-    end
-
-    def card_comment_context_for(comment)
-      card = comment.card
-
-      <<~PROMPT
-        ##### #{comment.creator.name} commented on #{comment.created_at}:
-
-        #{comment.body.to_plain_text}
-
-        * Path: #{collection_card_path(card.collection, card)}
-      PROMPT
-    end
-
-    def comment_context_for(comment)
-      card = comment.card
-
-      <<~PROMPT
-        ### Comment #{comment.id}
-
-        **Content:**
-
-        #{comment.body.to_plain_text}
-
-        #### Metadata
-
-        * Id: #{comment.id}
-        * Card id: #{card.id}
-        * Card title: #{card.title}
-        * Created by: #{comment.creator.name}}
-        * Created at: #{comment.created_at}}
-        * Path: #{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(comment))}
       PROMPT
     end
 
