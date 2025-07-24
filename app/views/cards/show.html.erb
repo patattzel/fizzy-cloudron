@@ -5,7 +5,7 @@
   <% if @card.creating? && @card.can_recover_abandoned_creation? %>
     <div class="fill-selected position-sticky flex align-center gap-half justify-center border-block margin-block-end"
           style="view-transition-name: draft-banner; --card-color: <%= @card.color %>;">
-      You have an unsaved work. Would you like to continue where you left off?
+      You have an unsaved card. Would you like to continue where you left off?
       <%= button_to card_recover_path(@card), class: "btn btn--reversed", data: { turbo_action: "replace" } do %>
         <span>Restore</span>
       <% end %>
