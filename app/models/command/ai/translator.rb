@@ -56,7 +56,7 @@ class Command::Ai::Translator
           "context": {                 // omit if empty
             "terms":        string[],  // filter cards by keywords
             "indexed_by":   "newest" | "oldest" | "latest" | "stalled"
-                            | "closed" | "closing_soon" | "falling_back_soon" | "all", // "all" is a special value only for insight
+                            | "closed" | "closing_soon" | "falling_back_soon",
             "assignee_ids": <person>[],
             "assignment_status": "unassigned",
             "card_ids":     <card_id>[],
@@ -157,10 +157,8 @@ class Command::Ai::Translator
           * Getting insight about data: how things are progressing, blockers, highlights, etc.
           * Summarize information
           * Check what a person has done
-        - If the /insight commands needs to query the data to extract insight, and there is no suitable filter:
-          * If the data should include completed cards too, use the `indexed_by` filter with `all` (special value only for /insight).
-            * When asking for people activity, use `indexed_by: "all" unless a explicit filter is requested.
-            * If not, use `indexed_by` with `latest`.
+        - If the /insight commands needs to query the data to extract insight, and there is no suitable filter, 
+          use the `indexed_by` filter with `latest`.
         - The `/insight` command is used to get insight about the system. It takes a free text query and responds with a textual
         response.
         - The /insight command can be combined with filters if those help to create a better context for the query.
@@ -303,8 +301,8 @@ class Command::Ai::Translator
 
         #### Getting insight
 
-        - most commented cards → { context: { indexed_by: "all" }, commands: ["/insight most commented cards"] }
-        - what has mike done → { context: { indexed_by: "all" }, commands: ["/insight what has mike done"] }
+        - most commented cards → { context: { indexed_by: "latest" }, commands: ["/insight most commented cards"] }
+        - what has mike done → { context: { indexed_by: "latest" }, commands: ["/insight what has mike done"] }
         - summarize cards completed by mike → { context: { closer_ids: ["mike"] }, commands: ["/insight summarize"] }
 
         ### Filters and commands combined
@@ -313,7 +311,7 @@ class Command::Ai::Translator
         - assign john to the current #design cards and tag them with #v2  → { context: { tag_ids: ["design"] }, commands: ["/assign john", "/tag #v2"] }
         - close cards assigned to mike and assign them to roger → { context: {assignee_ids: ["mike"]}, commands: ["/close", "/assign roger"] }
         - summarize the cards assigned to jz → { context: { assignee_ids: ["jz"] }, commands: ["/insight summarize"] }
-        - summarize the work that ann has done recently → { context: { indexed_by: ["all"] }, commands: ["/insight summarize the work that ann has done recently"] }
+        - summarize the work that ann has done recently → { context: { indexed_by: ["latest"] }, commands: ["/insight summarize the work that ann has done recently"] }
       PROMPT
     end
 

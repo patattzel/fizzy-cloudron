@@ -70,9 +70,6 @@ class Command::Parser::Context
   private
     attr_reader :controller, :action, :params
 
-    MAX_CARDS = 20
-    MAX_CLOSED_CARDS = 10
-
     def viewing_card_perma?
       controller == "cards" && action == "show"
     end

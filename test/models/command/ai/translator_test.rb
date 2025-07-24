@@ -171,7 +171,7 @@ class Command::Ai::TranslatorTest < ActionDispatch::IntegrationTest
     assert_command({ context: { assignee_ids: ["jz"] }, commands: [ "/insight cards where mike has commented" ] }, "cards where mike has commented assigned to jz")
     assert_command({ commands: [ "/insight summarize this" ] }, "summarize this")
     assert_command({ commands: [ "/insight are there blockers here?" ] }, "are there blockers here?")
-    assert_command({ context: { indexed_by: "all" }, commands: [ "/insight stuff that jz has done lately" ] }, "stuff that jz has done lately")
+    assert_command({ context: { indexed_by: "latest" }, commands: [ "/insight stuff that jz has done lately" ] }, "stuff that jz has done lately")
   end
 
   test "combine commands and filters" do
