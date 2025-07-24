@@ -172,13 +172,14 @@ class Command::Ai::Translator
         ### Context to get insight
 
         - When answering implies querying certain cards, it always needs a context filter.
-          * When there is no suitable filter, use `indexed_by` with `latest`.
+          * When there is no suitable filter, use `indexed_by` with `latest`
+          * Always use "latest" when asking about card similarities
         - Queries that require analyzing cards, comments, people activity, etc. to extract information, ALWAYS
           require a `context` filter.
         - If the current context is "inside a card" and the query doesn't need other cards to be answered, you
           can omit context filter properties.
-          * Inside a card you are seeing the card description and the discussion around it. The query may refer to that context.
-          * You will still need a filter if the request requires finding other cards. E.g: looking for similar cards.
+          * Inside a card you are seeing the card description and the discussion around it. The query may refer to that context (e.g: to ask about problems in the card).
+          * You will still need to set `index_by` with `latest` if the request requires finding other cards. E.g: looking for similar cards.
 
         ## Examples
 
@@ -268,6 +269,7 @@ class Command::Ai::Translator
         #### Collection
 
         - Go to some collection → { context: { "collection_ids": ["some"] } }
+        - KIA QA collection → { context: { "collection_ids": ["KIA QA"] } }
 
         Respect the collection name and case if it exists.
 
