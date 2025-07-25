@@ -8,6 +8,7 @@ class User::DayTimeline::SummarizableTest < ActiveSupport::TestCase
 
     freeze_timestamps
 
+    Current.session = sessions(:david)
     @day = events(:logo_published).reload.created_at
     @day_timeline = @user.timeline_for(@day, filter: @user.filters.new)
   end
@@ -38,6 +39,20 @@ class User::DayTimeline::SummarizableTest < ActiveSupport::TestCase
 
     # Summarizable in the past
     travel_to @day + 1.day
+    assert @day_timeline.summarizable?
+  end
+
+  test "today events are summarizable" do
+    unfreeze_time
+
+    travel_to @day
+    assert_not @day_timeline.summarizable?
+
+    10.times.each do |index|
+      cards(:logo).update! title: "Title change #{index} to track event"
+    end
+
+    # Summarizable in the past
     assert @day_timeline.summarizable?
   end
 end
