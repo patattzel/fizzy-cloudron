@@ -56,7 +56,7 @@ VCR_RECORD=1 PARALLEL_WORKERS=2 bin/rails test
 A typical scenario is making modifications LLM prompts. You need to:
 
 1. Make the prompt changes.
-2. Run the test with `VCR_RECORD=1` set.
+2. Run the test with `VCR_RECORD=1` set. This will let the test make the actual network requests and record the responses as VCR fixtures.
 3. Make sure that the test passes by running the test normally (without setting VCR_RECORD=1).
 4. Commit the YML fixtures that VCR has generated. That way, the next time you run the test, it will run fast without performing any request.
 
