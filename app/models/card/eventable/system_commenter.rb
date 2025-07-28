@@ -15,19 +15,19 @@ class Card::Eventable::SystemCommenter
     def comment_body
       case event.action
       when "card_assigned"
-        "#{event.creator.name} assigned this to #{event.assignees.pluck(:name).to_sentence}."
+        "#{event.creator.name} <strong>assigned</strong> this to #{event.assignees.pluck(:name).to_sentence}."
       when "card_unassigned"
-        "#{event.creator.name} unassigned from #{event.assignees.pluck(:name).to_sentence}."
+        "#{event.creator.name} <strong>unassigned</strong> from #{event.assignees.pluck(:name).to_sentence}."
       when "card_staged"
-        "#{event.creator.name} moved this to '#{event.stage_name}'."
+        "#{event.creator.name} <strong>moved</strong> this to ‘#{event.stage_name}’."
       when "card_closed"
-        "Closed as “#{ card.closure.reason }” by #{ event.creator.name }"
+        "<strong>Closed</strong> as ‘#{ card.closure.reason }’ by #{ event.creator.name }"
       when "card_reopened"
-        "Reopened by #{ event.creator.name }"
+        "<strong>Reopened</strong> by #{ event.creator.name }"
       when "card_title_changed"
-        "#{event.creator.name} changed the title from '#{event.particulars.dig('particulars', 'old_title')}' to '#{event.particulars.dig('particulars', 'new_title')}'."
+        "#{event.creator.name} <strong>changed the title</strong> from ‘#{event.particulars.dig('particulars', 'old_title')}’ to ‘#{event.particulars.dig('particulars', 'new_title')}’."
       when "card_collection_changed"
-      "#{event.creator.name} moved this from '#{event.particulars.dig('particulars', 'old_collection')}' to '#{event.particulars.dig('particulars', 'new_collection')}'."
+      "#{event.creator.name} <strong>moved</strong> this from ‘#{event.particulars.dig('particulars', 'old_collection')}’ to ‘#{event.particulars.dig('particulars', 'new_collection')}’."
       end
     end
 end

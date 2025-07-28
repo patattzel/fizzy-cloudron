@@ -7,7 +7,7 @@ class Card::Eventable::SystemCommenterTest < ActiveSupport::TestCase
   end
 
   test "card_assigned" do
-    assert_system_comment "David assigned this to Kevin." do
+    assert_system_comment "David assigned this to Kevin" do
       @card.toggle_assignment users(:kevin)
     end
   end
@@ -22,19 +22,19 @@ class Card::Eventable::SystemCommenterTest < ActiveSupport::TestCase
   end
 
   test "card_staged" do
-    assert_system_comment "David moved this to 'In progress'" do
+    assert_system_comment "David moved this to ‘In progress’" do
       @card.change_stage_to workflow_stages(:qa_in_progress)
     end
   end
 
   test "card_closed" do
-    assert_system_comment "Closed as “Done” by David" do
+    assert_system_comment "Closed as ‘Done’ by David" do
       @card.close
     end
   end
 
   test "card_title_changed" do
-    assert_system_comment "David changed the title from 'The text is too small' to 'Make text larger'." do
+    assert_system_comment "David changed the title from ‘The text is too small’ to ‘Make text larger’" do
       @card.update! title: "Make text larger"
     end
   end
