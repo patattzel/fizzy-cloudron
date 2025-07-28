@@ -1,5 +1,6 @@
 class NotificationPusher
   include Rails.application.routes.url_helpers
+  include ExcerptHelper
 
   attr_reader :notification
 
@@ -81,7 +82,7 @@ class NotificationPusher
 
       {
         title: "#{mention.mentioner.first_name} mentioned you",
-        body: mention.source.mentionable_content.truncate(200),
+        body: format_excerpt(mention.source.mentionable_content, length: 200),
         path: card_path(card)
       }
     end
@@ -108,12 +109,7 @@ class NotificationPusher
     end
 
     def comment_notification_body(event)
-      comment = event.eventable
-      strip_tags(comment.body.to_s).truncate(200)
-    end
-
-    def strip_tags(text)
-      ActionView::Base.full_sanitizer.sanitize(text)
+      format_excerpt(event.eventable.body, length: 200)
     end
 
     def card_path(card)
