@@ -295,7 +295,7 @@
     background-color: color-mix(in srgb, var(--card-bg-color), transparent 10%);
     border-radius: 0.2em;
     border: 0.5ch solid var(--stamp-color);
-    color: var(--color-ink-medium);
+    color: var(--color-ink-dark);
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -307,10 +307,6 @@
     position: absolute;
     rotate: 5deg;
     transform-origin: top right;
-
-    @media (prefers-color-scheme: dark) {
-      mix-blend-mode: screen;
-    }
 
     .card:has(&),
     .card-perma:has(&) {
@@ -344,19 +340,37 @@
   /* ------------------------------------------------------------------------ */
 
   .card--golden:is(.card--doing, .card--considering) {
-    --lch-golden: 89.1% 0.178 95.7;
-
     background-color: var(--color-canvas);
     background-image: linear-gradient(60deg,
-      oklch(var(--lch-golden) / 0.5) 0%,
-      oklch(var(--lch-golden) / 0.15) 33%,
-      oklch(var(--lch-golden) / 0.05) 66%,
-      oklch(var(--lch-golden) / 0.5) 100%
+      oklch(var(--lch-golden) / 25%) 0%,
+      oklch(var(--lch-golden) / 10%) 33%,
+      oklch(var(--lch-golden) / 5%) 66%,
+      oklch(var(--lch-golden) / 25%) 100%
     );
     box-shadow:
       0 0 0 1px oklch(var(--lch-golden) / 75%),
       0 0 0.5em 0.2em oklch(var(--lch-golden) / 25%),
       0 0 1em 0.8em oklch(var(--lch-golden) / 25%) !important;
+
+    /* Cool wavy line pattern */
+    @supports(mask: radial-gradient(red)) {
+      &:before {
+        /* background: green; */
+        background: linear-gradient(60deg,
+          oklch(var(--lch-golden-dark) / 65%) 0%,
+          oklch(var(--lch-golden-dark) / 5%) 33%,
+          oklch(var(--lch-golden-dark) / 20%) 66%,
+          oklch(var(--lch-golden-dark) / 100%) 100%
+        );
+        content: "";
+        inset: 0;
+        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+        opacity: 0.2;
+        position: absolute;
+        z-index: -1;
+      }
+    }
 
     @media (prefers-color-scheme: dark) {
       --lch-golden: var(--lch-blue-medium);
