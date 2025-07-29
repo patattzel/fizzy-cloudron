@@ -23,6 +23,17 @@
   --text-x-large: 1.8rem;
   --text-xx-large: 2.5rem;
 
+  @media (max-width: 639px) {
+    --text-xx-small: 0.65rem;
+    --text-x-small: 0.85rem;
+    --text-small: 0.95rem;
+    --text-normal: 1.1rem;
+    --text-medium: 1.2rem;
+    --text-large: 1.5rem;
+    --text-x-large: 1.8rem;
+    --text-xx-large: 2.5rem;
+  }
+
   /* Borders */
   --border: 1px solid var(--color-ink-lighter);
 
