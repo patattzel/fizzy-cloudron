@@ -87,8 +87,8 @@
 
   .events__day-header {
     block-size: 0;
-    inset-block-start: calc(var(--events-day-header-height) / 2);
-    position: sticky;
+    margin-block-start: calc(var(--events-day-header-height) / 2);
+    position: relative;
     z-index: var(--z-events-day-header);
 
     time {
@@ -151,7 +151,7 @@
   .events__column-header {
     background-color: var(--color-canvas);
     grid-row-start: 1;
-    inset-block-start: 0;
+    inset-block-start: calc(var(--block-space) * -1);
     margin-block-end: var(--events-gap);
     padding-block: calc(var(--events-gap) * 3) var(--events-gap);
     position: sticky;
