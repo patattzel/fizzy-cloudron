@@ -1,7 +1,5 @@
 @layer components {
   .lightbox {
-    --backdrop-speed: 150ms;
-
     background-color: oklch(var(--lch-canvas) / 0.66);
     block-size: 100dvh;
     border: 0;
@@ -18,10 +16,6 @@
       backdrop-filter: blur(66px);
       background-color: var(--color-ink);
       opacity: 0;
-      transition:
-        display var(--backdrop-speed) allow-discrete,
-        opacity var(--backdrop-speed),
-        overlay var(--backdrop-speed) allow-discrete;
     }
 
     &[open] {
