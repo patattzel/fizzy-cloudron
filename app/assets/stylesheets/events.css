@@ -90,20 +90,22 @@
     margin-block-start: calc(var(--events-day-header-height) / 2);
     position: relative;
     z-index: var(--z-events-day-header);
+  }
 
-    time {
-      align-items: center;
-      background-color: var(--color-ink);
-      block-size: var(--events-day-header-height);
-      border-radius: 0.2em;
-      display: flex;
-      inline-size: fit-content;
-      inset: 0 auto auto 50%;
-      margin-inline: auto;
-      padding-inline: 1.5ch;
-      position: absolute;
-      translate: -50% -50%;
-    }
+  .events__day-time {
+    align-items: center;
+    background-color: var(--color-ink);
+    block-size: var(--events-day-header-height);
+    border-radius: 0.2em;
+    color: var(--color-ink-inverted);
+    display: flex;
+    gap: 0.4ch;
+    inline-size: fit-content;
+    inset: 0 auto auto 50%;
+    margin-inline: auto;
+    padding-inline: 1.5ch;
+    position: absolute;
+    translate: -50% -50%;
   }
 
   .events__columns {

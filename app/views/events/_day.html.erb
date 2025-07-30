@@ -2,7 +2,10 @@
   data-related-element-highlight-class="event--related">
   <% if day_timeline.has_activity? %>
     <h2 class="events__day-header">
-      <%= local_datetime_tag day_timeline.day, style: :agoorweekday, class: "txt-reversed" %>
+      <span class="events__day-time">
+        <span>Summary for</span>
+        <%= local_datetime_tag day_timeline.day, style: :agoorweekday %>
+      </span>
     </h2>
 
     <%= render "events/day_timeline/summary", day_timeline: day_timeline if day_timeline.summarizable?%>
