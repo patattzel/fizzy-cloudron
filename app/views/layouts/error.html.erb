@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>The page you were looking for doesn’t exist (404 Not found)</title>
+    <%= page_title_tag %>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
     <meta name="robots" content="noindex, nofollow">
@@ -131,6 +131,7 @@
         inline-size: 100%;
         border: 0;
         border-block-start: calc(var(--stroke-width) / 2) solid currentcolor;
+        color: currentcolor;
         margin: 1ch auto;
       }
 
