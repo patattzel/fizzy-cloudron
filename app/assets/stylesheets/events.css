@@ -22,11 +22,14 @@
     inline-size: auto;
     margin-block-end: calc(var(--block-space) * -1);
     margin-inline: auto;
-    max-inline-size: 80ch;
     padding: 1.1lh 1lh 1lh;
     position: relative;
     text-align: start;
     z-index: 2;
+
+    .events section:first-of-type & { 
+      border-radius: 0.5em 0.5em 0 0;
+    }
 
     &:has(.events__activity--generating) {
       --border-color: var(--color-selected-dark);
@@ -35,6 +38,11 @@
       background: linear-gradient(-45deg, var(--color-gradient-1), var(--color-gradient-2), var(--color-gradient-3), var(--color-gradient-4));
       background-size: 300%;
       text-align: center;
+    }
+
+    > * {
+      margin-inline: auto;
+      max-inline-size: 80ch;
     }
 
     a {
