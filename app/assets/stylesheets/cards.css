@@ -292,7 +292,7 @@
     --stamp-color: oklch(var(--lch-green-medium) / 0.65);
 
     align-items: center;
-    background-color: color-mix(in srgb, var(--card-bg-color), transparent 10%);
+    background-color: color-mix(in srgb, var(--card-bg-color) 90%, transparent);
     border-radius: 0.2em;
     border: 0.5ch solid var(--stamp-color);
     color: var(--color-ink-dark);
@@ -338,55 +338,6 @@
 
   /* Variants
   /* ------------------------------------------------------------------------ */
-
-  .card--golden:is(.card--doing, .card--considering) {
-    background-color: var(--color-canvas);
-    background-image: linear-gradient(60deg,
-      oklch(var(--lch-golden) / 25%) 0%,
-      oklch(var(--lch-golden) / 10%) 33%,
-      oklch(var(--lch-golden) / 5%) 66%,
-      oklch(var(--lch-golden) / 25%) 100%
-    );
-    box-shadow:
-      0 0 0 1px oklch(var(--lch-golden) / 75%),
-      0 0 0.5em 0.2em oklch(var(--lch-golden) / 25%),
-      0 0 1em 0.8em oklch(var(--lch-golden) / 25%) !important;
-
-    /* Cool wavy line pattern */
-    @supports(mask: radial-gradient(red)) {
-      &:before {
-        /* background: green; */
-        background: linear-gradient(60deg,
-          oklch(var(--lch-golden-dark) / 65%) 0%,
-          oklch(var(--lch-golden-dark) / 5%) 33%,
-          oklch(var(--lch-golden-dark) / 20%) 66%,
-          oklch(var(--lch-golden-dark) / 100%) 100%
-        );
-        content: "";
-        inset: 0;
-        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
-        opacity: 0.2;
-        position: absolute;
-        z-index: -1;
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      --lch-golden: var(--lch-blue-medium);
-    }
-
-    &.card--considering {
-      .card__collection {
-        background-color: transparent;
-        color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-      }
-
-      .card__collection-name {
-        border-color: color-mix(in srgb, var(--color-ink) 33%, oklch(var(--lch-golden)));
-      }
-    }
-  }
 
   .card--notification {
     --card-color: var(--color-card-default);
