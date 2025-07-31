@@ -1,7 +1,7 @@
 <nav class="align-start">
   <header class="flex flex-inline flex-column center flex-shrink">
     <div class="card-filter--collection flex-inline flex-column align-center center position-relative" data-controller="dialog" data-action="click@document->dialog#closeOnClickOutside keydown.esc->dialog#close">
-      <%= tag.button class: "fizzy-menu input input--select flex align-center txt-normal shadow",
+      <%= tag.button class: "fizzy-menu input input--select flex align-center txt-normal",
           data: {
             action: "click->dialog#open:stop keydown.meta+j@document->hotkey#click keydown.ctrl+j@document->hotkey#click",
             controller: "hotkey" } do %>
