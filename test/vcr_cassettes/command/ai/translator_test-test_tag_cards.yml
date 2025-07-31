@@ -346,7 +346,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 31 Jul 2025 15:27:36 GMT
+      - Thu, 31 Jul 2025 19:28:53 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -358,13 +358,13 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '447'
+      - '354'
       Openai-Project:
       - proj_M0FFIqFFeNEpzhhgv64oFzt1
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '451'
+      - '379'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -378,31 +378,33 @@ http_interactions:
       X-Ratelimit-Reset-Tokens:
       - 259ms
       X-Request-Id:
-      - req_bebbcfed125266e8d7f2fcf928601d80
+      - req_56c19eb1ce2859814098dab0e44ed8ba
+      X-Envoy-Decorator-Operation:
+      - router.openai.svc.cluster.local:5004/*
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=svfki.a8OkotoExG0aSM8jyvr8_0ScWPxLtf2qpMLRU-1753975656-1.0.1.1-aYSx2GYYnKueey25VRdmPZ2MpTEC_bqvJR2prWD7wiSIdPFAZwMp4onxzO.LD7xyhhRh0sVmdEagH_5hEFnpCTnWvRVCx5jDNQnHguqRZ3Y;
-        path=/; expires=Thu, 31-Jul-25 15:57:36 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=rkUX9eDL2oW_iRh1eeUEBIRsUMhJ7gBIQfATaHThFb8-1753990133-1.0.1.1-BOYFjq_9sk3b3DN6xsMa3YqQSiJi7k8LV7pBmdk6SyAapjpTUO7V_4_5fUJTvakYFe1Aw509GmZb0RTjFgbgGecgDo_knKHb63PhcqSSED4;
+        path=/; expires=Thu, 31-Jul-25 19:58:53 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=16p3kOsXKiOKxcfoIj7cczIRh4yoIKMGX692OVdK2ks-1753975656844-0.0.1.1-604800000;
+      - _cfuvid=fZn3obsW6g_.UYNKK6Xf78aOS_rSjmS37CxZmudzPVQ-1753990133711-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       X-Content-Type-Options:
       - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 967e1eeb7e50474c-DFW
+      - 967f805cdbad6b6b-DFW
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1CelBUc3NoM3liZnlFWVBMVDcwbGxBTG1B
-        ejlDYSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc1Mzk3NTY1NiwKICAibW9kZWwiOiAiZ3B0LTQuMS0yMDI1LTA0
+        ewogICJpZCI6ICJjaGF0Y21wbC1CelRGTmltQWhteUhMTWlncksxRVJOcERT
+        N2NWNCIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc1Mzk5MDEzMywKICAibW9kZWwiOiAiZ3B0LTQuMS0yMDI1LTA0
         LTE0IiwKICAiY2hvaWNlcyI6IFsKICAgIHsKICAgICAgImluZGV4IjogMCwK
         ICAgICAgIm1lc3NhZ2UiOiB7CiAgICAgICAgInJvbGUiOiAiYXNzaXN0YW50
         IiwKICAgICAgICAiY29udGVudCI6ICJ7XG4gIFwiY29tbWFuZHNcIjogW1wi

@@ -12,6 +12,7 @@ class Event::Summarizer
   PROMPT = <<~PROMPT
     - I'm a member of the team on this account. Give me a summary of the top 5 most interesting or important things in the day's activities.
     - Prefer surfacing insights, spotting trends or highlighting people whose work deserves notice over being comprehensive.
+    - If any new users joined the account, made their first comment, or closed their first card (or hit a significant lifetime milestone 50, 100, 150 cards closed) celebrate it!
     - Don't force it, if there aren't 5 good ones, you can list fewer than 5.
 
     ## Writing style
