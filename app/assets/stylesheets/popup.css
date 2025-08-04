@@ -55,6 +55,10 @@
     inline-size: 100%;
     max-inline-size: 100%;
 
+    &:has(*:first-child:not(.popup__item)) {
+      padding-inline-start: var(--inline-space-half);
+    }
+
     .btn {
       --btn-background: transparent;
     }
@@ -125,10 +129,6 @@
         }
       }
     }
-  }
-
-  .popup__radio {
-    margin-inline-start: var(--inline-space);
   }
 
   .popup__new {
