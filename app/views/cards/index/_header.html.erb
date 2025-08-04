@@ -32,19 +32,19 @@
               type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
         <%= render "events/filter/header" %>
         <% if Current.user.collections.many? %>
-          <strong class="popup__group-title">Collections</strong>
           <ul class="popup__list">
+            <li class="popup__group-title">Collections</li>
             <%= render "cards/index/collections_filter", filter: filter %>
           </ul>
         <% end %>
 
-        <strong class="popup__group-title">Tags</strong>
         <ul class="popup__list">
+          <li class="popup__group-title">Tags</li>
           <%= render partial: "events/filter/tag", collection: Tag.all.alphabetically, as: :tag %>
         </ul>
 
-        <strong class="popup__group-title">People</strong>
         <ul class="popup__list">
+          <li class="popup__group-title">People</li>
           <%= render partial: "events/filter/user", collection: User.active.alphabetically, as: :user %>
         </ul>
 

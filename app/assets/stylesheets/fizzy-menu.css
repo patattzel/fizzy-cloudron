@@ -34,8 +34,19 @@
   .fizzy-menu__hotkeys {
     --gap: 8px;
 
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--gap);
+    inline-size: 100%;
+    justify-content: center;
     margin: var(--block-space) auto calc(var(--block-space-half) / 2);
+    max-inline-size: 100%;
+
+    /* When all its children are hidden, hide this as well so it doesn't take up space */
+    &:has(.popup__group[hidden]):not(:has(.popup__group:not([hidden]))) {
+      display: none;
+    }
 
     .btn {
       --btn-border-radius: 0.4em;
