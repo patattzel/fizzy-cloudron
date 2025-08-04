@@ -1,19 +1,9 @@
-<%= turbo_stream_from @conversation %>
-
 <%= turbo_frame_tag "conversation", target: "_top" do %>
-  <div class="conversation" id="<%= dom_id(@conversation) %>">
-    <div class="conversation__messages">
-      <%= render collection: @conversation.messages, partial: "conversations/message" %>
-    </div>
-
-    <%= form_with(model: Conversation::Message.new, local: true, html: { class: "conversation__composer" }) do |form| %>
-      <div class="conversation__composer__input">
-        <%= form.text_area :content, placeholder: "Type your message here...", rows: 3, class: "form-control" %>
-      </div>
-      <div class="conversation__composer__submit">
-        <%= form.submit "Send", class: "btn" %>
-      </div>
-    <% end %>
+  <%= turbo_stream_from Current.user, :conversation %>
+  <div class="conversation">
+    <%= turbo_frame_tag dom_id(@conversation, :messages_container), src: conversation_messages_path, target: "_top" %>
+    <%= render partial: "conversations/show/thinking_indicator", locals: { conversation: @conversation } %>
+    <%= render partial: "conversations/show/composer", locals: { conversation: @conversation } %>
   </div>
 <% end %>
 

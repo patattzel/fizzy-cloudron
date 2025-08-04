@@ -6,6 +6,12 @@ class ConversationsController < ApplicationController
 
   def show
     @conversation = Current.user.conversation
+
+    @messages = if params[:before]
+      @conversation.messages.page_before(params[:before])
+    else
+      @conversation.messages.last_page
+    end
   end
 
   private

@@ -1,4 +1,4 @@
-class Ai::Tool::ListCards < RubyLLM::Tool
+class Ai::Tool::ListCards < Ai::Tool
   description <<-MD
     Lists all cards accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.
@@ -32,6 +32,10 @@ class Ai::Tool::ListCards < RubyLLM::Tool
       - name [String, not null]
   MD
 
+  param :ids,
+    type: :string,
+    desc: "If provided, will return only the cards with the given IDs (comma-separated)",
+    required: false
   param :query,
     type: :string,
     desc: "If provided, will perform a semantinc search by embeddings and return only matching cards",
@@ -71,28 +75,29 @@ class Ai::Tool::ListCards < RubyLLM::Tool
     cards = cards.search(params[:query]) if params[:query].present?
     cards = cards.golden if params[:golden].present?
     cards = cards.where(collection_id: params[:collection_id]) if params[:collection_id].present?
+    cards = cards.where(id: params[:ids]&.split(",")&.map(&:to_i)) if params[:ids].present?
 
     if params[:last_active_at_gte].present?
-      timestamp = Time.iso8601(params[:last_active_at_gte])
+      timestamp = DateTime.parse(params[:last_active_at_gte])
       cards = cards.where(last_active_at: timestamp..)
     end
 
     if params[:last_active_at_lte].present?
-      timestamp = Time.iso8601(params[:last_active_at_lte])
+      timestamp = DateTime.parse(params[:last_active_at_lte])
       cards = cards.where(last_active_at: ..timestamp)
     end
 
     if params[:created_at_gte].present?
-      timestamp = Time.iso8601(params[:created_at_gte])
+      timestamp = DateTime.parse(params[:created_at_gte])
       cards = cards.where(created_at: timestamp..)
     end
 
     if params[:created_at_lte].present?
-      timestamp = Time.iso8601(params[:created_at_lte])
+      timestamp = DateTime.parse(params[:created_at_lte])
       cards = cards.where(created_at: ..timestamp)
     end
 
-    page = GearedPagination::Recordset.new(cards, ordered_by: { id: :desc }).page(page)
+    page = GearedPagination::Recordset.new(cards, ordered_by: { id: :desc }).page(params[:page])
 
     {
       cards: page.records.map do |card|
@@ -106,7 +111,8 @@ class Ai::Tool::ListCards < RubyLLM::Tool
           stage: card.stage.as_json(only: [ :id, :name ]),
           creator: card.creator.as_json(only: [ :id, :name ]),
           assignees: card.assignees.as_json(only: [ :id, :name ]),
-          description: card.description.to_plain_text.truncate(1000)
+          description: card.description.to_plain_text.truncate(1000),
+          url: collection_card_path(card.collection, card)
         }
       end,
       pagination: {

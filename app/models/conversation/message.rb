@@ -1,40 +1,24 @@
 class Conversation::Message < ApplicationRecord
+  include Pagination, Broadcastable, ClientIdentifiable, Promptable, Respondable
+
+  ALL_EMOJI_REGEX = /\A(\p{Emoji_Presentation}|\p{Extended_Pictographic}|\uFE0F)+\z/u
+
   has_rich_text :content
 
   belongs_to :conversation, inverse_of: :messages
+  has_one :owner, through: :conversation, source: :user
 
   enum :role, %w[ user assistant ].index_by(&:itself)
 
-  after_create_commit :generate_response_later, if: :user?
+  validates :client_message_id, presence: true
 
-  def generate_response_later
-    Conversation::ResponseGeneratorJob.perform_later(self)
+  scope :ordered, -> { order(created_at: :asc, id: :asc) }
+
+  def all_emoji?
+    content.to_plain_text.match?(ALL_EMOJI_REGEX)
   end
 
-  def generate_response
-    response = Conversation::ResponseGenerator.new(self).generate
-
-    message_attributes = {
-      model_id: response.model_id,
-      input_tokens: response.input_tokens,
-      output_tokens: response.output_tokens,
-      input_cost_microcents: response.input_cost_microcents,
-      output_cost_microcents: response.output_cost_microcents,
-      cost_microcents: response.cost_microcents
-    }
-
-    conversation.respond(response.answer, **message_attributes)
-  end
-
-  def to_llm
-    RubyLLM::Message.new(
-      role: role.to_sym,
-      content: content.to_plain_text,
-      tool_calls: nil,
-      tool_call_id: nil,
-      input_tokens: input_tokens,
-      output_tokens: output_tokens,
-      model_id: model_id
-    )
+  def to_partial_path
+    "conversations/messages"
   end
 end

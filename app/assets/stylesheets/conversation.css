@@ -5,16 +5,19 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin-bottom: 0;
 
     .conversation__messages {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .conversation__messages__trascript {
       display: flex;
       flex-direction: column;
       gap: 1.6rem;
       height: 100%;
       margin: 1rem;
-      overflow-x: hidden;
-      overflow-y: auto;
     }
 
     .conversation__composer {
@@ -46,44 +49,59 @@
     }
 
     .conversation__message {
+      display: flex;
+      flex-direction: row;
+
+      .action-text-content {
+        border-radius: 0.5rem;
+        padding: 1rem;
+        width: fit-content;
+      }
     }
 
     .conversation__message--user {
+      justify-content: flex-end;
+
       .action-text-content {
-        border-left: 1px solid var(--color-border);
-        border-radius: 0.5rem;
-        border-top: 1px solid var(--color-border);
+        border-bottom-right-radius: 0;
+        border: 1px solid var(--color-border);
         margin-left: 15%;
-        padding: 1rem;
         text-align: right;
-      }
-
-      details {
-        margin-top: 0.5rem;
-
-        summary {
-          text-align: right;
-        }
       }
     }
 
     .conversation__message--assistant {
+      justify-content: flex-start;
+
       .action-text-content {
-        padding: 1rem;
-        text-align: left;
         margin-right: 15%;
-        border-right: 1px solid var(--color-border);
-        border-top: 1px solid var(--color-border);
-        border-radius: 0.5rem;
+        text-align: left;
       }
+    }
 
-      details {
-        margin-top: 0.5rem;
+    .conversation__message--failed {
+      --color-border: #ff0000;
+      color: var(--color-border);
+    }
 
-        summary {
-          text-align: left;
-        }
+    .conversation__message--emoji {
+      font-size: var(--text-xx-large);
+
+      .action-text-content {
+        border: 0;
       }
+    }
+
+    .conversation__thinking-indicator {
+      padding: 1rem;
+    }
+
+    .conversation__thinking-indicator--thinking {
+      display: block;
+    }
+
+    .conversation__thinking-indicator--ready {
+      display: none;
     }
   }
 }

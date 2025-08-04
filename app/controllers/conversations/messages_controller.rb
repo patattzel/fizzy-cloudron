@@ -1,11 +1,36 @@
 class Conversations::MessagesController < ApplicationController
+  before_action :set_conversation
+
+  def index
+    @messages = paginated_messages(@conversation.messages)
+  end
+
   def create
-    Current.user.resume_or_start_conversation(message_params[:content])
-    head :no_content
+    if @conversation.ask(question, **message_params)
+      head :ok
+    else
+      head :unprocessable_entity
+    end
   end
 
   private
+    def set_conversation
+      @conversation = Current.user.conversation
+    end
+
+    def paginated_messages(messages)
+      if params[:before]
+        messages.page_before(messages.find(params[:before]))
+      else
+        messages.last_page
+      end
+    end
+
+    def question
+      params.dig(:conversation_message, :content)
+    end
+
     def message_params
-      params.require(:conversation_message).permit(:content)
+      params.require(:conversation_message).permit(:client_message_id)
     end
 end

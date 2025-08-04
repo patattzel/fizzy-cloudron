@@ -1,4 +1,4 @@
-class Conversation::ResponseGenerator::Response
+class Conversation::Message::ResponseGenerator::Response
   MICROCENTS_PER_DOLLAR = 100_000
 
   attr_reader :answer, :input_tokens, :output_tokens, :model_id, :tool_calls, :tool_call_id

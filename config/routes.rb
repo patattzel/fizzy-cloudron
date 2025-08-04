@@ -117,7 +117,7 @@ Rails.application.routes.draw do
 
   resource :conversation, only: %i[ show create ] do
     scope module: :conversations do
-      resource :messages, only: %i[ create ]
+      resources :messages, only: %i[ index create ]
     end
   end
 

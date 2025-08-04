@@ -1,13 +1,13 @@
 class Conversation < ApplicationRecord
-  broadcasts_refreshes
+  include Broadcastable
 
-  belongs_to :user
+  belongs_to :user, class_name: "User"
   has_many :messages, dependent: :destroy
 
   enum :state, %w[ ready thinking ].index_by(&:itself), default: :ready
 
-  def price
-    messages.pluck(:price_microcents).compact.sum.to_d / 100_000
+  def cost
+    messages.where.not(cost_microcents: nil).sum(:cost_microcents).to_d / 100_000
   end
 
   def clear
@@ -15,25 +15,37 @@ class Conversation < ApplicationRecord
     touch
   end
 
-  def ask(question)
+  def ask(question, **attributes)
     raise ArgumentError, "Question cannot be blank" if question.blank?
 
+    message = nil
     with_lock do
-      return false if thinking?
+      return if thinking?
 
       thinking!
-      messages.create!(role: :user, content: question)
+      message = messages.create!(**attributes, role: :user, content: question)
     end
+
+    message.broadcast_create
+    broadcast_state_change
+
+    message
   end
 
   def respond(answer, **attributes)
     raise ArgumentError, "Answer cannot be blank" if answer.blank?
 
+    message = nil
     with_lock do
-      return false unless thinking?
+      return unless thinking?
 
-      messages.create!(**attributes, role: :assistant, content: answer)
+      message = messages.create!(**attributes, role: :assistant, content: answer)
       ready!
     end
+
+    message.broadcast_create
+    broadcast_state_change
+
+    message
   end
 end

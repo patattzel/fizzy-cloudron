@@ -6,7 +6,9 @@ class Command::Ask < Command
   end
 
   def execute
-    Current.user.resume_or_start_conversation(question)
+    conversation = Conversation.create_or_find_by(user: Current.user)
+    conversation.ask(question) if question.present?
+
     Command::Result::ShowModal.new(turbo_frame: "conversation", url: conversation_path)
   end
 end

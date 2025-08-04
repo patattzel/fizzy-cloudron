@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   include Accessor, Attachable, Assignee, Mentionable, Named, Role, Searcher,
-    SignalUser, Staff, Transferable, Conversational
+    SignalUser, Staff, Transferable
   include Timelined # Depends on Accessor
 
   has_one_attached :avatar
@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :commands, dependent: :destroy
   has_many :push_subscriptions, class_name: "Push::Subscription", dependent: :delete_all
   has_many :period_activity_summaries, dependent: :destroy
+
+  has_one :conversation, dependent: :destroy
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 

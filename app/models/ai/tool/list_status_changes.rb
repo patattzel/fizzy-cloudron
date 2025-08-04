@@ -1,6 +1,6 @@
-class Ai::Tool::ListComments < Ai::Tool
+class Ai::Tool::ListStatusChanges < Ai::Tool
   description <<-MD
-    Lists all comments accessible by the current user.
+    Lists all status changes accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.
     Responses are JSON objects that look like this:
     ```
@@ -9,12 +9,10 @@ class Ai::Tool::ListComments < Ai::Tool
         {
           "id": 3,
           "card_id": 5,
-          "body": "This is a comment",
+          "body": "Jane Doe moved this to Done",
           "created_at": "2023-10-01T12:00:00Z",
-          "creator": { "id": 1, "name": "John Doe" },
-          "reactions": [
-            { "content": "👍", "reacter": { "id": 2, "name": "Jane Doe" } }
-          ]
+          "creator": { "id": 2, "name": "Jane Doe" }
+        }
       ],
       "pagination": {
         "next_page": "e3c2gh75e4..."
@@ -32,7 +30,7 @@ class Ai::Tool::ListComments < Ai::Tool
     required: false
   param :query,
     type: :string,
-    desc: "If provided, will perform a semantinc search by embeddings and return only matching comments",
+    desc: "If provided, will perform a semantinc search by embeddings and return only matching status changes",
     required: false
   param :card_id,
     type: :integer,
@@ -48,7 +46,7 @@ class Ai::Tool::ListComments < Ai::Tool
     required: false
 
   def execute(**params)
-    scope = Comment.all.includes(:card, :creator, reactions: [ :reacter ]).where.not(creator: { role: "system" })
+    scope = Comment.all.includes(:card, :creator).where(creator: { role: "system" })
 
     scope = scope.search(params[:query]) if params[:query].present?
     scope = scope.where(card_id: params[:card_id].to_i) if params[:card_id].present?
@@ -75,13 +73,7 @@ class Ai::Tool::ListComments < Ai::Tool
           card_id: comment.card_id,
           body: comment.body.to_plain_text,
           created_at: comment.created_at.iso8601,
-          creator: comment.creator.as_json(only: [ :id, :name ]),
-          reactions: comment.reactions.map do |reaction|
-            {
-              content: reaction.content,
-              reacter: reaction.reacter.as_json(only: [ :id, :name ])
-            }
-          end
+          creator: comment.creator.as_json(only: [ :id, :name ])
         }
       end,
       pagination: {

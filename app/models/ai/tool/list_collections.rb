@@ -1,4 +1,4 @@
-class Ai::Tool::ListCollections < RubyLLM::Tool
+class Ai::Tool::ListCollections < Ai::Tool
   description <<-MD
     Lists all collections accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.
@@ -24,19 +24,20 @@ class Ai::Tool::ListCollections < RubyLLM::Tool
     desc: "Which page to return. Leave balnk to get the first page",
     required: false
 
-  def execute(page: nil)
-    puts "= TOOL CALL: ListCollections"
+  def execute(**params)
+    scope = Collection.all
 
     page = GearedPagination::Recordset.new(
-      Collection.all,
+      scope,
       ordered_by: { name: :asc, id: :desc }
-    ).page(page)
+    ).page(params[:page])
 
     {
       collections: page.records.map do |collection|
         {
           id: collection.id,
-          name: collection.name
+          name: collection.name,
+          url: collection_path(collection)
         }
       end,
       pagination: {

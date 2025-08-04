@@ -1,4 +1,4 @@
-class Ai::Tool::ListUsers < RubyLLM::Tool
+class Ai::Tool::ListUsers < Ai::Tool
   description <<-MD
     Lists all users accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.
@@ -23,18 +23,27 @@ class Ai::Tool::ListUsers < RubyLLM::Tool
     type: :string,
     desc: "Which page to return. Leave balnk to get the first page",
     required: false
+  param :ids,
+    type: :string,
+    desc: "If provided, will return only the users with the given IDs (comma-separated)",
+    required: false
 
-  def execute(page: nil)
+  def execute(**params)
+    scope = User.all
+
+    scope = scope.where(id: params[:ids].split(",").map(&:to_i)) if params[:ids].present?
+
     page = GearedPagination::Recordset.new(
-      User.all,
+      scope,
       ordered_by: { name: :asc, id: :desc }
-    ).page(page)
+    ).page(params[:page])
 
     {
       collections: page.records.map do |user|
         {
           id: user.id,
-          name: user.name
+          name: user.name,
+          url: user_path(user)
         }
       end,
       pagination: {

@@ -1,5 +1,3 @@
-<%= turbo_stream_from Current.user.resume_or_start_conversation %>
-
 <%= tag.div \
       id: "command-terminal",
       class: "terminal full-width flex flex-column justify-end",
@@ -24,7 +22,7 @@
       dialog_target: "dialog",
       dialog_modal_value: "true",
       action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do %>
-    <%= turbo_frame_tag nil, refresh: :morph, data: { terminal_target: "modalTurboFrame" } %>
+    <%= turbo_frame_tag nil, refresh: :morph, data: { terminal_target: "modalTurboFrame" }, target: "_top" %>
   <% end %>
 
   <%= render "commands/form" %>
