@@ -44,8 +44,10 @@
     }
   }
 
-  .lightbox__btn {
-    inset: var(--block-space-half) var(--inline-space) auto auto;
+  .lightbox__actions {
+    display: flex;
+    gap: 1ch;
+    inset: var(--lightbox-padding) var(--lightbox-padding) auto auto;
     position: absolute;
   }
 
