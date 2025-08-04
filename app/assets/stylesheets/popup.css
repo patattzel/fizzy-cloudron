@@ -153,11 +153,14 @@
   }
 
   .popup__group-title {
+    background: var(--color-canvas);
     font-size: var(--text-small);
     font-weight: bold;
-    margin-block: var(--block-space-half);
-    padding-inline: var(--inline-space-half);
+    padding: var(--block-space-half) var(--inline-space-half);
+    position: sticky;
     text-transform: uppercase;
+    top: calc(-1 * var(--block-space));
+    z-index: 1;
   }
 
   .popup--animated {
