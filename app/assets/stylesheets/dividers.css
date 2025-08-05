@@ -1,19 +1,17 @@
 @layer components {
   .divider {
-    --divider-padding: var(--inline-space);
     --divider-color: var(--color-ink-light);
 
     align-items: center;
     display: flex;
-    margin-inline: calc(var(--divider-padding) * -1);
-  
+    gap: var(--inline-space);
+
     &:before,
     &:after {
       background: var(--divider-color);
       block-size: var(--divider-size, 1px);
       content: "";
       flex: 1;
-      margin: 0 var(--divider-padding);
     }
   }
 }

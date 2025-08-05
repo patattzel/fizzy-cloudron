@@ -3,9 +3,7 @@
   <%#= render "accounts/invite" # Scheduled work in https://3.basecamp.com/2914079/buckets/37331921/todos/8746162337 %>
 
   <div class="flex flex-column" data-controller="filter">
-    <div class="pad">
-      <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-filter-target="input" data-action="input->filter#filter">
-    </div>
+    <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-filter-target="input" data-action="input->filter#filter">
 
     <div data-filter-target="list" class="users-list">
       <%= render partial: "accounts/user", collection: users %>
