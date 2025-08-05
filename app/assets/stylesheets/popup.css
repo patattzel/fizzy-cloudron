@@ -55,6 +55,10 @@
     inline-size: 100%;
     max-inline-size: 100%;
 
+    &:has(*:first-child:not(.popup__item)) {
+      padding-inline-start: var(--inline-space-half);
+    }
+
     .btn {
       --btn-background: transparent;
     }
@@ -80,10 +84,17 @@
     display: flex;
     flex-direction: column;
     inline-size: 100%;
+    list-style: none;
     margin: 0;
     max-inline-size: 100%;
     padding: 0;
     row-gap: 2px;
+
+    /* Hide lists when all the items within are hidden */
+    &:has(.popup__group-title:only-child),
+    &:has(.popup__group[hidden]):not(:has(.popup__group:not([hidden]))) {
+      display: none;
+    }
   }
 
   .popup__item {
@@ -127,10 +138,6 @@
     }
   }
 
-  .popup__radio {
-    margin-inline-start: var(--inline-space);
-  }
-
   .popup__new {
     --btn-icon-size: 1em;
 
@@ -146,10 +153,14 @@
   }
 
   .popup__group-title {
+    background: var(--color-canvas);
     font-size: var(--text-small);
-    margin-block: var(--block-space-half);
-    padding-inline: var(--inline-space);
+    font-weight: bold;
+    padding: var(--block-space-half) var(--inline-space-half);
+    position: sticky;
     text-transform: uppercase;
+    top: calc(-1 * var(--block-space));
+    z-index: 1;
   }
 
   .popup--animated {
