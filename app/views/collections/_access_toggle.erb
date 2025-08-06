@@ -1,11 +1,9 @@
-<li class="flex align-center gap-half margin-none unpad txt-normal" data-filter-target="item">
-  <%= avatar_tag user %>
+<li class="flex align-center gap-half" data-filter-target="item">
 
-  <div class="min-width">
-    <div class="overflow-ellipsis">
-      <strong><%= user.name %></strong>
-    </div>
-  </div>
+  <%= link_to user, class: "txt-ink flex gap-half align-center min-width" do %>
+    <%= avatar_preview_tag user, hidden_for_screen_reader: true %>
+    <strong class="overflow-ellipsis"><%= user.name %></strong>
+  <% end %>
 
   <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium); --border-style: dashed" aria-hidden="true">
 

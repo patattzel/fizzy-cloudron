@@ -1,10 +1,12 @@
-<div class="panel shadow center flex flex-column gap" data-controller="filter">
+<div class="settings__panel panel shadow center" data-controller="filter">
   <h2 class="divider txt-large">People on the account</h2>
   <%#= render "accounts/invite" # Scheduled work in https://3.basecamp.com/2914079/buckets/37331921/todos/8746162337 %>
 
-  <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-filter-target="input" data-action="input->filter#filter">
+  <div class="settings__user-filter">
+    <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-filter-target="input" data-action="input->filter#filter">
 
-  <ul class="users-list list-style-none" data-filter-target="list">
-    <%= render partial: "accounts/user", collection: users %>
-  </ul>
+    <ul class="settings__user-list" data-filter-target="list">
+      <%= render partial: "accounts/user", collection: users %>
+    </ul>
+  </div>
 </div>

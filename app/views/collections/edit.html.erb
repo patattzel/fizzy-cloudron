@@ -12,8 +12,8 @@
   </nav>
 <% end %>
 
-<section class="panels--two-up margin-block">
-  <div class="panel shadow center flex flex-column gap">
+<section class="settings">
+  <div class="settings__panel panel shadow center">
     <header>
       <h2 class="divider txt-large">Name and Access</h2>
       <div>Choose who can access this Collection</div>
@@ -32,7 +32,7 @@
     <% end %>
   </div>
 
-  <div class="panel shadow center flex flex-column gap">
+  <div class="settings__panel panel shadow center">
     <%= render "collections/edit/workflows", collection: @collection %>
     <%= render "collections/edit/auto_close", collection: @collection %>
     <%= render "collections/edit/publication", collection: @collection %>
