@@ -1,7 +1,72 @@
 require "test_helper"
 
 class ConversationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  include VcrTestHelper
+
+  test "asking questions" do
+    conversation = users(:kevin).conversation
+
+    assert_raises(ArgumentError) do
+      conversation.ask("")
+    end
+
+    assert conversation.ready?, "The conversation should be ready before a question is asked"
+
+    message = nil
+    assert_turbo_stream_broadcasts [ conversation, :message_list ], +1 do
+      assert_turbo_stream_broadcasts [ conversation, :thinking_indicator ], +1 do
+        message = conversation.ask("What is the meaning of life, the Universe, and everything else?", client_message_id: "deep-thought")
+      end
+    end
+
+    assert_not_nil message, "A message should be created when a question is asked"
+    assert message.persisted?, "The message should be saved to the database"
+    assert_equal "What is the meaning of life, the Universe, and everything else?", message.content.to_plain_text.chomp, "The message content should match the question asked"
+    assert_equal :user, message.role, "The message role should be 'user' for a question"
+    assert_equal "deep-thought", message.client_message_id, "Additional attributes should be set correctly"
+    assert conversation.thinking?, "The conversation should switch to thinking after a question is asked"
+  end
+
+  test "responding to questions" do
+    conversation = users(:kevin).conversation
+    conversation.ask("What is the meaning of life, the Universe, and everything else?")
+
+    assert_raises(ArgumentError) do
+      conversation.respond("")
+    end
+
+    assert conversation.thinking?, "The conversation should be thinking before a response is made"
+
+    message = nil
+    assert_turbo_stream_broadcasts [ conversation, :message_list ], +1 do
+      assert_turbo_stream_broadcasts [ conversation, :thinking_indicator ], +1 do
+        message = conversation.respond("42", client_message_id: "deep-thought-response")
+      end
+    end
+
+    assert_not_nil message, "A message should be created when a response is made"
+    assert message.persisted?, "The message should be saved to the database"
+    assert_equal "42", message.content.to_plain_text.chomp, "The message content should match the response given"
+    assert_equal :assistant, message.role, "The message role should be 'assistant' for a response"
+    assert_equal "deep-thought-response", message.client_message_id, "Asdditional attributes should be set correctly"
+    assert conversation.ready?, "The conversation should switch back to ready after a response is made"
+  end
+
+  test "clearing conversation messages" do
+    conversation = conversations(:kevin)
+
+    assert conversation.messages.any?, "The conversation should have messages before clearing"
+
+    original_updated_at = conversation.updated_at
+    conversation.clear
+    assert conversation.updated_at > original_updated_at, "The conversation's updated_at timestamp should change after clearing messages"
+
+    assert conversation.messages.empty?, "All messages should be deleted when clearing the conversation"
+  end
+
+  test "cost calculation" do
+    conversation = conversations(:kevin)
+
+    assert_equal "0.001053".to_d, conversation.cost
+  end
 end
