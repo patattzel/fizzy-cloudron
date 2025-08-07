@@ -20,7 +20,7 @@ module Comment::Promptable
         * Card title: #{card.title}
         * Created by: #{creator.name}}
         * Created at: #{created_at}}
-        * Path: #{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(self), script_name: Account.script_name)}
+        * Path: #{collection_card_path(card.collection, card, anchor: ActionView::RecordIdentifier.dom_id(self), script_name: Account.sole.slug)}
         END OF COMMENT #{id}
       PROMPT
   end
