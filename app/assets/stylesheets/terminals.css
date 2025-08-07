@@ -192,6 +192,13 @@
     }
   }
 
+  .terminal__modal {
+    --panel-padding: var(--block-space-half);
+
+    max-block-size: calc(100dvh - var(--block-space-double) - 2 * var(--footer-height));
+    overflow: unset;
+  }
+
   .terminal__item {
     &[aria-selected] {
       --btn-color: var(--color-terminal-bg);
@@ -238,17 +245,6 @@
         margin-block-end: 0;
       }
     }
-  }
-
-  .terminal__modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto 15rem;
-    margin-bottom: 3.55rem;
-    height: calc(100vh - 15rem);
   }
 
   /* Lexical prompt insertions
