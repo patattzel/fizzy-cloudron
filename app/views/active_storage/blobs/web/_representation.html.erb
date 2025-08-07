@@ -4,12 +4,12 @@
 
 <% if blob.video? %>
   <%= tag.video \
-            src: rails_blob_path(blob),
-            controls: true,
-            preload: :none,
-            style: "aspect-ratio: #{width} / #{height};",
-            width: width,
-            height: height %>
+        src: rails_blob_path(blob),
+        controls: true,
+        preload: :none,
+        style: "aspect-ratio: #{width} / #{height};",
+        width: width,
+        height: height %>
 <% elsif blob.audio? %>
   <audio controls="true" width="100%" preload="metadata">
     <source src="<%= rails_blob_url(blob) %>" type="<%= blob.content_type %>">
