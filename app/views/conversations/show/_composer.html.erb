@@ -1,9 +1,10 @@
-<%= form_with model: Conversation::Message.new, local: true, id: dom_id(conversation, :composer), 
-    class: "conversation__composer",
-    data: {
-      controller: "conversation--composer",
-      conversation__composer_conversation__messages_outlet: "##{dom_id(conversation, :messages)}",
-      action: "turbo:submit-end->conversation--composer#submitEnd" } do |form| %>
+<%= form_with model: Conversation::Message.new, local: true, 
+      id: dom_id(conversation, :composer), 
+      class: "conversation__composer",
+      data: {
+        action: "turbo:submit-end->conversation--composer#submitEnd",
+        controller: "conversation--composer",
+        conversation__composer_conversation__messages_outlet: "##{dom_id(conversation, :messages)}" } do |form| %>
 
   <%= form.hidden_field :client_message_id, data: { conversation__composer_target: "clientMessageIdInput" } %>
 
@@ -13,7 +14,7 @@
   </div>
 
   <div class="conversation__submit">
-    <%= form.submit "Send", class: "btn", data: {
-          conversation__composer_target: "submitButton", action: "click->conversation--composer#submit"} %>
+    <%= form.submit "Send", class: "btn", 
+          data: { conversation__composer_target: "submitButton", action: "click->conversation--composer#submit"} %>
   </div>
 <% end %>
