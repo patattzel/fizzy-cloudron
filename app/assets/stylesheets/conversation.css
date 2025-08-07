@@ -22,7 +22,7 @@
     }
   }
 
-  .conversation__composer__input {
+  .conversation__composer-input {
     flex-grow: 1;
 
     textarea {
@@ -39,14 +39,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-  }
-
-  .conversation__messages__trascript {
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
-    height: 100%;
-    margin: 1rem;
   }
 
   .conversation__message {
@@ -103,5 +95,13 @@
 
   .conversation__thinking-indicator--thinking {
     display: block;
+  }
+
+  .conversation__transcript {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    height: 100%;
+    margin: 1rem;
   }
 }
