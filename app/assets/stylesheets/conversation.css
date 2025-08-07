@@ -35,6 +35,11 @@
     .input--textarea {
       --input-padding: 0.5em !important;
     }
+
+    .conversation:has(.conversation__thinking-indicator--thinking) & {
+      animation: pulse 1.5s infinite;
+      pointer-events: none;
+    }
   }
 
   .conversation__message {
@@ -83,18 +88,6 @@
       padding: var(--block-space-half) var(--inline-space-double);
       text-align: end;
     }
-  }
-
-  .conversation__thinking-indicator {
-    padding: var(--block-space);
-  }
-
-  .conversation__thinking-indicator--ready {
-    display: none;
-  }
-
-  .conversation__thinking-indicator--thinking {
-    display: block;
   }
 
   .conversation__transcript {

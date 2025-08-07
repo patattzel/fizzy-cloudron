@@ -1,6 +1,2 @@
-<%= tag.div(
-  id: dom_id(conversation, :thinking_indicator),
-  class: "conversation__thinking-indicator conversation__thinking-indicator--#{conversation.state}"
-) do %>
-  <span class="spinner"></span> Thinking...
-<% end %>
+<%= tag.div id: dom_id(conversation, :thinking_indicator),
+      class: "conversation__thinking-indicator conversation__thinking-indicator--#{conversation.state}" %>
