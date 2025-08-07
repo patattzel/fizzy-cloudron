@@ -134,6 +134,7 @@
   .margin-block-half { margin-block: var(--block-space-half); }
   .margin-block-start { margin-block-start: var(--block-space); }
   .margin-block-start-half { margin-block-start: var(--block-space-half); }
+  .margin-block-start-auto { margin-block-start: auto; }
   .margin-block-end { margin-block-end: var(--block-space); }
   .margin-block-end-half { margin-block-end: var(--block-space-half); }
   .margin-block-double { margin-block: var(--block-space-double); }
@@ -191,17 +192,7 @@
   /* Lists */
   :where(.list-style-none) {
     margin: 0 auto;
-    min-inline-size: 0;
     padding: 0;
-
-    li {
-      display: block;
-      margin: 0;
-      max-inline-size: 100%;
-      min-inline-size: 0;
-      padding: 0;
-      text-align: start;
-    }
   }
 
   /* Accessibility */

@@ -1,4 +1,4 @@
-<%= form_with model: collection, class: "txt-align-center", method: :delete do |form| %>
+<%= form_with model: collection, class: "txt-align-center margin-block-start-auto", method: :delete do |form| %>
   <%= form.button class: "btn txt-negative borderless txt-small", data: { turbo_confirm: "Are you sure you want to permanently delete this Collection?" } do %>
     <%= icon_tag "trash" %>
     <span>Delete this Collection</span>
