@@ -3,10 +3,8 @@ class Account < ApplicationRecord
 
   has_many_attached :uploads
 
-  class << self
-    def script_name
-      @script_name ||= "/#{sole.queenbee_id}"
-    end
+  def slug
+    "/#{queenbee_id}"
   end
 
   def setup_basic_template

@@ -29,7 +29,7 @@ module Card::Promptable
       * Collection id: #{collection_id}
       * Collection name: #{collection.name}
       * Number of comments: #{comments.count}
-      * Path: #{collection_card_path(collection, self, script_name: Account.script_name)}
+      * Path: #{collection_card_path(collection, self, script_name: Account.sole.slug)}
 
       #{comments.last(MAX_COMMENTS).collect(&:to_prompt).join("\n")}
       END OF CARD #{id}
