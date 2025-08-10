@@ -1,5 +1,8 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
+
+Rails.application.config.active_record_tenanted.default_tenant = ActiveRecord::FixtureSet.identify :'37s_fizzy'
+
 require "rails/test_help"
 require "webmock/minitest"
 require "vcr"
@@ -39,6 +42,18 @@ module ActiveSupport
         Rails.application.config.x.local_authentication = old_local_auth
       end
     end
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  setup do
+    integration_session.default_url_options[:script_name] = "/#{ApplicationRecord.current_tenant}"
+  end
+end
+
+class ActionDispatch::SystemTestCase
+  setup do
+    self.default_url_options[:script_name] = "/#{ApplicationRecord.current_tenant}"
   end
 end
 
