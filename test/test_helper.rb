@@ -42,6 +42,18 @@ module ActiveSupport
   end
 end
 
+class ActionDispatch::IntegrationTest
+  setup do
+    integration_session.default_url_options[:script_name] = "/#{ApplicationRecord.current_tenant}"
+  end
+end
+
+class ActionDispatch::SystemTestCase
+  setup do
+    self.default_url_options[:script_name] = "/#{ApplicationRecord.current_tenant}"
+  end
+end
+
 RubyLLM.configure do |config|
   config.openai_api_key ||= "DUMMY-TEST-KEY" # Run tests with VCR without having to configure OpenAI API key locally.
 end
