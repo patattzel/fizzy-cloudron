@@ -9,13 +9,6 @@
                 0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
                 0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
     gap: 2px;
-
-    /* When filtering, hide the hotkeys section */
-    &:has(.popup__list .popup__group[hidden]) {
-      .fizzy-menu__hotkeys {
-        display: none;
-      }
-    }
   }
 
   .input:is(.fizzy-menu) {
@@ -50,6 +43,11 @@
     justify-content: center;
     margin: var(--block-space) auto calc(var(--block-space-half) / 2);
     max-inline-size: 100%;
+
+    /* When all its children are hidden, hide this as well so it doesn't take up space */
+    &:has(.popup__group[hidden]):not(:has(.popup__group:not([hidden]))) {
+      display: none;
+    }
 
     .btn {
       --btn-border-radius: 0.4em;
