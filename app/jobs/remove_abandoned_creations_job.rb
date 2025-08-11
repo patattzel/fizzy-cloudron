@@ -5,5 +5,3 @@ class RemoveAbandonedCreationsJob < ApplicationJob
     end
   end
 end
-
-
