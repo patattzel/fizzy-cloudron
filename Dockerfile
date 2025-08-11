@@ -26,7 +26,10 @@ RUN apt-get update -qq && \
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN --mount=type=secret,id=GITHUB_TOKEN --mount=type=cache,id=fizzy-permabundle-${RUBY_VERSION},sharing=locked,target=/permabundle \
     BUNDLE_PATH=/permabundle BUNDLE_GITHUB__COM="$(cat /run/secrets/GITHUB_TOKEN):x-oauth-basic" bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    cp -a /permabundle/. "$BUNDLE_PATH"/ && \
+    bundle clean --force && \
+    rm -rf "$BUNDLE_PATH"/ruby/*/bundler/gems/*/.git && \
+    find "$BUNDLE_PATH" -type f \( -name '*.gem' -o -iname '*.a' -o -iname '*.o' -o -iname '*.h' -o -iname '*.c' -o -iname '*.hpp' -o -iname '*.cpp' \) -delete && \
     bundle exec bootsnap precompile --gemfile
 
 # Copy application code
