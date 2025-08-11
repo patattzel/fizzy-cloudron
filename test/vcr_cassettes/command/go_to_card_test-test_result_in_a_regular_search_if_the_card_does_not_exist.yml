@@ -1437,7 +1437,7 @@ http_interactions:
         ZXJhdHVyZSI6MH0=
     headers:
       User-Agent:
-      - Faraday v2.13.2
+      - Faraday v2.13.4
       Authorization:
       - Bearer <OPEN_API_KEY>
       Content-Type:
@@ -1452,7 +1452,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 11 Aug 2025 11:29:32 GMT
+      - Mon, 11 Aug 2025 22:59:02 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1464,13 +1464,13 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '673'
+      - '240'
       Openai-Project:
       - proj_M0FFIqFFeNEpzhhgv64oFzt1
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '714'
+      - '260'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -1484,14 +1484,14 @@ http_interactions:
       X-Ratelimit-Reset-Tokens:
       - 39ms
       X-Request-Id:
-      - req_cff69cfdfc734880adc38a0f86fd0e6f
+      - req_0a0a40a1ecd44d359c42760805860183
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=aYHiugUvVuWMIrrQEVc_I0r5ZgjJcloDz_ex0KNAHnE-1754911772-1.0.1.1-njnyfR8MtYSb5mD09p76Nh3Cs_Qw6.7ToipX_NQ4tL.cY6.zs96V8dfSymRktQ9U3lm9p4l3es1oFQxf9QWkyU5noArBkDQk.JCRb9Nb_x0;
-        path=/; expires=Mon, 11-Aug-25 11:59:32 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=HaY_.9S6RbkXSrudRmyZLR9ircVySALtOsDbhThmfrk-1754953142-1.0.1.1-sqQG0b8LqwWg.RgNAzTcLvNY87P_t8TydwilG1t358ETtY6geTsopDzfteuYNzxXz06ZZjMvts54X1SWvOV_Vdao6f0bCpaWmochXAkhy.s;
+        path=/; expires=Mon, 11-Aug-25 23:29:02 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=bgAzAh1vm6dp578kJ7DRcDaR6QK29RQOQO8CGNNNwKM-1754911772502-0.0.1.1-604800000;
+      - _cfuvid=qLlfMS27tjYMX09_49dRKVFH1YWRkaZS0A5YDE.1SGE-1754953142076-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -1500,15 +1500,15 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 96d7654c0f3a04ae-MAD
+      - 96db574fb84bf06e-DFW
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1DM0wwVnIwTGY5bHVNeU5KNGQwak1ZdUxF
-        RGR1YyIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc1NDkxMTc3MSwKICAibW9kZWwiOiAiZ3B0LTQuMS1taW5pLTIw
+        ewogICJpZCI6ICJjaGF0Y21wbC1DM1ZsbGFsRzlKR01lQWNDMEtSODc4Q3k4
+        TVoxRSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc1NDk1MzE0MSwKICAibW9kZWwiOiAiZ3B0LTQuMS1taW5pLTIw
         MjUtMDQtMTQiLAogICJjaG9pY2VzIjogWwogICAgewogICAgICAiaW5kZXgi
         OiAwLAogICAgICAibWVzc2FnZSI6IHsKICAgICAgICAicm9sZSI6ICJhc3Np
         c3RhbnQiLAogICAgICAgICJjb250ZW50IjogInsgXCJjb21tYW5kc1wiOiBb

@@ -1023,7 +1023,7 @@ http_interactions:
         ZmFsc2UsInRlbXBlcmF0dXJlIjowfQ==
     headers:
       User-Agent:
-      - Faraday v2.13.2
+      - Faraday v2.13.4
       Authorization:
       - Bearer <OPEN_API_KEY>
       Content-Type:
@@ -1038,7 +1038,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 11 Aug 2025 11:29:34 GMT
+      - Mon, 11 Aug 2025 22:59:03 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1050,13 +1050,13 @@ http_interactions:
       Openai-Organization:
       - 37signals-u7qhwk
       Openai-Processing-Ms:
-      - '744'
+      - '514'
       Openai-Project:
       - proj_M0FFIqFFeNEpzhhgv64oFzt1
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '788'
+      - '541'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -1070,14 +1070,14 @@ http_interactions:
       X-Ratelimit-Reset-Tokens:
       - 39ms
       X-Request-Id:
-      - req_f14c5025ea7b429aa429de5a59b0a821
+      - req_3307a8a5042a4644a4ea56e7e1ba6963
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=CgRolzBp7M6rMilkhpFAlwBrnYwwSHhF0666VFSiN0k-1754911774-1.0.1.1-h9eS2.XtUHgcyf9nGBbosKkXppFHPvmFrtXSdP1aq7QYmDGwGAgGE20yfYlqcsXKPdlfC81GuJqglK9sxDmiLuvXVYLaItqxS8K.p1zA1ac;
-        path=/; expires=Mon, 11-Aug-25 11:59:34 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=7yInjx55N5GlSdfC6NgX7_PtSfJvdexnj2FjR2pE.b0-1754953143-1.0.1.1-wHSrzb7zAa9HCSH2AP3bdyOLwcfdSPU2nV15795JSwVmX5wUwDZji0LmJHKxHVkr89inyqUmvK5ztLzRLiklX9n3kg50OUhUVe6OrymtTgw;
+        path=/; expires=Mon, 11-Aug-25 23:29:03 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=0h_smxLACFFyfCwx6kIYcuK.ldNM8JQw6H.zT.Ynztc-1754911774428-0.0.1.1-604800000;
+      - _cfuvid=aqYn_BKwvCpISv_4gxDj6yKxCaDeNONZ_iv.LPFO1Do-1754953143620-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -1086,32 +1086,32 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 96d765579f700146-MAD
+      - 96db5757bb84ceb7-DFW
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       base64_string: |
-        ewogICJpZCI6ICJjaGF0Y21wbC1DM0wwWEdWMlM1SFc1bTVzSlhibmxmY0lj
-        Z0p4UyIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
-        dGVkIjogMTc1NDkxMTc3MywKICAibW9kZWwiOiAiZ3B0LTQuMS1taW5pLTIw
+        ewogICJpZCI6ICJjaGF0Y21wbC1DM1ZsbkU2YUk0UGV5d2JNWFNtd0tTSUJr
+        ajlTYyIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVh
+        dGVkIjogMTc1NDk1MzE0MywKICAibW9kZWwiOiAiZ3B0LTQuMS1taW5pLTIw
         MjUtMDQtMTQiLAogICJjaG9pY2VzIjogWwogICAgewogICAgICAiaW5kZXgi
         OiAwLAogICAgICAibWVzc2FnZSI6IHsKICAgICAgICAicm9sZSI6ICJhc3Np
         c3RhbnQiLAogICAgICAgICJjb250ZW50IjogIntcbiAgXCJjb250ZXh0XCI6
         IHtcbiAgICBcImFzc2lnbmVlX2lkc1wiOiBbXCJqelwiXVxuICB9LFxuICBc
-        ImNvbW1hbmRzXCI6IFtcbiAgICBcIi9jbG9zZVwiXG4gIF1cbn0iLAogICAg
-        ICAgICJyZWZ1c2FsIjogbnVsbCwKICAgICAgICAiYW5ub3RhdGlvbnMiOiBb
-        XQogICAgICB9LAogICAgICAibG9ncHJvYnMiOiBudWxsLAogICAgICAiZmlu
-        aXNoX3JlYXNvbiI6ICJzdG9wIgogICAgfQogIF0sCiAgInVzYWdlIjogewog
-        ICAgInByb21wdF90b2tlbnMiOiAyNzczLAogICAgImNvbXBsZXRpb25fdG9r
-        ZW5zIjogMzAsCiAgICAidG90YWxfdG9rZW5zIjogMjgwMywKICAgICJwcm9t
-        cHRfdG9rZW5zX2RldGFpbHMiOiB7CiAgICAgICJjYWNoZWRfdG9rZW5zIjog
-        MjY4OCwKICAgICAgImF1ZGlvX3Rva2VucyI6IDAKICAgIH0sCiAgICAiY29t
-        cGxldGlvbl90b2tlbnNfZGV0YWlscyI6IHsKICAgICAgInJlYXNvbmluZ190
-        b2tlbnMiOiAwLAogICAgICAiYXVkaW9fdG9rZW5zIjogMCwKICAgICAgImFj
-        Y2VwdGVkX3ByZWRpY3Rpb25fdG9rZW5zIjogMCwKICAgICAgInJlamVjdGVk
-        X3ByZWRpY3Rpb25fdG9rZW5zIjogMAogICAgfQogIH0sCiAgInNlcnZpY2Vf
-        dGllciI6ICJkZWZhdWx0IiwKICAic3lzdGVtX2ZpbmdlcnByaW50IjogImZw
-        XzZmMmVhYmI5YTUiCn0K
+        ImNvbW1hbmRzXCI6IFtcIi9jbG9zZVwiXVxufSIsCiAgICAgICAgInJlZnVz
+        YWwiOiBudWxsLAogICAgICAgICJhbm5vdGF0aW9ucyI6IFtdCiAgICAgIH0s
+        CiAgICAgICJsb2dwcm9icyI6IG51bGwsCiAgICAgICJmaW5pc2hfcmVhc29u
+        IjogInN0b3AiCiAgICB9CiAgXSwKICAidXNhZ2UiOiB7CiAgICAicHJvbXB0
+        X3Rva2VucyI6IDI3NzMsCiAgICAiY29tcGxldGlvbl90b2tlbnMiOiAyNywK
+        ICAgICJ0b3RhbF90b2tlbnMiOiAyODAwLAogICAgInByb21wdF90b2tlbnNf
+        ZGV0YWlscyI6IHsKICAgICAgImNhY2hlZF90b2tlbnMiOiAyMzA0LAogICAg
+        ICAiYXVkaW9fdG9rZW5zIjogMAogICAgfSwKICAgICJjb21wbGV0aW9uX3Rv
+        a2Vuc19kZXRhaWxzIjogewogICAgICAicmVhc29uaW5nX3Rva2VucyI6IDAs
+        CiAgICAgICJhdWRpb190b2tlbnMiOiAwLAogICAgICAiYWNjZXB0ZWRfcHJl
+        ZGljdGlvbl90b2tlbnMiOiAwLAogICAgICAicmVqZWN0ZWRfcHJlZGljdGlv
+        bl90b2tlbnMiOiAwCiAgICB9CiAgfSwKICAic2VydmljZV90aWVyIjogImRl
+        ZmF1bHQiLAogICJzeXN0ZW1fZmluZ2VycHJpbnQiOiAiZnBfNmYyZWFiYjlh
+        NSIKfQo=
   recorded_at: Tue, 12 Aug 2025 09:00:00 GMT
 recorded_with: VCR 6.3.1
