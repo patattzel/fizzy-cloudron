@@ -1,4 +1,6 @@
 class Conversation < ApplicationRecord
+  class InvalidStateError < StandardError; end
+
   include Broadcastable
 
   belongs_to :user, class_name: "User"
@@ -16,36 +18,31 @@ class Conversation < ApplicationRecord
   end
 
   def ask(question, **attributes)
-    raise ArgumentError, "Question cannot be blank" if question.blank?
-
-    message = nil
-    with_lock do
-      return if thinking?
-
+    atomically_create_message(**attributes, role: :user, content: question) do
+      raise(InvalidStateError, "Can't ask questions while thinking") if thinking?
       thinking!
-      message = messages.create!(**attributes, role: :user, content: question)
     end
-
-    message.broadcast_create
-    broadcast_state_change
-
-    message
   end
 
   def respond(answer, **attributes)
-    raise ArgumentError, "Answer cannot be blank" if answer.blank?
-
-    message = nil
-    with_lock do
-      return unless thinking?
-
-      message = messages.create!(**attributes, role: :assistant, content: answer)
+    atomically_create_message(**attributes, role: :assistant, content: answer) do
+      raise(InvalidStateError, "Can't respond when not thinking") unless thinking?
       ready!
     end
-
-    message.broadcast_create
-    broadcast_state_change
-
-    message
   end
+
+  private
+    def atomically_create_message(**attributes)
+      message = nil
+
+      with_lock do
+        yield
+        message = messages.create!(**attributes)
+      end
+
+      message.broadcast_create
+      broadcast_state_change
+
+      message
+    end
 end

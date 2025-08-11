@@ -6,9 +6,16 @@ class ConversationTest < ActiveSupport::TestCase
   test "asking questions" do
     conversation = users(:kevin).conversation
 
-    assert_raises(ArgumentError) do
+    # You can't respond to a conversation while it's in the thinking state
+    assert_raises(Conversation::InvalidStateError) do
+      conversation.respond("Ok")
+    end
+
+    assert_raises(ActiveRecord::RecordInvalid) do
       conversation.ask("")
     end
+
+    conversation.reload
 
     assert conversation.ready?, "The conversation should be ready before a question is asked"
 
@@ -28,9 +35,16 @@ class ConversationTest < ActiveSupport::TestCase
   test "responding to questions" do
     conversation = users(:david).conversation
 
-    assert_raises(ArgumentError) do
+    # You can't ask a question in a conversation that isn't ready
+    assert_raises(Conversation::InvalidStateError) do
+      conversation.ask("hi!")
+    end
+
+    assert_raises(ActiveRecord::RecordInvalid) do
       conversation.respond("")
     end
+
+    conversation.reload
 
     assert conversation.thinking?, "The conversation should be thinking before a response is made"
 
