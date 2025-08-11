@@ -54,6 +54,20 @@
 
     .card__stages {
       max-inline-size: 32ch;
+
+      @media (max-width: 639px) {
+        border: 1px solid var(--card-color);
+        border-radius: 0.25em;
+        overflow: hidden;
+        max-inline-size: 100%;
+        padding: 0;
+      }
+    }
+
+    .workflow-stage {
+      @media (max-width: 639px) {
+        --btn-border-radius: 0;
+      }
     }
 
     .collection-picker__button {

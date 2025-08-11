@@ -51,9 +51,13 @@
   .card__body {
     display: flex;
     flex-grow: 1;
-    gap: var(--card-padding-inline);
+    gap: 1ch;
     inline-size: 100%;
     padding-block: var(--card-padding-block);
+
+    @media (min-width: 640px) {
+      gap: var(--card-padding-inline);
+    }
   }
 
   .card__collection {
@@ -101,7 +105,10 @@
 
   .card__content {
     contain: inline-size;
+    display: flex;
     flex: 2 1 auto;
+    flex-direction: column;
+    gap: 1ch;
     max-inline-size: 100%;
   }
 

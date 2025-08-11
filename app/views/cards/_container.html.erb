@@ -15,11 +15,12 @@
       </header>
 
       <div class="card__body justify-space-between">
-        <%= render "cards/container/title", card: card %>
+        <div class="card__content">
+          <%= render "cards/container/title", card: card %>
+          <%= render "cards/display/perma/steps", card: card %>
+        </div>
         <%= render "cards/stagings/stages", card: card if card.doing? %>
       </div>
-
-      <%= render "cards/display/perma/steps", card: card %>
 
       <footer class="card__footer full-width flex align-start gap">
         <%= render "cards/display/perma/meta", card: card %>
