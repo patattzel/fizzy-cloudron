@@ -45,8 +45,6 @@ class CommandsController < ApplicationController
         respond_with_composite_response(result)
       when Command::Result::Redirection
         redirect_to result.url
-      when Command::Result::InsightResponse
-        respond_with_insight_response(result)
       else
         redirect_back_or_to root_path
       end
