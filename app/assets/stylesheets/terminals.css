@@ -118,26 +118,28 @@
     &.lexical-editor--empty {
       overflow: hidden;
       text-align: center;
-      text-overflow: ellipsis; 
+      text-overflow: ellipsis;
       white-space: nowrap;
 
       &:focus-within {
         text-align: start;
 
         .lexical-editor__content::before {
-          inset: 0;
-          transform: translateX(0);
+          inset-inline-start: 0;
+          translate: 0 -50%;
         }
       }
 
       .lexical-editor__content::before {
         color: var(--color-ink);
-        inline-size: 100%;
-        inset: 0 0 0 50%;
+        inset: 50% auto auto 50%;
         opacity: 0.5;
-        transform: translateX(-50%);
-        transform-origin: start start;
-        transition: inset 150ms ease-in;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: 200ms var(--ease-out-expo);
+        transition-property: inset-inline-start, translate;
+        translate: -50% -50%;
+        white-space: nowrap;
 
         @starting-style {
           inset: 0 0 0 50%;
