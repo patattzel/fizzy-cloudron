@@ -63,10 +63,10 @@ class Conversation::Message::ResponseGenerator
 
     def llm
       RubyLLM.chat(model: llm_model).tap do |chat|
-        chat.with_tool(Ai::Tool::ListCards.new(user: message.owner))
-        chat.with_tool(Ai::Tool::ListCollections.new(user: message.owner))
-        chat.with_tool(Ai::Tool::ListComments.new(user: message.owner))
-        chat.with_tool(Ai::Tool::ListUsers.new(user: message.owner))
+        chat.with_tool(Ai::ListCardsTool.new(user: message.owner))
+        chat.with_tool(Ai::ListCollectionsTool.new(user: message.owner))
+        chat.with_tool(Ai::ListCommentsTool.new(user: message.owner))
+        chat.with_tool(Ai::ListUsersTool.new(user: message.owner))
 
         chat.reset_messages!
 

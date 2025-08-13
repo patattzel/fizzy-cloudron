@@ -1,4 +1,4 @@
-class Ai::Tool::ListCards < Ai::Tool
+class Ai::ListCardsTool < Ai::Tool
   description <<-MD
     Lists all cards accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.

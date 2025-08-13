@@ -1,4 +1,4 @@
-class Ai::Tool::ListCollections < Ai::Tool
+class Ai::ListCollectionsTool < Ai::Tool
   description <<-MD
     Lists all collections accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.

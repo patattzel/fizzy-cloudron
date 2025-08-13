@@ -1,4 +1,4 @@
-class Ai::Tool::ListComments::Filter < Ai::Tool::Filter
+class Ai::ListCommentsTool::Filter < Ai::Tool::Filter
    register_filters(
     query: :apply_search,
     ids: :apply_ids_filter,

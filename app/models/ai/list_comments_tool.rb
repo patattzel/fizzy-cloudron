@@ -1,4 +1,4 @@
-class Ai::Tool::ListComments < Ai::Tool
+class Ai::ListCommentsTool < Ai::Tool
   description <<-MD
     Lists all comments accessible by the current user.
     The response is paginated so you may need to iterate through multiple pages to get the full list.

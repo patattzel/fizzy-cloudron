@@ -1,4 +1,4 @@
-class Ai::Tool::ListCards::Filter < Ai::Tool::Filter
+class Ai::ListCardsTool::Filter < Ai::Tool::Filter
    register_filters(
     query: :apply_search,
     ids: :apply_ids_filter,

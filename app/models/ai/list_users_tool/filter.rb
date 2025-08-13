@@ -1,4 +1,4 @@
-class Ai::Tool::ListUsers::Filter < Ai::Tool::Filter
+class Ai::ListUsersTool::Filter < Ai::Tool::Filter
    register_filter :ids, :apply_ids_filter
 
   private
