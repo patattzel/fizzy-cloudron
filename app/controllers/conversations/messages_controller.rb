@@ -6,11 +6,8 @@ class Conversations::MessagesController < ApplicationController
   end
 
   def create
-    if @conversation.ask(question, **message_params)
-      head :ok
-    else
-      head :unprocessable_entity
-    end
+    @conversation.ask(question, **message_params)
+    head :ok
   end
 
   private
