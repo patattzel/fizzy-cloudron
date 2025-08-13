@@ -13,6 +13,10 @@ class Ai::ListCollectionsTool < Ai::Tool
     type: :string,
     desc: "Which page to return. Leave blank to get the first page",
     required: false
+  param :ids,
+    type: :string,
+    desc: "If provided, will return only the collections with the given IDs (comma-separated)",
+    required: false
 
   attr_reader :user
 
@@ -21,7 +25,7 @@ class Ai::ListCollectionsTool < Ai::Tool
   end
 
   def execute(**params)
-    collections = user.collections
+    collections = Filter.new(scope: user.collections, filters: params).filter
 
     # TODO: The serialization here is temporary until we add an API,
     # then we can re-use the jbuilder views and caching from that
