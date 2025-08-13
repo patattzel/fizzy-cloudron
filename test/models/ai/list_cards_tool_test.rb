@@ -36,7 +36,7 @@ class Ai::ListCardsToolTest < ActiveSupport::TestCase
     cards = cards(:shipping, :logo)
     card_ids = cards.pluck(:id)
 
-    response = @tool.execute(ids: cards.pluck(:id).join(", "))
+    response = @tool.execute(ids: card_ids.join(", "))
     page = parse_paginated_response(response)
     record_ids = page[:records].map { |card| card["id"].to_i }
 
