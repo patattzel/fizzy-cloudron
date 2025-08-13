@@ -27,12 +27,14 @@ class Ai::Tool < RubyLLM::Tool
     end
 
     def default_url_options
-      default_options = Rails.application.default_url_options
+      options = Rails.application.default_url_options.merge(
+        script_name: "/#{ApplicationRecord.current_tenant}"
+      )
 
-      unless default_options.key?(:host)
-        default_options[:only_path] = true
+      unless options.key?(:host)
+        options[:only_path] = true
       end
 
-      default_options.merge(script_name: "/#{ApplicationRecord.current_tenant}")
+      options
     end
 end
