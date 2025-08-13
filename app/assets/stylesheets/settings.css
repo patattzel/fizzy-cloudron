@@ -67,10 +67,6 @@
       /* Add padding if it's not already on a link within */
       &:not(:has(a:first-child)) { padding-inline-end: var(--settings-item-padding-inline); }
       &:not(:has(a:last-child)) { padding-inline-end: var(--settings-item-padding-inline); }
-
-      &[aria-selected] {
-        background: var(--color-selected);
-      }
     }
 
     a {
@@ -80,6 +76,13 @@
         &:hover {
           text-decoration: underline;
         }
+      }
+    }
+
+    /* Only add a BG color when you can actually navigate */
+    .settings__user-filter:focus-within & {
+      [aria-selected] {
+        background: var(--color-selected);
       }
     }
   }
