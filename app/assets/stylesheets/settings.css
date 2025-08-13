@@ -86,4 +86,16 @@
       }
     }
   }
+
+  .settings__user-list-tips {
+    border-top: 1px solid var(--color-ink-light);
+    color: var(--color-ink-dark);
+    font-size: var(--text-small);
+    padding-block-start: var(--settings-spacer);
+
+    .settings__user-filter--bg & {
+      margin-inline: calc(-1 * var(--settings-spacer));
+      padding-inline: var(--settings-spacer);
+    }
+  }
 }
