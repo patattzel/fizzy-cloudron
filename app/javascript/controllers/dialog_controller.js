@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-
-const EDGE_THRESHOLD = 90
+import { orient } from "helpers/orientation_helpers"
 
 export default class extends Controller {
   static targets = [ "dialog" ]
@@ -19,8 +18,9 @@ export default class extends Controller {
       this.dialogTarget.showModal()
     } else {
       this.dialogTarget.show()
+      orient(this.dialogTarget)
     }
-    this.#orient(this.dialogTarget)
+
     this.dialogTarget.setAttribute('aria-hidden', 'false')
     this.dispatch("show")
   }
@@ -41,27 +41,5 @@ export default class extends Controller {
 
   closeOnClickOutside({ target }) {
     if (!this.element.contains(target)) this.close()
-  }
-
-  #orient(element) {
-    element.classList.toggle("orient-left", this.#distanceToRight < EDGE_THRESHOLD)
-    element.classList.toggle("orient-right", this.#distanceToLeft < EDGE_THRESHOLD)
-    element.classList.toggle("orient-top", this.#distanceToBottom < EDGE_THRESHOLD)
-  }
-
-  get #distanceToLeft() {
-    return this.#boundingClientRect.left
-  }
-
-  get #distanceToRight() {
-    return window.innerWidth - this.#boundingClientRect.right
-  }
-
-  get #distanceToBottom() {
-    return window.innerHeight - this.#boundingClientRect.bottom
-  }
-
-  get #boundingClientRect() {
-    return this.dialogTarget.getBoundingClientRect()
   }
 }
