@@ -1,5 +1,5 @@
 class Ai::ListCollectionsTool::Filter < Ai::Tool::Filter
-   register_filter :ids, :apply_ids_filter
+  register_filter :ids, :apply_ids_filter
 
   private
     def apply_ids_filter(scope)

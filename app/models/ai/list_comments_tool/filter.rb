@@ -1,5 +1,5 @@
 class Ai::ListCommentsTool::Filter < Ai::Tool::Filter
-   register_filters(
+  register_filters(
     query: :apply_search,
     ids: :apply_ids_filter,
     card_ids: :apply_card_ids_filter,
