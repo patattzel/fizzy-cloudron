@@ -14,6 +14,11 @@ module Conversation::Message::Promptable
   end
 
   def to_prompt
-    content.body.fragment.replace("a") { |link| "[#{link.text}](#{link["href"]})" }.to_plain_text
+    content.body.fragment.replace("a") { convert_link_to_markdown(it) }.to_plain_text
   end
+
+  private
+    def convert_link_to_markdown(node)
+      "[#{node.text}](#{node["href"]})"
+    end
 end
