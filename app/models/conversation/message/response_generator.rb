@@ -1,6 +1,13 @@
 class Conversation::Message::ResponseGenerator
   include Ai::Prompts
 
+  CHAT_TOOLS = [
+    Ai::ListCardsTool,
+    Ai::ListCollectionsTool,
+    Ai::ListCommentsTool,
+    Ai::ListUsersTool
+  ].freeze
+
   PROMPT = <<~PROMPT
     You are **Fizzy**, a helpful assistant for the Fizzy app by 37signals.
     Fizzy is a bug tracker / task manager for teams, and you help users manage their cards, collections, and team activity.
@@ -62,10 +69,10 @@ class Conversation::Message::ResponseGenerator
 
     def llm
       RubyLLM.chat(model: llm_model).tap do |chat|
-        chat.with_tool(Ai::ListCardsTool.new(user: message.owner))
-        chat.with_tool(Ai::ListCollectionsTool.new(user: message.owner))
-        chat.with_tool(Ai::ListCommentsTool.new(user: message.owner))
-        chat.with_tool(Ai::ListUsersTool.new(user: message.owner))
+        CHAT_TOOLS.each do |tool_class|
+          tool = tool_class.new(user: message.owner)
+          chat.with_tool(tool)
+        end
 
         chat.reset_messages!
 
