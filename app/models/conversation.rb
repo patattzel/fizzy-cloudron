@@ -18,24 +18,24 @@ class Conversation < ApplicationRecord
   end
 
   def ask(question, **attributes)
-    atomically_create_message(**attributes, role: :user, content: question) do
+    create_message_with_state_change(**attributes, role: :user, content: question) do
       raise(InvalidStateError, "Can't ask questions while thinking") if thinking?
       thinking!
     end
   end
 
   def respond(answer, **attributes)
-    atomically_create_message(**attributes, role: :assistant, content: answer) do
+    create_message_with_state_change(**attributes, role: :assistant, content: answer) do
       raise(InvalidStateError, "Can't respond when not thinking") unless thinking?
       ready!
     end
   end
 
   private
-    def atomically_create_message(**attributes)
+    def create_message_with_state_change(**attributes)
       message = nil
 
-      with_lock do
+      transaction do
         yield
         message = messages.create!(**attributes)
       end
