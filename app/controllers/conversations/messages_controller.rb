@@ -24,10 +24,10 @@ class Conversations::MessagesController < ApplicationController
     end
 
     def question
-      params.dig(:conversation_message, :content)
+      message_params[:content]
     end
 
     def message_params
-      params.require(:conversation_message).permit(:client_message_id)
+      params.require(:conversation_message).permit(:content, :client_message_id)
     end
 end
