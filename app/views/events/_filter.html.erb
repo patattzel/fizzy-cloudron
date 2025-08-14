@@ -20,7 +20,7 @@
         <strong class="txt-medium overflow-ellipsis margin-none">Fizzy</strong>
 		<% end %>
 
-	<%= tag.dialog class: "fizzy-dialog filter margin-block-start-half popup popup--animated panel flex-column align-start fill-white",
+	<%= tag.dialog class: "fizzy-dialog filter margin-block-start-half popup popup--animated panel flex-column align-start",
 			data: {
 				action: "turbo:before-cache@document->dialog#close keydown->navigable-list#navigate filter:changed->navigable-list#reset toggle->filter#filter",
 				controller: "filter navigable-list",
@@ -52,6 +52,11 @@
 		<ul class="popup__list">
 			<li class="popup__group-title">People</li>
 			<%= render partial: "events/filter/user", collection: User.active.alphabetically, as: :user %>
+		</ul>
+
+		<ul class="popup__list">
+			<li class="popup__group-title">Jump to…</li>
+			<%= render partial: "events/filter/places" %>
 		</ul>
 
 		<% if platform.desktop? %>

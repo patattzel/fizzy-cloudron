@@ -21,7 +21,7 @@
         <strong class="txt-medium overflow-ellipsis margin-none">Fizzy</strong>
       <% end %>
 
-      <%= tag.dialog class:"fizzy-dialog filter popup popup--animated panel flex-column align-start fill-white",
+      <%= tag.dialog class:"fizzy-dialog filter popup popup--animated panel flex-column align-start",
           data: {
             action: "turbo:before-cache@document->dialog#close keydown->navigable-list#navigate filter:changed->navigable-list#reset toggle->filter#filter",
             controller: "filter navigable-list",
