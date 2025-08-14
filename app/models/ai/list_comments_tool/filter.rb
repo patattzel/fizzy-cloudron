@@ -31,9 +31,9 @@ class Ai::ListCommentsTool::Filter < Ai::Tool::Filter
 
     def apply_type_filter(scope)
       if filters[:type].casecmp?("system")
-        scope.where(creator: { role: "system" })
+        scope.by_system
       else
-      scope.where.not(creator: { role: "system" })
+        scope.by_user
       end
     end
 end
