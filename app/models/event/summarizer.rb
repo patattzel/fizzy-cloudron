@@ -9,10 +9,10 @@ class Event::Summarizer
   LLM_MODEL = "chatgpt-4o-latest"
 
   PROMPT = <<~PROMPT
-    Help me make sense of what happened today in a 10 second read. Help me see patterns or things I might not be able to put together by looking at each individual entry. Write a bold headline for each. No more than 5.
+    Help me make sense of what happened today in a 10 second read. Use a conversational tone without business speak. Help me see patterns or things I might not be able to put together by looking at each individual entry. Write a bold headline for each. No more than 3. Link to the cards mentioned when possible.
 
     This is a great example:
-    **Mobile UX dominated the day**. Several issues were raised and addressed around mobile usability — from notification stack clutter and filter visibility, to workflow controls and truncated content.
+    **Mobile UX dominated the day**. Several issues were raised and addressed around mobile usability — from [notification stack clutter](**/full/path/**) and [filter visibility](**/full/path/**), to [workflow controls](**/full/path/**) and [truncated content](**/full/path/**).
   PROMPT
 
   def initialize(events, prompt: PROMPT, llm_model: LLM_MODEL)
