@@ -7,7 +7,6 @@ class Conversations::MessagesController < ApplicationController
 
   def create
     @conversation.ask(question, **message_params)
-    head :ok
   end
 
   private
