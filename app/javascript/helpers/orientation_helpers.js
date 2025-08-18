@@ -1,9 +1,15 @@
 const EDGE_THRESHOLD = 16
 
-export function orient(el) {
-  el.classList.toggle("orient-left", spaceOnRight(el) < EDGE_THRESHOLD)
-  el.classList.toggle("orient-right", spaceOnLeft(el) < EDGE_THRESHOLD)
-  el.classList.toggle("orient-top", spaceOnBottom(el) < EDGE_THRESHOLD)
+export function orient(el, orient = true) {
+  const directions = [
+    ["orient-left", spaceOnRight],
+    ["orient-right", spaceOnLeft],
+    ["orient-top", spaceOnBottom]
+  ];
+
+  directions.forEach(([className, fn]) =>
+    el.classList[orient && fn(el) < EDGE_THRESHOLD ? "add" : "remove"](className)
+  );
 }
 
 function spaceOnLeft(el) {
