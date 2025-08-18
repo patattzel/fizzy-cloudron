@@ -8,8 +8,8 @@
         bar_ask_url_value: conversation_path,
         bar_ask_turbo_frame_name_value: "conversation",
         action: "
-          keydown.meta+k@document->bar#search:prevent keydown.ctrl+k@document->bar#search:prevent
-          keydown.meta+a@document->bar#ask:prevent keydown.ctrl+a@document->bar#ask:prevent"
+          keydown.meta+k@document->bar#search keydown.ctrl+k@document->bar#search
+          keydown.meta+a@document->bar#ask keydown.ctrl+a@document->bar#ask"
       } do %>
   <div>
     Search [<%= hotkey_label(["ctrl", "K"]) %>] or Ask [<%= hotkey_label(["ctrl", "A"]) %>]

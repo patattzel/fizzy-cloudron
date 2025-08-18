@@ -20,15 +20,32 @@ export default class extends Controller {
     this.#clearTurboFrame()
   }
 
-  search() {
-    this.#openInTurboFrame(this.searchTurboFrameNameValue, this.searchUrlValue)
-    this.dialogOutlet.open()
+  search(event) {
+    if (this.#shouldExecuteHotkey) {
+      event.preventDefault()
+      this.#openInTurboFrame(this.searchTurboFrameNameValue, this.searchUrlValue)
+      this.dialogOutlet.open()
+    }
   }
 
-  async ask() {
-    this.#initializeConversation()
-    this.#openInTurboFrame(this.askTurboFrameNameValue, this.askUrlValue)
-    this.dialogOutlet.open()
+  ask(event) {
+    if (this.#shouldExecuteHotkey) {
+      event.preventDefault()
+      this.#initializeConversation()
+      this.#openInTurboFrame(this.askTurboFrameNameValue, this.askUrlValue)
+      this.dialogOutlet.open()
+    }
+  }
+
+  get #shouldExecuteHotkey() {
+    const activeElement = document.activeElement
+
+    if (activeElement) {
+      const usingInput = activeElement.closest("input, textarea, lexical-editor")
+      return !usingInput
+    } else {
+      return true
+    }
   }
 
   #clearTurboFrame() {
