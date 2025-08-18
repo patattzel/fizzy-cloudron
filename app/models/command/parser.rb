@@ -1,31 +1,18 @@
 class Command::Parser
-  attr_reader :context
+  attr_reader :user, :script_name
 
-  delegate :user, :cards, :filter, :script_name, to: :context
-
-  def initialize(context, fall_back_to_ai: true)
-    @context = context
-    @fall_back_to_ai = fall_back_to_ai
+  def initialize(user: user, script_name:)
+    @user = user
+    @script_name = script_name
   end
 
   def parse(string)
     parse_command(string).tap do |command|
-      command.user = user
-      command.line ||= as_plain_text(string)
-      command.context ||= context
       command.default_url_options[:script_name] = script_name
     end
   end
 
   private
-    def fall_back_to_ai?
-      @fall_back_to_ai
-    end
-
-    def as_plain_text(string)
-      ActionText::Content.new(string).to_plain_text
-    end
-
     def parse_command(string)
       parse_rich_text_command as_plain_text_with_attachable_references(string)
     end
@@ -39,80 +26,18 @@ class Command::Parser
       combined_arguments = command_arguments.join(" ")
 
       case command_name
-      when /^#/
-        Command::FilterByTag.new(tag_title: tag_title_from(string), params: filter.as_params)
-      when /^@/
-        Command::GoToUser.new(user_id: context.find_user(string)&.id)
-      when "/assign", "/assignto"
-        Command::Assign.new(assignee_ids: assignees_from(command_arguments).collect(&:id), card_ids: cards.ids)
-      when "/clear"
-        Command::ClearFilters.new(params: filter.as_params)
-      when "/close"
-        Command::Close.new(card_ids: cards.ids, reason: combined_arguments)
-      when "/reopen"
-        Command::Reopen.new(card_ids: cards.ids)
-      when "/consider", "/reconsider"
-        Command::Consider.new(card_ids: cards.ids)
-      when "/do"
-        Command::Do.new(card_ids: cards.ids)
-      when "/add"
-        Command::AddCard.new(card_title: combined_arguments, collection_id: guess_collection&.id)
-      when "/search"
-        Command::Search.new(terms: combined_arguments)
-      when "/user"
-        Command::GoToUser.new(user_id: context.find_user(combined_arguments)&.id)
-      when "/stage"
-        Command::Stage.new(stage_id: context.find_workflow_stage(combined_arguments)&.id, card_ids: cards.ids)
-      when "/visit"
-        Command::VisitUrl.new(url: command_arguments.first)
-      when "/tag"
-        Command::Tag.new(tag_title: tag_title_from(combined_arguments), card_ids: cards.ids)
       when "/ask"
-        Command::Ask.new(question: combined_arguments, card_ids: cards.ids)
-      when /^gid:\/\//
-        parse_gid command_name
+        Command::Ask.new(combined_arguments)
       else
         parse_free_string(string)
       end
     end
 
-    def parse_gid(command_name)
-      case record = GlobalID::Locator.locate(command_name)
-      when Tag
-        Command::FilterByTag.new(tag_title: record.title, params: filter.as_params)
-      when User
-        Command::GoToUser.new(user_id: record.id)
-      end
-    end
-
-    def assignees_from(strings)
-      Array(strings).filter_map do |string|
-        context.find_user(string)
-      end
-    end
-
-    def guess_collection
-      cards.first&.collection || Collection.first
-    end
-
-    def tag_title_from(string)
-      context.find_tag(string)&.title || string.gsub(/^#/, "")
-    end
-
     def parse_free_string(string)
-      if cards = multiple_cards_from(string)
-        Command::FilterCards.new(card_ids: cards.ids, params: filter.as_params)
-      elsif card = single_card_from(string)
-        Command::GoToCard.new(card_id: card.id)
+      if card = single_card_from(string)
+        Command::GoToCard.new(card)
       else
         parse_with_fallback(string)
-      end
-    end
-
-    def multiple_cards_from(string)
-      if string.match?(/^[\d\s,]+$/)
-        tokens = string.split(/[\s,]+/)
-        user.accessible_cards.where(id: tokens).presence if tokens&.many?
       end
     end
 
@@ -121,10 +46,6 @@ class Command::Parser
     end
 
     def parse_with_fallback(string)
-      if fall_back_to_ai?
-        Command::Ai::Parser.new(context).parse(string)
-      else
-        Command::Search.new(terms: string)
-      end
+      Command::Search.new(string)
     end
 end

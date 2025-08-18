@@ -575,59 +575,6 @@ columns:
   collections_filters:
   - *23
   - *19
-  commands:
-  - *5
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: data
-    cast_type: &26 !ruby/object:ActiveRecord::Type::Json
-      precision:
-      scale:
-      limit:
-    sql_type_metadata: &27 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
-      sql_type: json
-      type: :json
-      limit:
-      precision:
-      scale:
-    'null': true
-    default: "{}"
-    default_function:
-    collation:
-    comment:
-  - *6
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: line
-    cast_type: *15
-    sql_type_metadata: *16
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: parent_id
-    cast_type: *3
-    sql_type_metadata: *4
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: type
-    cast_type: *7
-    sql_type_metadata: *8
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - *9
-  - *25
   comments:
   - *22
   - *5
@@ -853,8 +800,16 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: particulars
-    cast_type: *26
-    sql_type_metadata: *27
+    cast_type: &26 !ruby/object:ActiveRecord::Type::Json
+      precision:
+      scale:
+      limit:
+    sql_type_metadata: &27 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+      sql_type: json
+      type: :json
+      limit:
+      precision:
+      scale:
     'null': true
     default: "{}"
     default_function:
@@ -1318,7 +1273,6 @@ primary_keys:
   collection_publications: id
   collections: id
   collections_filters:
-  commands: id
   comments: id
   conversation_messages: id
   conversations: id
@@ -1367,7 +1321,6 @@ data_sources:
   collection_publications: true
   collections: true
   collections_filters: true
-  commands: true
   comments: true
   conversation_messages: true
   conversations: true
@@ -1976,74 +1929,6 @@ indexes:
     unique: false
     columns:
     - filter_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  commands:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: commands
-    name: index_commands_on_parent_id
-    unique: false
-    columns:
-    - parent_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: commands
-    name: index_commands_on_user_id
-    unique: false
-    columns:
-    - user_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: commands
-    name: index_commands_on_user_id_and_created_at
-    unique: false
-    columns:
-    - user_id
-    - created_at
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: commands
-    name: index_commands_on_user_id_and_parent_id_and_created_at
-    unique: false
-    columns:
-    - user_id
-    - parent_id
-    - created_at
     lengths: {}
     orders: {}
     opclasses: {}
@@ -2886,4 +2771,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250812195130
+version: 20250818104141

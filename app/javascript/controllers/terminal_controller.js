@@ -5,14 +5,9 @@ import { marked } from "marked"
 import { nextFrame } from "helpers/timing_helpers";
 
 export default class extends Controller {
-  static targets = [ "input", "form", "output", "confirmation", "recentCommands", "modalTurboFrame" ]
-  static classes = [ "error", "confirmation", "help", "output", "busy" ]
-  static values = { originalInput: String, waitingForConfirmation: Boolean }
+  static targets = [ "input", "form", "modalTurboFrame" ]
+  static classes = [ "error", "busy" ]
   static outlets = [ "dialog" ]
-
-  connect() {
-    if (this.waitingForConfirmationValue) { this.focus() }
-  }
 
   // Actions
 
@@ -24,35 +19,13 @@ export default class extends Controller {
   }
 
   executeCommand(event) {
-    if (this.#showHelpCommandEntered) {
-      this.#showHelpMenu()
-      event.preventDefault()
-      event.stopPropagation()
-    } else {
-      this.#hideHelpMenu()
-    }
-
     if (!this.inputTarget.value.trim()) {
       event.preventDefault()
     }
   }
 
-  hideMenus() {
-    this.#hideHelpMenu()
-    this.#hideOutput()
-  }
-
   submitCommand({ target }) {
-    if (!this.#showHelpCommandEntered) {
-      this.#submitCommand()
-    }
-  }
-
-  handleKeyPress(event) {
-    if (this.waitingForConfirmationValue) {
-      this.#handleConfirmationKey(event.key.toLowerCase())
-      event.preventDefault()
-    }
+    this.#submitCommand()
   }
 
   handleCommandResponse(event) {
@@ -65,16 +38,7 @@ export default class extends Controller {
     }
   }
 
-  restoreCommand(event) {
-    const target = event.target.querySelector("[data-line]") || event.target
-    if (target.dataset.line) {
-      this.#reset(target.dataset.line)
-      this.focus()
-    }
-  }
-
   hideError() {
-    this.#hideOutput()
     this.element.classList.remove(this.errorClass)
   }
 
@@ -84,30 +48,9 @@ export default class extends Controller {
 
   #reset(inputValue = "") {
     this.inputTarget.value = inputValue
-    this.confirmationTarget.value = ""
-    this.waitingForConfirmationValue = false
-    this.originalInputValue = null
 
     this.element.classList.remove(this.errorClass)
-    this.element.classList.remove(this.confirmationClass)
     this.element.classList.remove(this.busyClass)
-  }
-
-  get #showHelpCommandEntered() {
-    return [ "/help", "/?" ].find(command => this.inputTarget.value.includes(command))
-  }
-
-  get #isHelpMenuOpened() {
-    return this.element.classList.contains(this.helpClass)
-  }
-
-  #showHelpMenu() {
-    this.element.classList.add(this.helpClass)
-  }
-
-  #hideHelpMenu() {
-    if (this.#showHelpCommandEntered) { this.#reset() }
-    this.element.classList.remove(this.helpClass)
   }
 
   #handleSuccessResponse(response) {
@@ -116,41 +59,15 @@ export default class extends Controller {
         this.#handleJsonResponse(responseJson)
       })
     }
-    this.recentCommandsTarget.reload()
     this.#reset()
   }
 
   async #handleErrorResponse(response) {
-    const status = response.status
-
-    if (status === HttpStatus.UNPROCESSABLE) {
-      this.#showError(response)
-    } else if (status === HttpStatus.CONFLICT) {
-      await this.#handleConflictResponse(response)
-    }
-  }
-
-  async #showError(response) {
-    const message = await response.json()
-    this.#showOutput(message.error)
     this.element.classList.add(this.errorClass)
   }
 
-  async #handleConflictResponse(response) {
-    this.originalInputValue = this.inputTarget.value
-    this.#handleJsonResponse(await response.json())
-  }
-
   #handleJsonResponse(responseJson) {
-    const { confirmation, message, redirect_to, turbo_frame, url } = responseJson
-
-    if (message) {
-      this.#showOutput(message)
-    }
-
-    if (confirmation) {
-      this.#requestConfirmation(confirmation)
-    }
+    const { redirect_to, turbo_frame, url } = responseJson
 
     if (redirect_to) {
       Turbo.visit(redirect_to)
@@ -161,53 +78,8 @@ export default class extends Controller {
     }
   }
 
-  async #requestConfirmation(confirmationPrompt) {
-    this.element.classList.add(this.confirmationClass)
-    this.#showConfirmationPrompt(confirmationPrompt)
-    this.waitingForConfirmationValue = true
-  }
-
-  async #showConfirmationPrompt(confirmationPrompt) {
-    if (isMultiLineString(confirmationPrompt)) {
-      this.#showOutput(confirmationPrompt)
-      this.inputTarget.value = `Apply these changes? [Y/n] `
-    } else {
-      this.inputTarget.value = `${confirmationPrompt}? [Y/n] `
-    }
-
-    await nextFrame()
-  }
-
-  #handleConfirmationKey(key) {
-    if (key === "enter" || key === "y") {
-      this.#submitWithConfirmation()
-    } else if (key === "escape" || key === "n") {
-      this.#reset(this.originalInputValue)
-      this.#hideOutput()
-    }
-  }
-
-  async #submitWithConfirmation() {
-    this.inputTarget.value = this.originalInputValue
-    this.confirmationTarget.value = "confirmed"
-    this.#hideOutput()
-
-    await nextFrame()
-    this.#submitCommand()
-  }
-
   #submitCommand() {
     this.formTarget.requestSubmit()
-  }
-
-  #showOutput(markdown) {
-    const html = marked.parse(markdown)
-    this.element.classList.add(this.outputClass)
-    this.outputTarget.innerHTML = html
-  }
-
-  #hideOutput(html) {
-    this.element.classList.remove(this.outputClass)
   }
 
   #showTurboFrameModal(name, url) {

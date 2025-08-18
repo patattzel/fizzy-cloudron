@@ -109,11 +109,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :commands do
-    scope module: :commands do
-      resource :undo, only: :create
-    end
-  end
+  resources :commands
 
   resource :conversation, only: %i[ show ] do
     scope module: :conversations do
@@ -129,7 +125,6 @@ Rails.application.routes.draw do
     resources :cards
     resources :users
     resources :tags
-    resources :commands
 
     resources :collections do
       scope module: :collections do
