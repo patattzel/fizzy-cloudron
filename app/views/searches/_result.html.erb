@@ -1,5 +1,5 @@
 <li>
-  <%= link_to result.source, class: "card card--search" do %>
+  <%= link_to result.source, class: "card card--search", data: { turbo_frame: "_top" } do %>
     <header class="card__header">
       <label class="card__collection flex align-center">
         <span class="card__id"><%= result.card_id %></span>

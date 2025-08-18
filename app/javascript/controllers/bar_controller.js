@@ -2,13 +2,22 @@ import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
 
 export default class extends Controller {
-  static targets = [ "modalTurboFrame" ]
+  static targets = [ "turboFrame" ]
   static outlets = [ "dialog" ]
   static values = {
     searchUrl: String,
     searchTurboFrameName: String,
     askUrl: String,
     askTurboFrameName: String
+  }
+
+  connect() {
+    this.closeModal()
+  }
+
+  closeModal() {
+    this.dialogOutlet.close()
+    this.#clearTurboFrame()
   }
 
   search() {
@@ -22,9 +31,15 @@ export default class extends Controller {
     this.dialogOutlet.open()
   }
 
+  #clearTurboFrame() {
+    this.turboFrameTarget.removeAttribute("id")
+    this.turboFrameTarget.removeAttribute("src")
+    this.turboFrameTarget.innerHtml = ""
+  }
+
   #openInTurboFrame(name, url) {
-    this.modalTurboFrameTarget.id = name
-    this.modalTurboFrameTarget.src = url
+    this.turboFrameTarget.id = name
+    this.turboFrameTarget.src = url
   }
 
   #initializeConversation() {
