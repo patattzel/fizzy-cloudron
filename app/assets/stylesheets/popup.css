@@ -17,6 +17,16 @@
       display: flex;
     }
 
+    &.orient-left {
+      inset-inline: auto 0;
+      transform: translateX(0);
+    }
+
+    &.orient-right {
+      inset-inline: 0 auto;
+      transform: translateX(0);
+    }
+
     &:has(.popup__footer) {
       --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space);
     }

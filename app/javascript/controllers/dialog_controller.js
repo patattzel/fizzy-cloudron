@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { orient } from "helpers/orientation_helpers"
 
 export default class extends Controller {
   static targets = [ "dialog" ]
@@ -17,7 +18,9 @@ export default class extends Controller {
       this.dialogTarget.showModal()
     } else {
       this.dialogTarget.show()
+      orient(this.dialogTarget)
     }
+
     this.dialogTarget.setAttribute('aria-hidden', 'false')
     this.dispatch("show")
   }
@@ -34,6 +37,7 @@ export default class extends Controller {
     this.dialogTarget.close()
     this.dialogTarget.setAttribute('aria-hidden', 'true')
     this.dialogTarget.blur()
+    orient(this.dialogTarget, false)
   }
 
   closeOnClickOutside({ target }) {
