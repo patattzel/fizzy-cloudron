@@ -1,8 +1,8 @@
 class Command::Ask < Command
-  store_accessor :data, :question, :card_ids
+  attr_reader :question
 
-  def title
-    "Ask '#{question}'"
+  def initialize(question)
+    @question = question
   end
 
   def execute

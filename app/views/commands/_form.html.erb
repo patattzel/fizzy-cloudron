@@ -6,16 +6,10 @@
         terminal_target: "form",
         action: "
             keydown.enter->terminal#submitCommand
-            keydown.up->toggle-class#add:prevent
-            keydown.up->navigable-list#selectCurrentOrReset:stop
-            keydown.up->terminal#hideMenus
-            terminal#hideError
             turbo:submit-start->terminal#commandSubmitted
             turbo:submit-end->terminal#focus
             keydown.meta+k@document->terminal#focus:prevent
             keydown.ctrl+k@document->terminal#focus:prevent
-            keydown.enter->terminal#executeCommand
-            keydown.esc->terminal#hideMenus
             turbo:submit-end->terminal#handleCommandResponse
         "
       } do %>
@@ -32,8 +26,5 @@
         spellcheck: "false" do %>
     <%= global_mentions_prompt %>
     <%= tags_prompt %>
-    <%= commands_prompt %>
   <% end %>
-
-  <%= hidden_field_tag "confirmed", nil, data: { terminal_target: "confirmation" } %>
 <% end %>

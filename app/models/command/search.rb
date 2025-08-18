@@ -1,9 +1,10 @@
 class Command::Search < Command
-  store_accessor :data, :terms
+  attr_reader :terms
 
-  def title
-    "Search '#{terms}'"
+  def initialize(terms)
+    @terms = terms
   end
+
 
   def execute
     redirect_to search_path(q: terms)
