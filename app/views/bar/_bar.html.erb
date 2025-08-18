@@ -17,12 +17,12 @@
 
   <%= tag.dialog \
     id: "bar-modal",
-    class: "bar__modal panel shadow",
+    class: "bar__modal shadow",
     data: {
       controller: "dialog",
       dialog_target: "dialog",
       dialog_modal_value: "true",
       action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do %>
-    <%= turbo_frame_tag nil, data: { bar_target: "modalTurboFrame" }, target: "_top" %>
+    <%= turbo_frame_tag nil, data: { bar_target: "turboFrame" } %>
   <% end %>
 <% end %>
