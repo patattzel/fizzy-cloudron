@@ -13,6 +13,10 @@
 <% end %>
 
 <%= turbo_frame_tag "search", target: :_top do %>
+  <button class="btn txt-x-small" data-action="dialog#close:prevent">
+    <%= icon_tag "remove-med" %>
+    <span class="for-screen-reader">Close</span>
+  </button>
   <%= auto_submit_form_with url: searches_queries_path(q: @query_terms), method: :post %>
 
   <section class="search">
