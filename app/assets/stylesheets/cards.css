@@ -1,6 +1,6 @@
 @layer components {
   /* Base
-  /* -------------------------------------------------------------------------- */
+  /* ------------------------------------------------------------------------ */
 
   .card {
     --avatar-size: 2.75em;
@@ -29,34 +29,32 @@
     }
   }
 
-  /* Children
+  /* Header
   /* ------------------------------------------------------------------------ */
 
-  .card__background {
-    inset: 0;
-    position: absolute;
-    z-index: -1;
+  .card__header {
+    align-items: center;
+    border-radius: var(--border-radius) 0 0 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--inline-space);
+    margin-block-start: calc(-1 * var(--card-padding-block));
+    margin-inline: calc(-1 * var(--card-padding-inline)) calc(-0.5 * var(--card-padding-inline));
+    max-inline-size: unset;
+    min-inline-size: 0;
 
-    img {
-      block-size: 100%;
-      border-radius: var(--border-radius);
-      inline-size: 100%;
-      object-fit: cover;
-      object-position: center;
-      opacity: 1;
-      transition: filter 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    .workflow-stage {
+      display: none;
     }
   }
 
-  .card__body {
-    display: flex;
-    flex-grow: 1;
-    gap: 1ch;
-    inline-size: 100%;
-    padding-block: var(--card-padding-block);
+  .card__id {
+    flex-shrink: 0;
+    margin-inline-start: calc(var(--inline-space) * -1);
 
-    @media (min-width: 640px) {
-      gap: var(--card-padding-inline);
+    .card-perma &:before {
+      content: "No.";
+      opacity: 0.5;
     }
   }
 
@@ -103,73 +101,6 @@
     }
   }
 
-  .card__content {
-    contain: inline-size;
-    flex: 2 1 auto;
-    max-inline-size: 100%;
-  }
-
-  .card__description {
-    /* Hide the empty element that Lexical saves when nothing is added to the description <p><br /></p> */
-    action-text-content p:only-child:has(br:only-child) {
-      display: none;
-    }
-
-    & ~ .btn {
-      --btn-background: var(--card-color);
-      --btn-color: var(--color-ink-inverted);
-    }
-  }
-
-  .card-field__description {
-    lexical-toolbar {
-      border-block-start: 1px solid var(--color-ink-light);
-      margin-block-start: var(--block-margin) !important;
-    }
-  }
-
-  .card__header {
-    align-items: center;
-    border-radius: var(--border-radius) 0 0 0;
-    display: flex;
-    flex-wrap: nowrap;
-    gap: var(--inline-space);
-    margin-block-start: calc(-1 * var(--card-padding-block));
-    margin-inline: calc(-1 * var(--card-padding-inline)) calc(-0.5 * var(--card-padding-inline));
-    max-inline-size: unset;
-    min-inline-size: 0;
-
-    .workflow-stage {
-      display: none;
-    }
-  }
-
-  .card__id {
-    flex-shrink: 0;
-    margin-inline-start: calc(var(--inline-space) * -1);
-
-    .card-perma &:before {
-      content: "No.";
-      opacity: 0.5;
-    }
-  }
-
-  .card__link {
-    content: "";
-    inset: 0;
-    position: absolute;
-    z-index: -1;
-  }
-
-  .card__stages {
-    display: flex;
-    flex: 0 1 auto;
-    flex-direction: column;
-    justify-self: end;
-    max-inline-size: 20ch;
-    padding-block: var(--block-space-half);
-  }
-
   .card__tag {
     color: var(--card-color);
     font-weight: 700;
@@ -180,6 +111,27 @@
     color: var(--card-color);
     display: flex;
     min-inline-size: 0;
+  }
+
+  /* Body
+  /* ------------------------------------------------------------------------ */
+
+  .card__body {
+    display: flex;
+    flex-grow: 1;
+    gap: 1ch;
+    inline-size: 100%;
+    padding-block: var(--card-padding-block);
+
+    @media (min-width: 640px) {
+      gap: var(--card-padding-inline);
+    }
+  }
+
+  .card__content {
+    contain: inline-size;
+    flex: 2 1 auto;
+    max-inline-size: 100%;
   }
 
   .card__title {
@@ -211,114 +163,152 @@
     }
   }
 
-  .card--new-card-button:is(.btn) {
-    --btn-padding: var(--block-space) var(--inline-space-double);
-    --btn-border-size: 0;
-    --btn-color: var(--color-link);
-    --btn-icon-size: 1em;
-    --card-padding-block: calc(var(--block-space) * 1.25);
+  .card__description {
+    /* Hide the empty element that Lexical saves when nothing is added to the description <p><br /></p> */
+    action-text-content p:only-child:has(br:only-child) {
+      display: none;
+    }
 
-    box-shadow: 0 0 0 1px oklch(var(--lch-blue-lighter));
-    color: var(--btn-color);
-    font-weight: 700;
-    transition: box-shadow 100ms ease-out;
-
-    @media (any-hover: hover) {
-      &:hover {
-        filter: none;
-        box-shadow: 0 0 0 1px oklch(var(--lch-blue-lighter)), var(--shadow);
-      }
+    & ~ .btn {
+      --btn-background: var(--card-color);
+      --btn-color: var(--color-ink-inverted);
     }
   }
 
-  .card__move-button {
-    --btn-background: color-mix(in srgb, inherit 40%, var(--color-ink));
-
-    margin-block-start: calc(var(--block-space) * 1.2);
-    margin-inline-end: calc(var(--inline-space) * -4);
-    padding-inline-end: var(--inline-space);
-  }
-
-  .card__footer {
-    .avatar + .avatar {
-      margin-inline-start: -0.8em;
+  .card-field__description {
+    lexical-toolbar {
+      border-block-start: 1px solid var(--color-ink-light);
+      margin-block-start: var(--block-margin) !important;
     }
   }
+
+  .card__stages {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    justify-self: end;
+    max-inline-size: 20ch;
+    padding-block: var(--block-space-half);
+  }
+
+  /* Meta
+  /* ------------------------------------------------------------------------ */
 
   .card__meta {
-     --meta-border: 1px solid var(--card-color);
+     --meta-border: 1px solid color-mix(in srgb, var(--card-color) 50%, transparent);
+     --meta-spacer-block: 0.5ch;
+     --meta-spacer-inline: 0.75ch;
 
     align-items: center;
-    display: flex;
-    max-inline-size: 100%;
-    min-inline-size: 0;
+    display: grid;
+    font-size: var(--text-x-small);
+    font-weight: 500;
+    inline-size: fit-content;
     text-transform: uppercase;
 
     strong,
     .local-time-value {
       font-weight: 900;
     }
+  }
 
-    @media (max-width: 639px) {
-      .avatar {
-        display: none;
-      }
+  .card__meta-text {
+    white-space: nowrap;
+  }
+
+  .card__meta-avatars {
+    align-self: center;
+    grid-row: 1 / span 3;
+  }
+
+  .card__meta-avatars--assignees {
+    display: flex;
+    grid-column: 4;
+
+    .avatar {
+      margin-inline-end: calc(-1 * var(--meta-spacer-inline));
     }
   }
 
-  .card__meta-grid {
-    column-gap: var(--inline-space);
-    display: grid;
+  /* Small screens */
+  @media (max-width: 639px) {
+    .card__meta {
+      column-gap: var(--meta-spacer-inline);
+      grid-template-columns: repeat(3, auto);
+      grid-areas:
+        "text-added text-author avatars-assignees"
+        "text-updated text-updated avatars-assignees"
+        "text-assignees text-assignees avatars-assignees";
+    }
+
+    .card__meta-avatars--author,
+    .card__meta-avatars--assignees .avatar {
+      display: none;
+    }
+
+    .card__meta-text--author {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card__meta-text--updated,
+    .card__meta-text--assignees {
+      border-block-start: var(--meta-border);
+      grid-column: 1 / 4;
+    }
   }
 
-  .card__meta-grid--author {
-    border-inline-end: var(--meta-border);
-    grid-template-areas:
-      "avatar top"
-      "avatar bottom";
-      grid-template-columns: auto 1fr;
+  /* Large screens */
+  @media (min-width: 640px) {
+    .meta {
+      grid-template-columns: repeat(4, auto);
+      grid-areas:
+        "avatars-author text-added text-updated avatars-assignees"
+        "avatars-author text-author text-assignees avatars-assignees";
+    }
 
-    .card__meta-author { grid-area: avatar; }
-    .card__meta-text--added { grid-area: top; }
-    .card__meta-text--author { grid-area: bottom; }
+    .card__meta-avatars--author {
+      grid-column: 1;
+      margin-inline-end: var(--meta-spacer-inline);
+    }
 
     .card__meta-text {
-      padding-inline-end: var(--inline-space);
+      line-height: 1;
+    }
+
+    /* Top */
+    .card__meta-text:nth-of-type(odd) {
+      border-block-end: var(--meta-border);
+      grid-row: 1;
+      padding-block-end: var(--meta-spacer-block);
+    }
+
+    /* Bottom */
+    .card__meta-text:nth-of-type(even) {
+      grid-row: 2;
+      padding-block-start: var(--meta-spacer-block);
+    }
+
+    /* Left */
+    .card__meta-text:nth-of-type(-n+2) {
+      border-inline-end: var(--meta-border);
+      grid-column: 2;
+      padding-inline-end: var(--meta-spacer-inline);
+    }
+
+    /* Right */
+    .card__meta-text:nth-of-type(n+3) {
+      grid-column: 3;
+      padding-inline-start: var(--meta-spacer-inline);
+    }
+
+    .card__meta-avatars--assignees {
+      margin-inline-start: var(--meta-spacer-inline);
     }
   }
 
-  .card__meta-grid--assigned {
-    grid-template-areas:
-      "top avatar"
-      "bottom avatar";
-    grid-template-columns: 1fr auto;
-
-    .card__meta-assignees { grid-area: avatar; }
-    .card__meta-text--updated { grid-area: top; }
-    .card__meta-text--assigned { grid-area: bottom; }
-
-    .card__meta-text {
-      padding-inline-start: var(--inline-space);
-    }
-
-    .card__meta-assignees {
-      display: flex;
-      flex-shrink: 0;
-    }
-  }
-
-  .card__meta-text--added,
-  .card__meta-text--updated {
-    border-block-end: var(--meta-border);
-  }
-
-  .card__meta-author {
-    grid-area: avatar;
-  }
-
-  .card__timestamp {
-    opacity: 0.66;
-  }
+  /* Closed stamp
+  /* ------------------------------------------------------------------------ */
 
   .card__closed {
     --stamp-color: oklch(var(--lch-green-medium) / 0.65);
@@ -365,6 +355,32 @@
     border-block-end: 1px dashed currentcolor;
   }
 
+  /* Misc bits
+  /* ------------------------------------------------------------------------ */
+
+  .card__background {
+    inset: 0;
+    position: absolute;
+    z-index: -1;
+
+    img {
+      block-size: 100%;
+      border-radius: var(--border-radius);
+      inline-size: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 1;
+      transition: filter 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    }
+  }
+
+  .card__link {
+    content: "";
+    inset: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
   .card:nth-child(2n+1) .bubble { --bubble-rotate: -90deg; }
   .card:nth-child(3n+1) .bubble { --bubble-rotate: 45deg; }
 
@@ -396,6 +412,10 @@
       margin-block-start: calc(-1.1 * var(--card-padding-block));
       margin-inline: calc(-1 * var(--card-padding-inline));
       max-inline-size: unset;
+    }
+
+    .card__timestamp {
+      opacity: 0.66;
     }
 
     .card__notification-body {
