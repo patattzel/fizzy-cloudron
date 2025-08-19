@@ -5,11 +5,7 @@ module User::Conversational
     has_one :conversation, dependent: :destroy
   end
 
-  def start_or_continue_conversation(question = nil)
-    create_conversation! unless conversation
-
-    conversation.ask(question) if question.present?
-
-    conversation
+  def start_or_continue_conversation
+    conversation || create_conversation!
   end
 end
