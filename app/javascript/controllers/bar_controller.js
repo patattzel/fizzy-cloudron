@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
+import { isInput } from "helpers/html_helpers"
 
 export default class extends Controller {
   static targets = [ "turboFrame" ]
@@ -41,8 +42,7 @@ export default class extends Controller {
     const activeElement = document.activeElement
 
     if (activeElement) {
-      const usingInput = activeElement.closest("input, textarea, lexical-editor")
-      return !usingInput
+      return !isInput(activeElement)
     } else {
       return true
     }

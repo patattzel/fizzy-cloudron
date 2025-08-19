@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { isInput } from "helpers/html_helpers"
 
 export default class extends Controller {
   click(event) {
@@ -9,7 +10,7 @@ export default class extends Controller {
   }
 
   #shouldIgnore(event) {
-    return event.defaultPrevented || event.target.closest("input, textarea, lexical-editor")
+    return event.defaultPrevented || isInput(event.target)
   }
 
   get #isClickable() {
