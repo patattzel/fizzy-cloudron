@@ -9,7 +9,7 @@
     --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink) 3%, var(--color-ink) 97%, var(--color-canvas));
     --reserved-bubble-space: 0;
     --bubble-gap: 0.5rem;
-    --bubble-size: 4rem;
+    --bubble-size: 3.5rem;
 
     container-type: inline-size;
     max-inline-size: 1400px;
@@ -23,6 +23,7 @@
   .card-columns {
     margin: auto;
     max-inline-size: 100%;
+    min-block-size: 20lh;
     padding-inline: var(--reserved-bubble-space);
     position: relative;
     transition: 300ms ease-in-out;
@@ -195,9 +196,18 @@
       }
 
       &:nth-child(1n) { rotate: -1deg; }
+      &:nth-child(1) { rotate: 0deg; }
       &:nth-child(2n) { rotate: 1deg; }
       &:nth-child(3n) { rotate: -0.5deg; }
       &:nth-child(4n) { rotate: 0.5deg; }
+    }
+
+    .card--new {
+      --card-padding-block: var(--block-space-double);
+  
+      font-size: 0.8rem !important;
+      rotate: 0 !important;
+      text-align: center;
     }
 
     .card__body {
