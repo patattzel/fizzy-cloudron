@@ -3,7 +3,6 @@ module Ai::Quota::Resettable
 
   included do
     before_create -> { reset }
-    scope :due_for_reset, -> { where(reset_at: ...Time.current) }
   end
 
   def reset_if_due
