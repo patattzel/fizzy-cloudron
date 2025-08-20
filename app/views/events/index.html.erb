@@ -10,20 +10,11 @@
 <% end %>
 
 <header class="events-header header margin-block-end">
-  <div class="header__actions header__actions--start">
-    <% if collection = @filter.single_collection || Current.user.collections.ordered_by_recently_accessed.first %>
-      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link btn--circle-mobile" do %>
-        <%= icon_tag "add" %>
-        <span>Add a card</span>
-      <% end %>
-    <% end %>
-  </div>
+  <%= render "filters/menu/add_card_button", user_filtering: @user_filtering %>
 
   <h1 class="header__title overflow-ellipsis">
     <div class="overflow-ellipsis">
-      <% if @filter.collections.any? %>
-        <%= filter_selected_collections_label(@filter) %>
-      <% end %>
+      Activity in <%= @user_filtering.collections_title %>
     </div>
   </h1>
 

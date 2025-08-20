@@ -2,7 +2,7 @@
   <%= link_to url_for(filter_id: filter.id), class: "btn popup__new popup__item" do %>
     <%= icon_tag "bookmark" %>
     <div class="flex flex-column txt-tight-lines min-width txt-small">
-      <span class="overflow-ellipsis"><%= filter_selected_collections_sentence(filter).html_safe %></span>
+      <span class="overflow-ellipsis"><%= user_filtering.collections_title %></span>
       <span class="overflow-ellipsis"><%= filter.summary %></span>
     </div>
     <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>

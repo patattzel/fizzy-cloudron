@@ -2,5 +2,5 @@
   <li class="popup__group-title">Saved filters</li>
 
   <%= render "filters/menu/custom/create" %>
-  <%= render partial: "filters/menu/custom/filter", collection: user_filtering.filters, as: :filter %>
+  <%= render partial: "filters/menu/custom/filter", collection: user_filtering.filters, as: :filter, locals: { user_filtering: user_filtering } %>
 </ul>
