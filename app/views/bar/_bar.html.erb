@@ -23,6 +23,6 @@
       dialog_target: "dialog",
       dialog_modal_value: "true",
       action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do %>
-    <%= turbo_frame_tag nil, data: { bar_target: "turboFrame" } %>
+    <%= turbo_frame_tag "fizzy-bar", data: { bar_target: "turboFrame" } %>
   <% end %>
 <% end %>
