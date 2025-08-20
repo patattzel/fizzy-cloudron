@@ -12,8 +12,9 @@ export default class extends Controller {
     askTurboFrameName: String
   }
 
-  connect() {
-    this.closeModal()
+  dialogOutletConnected(outlet, element) {
+    outlet.close()
+    this.#clearTurboFrame()
   }
 
   closeModal() {
@@ -61,5 +62,13 @@ export default class extends Controller {
 
   #initializeConversation() {
     post(this.askUrlValue)
+  }
+
+  #closeModalIfAlreadyOpen() {
+    if (this.hasDialogOutlet) {
+      try {
+        this.closeModal()
+      } catch {}
+    }
   }
 }
