@@ -3,6 +3,7 @@ module FilterScoped
 
   included do
     before_action :set_filter
+    before_action :set_user_filtering
   end
 
   private
@@ -15,5 +16,9 @@ module FilterScoped
       else
         @filter = Current.user.filters.from_params params.reverse_merge(**DEFAULT_PARAMS).permit(*Filter::PERMITTED_PARAMS)
       end
+    end
+
+    def set_user_filtering
+      @user_filtering = User::Filtering.new(Current.user, @filter)
     end
 end

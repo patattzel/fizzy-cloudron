@@ -21,6 +21,7 @@ module FiltersHelper
     hidden_field_tag name, value, id: nil
   end
 
+  # TODO: REMOVE
   def filter_selected_collections_sentence(filter)
     if filter.collections.any?
       filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
