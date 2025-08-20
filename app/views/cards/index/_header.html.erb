@@ -31,7 +31,7 @@
         <div class="flex gap">
           <%= text_field_tag :search, nil, placeholder: "Filter…", class: "input input--transparent txt-small", autofocus: true,
                 type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
-          <button class="btn borderless txt-small" data-action="dialog#close">
+          <button class="fizzy-dialog__close btn borderless txt-small" data-action="dialog#close">
             <%= icon_tag "close" %>
             <span class="for-screen-reader">Close menu</span>
           </button>

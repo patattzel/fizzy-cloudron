@@ -38,6 +38,12 @@
     }
   }
 
+  .fizzy-dialog__close {
+    @media (any-hover: hover) {
+      display: none;
+    }
+  }
+
   .fizzy-menu__hotkeys {
     --gap: 8px;
 
