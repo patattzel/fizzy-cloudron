@@ -11,9 +11,17 @@
           keydown.meta+k@document->bar#search keydown.ctrl+k@document->bar#search
           keydown.meta+a@document->bar#ask keydown.ctrl+a@document->bar#ask"
       } do %>
-  <div>
-    Search [<%= hotkey_label(["ctrl", "K"]) %>] or Ask [<%= hotkey_label(["ctrl", "A"]) %>]
+  <div class="flex justify-center gap" hidden>
+    <button class="btn btn--plain" data-action="bar#search">
+      <span>Search [<%= hotkey_label(["ctrl", "K"]) %>]</span>
+    </button>
+    <span>or</span>
+    <button class="btn btn--plain" data-action="bar#ask">
+      <span>Ask [<%= hotkey_label(["ctrl", "A"]) %>]</span>
+    </button>
   </div>
+
+  <%= render "searches/form", query_terms: @query_terms %>
 
   <%= tag.dialog \
     id: "bar-modal",
@@ -21,8 +29,8 @@
     data: {
       controller: "dialog",
       dialog_target: "dialog",
-      dialog_modal_value: "true",
-      action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do %>
+      dialog_modal_value: "false",
+      action: "keydown.esc->dialog#close" } do %>
     <%= turbo_frame_tag "fizzy-bar", data: { bar_target: "turboFrame" } %>
   <% end %>
 <% end %>

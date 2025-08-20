@@ -20,11 +20,10 @@
 
   .conversation__header {
     align-items: center;
-    backdrop-filter: blur(24px);
     display: flex;
     inset: 0 0 auto 0;
-    justify-content: space-between;
-    padding: var(--block-space);
+    justify-content: flex-end;
+    padding: var(--block-space-half);
     position: absolute;
   }
 
@@ -94,9 +93,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--block-space);
-    margin-inline: calc(var(--block-space-half) * -0.5);
+    margin-inline: auto;
     max-block-size: calc(100dvh - 6em - var(--block-space-double) - 2 * var(--footer-height));
+    max-inline-size: 80ch;
     overflow-y: auto;
-    padding: var(--block-space-half) var(--block-space);
+    padding: var(--block-space) calc(var(--block-space-double) + var(--btn-size));
   }
 }
