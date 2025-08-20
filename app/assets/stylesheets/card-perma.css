@@ -55,7 +55,7 @@
 
     .card__meta,
     .card__stages {
-      font-size: var(--text-small);
+      font-size: var(--text-x-small);
     }
 
     .card__stages {
@@ -123,7 +123,7 @@
     background-color: var(--color-container);
     border-radius: 0.2em;
     grid-area: card;
-    padding: var(--padding-block) var(--padding-inline);
+    padding: clamp(2rem, 4vw, var(--padding-block)) clamp(16px, 4vw, var(--padding-inline));
   }
 
   .card-perma__actions {
