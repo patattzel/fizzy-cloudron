@@ -12,9 +12,10 @@
     column-gap: var(--inline-space);
     display: grid;
     grid-template-areas:
-      "qw notch-top we"
+      "notch-top notch-top notch-top"
       "actions-left card actions-right"
-      "er notch-bottom rt";
+      "notch-bottom notch-bottom notch-bottom"
+      "closure-message closure-message closure-message";
     grid-template-columns: 48px minmax(0, 1120px) 48px;
     inline-size: fit-content;
     max-inline-size: 100%;
@@ -95,7 +96,8 @@
         "notch-top notch-top"
         "card card"
         "actions-left actions-right"
-        "notch-bottom notch-bottom";
+        "notch-bottom notch-bottom"
+        "closure-message closure-message";
       grid-template-columns: 1fr 1fr;
       inline-size: calc(100% + 2 * var(--padding-inline));
       margin-inline: calc(-1 * var(--padding-inline));
@@ -194,7 +196,7 @@
 
   .card-perma__notch--bottom {
     grid-area: notch-bottom;
-    translate: 0 -25%;
+    translate: 0 -50%;
 
     &:has([open]) {
       z-index: 1;
@@ -220,9 +222,7 @@
 
   .card-perma__closure-message {
     color: var(--card-color);
-
-    &:first-child {
-      padding-left: 1ch;
-    }
+    grid-area: closure-message;
+    translate: 0 -50%;
   }
 }
