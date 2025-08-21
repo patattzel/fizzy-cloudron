@@ -79,13 +79,11 @@ export default class extends Controller {
       this.#clearSelection()
       selectedItem.setAttribute(this.selectionAttributeValue, "true")
       this.currentItem = selectedItem
-
+      await nextFrame()
+      if (this.focusOnSelectionValue) { this.currentItem.focus() }
       if (this.hasInputTarget && id) {
         this.inputTarget.setAttribute("aria-activedescendant", id)
       }
-
-      await nextFrame()
-      if (this.focusOnSelectionValue) { this.currentItem.focus() }
     }
   }
 
