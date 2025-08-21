@@ -74,6 +74,8 @@ export default class extends Controller {
   async #setCurrentFrom(element) {
     const selectedItem = this.#visibleItems.find(item => item.contains(element))
 
+    console.log(selectedItem)
+
     if (selectedItem) {
       this.#clearSelection()
       selectedItem.setAttribute(this.selectionAttributeValue, "true")
