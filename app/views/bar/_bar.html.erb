@@ -13,7 +13,7 @@
             controller: "hotkey",
             action: "
             bar#search
-            keydown.meta+k@document->bar#search keydown.ctrl+k@document->bar#search" } do %>
+            keydown.meta+k@document->hotkey#click keydown.ctrl+k@document->hotkey#click" } do %>
       <span>Search [<%= hotkey_label(["ctrl", "K"]) %>]</span>
     <% end %>
     <span>or</span>
@@ -23,7 +23,7 @@
             controller: "hotkey",
             action: "
             bar#ask
-            keydown.meta+a@document->bar#ask keydown.ctrl+a@document->bar#ask" } do %>
+            keydown.meta+a@document->hotkey#click keydown.ctrl+a@document->hotkey#click" } do %>
       <span>Ask [<%= hotkey_label(["ctrl", "A"]) %>]</span>
     <% end %>
   </div>
