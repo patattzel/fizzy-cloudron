@@ -14,4 +14,14 @@ module FiltersHelper
   def filter_selected_collections_title(user_filtering)
     user_filtering.selected_collection_titles.collect { tag.strong it }.to_sentence.html_safe
   end
+
+  def filter_place_menu_item(path, label, icon)
+    tag.li class: "popup__group", data: { filter_target: "item", navigable_list_target: "item" } do
+      concat icon_tag(icon)
+      concat(link_to(path, class: "popup__item btn") do
+        concat tag.span(label, class: "overflow-ellipsis")
+        concat tag.span(" ›", class: "translucent flex-item-no-shrink flex-item-justify-end")
+      end)
+    end
+  end
 end
