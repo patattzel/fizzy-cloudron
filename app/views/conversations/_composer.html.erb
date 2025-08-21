@@ -11,7 +11,8 @@
   <%= form.label :content, "Ask Fizzy", class: "font-weight-black txt-nowrap" %>
   <%= form.text_field :content,
         autofocus: true,
-        placeholder: "Ask something…",
+        autocomplete: "off",
+        placeholder: "Ask a question…",
         class: "conversation__composer-input input",
         data: {
           action: "
