@@ -1,4 +1,6 @@
 class User::Filtering
+  include Rails.application.routes.url_helpers
+
   attr_reader :user, :filter, :expanded
 
   delegate :as_params, to: :filter
@@ -66,4 +68,21 @@ class User::Filtering
   def show_time_window?(name)
     expanded? || filter.public_send("#{name}_window").present?
   end
+
+  def enable_collection_filtering(&block)
+    @collection_filtering_route_resolver = block
+  end
+
+  def self_filter_path(...)
+    if supports_collection_filtering?
+      @collection_filtering_route_resolver.call(...)
+    else
+      cards_path(...)
+    end
+  end
+
+  private
+    def supports_collection_filtering?
+      @collection_filtering_route_resolver.present?
+    end
 end

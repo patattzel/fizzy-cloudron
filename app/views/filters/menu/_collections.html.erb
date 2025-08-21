@@ -1,4 +1,4 @@
-<%= form_with url: url_for, method: :get, class: "display-contents",
+<%= form_with url: user_filtering.self_filter_path, method: :get, class: "display-contents",
       data: { controller: "form" } do |form| %>
   <% if user_filtering.collections.any? %>
     <%= render "filters/menu/custom", user_filtering: user_filtering %>
