@@ -10,4 +10,8 @@ module FiltersHelper
     name = params[key].is_a?(Array) ? "#{key}[]" : key
     hidden_field_tag name, value, id: nil
   end
+
+  def filter_selected_collections_title(user_filtering)
+    user_filtering.selected_collection_titles.collect { tag.strong it }.to_sentence.html_safe
+  end
 end

@@ -13,14 +13,16 @@ class User::Filtering
     @collections ||= user.collections.ordered_by_recently_accessed
   end
 
-  def collections_title
+  def selected_collection_titles
     if filter.collections.none?
-      collections.one? ? collections.first.name : "All collections"
-    elsif filter.collections.one?
-      filter.collections.first.name
+      [ collections.one? ? collections.first.name : "All collections" ]
     else
-      filter.collections.map(&:name).to_sentence
+      filter.collections.map(&:name)
     end
+  end
+
+  def selected_collections_label
+    selected_collection_titles.to_sentence
   end
 
   def tags

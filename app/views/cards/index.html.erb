@@ -1,4 +1,4 @@
-<% @page_title = @user_filtering.collections_title %>
+<% @page_title = @user_filtering.selected_collections_label %>
 
 <%= render "filters/broadcasts", filter: @filter %>
 
@@ -16,7 +16,7 @@
   <%= render "filters/menu/add_card_button", user_filtering: @user_filtering %>
 
   <h1 class="header__title overflow-ellipsis" style="view-transistion-name: card-collection-title">
-    <%= @user_filtering.collections_title %>
+    <%= @user_filtering.selected_collections_label %>
   </h1>
 
   <div class="header__actions header__actions--end">
