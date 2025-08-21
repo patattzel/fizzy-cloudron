@@ -38,11 +38,10 @@
 
   <%= tag.dialog \
     id: "bar-modal",
-    class: "bar__modal shadow",
+    class: "bar__modal",
     data: {
       controller: "dialog",
       dialog_target: "dialog",
-      dialog_modal_value: "false",
       action: "keydown.esc->bar#reset" } do %>
     <%= turbo_frame_tag "bar-content", data: { bar_target: "turboFrame" } %>
   <% end %>
