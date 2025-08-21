@@ -1,15 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
-import { isInput } from "helpers/html_helpers"
 
 export default class extends Controller {
-  static targets = [ "turboFrame" ]
+  static targets = [ "turboFrame", "searchInput", "askInput", "buttonsContainer" ]
   static outlets = [ "dialog" ]
   static values = {
     searchUrl: String,
-    searchTurboFrameName: String,
     askUrl: String,
-    askTurboFrameName: String
   }
 
   dialogOutletConnected(outlet, element) {
@@ -17,36 +14,34 @@ export default class extends Controller {
     this.#clearTurboFrame()
   }
 
-  closeModal() {
+  reset() {
     this.dialogOutlet.close()
     this.#clearTurboFrame()
+
+    this.#showItem(this.buttonsContainerTarget)
+    this.#hideItem(this.askInputTarget)
+    this.#hideItem(this.searchInputTarget)
+  }
+
+  showModal() {
+    this.dialogOutlet.open()
   }
 
   search(event) {
-    if (this.#shouldExecuteHotkey) {
-      event.preventDefault()
-      this.#openInTurboFrame(this.searchTurboFrameNameValue, this.searchUrlValue)
-      this.dialogOutlet.open()
-    }
+    this.#openInTurboFrame("search", this.searchUrlValue)
+
+    this.#showItem(this.searchInputTarget)
+    this.#hideItem(this.askInputTarget)
+    this.#hideItem(this.buttonsContainerTarget)
   }
 
   ask(event) {
-    if (this.#shouldExecuteHotkey) {
-      event.preventDefault()
-      this.#initializeConversation()
-      this.#openInTurboFrame(this.askTurboFrameNameValue, this.askUrlValue)
-      this.dialogOutlet.open()
-    }
-  }
+    this.#initializeConversation()
+    this.#openInTurboFrame("conversation", this.askUrlValue)
 
-  get #shouldExecuteHotkey() {
-    const activeElement = document.activeElement
-
-    if (activeElement) {
-      return !isInput(activeElement)
-    } else {
-      return true
-    }
+    this.#showItem(this.askInputTarget)
+    this.#hideItem(this.searchInputTarget)
+    this.#hideItem(this.buttonsContainerTarget)
   }
 
   #clearTurboFrame() {
@@ -64,11 +59,11 @@ export default class extends Controller {
     post(this.askUrlValue)
   }
 
-  #closeModalIfAlreadyOpen() {
-    if (this.hasDialogOutlet) {
-      try {
-        this.closeModal()
-      } catch {}
-    }
+  #showItem(element) {
+    element.removeAttribute("hidden")
+  }
+
+  #hideItem(element) {
+    element.setAttribute("hidden", "hidden")
   }
 }

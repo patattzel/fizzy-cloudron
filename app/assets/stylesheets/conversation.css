@@ -1,43 +1,28 @@
 @layer components {
-  .conversation {
-    font-family: var(--font-sans);
-    padding-block-end: 6em;
-  }
+  .conversation__composer-input {
+    --focus-ring-size: 0;
+    --input-border-radius: 0;
+    --input-border-size: 0;
+    --input-padding: 0 0.5em;
 
-  .conversation__composer {
-    backdrop-filter: blur(24px);
-    display: flex;
-    gap: var(--inline-space);
-    inset: auto 0 0 0;
-    padding: var(--block-space);
-    position: absolute;
+    &::-webkit-search-cancel-button {
+      --clear-icon-size: 0.75rem;
 
-    .conversation__submit {
-      display: flex;
-      flex-direction: column;
-    }
-  }
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 12.179a.25.25 0 0 1 0-.354l9.263-9.262a1.5 1.5 0 0 0 -2.124-2.121l-9.262 9.258a.25.25 0 0 1 -.354 0l-9.262-9.258a1.5 1.5 0 0 0 -2.122 2.121l9.261 9.262a.25.25 0 0 1 0 .354l-9.261 9.263a1.5 1.5 0 0 0 2.122 2.121l9.262-9.263a.25.25 0 0 1 .354 0l9.262 9.263a1.5 1.5 0 0 0 2.122-2.121z" fill="%23000"/></svg>');
+      background-repeat: no-repeat;
+      background-size: var(--clear-icon-size);
+      block-size: var(--clear-icon-size);
+      cursor: pointer;
+      inline-size: var(--clear-icon-size);
+      inset: 50% 1ch auto auto;
+      position: absolute;
+      translate: 0 -50%;
 
-  .conversation__header {
-    align-items: center;
-    display: flex;
-    inset: 0 0 auto 0;
-    justify-content: flex-end;
-    padding: var(--block-space-half);
-    position: absolute;
-  }
-
-  .conversation__input {
-    align-items: center;
-    flex-grow: 1;
-
-    .input--textarea {
-      --input-padding: 0.5em !important;
-    }
-
-    .conversation:has(.conversation__thinking-indicator--thinking) & {
-      animation: pulse 1.5s infinite;
-      pointer-events: none;
+      @media (prefers-color-scheme: dark) {
+        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 12.179a.25.25 0 0 1 0-.354l9.263-9.262a1.5 1.5 0 0 0 -2.124-2.121l-9.262 9.258a.25.25 0 0 1 -.354 0l-9.262-9.258a1.5 1.5 0 0 0 -2.122 2.121l9.261 9.262a.25.25 0 0 1 0 .354l-9.261 9.263a1.5 1.5 0 0 0 2.122 2.121l9.262-9.263a.25.25 0 0 1 .354 0l9.262 9.263a1.5 1.5 0 0 0 2.122-2.121z" fill="%23fff"/></svg>');
+      }
     }
   }
 
@@ -45,7 +30,6 @@
     display: flex;
 
     .action-text-content {
-      
       border-radius: 0.5rem;
       inline-size: fit-content;
     }

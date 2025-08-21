@@ -1,21 +1,21 @@
 <%= form_with model: Conversation::Message.new, local: true, 
-      class: "conversation__composer",
+      class: "conversation__composer flex align-center",
       data: {
+        turbo_frame: "conversation",
         action: "turbo:submit-end->conversation--composer#submitEnd",
         controller: "conversation--composer",
         conversation__composer_conversation__messages_outlet: "#conversation-messages" } do |form| %>
 
   <%= form.hidden_field :client_message_id, data: { conversation__composer_target: "clientMessageIdInput" } %>
-
-  <div class="conversation__input">
-    <%= form.text_field :content,
-          autofocus: "on",
-          placeholder: "Ask something…",
-          class: "input input--textarea",
-          data: {
-            action: "
-              keydown.enter->conversation--composer#submit 
-              keydown.ctrl+enter->conversation--composer#submit", 
-            conversation__composer_target: "textInput" } %>
-  </div>
+  <%= form.label :content, "Ask Fizzy", class: "font-weight-black txt-nowrap" %>
+  <%= form.text_field :content,
+        autofocus: "on",
+        placeholder: "Ask something…",
+        class: "conversation__composer-input input",
+        data: {
+          action: "
+            keydown.esc->bar#reset
+            keydown.enter->conversation--composer#submit keydown.enter->bar#showModal
+            keydown.ctrl+enter->conversation--composer#submit keydown.ctrl+enter->bar#showModal",
+          conversation__composer_target: "textInput" } %>
 <% end %>
