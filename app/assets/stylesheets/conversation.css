@@ -1,4 +1,17 @@
 @layer components {
+  .conversation {
+    height: 100%;
+  }
+
+  .conversation__header {
+    align-items: center;
+    display: flex;
+    inset: 0 0 auto 0;
+    justify-content: flex-end;
+    padding: var(--block-space-half);
+    position: absolute;
+  }
+
   .conversation__composer-input {
     --focus-ring-size: 0;
     --input-border-radius: 0;

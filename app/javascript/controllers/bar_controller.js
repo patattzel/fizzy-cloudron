@@ -23,12 +23,21 @@ export default class extends Controller {
     this.#hideItem(this.searchInputTarget)
   }
 
+  showModalAndSubmit(event) {
+    event.preventDefault()
+
+    const form = event.target.closest("form")
+
+    this.showModal()
+    form.requestSubmit()
+  }
+
   showModal() {
     this.dialogOutlet.open()
   }
 
   search(event) {
-    this.#openInTurboFrame("search", this.searchUrlValue)
+    this.#openInTurboFrame(this.searchUrlValue)
 
     this.#showItem(this.searchInputTarget)
     this.#hideItem(this.askInputTarget)
@@ -37,7 +46,7 @@ export default class extends Controller {
 
   ask(event) {
     this.#initializeConversation()
-    this.#openInTurboFrame("conversation", this.askUrlValue)
+    this.#openInTurboFrame(this.askUrlValue)
 
     this.#showItem(this.askInputTarget)
     this.#hideItem(this.searchInputTarget)
@@ -45,13 +54,11 @@ export default class extends Controller {
   }
 
   #clearTurboFrame() {
-    this.turboFrameTarget.removeAttribute("id")
     this.turboFrameTarget.removeAttribute("src")
     this.turboFrameTarget.innerHtml = ""
   }
 
-  #openInTurboFrame(name, url) {
-    this.turboFrameTarget.id = name
+  #openInTurboFrame(url) {
     this.turboFrameTarget.src = url
   }
 
