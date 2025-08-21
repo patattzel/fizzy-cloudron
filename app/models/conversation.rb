@@ -9,7 +9,7 @@ class Conversation < ApplicationRecord
   enum :state, %w[ ready thinking ].index_by(&:itself), default: :ready
 
   def ask(question, **attributes)
-    user.ensure_under_ai_usage_limit
+    user.ensure_ai_quota_not_depleted
 
     create_message_with_state_change(**attributes, role: :user, content: question) do
       raise(InvalidStateError, "Can't ask questions while thinking") if thinking?
@@ -23,7 +23,7 @@ class Conversation < ApplicationRecord
       ready!
     end
 
-    user.increment_ai_usage(message.cost) if message.cost
+    user.spend_ai_quota(message.cost) if message.cost
 
     message
   end
