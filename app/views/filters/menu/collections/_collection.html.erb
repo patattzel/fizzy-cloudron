@@ -1,7 +1,7 @@
 <li class="popup__group" data-filter-target="item" data-navigable-list-target="item">
   <label class="btn txt-xx-small">
     <%= form.check_box "collection_ids[]", {
-          checked: filter.collections.include?(collection),
+          checked: user_filtering.filter.collections.include?(collection),
           data: { action: "change->form#submit" },
           include_hidden: false,
     }, collection.id %>

@@ -1,14 +1,4 @@
 module FiltersHelper
-  def filter_title(filter)
-    if filter.collections.none?
-      Current.user.collections.one? ? Current.user.collections.first.name : "All collections"
-    elsif filter.collections.one?
-      filter.collections.first.name
-    else
-      filter.collections.map(&:name).to_sentence
-    end
-  end
-
   def filter_chip_tag(text, params)
     link_to cards_path(params), class: "btn txt-x-small btn--remove fill-selected flex-inline" do
       concat tag.span(text)
@@ -21,27 +11,28 @@ module FiltersHelper
     hidden_field_tag name, value, id: nil
   end
 
-  def filter_selected_collections_sentence(filter)
-    if filter.collections.any?
-      filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
-    else
-      tag.strong "All collections"
+  def filter_selected_collections_title(user_filtering)
+    user_filtering.selected_collection_titles.collect { tag.strong it }.to_sentence.html_safe
+  end
+
+  def filter_place_menu_item(path, label, icon)
+    tag.li class: "popup__group", data: { filter_target: "item", navigable_list_target: "item" } do
+      concat icon_tag(icon)
+      concat(link_to(path, class: "popup__item btn") do
+        concat tag.span(label, class: "overflow-ellipsis")
+        concat tag.span(" ›", class: "translucent flex-item-no-shrink flex-item-justify-end")
+      end)
     end
   end
 
-  def filter_selected_collections_label(filter)
-    selected_collections = if filter.collections.any?
-      filter.collections.collect { "<strong>#{it.name}</strong>" }.uniq.sort.to_sentence
-    else
-      "all collections"
-    end
-
-    "Activity in #{selected_collections}".html_safe
-  end
-
-  def any_filters?(filter)
-    filter.tags.any? || filter.assignees.any? || filter.creators.any? || filter.closers.any? ||
-      filter.stages.any? || filter.terms.any? || filter.card_ids&.any? ||
-      filter.assignment_status.unassigned? || !filter.indexed_by.latest?
+  def filter_dialog(label, &block)
+    tag.dialog class: "margin-block-start-half popup panel flex-column align-start gap-half fill-white shadow txt-small", data: {
+      action: "turbo:before-cache@document->dialog#close keydown->navigable-list#navigate filter:changed->navigable-list#reset toggle->filter#filter",
+      aria: { label: label, aria_description: label },
+      controller: "filter navigable-list",
+      dialog_target: "dialog",
+      navigable_list_focus_on_selection_value: false,
+      navigable_list_actionable_items_value: true
+    }, &block
   end
 end
