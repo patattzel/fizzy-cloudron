@@ -75,6 +75,19 @@
     }
   }
 
+  .conversation__thinking-indicator {
+    inset: auto auto var(--footer-height) calc(var(--block-space) * -1.5);
+    position: absolute;
+
+    .spinner {
+      display: none;
+  
+      .conversation__thinking-indicator--thinking & {
+        display: block;
+      }
+    }
+  }
+
   .conversation__transcript {
     display: flex;
     flex-direction: column;
