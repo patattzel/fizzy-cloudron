@@ -8,11 +8,14 @@
     position: absolute;
   }
 
-  .conversation__composer-input {
+  .conversation__composer-input.input {
     --focus-ring-size: 0;
+    --input-border-color: var(--color-ink-light);
     --input-border-radius: 0;
-    --input-border-size: 0;
-    --input-padding: 0 0.5em;
+    --input-padding: 0.1em;
+
+    border-width: 0 0 1px;
+    max-inline-size: 40ch;
   }
 
   .conversation__message {
