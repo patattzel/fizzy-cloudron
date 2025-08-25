@@ -192,6 +192,39 @@
       padding-inline: calc(var(--cards-gap) * 2);
     }
 
+    .cards__decoration {
+      --size: 4em;
+
+      background-color: var(--color-canvas);
+      background-image: radial-gradient(ellipse at bottom,
+        color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
+        transparent 70%);
+      block-size: var(--size);
+      inline-size: 100%;
+      inset: calc(var(--size) * -1) 0 auto 0;
+      position: absolute;
+      z-index: -1;
+
+      @supports(mask: radial-gradient(black)) {
+        &:before {
+          background: radial-gradient(ellipse at bottom,
+            color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
+            transparent 60%);
+          content: "";
+          inset: 0;
+          mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+                radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+          position: absolute;
+          z-index: 0;
+        }
+      }
+
+      &.cards__decoration--end {
+        inset: auto 0 calc(var(--size) * -1);
+        rotate: 180deg;
+      }
+    }
+
     .card {
       --avatar-size: 2.75em;
       --text-small: 1.1em;

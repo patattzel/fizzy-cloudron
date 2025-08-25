@@ -21,7 +21,7 @@ export default class extends Controller {
     }
   }
 
-  submitEnd(even) {
+  submitEnd(event) {
     this.#submittingMessage = false
 
     if (event.detail.success) {

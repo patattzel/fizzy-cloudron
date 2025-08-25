@@ -1,0 +1,52 @@
+@layer components {
+  .bar {
+    --row-gap: 0.2lh;
+
+    background-color: var(--color-terminal-bg);
+    color: var(--color-terminal-text);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    inset: auto 0 0 0;
+    max-block-size: 100%;
+    padding: var(--block-space) calc(var(--tray-size) + calc(var(--inline-space) * 3)) calc(var(--block-space) + env(safe-area-inset-bottom));
+    place-content: center;
+    position: fixed;
+    z-index: var(--z-terminal);
+
+    @media (prefers-color-scheme: dark) {
+      border-block: 1px solid var(--color-ink-lighter);
+    }
+  }
+
+  .bar__input {
+    transform: translateX(50%);
+    transition: transform 350ms cubic-bezier(0.25, 1.25, 0.5, 1);
+
+    .bar:has(.bar__placeholder[hidden]) & {
+      transform: translateX(0);
+    }
+  }
+
+  .bar__modal {
+    background-color: var(--color-terminal-bg);
+    block-size: 75dvh;
+    border-block: 1px solid var(--color-ink-lighter);
+    inline-size: 100vw;
+    inset: auto 0 0 0;
+    max-inline-size: 100vw;
+    margin-block-end: calc(var(--footer-height) - 0.3rem);
+    position: fixed;
+    z-index: -1;
+  }
+
+  .bar__placeholder {
+    font-weight: 500;
+    opacity: 0.66;
+
+    .btn--plain {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+  }
+}

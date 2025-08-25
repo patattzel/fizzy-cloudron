@@ -1,0 +1,48 @@
+<%= tag.div \
+      class: "bar full-width",
+      data: {
+        controller: "bar",
+        bar_dialog_outlet: "#bar-modal",
+        bar_search_url_value: search_path,
+        bar_ask_url_value: conversation_path
+      } do %>
+  <div class="flex justify-center gap bar__placeholder" data-bar-target="buttonsContainer">
+    <%= tag.button \
+          class: "btn btn--plain",
+          data: {
+            controller: "hotkey",
+            action: "
+            bar#search
+            keydown.meta+k@document->hotkey#click keydown.ctrl+k@document->hotkey#click" } do %>
+      <span>Search [<%= hotkey_label(["ctrl", "K"]) %>]</span>
+    <% end %>
+    <span>or</span>
+    <%= tag.button \
+          class: "btn btn--plain",
+          data: {
+            controller: "hotkey",
+            action: "
+            bar#ask
+            keydown.meta+a@document->hotkey#click keydown.ctrl+a@document->hotkey#click" } do %>
+      <span>Ask [<%= hotkey_label(["ctrl", "A"]) %>]</span>
+    <% end %>
+  </div>
+
+  <div class="bar__input" data-bar-target="searchInput" hidden>
+    <%= render "searches/form", query_terms: "" %>
+  </div>
+
+  <div class="bar__input" data-bar-target="askInput" hidden>
+    <%= render "conversations/composer" %>
+  </div>
+
+  <%= tag.dialog \
+    id: "bar-modal",
+    class: "bar__modal",
+    data: {
+      controller: "dialog",
+      dialog_target: "dialog",
+      action: "keydown.esc->bar#reset:stop" } do %>
+    <%= turbo_frame_tag "bar-content", data: { bar_target: "turboFrame" } %>
+  <% end %>
+<% end %>

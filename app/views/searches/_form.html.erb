@@ -1,4 +1,11 @@
-<%= form_with url: search_path, method: :get, class: "search__form" do |form| %>
-  <%= text_field_tag :q, query_terms, class: "search__form-input input", type: "search", placeholder: "What are you looking for?" %>
-  <%= icon_tag "search", class: "search__form-icon" %>
+<%= form_with url: search_path, method: :get, class: "search__form flex align-center justify-center gap-half", data: { turbo_frame: "bar-content" } do |form| %>
+  <%= form.label :q, "Search Fizzy", class: "font-weight-black txt-nowrap" %>
+  <%= text_field_tag :q, query_terms,
+        class: "search__form-input input",
+        type: "search",
+        placeholder: "Find something…",
+        autocomplete: "off",
+        autofocus: true,
+        data: {
+          action: "keydown.enter->bar#showModalAndSubmit keydown.esc->bar#reset" } %>
 <% end %>

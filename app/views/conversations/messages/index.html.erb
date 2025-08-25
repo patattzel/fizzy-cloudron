@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(@conversation, :messages_container) do %>
   <%= tag.div \
-        id: dom_id(@conversation, :messages),
+        id: "conversation-messages",
         class: "conversation__messages",
         data: {
           controller: "conversation--messages",

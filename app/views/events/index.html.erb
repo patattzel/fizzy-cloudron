@@ -2,40 +2,16 @@
 <%= turbo_stream_from :activity_summaries %>
 
 <% content_for :header do %>
-  <nav class="header">
-    <header class="center">
-      <%= render "events/filter", filter: @filter %>
-    </header>
-  </nav>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
 <% end %>
 
 <header class="events-header header margin-block-end">
-  <div class="header__actions header__actions--start">
-    <% if collection = @filter.single_collection || Current.user.collections.ordered_by_recently_accessed.first %>
-      <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link btn--circle-mobile" do %>
-        <%= icon_tag "add" %>
-        <span>Add a card</span>
-      <% end %>
-    <% end %>
-  </div>
+  <%= render "filters/menu/add_card_button", user_filtering: @user_filtering %>
 
   <h1 class="header__title overflow-ellipsis">
     <div class="overflow-ellipsis">
-      <% if @filter.collections.any? %>
-        <%= filter_selected_collections_label(@filter) %>
-      <% else %>
-        <%= Account.sole.name %> / Latest activity
-        <% if @filter.creators.any? %>
-          by <%= @filter.creators.each_with_object([]) { |creator, names| names << creator.familiar_name }.to_sentence %>
-        <% end %>
-      <% end %>
+      Activity in <%= @user_filtering.selected_collections_label %>
     </div>
-    <% if @filter.creators.any? %>
-      <%= link_to events_path(@filter.as_params.except(:creator_ids)), class: "btn btn--remove txt-xx-small margin-inline-start" do %>
-        <%= icon_tag "close" %>
-        <span class="for-screen-reader">Clear all</span>
-      <% end %>
-    <% end %>
   </h1>
 
   <div class="header__actions header__actions--end"></div>

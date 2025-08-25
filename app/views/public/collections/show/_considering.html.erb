@@ -1,4 +1,5 @@
 <section id="considering-cards" class="cards cards--considering">
+  <div class="cards__decoration"></div>
   <% if page.used? %>
     <%= render partial: "cards/display/public_preview", collection: page.records, as: :card, cached: true %>
 
@@ -10,4 +11,5 @@
   <% else %>
     <p class="txt-medium translucent">Nothing here</p>
   <% end %>
+  <div class="cards__decoration cards__decoration--end"></div>
 </section>

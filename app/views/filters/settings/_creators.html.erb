@@ -1,0 +1,58 @@
+<% filter = user_filtering.filter %>
+
+<% if user_filtering.show_creators? %>
+  <div class="quick-filter position-relative" data-controller="dialog"
+        data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+    <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
+      <span class="overflow-ellipsis">
+        <% if filter.creators.any? %>
+          <%= "Added by #{filter.creators.map(&:familiar_name).to_sentence(two_words_connector: " or ", last_word_connector: ", or ")}" %>
+        <% else %>
+          Added by…
+        <% end %>
+      </span>
+    </button>
+
+    <%= filter_dialog "Added by…" do %>
+      <strong class="popup__title txt-nowrap">Added by…</strong>
+
+      <% if user_filtering.users.many? %>
+        <%= text_field_tag :search, nil, placeholder: "Filter…", class: "input input--transparent txt-small", autofocus: true,
+              type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
+      <% end %>
+
+      <ul class="popup__list" data-filter-target="list">
+        <% user_filtering.users.each do |user| %>
+          <li class="popup__group" data-filter-target="item" data-navigable-list-target="item">
+            <%= form_with url: cards_path, method: :get, class: "full-width", data: { controller: "form" } do |form| %>
+              <% filter.as_params.except(:creator_ids).each do |key, value| %>
+                <%= filter_hidden_field_tag key, value %>
+              <% end %>
+
+              <% filter.creators.each do |existing_creators| %>
+                <% unless existing_creators == user %>
+                  <%= hidden_field_tag "creator_ids[]", existing_creators.id %>
+                <% end %>
+              <% end %>
+
+              <% unless filter.creators.include?(user) %>
+                <%= hidden_field_tag "creator_ids[]", user.id %>
+              <% end %>
+
+              <% if user_filtering.expanded? %>
+                <%= hidden_field_tag :expand_all, user_filtering.expanded? %>
+              <% end %>
+
+              <%= form.button type: "submit", class: "popup__item btn" do %>
+                <span class="overflow-ellipsis flex-item-grow"><%= user.name %></span>
+                <% if filter.creators.include?(user) %>
+                  <%= icon_tag "check", class: "checked flex-item-justify-end" %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>
