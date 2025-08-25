@@ -34,7 +34,7 @@ export default class extends Controller {
   }
 
   scrollToBottom() {
-    this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight
+    this.element.scrollTop = this.element.scrollHeight
   }
 
   beforeStreamRender(event) {
