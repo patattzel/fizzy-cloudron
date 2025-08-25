@@ -1,6 +1,8 @@
 module User::AiQuota
   extend ActiveSupport::Concern
 
+  DEFAULT_QUOTA = Ai::Quota::Money.wrap("$100")
+
   included do
     has_one :ai_quota, class_name: "Ai::Quota"
   end
@@ -15,6 +17,6 @@ module User::AiQuota
 
   private
     def fetch_or_create_ai_quota
-      ai_quota || create_ai_quota!(limit: Ai::Quota::Money.wrap("$100"))
+      ai_quota || create_ai_quota!(limit: DEFAULT_QUOTA)
     end
 end
