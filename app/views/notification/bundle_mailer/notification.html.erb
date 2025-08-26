@@ -1,9 +1,5 @@
-<h2>Your Notifications</h2>
+<h2>Your Notifications since <%= @bundle.starts_at.strftime("%-l%P on %A, %B %-d") %></h2>
 
 <p>You have <%= @notifications.count %> notifications:</p>
 
-<ul>
-  <% @notifications.each do |notification| %>
-    <li>Notification ID: <%= notification.id %></li>
-  <% end %>
-</ul>
+<%= render partial: "notification/bundle_mailer/notification", collection: @notifications, as: :notification %>

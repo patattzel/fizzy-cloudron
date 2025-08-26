@@ -29,7 +29,9 @@ class Notification::Bundle < ApplicationRecord
 
   def deliver
     processing!
-    BundleMailer.notification(self).deliver
+
+    BundleMailer.notification(self).deliver if has_unread_notifications?
+
     delivered!
   end
 
@@ -47,5 +49,9 @@ class Notification::Bundle < ApplicationRecord
 
     def window
       starts_at..ends_at
+    end
+
+    def has_unread_notifications?
+      notifications.unread.any?
     end
 end

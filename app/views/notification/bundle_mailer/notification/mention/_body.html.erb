@@ -1,0 +1,9 @@
+<% mention = notification.source %>
+
+<h3>
+<%= mention.mentioner.first_name %> mentioned you
+</h3>
+
+<p>
+<%= mention.source.mentionable_content.truncate(200) %>
+</p>
