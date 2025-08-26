@@ -73,7 +73,7 @@ Beta is primarily intended for testing product features.
 
 Beta tenant is:
 
-- https://fizzy.37signals.works/
+- https://fizzy-beta.37signals.com
 
 This environment uses local disk for Active Storage.
 

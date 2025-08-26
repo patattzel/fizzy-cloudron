@@ -75,6 +75,11 @@ Rails.application.configure do
   # Allow all hosts in development
   config.hosts = nil
 
+  config.hosts = %w[ fizzy.localhost localhost 127.0.0.1 ]
+
+  # Host to be used in links rendered from ActionMailer
+  config.action_mailer.default_url_options = { host: config.hosts.first, port: 3005 }
+
   if Rails.root.join("tmp/solid-queue.txt").exist?
     config.active_job.queue_adapter = :solid_queue
     config.solid_queue.connects_to = { database: { writing: :queue } }

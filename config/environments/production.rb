@@ -73,8 +73,17 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  config.hosts = [
+    "fizzy.37signals.com",
+    "localhost",
+    IPAddr.new("172.17.0.0/20") # Docker VPC
+  ]
+
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "%{tenant}.fizzy.37signals.com" }
+  config.action_mailer.default_url_options = { host: config.hosts.first, protocol: "https" }
+
+  config.action_mailer.smtp_settings = { domain: config.hosts.first, address: "smtp-outbound", port: 25, enable_starttls_auto: false }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -86,11 +95,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
