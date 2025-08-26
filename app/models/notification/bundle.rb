@@ -31,13 +31,13 @@ class Notification::Bundle < ApplicationRecord
   end
 
   def notifications
-    user.notifications.where(created_at: window)
+    user.notifications.where(created_at: window).unread
   end
 
   def deliver
     processing!
 
-    BundleMailer.notification(self).deliver if has_unread_notifications?
+    BundleMailer.notification(self).deliver if notifications.any?
 
     delivered!
   end
@@ -56,10 +56,6 @@ class Notification::Bundle < ApplicationRecord
 
     def window
       starts_at..ends_at
-    end
-
-    def has_unread_notifications?
-      notifications.unread.any?
     end
 
     def validate_no_overlapping
