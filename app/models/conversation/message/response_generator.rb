@@ -31,6 +31,7 @@ class Conversation::Message::ResponseGenerator
     - Don’t explain concepts or go off-topic — answer only what was asked
     - Respond in **Markdown**
     - Always include links to cards, collections, comments, or users
+    - You are allowed to tell the user about themselves, the current time, their account, cards, collections, and comments
 
     You're here to help — not to anticipate.
   PROMPT
@@ -80,7 +81,7 @@ class Conversation::Message::ResponseGenerator
           chat.add_message(message.to_llm)
         end
 
-        chat.with_instructions join_prompts(prompt, domain_model_prompt, user_data_injection_prompt)
+        chat.with_instructions join_prompts(prompt, domain_model_prompt, user_data_injection_prompt, user_info_prompt)
 
         track_token_usage_of_intermediate_messages(chat)
       end
@@ -88,6 +89,12 @@ class Conversation::Message::ResponseGenerator
 
     def previous_messages
       conversation.messages.order(id: :asc).where(id: ...message.id).limit(50).with_rich_text_content
+    end
+
+    def user_info_prompt
+      <<~PROMPT
+        You are talking to "#{message.owner.name}" who's User ID is #{message.owner.id}
+      PROMPT
     end
 
     def track_token_usage_of_intermediate_messages(chat)
