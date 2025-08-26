@@ -67,7 +67,7 @@ You need to make sure those timestamps are always the same across executions.
 
 #### Development
 
-You can view email previews at http://know-it-all.localhost:3005/rails/mailers.
+You can view email previews at http://fizzy.localhost:3006/rails/mailers.
 
 You can enable or disable [`letter_opener`](https://github.com/ryanb/letter_opener) to
 open sent emails automatically with:

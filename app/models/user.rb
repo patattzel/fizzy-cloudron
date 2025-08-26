@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, Attachable, Assignee, Mentionable, Named, Role, Searcher,
+  include Accessor, Attachable, Assignee, Mentionable, Named, Notifiable, Role, Searcher,
     SignalUser, Staff, Transferable, Conversational
   include Timelined # Depends on Accessor
 
@@ -9,8 +9,6 @@ class User < ApplicationRecord
   has_secure_password validations: false
 
   has_many :comments, inverse_of: :creator, dependent: :destroy
-
-  has_many :notifications, dependent: :destroy
 
   has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
   has_many :closures, dependent: :nullify

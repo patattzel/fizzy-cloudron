@@ -1,0 +1,51 @@
+class Notification::Bundle < ApplicationRecord
+  belongs_to :user
+
+  enum :status, %i[ pending processing delivered ]
+
+  before_create :set_default_window
+
+  scope :due, -> { pending.where("ends_at <= ?", Time.current) }
+
+  class << self
+    def deliver_all
+      due.in_batches do |batch|
+        DeliverJob.perform_all_later batch
+      end
+    end
+
+    def deliver_all_later
+      DeliverAllJob.perform_later
+    end
+  end
+
+  def add(notification)
+    update! ends_at: [ ends_at, notification.created_at ].max
+  end
+
+  def notifications
+    user.notifications.where(created_at: window)
+  end
+
+  def deliver
+    processing!
+    BundleMailer.notification(self).deliver
+    delivered!
+  end
+
+  def deliver_later
+    DeliverJob.perform_later(self)
+  end
+
+  private
+    AGGREGATION_PERIOD = 4.hours
+
+    def set_default_window
+      self.starts_at ||= Time.current
+      self.ends_at ||= AGGREGATION_PERIOD.from_now
+    end
+
+    def window
+      starts_at..ends_at
+    end
+end
