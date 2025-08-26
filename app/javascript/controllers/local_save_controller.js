@@ -47,7 +47,7 @@ export default class extends Controller {
 
   #triggerChangeEvent(newValue) {
     if (this.inputTarget.tagName === "LEXXY-EDITOR") {
-      this.inputTarget.dispatchEvent(new CustomEvent('fizzy:change', {
+      this.inputTarget.dispatchEvent(new CustomEvent('lexxy:change', {
         bubbles: true,
         detail: {
           previousContent: '',
