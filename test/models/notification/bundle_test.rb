@@ -30,6 +30,47 @@ class Notification::BundleTest < ActiveSupport::TestCase
     end
 
     bundle_1, bundle_2 = @user.notification_bundles.last(2)
+    assert_includes bundle_1.notifications, notification_1
+    assert_includes bundle_1.notifications, notification_2
+    assert_includes bundle_2.notifications, notification_3
+  end
 
+  test "overlapping bundles are invalid" do
+    bundle_1 = @user.notification_bundles.create!(
+      starts_at: Time.current,
+      ends_at: 4.hours.from_now,
+      status: :pending
+    )
+
+    bundle_2 = @user.notification_bundles.build(
+      starts_at: 2.hours.from_now,
+      ends_at: 6.hours.from_now,
+      status: :pending
+    )
+    assert_not bundle_2.valid?
+
+    # Bundle with overlapping end time should be invalid
+    bundle_3 = @user.notification_bundles.build(
+      starts_at: 2.hours.ago,
+      ends_at: 2.hours.from_now,
+      status: :pending
+    )
+    assert_not bundle_3.valid?
+
+    # Bundle completely within another bundle should be invalid
+    bundle_4 = @user.notification_bundles.build(
+      starts_at: 1.hour.from_now,
+      ends_at: 3.hours.from_now,
+      status: :pending
+    )
+    assert_not bundle_4.valid?
+
+    # Non-overlapping bundle should be valid
+    bundle_5 = @user.notification_bundles.build(
+      starts_at: 5.hours.from_now,
+      ends_at: 9.hours.from_now,
+      status: :pending
+    )
+    assert bundle_5.valid?
   end
 end

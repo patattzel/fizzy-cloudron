@@ -3,10 +3,20 @@ class Notification::Bundle < ApplicationRecord
 
   enum :status, %i[ pending processing delivered ]
 
-  before_create :set_default_window
-
   scope :due, -> { pending.where("ends_at <= ?", Time.current) }
   scope :containing, -> (notification) { where("starts_at <= ? AND ends_at >= ?", notification.created_at, notification.created_at) }
+  scope :overlapping_with, -> (other_bundle) {
+    where(
+      "(starts_at <= ? AND ends_at >= ?) OR (starts_at <= ? AND ends_at >= ?) OR (starts_at >= ? AND ends_at <= ?)",
+      other_bundle.starts_at, other_bundle.starts_at,
+      other_bundle.ends_at, other_bundle.ends_at,
+      other_bundle.starts_at, other_bundle.ends_at
+    )
+  }
+
+  before_create :set_default_window
+
+  validate :validate_no_overlapping
 
   class << self
     def deliver_all
@@ -50,5 +60,15 @@ class Notification::Bundle < ApplicationRecord
 
     def has_unread_notifications?
       notifications.unread.any?
+    end
+
+    def validate_no_overlapping
+      if overlapping_bundles.exists?
+        errors.add(:base, "Bundle window overlaps with an existing pending bundle")
+      end
+    end
+
+    def overlapping_bundles
+      user.notification_bundles.where.not(id: id).overlapping_with(self)
     end
 end
