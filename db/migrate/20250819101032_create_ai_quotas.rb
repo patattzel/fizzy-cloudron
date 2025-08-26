@@ -8,7 +8,5 @@ class CreateAiQuotas < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-
-    add_index :ai_quotas, :user_id, unique: true
   end
 end
