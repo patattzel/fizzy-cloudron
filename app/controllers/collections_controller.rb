@@ -3,7 +3,7 @@ class CollectionsController < ApplicationController
 
   include FilterScoped
 
-  enable_collection_filtering only: :edit
+  enable_collection_filtering only: [:edit, :new]
 
   def new
     @collection = Collection.new
