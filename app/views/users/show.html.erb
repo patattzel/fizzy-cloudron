@@ -7,7 +7,7 @@
 
   <div class="header__actions header__actions--end">
     <% if Current.user == @user %>
-      <%= link_to edit_user_path(@user), class: "btn flex-item-justify-end" do %>
+      <%= link_to edit_user_path(@user), class: "btn" do %>
         <%= icon_tag "pencil" %>
         <span class="for-screen-reader">Edit</span>
       <% end %>
