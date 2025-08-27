@@ -1,7 +1,7 @@
 <tr>
   <td>
     <h1 class="title">Everything since <%= @bundle.starts_at.strftime("%-l%P on %A, %B %-d") %></h1>
-    <p class="subtitle">You have <%= pluralize @notifications.count, "new notification" %>.</p>
+    <p class="subtitle">You have <%= link_to pluralize(@notifications.count, "new notification"), notifications_url %>.</p>
     <%= render partial: "notification/bundle_mailer/notification", collection: @notifications, as: :notification %>
   </td>
 </tr>
