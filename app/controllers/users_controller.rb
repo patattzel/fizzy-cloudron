@@ -5,6 +5,10 @@ class UsersController < ApplicationController
   before_action :ensure_join_code_is_valid, only: %i[ new create ]
   before_action :ensure_permission_to_change_user, only:  %i[ update destroy ]
 
+  include FilterScoped
+
+  enable_collection_filtering only: [:edit, :show]
+
   def new
     @user = User.new
   end
