@@ -43,4 +43,17 @@ module FiltersHelper
       concat tag.kbd(key)
     end
   end
+
+  def sorted_by_label(sort_value)
+    case sort_value
+    when "newest"
+      "Newest to oldest"
+    when "oldest"
+      "Oldest to newest"
+    when "latest"
+      "Recently updated"
+    else
+      sort_value.humanize
+    end
+  end
 end
