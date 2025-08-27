@@ -173,7 +173,7 @@ Rails.application.routes.draw do
   end
 
   resolve "Event" do |event, options|
-    polymorphic_path(event.target, options)
+    polymorphic_path(event.eventable, options)
   end
 
   get "up", to: "rails/health#show", as: :rails_health_check
