@@ -2,9 +2,7 @@
 <% @hide_footer_frames = true %>
 
 <% content_for :header do %>
-  <div class="header__actions header__actions--start">
-    <%= link_to_home class: "flex-item-justify-start" %>
-  </div>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
 
   <h1 class="header__title"><%= @page_title %></h1>
 
