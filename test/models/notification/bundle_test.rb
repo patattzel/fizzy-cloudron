@@ -105,5 +105,4 @@ class Notification::BundleTest < ActiveSupport::TestCase
     bundle.reload
     assert bundle.pending?
   end
-
 end
