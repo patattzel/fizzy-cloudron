@@ -1,6 +1,7 @@
 <% mention = notification.source %>
 
-<%= mention.mentioner.first_name %> mentioned you
-<%= notification_url(mention) %>
+<%= mention.mentioner.first_name %> mentioned you.
 
-<%= mention.source.mentionable_content.truncate(200) %>
+<%= mention.source.mentionable_content.truncate(250) %>
+
+<%= notification_url(mention) %>

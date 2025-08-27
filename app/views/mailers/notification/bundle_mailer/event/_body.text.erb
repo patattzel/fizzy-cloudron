@@ -1,6 +1,7 @@
 <% event = notification.source %>
 
 <%= event_notification_title(event) %>
-<%= notification_url(notification.source) %>
 
-<%= event_notification_body(event) %>
+<%= event_notification_body(event).squish %>
+
+<%= notification_url(notification.source) %>
