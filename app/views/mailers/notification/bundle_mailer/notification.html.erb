@@ -3,5 +3,9 @@
     <h1 class="title">Everything since <%= @bundle.starts_at.strftime("%-l%P on %A, %B %-d") %></h1>
     <p class="subtitle">You have <%= link_to pluralize(@notifications.count, "new notification"), notifications_url %>.</p>
     <%= render partial: "notification/bundle_mailer/notification", collection: @notifications, as: :notification %>
+    <p class="footer">Fizzy emails you about new notifications every few hours. <br>
+      <%= link_to "Change how often you get these", settings_notifications_url %> 
+      or <%= link_to "unsubscribe from all email notifications", root_url %>.
+    </p>
   </td>
 </tr>
