@@ -1,15 +1,13 @@
 <% @page_title = "Create a new Workflow" %>
 
 <% content_for :header do %>
-  <nav class="header">
-    <div class="header__actions header__actions--start">
-      <%= link_to_back fallback_path: workflows_path %>
-    </div>
+  <div class="header__actions header__actions--start">
+    <%= link_to_back fallback_path: workflows_path %>
+  </div>
 
-    <h1 class="header__title"><%= @page_title %></h1>
+  <h1 class="header__title"><%= @page_title %></h1>
 
-    <div class="header__actions header__actions--end"></div>
-  </nav>
+  <div class="header__actions header__actions--end"></div>
 <% end %>
 
 <%= turbo_frame_tag :workflows do %>
