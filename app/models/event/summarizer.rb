@@ -45,10 +45,7 @@ class Event::Summarizer
     end
 
     def calculate_cost_in_microcents(response)
-      return 0 unless response.input_tokens && response.output_tokens
-
       model_info = RubyLLM.models.find(response.model_id)
-      return 0 unless model_info
 
       input_cost = calculate_token_cost(response.input_tokens, model_info.input_price_per_million)
       output_cost = calculate_token_cost(response.output_tokens, model_info.output_price_per_million)
