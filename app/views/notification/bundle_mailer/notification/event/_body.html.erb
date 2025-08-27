@@ -1,9 +1,9 @@
 <% event = notification.source %>
 
-<h3>
-  <%= event_notification_title(event) %>
+<h3 class="event__title">
+  <%= link_to event_notification_title(event), collection_card_url(notification.card.collection, notification.card) %>
 </h3>
 
-<p>
+<p class="event__details">
   <%= event_notification_body(event) %>
 </p>

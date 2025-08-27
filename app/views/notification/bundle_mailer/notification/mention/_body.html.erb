@@ -1,9 +1,9 @@
 <% mention = notification.source %>
 
-<h3>
-<%= mention.mentioner.first_name %> mentioned you
+<h3 class="event__title">
+  <%= link_to "#{mention.mentioner.first_name} mentioned you", collection_card_url(notification.card.collection, notification.card) %>
 </h3>
 
-<p>
-<%= mention.source.mentionable_content.truncate(200) %>
+<p class="event__details">
+  <%= mention.source.mentionable_content.truncate(200) %>
 </p>
