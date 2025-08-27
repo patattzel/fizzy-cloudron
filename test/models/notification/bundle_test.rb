@@ -73,4 +73,22 @@ class Notification::BundleTest < ActiveSupport::TestCase
     )
     assert bundle_5.valid?
   end
+
+  test "deliver_all delivers due bundles" do
+    notification = @user.notifications.create!(source: events(:logo_published), creator: @user)
+
+    bundle = @user.notification_bundles.pending.last
+
+    assert bundle.pending?
+    assert_includes bundle.notifications, notification
+
+    bundle.update!(ends_at: 1.minute.ago)
+
+    perform_enqueued_jobs do
+      Notification::Bundle.deliver_all
+    end
+
+    bundle.reload
+    assert bundle.delivered?
+  end
 end
