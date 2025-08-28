@@ -2,7 +2,7 @@ class User::Settings < ApplicationRecord
   belongs_to :user
 
   enum :bundle_email_frequency, %i[ never every_few_hours daily weekly ],
-    default: :never, prefix: :bundle_email
+    default: :every_few_hours, prefix: :bundle_email
 
   after_update :review_pending_bundles, if: :saved_change_to_bundle_email_frequency?
 
