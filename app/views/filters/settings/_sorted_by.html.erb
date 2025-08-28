@@ -4,7 +4,7 @@
   <div class="quick-filter position-relative <%= "default-value" if filter.sorted_by.latest? %>" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
     <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
-        <%= filter.sorted_by.humanize %>
+        <%= sorted_by_label(filter.sorted_by) %>
       </span>
     </button>
 
@@ -26,7 +26,7 @@
               <% end %>
 
               <%= form.button type: "submit", class: "popup__item btn" do %>
-                <span class="overflow-ellipsis flex-item-grow"><%= sort.humanize %></span>
+                <span class="overflow-ellipsis flex-item-grow"><%= sorted_by_label(sort) %></span>
                 <% if filter.sorted_by == sort %>
                   <%= icon_tag "check", class: "checked flex-item-justify-end" %>
                 <% end %>

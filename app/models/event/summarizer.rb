@@ -27,9 +27,12 @@ class Event::Summarizer
     @llm_model = llm_model
   end
 
-  def summarize
-    response = chat.ask join_prompts("Summarize the following content:", summarizable_content)
-    [ response.content, calculate_cost_in_microcents(response) ]
+  def summarized_content
+    llm_response.content
+  end
+
+  def cost
+    Ai::UsageCost.from_llm_response(llm_response)
   end
 
   def summarizable_content
@@ -39,25 +42,12 @@ class Event::Summarizer
   private
     attr_reader :prompt, :llm_model
 
+    def llm_response
+      @llm_response ||= chat.ask join_prompts("Summarize the following content:", summarizable_content)
+    end
+
     def chat
       chat = RubyLLM.chat(model: llm_model)
       chat.with_instructions(join_prompts(prompt, domain_model_prompt, user_data_injection_prompt))
-    end
-
-    def calculate_cost_in_microcents(response)
-      model_info = RubyLLM.models.find(response.model_id)
-
-      input_cost = calculate_token_cost(response.input_tokens, model_info.input_price_per_million)
-      output_cost = calculate_token_cost(response.output_tokens, model_info.output_price_per_million)
-
-      input_cost + output_cost
-    end
-
-    def calculate_token_cost(token_count, price_per_million)
-      return 0 unless price_per_million
-
-      single_token_price = price_per_million.to_d / 1_000_000
-      token_cost_dollars = token_count * single_token_price
-      Ai::Quota::Money.wrap(token_cost_dollars).in_microcents
     end
 end

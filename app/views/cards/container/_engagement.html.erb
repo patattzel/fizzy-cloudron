@@ -5,7 +5,7 @@
         <%= form.hidden_field :engagement, value: "on_deck" %>
         <%= form.label :engagement, value: "on_deck", class: "btn", aria: { label: "Move to On Deck"} do %>
           <%= form.radio_button :engagement, "on_deck", checked: @card.on_deck?, class: "for-screen-reader", data: { action: "change->form#submit" } %>
-          <span>Maybe?</span>
+          <span>On Deck</span>
         <% end %>
       <% end %>
 
@@ -20,7 +20,7 @@
         <%= form.hidden_field :engagement, value: "doing" %>
         <%= form.label :engagement, value: "doing", class: "btn", aria: { label: "Move to Doing"} do %>
           <%= form.radio_button :engagement, "doing", checked: @card.doing?, class: "for-screen-reader", data: { action: "change->form#submit" } %>
-          <span style="min-inline-size: 8ch">Yes!</span>
+          <span style="min-inline-size: 8ch">Working On</span>
         <% end %>
       <% end %>
     </div>
