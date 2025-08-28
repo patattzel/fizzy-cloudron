@@ -1,5 +1,5 @@
 <section class="panel unpad borderless center flex flex-column gap-half margin-block-end">
-  <h2 class="txt-medium txt-uppercase divider">Email Settings</h2>
+  <h2 class="txt-medium txt-uppercase divider">Email</h2>
   <%= form_with model: settings, url: notifications_settings_path, method: :patch, local: true, data: { controller: "form" } do |form| %>
     <div class="margin-block">
       <%= form.label :bundle_email_frequency, "Receive an email with unread notifications:" %>
