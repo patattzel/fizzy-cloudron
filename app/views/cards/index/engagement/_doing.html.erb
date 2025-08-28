@@ -1,4 +1,9 @@
-<section id="doing-cards" class="cards cards--doing" style="view-transition-name: cards-container;" data-drag-and-drop-target="container" data-drop-target="doing">
+<section id="doing-cards" class="cards cards--doing"
+    data-drag-and-drop-target="container"
+    data-drop-target="doing"
+    data-related-element-target="related"
+    data-related-element-group-value="card-columns"
+    data-action="mouseover->related-element#highlight mouseout->related-element#unhighlight">
   <% if workflow = filter.single_workflow %>
     <%= render "cards/index/workflow_filter", workflow: workflow, filter: filter %>
   <% else %>
