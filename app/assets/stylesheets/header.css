@@ -13,7 +13,7 @@
       "menu menu menu"
       "actions-start title actions-end";
     max-inline-size: 100dvw;
-    padding: calc(var(--block-space-half) + env(safe-area-inset-top)) var(--inline-space);
+    padding: calc(var(--block-space-half) + env(safe-area-inset-top)) var(--main-padding);
     view-transition-name: header;
 
     /* Change the grid size depending on how many buttons are present */
@@ -23,6 +23,12 @@
 
     &:has(nav) {
       row-gap: var(--block-space-half);
+    }
+
+    &:has(~ #main .card-columns) {
+      inline-size: 100dvw;
+      margin-inline: auto;
+      max-inline-size: var(--main-width);
     }
 
     nav {

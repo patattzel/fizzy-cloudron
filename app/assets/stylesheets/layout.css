@@ -9,8 +9,6 @@
   }
 
   :where(#main) {
-    --main-padding: clamp(var(--inline-space), 3vw, calc(var(--inline-space) * 3));
-
     inline-size: 100dvw;
     margin-inline: auto;
     max-inline-size: 100dvw;
