@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_28_084732) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -319,15 +319,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_084732) do
     t.index ["user_id", "status"], name: "index_notification_bundles_on_user_id_and_status"
   end
 
-  create_table "notification_settings", force: :cascade do |t|
-    t.integer "bundle_email_frequency", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id", "bundle_email_frequency"], name: "idx_on_user_id_bundle_email_frequency_3ff75afaf4"
-    t.index ["user_id"], name: "index_notification_settings_on_user_id"
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "creator_id"
@@ -430,6 +421,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_084732) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_settings", force: :cascade do |t|
+    t.integer "bundle_email_frequency", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "bundle_email_frequency"], name: "index_user_settings_on_user_id_and_bundle_email_frequency"
+    t.index ["user_id"], name: "index_user_settings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
@@ -486,7 +486,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_084732) do
   add_foreign_key "mentions", "users", column: "mentionee_id"
   add_foreign_key "mentions", "users", column: "mentioner_id"
   add_foreign_key "notification_bundles", "users"
-  add_foreign_key "notification_settings", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "creator_id"
   add_foreign_key "pins", "cards"
@@ -497,6 +496,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_084732) do
   add_foreign_key "steps", "cards"
   add_foreign_key "taggings", "cards"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "user_settings", "users"
   add_foreign_key "watches", "cards"
   add_foreign_key "watches", "users"
   add_foreign_key "workflow_stages", "workflows"

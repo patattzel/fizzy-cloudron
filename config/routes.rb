@@ -54,10 +54,13 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :notifications do
+    resource :settings
+  end
+
   resources :notifications do
     scope module: :notifications do
       get "tray", to: "trays#show", on: :collection
-      get "settings", to: "settings#show", on: :collection
 
       post "readings", to: "readings#create_all", on: :collection, as: :read_all
       post "reading", to: "readings#create", on: :member, as: :read
