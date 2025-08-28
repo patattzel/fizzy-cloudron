@@ -69,8 +69,8 @@ module NotificationsHelper
     options_for_select([
       [ "Never", "never" ],
       [ "Every few hours", "every_few_hours" ],
-      [ "Daily", "daily" ],
-      [ "Weekly", "weekly" ]
+      [ "Every day", "daily" ],
+      [ "Every week", "weekly" ]
     ], settings.bundle_email_frequency)
   end
 
