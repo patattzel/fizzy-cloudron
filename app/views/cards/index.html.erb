@@ -37,7 +37,7 @@
         dragover->drag-and-drop#dragOver
         drop->drag-and-drop#drop
         dragend->drag-and-drop#dragEnd" } do %>
-  <div class="card-columns">
+  <div class="card-columns" data-controller="related-element" data-related-element-highlight-class="cards--related">
     <%= render "cards/index/engagement/on_deck", **@on_deck.to_h %>
     <%= render "cards/index/engagement/considering", **@considering.to_h %>
     <%= render "cards/index/engagement/doing", **@doing.to_h %>
