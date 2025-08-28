@@ -14,5 +14,7 @@
         <%= cards_next_page_link "on-deck-cards", page: page, filter: filter %>
       </div>
     <% end %>
+  <% else %>
+    <p class="txt-normal translucent"><%= @user_filtering.any? ? "No matches" : "Nothing here" %></p>
   <% end %>
 </section>
