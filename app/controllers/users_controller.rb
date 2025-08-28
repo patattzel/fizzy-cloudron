@@ -9,8 +9,6 @@ class UsersController < ApplicationController
   before_action :set_filter, only: %i[ edit show ]
   before_action :set_user_filtering, only: %i[ edit show]
 
-  enable_collection_filtering only: %i[ edit show ]
-
   def new
     @user = User.new
   end

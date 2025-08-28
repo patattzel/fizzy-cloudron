@@ -3,8 +3,6 @@ class WorkflowsController < ApplicationController
 
   include FilterScoped
 
-  enable_collection_filtering only: %i[ new index ]
-
   def index
     @workflows = Workflow.all
   end
