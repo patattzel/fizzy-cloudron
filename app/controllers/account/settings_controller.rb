@@ -1,4 +1,4 @@
-class Accounts::SettingsController < ApplicationController
+class Account::SettingsController < ApplicationController
   include FilterScoped
 
   def show

@@ -1,5 +1,10 @@
-<section id="on-deck-cards" class="cards cards--on-deck" data-drag-and-drop-target="container" data-drop-target="on_deck">
-  <h2 class="cards__heading">Maybe?</h2>
+<section id="on-deck-cards" class="cards cards--on-deck"
+    data-drag-and-drop-target="container"
+    data-drop-target="on_deck"
+    data-related-element-target="related"
+    data-related-element-group-value="card-columns"
+    data-action="mouseover->related-element#highlight mouseout->related-element#unhighlight">
+  <h2 class="cards__heading">On Deck</h2>
 
   <% if page.used? %>
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, locals: { draggable: true }, cached: true %>

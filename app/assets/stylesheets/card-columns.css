@@ -119,6 +119,19 @@
     }
   }
 
+  .cards--related:not(:hover):not(.drag-and-drop__hover-container) {
+    .card {
+      box-shadow: 0 0 1px var(--color-ink-medium);
+      opacity: 0.9;
+      transition: box-shadow 450ms ease-in-out, opacity 150ms ease-in-out;
+
+      @media (prefers-color-scheme: dark) {
+        opacity: 0.8;
+        transition: opacity 150ms ease-in-out;
+      }
+    }
+  }
+
   /* Column elements
   /* ------------------------------------------------------------------------ */
 
