@@ -1,3 +1,9 @@
-<h1>Unsubscribed</h1>
-<p>Thank you <%= @user.name %>, you will no longer receive bundled email notifications.</p>
-<p>You can <%= link_to "re-enable notifications here", notifications_settings_path %>.</p>
+<div class="panel margin-block-double center">
+  <h1 class="font-black txt-x-large margin-none-block-end">Unsubscribed</h1>
+  <p class="margin-block-start-half">Thanks, <%= @user.first_name %>! Fizzy won't send you any more email notifications. If you change your mind you can turn them back on in <%= link_to "Notifications Settings", notifications_settings_path %>.</p>
+
+  <%= link_to root_path, class: "btn margin-block-start" do %>
+    <%= icon_tag "arrow-left" %>
+    <span>Back to Fizzy</span>
+  <% end %>
+</div>
