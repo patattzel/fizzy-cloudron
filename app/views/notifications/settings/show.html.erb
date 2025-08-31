@@ -13,9 +13,11 @@
 <% end %>
 
 <section class="settings">
-  <div class="settings__panel settings__panel--users panel shadow center flex flex-column gap-half">
+  <div class="settings__panel settings__panel--users panel shadow center">
     <h2 class="txt-medium txt-uppercase divider">Collections</h2>
-    <%= render partial: "notifications/settings/collection", collection: @collections, locals: { user: Current.user } %>
+    <div class="settings__user-list flex flex-column gap-half">
+      <%= render partial: "notifications/settings/collection", collection: @collections, locals: { user: Current.user } %>
+    </div>
   </div>
 
   <div class="settings__panel panel shadow center">
