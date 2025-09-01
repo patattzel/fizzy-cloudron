@@ -496,7 +496,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &35 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &37 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: title
     cast_type: *7
@@ -577,11 +577,11 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: all_access
-    cast_type: &31 !ruby/object:ActiveModel::Type::Boolean
+    cast_type: &34 !ruby/object:ActiveModel::Type::Boolean
       precision:
       scale:
       limit:
-    sql_type_metadata: &32 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+    sql_type_metadata: &35 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
       sql_type: boolean
       type: :boolean
       limit:
@@ -637,7 +637,7 @@ columns:
     default_function:
     collation:
     comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &31 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: cost_in_microcents
     cast_type: *11
@@ -783,7 +783,7 @@ columns:
   - *6
   - *9
   event_activity_summaries:
-  - &33 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &30 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: content
     cast_type: *15
@@ -900,7 +900,7 @@ columns:
     comment:
   filters_tags:
   - *20
-  - &34 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &36 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: tag_id
     cast_type: *3
@@ -967,7 +967,7 @@ columns:
     collation:
     comment:
   - *6
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &32 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: starts_at
     cast_type: *1
@@ -1016,6 +1016,24 @@ columns:
   - *29
   - *9
   - *18
+  period_highlights:
+  - *30
+  - *31
+  - *5
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: duration
+    cast_type: *11
+    sql_type_metadata: *12
+    'null': false
+    default: 604800
+    default_function:
+    collation:
+    comment:
+  - *6
+  - *19
+  - *32
+  - *9
   pins:
   - *23
   - *5
@@ -1056,7 +1074,7 @@ columns:
     collation:
     comment:
   - *9
-  - &30 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &33 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: user_agent
     cast_type: *7
@@ -1202,21 +1220,21 @@ columns:
     collation:
     comment:
   - *9
-  - *30
+  - *33
   - *18
   steps:
   - *23
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: completed
-    cast_type: *31
-    sql_type_metadata: *32
+    cast_type: *34
+    sql_type_metadata: *35
     'null': false
     default: false
     default_function:
     collation:
     comment:
-  - *33
+  - *30
   - *5
   - *6
   - *9
@@ -1224,12 +1242,12 @@ columns:
   - *23
   - *5
   - *6
-  - *34
+  - *36
   - *9
   tags:
   - *5
   - *6
-  - *35
+  - *37
   - *9
   user_settings:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
@@ -1250,8 +1268,8 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: active
-    cast_type: *31
-    sql_type_metadata: *32
+    cast_type: *34
+    sql_type_metadata: *35
     'null': false
     default: true
     default_function:
@@ -1310,8 +1328,8 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: watching
-    cast_type: *31
-    sql_type_metadata: *32
+    cast_type: *34
+    sql_type_metadata: *35
     'null': false
     default: true
     default_function:
@@ -1382,6 +1400,7 @@ primary_keys:
   mentions: id
   notification_bundles: id
   notifications: id
+  period_highlights: id
   pins: id
   push_subscriptions: id
   reactions: id
@@ -1433,6 +1452,7 @@ data_sources:
   mentions: true
   notification_bundles: true
   notifications: true
+  period_highlights: true
   pins: true
   push_subscriptions: true
   reactions: true
@@ -2551,6 +2571,25 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  period_highlights:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: period_highlights
+    name: index_period_highlights_on_key_and_starts_at_and_duration
+    unique: true
+    columns:
+    - key
+    - starts_at
+    - duration
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   pins:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: pins
@@ -2992,4 +3031,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250828092106
+version: 20250901114009

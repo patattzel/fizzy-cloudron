@@ -20,6 +20,9 @@ production: &production
   deliver_bundled_notifications:
     command: "Notification::Bundle.deliver_all_later"
     schedule: every 30 minutes
+  generate_weekly_highlights:
+    command: "User.generate_all_weekly_highlights_later"
+    schedule: 0 12 * * sun # every Sunday at noon
 
 beta: *production
 staging: *production

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_01_114009) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -331,6 +331,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
     t.index ["source_type", "source_id"], name: "index_notifications_on_source"
     t.index ["user_id", "read_at", "created_at"], name: "index_notifications_on_user_id_and_read_at_and_created_at", order: { read_at: :desc, created_at: :desc }
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "period_highlights", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "cost_in_microcents"
+    t.datetime "created_at", null: false
+    t.bigint "duration", default: 604800, null: false
+    t.string "key", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "starts_at", "duration"], name: "index_period_highlights_on_key_and_starts_at_and_duration", unique: true
   end
 
   create_table "pins", force: :cascade do |t|

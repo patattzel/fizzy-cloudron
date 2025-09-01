@@ -1,5 +1,5 @@
 class User::DayTimeline
-  include Serializable, Summarizable
+  include Serializable
 
   attr_reader :user, :day, :filter
 

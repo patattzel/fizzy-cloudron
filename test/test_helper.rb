@@ -20,6 +20,23 @@ VCR.configure do |config|
   config.default_cassette_options = {
     match_requests_on: [ :method, :uri, :body ]
   }
+
+  # Ignore timestamps in request bodies
+  config.before_record do |i|
+    if i.request&.body
+      i.request.body.gsub!(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC/, "<TIME>")
+    end
+  end
+
+  config.register_request_matcher :body_without_times do |r1, r2|
+    b1 = (r1.body || "").gsub(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC/, "<TIME>")
+    b2 = (r2.body || "").gsub(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC/, "<TIME>")
+    b1 == b2
+  end
+
+  config.default_cassette_options = {
+    match_requests_on: [:method, :uri, :body_without_times]
+  }
 end
 
 module ActiveSupport

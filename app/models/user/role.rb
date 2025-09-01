@@ -3,6 +3,7 @@ module User::Role
 
   included do
     enum :role, %i[ admin member system ].index_by(&:itself), scopes: false
+    scope :regular, -> { where(role: %i[ admin member ]) }
 
     scope :member, -> { where(role: :member) }
     scope :active, -> { where(active: true, role: %i[ admin member ]) }
