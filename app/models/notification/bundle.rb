@@ -38,7 +38,7 @@ class Notification::Bundle < ApplicationRecord
   def deliver
     processing!
 
-    Notification::BundleMailer.notification(self).deliver if notifications.any?
+    Notification::BundleMailer.notification(self).deliver if deliverable?
 
     delivered!
   end
@@ -61,6 +61,10 @@ class Notification::Bundle < ApplicationRecord
       if overlapping_bundles.exists?
         errors.add(:base, "Bundle window overlaps with an existing pending bundle")
       end
+    end
+
+    def deliverable?
+      user.settings.bundling_emails? && notifications.any?
     end
 
     def overlapping_bundles
