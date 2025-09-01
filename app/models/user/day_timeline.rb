@@ -29,7 +29,19 @@ class User::DayTimeline
     day.yesterday.beginning_of_day
   end
 
+  def has_weekly_highlights?
+    first_day_with_activity_this_week? && weekly_highlights.present?
+  end
+
+  def weekly_highlights
+    @weekly_highlights ||= user.weekly_highlights_for(day - 1.week)
+  end
+
   private
+    def first_day_with_activity_this_week?
+      day.monday? || (earliest_time.present? && earliest_time < day.beginning_of_week(:monday))
+    end
+
     def filtered_events
       @filtered_events ||= begin
         events = Event.where(collection: collections)
