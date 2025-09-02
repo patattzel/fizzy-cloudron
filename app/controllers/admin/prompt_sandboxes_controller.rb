@@ -5,10 +5,10 @@ class Admin::PromptSandboxesController < AdminController
     @llm_model = params[:llm_model] || Event::Summarizer::LLM_MODEL
 
     if @prompt = cookies[:prompt].presence
-      @period_highlights = build_period_highlights
+      @weekly_highlights = build_weekly_highlights
       cookies.delete :prompt
     else
-      @period_highlights = @day_timeline.weekly_highlights
+      @weekly_highlights = @day_timeline.weekly_highlights
       @prompt = Event::Summarizer::PROMPT
     end
   end
@@ -21,7 +21,7 @@ class Admin::PromptSandboxesController < AdminController
   end
 
   private
-    def build_period_highlights
+    def build_weekly_highlights
       period = PeriodHighlights::Period.new(Current.user.collections, starts_at: @day_timeline.day.utc.beginning_of_week(:sunday), duration: 1.week)
       summarizer = Event::Summarizer.new(period.events, prompt: @prompt, llm_model: @llm_model)
       content = summarizer.summarized_content
