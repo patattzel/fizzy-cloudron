@@ -1,4 +1,6 @@
 class PeriodHighlights::Period
+  MIN_EVENTS_TO_BE_INTERESTING = 7
+
   attr_reader :collections, :starts_at, :duration
 
   def initialize(collections, starts_at:, duration:)
@@ -11,8 +13,8 @@ class PeriodHighlights::Period
     @events ||= Event.where(collection: collections).where(created_at: window)
   end
 
-  def has_activity?
-    events.any?
+  def has_enough_activity?
+    events.count >= MIN_EVENTS_TO_BE_INTERESTING
   end
 
   def key

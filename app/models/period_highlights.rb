@@ -6,14 +6,14 @@ class PeriodHighlights < ApplicationRecord
 
     def for(collections, starts_at:, duration: 1.week)
       period = Period.new(collections, starts_at:, duration:)
-      find_by(**period.as_params) if period.has_activity?
+      find_by(**period.as_params) if period.has_enough_activity?
     end
 
     private
       def create_for(collections, starts_at:, duration: 1.week)
         period = Period.new(collections, starts_at:, duration:)
 
-        if period.has_activity?
+        if period.has_enough_activity?
           summarizer = Event::Summarizer.new(period.events)
           summarized_content = summarizer.summarized_content # outside of transaction as this can be slow
 
