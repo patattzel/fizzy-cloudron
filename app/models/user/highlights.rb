@@ -18,7 +18,7 @@ module User::Highlights
   end
 
   def weekly_highlights_for(date)
-    PeriodHighlights.for collections, starts_at: highlights_starts_at(date), duration: 1.week
+    PeriodHighlights.for(collections, starts_at: highlights_starts_at(date), duration: 1.week)
   end
 
   private
