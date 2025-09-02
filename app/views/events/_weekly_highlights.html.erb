@@ -13,5 +13,12 @@
 
   <div class="events__activity-summary txt-small">
     <%= day_timeline.weekly_highlights.to_html %>
+
+    <% if Current.user.staff? %>
+      <%= link_to admin_prompt_sandbox_path(day: day_timeline.day), class: "btn txt-xx-small events__activity-prompt-edit" do %>
+        <%= icon_tag "bolt" %>
+        <span class="for-screen-reader">Prompt sandbox</span>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
