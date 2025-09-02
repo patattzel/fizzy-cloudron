@@ -35,7 +35,7 @@ VCR.configure do |config|
   end
 
   config.default_cassette_options = {
-    match_requests_on: [:method, :uri, :body_without_times]
+    match_requests_on: [ :method, :uri, :body_without_times ]
   }
 end
 

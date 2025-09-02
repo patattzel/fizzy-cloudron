@@ -7,7 +7,7 @@ class CreatePeriodHighlights < ActiveRecord::Migration[8.1]
       t.text :content, null: false
       t.bigint :cost_in_microcents
 
-      t.index %i[ key starts_at duration ] , unique: true
+      t.index %i[ key starts_at duration ], unique: true
 
       t.timestamps
     end
