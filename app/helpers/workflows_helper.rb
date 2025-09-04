@@ -12,4 +12,14 @@ module WorkflowsHelper
   def stage_color(stage)
     stage.color.presence || Card::DEFAULT_COLOR
   end
+
+  def dependent_collections_sentence(workflow)
+    if workflow.collections.many?
+      "It will be removed from #{ workflow.collections.count } collections that are using it."
+    elsif workflow.collections.one?
+      "It will be removed from the only collection using it."
+    else
+      "It's not being used in any collections."
+    end
+  end
 end

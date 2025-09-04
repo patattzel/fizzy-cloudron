@@ -7,7 +7,7 @@
         <% end %>
 
         <%= button_to workflow_path(workflow), method: :delete, class: "btn txt-small borderless txt-subtle",
-              data: { turbo_frame: "_top", turbo_confirm: "Are you sure you want to delete this workflow?" },
+              data: { turbo_frame: "_top", turbo_confirm: "Are you sure you want to delete this Workflow? #{ dependent_collections_sentence(workflow) }" },
               form: { class: "flex-item-justify-end" } do %>
           <%= icon_tag "trash" %>
           <span class="for-screen-reader">Delete <%= workflow.name %></span>
