@@ -11,8 +11,6 @@
   </div>
 <% end %>
 
-<%= turbo_frame_tag :workflows do %>
-  <section class="center justify-center flex flex-wrap gap">
-    <%= render partial: "workflows/workflow", collection: @workflows %>
-  </section>
-<% end %>
+<section class="center justify-center flex flex-wrap gap">
+  <%= render partial: "workflows/workflow", collection: @workflows %>
+</section>
