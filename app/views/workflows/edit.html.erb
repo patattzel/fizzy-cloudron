@@ -2,7 +2,8 @@
   <div class="flex align-center gap-half">
     <%= form_with model: @workflow, url: workflow_path(@workflow), id: dom_id(@workflow, :form), class: "full-width", data: { controller: "form" } do |form| %>
       <h3 class="txt-large margin-none">
-        <%= form.text_field :name, required: true, autofocus: true, class: "input full-width", style: "--input-padding: 0.2em 0.5em;", data: { action: "keydown.esc@document->form#cancel" } %>
+        <%= form.text_field :name, required: true, autofocus: true, class: "input full-width",
+            style: "--input-padding: 0.2em 0.5em;", data: { action: "keydown.esc@document->form#cancel focus->form#select" } %>
       </h3>
       <%= link_to "Cancel", workflow_path(@workflow), data: { form_target: "cancel", turbo_frame: dom_id(@workflow) }, hidden: true %>
     <% end %>
