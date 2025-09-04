@@ -3,7 +3,6 @@
         <span class="events__day-time min-width max-width">
           <span class="overflow-ellipsis">
             <span>Highlights for</span>
-            **<%= local_datetime_tag day_timeline.day, style: :agoorweekday %>**
             <%= local_datetime_tag day_timeline.weekly_highlights.starts_at, style: :agoorweekday %>
             -
             <%= local_datetime_tag day_timeline.weekly_highlights.ends_at, style: :agoorweekday %>
