@@ -22,4 +22,14 @@ module WorkflowsHelper
       "It's not being used in any collections."
     end
   end
+
+  def workflow_switch_confirmation_message(workflow, collection)
+    if workflow == collection.workflow
+      "Stop using #{workflow.name}? Cards you're working on will lose their current stage."
+    elsif collection.workflow.present?
+      "Switch to #{workflow.name}? This will return all cards you're working on to the first stage."
+    else
+      nil
+    end
+  end
 end
