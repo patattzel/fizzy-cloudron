@@ -1,5 +1,5 @@
 class User::DayTimeline
-  include Serializable, Summarizable
+  include Serializable
 
   attr_reader :user, :day, :filter
 
@@ -29,7 +29,27 @@ class User::DayTimeline
     day.yesterday.beginning_of_day
   end
 
+  def has_weekly_highlights?
+    !filter.used? && first_day_with_activity_this_week? && weekly_highlights.present?
+  end
+
+  def weekly_highlights
+    @weekly_highlights ||= user.weekly_highlights_for(week_starts_at - 1.week)
+  end
+
+  def week_starts_at
+    day.beginning_of_week(:sunday)
+  end
+
+  def week_ends_at
+    week_starts_at + 1.week
+  end
+
   private
+    def first_day_with_activity_this_week?
+      day.monday? || (earliest_time.present? && earliest_time < day.beginning_of_week(:monday))
+    end
+
     def filtered_events
       @filtered_events ||= begin
         events = Event.where(collection: collections)

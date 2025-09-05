@@ -9,6 +9,7 @@
     </header>
 
     <%= render "layouts/shared/flash" %>
+    <%= render "layouts/shared/time_zone" if Current.user %>
 
     <main id="main">
       <%= yield %>

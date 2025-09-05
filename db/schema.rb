@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_05_101432) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -248,15 +248,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
     t.index ["container_type", "container_id"], name: "index_entropy_configurations_on_container", unique: true
   end
 
-  create_table "event_activity_summaries", force: :cascade do |t|
-    t.text "content", null: false
-    t.bigint "cost_in_microcents", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.string "key", null: false
-    t.datetime "updated_at", null: false
-    t.index ["key"], name: "index_event_activity_summaries_on_key", unique: true
-  end
-
   create_table "events", force: :cascade do |t|
     t.string "action", null: false
     t.integer "collection_id", null: false
@@ -331,6 +322,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
     t.index ["source_type", "source_id"], name: "index_notifications_on_source"
     t.index ["user_id", "read_at", "created_at"], name: "index_notifications_on_user_id_and_read_at_and_created_at", order: { read_at: :desc, created_at: :desc }
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "period_highlights", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "cost_in_microcents"
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_period_highlights_on_key_and_starts_at_and_duration", unique: true
   end
 
   create_table "pins", force: :cascade do |t|
@@ -419,11 +419,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_28_092106) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_tags_on_account_id_and_title", unique: true
   end
 
   create_table "user_settings", force: :cascade do |t|
     t.integer "bundle_email_frequency", default: 0, null: false
     t.datetime "created_at", null: false
+    t.string "timezone_name"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id", "bundle_email_frequency"], name: "index_user_settings_on_user_id_and_bundle_email_frequency"

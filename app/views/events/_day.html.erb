@@ -1,22 +1,13 @@
 <section class="events__day" data-controller="related-element"
   data-related-element-highlight-class="event--related">
   <% if day_timeline.has_activity? %>
-    <h2 class="events__day-header">
-      <span class="events__day-time min-width max-width">
-        <span class="overflow-ellipsis">
-          <span>Highlights for</span>
-          <%= local_datetime_tag day_timeline.day, style: :agoorweekday %>
-        </span>
-      </span>
-    </h2>
-
-    <%= render "events/day_timeline/summary", day_timeline: day_timeline if day_timeline.summarizable?%>
-
     <div class="events__columns">
       <%= render "events/day_timeline_column", event_type: "added", day_timeline: day_timeline %>
       <%= render "events/day_timeline_column", event_type: "updated", day_timeline: day_timeline %>
       <%= render "events/day_timeline_column", event_type: "closed", day_timeline: day_timeline %>
     </div>
+
+    <%= render "events/weekly_highlights", day_timeline: day_timeline if day_timeline.has_weekly_highlights? %>
 
     <%= render "events/empty_days", day_timeline: day_timeline %>
   <% else %>

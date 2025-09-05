@@ -23,6 +23,14 @@ class User::Settings < ApplicationRecord
     !bundle_email_never? && !user.system?
   end
 
+  def timezone
+    if timezone_name.present?
+      ActiveSupport::TimeZone[timezone_name] || default_timezone
+    else
+      default_timezone
+    end
+  end
+
   private
     def review_pending_bundles
       if bundling_emails?
@@ -42,5 +50,9 @@ class User::Settings < ApplicationRecord
       user.notification_bundles.pending.find_each do |bundle|
         bundle.deliver_later
       end
+    end
+
+    def default_timezone
+      ActiveSupport::TimeZone["UTC"]
     end
 end

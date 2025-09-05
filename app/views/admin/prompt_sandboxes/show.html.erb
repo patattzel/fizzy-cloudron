@@ -28,16 +28,7 @@
   <div class="margin-block fill-shade txt-ink border border-radius pad">
     <h2 class="margin-block">Summary</h2>
     <div class="summary-content">
-      <%= @activity_summary&.to_html %>
-    </div>
-  </div>
-
-  <div class="margin-block fill-shade txt-ink border border-radius pad">
-    <h2 class="margin-block">Summarized Contents</h2>
-    <div class="summary-content">
-    <pre>
-<%= @day_timeline.summarizable_content %>
-    </pre>
+      <%= @weekly_highlights&.to_html %>
     </div>
   </div>
 </div>
