@@ -23,6 +23,10 @@ class User::Settings < ApplicationRecord
     !bundle_email_never?
   end
 
+  def timezone
+    ActiveSupport::TimeZone[timezone_name] if timezone_name.present?
+  end
+
   private
     def review_pending_bundles
       if bundling_emails?

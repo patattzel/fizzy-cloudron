@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_02_093943) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_05_093718) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -426,6 +426,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_02_093943) do
   create_table "user_settings", force: :cascade do |t|
     t.integer "bundle_email_frequency", default: 0, null: false
     t.datetime "created_at", null: false
+    t.string "timezone_name"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id", "bundle_email_frequency"], name: "index_user_settings_on_user_id_and_bundle_email_frequency"

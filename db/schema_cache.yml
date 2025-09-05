@@ -1246,6 +1246,16 @@ columns:
     comment:
   - *5
   - *6
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: timezone_name
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   - *9
   - *18
   users:
@@ -2996,4 +3006,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250902093943
+version: 20250905093718

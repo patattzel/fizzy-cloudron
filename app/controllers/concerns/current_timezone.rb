@@ -3,6 +3,8 @@ module CurrentTimezone
 
   included do
     around_action :set_current_timezone
+
+    helper_method :timezone_from_cookie
   end
 
   private
@@ -12,6 +14,6 @@ module CurrentTimezone
 
     def timezone_from_cookie
       timezone = cookies[:timezone]
-      timezone if timezone.present? && ActiveSupport::TimeZone[timezone]
+      ActiveSupport::TimeZone[timezone] if timezone.present?
     end
 end

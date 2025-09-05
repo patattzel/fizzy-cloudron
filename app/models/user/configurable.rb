@@ -6,5 +6,7 @@ module User::Configurable
     has_many :push_subscriptions, class_name: "Push::Subscription", dependent: :delete_all
 
     after_create :create_settings, unless: :system?
+
+    delegate :timezone, to: :settings, allow_nil: true
   end
 end
