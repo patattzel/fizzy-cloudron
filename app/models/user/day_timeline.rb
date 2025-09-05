@@ -34,7 +34,15 @@ class User::DayTimeline
   end
 
   def weekly_highlights
-    @weekly_highlights ||= user.weekly_highlights_for(day - 1.week)
+    @weekly_highlights ||= user.weekly_highlights_for(week_starts_at - 1.week)
+  end
+
+  def week_starts_at
+    day.beginning_of_week(:sunday)
+  end
+
+  def week_ends_at
+    week_starts_at + 1.week
   end
 
   private

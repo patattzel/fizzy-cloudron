@@ -22,7 +22,7 @@ class Admin::PromptSandboxesController < AdminController
 
   private
     def build_weekly_highlights
-      period = PeriodHighlights::Period.new(Current.user.collections, starts_at: @day_timeline.day.utc.beginning_of_week(:sunday), duration: 1.week)
+      period = PeriodHighlights::Period.new(Current.user.collections, starts_at: @day_timeline.day.beginning_of_week(:sunday), duration: 1.week)
       summarizer = Event::Summarizer.new(period.events, prompt: @prompt, llm_model: @llm_model)
       content = summarizer.summarized_content
       PeriodHighlights.new(content: content, cost_in_microcents: summarizer.cost.in_microcents)

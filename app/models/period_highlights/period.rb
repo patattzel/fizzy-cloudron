@@ -18,7 +18,7 @@ class PeriodHighlights::Period
   end
 
   def key
-    @keu ||= Digest::SHA256.hexdigest(events.ids.sort.join("-"))
+    @key ||= Digest::SHA256.hexdigest(events.ids.sort.join("-"))
   end
 
   private
@@ -27,6 +27,6 @@ class PeriodHighlights::Period
     end
 
     def normalize_anchor_date(date)
-      date.utc.beginning_of_day
+      date.beginning_of_day
     end
 end
