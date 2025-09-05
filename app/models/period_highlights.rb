@@ -1,3 +1,7 @@
+# Contains a summary for a given set of events. You create these summaries with a time window
+# and a set of collections. We only store a key derived from the accessible events for those collections,
+# so that we reuse the same summary for users with different time zones or different accesses as long as the activity
+# is the same. This is important to keep AI costs down.
 class PeriodHighlights < ApplicationRecord
   class << self
     def create_or_find_for(collections, starts_at:, duration: 1.week)
