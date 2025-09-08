@@ -85,7 +85,7 @@ module NotificationsHelper
 
     def comment_notification_body(event)
       comment = event.eventable
-      strip_tags(comment.body.to_s).truncate(200)
+      comment.body.to_plain_text.truncate(200)
     end
 
     def card_notification_title(card)
