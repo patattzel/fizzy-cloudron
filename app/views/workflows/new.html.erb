@@ -1,19 +1,20 @@
-<% @page_title = "Create a new Workflow" %>
+<% @page_title = "Workflows" %>
 
 <% content_for :header do %>
   <%= render "filters/menu", user_filtering: @user_filtering %>
   <h1 class="header__title"><%= @page_title %></h1>
 <% end %>
 
-<%= turbo_frame_tag :workflows do %>
-  <article class="panel center margin-block-start flex flex-column gap" style="view-transition-name: <%= dom_id(@workflow) %>">
+<article class="panel center" style="--panel-size: 40ch;" style="view-transition-name: <%= dom_id(@workflow) %>">
+  <div class="flex gap-half align-center justify-starts">
     <%= form_with model: @workflow, url: workflows_path, data: { controller: "form" } do |form| %>
-      <%= form.text_field :name, required: true, autofocus: true, class: "input txt-large", placeholder: "Name your Workflow…", data: { action: "keydown.esc@document->form#cancel" } %>
-      <%= form.button type: :submit, class: "btn btn--reversed center margin-block-start txt-large" do %>
-        <%= icon_tag "check" %>
-        <span class="for-screen-reader">Create Workflow</span>
+      <h2 class="txt-large margin-none">
+        <%= form.text_field :name, required: true, autofocus: true, class: "input", placeholder: "Name your Workflow…", data: { action: "keydown.esc@document->form#cancel" } %>
+      </h2>
+      <%= form.button type: :submit, class: "btn btn--reversed center margin-block-start txt-medium" do %>
+        <span>Create Workflow</span>
       <% end %>
-      <%= link_to "Go back", workflows_path, data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
+      <%= link_to "Go back", workflows_path, data: { form_target: "cancel" }, hidden: true %>
     <% end %>
-  </article>
-<% end %>
+  </div>
+</article>
