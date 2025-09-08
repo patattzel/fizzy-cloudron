@@ -22,7 +22,7 @@
     &:has(.header__actions > *:nth-child(3)) { --header-button-count: 3; }
 
     &:has(nav) {
-      row-gap: var(--block-space-half);
+      row-gap: 0;
     }
 
     &:has(~ #main .card-columns) {

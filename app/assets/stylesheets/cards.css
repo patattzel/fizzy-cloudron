@@ -121,7 +121,7 @@
     flex-grow: 1;
     gap: 1ch;
     inline-size: 100%;
-    padding-block: var(--card-padding-block);
+    padding-block: calc(var(--card-padding-block) / 2);
 
     @media (min-width: 640px) {
       gap: var(--card-padding-inline);
