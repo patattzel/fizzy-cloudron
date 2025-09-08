@@ -5,7 +5,7 @@
   /* Card contents are resized via container queries. We're using #main here as
      the primary container so all cards have the same container reference */
   #main:has(.card-columns) {
-    --cards-gap: min(2cqi, 1rem);
+    --cards-gap: min(1cqi, 0.7rem);
     --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink) 3%, var(--color-ink) 97%, var(--color-canvas));
     --reserved-bubble-space: 0;
     --bubble-gap: 0.5rem;
@@ -145,7 +145,9 @@
     justify-content: center;
     margin-block-start: 1px;
     margin-inline: -8px; /* enough to cover card shadows, but avoid overlapping bubbles */
-    padding-block: var(--cards-gap);
+    padding-block: var(--cards-gap) 0;
+    position: sticky;
+    z-index: 3;
 
     /* Cover bubbles and cards on small viewports */
     @media (max-width: 639px) {
