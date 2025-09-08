@@ -22,7 +22,7 @@ production: &production
     schedule: every 30 minutes
   generate_weekly_highlights:
     command: "User.generate_all_weekly_highlights_later"
-    schedule: 0 12 * * sun # every Sunday at noon
+    schedule: every sunday at noon
 
 beta: *production
 staging: *production
