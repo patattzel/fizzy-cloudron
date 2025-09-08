@@ -1,6 +1,7 @@
 @layer components {
   .bubble {
     --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
+    --bubble-number-max: 26px;
     --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
     --bubble-rotate: 0deg;
     --bubble-size-default: 4rem;
@@ -44,7 +45,7 @@
 
   .bubble__number {
     display: grid;
-    font-size: clamp(10px, 50cqi, 26px); /* FF bug: https://fizzy.37signals.com/5986089/collections/2/cards/1373 */
+    font-size: clamp(10px, 50cqi, var(--bubble-number-max)); /* FF bug: https://fizzy.37signals.com/5986089/collections/2/cards/1373 */
     font-weight: 900;
     inset: 0;
     place-content: center;
@@ -56,5 +57,19 @@
   .bubble--considering {
     inset-inline-start: 100%;
     translate: -60% -60%;
+
+    .card-perma__bg & {
+      --bubble-number-max: 42px;
+      --bubble-size: 6rem;
+
+      inset: calc(var(--bubble-size) / -4) calc(var(--bubble-size) / 1.5) auto auto;
+      translate: 0 0 !important;
+
+      @media (max-width: 800px) {
+        --bubble-size: 4.5rem;
+
+        inset: calc(var(--bubble-size) / 1.5) 0 auto auto;
+      }
+    }
   }
 }
