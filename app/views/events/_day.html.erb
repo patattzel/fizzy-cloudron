@@ -6,11 +6,8 @@
       <%= render "events/day_timeline_column", event_type: "updated", day_timeline: day_timeline %>
       <%= render "events/day_timeline_column", event_type: "closed", day_timeline: day_timeline %>
     </div>
-
-    <%= render "events/weekly_highlights", day_timeline: day_timeline if day_timeline.has_weekly_highlights? %>
-
-    <%= render "events/empty_days", day_timeline: day_timeline %>
-  <% else %>
-    <%= render "events/empty_days", day_timeline: day_timeline %>
   <% end %>
+
+  <%= render "events/weekly_highlights", day_timeline: day_timeline if day_timeline.has_weekly_highlights? %>
+  <%= render "events/empty_days", day_timeline: day_timeline %>
 </section>
