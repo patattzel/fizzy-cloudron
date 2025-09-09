@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  include Notifiable, Particulars, Promptable
+  include Notifiable, Particulars, Promptable, WebhookDeliverable
 
   belongs_to :collection
   belongs_to :creator, class_name: "User"
