@@ -58,7 +58,7 @@ class Filter < ApplicationRecord
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key collections.cache_key_with_version, super
+    ActiveSupport::Cache.expand_cache_key [ params_digest ], "filter"
   end
 
   private

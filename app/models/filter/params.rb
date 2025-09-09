@@ -73,4 +73,8 @@ module Filter::Params
       end
     end
   end
+
+  def params_digest
+    super.presence || self.class.digest_params(as_params)
+  end
 end
