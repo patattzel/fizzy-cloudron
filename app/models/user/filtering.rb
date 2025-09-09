@@ -84,7 +84,7 @@ class User::Filtering
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key( [ user, filter, expanded? ], "user-filtering")
+    ActiveSupport::Cache.expand_cache_key([ user, filter, expanded? ], "user-filtering")
   end
 
   private
