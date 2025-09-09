@@ -83,6 +83,11 @@ class User::Filtering
     end
   end
 
+  def single_collection_or_first
+    # Default to the first selected or, when no selection, to the first one
+    filter.collections.first || collections.first
+  end
+
   def cache_key
     ActiveSupport::Cache.expand_cache_key([ user, filter, expanded? ], "user-filtering")
   end
