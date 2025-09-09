@@ -25,6 +25,7 @@ class CardsController < ApplicationController
   end
 
   def show
+    fresh_when @card
   end
 
   def edit
