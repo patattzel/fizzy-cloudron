@@ -45,6 +45,10 @@ class User::DayTimeline
     week_starts_at + 1.week
   end
 
+  def cache_key
+    ActiveSupport::Cache.expand_cache_key [ user, filter, day.to_date, events ], "day-timeline"
+  end
+
   private
     def first_day_with_activity_this_week?
       day.monday? || (earliest_time.present? && earliest_time < day.beginning_of_week(:monday))

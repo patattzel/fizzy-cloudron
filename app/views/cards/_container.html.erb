@@ -1,42 +1,44 @@
-<section id="<%= dom_id(card, :card_container) %>"
+<% cache card do %>
+  <section id="<%= dom_id(card, :card_container) %>"
     class="card-perma" style="--card-color: <%= card.color %>;">
-  <%= render "cards/container/engagement", card: card %>
-  <%= render "cards/container/status", card: card %>
+    <%= render "cards/container/engagement", card: card %>
+    <%= render "cards/container/status", card: card %>
 
-  <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
-    <%= render "cards/container/gild", card: card if @card.published? && !@card.closed? %>
-    <%= render "cards/container/image", card: card %>
-  </aside>
+    <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
+      <%= render "cards/container/gild", card: card if @card.published? && !@card.closed? %>
+      <%= render "cards/container/image", card: card %>
+    </aside>
 
-  <div class="card-perma__bg">
-    <%= card_article_tag card, class: "card" do %>
-      <header class="card__header">
-        <%= render "cards/display/perma/collection", card: card %>
-        <%= render "cards/display/perma/tags", card: card %>
-      </header>
+    <div class="card-perma__bg">
+      <%= card_article_tag card, class: "card" do %>
+        <header class="card__header">
+          <%= render "cards/display/perma/collection", card: card %>
+          <%= render "cards/display/perma/tags", card: card %>
+        </header>
 
-      <div class="card__body justify-space-between">
-        <div class="card__content">
-          <%= render "cards/container/title", card: card %>
-          <%= render "cards/display/perma/steps", card: card %>
+        <div class="card__body justify-space-between">
+          <div class="card__content">
+            <%= render "cards/container/title", card: card %>
+            <%= render "cards/display/perma/steps", card: card %>
+          </div>
+          <%= render "cards/stagings/stages", card: card if card.doing? %>
         </div>
-        <%= render "cards/stagings/stages", card: card if card.doing? %>
-      </div>
 
-      <footer class="card__footer full-width flex align-start gap">
-        <%= render "cards/display/perma/meta", card: card %>
-        <%= render "cards/display/perma/background", card: card %>
-      </footer>
+        <footer class="card__footer full-width flex align-start gap">
+          <%= render "cards/display/perma/meta", card: card %>
+          <%= render "cards/display/perma/background", card: card %>
+        </footer>
+      <% end %>
+
+      <% if card.entropic? %>
+        <%= render "cards/display/preview/bubble", card: card %>
+      <% end %>
+    </div>
+
+    <% if card.published? %>
+      <%= render "cards/container/footer/published", card: card %>
+    <% elsif card.creating? %>
+      <%= render "cards/container/footer/draft", card: card %>
     <% end %>
-
-    <% if card.entropic? %>
-      <%= render "cards/display/preview/bubble", card: card %>
-    <% end %>
-  </div>
-
-  <% if card.published? %>
-    <%= render "cards/container/footer/published", card: card %>
-  <% elsif card.creating? %>
-    <%= render "cards/container/footer/draft", card: card %>
-  <% end %>
-</section>
+  </section>
+<% end %>

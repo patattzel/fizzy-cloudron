@@ -5,6 +5,8 @@ module CurrentTimezone
     around_action :set_current_timezone
 
     helper_method :timezone_from_cookie
+
+    etag { timezone_from_cookie }
   end
 
   private
@@ -13,7 +15,9 @@ module CurrentTimezone
     end
 
     def timezone_from_cookie
-      timezone = cookies[:timezone]
-      ActiveSupport::TimeZone[timezone] if timezone.present?
+      @timezone_from_cookie ||= begin
+        timezone = cookies[:timezone]
+        ActiveSupport::TimeZone[timezone] if timezone.present?
+      end
     end
 end

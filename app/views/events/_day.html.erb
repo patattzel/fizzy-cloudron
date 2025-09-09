@@ -1,13 +1,6 @@
 <section class="events__day" data-controller="related-element"
   data-related-element-highlight-class="event--related">
-  <% if day_timeline.has_activity? %>
-    <div class="events__columns">
-      <%= render "events/day_timeline_column", event_type: "added", day_timeline: day_timeline %>
-      <%= render "events/day_timeline_column", event_type: "updated", day_timeline: day_timeline %>
-      <%= render "events/day_timeline_column", event_type: "closed", day_timeline: day_timeline %>
-    </div>
-  <% end %>
-
+  <%= render "events/day_timeline/columns", day_timeline: day_timeline %>
   <%= render "events/weekly_highlights", day_timeline: day_timeline if day_timeline.has_weekly_highlights? %>
   <%= render "events/empty_days", day_timeline: day_timeline %>
 </section>
