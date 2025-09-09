@@ -58,7 +58,7 @@ class Filter < ApplicationRecord
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key [ params_digest ], "filter"
+    ActiveSupport::Cache.expand_cache_key params_digest, "filter"
   end
 
   def only_closed?
