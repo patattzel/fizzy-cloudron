@@ -19,12 +19,15 @@ class User::HighlightsTest < ActiveSupport::TestCase
   end
 
   test "don't generate highlights for existing periods" do
-    new_period_highlights = @user.generate_weekly_highlights
+    stub_const(PeriodHighlights::Period, :MIN_EVENTS_TO_BE_INTERESTING, 3) do
+      new_period_highlights = @user.generate_weekly_highlights
+      assert_not_nil new_period_highlights
 
-    existing_period_highlights = assert_no_difference -> { PeriodHighlights.count } do
-      @user.generate_weekly_highlights
+      existing_period_highlights = assert_no_difference -> { PeriodHighlights.count } do
+        @user.generate_weekly_highlights
+      end
+
+      assert_equal new_period_highlights, existing_period_highlights
     end
-
-    assert_equal new_period_highlights, existing_period_highlights
   end
 end
