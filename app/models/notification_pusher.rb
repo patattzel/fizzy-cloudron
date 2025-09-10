@@ -113,6 +113,6 @@ class NotificationPusher
     end
 
     def card_path(card)
-      "#{account_prefix}#{collection_card_path(card.collection, card)}"
+      "#{account_prefix}#{Rails.application.routes.url_helpers.card_path(card)}"
     end
 end

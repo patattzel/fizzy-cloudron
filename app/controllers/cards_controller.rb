@@ -1,9 +1,9 @@
 require "ostruct"
 
 class CardsController < ApplicationController
-  include CollectionScoped, Collections::ColumnsScoped
+  include Collections::ColumnsScoped
 
-  skip_before_action :set_collection, only: :index
+  before_action :set_collection, only: %i[ create ]
   before_action :set_card, only: %i[ show edit update destroy ]
 
   enable_collection_filtering only: :index
@@ -47,8 +47,12 @@ class CardsController < ApplicationController
   end
 
   private
+    def set_collection
+      @collection = Current.user.collections.find(params[:collection_id])
+    end
+
     def set_card
-      @card = @collection.cards.find params[:id]
+      @card = Current.user.accessible_cards.find params[:id]
     end
 
     def card_params

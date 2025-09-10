@@ -27,7 +27,7 @@ module Card::Promptable
       * Collection id: #{collection_id}
       * Collection name: #{collection.name}
       * Number of comments: #{comments.count}
-      * Path: #{collection_card_path(collection, self, script_name: Account.sole.slug)}
+      * Path: #{card_path(self, script_name: Account.sole.slug)}
 
       END OF CARD #{id}
     PROMPT

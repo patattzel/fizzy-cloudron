@@ -89,7 +89,7 @@ class Ai::ListCommentsTool < Ai::Tool
             reacter: reaction.reacter.as_json(only: [ :id, :name ])
           }
         end,
-        url: collection_card_url(comment.card.collection_id, comment.card, anchor: "comment_#{comment.id}")
+        url: card_url(comment.card, anchor: "comment_#{comment.id}")
       }
     end
 end

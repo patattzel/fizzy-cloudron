@@ -102,7 +102,7 @@ class Ai::ListCardsTool < Ai::Tool
         creator: card.creator.as_json(only: [ :id, :name ]),
         assignees: card.assignees.as_json(only: [ :id, :name ]),
         description: card.description.to_plain_text.truncate(1000),
-        url: collection_card_url(card.collection, card)
+        url: card_url(card)
       }
     end
 end
