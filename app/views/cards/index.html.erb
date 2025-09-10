@@ -41,5 +41,5 @@
         drop->drag-and-drop#drop
         dragend->drag-and-drop#dragEnd" } do %>
 
-  <%= render "cards/index/columns", user_filtering: @user_filtering, on_deck: @on_deck, considering: @considering, doing: @doing, closed: @closed %>
+  <%= render "cards/index/columns", user_filtering: @user_filtering, on_deck: @on_deck, considering: @considering, doing: @doing, closed: @closed, cache_key: @cache_key %>
 <% end %>
