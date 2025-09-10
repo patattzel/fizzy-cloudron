@@ -43,7 +43,7 @@
 
     @media (min-width: 640px) {
       display: grid;
-      grid-template-columns: repeat(3, 33%);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -263,7 +263,7 @@
 
     .card--new {
       --card-padding-block: var(--block-space-double);
-      
+
       border: 1px solid var(--color-selected-dark);
       font-size: 0.8rem !important;
       rotate: 0 !important;

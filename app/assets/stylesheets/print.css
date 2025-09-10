@@ -1,0 +1,192 @@
+@media print {
+  /* Global
+  /* ------------------------------------------------------------------------ */
+
+  :root {
+    --color-ink: black;
+    --color-canvas: white;
+    --border-dark: 1px solid var(--color-ink);
+    --border-light: 1px solid color-mix(in oklch, var(--color-ink), transparent 75%);
+  }
+
+  @page {
+    margin: 0.5in;
+  }
+
+  html {
+    font-size: 10pt;
+  }
+
+  main {
+    inline-size: unset;
+    margin: 0;
+    orphans: 3;
+    padding: 0;
+    widows: 2;
+  }
+
+  /* .fizzy-menu, */
+  /* .fizzy-menu-trigger, */
+  .header__actions {
+    display: none;
+  }
+
+  .header {
+    padding: 0;
+  }
+
+  /* Cards
+  /* -------------------------------------------------------------------------- */
+
+  .card {
+    --card-color: var(--color-ink) !important;
+
+    background: var(--color-canvas);
+    border: var(--border-light);
+    box-shadow: none;
+    color: var(--color-ink);
+  }
+
+  .card__collection {
+    background: var(--color-canvas);
+    border-block-end: var(--border-dark);
+    border-inline-end: var(--border-dark);
+    color: var(--color-ink);
+  }
+
+  /* Events
+  /* ------------------------------------------------------------------------ */
+
+  .event {
+
+    .avatar {
+      --avatar-size: 2lh;
+    }
+  }
+
+  /* Collection
+  /* ------------------------------------------------------------------------ */
+
+  .filters {
+    form,
+    .btn--remove {
+      display: none;
+    }
+  }
+
+  /* Collections
+  /* ------------------------------------------------------------------------ */
+
+  .filters,
+  .card--new,
+  .cards__decoration,
+  .card-columns:before,
+  .cards--closed:before {
+    display: none;
+  }
+
+  .card-columns,
+  .cards--closed {
+    border-block-start: var(--border-light);
+    margin-block-start: 1lh;
+    min-block-size: unset;
+  }
+
+  .cards--on-deck,
+  .cards--doing {
+    padding-inline: 0;
+  }
+
+  .cards--considering {
+    background: none;
+    margin: 0;
+    padding-inline: 1ch;
+
+    &:before {
+      display: none;
+    }
+
+    .card__header {
+      margin-inline: calc(-1 * var(--card-padding-inline));
+    }
+
+    .card__body {
+      padding-block-start: calc(var(--card-padding-block) / 2);
+    }
+  }
+
+  /* Card perma
+  /* ------------------------------------------------------------------------ */
+
+  /* Hide stuff */
+  .card-perma__notch,
+  .card-perma__actions,
+  .comment--new,
+  .comments__subscribers,
+  .card__meta-avatars--assignees > div > div:last-child,
+  .steps > .step:last-child,
+  div:has(> .tag-picker__button),
+  div:has(> .collection-picker__button),
+  .delete-card,
+  .header--card .header__title {
+    display: none;
+  }
+
+  .card-perma {
+    display: block;
+    inline-size: 100%;
+    margin: 0;
+
+    .card {
+      aspect-ratio: unset;
+    }
+
+    .card__title {
+      font-size: var(--text-x-large);
+    }
+  }
+
+  .card-perma__bg {
+    background: transparent;
+    padding: 0;
+  }
+
+  .comments {
+    --row-gap: 0;
+    --comment-padding-inline: 1.4lh;
+
+    padding-inline: 0;
+  }
+
+  .comment {
+    --comment-max: none;
+
+    border-block-end: var(--border-light);
+  }
+
+  .comment__content {
+    background: none;
+  }
+
+  .comment__avatar {
+    --btn-size: 2lh;
+
+    margin-inline-start: 0;
+  }
+
+  .comment__author h3 {
+    margin-inline: 0;
+  }
+
+  .comment__edit {
+    display: none;
+  }
+
+  .comment__body {
+    text-align: start;
+  }
+
+  .reactions {
+    margin-block-start: 0;
+  }
+}
