@@ -60,11 +60,10 @@ Rails.application.routes.draw do
     scope module: :notifications do
       get "tray", to: "trays#show", on: :collection
 
+      resource :reading, only: %i[ create destroy ]
       collection do
         resource :bulk_reading, only: :create
       end
-
-      resource :reading, only: %i[ create destroy ]
     end
   end
 
