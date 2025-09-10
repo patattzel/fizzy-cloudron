@@ -5,7 +5,7 @@
   /* Card contents are resized via container queries. We're using #main here as
      the primary container so all cards have the same container reference */
   #main:has(.card-columns) {
-    --cards-gap: min(1cqi, 0.7rem);
+    --cards-gap: min(1.5cqi, 1.5rem);
     --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink) 3%, var(--color-ink) 97%, var(--color-canvas));
     --reserved-bubble-space: 0;
     --bubble-gap: 0.5rem;
@@ -206,8 +206,7 @@
     }
 
     @media (min-width: 640px) {
-      margin-inline: calc(var(--cards-gap) * -1);
-      padding-inline: calc(var(--cards-gap) * 2);
+      padding-inline: var(--cards-gap);
     }
 
     .cards__decoration {

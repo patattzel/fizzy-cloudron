@@ -4,6 +4,7 @@
   </div>
 
   <span class="card__meta-text card__meta-text--added">
+    <%= icon_tag "add--meta" %>
     Added <%= local_datetime_tag(card.created_at, style: :daysago) %>
     <% if card.drafted? %>
       <strong>(Draft)</strong>
@@ -11,6 +12,7 @@
   </span>
 
   <span class="card__meta-text card__meta-text--author">
+    <%= icon_tag "arrow-up" %>
     By <strong><%= card.creator.familiar_name %></strong>
   </span>
 
@@ -18,12 +20,14 @@
     <% if card.creating? %>
       &nbsp;
     <% else %>
+      <%= icon_tag "refresh--meta" %>
       Updated
       <%= local_datetime_tag(card.last_active_at, style: :daysago) %>
     <% end %>
   </span>
 
   <span class="card__meta-text card__meta-text--assignees overflow-ellipsis">
+    <%= icon_tag "arrow-right" if card.assignees.any? %>
     <%= "Assigned to" if card.assignees.any? %>
     <%= card.assignees.map { |assignee| "<strong>#{assignee.familiar_name}</strong>" }.to_sentence.html_safe %>
   </span>
