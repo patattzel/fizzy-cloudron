@@ -1,0 +1,61 @@
+<% @page_title = @webhook.name %>
+
+<% content_for :header do %>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
+
+  <%= link_to webhooks_path, class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: webhooks-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <span class="overflow-ellipsis">
+      &larr;
+      <strong class="font-black">Webhooks</strong>
+    </span>
+  <% end %>
+<% end %>
+
+<div class="panel shadow center txt-align-center margin-block-end-double">
+  <div class="flex flex-column gap position-relative">
+    <%= link_to edit_webhook_path(@webhook), class: "user-edit-link btn" do %>
+      <%= icon_tag "pencil" %>
+      <span class="for-screen-reader">Edit</span>
+    <% end %>
+
+    <div class="flex flex-column gap-half margin-block-end">
+      <h1 class="txt-x-large margin-none"><%= @webhook.name %></h1>
+    </div>
+
+    <div>
+      <%= @webhook.url %>
+    </div>
+
+    <div>
+      <h2 class="margin-none">Signing secret</h2>
+      <p>
+        <b><%= @webhook.signing_secret %></b>
+      </p>
+      <p>
+        We'll sent a `X-Webhook-Signature` header with each request.
+        You can generate a HMAC using SHA256 of the request body with this secret
+        to verify that the request came from us.
+      </p>
+    </div>
+
+    <div class="flex flex-column gap-half margin-block-end">
+      <h2 class="margin-none">Subscribed to</h2>
+      <ul>
+        <% @webhook.subscribed_actions.each do |action| %>
+          <li><%= action.humanize %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="flex flex-column gap-half margin-block-end">
+      <h2 class="margin-none">Deliveries</h2>
+      <% if @webhook.deliveries.empty? %>
+        <p>This Webhook hasn't been triggered yet<p/>
+      <% else %>
+        <ul>
+          <%= render partial: "webhooks/delivery", collection: @webhook.deliveries.chronologically.limit(20), as: :delivery %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</div>

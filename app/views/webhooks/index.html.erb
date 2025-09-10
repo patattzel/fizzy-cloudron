@@ -1,0 +1,32 @@
+<% @page_title = "Webhooks" %>
+
+<% content_for :header do %>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
+  <h1 class="header__title" style="view-transistion-name: webhooks-title"><%= @page_title %></h1>
+
+  <div class="header__actions header__actions--end">
+    <%= link_to new_webhook_path, class: "btn" do %>
+      <%= icon_tag "add" %>
+      <span class="for-screen-reader">Create a new webhook</span>
+    <% end %>
+  </div>
+<% end %>
+
+<section class="webhooks">
+  <%= tag.div class: "panel shadow center", data: {
+    controller: "navigable-list",
+    action: "keydown->navigable-list#navigate",
+    navigable_list_focus_on_selection_value: true,
+    navigable_list_actionable_items_value: true
+  } do %>
+    <div>
+      <ul class="flex flex-column gap-half" data-filter-target="list">
+        <%= render partial: "webhooks/webhook", collection: @page.records %>
+      </ul>
+
+      <footer class="">
+        Press <kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> to move, <kbd class="kbd">enter</kbd> to visit webhook, <kbd class="kbd">SHIFT+ENTER</kbd> to toggle.
+      </footer>
+    </div>
+  <% end %>
+</section>

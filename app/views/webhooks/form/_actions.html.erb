@@ -1,0 +1,16 @@
+<ul>
+  <%= form.collection_check_boxes \
+        :subscribed_actions,
+        Webhook::PERMITTED_ACTIONS,
+        :itself,
+        :humanize do |item| %>
+      <li>
+        <label>
+          <span>
+            <%= item.check_box %>
+          </span>
+          <span><%= item.text %></span>
+        </label>
+      </li>
+  <% end %>
+</ul>

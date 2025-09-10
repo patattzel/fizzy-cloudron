@@ -1,0 +1,25 @@
+<% @page_title = "New Webhook" %>
+
+<% content_for :header do %>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
+  <h1 class="header__title"><%= @page_title %></h1>
+<% end %>
+
+<article class="panel center" style="--panel-size: 40ch;" style="view-transition-name: <%= dom_id(@webhook) %>">
+  <%= form_with model: @webhook, url: @webhook, method: :put, data: { controller: "form" }, html: { class: "flex flex-column gap align-center justify-starts" } do |form| %>
+    <h2 class="txt-large margin-none">
+      <%= form.text_field :name, required: true, autofocus: true, class: "input", placeholder: "Name your Webhook…", data: { action: "keydown.esc@document->form#cancel" } %>
+    </h2>
+
+    <div class="flex flex-column align-start full-width">
+      <%= form.label :actions %>
+      <%= render "webhooks/form/actions", form: form %>
+    </div>
+
+    <%= form.button type: :submit, class: "btn btn--reversed center margin-block-start txt-medium" do %>
+      <span>Update Webhook</span>
+    <% end %>
+
+    <%= link_to "Go back", webhooks_path, data: { form_target: "cancel" }, hidden: true %>
+  <% end %>
+</article>

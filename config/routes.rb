@@ -86,6 +86,8 @@ Rails.application.routes.draw do
     resources :stages, module: :workflows
   end
 
+  resources :webhooks
+
   resources :uploads, only: :create
   get "/u/*slug" => "uploads#show", as: :upload
 

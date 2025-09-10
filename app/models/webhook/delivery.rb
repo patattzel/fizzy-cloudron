@@ -3,29 +3,22 @@ class Webhook::Delivery < ApplicationRecord
   ENDPOINT_TIMEOUT = 7.seconds
   DNS_RESOLUTION_TIMEOUT = 2
   PRIVATE_IP_RANGES = [
-    # Loopback
-    IPAddr.new("127.0.0.0/8"),
-    IPAddr.new("::1/128"),
     # IPv4 mapped to IPv6
     IPAddr.new("::ffff:0:0/96"),
-    # RFC1918 - local network IP addresses
-    IPAddr.new("10.0.0.0/8"),
-    IPAddr.new("172.16.0.0/12"),
-    IPAddr.new("192.168.0.0/16"),
     # Link-local (DHCP and router stuff)
     IPAddr.new("169.254.0.0/16"),
-    IPAddr.new("fe80::/10"),
-    # ULA
-    IPAddr.new("fc00::/7")
+    IPAddr.new("fe80::/10")
   ].freeze
 
   belongs_to :webhook
   belongs_to :event
 
+  encrypts :request, :response
+
   store :request, coder: JSON
   store :response, coder: JSON
 
-  encrypts :request, :response
+  scope :chronologically, -> { order created_at: :asc, id: :desc }
 
   enum :state, %w[ pending in_progress completed errored ].index_by(&:itself), default: :pending
 
@@ -80,10 +73,8 @@ class Webhook::Delivery < ApplicationRecord
         end
       end
 
-      ip_addresses.any? do |ip_address|
-        PRIVATE_IP_RANGES.any? do |private_ip_range|
-          private_ip_range.include?(ip_address)
-        end
+      ip_addresses.any? do |ip|
+        ip.private? || ip.loopback? || PRIVATE_IP_RANGES.any? { |range| range.include?(ip) }
       end
     end
 
