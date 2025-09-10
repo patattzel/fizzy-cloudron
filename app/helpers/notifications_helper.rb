@@ -38,7 +38,7 @@ module NotificationsHelper
 
   def notification_toggle_read_button(notification)
     if notification.read?
-      button_to read_notification_path(notification),
+      button_to notification_reading_path(notification),
           method: :delete,
           class: "card__notification-unread-indicator btn btn--circle borderless",
           title: "Mark as unread",
@@ -48,7 +48,7 @@ module NotificationsHelper
         concat(tag.span("Mark as unread", class: "for-screen-reader"))
       end
     else
-      button_to read_notification_path(notification),
+      button_to notification_reading_path(notification),
           class: "card__notification-unread-indicator btn btn--circle borderless",
           title: "Mark as read",
           data: { action: "form#submit:stop badge#update:stop", form_target: "submit" },
