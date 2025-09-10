@@ -27,37 +27,30 @@ class Card::ReadableTest < ActiveSupport::TestCase
     end
   end
 
-  test "notifications for a given user" do
-    # Returns card event notifications
-    kevin_notifications = cards(:logo).notifications_for(users(:kevin))
-    assert_includes kevin_notifications, notifications(:logo_published_kevin)
-    assert_includes kevin_notifications, notifications(:logo_assignment_kevin)
+  test "remove inaccessible notifications" do
+    card = cards(:logo)
+    kevin = users(:kevin)
+    david = users(:david)
 
-    # Returns comment creation event notifications
-    layout_notifications = cards(:layout).notifications_for(users(:kevin))
-    assert_includes layout_notifications, notifications(:layout_commented_kevin)
+    assert card.accessible_to?(kevin)
+    kevin_notifications = [ notifications(:logo_published_kevin), notifications(:logo_assignment_kevin) ]
+    david_notifications = [ notifications(:logo_card_david_mention_by_jz), notifications(:logo_comment_david_mention_by_jz) ]
 
-    # Returns card mention notifications
-    david_notifications = cards(:logo).notifications_for(users(:david))
-    assert_includes david_notifications, notifications(:logo_card_david_mention_by_jz)
+    # Kevin loses access
+    card.collection.accesses.find_by(user: kevin).destroy
+    assert_not card.accessible_to?(kevin)
+    assert card.accessible_to?(david)
 
-    # Returns comment mention notifications
-    assert_includes david_notifications, notifications(:logo_comment_david_mention_by_jz)
+    card.remove_inaccessible_notifications
 
-    # Only returns unread notifications
-    notifications(:logo_published_kevin).read
-    kevin_notifications_after_read = cards(:logo).notifications_for(users(:kevin))
-    assert_not_includes kevin_notifications_after_read, notifications(:logo_published_kevin)
-    assert_includes kevin_notifications_after_read, notifications(:logo_assignment_kevin)
+    # Kevin's notifications removed
+    kevin_notifications.each do |notification|
+      assert_not Notification.exists?(notification.id)
+    end
 
-    # Does not include notifications from other cards
-    other_event = events(:text_published)
-    other_notification = users(:kevin).notifications.create!(source: other_event, creator: users(:david))
-    logo_notifications = cards(:logo).notifications_for(users(:kevin))
-    assert_not_includes logo_notifications, other_notification
-
-    # Does not include notifications for other users
-    assert_not_includes kevin_notifications, notifications(:logo_card_david_mention_by_jz)
-    assert_not_includes kevin_notifications, notifications(:logo_comment_david_mention_by_jz)
+    # David's notifications preserved
+    david_notifications.each do |notification|
+      assert Notification.exists?(notification.id)
+    end
   end
 end

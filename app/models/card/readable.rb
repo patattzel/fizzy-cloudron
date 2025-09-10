@@ -7,13 +7,23 @@ module Card::Readable
     end
   end
 
-  def notifications_for(user)
-    scope = user.notifications.unread
-    scope.where(source: event_notification_sources)
-      .or(scope.where(source: mention_notification_sources))
+  def remove_inaccessible_notifications
+    User.find_each do |user|
+      notifications_for(user).destroy_all unless accessible_to?(user)
+    end
   end
 
   private
+    def remove_inaccessible_notifications_later
+      Card::RemoveInaccessibleNotificationsJob.perform_later(self)
+    end
+
+    def notifications_for(user)
+      scope = user.notifications.unread
+      scope.where(source: event_notification_sources)
+        .or(scope.where(source: mention_notification_sources))
+    end
+
     def event_notification_sources
       events.or(comment_creation_events)
     end

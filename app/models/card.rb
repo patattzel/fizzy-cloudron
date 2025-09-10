@@ -39,6 +39,8 @@ class Card < ApplicationRecord
     end
   end
 
+  delegate :accessible_to?, to: :collection
+
   def cache_key
     [ super, collection.name ].compact.join("/")
   end
@@ -64,6 +66,8 @@ class Card < ApplicationRecord
         track_collection_change_event
         grant_access_to_assignees unless collection.all_access?
       end
+
+      remove_inaccessible_notifications_later
     end
 
     def track_collection_change_event
