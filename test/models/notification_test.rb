@@ -38,4 +38,13 @@ class NotificationTest < ActiveSupport::TestCase
       notification.read
     end
   end
+
+  test "deleting notification broadcasts its removal" do
+    notification = notifications(:logo_published_kevin)
+    notification.update!(read_at: nil)
+
+    assert_turbo_stream_broadcasts([ notification.user, :notifications ], count: 1) do
+      notification.destroy
+    end
+  end
 end

@@ -10,6 +10,7 @@ class Notification < ApplicationRecord
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
 
   after_create_commit :broadcast_unread
+  after_destroy_commit :broadcast_read
   after_create :bundle
 
   delegate :notifiable_target, to: :source
