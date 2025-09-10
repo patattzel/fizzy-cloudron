@@ -25,14 +25,28 @@
     widows: 2;
   }
 
-  /* .fizzy-menu, */
-  /* .fizzy-menu-trigger, */
+  /* Browsers usually disable backgrounds on print, so this ensures icons
+    (which use BG masks) will show up. */
+  .icon,
+  .knob,
+  .switch {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .fizzy-menu,
+  .fizzy-menu-trigger,
   .header__actions {
     display: none;
   }
 
   .header {
     padding: 0;
+  }
+
+  .header__title {
+    margin-block-end: 1ch;
   }
 
   /* Cards
@@ -47,30 +61,54 @@
     color: var(--color-ink);
   }
 
-  .card__collection {
-    background: var(--color-canvas);
-    border-block-end: var(--border-dark);
-    border-inline-end: var(--border-dark);
-    color: var(--color-ink);
+  .card {
+    .card__collection {
+      background: var(--color-canvas);
+      border-block-end: var(--border-light);
+      border-inline-end: var(--border-light);
+      color: var(--color-ink);
+    }
   }
 
   /* Events
   /* ------------------------------------------------------------------------ */
 
-  .event {
+  .events__columns {
+    border-inline: none;
+  }
 
-    .avatar {
-      --avatar-size: 2lh;
+  .events__column-header {
+    background: none;
+    margin: 0;
+    padding-block: 1ch;
+  }
+
+  .events__time-block {
+    padding: 0 1ch;
+
+    .events__column:first-child & {
+      padding-inline-start: 0;
+    }
+
+    .events__column:last-child & {
+      padding-inline-end: 0;
     }
   }
 
-  /* Collection
-  /* ------------------------------------------------------------------------ */
+  .events__none {
+    padding-block: 2ch;
+  }
 
-  .filters {
-    form,
-    .btn--remove {
-      display: none;
+  .event {
+    --card-color: var(--color-ink) !important;
+
+    background: var(--color-canvas);
+    border: var(--border-light);
+    box-shadow: none;
+    color: var(--color-ink);
+
+    .avatar {
+      --avatar-size: 2lh;
     }
   }
 
@@ -81,6 +119,7 @@
   .card--new,
   .cards__decoration,
   .card-columns:before,
+  .cards--considering:before,
   .cards--closed:before {
     display: none;
   }
@@ -88,7 +127,7 @@
   .card-columns,
   .cards--closed {
     border-block-start: var(--border-light);
-    margin-block-start: 1lh;
+    margin-block-end: 1ch;
     min-block-size: unset;
   }
 
@@ -102,10 +141,6 @@
     margin: 0;
     padding-inline: 1ch;
 
-    &:before {
-      display: none;
-    }
-
     .card__header {
       margin-inline: calc(-1 * var(--card-padding-inline));
     }
@@ -118,7 +153,6 @@
   /* Card perma
   /* ------------------------------------------------------------------------ */
 
-  /* Hide stuff */
   .card-perma__notch,
   .card-perma__actions,
   .comment--new,
@@ -135,7 +169,7 @@
   .card-perma {
     display: block;
     inline-size: 100%;
-    margin: 0;
+    margin: 0 0 1lh;
 
     .card {
       aspect-ratio: unset;
@@ -188,5 +222,60 @@
 
   .reactions {
     margin-block-start: 0;
+  }
+
+  /* Settings
+  /* ------------------------------------------------------------------------ */
+
+  .settings__user-filter .input,
+  .settings__user-list-tips {
+    display: none;
+  }
+
+  .settings__panel {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    text-align: left;
+
+    h2 {
+      &:before,
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .settings__panel--users {
+    form:has(.btn--negative) {
+      display: none;
+    }
+
+    .btn {
+      background-color: transparent;
+      border: none;
+      color: var(--color-ink);
+      opacity: 1;
+    }
+
+    .btn:not(:has(input:checked)) {
+      opacity: 0;
+    }
+  }
+
+  .settings__panel--entropy {
+    display: none;
+  }
+
+  .settings__user-filter {
+    background: none;
+    margin: 0;
+    padding: 0;
+
+    /* Hide the "Everyone" switch */
+    > li:first-child {
+      display: none;
+    }
   }
 }
