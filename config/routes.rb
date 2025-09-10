@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       resource :entropy_configuration
     end
 
-    resources :cards
+    resources :cards, only: %i[ create ]
   end
 
   namespace :cards do
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     resources :drops
   end
 
-  resources :cards do
+  resources :cards, only: %i[ index show edit update destroy ] do
     scope module: :cards do
       resource :engagement
       resource :goldness
@@ -157,13 +157,9 @@ Rails.application.routes.draw do
     route_for :public_collection_card, card.collection.publication.key, card
   end
 
-  resolve "Card" do |card, options|
-    route_for :collection_card, card.collection, card, options
-  end
-
   resolve "Comment" do |comment, options|
     options[:anchor] = ActionView::RecordIdentifier.dom_id(comment)
-    route_for :collection_card, comment.card.collection, comment.card, options
+    route_for :card, comment.card, options
   end
 
   resolve "Mention" do |mention, options|

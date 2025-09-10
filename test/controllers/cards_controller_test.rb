@@ -19,21 +19,21 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "Card.count", 1 do
       post collection_cards_path(collections(:writebook))
     end
-    assert_redirected_to collection_card_path(collections(:writebook), Card.last)
+    assert_redirected_to card_path(Card.last)
   end
 
   test "show" do
-    get collection_card_path(collections(:writebook), cards(:logo))
+    get card_path(cards(:logo))
     assert_response :success
   end
 
   test "edit" do
-    get edit_collection_card_path(collections(:writebook), cards(:logo))
+    get edit_card_path(cards(:logo))
     assert_response :success
   end
 
   test "update" do
-    patch collection_card_path(collections(:writebook), cards(:logo)), params: {
+    patch card_path(cards(:logo)), params: {
       card: {
         title: "Logo needs to change",
         image: fixture_file_upload("moon.jpg", "image/jpeg"),
@@ -50,12 +50,12 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "users can only see cards in collections they have access to" do
-    get collection_card_path(collections(:writebook), cards(:logo))
+    get card_path(cards(:logo))
     assert_response :success
 
     collections(:writebook).update! all_access: false
     collections(:writebook).accesses.revoke_from users(:kevin)
-    get collection_card_path(collections(:writebook), cards(:logo))
+    get card_path(cards(:logo))
     assert_response :not_found
   end
 end
