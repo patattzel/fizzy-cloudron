@@ -244,6 +244,13 @@
   .card__meta-text {
     line-height: 1;
     white-space: nowrap;
+
+    .icon {
+      --icon-size: 0.9em;
+
+      margin-inline-end: 0.5ch;
+      vertical-align: top;
+    }
   }
 
   /* Top */
