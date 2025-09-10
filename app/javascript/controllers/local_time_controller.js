@@ -26,7 +26,6 @@ export default class extends Controller {
 
   connect() {
     this.#timer = setInterval(() => this.#refreshRelativeTimes(), 30_000)
-    this.refreshAll()
   }
 
   disconnect() {
@@ -45,6 +44,42 @@ export default class extends Controller {
     const target = event.target;
     const targetName = target.dataset.localTimeTarget
     this.#formatTime(this[`${targetName}Formatter`], target)
+  }
+
+  timeTargetConnected(target) {
+    this.#formatTime(this.timeFormatter, target)
+  }
+
+  dateTargetConnected(target) {
+    this.#formatTime(this.dateFormatter, target)
+  }
+
+  datetimeTargetConnected(target) {
+    this.#formatTime(this.datetimeFormatter, target)
+  }
+
+  shortdateTargetConnected(target) {
+    this.#formatTime(this.shortdateFormatter, target)
+  }
+
+  agoTargetConnected(target) {
+    this.#formatTime(this.agoFormatter, target)
+  }
+
+  indaysTargetConnected(target) {
+    this.#formatTime(this.indaysFormatter, target)
+  }
+
+  daysagoTargetConnected(target) {
+    this.#formatTime(this.daysagoFormatter, target)
+  }
+
+  agoorweekdayTargetConnected(target) {
+    this.#formatTime(this.agoorweekdayFormatter, target)
+  }
+
+  timeordateTargetConnected(target) {
+    this.#formatTime(this.timeordateFormatter, target)
   }
 
   #refreshRelativeTimes() {
