@@ -1,13 +1,13 @@
 module LoginHelper
   def login_url
-    if ApplicationRecord.current_tenant
-      if Rails.application.config.x.local_authentication
-        new_session_path
-      else
-        Launchpad.login_url(product: true, account: Account.sole)
-      end
+    if Rails.application.config.x.local_authentication
+      new_session_path
     else
-      Launchpad.login_url(product: true)
+      if ApplicationRecord.current_tenant
+        Launchpad.login_url(product: true, account: Account.sole)
+      else
+        Launchpad.login_url(product: true)
+      end
     end
   end
 

@@ -31,7 +31,9 @@ class UserTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_nil users(:jz).reload.signal_user
+    unless Rails.application.config.x.local_authentication
+      assert_nil users(:jz).reload.signal_user
+    end
   end
 
   test "initials" do

@@ -35,7 +35,8 @@ gem "web-push"
 gem "net-http-persistent"
 
 # 37id and Queenbee integration
-gem "signal_id", bc: "signal_id", branch: "rails4"
+need_signal_id = ENV.fetch("LOCAL_AUTHENTICATION", "") == ""
+gem "signal_id", bc: "signal_id", branch: "rails4", require: need_signal_id
 gem "mysql2", github: "jeremy/mysql2", branch: "force_latin1_to_utf8" # needed by signal_id
 gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
 gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety

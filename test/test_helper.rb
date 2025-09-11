@@ -6,8 +6,10 @@ Rails.application.config.active_record_tenanted.default_tenant = ActiveRecord::F
 require "rails/test_help"
 require "webmock/minitest"
 require "vcr"
-require "signal_id/testing"
-require "queenbee/testing/mocks"
+unless Rails.application.config.x.local_authentication
+  require "signal_id/testing"
+  require "queenbee/testing/mocks"
+end
 require "mocha/minitest"
 
 WebMock.allow_net_connect!
@@ -47,18 +49,10 @@ module ActiveSupport
     fixtures :all
 
     include ActiveJob::TestHelper
-    include SignalId::Testing
-    include ActionTextTestHelper, CardTestHelper, ChangeTestHelper, SessionTestHelper
-
-    def with_local_auth
-      begin
-        old_local_auth = Rails.application.config.x.local_authentication
-        Rails.application.config.x.local_authentication = true
-        yield
-      ensure
-        Rails.application.config.x.local_authentication = old_local_auth
-      end
+    unless Rails.application.config.x.local_authentication
+      include SignalId::Testing
     end
+    include ActionTextTestHelper, CardTestHelper, ChangeTestHelper, SessionTestHelper
   end
 end
 
@@ -78,10 +72,12 @@ RubyLLM.configure do |config|
   config.openai_api_key ||= "DUMMY-TEST-KEY" # Run tests with VCR without having to configure OpenAI API key locally.
 end
 
-Queenbee::Remote::Account.class_eval do
-  # because we use the account ID as the tenant name, we need it to be unique in each test to avoid
-  # parallelized tests clobbering each other.
-  def next_id
-    super + Random.rand(1000000)
+unless Rails.application.config.x.local_authentication
+  Queenbee::Remote::Account.class_eval do
+    # because we use the account ID as the tenant name, we need it to be unique in each test to avoid
+    # parallelized tests clobbering each other.
+    def next_id
+      super + Random.rand(1000000)
+    end
   end
 end
