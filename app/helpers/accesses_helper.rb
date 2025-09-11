@@ -21,7 +21,7 @@ module AccessesHelper
     turbo_frame_tag dom_id(collection, :involvement_button) do
       button_to collection_involvement_path(collection), method: :put,
           aria: { labelledby: dom_id(collection, :involvement_label) },
-          class: [ "btn tooltip", { "btn--reversed": access.involvement == "watching" || access.involvement == "everything" } ],
+          class: [ "btn tooltip", { "btn--reversed": access.involvement == "watching" } ],
           params: { involvement: next_involvement(access.involvement) } do
         icon_tag("notification-bell-#{access.involvement.dasherize}") +
           tag.span(involvement_access_label(collection, access.involvement), class: "for-screen-reader", id: dom_id(collection, :involvement_label))
@@ -31,18 +31,16 @@ module AccessesHelper
 
   private
     def next_involvement(involvement)
-      order = %w[ everything watching access_only ]
+      order = %w[ watching access_only ]
       order[(order.index(involvement.to_s) + 1) % order.size]
     end
 
     def involvement_access_label(collection, involvement)
       case involvement
       when "access_only"
-        "Notifications are off for #{collection.name}"
-      when "everything"
-        "Notifying me about everything in #{collection.name}"
+        "Not watching #{collection.name}"
       when "watching"
-        "Notifying me only about @mentions and new items in #{collection.name}"
+        "Watching #{collection.name}"
       end
     end
 end

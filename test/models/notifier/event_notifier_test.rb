@@ -48,7 +48,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
 
   test "assignment events only create a notification for the assignee" do
     collections(:writebook).access_for(users(:jz)).watching!
-    collections(:writebook).access_for(users(:kevin)).everything!
+    collections(:writebook).access_for(users(:kevin)).watching!
 
     notifications = Notifier.for(events(:logo_assignment_jz)).notify
 
