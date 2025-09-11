@@ -34,17 +34,6 @@ gem "aws-sdk-s3", require: false
 gem "web-push"
 gem "net-http-persistent"
 
-# 37id and Queenbee integration
-need_signal_id = ENV.fetch("LOCAL_AUTHENTICATION", "") == ""
-gem "signal_id", bc: "signal_id", branch: "rails4", require: need_signal_id
-gem "mysql2", github: "jeremy/mysql2", branch: "force_latin1_to_utf8" # needed by signal_id
-gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
-gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety
-gem "portfolio", ">= 4.6", bc: "portfolio" # needed by signal_id
-gem "file_repository", "~> 1.4.5", bc: "file_repository" # needed by portfolio
-gem "queenbee", bc: "queenbee-plugin"
-gem "activeresource", require: "active_resource" # needed by queenbee
-
 # Telemetry, logging, and operations
 gem "mission_control-jobs"
 gem "sentry-ruby"
@@ -72,4 +61,7 @@ group :test do
   gem "mocha"
 end
 
-gem "fizzy-saas", path: "gems/fizzy-saas"
+if ENV.fetch("SAAS_EXTENSION", "") != ""
+  eval_gemfile "gems/fizzy-saas/Gemfile"
+  gem "fizzy-saas", path: "gems/fizzy-saas"
+end

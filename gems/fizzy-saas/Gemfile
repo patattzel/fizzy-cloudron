@@ -1,16 +1,13 @@
 source "https://rubygems.org"
+git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 
-# Specify your gem's dependencies in fizzy-saas.gemspec.
-gemspec
-
-gem "puma"
-
-gem "sqlite3"
-
-gem "propshaft"
-
-# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-gem "rubocop-rails-omakase", require: false
-
-# Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
+# 37id and Queenbee integration
+need_signal_id = ENV.fetch("LOCAL_AUTHENTICATION", "") == ""
+gem "signal_id", bc: "signal_id", branch: "rails4", require: need_signal_id
+gem "mysql2", github: "jeremy/mysql2", branch: "force_latin1_to_utf8" # needed by signal_id
+gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
+gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety
+gem "portfolio", ">= 4.6", bc: "portfolio" # needed by signal_id
+gem "file_repository", "~> 1.4.5", bc: "file_repository" # needed by portfolio
+gem "queenbee", bc: "queenbee-plugin"
+gem "activeresource", require: "active_resource" # needed by queenbee

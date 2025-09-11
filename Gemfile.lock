@@ -190,6 +190,15 @@ GIT
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
 
+PATH
+  remote: gems/fizzy-saas
+  specs:
+    fizzy-saas (0.1.0)
+      queenbee
+      rails (>= 8.1.0.beta1)
+      rails_structured_logging
+      signal_id
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -600,6 +609,7 @@ DEPENDENCIES
   capybara
   debug
   file_repository (~> 1.4.5)!
+  fizzy-saas!
   geared_pagination (~> 1.2)
   image_processing (~> 1.14)
   importmap-rails
