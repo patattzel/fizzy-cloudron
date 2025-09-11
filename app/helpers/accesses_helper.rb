@@ -21,10 +21,10 @@ module AccessesHelper
     turbo_frame_tag dom_id(collection, :involvement_button) do
       button_to collection_involvement_path(collection), method: :put,
           aria: { labelledby: dom_id(collection, :involvement_label) },
-          class: [ "btn tooltip", { "btn--reversed": access.involvement == "watching" } ],
+          class: "btn",
           params: { involvement: next_involvement(access.involvement) } do
         icon_tag("notification-bell-#{access.involvement.dasherize}") +
-          tag.span(involvement_access_label(collection, access.involvement), class: "for-screen-reader", id: dom_id(collection, :involvement_label))
+          tag.span(involvement_access_label(collection, access.involvement), class: "txt-nowrap txt-uppercase", id: dom_id(collection, :involvement_label))
       end
     end
   end
@@ -38,9 +38,9 @@ module AccessesHelper
     def involvement_access_label(collection, involvement)
       case involvement
       when "access_only"
-        "Not watching #{collection.name}"
+        "Watch this"
       when "watching"
-        "Watching #{collection.name}"
+        "Stop Watching"
       end
     end
 end
