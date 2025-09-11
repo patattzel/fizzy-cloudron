@@ -17,9 +17,11 @@ class Webhook::Delivery < ApplicationRecord
   store :request, coder: JSON
   store :response, coder: JSON
 
+  enum :state, %w[ pending in_progress completed errored ].index_by(&:itself), default: :pending
+
   scope :chronologically, -> { order created_at: :asc, id: :asc }
 
-  enum :state, %w[ pending in_progress completed errored ].index_by(&:itself), default: :pending
+  after_create_commit :deliver_later
 
   def deliver_later
     Webhook::DeliveryJob.perform_later(self)

@@ -1,2 +1,0 @@
-class Webhook::DelinquentCatcherJob
-end

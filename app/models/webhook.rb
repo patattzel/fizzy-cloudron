@@ -1,4 +1,6 @@
 class Webhook < ApplicationRecord
+  include Triggerable
+
   PERMITTED_SCHEMES = %w[ http https ].freeze
   PERMITTED_ACTIONS = %w[
     card_assigned
@@ -25,10 +27,8 @@ class Webhook < ApplicationRecord
 
   scope :ordered, -> { order(name: :asc, id: :desc) }
   scope :active, -> { where(active: true) }
-  scope :triggered_by_action, ->(action) { where("subscribed_actions LIKE ?", "%\"#{action}\"%") }
-  scope :triggered_by, ->(event) { active.triggered_by_action(event.action) }
 
-  # normalizes :subscribed_actions, with: ->(value) { Array(value).map(&:to_s).map(&:strip).reject(&:blank?).uniq & PERMITTED_ACTIONS }
+  normalizes :subscribed_actions, with: ->(value) { Array.wrap(value).map { |e| e.to_s.strip.presence }.uniq & PERMITTED_ACTIONS }
 
   validates :name, presence: true
   validates :subscribed_actions, presence: true
@@ -37,10 +37,6 @@ class Webhook < ApplicationRecord
 
   def deactivate
     update_columns active: false
-  end
-
-  def trigger(event)
-    deliveries.create!(event: event).deliver_later
   end
 
   private
