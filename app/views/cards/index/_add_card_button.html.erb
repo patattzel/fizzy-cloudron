@@ -8,13 +8,8 @@
     <hr class="separator--horizontal full-width" aria-hidden="true">
 
     <footer class="flex flex-column gap-half">
-      <div><strong class="txt-uppercase">Watching for new cards</strong></div>
-      <div class="flex flex-wrap gap-half justify-center">
-        <% collection.users.without(User.system).where(accesses: { involvement: :watching }).each do | user | %>
-          <%= avatar_tag user %>
-        <% end %>
-      </div>
-      <%= access_involvement_advance_button collection, Current.user %>
+      <strong class="txt-uppercase">Watching for new cards</strong>
+      <%= access_involvement_advance_button(collection, Current.user, show_watchers: true) %>
     </footer>
   </div>
 <% end %>
