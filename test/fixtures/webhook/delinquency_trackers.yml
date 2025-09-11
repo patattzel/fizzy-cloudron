@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  webhook: one
-  last_reset_at: 2025-09-11 14:45:43
+active_webhook_tracker:
+  webhook: active
+  last_reset_at: <%= 1.hour.ago %>
   total_count: 1
   failed_count: 1
 
-two:
-  webhook: two
-  last_reset_at: 2025-09-11 14:45:43
+inactive_webhook_tracker:
+  webhook: inactive
+  last_reset_at: <%= 1.hour.ago %>
   total_count: 1
   failed_count: 1

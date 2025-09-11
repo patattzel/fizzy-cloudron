@@ -55,7 +55,10 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
     assert_equal "pending", delivery.state
 
-    delivery.deliver
+    tracker = delivery.webhook.delinquency_tracker
+    assert_difference -> { tracker.reload.total_count }, 1 do
+      delivery.deliver
+    end
 
     assert delivery.persisted?
     assert_equal "completed", delivery.state

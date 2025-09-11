@@ -6,6 +6,7 @@ class WebhookTest < ActiveSupport::TestCase
     assert webhook.persisted?
     assert webhook.active?
     assert webhook.signing_secret.present?
+    assert webhook.delinquency_tracker.present?
   end
 
   test "validates the url" do
@@ -41,6 +42,14 @@ class WebhookTest < ActiveSupport::TestCase
 
     assert_changes -> { webhook.active? }, from: true, to: false do
       webhook.deactivate
+    end
+  end
+
+  test "activate" do
+    webhook = webhooks(:inactive)
+
+    assert_changes -> { webhook.active? }, from: false, to: true do
+      webhook.activate
     end
   end
 end
