@@ -44,6 +44,10 @@ class Webhook < ApplicationRecord
     update_columns active: false
   end
 
+  def renderer
+    @renderer ||= ApplicationController.renderer.new
+  end
+
   private
     def validate_url
       uri = URI.parse(url.presence)

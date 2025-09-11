@@ -106,6 +106,6 @@ class Webhook::Delivery < ApplicationRecord
     end
 
     def payload
-      { test: :test }.to_json
+      webhook.renderer.render(template: "webhooks/event", assigns: { event: event }, format: :json)
     end
 end
