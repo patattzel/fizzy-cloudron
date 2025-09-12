@@ -87,4 +87,12 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
       Notifier.for(events(:layout_commented)).notify
     end
   end
+
+  test "assignment events notify assignees regardless of involvement level" do
+    collections(:writebook).access_for(users(:jz)).access_only!
+
+    notifications = Notifier.for(events(:logo_assignment_jz)).notify
+
+    assert_equal [ users(:jz) ], notifications.map(&:user)
+  end
 end
