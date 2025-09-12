@@ -32,7 +32,7 @@ class Card::WatchableTest < ActiveSupport::TestCase
 
   test "watchers_and_subscribers" do
     collections(:writebook).access_for(users(:kevin)).watching!
-    collections(:writebook).access_for(users(:jz)).everything!
+    collections(:writebook).access_for(users(:jz)).watching!
 
     cards(:logo).watch_by users(:kevin)
     cards(:logo).unwatch_by users(:jz)

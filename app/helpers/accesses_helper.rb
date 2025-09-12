@@ -15,34 +15,60 @@ module AccessesHelper
       cached: ->(user) { [ user, selected ] }
   end
 
-  def access_involvement_advance_button(collection, user)
+  def access_involvement_advance_button(collection, user, show_watchers: true)
     access = collection.access_for(user)
 
     turbo_frame_tag dom_id(collection, :involvement_button) do
-      button_to collection_involvement_path(collection), method: :put,
-          aria: { labelledby: dom_id(collection, :involvement_label) },
-          class: [ "btn tooltip", { "btn--reversed": access.involvement == "watching" || access.involvement == "everything" } ],
-          params: { involvement: next_involvement(access.involvement) } do
-        icon_tag("notification-bell-#{access.involvement.dasherize}") +
-          tag.span(involvement_access_label(collection, access.involvement), class: "for-screen-reader", id: dom_id(collection, :involvement_label))
-      end
+      concat collection_watchers_list(collection) if show_watchers
+      concat involvement_button(collection, access, show_watchers)
+    end
+  end
+
+  def collection_watchers_list(collection)
+    tag.div(class: "flex flex-wrap gap-half justify-center") do
+      safe_join(
+        collection.users
+                  .without(User.system)
+                  .where(accesses: { involvement: :watching })
+                  .distinct
+                  .map { |watcher| avatar_tag(watcher) }
+      )
+    end
+  end
+
+  def involvement_button(collection, access, show_watchers)
+    involvement_label_id = dom_id(collection, :involvement_label)
+
+    button_to(
+      collection_involvement_path(collection),
+      method: :put,
+      aria: { labelledby: involvement_label_id },
+      class: "btn",
+      params: { show_watchers: show_watchers, involvement: next_involvement(access.involvement) }
+    ) do
+      safe_join([
+        icon_tag("notification-bell-#{access.involvement.dasherize}"),
+        tag.span(
+          involvement_access_label(collection, access.involvement),
+          class: "txt-nowrap txt-uppercase",
+          id: involvement_label_id
+        )
+      ])
     end
   end
 
   private
     def next_involvement(involvement)
-      order = %w[ everything watching access_only ]
+      order = %w[ watching access_only ]
       order[(order.index(involvement.to_s) + 1) % order.size]
     end
 
     def involvement_access_label(collection, involvement)
       case involvement
       when "access_only"
-        "Notifications are off for #{collection.name}"
-      when "everything"
-        "Notifying me about everything in #{collection.name}"
+        "Watch this"
       when "watching"
-        "Notifying me only about @mentions and new items in #{collection.name}"
+        "Stop Watching"
       end
     end
 end

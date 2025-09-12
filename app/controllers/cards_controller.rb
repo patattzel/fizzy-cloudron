@@ -8,7 +8,7 @@ class CardsController < ApplicationController
 
   enable_collection_filtering only: :index
 
-  PAGE_SIZE = 50
+  PAGE_SIZE = 25
 
   def index
     @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
@@ -16,7 +16,7 @@ class CardsController < ApplicationController
     @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
     @closed = page_and_filter_for_closed_cards
 
-    @cache_key = [ @considering, @on_deck, @doing, @closed ].collect { it.page.records }.including([ Workflow.all ])
+    @cache_key = [ @considering, @on_deck, @doing, @closed ].collect { it.page.records }.including([ Workflow.all, @user_filtering ])
     fresh_when etag: @cache_key
   end
 

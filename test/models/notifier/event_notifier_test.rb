@@ -48,7 +48,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
 
   test "assignment events only create a notification for the assignee" do
     collections(:writebook).access_for(users(:jz)).watching!
-    collections(:writebook).access_for(users(:kevin)).everything!
+    collections(:writebook).access_for(users(:kevin)).watching!
 
     notifications = Notifier.for(events(:logo_assignment_jz)).notify
 
@@ -65,9 +65,9 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   end
 
   test "assignment events do not notify you if you assigned yourself" do
-    collections(:writebook).access_for(users(:jz)).access_only!
+    collections(:writebook).access_for(users(:david)).watching!
 
-    notifications = Notifier.for(events(:logo_assignment_jz)).notify
+    notifications = Notifier.for(events(:logo_assignment_david)).notify
 
     assert_empty notifications
   end
@@ -86,5 +86,13 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
     assert_no_difference -> { users(:david).notifications.count } do
       Notifier.for(events(:layout_commented)).notify
     end
+  end
+
+  test "assignment events notify assignees regardless of involvement level" do
+    collections(:writebook).access_for(users(:jz)).access_only!
+
+    notifications = Notifier.for(events(:logo_assignment_jz)).notify
+
+    assert_equal [ users(:jz) ], notifications.map(&:user)
   end
 end
