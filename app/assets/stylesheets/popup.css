@@ -3,6 +3,7 @@
     --panel-border-radius: 0.5em;
     --panel-padding: var(--block-space);
     --panel-size: auto;
+    --btn-background: transparent;
 
     inset: 0 auto auto 50%;
     max-block-size: 80vh;
@@ -31,13 +32,8 @@
       --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space);
     }
 
-    #header:has(&) {
-      position: relative;
-      z-index: var(--z-nav);
-    }
-
-    .card & {
-      inline-size: 260px;
+    form {
+      display: contents;
     }
   }
 
@@ -46,40 +42,9 @@
     white-space: nowrap;
   }
 
-  .popup__group {
-    align-items: center;
-    background: transparent;
-    border-radius: 0.3em;
-    display: flex;
-    inline-size: 100%;
-    max-inline-size: 100%;
+  .popup__section {}
 
-    .popup__list &:has(*:first-child:not(.popup__item)) {
-      padding-inline-start: var(--inline-space-half);
-    }
-
-    .btn {
-      --btn-background: transparent;
-    }
-
-    @media (any-hover: hover) {
-      &:hover {
-        background: var(--color-ink-lightest);
-      }
-    }
-
-    &[aria-selected] {
-      background-color: var(--color-selected);
-
-      @media (any-hover: hover) {
-        &:hover {
-          background-color: var(--color-selected);
-        }
-      }
-    }
-  }
-
-  .popup__group-title {
+  .popup__section-title {
     background: var(--color-canvas);
     font-size: var(--text-small);
     font-weight: bold;
@@ -106,13 +71,43 @@
     row-gap: 2px;
 
     /* Hide lists when all the items within are hidden */
-    &:has(.popup__group-title:only-child),
-    &:has(.popup__group[hidden]):not(:has(.popup__group:not([hidden]))) {
+    &:has(.popup__section-title:only-child),
+    &:has(.popup__item[hidden]):not(:has(.popup__item:not([hidden]))) {
       display: none;
     }
   }
 
   .popup__item {
+    align-items: center;
+    background: transparent;
+    border-radius: 0.3em;
+    display: flex;
+    inline-size: 100%;
+    max-inline-size: 100%;
+
+    /* .popup__list &:has(*:first-child:not(.popup__btn)) {
+      padding-inline-start: var(--inline-space-half);
+    } */
+
+    @media (any-hover: hover) {
+      &:hover {
+        background: var(--color-ink-lightest);
+      }
+    }
+
+    &[aria-selected] {
+      background-color: var(--color-selected);
+
+      @media (any-hover: hover) {
+        &:hover {
+          background-color: var(--color-selected);
+        }
+      }
+    }
+  }
+
+  /* The actionable thing with padding within popup__item */
+  .popup__btn {
     --btn-background: transparent;
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
@@ -125,12 +120,6 @@
     min-inline-size: 0;
     max-inline-size: 100%;
     text-align: start;
-
-    @media (any-hover: hover) {
-      &:where(:not(:active):hover) {
-        --btn-background: var(--color-selected);
-      }
-    }
 
     .icon {
       --icon-size: 1em;
@@ -149,16 +138,6 @@
           --btn-background: var(--color-selected);
         }
       }
-    }
-  }
-
-  .popup__new {
-    --btn-icon-size: 1em;
-
-    padding-inline-start: var(--inline-space-half);
-
-    .icon {
-      margin-inline-end: 0.5em;
     }
   }
 

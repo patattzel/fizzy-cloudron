@@ -1,8 +1,7 @@
 <% if user_filtering.collections.any? %>
-  <details open>
-    <summary class="popup__group-title">Collections</summary>
-
-    <%= form_with url: user_filtering.self_filter_path, method: :get, class: "display-contents", data: { controller: "form" } do |form| %>
+  <details class="popup__section" open>
+    <summary class="popup__section-title">Collections</summary>
+    <%= form_with url: user_filtering.self_filter_path, method: :get, data: { controller: "form" } do |form| %>
       <ul class="popup__list">
         <%= render "filters/menu/collections/all_option", form: form, user_filtering: user_filtering %>
         <%= render partial: "filters/menu/collections/collection", collection: user_filtering.collections, as: :collection, locals: { form: form, user_filtering: user_filtering } %>
