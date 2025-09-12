@@ -1,5 +1,5 @@
 <% if collection = user_filtering.single_collection %>
-  <div class="card card--new flex flex-column gap">
+  <div class="card card--new flex flex-column gap-half">
     <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link" do %>
       <%= icon_tag "add" %>
       <span>Add a card</span>
