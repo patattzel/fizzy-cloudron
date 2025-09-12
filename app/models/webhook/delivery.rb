@@ -1,4 +1,5 @@
 class Webhook::Delivery < ApplicationRecord
+  STALE_TRESHOLD = 7.days
   USER_AGENT = "fizzy/1.0.0 Webhook"
   ENDPOINT_TIMEOUT = 7.seconds
   DNS_RESOLUTION_TIMEOUT = 2
@@ -18,8 +19,13 @@ class Webhook::Delivery < ApplicationRecord
   enum :state, %w[ pending in_progress completed errored ].index_by(&:itself), default: :pending
 
   scope :ordered, -> { order created_at: :desc, id: :desc }
+  scope :stale, -> { where(created_at: ...STALE_TRESHOLD.ago) }
 
   after_create_commit :deliver_later
+
+  def self.cleanup
+    stale.delete_all
+  end
 
   def deliver_later
     Webhook::DeliveryJob.perform_later(self)

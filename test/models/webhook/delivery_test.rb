@@ -190,4 +190,17 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     assert_requested request_stub
     assert delivery.succeeded?
   end
+
+  test "cleanup" do
+    webhook = webhooks(:active)
+    event = events(:layout_commented)
+
+    fresh_delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+    stale_delivery = Webhook::Delivery.create!(webhook: webhook, event: event, created_at: 8.days.ago)
+
+    Webhook::Delivery.cleanup
+
+    assert Webhook::Delivery.exists?(fresh_delivery.id)
+    assert_not Webhook::Delivery.exists?(stale_delivery.id)
+  end
 end
