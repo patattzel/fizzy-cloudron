@@ -1,4 +1,3 @@
-<div class="popup__section-title">People</div>
-<ul class="popup__list">
+<%= filter_collapsible_section "People" do %>
   <%= render partial: "filters/menu/users/user", collection: user_filtering.users, as: :user %>
-</ul>
+<% end %>

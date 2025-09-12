@@ -45,8 +45,6 @@
     white-space: nowrap;
   }
 
-  .popup__section {}
-
   .popup__section-title {
     background: var(--color-canvas);
     font-size: var(--text-small);
@@ -60,6 +58,25 @@
 
     &::-webkit-details-marker {
       display: none;
+    }
+
+    &:is(summary) {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      gap: 2ch;
+      justify-content: space-between;
+    }
+
+    .icon--caret-down {
+      opacity: 0.66;
+      transition: rotate 150ms ease-out;
+    }
+
+    .popup__section:not([open]) & {
+      .icon--caret-down {
+        rotate: -90deg;
+      }
     }
   }
 

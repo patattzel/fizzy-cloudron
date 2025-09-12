@@ -2,6 +2,5 @@
   <%= icon_tag "tag", class: "popup__icon" %>
   <%= link_to cards_path(tag_ids: [tag]), class: "popup__btn btn" do %>
     <span class="overflow-ellipsis"><%= tag.title %> (<%= tag.cards_count %>)</span>
-    <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
   <% end %>
 </li>

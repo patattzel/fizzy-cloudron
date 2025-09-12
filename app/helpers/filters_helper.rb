@@ -20,7 +20,6 @@ module FiltersHelper
       concat icon_tag(icon, class: "popup__icon")
       concat(link_to(path, class: "popup__btn btn") do
         concat tag.span(label, class: "overflow-ellipsis")
-        concat tag.span(" ›", class: "translucent flex-item-no-shrink flex-item-justify-end")
       end)
     end
   end
@@ -34,6 +33,18 @@ module FiltersHelper
       navigable_list_focus_on_selection_value: false,
       navigable_list_actionable_items_value: true
     }, &block
+  end
+
+  def filter_collapsible_section(title, &block)
+    tag.details class: "popup__section", open: true do
+      concat(tag.summary(class: "popup__section-title") do
+        concat title
+        concat icon_tag "caret-down"
+      end)
+      concat(tag.ul(class: "popup__list") do
+        capture(&block)
+      end)
+    end
   end
 
   def filter_hotkey_link(title, path, key, icon)
