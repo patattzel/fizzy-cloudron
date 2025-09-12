@@ -57,7 +57,9 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
     tracker = delivery.webhook.delinquency_tracker
     assert_difference -> { tracker.reload.total_count }, 1 do
-      delivery.deliver
+      assert_no_difference -> { tracker.reload.failed_count } do
+        delivery.deliver
+      end
     end
 
     assert delivery.persisted?
@@ -65,16 +67,23 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     assert delivery.request[:headers].present?
     assert_equal 200, delivery.response[:code]
     assert delivery.response[:error].blank?
+    assert delivery.succeeded?
   end
 
   test "deliver when the network timeouts" do
     delivery = webhook_deliveries(:pending)
     stub_request(:post, delivery.webhook.url).to_timeout
 
-    delivery.deliver
+    tracker = delivery.webhook.delinquency_tracker
+    assert_difference -> { tracker.reload.total_count }, 1 do
+      assert_difference -> { tracker.reload.failed_count }, 1 do
+        delivery.deliver
+      end
+    end
 
     assert_equal "completed", delivery.state
     assert_equal "connection_timeout", delivery.response[:error]
+    assert delivery.failed?
   end
 
   test "deliver when the connection is refused" do

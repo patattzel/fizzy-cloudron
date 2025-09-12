@@ -1,39 +1,35 @@
 class Webhook::DelinquencyTracker < ApplicationRecord
-  RESET_INTERVAL = 12.hours
-  MINIMUM_DELIVERIES = 50
+  LOW_VOLUME_TRESHOLD = 10
+  RESET_INTERVAL = 1.hour
 
   belongs_to :webhook
 
   before_validation { self.last_reset_at ||= Time.current }
 
   def record_delivery_of(delivery)
-    if reset_due?
+    if delivery.failed? && high_volume? && reset_due?
       webhook.deactivate if delinquent?
       reset
     else
       increment!(:total_count)
-      increment!(:failed_count) unless delivery.succeeded?
+      increment!(:failed_count) if delivery.failed?
     end
   end
 
   private
+    def high_volume?
+      total_count > LOW_VOLUME_TRESHOLD
+    end
+
     def delinquent?
-      significantly_active? && all_deliveries_failed?
-    end
-
-    def significantly_active?
-      total_count >= MINIMUM_DELIVERIES
-    end
-
-    def all_deliveries_failed?
       failed_count == total_count
-    end
-
-    def reset
-      update_columns total_count: 0, failed_count: 0, last_reset_at: Time.current
     end
 
     def reset_due?
       last_reset_at.before?(RESET_INTERVAL.ago)
+    end
+
+    def reset
+      update_columns total_count: 0, failed_count: 0, last_reset_at: Time.current
     end
 end

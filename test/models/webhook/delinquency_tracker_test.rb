@@ -20,9 +20,9 @@ class Webhook::DelinquencyTrackerTest < ActiveSupport::TestCase
     end
 
     travel_to 13.hours.from_now do
-      tracker.update!(total_count: 10, failed_count: 5)
+      tracker.update!(total_count: 11, failed_count: 5)
 
-      tracker.record_delivery_of(successful_delivery)
+      tracker.record_delivery_of(failed_delivery)
       tracker.reload
 
       assert_equal 0, tracker.total_count

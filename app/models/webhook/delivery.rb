@@ -45,6 +45,10 @@ class Webhook::Delivery < ApplicationRecord
     raise
   end
 
+  def failed?
+    (errored? || completed?) && !succeeded?
+  end
+
   def succeeded?
     completed? && response[:error].blank? && response[:code].between?(200, 299)
   end
