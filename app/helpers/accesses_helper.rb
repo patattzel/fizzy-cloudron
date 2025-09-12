@@ -17,15 +17,28 @@ module AccessesHelper
 
   def access_involvement_advance_button(collection, user, show_watchers: true)
     access = collection.access_for(user)
-    involvement_label_id = dom_id(collection, :involvement_label)
 
     turbo_frame_tag dom_id(collection, :involvement_button) do
       concat collection_watchers_list(collection) if show_watchers
-      concat involvement_button(collection, access, involvement_label_id, show_watchers)
+      concat involvement_button(collection, access, show_watchers)
     end
   end
 
-  def involvement_button(collection, access, involvement_label_id, show_watchers)
+  def collection_watchers_list(collection)
+    tag.div(class: "flex flex-wrap gap-half justify-center") do
+      safe_join(
+        collection.users
+                  .without(User.system)
+                  .where(accesses: { involvement: :watching })
+                  .distinct
+                  .map { |watcher| avatar_tag(watcher) }
+      )
+    end
+  end
+
+  def involvement_button(collection, access, show_watchers)
+    involvement_label_id = dom_id(collection, :involvement_label)
+
     button_to(
       collection_involvement_path(collection),
       method: :put,
@@ -41,18 +54,6 @@ module AccessesHelper
           id: involvement_label_id
         )
       ])
-    end
-  end
-
-  def collection_watchers_list(collection)
-    tag.div(class: "flex flex-wrap gap-half justify-center") do
-      safe_join(
-        collection.users
-                  .without(User.system)
-                  .where(accesses: { involvement: :watching })
-                  .distinct
-                  .map { |watcher| avatar_tag(watcher) }
-      )
     end
   end
 
