@@ -8,7 +8,7 @@ class CardsController < ApplicationController
 
   enable_collection_filtering only: :index
 
-  PAGE_SIZE = 50
+  PAGE_SIZE = 25
 
   def index
     @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
