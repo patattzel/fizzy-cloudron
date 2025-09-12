@@ -125,7 +125,6 @@ Rails.application.routes.draw do
     resources :pins
     resource :timezone
     resource :menu
-    resource :filter_expansion, only: %i[ create destroy ]
   end
 
   namespace :prompts do

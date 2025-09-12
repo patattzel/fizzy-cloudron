@@ -1,7 +1,7 @@
 <% filter = user_filtering.filter %>
 
-<% if user_filtering.show_indexed_by? %>
-  <div class="quick-filter position-relative <%= "default-value" if filter.indexed_by.all? %>" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+<%= tag.div class: class_names("quick-filter position-relative", "default-value": filter.indexed_by.all?),
+      data: { controller: "dialog", action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside", filter_show: user_filtering.show_indexed_by? } do %>
     <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
       <span class="overflow-ellipsis">
         <%= filter.indexed_by == "all" ? "Status" : filter.indexed_by.humanize %>
@@ -36,5 +36,4 @@
         <% end %>
       </ul>
     <% end %>
-  </div>
 <% end %>
