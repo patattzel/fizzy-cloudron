@@ -97,7 +97,7 @@ class Webhook::Delivery < ApplicationRecord
         "User-Agent" => USER_AGENT,
         "Content-Type" => "application/json",
         "X-Webhook-Signature" => signature,
-        "X-Webhook-Timestamp" => Time.current.utc.iso8601
+        "X-Webhook-Timestamp" => event.created_at.utc.iso8601
       }
     end
 
