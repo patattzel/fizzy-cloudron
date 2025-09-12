@@ -1,4 +1,6 @@
 module AccessesHelper
+  MAX_DISPLAYED_WATCHERS = 3
+
   def access_menu_tag(collection, **options, &)
     tag.menu class: [ options[:class], { "toggler--toggled": collection.all_access? } ], data: {
       controller: "filter toggle-class navigable-list",
@@ -26,12 +28,12 @@ module AccessesHelper
 
   def collection_watchers_list(collection)
     watchers = collection.users
-                        .without(User.system)
-                        .where(accesses: { involvement: :watching })
-                        .distinct
+                         .without(User.system)
+                         .where(accesses: { involvement: :watching })
+                         .distinct
 
-    displayed_watchers = watchers.limit(8)
-    overflow_count = watchers.count - 8
+    displayed_watchers = watchers.limit(MAX_DISPLAYED_WATCHERS)
+    overflow_count = watchers.count - MAX_DISPLAYED_WATCHERS
 
     tag.div(class: "flex gap-half justify-center") do
       safe_join([
