@@ -1,5 +1,5 @@
 module AccessesHelper
-  MAX_DISPLAYED_WATCHERS = 8
+  MAX_DISPLAYED_WATCHERS = 3
 
   def access_menu_tag(collection, **options, &)
     tag.menu class: [ options[:class], { "toggler--toggled": collection.all_access? } ], data: {
