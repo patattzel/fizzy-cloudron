@@ -4,6 +4,7 @@ def system!(*args) system(*args, exception: true) end
 
 puts "== Installing dependencies =="
 system("gem install bundler --conservative")
+system("bundle config set --local auto_install true")
 system("bundle check") || system!("bundle install")
 
 if ENV.fetch("SAAS_EXTENSION", "") != ""
