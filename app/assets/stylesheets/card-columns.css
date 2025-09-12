@@ -258,16 +258,27 @@
     }
 
     .card--new {
-      --card-padding-block: var(--block-space-double);
+      --border-color: var(--color-selected-dark);
+      --border-size: 1px;
+      --card-padding-block: var(--block-space);
 
       border: 1px solid var(--color-selected-dark);
-      font-size: 0.8rem !important;
-      rotate: 0 !important;
       text-align: center;
 
       .btn {
-        border: 0;
-        color: var(--color-considering);
+        &.btn--link {
+          font-size: 1.2em;
+        }
+
+        &:not(.btn--link) {
+          border: 0;
+          color: var(--color-link);
+        }
+      }
+
+      footer {
+        font-size: var(--text-x-small);
+        margin-block-end: calc(var(--block-space) / -2);
       }
     }
 
