@@ -16,8 +16,8 @@ class CardsController < ApplicationController
     @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
     @closed = page_and_filter_for_closed_cards
 
-    @cache_key = [ @considering, @on_deck, @doing, @closed ].collect { it.page.records }.including([ Workflow.all ])
-    fresh_when etag: [ @cache_key, @user_filtering ]
+    @cache_key = [ @considering, @on_deck, @doing, @closed ].collect { it.page.records }.including([ Workflow.all, @user_filtering ])
+    fresh_when etag: @cache_key
   end
 
   def create

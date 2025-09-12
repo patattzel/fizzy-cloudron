@@ -1,6 +1,6 @@
 class Access < ApplicationRecord
   belongs_to :collection
-  belongs_to :user
+  belongs_to :user, touch: true
 
   enum :involvement, %i[ access_only watching ].index_by(&:itself)
 
