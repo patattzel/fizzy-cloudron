@@ -117,5 +117,17 @@
       display: none;
     }
   }
+
+  .filters:not(.filters--expanded) {
+    .quick-filter:not([data-filter-show=true]) {
+      display: none;
+    }
+  }
+
+  .filters.filters--expanded {
+    .quick-filter {
+      display: block;
+    }
+  }
 }
 
