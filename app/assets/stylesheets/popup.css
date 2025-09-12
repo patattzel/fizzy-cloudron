@@ -5,6 +5,9 @@
     --panel-size: auto;
     --btn-background: transparent;
 
+    --popup-icon-size: 24px;
+    --popup-item-padding-inline: var(--inline-space-half);
+
     inset: 0 auto auto 50%;
     max-block-size: 80vh;
     min-inline-size: min(25ch, calc(100dvw - var(--block-space-double)));
@@ -68,7 +71,7 @@
     margin: 0;
     max-inline-size: 100%;
     padding: 0;
-    row-gap: 2px;
+    row-gap: 1px;
 
     /* Hide lists when all the items within are hidden */
     &:has(.popup__section-title:only-child),
@@ -85,10 +88,6 @@
     inline-size: 100%;
     max-inline-size: 100%;
 
-    /* .popup__list &:has(*:first-child:not(.popup__btn)) {
-      padding-inline-start: var(--inline-space-half);
-    } */
-
     @media (any-hover: hover) {
       &:hover {
         background: var(--color-ink-lightest);
@@ -104,6 +103,14 @@
         }
       }
     }
+
+    &:has(> :first-child:not(.popup__btn)) {
+      padding-inline-start: var(--popup-item-padding-inline);
+    }
+
+    &:has(> :last-child:not(.popup__btn)) {
+      padding-inline-end: var(--popup-item-padding-inline);
+    }
   }
 
   /* The actionable thing with padding within popup__item */
@@ -111,19 +118,15 @@
     --btn-background: transparent;
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
-    --btn-font-weight: 500;
-    --btn-padding: var(--inline-space-half) var(--inline-space);
 
     flex: 1 1 auto;
+    font-weight: 500;
     justify-content: start;
     inline-size: 100%;
     min-inline-size: 0;
     max-inline-size: 100%;
+    padding: var(--inline-space-half) var(--popup-item-padding-inline);
     text-align: start;
-
-    .icon {
-      --icon-size: 1em;
-    }
 
     &:has(input:checked)  {
       --btn-background: transparent;
@@ -138,6 +141,24 @@
           --btn-background: var(--color-selected);
         }
       }
+    }
+  }
+
+  .popup__icon {
+    --icon-size: 1em;
+
+    inline-size: var(--popup-icon-size);
+  }
+
+  .popup__radio {
+    --icon-size: var(--text-x-small);
+
+    block-size: var(--popup-icon-size);
+    inline-size: var(--popup-icon-size);
+    flex-shrink: 0;
+
+    &:hover {
+      --btn-border-color: var(--color-ink);
     }
   }
 

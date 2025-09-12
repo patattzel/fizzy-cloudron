@@ -1,9 +1,6 @@
 <li class="popup__item overflow-ellipsis" data-navigable-list-target="item" data-filter-target="item" id="filter-custom-create">
+  <%= icon_tag "bookmark", class: "popup__icon" %>
   <%= link_to cards_path(expand_all: true), class: "popup__btn btn" do %>
-    <%= icon_tag "bookmark" %>
-    <div class="flex flex-column txt-tight-lines min-width txt-small">
-      <strong class="overflow-ellipsis">Create a new filter</strong>
-    </div>
-    <span class="translucent flex-item-no-shrink flex-item-justify-end"> ›</span>
+    Create a new filter
   <% end %>
 </li>

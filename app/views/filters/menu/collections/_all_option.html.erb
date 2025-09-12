@@ -2,7 +2,7 @@
 
 <% if Current.user.collections.many? %>
   <li class="popup__item" data-filter-target="item" data-navigable-list-target="item" id="filter-collection-all">
-    <%= link_to clear_url_path, class: "btn txt-xx-small flex-item-no-shrink" do %>
+    <%= link_to clear_url_path, class: "popup__radio btn" do %>
       <%= check_box_tag "filter_collections", nil, user_filtering.collections.blank?, class: "form-checkbox" %>
       <span class="for-screen-reader">
         See everything in all collections
