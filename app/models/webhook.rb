@@ -1,10 +1,13 @@
 class Webhook < ApplicationRecord
   include Triggerable
 
+  SLACK_WEBHOOK_URL_REGEX = %r{//hooks\.slack\.com/services/T[^\/]+/B[^\/]+/[^\/]+\Z}i
+  CAMPFIRE_WEBHOOK_URL_REGEX = %r{/rooms/\d+/\d+-[^\/]+/messages\Z}i
+  BASECAMP_CAMPFIRE_WEBHOOK_URL_REGEX = %r{/\d+/integrations/[^\/]+/buckets/\d+/chats/\d+/lines\Z}i
+
   PERMITTED_SCHEMES = %w[ http https ].freeze
   PERMITTED_ACTIONS = %w[
     card_assigned
-    card_boosted
     card_closed
     card_collection_changed
     card_created
@@ -46,6 +49,18 @@ class Webhook < ApplicationRecord
 
   def renderer
     @renderer ||= ApplicationController.renderer.new
+  end
+
+  def for_basecamp?
+    url.match? BASECAMP_CAMPFIRE_WEBHOOK_URL_REGEX
+  end
+
+  def for_campfire?
+    url.match? CAMPFIRE_WEBHOOK_URL_REGEX
+  end
+
+  def for_slack?
+    url.match? SLACK_WEBHOOK_URL_REGEX
   end
 
   private

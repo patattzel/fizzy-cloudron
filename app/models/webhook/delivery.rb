@@ -106,6 +106,37 @@ class Webhook::Delivery < ApplicationRecord
     end
 
     def payload
-      webhook.renderer.render(template: "webhooks/event", assigns: { event: event }, format: :json)
+      @payload ||= if webhook.for_basecamp?
+        { line: { content: render_payload(formats: :html) } }.to_json
+      elsif webhook.for_campfire?
+        render_payload(formats: :html)
+      elsif webhook.for_slack?
+        html = render_payload(formats: :html)
+        { text: convert_html_to_mrkdwn(html) }.to_json
+      else
+        render_payload(formats: :json)
+      end
+    end
+
+    def render_payload(**options)
+      webhook.renderer.render(layout: false, template: "webhooks/event", assigns: { event: event }, **options).strip
+    end
+
+    def convert_html_to_mrkdwn(html)
+      document = Nokogiri::HTML5(html)
+
+      document.css("a").each do |a|
+        a.replace("<#{a["href"].strip}|#{a.text}>") if a["href"].present?
+      end
+
+      document.css("b").each do |b|
+        b.replace("*#{b.text}*")
+      end
+
+      document.css("i").each do |i|
+        i.replace("_#{i.text}_")
+      end
+
+      document.text
     end
 end

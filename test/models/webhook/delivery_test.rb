@@ -108,4 +108,87 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
     assert_equal "errored", delivery.state
   end
+
+  test "deliver with basecamp webhook format" do
+    webhook = Webhook.create!(
+      name: "Basecamp",
+      url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/789/lines"
+    )
+    event = events(:layout_commented)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with do |request|
+        body = JSON.parse(request.body)
+        body.key?("line") && body["line"].key?("content") && body["line"]["content"].present?
+      end
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+    assert delivery.succeeded?
+  end
+
+  test "deliver with campfire webhook format" do
+    webhook = Webhook.create!(
+      name: "Campfire",
+      url: "https://example.com/rooms/123/456-room-name/messages"
+    )
+    event = events(:layout_commented)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with do |request|
+        request.body.is_a?(String) && !request.body.start_with?("{") && request.body.present?
+      end
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+    assert delivery.succeeded?
+  end
+
+  test "deliver with slack webhook format" do
+    webhook = Webhook.create!(
+      name: "Slack",
+      url: "https://hooks.slack.com/services/T12345678/B12345678/abcdefghijklmnopqrstuvwx"
+    )
+    event = events(:layout_commented)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with do |request|
+        body = JSON.parse(request.body)
+        body.key?("text") && body["text"].present?
+      end
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+    assert delivery.succeeded?
+  end
+
+  test "deliver with generic webhook format" do
+    webhook = Webhook.create!(
+      name: "Generic",
+      url: "https://example.com/webhook"
+    )
+    event = events(:layout_commented)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with do |request|
+        body = JSON.parse(request.body)
+        body.present? && !body.key?("line") && !body.key?("text")
+      end
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+    assert delivery.succeeded?
+  end
 end
