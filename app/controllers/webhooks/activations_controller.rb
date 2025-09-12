@@ -1,4 +1,5 @@
 class Webhooks::ActivationsController < ApplicationController
+  before_action :ensure_can_administer
   before_action :set_webhook
 
   def create
