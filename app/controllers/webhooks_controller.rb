@@ -18,7 +18,7 @@ class WebhooksController < ApplicationController
     @webhook = Webhook.new(webhook_params)
 
     if @webhook.save
-      redirect_to @webhook, status: :see_other
+      redirect_to @webhook
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class WebhooksController < ApplicationController
 
   def update
     if @webhook.update(webhook_params.except(:url))
-      redirect_to @webhook, status: :see_other
+      redirect_to @webhook
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class WebhooksController < ApplicationController
     end
 
     def webhook_params
-      params.require(:webhook).permit(:name, :url, subscribed_actions: [])
+      params.expect webhook: [ :name, :url, subscribed_actions: [] ]
     end
 end
