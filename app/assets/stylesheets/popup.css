@@ -1,10 +1,9 @@
 @layer components {
   .popup {
+    --btn-background: transparent;
     --panel-border-radius: 0.5em;
     --panel-padding: var(--block-space);
     --panel-size: auto;
-    --btn-background: transparent;
-
     --popup-icon-size: 24px;
     --popup-item-padding-inline: var(--inline-space-half);
 
@@ -45,6 +44,14 @@
     white-space: nowrap;
   }
 
+  /* Hide lists when all the items within are hidden */
+  .popup__section {
+    &:has(.popup__section-title:only-child),
+    &:has(.popup__item[hidden]):not(:has(.popup__item:not([hidden]))) {
+      display: none;
+    }
+  }
+
   .popup__section-title {
     background: var(--color-canvas);
     font-size: var(--text-small);
@@ -56,16 +63,16 @@
     top: calc(-1 * var(--block-space));
     z-index: 1;
 
-    &::-webkit-details-marker {
-      display: none;
-    }
-
     &:is(summary) {
       align-items: center;
       cursor: pointer;
       display: flex;
       gap: 2ch;
       justify-content: space-between;
+    }
+
+    &::-webkit-details-marker {
+      display: none;
     }
 
     .icon--caret-down {
@@ -89,12 +96,6 @@
     max-inline-size: 100%;
     padding: 0;
     row-gap: 1px;
-
-    /* Hide lists when all the items within are hidden */
-    &:has(.popup__section-title:only-child),
-    &:has(.popup__item[hidden]):not(:has(.popup__item:not([hidden]))) {
-      display: none;
-    }
   }
 
   .popup__item {
@@ -132,7 +133,6 @@
 
   /* The actionable thing with padding within popup__item */
   .popup__btn {
-    --btn-background: transparent;
     --btn-border-radius: 0.3em;
     --btn-border-size: 0;
 
@@ -146,7 +146,6 @@
     text-align: start;
 
     &:has(input:checked)  {
-      --btn-background: transparent;
       --btn-color: var(--color-ink);
 
       .icon.checked {
