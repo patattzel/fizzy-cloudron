@@ -65,9 +65,9 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   end
 
   test "assignment events do not notify you if you assigned yourself" do
-    collections(:writebook).access_for(users(:jz)).access_only!
+    collections(:writebook).access_for(users(:david)).watching!
 
-    notifications = Notifier.for(events(:logo_assignment_jz)).notify
+    notifications = Notifier.for(events(:logo_assignment_david)).notify
 
     assert_empty notifications
   end
