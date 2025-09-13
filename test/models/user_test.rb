@@ -31,7 +31,6 @@ class UserTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_nil users(:jz).reload.signal_user
   end
 
   test "initials" do

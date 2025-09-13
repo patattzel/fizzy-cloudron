@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 
-gem "rails", github: "rails/rails", branch: "main"
+gem "rails", github: "flavorjones/rails", branch: "flavorjones/fix-script-name-in-root-mounted-engine"
 
 # Assets & front end
 gem "importmap-rails"
@@ -34,16 +34,6 @@ gem "aws-sdk-s3", require: false
 gem "web-push"
 gem "net-http-persistent"
 
-# 37id and Queenbee integration
-gem "signal_id", bc: "signal_id", branch: "rails4"
-gem "mysql2", github: "jeremy/mysql2", branch: "force_latin1_to_utf8" # needed by signal_id
-gem "queuety", bc: "queuety", branch: "rails4" # needed by signal_id
-gem "service_concurrency_prevention", bc: "service_concurrency_prevention" # needed by queuety
-gem "portfolio", ">= 4.6", bc: "portfolio" # needed by signal_id
-gem "file_repository", "~> 1.4.5", bc: "file_repository" # needed by portfolio
-gem "queenbee", bc: "queenbee-plugin"
-gem "activeresource", require: "active_resource" # needed by queenbee
-
 # Telemetry, logging, and operations
 gem "mission_control-jobs"
 gem "sentry-ruby"
@@ -69,4 +59,10 @@ group :test do
   gem "webmock"
   gem "vcr"
   gem "mocha"
+end
+
+require_relative "lib/bootstrap"
+unless Bootstrap.local_authentication?
+  eval_gemfile "gems/fizzy-saas/Gemfile"
+  gem "fizzy-saas", path: "gems/fizzy-saas"
 end

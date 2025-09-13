@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   include Accessor, AiQuota, Assignee, Attachable, Configurable, Conversational, Highlights,
-    Mentionable, Named, Notifiable, Role, Searcher, SignalUser, Staff, Transferable
+    Mentionable, Named, Notifiable, Role, Searcher, Staff, Transferable
   include Timelined # Depends on Accessor
 
   has_one_attached :avatar
@@ -21,7 +21,6 @@ class User < ApplicationRecord
   def deactivate
     sessions.delete_all
     accesses.destroy_all
-    SignalId::Database.on_master { signal_user&.destroy }
     update! active: false, email_address: deactived_email_address
   end
 

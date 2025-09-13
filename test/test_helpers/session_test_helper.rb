@@ -6,7 +6,12 @@ module SessionTestHelper
   def sign_in_as(user)
     cookies.delete :session_token
     user = users(user) unless user.is_a? User
-    put session_launchpad_path, params: { sig: user.signal_user.perishable_signature }
+
+    if Rails.application.config.x.local_authentication
+      post session_path, params: { email_address: user.email_address, password: "secret123456" }
+    else
+      saas_extension_sign_in_as(user)
+    end
 
     cookie = cookies.get_cookie "session_token"
     assert_not_nil cookie, "Expected session_token cookie to be set after sign in"

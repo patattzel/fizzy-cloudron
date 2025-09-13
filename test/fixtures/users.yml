@@ -5,21 +5,27 @@ david:
   email_address: david@37signals.com
   password_digest: <%= digest %>
   role: member
+<% if User.reflect_on_association :signal_user %>
   signal_user: 37s_fizzy_david
+<% end %>
 
 jz:
   name: JZ
   email_address: jz@37signals.com
   password_digest: <%= digest %>
   role: member
+<% if User.reflect_on_association :signal_user %>
   signal_user: 37s_fizzy_jzimdars
+<% end %>
 
 kevin:
   name: Kevin
   email_address: kevin@37signals.com
   password_digest: <%= digest %>
   role: admin
+<% if User.reflect_on_association :signal_user %>
   signal_user: 37s_fizzy_kevin
+<% end %>
 
 system:
   name: System

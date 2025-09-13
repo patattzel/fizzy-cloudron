@@ -9,9 +9,10 @@ CI.run do
   step "Security: Importmap audit", "bin/importmap audit"
   step "Security: Brakeman audit",  "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
 
-  step "Tests: Rails",  "bin/rails test"
-  step "Tests: 37id",   "bin/rails 37id:test:units"
-  step "Tests: System", "bin/rails test:system"
+  step "Tests: Rails with 37id auth",   "bin/rails test"
+  step "Tests: Rails with local auth",  "LOCAL_AUTHENTICATION=1 bin/rails test"
+  step "Tests: 37id",                   "bin/rails 37id:test:units"
+  step "Tests: System",                 "bin/rails test:system"
 
   if success?
     step "Signoff: All systems go. Ready for merge and deploy.", "gh signoff"
