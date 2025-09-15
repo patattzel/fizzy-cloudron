@@ -11,7 +11,13 @@
       <%= form.text_field :name, required: true, autofocus: true, class: "input", placeholder: "Name your Webhook…", data: { action: "keydown.esc@document->form#cancel" } %>
     </h2>
 
-    <%= form.text_field :url, required: true, class: "input", placeholder: "https://example.com", data: { action: "keydown.esc@document->form#cancel" } %>
+    <%= form.url_field :url,
+          required: true,
+          pattern: "https?://.*",
+          title: "Must be an http:// or https:// URL",
+          class: "input",
+          placeholder: "https://example.com",
+          data: { action: "keydown.esc@document->form#cancel" } %>
 
     <div class="flex flex-column align-start full-width">
       <%= form.label :actions %>

@@ -17,24 +17,16 @@ class WebhooksController < ApplicationController
   end
 
   def create
-    @webhook = @collection.webhooks.new(webhook_params)
-
-    if @webhook.save
-      redirect_to @webhook
-    else
-      render :new, status: :unprocessable_entity
-    end
+    @webhook = @collection.webhooks.create!(webhook_params)
+    redirect_to @webhook
   end
 
   def edit
   end
 
   def update
-    if @webhook.update(webhook_params.except(:url))
-      redirect_to @webhook
-    else
-      render :edit, status: :unprocessable_entity
-    end
+    @webhook.update!(webhook_params.except(:url))
+    redirect_to @webhook
   end
 
   def destroy

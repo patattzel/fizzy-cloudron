@@ -56,7 +56,6 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
-    assert_select "form"
   end
 
   test "edit" do
@@ -91,7 +90,6 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :unprocessable_entity
-    assert_select "form"
 
     assert_no_changes -> { webhook.reload.url } do
       patch collection_webhook_path(webhook.collection, webhook), params: {
