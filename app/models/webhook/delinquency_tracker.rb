@@ -1,6 +1,6 @@
 class Webhook::DelinquencyTracker < ApplicationRecord
   DELINQUENCY_THRESHOLD = 10
-  CHECK_INTERVAL = 1.hour
+  DELINQUENCY_DURATION = 1.hour
 
   belongs_to :webhook
 
@@ -25,14 +25,18 @@ class Webhook::DelinquencyTracker < ApplicationRecord
     end
 
     def delinquent?
-      enough_time_passed? && (consecutive_failures_count >= DELINQUENCY_THRESHOLD)
+      failing_for_too_long? && too_many_consecutive_failures?
     end
 
-    def enough_time_passed?
+    def failing_for_too_long?
       if first_failure_at
-        first_failure_at.before?(CHECK_INTERVAL.ago)
+        first_failure_at.before?(DELINQUENCY_DURATION.ago)
       else
         false
       end
+    end
+
+    def too_many_consecutive_failures?
+      consecutive_failures_count >= DELINQUENCY_THRESHOLD
     end
 end
