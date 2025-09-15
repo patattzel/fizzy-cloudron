@@ -119,6 +119,7 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
   test "deliver with basecamp webhook format" do
     webhook = Webhook.create!(
+      collection: collections(:writebook),
       name: "Basecamp",
       url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/789/lines"
     )
@@ -140,6 +141,7 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
   test "deliver with campfire webhook format" do
     webhook = Webhook.create!(
+      collection: collections(:writebook),
       name: "Campfire",
       url: "https://example.com/rooms/123/456-room-name/messages"
     )
@@ -160,6 +162,7 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
   test "deliver with slack webhook format" do
     webhook = Webhook.create!(
+      collection: collections(:writebook),
       name: "Slack",
       url: "https://hooks.slack.com/services/T12345678/B12345678/abcdefghijklmnopqrstuvwx"
     )
@@ -181,6 +184,7 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
   test "deliver with generic webhook format" do
     webhook = Webhook.create!(
+      collection: collections(:writebook),
       name: "Generic",
       url: "https://example.com/webhook"
     )

@@ -2,10 +2,15 @@
 
 <% content_for :header do %>
   <%= render "filters/menu", user_filtering: @user_filtering %>
-  <h1 class="header__title" style="view-transistion-name: webhooks-title"><%= @page_title %></h1>
+  <%= link_to cards_path(collection_ids: [ @collection ]), class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: webhooks-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <span class="overflow-ellipsis">
+      &larr;
+      <strong class="font-black"><%= @collection.name %></strong>
+    </span>
+  <% end %>
 
   <div class="header__actions header__actions--end">
-    <%= link_to new_webhook_path, class: "btn" do %>
+    <%= link_to new_collection_webhook_path, class: "btn" do %>
       <%= icon_tag "add" %>
       <span class="for-screen-reader">Create a new webhook</span>
     <% end %>
@@ -19,6 +24,8 @@
     navigable_list_focus_on_selection_value: true,
     navigable_list_actionable_items_value: true
   } do %>
+    <h1 class="header__title" style="view-transistion-name: webhooks-title"><%= @page_title %></h1>
+
     <div>
       <ul class="flex flex-column gap-half" data-filter-target="list">
         <%= render partial: "webhooks/webhook", collection: @page.records %>

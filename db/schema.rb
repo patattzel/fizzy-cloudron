@@ -479,12 +479,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_15_170056) do
 
   create_table "webhooks", force: :cascade do |t|
     t.boolean "active", default: true, null: false
+    t.integer "collection_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
     t.string "signing_secret", null: false
     t.text "subscribed_actions"
     t.datetime "updated_at", null: false
     t.text "url", null: false
+    t.index ["collection_id"], name: "index_webhooks_on_collection_id"
   end
 
   create_table "workflow_stages", force: :cascade do |t|
@@ -535,6 +537,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_15_170056) do
   add_foreign_key "webhook_delinquency_trackers", "webhooks"
   add_foreign_key "webhook_deliveries", "events"
   add_foreign_key "webhook_deliveries", "webhooks"
+  add_foreign_key "webhooks", "collections"
   add_foreign_key "workflow_stages", "workflows"
 
   # Virtual tables defined in this database.

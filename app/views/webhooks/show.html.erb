@@ -3,7 +3,7 @@
 <% content_for :header do %>
   <%= render "filters/menu", user_filtering: @user_filtering %>
 
-  <%= link_to webhooks_path, class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: webhooks-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+  <%= link_to collection_webhooks_path, class: "header__title btn borderless txt-large", style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: webhooks-title;", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
     <span class="overflow-ellipsis">
       &larr;
       <strong class="font-black">Webhooks</strong>
@@ -13,7 +13,7 @@
 
 <div class="panel shadow center txt-align-center margin-block-end-double">
   <div class="flex flex-column gap position-relative">
-    <%= link_to edit_webhook_path(@webhook), class: "user-edit-link btn" do %>
+    <%= link_to edit_collection_webhook_path(@webhook.collection_id, @webhook), class: "user-edit-link btn" do %>
       <%= icon_tag "pencil" %>
       <span class="for-screen-reader">Edit</span>
     <% end %>
@@ -28,7 +28,7 @@
 
     <% unless @webhook.active? %>
       <div>
-        <%= button_to "Reactivate", webhook_activation_path(@webhook), method: :post %>
+        <%= button_to "Reactivate", collection_webhook_activation_path(@webhook), method: :post %>
       </div>
     <% end %>
 

@@ -2,7 +2,7 @@ require "test_helper"
 
 class WebhookTest < ActiveSupport::TestCase
   test "create" do
-    webhook = Webhook.create! name: "Test", url: "https://example.com/webhook"
+    webhook = Webhook.create! name: "Test", url: "https://example.com/webhook", collection: collections(:writebook)
     assert webhook.persisted?
     assert webhook.active?
     assert webhook.signing_secret.present?
@@ -10,30 +10,30 @@ class WebhookTest < ActiveSupport::TestCase
   end
 
   test "validates the url" do
-    webhook = Webhook.new name: "Test"
+    webhook = Webhook.new name: "Test", collection: collections(:writebook)
     assert_not webhook.valid?
     assert_includes webhook.errors[:url], "not a URL"
 
-    webhook = Webhook.new name: "Test", url: "not a url"
+    webhook = Webhook.new name: "Test", collection: collections(:writebook), url: "not a url"
     assert_not webhook.valid?
     assert_includes webhook.errors[:url], "not a URL"
 
-    webhook = Webhook.new name: "NOTHING", url: "example.com/webhook"
+    webhook = Webhook.new name: "NOTHING", collection: collections(:writebook), url: "example.com/webhook"
     assert_not webhook.valid?
     assert_includes webhook.errors[:url], "must use http or https"
 
-    webhook = Webhook.new name: "BLANK", url: "//example.com/webhook"
+    webhook = Webhook.new name: "BLANK", collection: collections(:writebook), url: "//example.com/webhook"
     assert_not webhook.valid?
     assert_includes webhook.errors[:url], "must use http or https"
 
-    webhook = Webhook.new name: "GOPHER", url: "gopher://example.com/webhook"
+    webhook = Webhook.new name: "GOPHER", collection: collections(:writebook), url: "gopher://example.com/webhook"
     assert_not webhook.valid?
     assert_includes webhook.errors[:url], "must use http or https"
 
-    webhook = Webhook.new name: "HTTP", url: "http://example.com/webhook"
+    webhook = Webhook.new name: "HTTP", collection: collections(:writebook), url: "http://example.com/webhook"
     assert webhook.valid?
 
-    webhook = Webhook.new name: "HTTPS", url: "https://example.com/webhook"
+    webhook = Webhook.new name: "HTTPS", collection: collections(:writebook), url: "https://example.com/webhook"
     assert webhook.valid?
   end
 
@@ -54,53 +54,53 @@ class WebhookTest < ActiveSupport::TestCase
   end
 
   test "for_slack?" do
-    webhook = Webhook.new name: "Test", url: "https://hooks.slack.com/services/T12345678/B12345678/abcdefghijklmnopqrstuvwx"
+    webhook = Webhook.new url: "https://hooks.slack.com/services/T12345678/B12345678/abcdefghijklmnopqrstuvwx"
     assert webhook.for_slack?
 
-    webhook = Webhook.new name: "Test", url: "https://hooks.slack.com/services/T12345678/B12345678"
+    webhook = Webhook.new url: "https://hooks.slack.com/services/T12345678/B12345678"
     assert_not webhook.for_slack?
 
-    webhook = Webhook.new name: "Test", url: "https://hooks.slack.com/services/T12345678"
+    webhook = Webhook.new url: "https://hooks.slack.com/services/T12345678"
     assert_not webhook.for_slack?
 
-    webhook = Webhook.new name: "Test", url: "https://hooks.slack.com/services/"
+    webhook = Webhook.new url: "https://hooks.slack.com/services/"
     assert_not webhook.for_slack?
 
-    webhook = Webhook.new name: "Test", url: "https://example.com/webhook"
+    webhook = Webhook.new url: "https://example.com/webhook"
     assert_not webhook.for_slack?
   end
 
   test "for_campfire?" do
-    webhook = Webhook.new name: "Test", url: "https://example.com/rooms/123/456-room-name/messages"
+    webhook = Webhook.new url: "https://example.com/rooms/123/456-room-name/messages"
     assert webhook.for_campfire?
 
-    webhook = Webhook.new name: "Test", url: "https://campfire.example.com/rooms/999/123-test-room/messages"
+    webhook = Webhook.new url: "https://campfire.example.com/rooms/999/123-test-room/messages"
     assert webhook.for_campfire?
 
-    webhook = Webhook.new name: "Test", url: "https://campfire.example.com/rooms/999/123/messages"
+    webhook = Webhook.new url: "https://campfire.example.com/rooms/999/123/messages"
     assert_not webhook.for_campfire?, "The bot key is missing a token"
 
-    webhook = Webhook.new name: "Test", url: "https://example.com/webhook"
+    webhook = Webhook.new url: "https://example.com/webhook"
     assert_not webhook.for_campfire?
 
-    webhook = Webhook.new name: "Test", url: "https://example.com/rooms/123/messages"
+    webhook = Webhook.new url: "https://example.com/rooms/123/messages"
     assert_not webhook.for_campfire?
 
-    webhook = Webhook.new name: "Test", url: "https://example.com/rooms/123/456-room-name/"
+    webhook = Webhook.new url: "https://example.com/rooms/123/456-room-name/"
     assert_not webhook.for_campfire?
   end
 
   test "for_basecamp?" do
-    webhook = Webhook.new name: "Test", url: "https://basecamp.com/999/integrations/some-token/buckets/111/chats/222/lines"
+    webhook = Webhook.new url: "https://basecamp.com/999/integrations/some-token/buckets/111/chats/222/lines"
     assert webhook.for_basecamp?
 
-    webhook = Webhook.new name: "Test", url: "https://example.com/webhook"
+    webhook = Webhook.new url: "https://example.com/webhook"
     assert_not webhook.for_basecamp?
 
-    webhook = Webhook.new name: "Test", url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/"
+    webhook = Webhook.new url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/"
     assert_not webhook.for_basecamp?
 
-    webhook = Webhook.new name: "Test", url: "https://3.basecamp.com/integrations/webhook/buckets/456/chats/789/lines"
+    webhook = Webhook.new url: "https://3.basecamp.com/integrations/webhook/buckets/456/chats/789/lines"
     assert_not webhook.for_basecamp?
   end
 end

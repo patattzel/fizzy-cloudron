@@ -26,6 +26,8 @@ class Webhook < ApplicationRecord
   has_many :deliveries, dependent: :delete_all
   has_one :delinquency_tracker, dependent: :delete
 
+  belongs_to :collection
+
   serialize :subscribed_actions, type: Array, coder: JSON
 
   scope :ordered, -> { order(name: :asc, id: :desc) }

@@ -6,7 +6,7 @@
 <% end %>
 
 <article class="panel center" style="--panel-size: 40ch;" style="view-transition-name: <%= dom_id(@webhook) %>">
-  <%= form_with model: @webhook, url: webhooks_path, data: { controller: "form" }, html: { class: "flex flex-column gap align-center justify-starts" } do |form| %>
+  <%= form_with model: @webhook, url: collection_webhooks_path, data: { controller: "form" }, html: { class: "flex flex-column gap align-center justify-starts" } do |form| %>
     <h2 class="txt-large margin-none">
       <%= form.text_field :name, required: true, autofocus: true, class: "input", placeholder: "Name your Webhook…", data: { action: "keydown.esc@document->form#cancel" } %>
     </h2>
@@ -22,6 +22,6 @@
       <span>Create Webhook</span>
     <% end %>
 
-    <%= link_to "Go back", webhooks_path, data: { form_target: "cancel" }, hidden: true %>
+    <%= link_to "Go back", collection_webhooks_path, data: { form_target: "cancel" }, hidden: true %>
   <% end %>
 </article>
