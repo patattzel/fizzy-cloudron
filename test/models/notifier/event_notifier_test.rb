@@ -35,6 +35,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   end
 
   test "the published event creates notifications for subscribers as well as watchers" do
+    collections(:writebook).access_for(users(:jz)).watching!
     notifications = Notifier.for(events(:logo_published)).notify
 
     assert_equal users(:kevin, :jz).sort, notifications.map(&:user).sort
