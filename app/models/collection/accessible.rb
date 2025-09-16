@@ -49,7 +49,7 @@ module Collection::Accessible
 
   private
     def grant_access_to_creator
-      Access.create!(collection: self, user: creator, involvement: :watching)
+      accesses.create(user: creator, involvement: :watching)
     end
 
     def grant_access_to_everyone
