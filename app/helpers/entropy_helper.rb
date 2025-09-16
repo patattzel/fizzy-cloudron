@@ -22,7 +22,7 @@ module EntropyHelper
   end
 
   def card_entropy_action(card)
-    if card.doing? || card.on_deck?
+    if card.stagnated?
       "Falls Back"
     elsif card.considering?
       "Closes"

@@ -48,4 +48,8 @@ module Card::Entropic
   def entropic?
     entropy.present?
   end
+
+  def stagnated?
+    card.doing? || card.on_deck?
+  end
 end
