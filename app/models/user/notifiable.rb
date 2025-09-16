@@ -16,6 +16,7 @@ module User::Notifiable
 
   private
     def find_or_create_bundle_for(notification)
+      puts "find_bundle_for(notification)=#{find_bundle_for(notification)}"
       find_bundle_for(notification) || create_bundle_for(notification)
     end
 
