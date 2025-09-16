@@ -38,7 +38,7 @@ exporters:
 service:
   telemetry:
     logs:
-      level: "warn"
+      level: "info"
   pipelines:
     metrics:
       receivers: [prometheus]
