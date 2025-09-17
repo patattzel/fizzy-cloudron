@@ -127,7 +127,8 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     request_stub = stub_request(:post, webhook.url)
       .with do |request|
         body = JSON.parse(request.body)
-        body.key?("line") && body["line"].key?("content") && body["line"]["content"].present?
+        body.key?("line") && body["line"].key?("content") && body["line"]["content"].present? &&
+        request.headers["Content-Type"] == "application/json"
       end
       .to_return(status: 200)
 
@@ -148,7 +149,8 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
 
     request_stub = stub_request(:post, webhook.url)
       .with do |request|
-        request.body.is_a?(String) && !request.body.start_with?("{") && request.body.present?
+        request.body.is_a?(String) && !request.body.start_with?("{") && request.body.present? &&
+        request.headers["Content-Type"] == "text/html"
       end
       .to_return(status: 200)
 
@@ -170,7 +172,8 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     request_stub = stub_request(:post, webhook.url)
       .with do |request|
         body = JSON.parse(request.body)
-        body.key?("text") && body["text"].present?
+        body.key?("text") && body["text"].present? &&
+        request.headers["Content-Type"] == "application/json"
       end
       .to_return(status: 200)
 
@@ -192,7 +195,8 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     request_stub = stub_request(:post, webhook.url)
       .with do |request|
         body = JSON.parse(request.body)
-        body.present? && !body.key?("line") && !body.key?("text")
+        body.present? && !body.key?("line") && !body.key?("text") &&
+        request.headers["Content-Type"] == "application/json"
       end
       .to_return(status: 200)
 
