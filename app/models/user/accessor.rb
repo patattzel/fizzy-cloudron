@@ -7,7 +7,7 @@ module User::Accessor
     has_many :accessible_cards, through: :collections, source: :cards
     has_many :accessible_comments, through: :accessible_cards, source: :comments
 
-    after_create_commit :grant_access_to_collections
+    after_create_commit :grant_access_to_collections, unless: :system?
   end
 
   private

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 
-gem "rails", github: "flavorjones/rails", branch: "flavorjones/fix-script-name-in-root-mounted-engine"
+gem "rails", github: "rails/rails", branch: "main"
 
 # Assets & front end
 gem "importmap-rails"
@@ -42,6 +42,7 @@ gem "rails_structured_logging", bc: "rails-structured-logging"
 gem "yabeda"
 gem "yabeda-rails"
 gem "yabeda-puma-plugin"
+gem "webrick" # required for yabeda-prometheus metrics server
 gem "yabeda-prometheus-mmap"
 gem "prometheus-client-mmap", "~> 1.1"
 

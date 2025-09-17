@@ -2,7 +2,7 @@ class Access < ApplicationRecord
   belongs_to :collection
   belongs_to :user, touch: true
 
-  enum :involvement, %i[ access_only watching ].index_by(&:itself)
+  enum :involvement, %i[ access_only watching ].index_by(&:itself), default: :access_only
 
   scope :ordered_by_recently_accessed, -> { order(accessed_at: :desc) }
 

@@ -24,7 +24,7 @@ module Collection::Accessible
 
     scope :all_access, -> { where(all_access: true) }
 
-    after_create -> { accesses.grant_to creator }
+    after_create -> { grant_access_to_creator }
     after_save_commit :grant_access_to_everyone
   end
 
@@ -48,6 +48,10 @@ module Collection::Accessible
   end
 
   private
+    def grant_access_to_creator
+      accesses.create(user: creator, involvement: :watching)
+    end
+
     def grant_access_to_everyone
       accesses.grant_to(User.all) if all_access_previously_changed?(to: true)
     end
