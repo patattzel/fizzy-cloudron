@@ -46,7 +46,8 @@
 
   /* Hide lists when all the items within are hidden */
   .popup__section {
-    &:has(.popup__section-title:only-child),
+    &:not(:has(.popup__list)),
+    &:not(:has(.popup__list > *)),
     &:has(.popup__item[hidden]):not(:has(.popup__item:not([hidden]))) {
       display: none;
     }

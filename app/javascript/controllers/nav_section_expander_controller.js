@@ -10,6 +10,7 @@ export default class extends Controller {
 
   toggle(event) {
     const section = event.target
+    if (section.hasAttribute("data-is-filtering")) return
 
     const key = this.#localStorageKeyFor(section)
     if (section.open) {
@@ -29,6 +30,7 @@ export default class extends Controller {
 
   #expandAll() {
     this.sectionTargets.forEach(section => {
+      section.setAttribute("data-is-filtering", true)
       section.open = true
     })
   }
@@ -37,6 +39,7 @@ export default class extends Controller {
     this.sectionTargets.forEach(section => {
       const key = this.#localStorageKeyFor(section)
       section.open = !localStorage.getItem(key)
+      section.removeAttribute("data-is-filtering")
     })
   }
 
