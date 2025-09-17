@@ -9,7 +9,7 @@ class Webhook::DelinquencyTracker < ApplicationRecord
       reset
     else
       mark_first_failure_time if consecutive_failures_count.zero?
-      increment!(:consecutive_failures_count)
+      increment!(:consecutive_failures_count, touch: true)
 
       webhook.deactivate if delinquent?
     end
