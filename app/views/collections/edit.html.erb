@@ -23,7 +23,7 @@
 
     <%= form_with model: @collection, class: "display-contents", data: {
           controller: "form collections-form",
-          collections_form_self_removal_prompt_message_value: "You’re about to lose access to this collection. To regain access, another user will need to add you back. Are you sure you want to continue?",
+          collections_form_self_removal_prompt_message_value: "Are you sure you want to remove yourself from this collection? You won’t be able to get back in unless someone invites you.",
           action: "turbo:submit-start->collections-form#submitWithWarning" } do |form| %>
       <%= render "collections/edit/name", form: form %>
       <%= render "collections/edit/users", collection: @collection, selected_users: @selected_users, unselected_users: @unselected_users, form: form %>
