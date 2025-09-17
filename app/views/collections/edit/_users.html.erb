@@ -21,8 +21,11 @@
   <input placeholder="Filter…" class="input input--transparent full-width" type="search" autocorrect="off" autocomplete="off" data-1p-ignore="true" data-filter-target="input" data-action="input->filter#filter">
 
   <div class="toggler__visible-when-off">
-    <button type="button" class="btn" data-action="click->toggle-class#checkAll">Check all</button>
-    <button type="button" class="btn" data-action="click->toggle-class#checkNone">Uncheck all</button>
+    <div class="flex align-center justify-end gap-half">
+      <button type="button" class="btn btn--plain txt-x-small txt-link font-weight-normal" data-action="click->toggle-class#checkAll">Select all</button>
+      <span class="txt-subtle">&middot;</span>
+      <button type="button" class="btn btn--plain txt-x-small txt-link font-weight-normal" data-action="click->toggle-class#checkNone">Select none</button>
+    </div>
   </div>
 
   <ul class="settings__user-list" data-filter-target="list">
