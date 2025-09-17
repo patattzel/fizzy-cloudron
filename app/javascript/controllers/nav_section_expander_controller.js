@@ -10,34 +10,37 @@ export default class extends Controller {
 
   toggle(event) {
     const section = event.target
-    if (section.hasAttribute("data-temp-expand")) return
 
-    const key = this.#localStorageKey(section)
-    section.open
-      ? localStorage.removeItem(key)
-      : localStorage.setItem(key, true)
+    const key = this.#localStorageKeyFor(section)
+    if (section.open) {
+      localStorage.removeItem(key)
+    } else {
+      localStorage.setItem(key, true)
+    }
   }
 
   showWhileFiltering() {
     if (this.inputTarget.value) {
-      this.sectionTargets.forEach(section => {
-        section.setAttribute("data-temp-expand", true)
-        section.open = true
-      })
+      this.#expandAll();
     } else {
       this.#restoreToggles()
     }
   }
 
-  #restoreToggles() {
+  #expandAll() {
     this.sectionTargets.forEach(section => {
-      const key = this.#localStorageKey(section)
-      section.open = !localStorage.getItem(key)
-      section.removeAttribute("data-temp-expand")
+      section.open = true
     })
   }
 
-  #localStorageKey(section) {
+  #restoreToggles() {
+    this.sectionTargets.forEach(section => {
+      const key = this.#localStorageKeyFor(section)
+      section.open = !localStorage.getItem(key)
+    })
+  }
+
+  #localStorageKeyFor(section) {
     return section.getAttribute("data-nav-section-expander-key-value")
   }
 }
