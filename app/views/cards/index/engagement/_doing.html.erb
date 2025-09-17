@@ -1,26 +1,27 @@
-<section id="doing-cards" class="cards cards--doing"
-    data-drag-and-drop-target="container"
-    data-drop-target="doing"
-    data-related-element-target="related"
-    data-related-element-group-value="card-columns"
-    data-action="mouseover->related-element#highlight mouseout->related-element#unhighlight">
-  <% if workflow = filter.single_workflow %>
-    <%= render "cards/index/workflow_filter", workflow: workflow, filter: filter %>
-  <% else %>
-    <h2 class="cards__heading">
-      Working On
-    </h2>
-  <% end %>
+<section id="doing-cards" class="cards cards--doing <%= "is-collapsed" unless last %>" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
+    data-controller="toggle-class" data-toggle-class-toggle-class="is-collapsed">
+  <% 
+    filtered_records = if defined?(stage) && stage
+      page.records.select { |card| card.stage == stage }
+    else
+      page.records
+    end
+  %>
 
-    <% if page.used? %>
-      <%= render partial: "cards/display/preview", collection: page.records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
+  <div class="cards__expander btn btn--plain">
+    <strong class="font-weight-black expander__count"><%= filtered_records.count %></strong>
+    <button class="btn btn--plain cards__expander-button txt-uppercase" data-action="toggle-class#toggle"><%= stage.name if defined?(stage) && stage %></button>
+  </div>
 
-      <% unless page.last? %>
-        <div class="full-width">
-          <%= cards_next_page_link "doing-cards", page: page, filter: filter %>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="txt-normal translucent"><%= user_filtering.any? ? "No matches" : "Nothing here" %></p>
+  <% if filtered_records.any? %>
+    <%= render partial: "cards/display/preview", collection: filtered_records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
+
+    <% unless page.last? %>
+      <div class="full-width">
+        <%= cards_next_page_link "doing-cards", page: page, filter: filter %>
+      </div>
     <% end %>
+  <% else %>
+    <p class="txt-normal translucent blank-slate"><%= user_filtering.any? ? "No matches" : "Nothing here" %></p>
+  <% end %>
 </section>

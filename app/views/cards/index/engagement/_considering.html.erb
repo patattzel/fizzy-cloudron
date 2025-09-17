@@ -4,7 +4,6 @@
     data-related-element-target="related"
     data-related-element-group-value="card-columns"
     data-action="mouseover->related-element#highlight mouseout->related-element#unhighlight">
-  <div class="cards__decoration"></div>
   <%= render "cards/index/add_card_button", user_filtering: user_filtering %>
   <% if page.used? %>
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, locals: { draggable: true }, cached: true %>
@@ -15,5 +14,4 @@
       </div>
     <% end %>
   <% end %>
-  <div class="cards__decoration cards__decoration--end"></div>
 </section>

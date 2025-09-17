@@ -21,9 +21,14 @@
   }
 
   .card-columns {
-    margin: auto;
-    max-inline-size: 100%;
-    padding-inline: var(--reserved-bubble-space);
+    --collapsed: 56px; 
+    --expanded-min: 400px;
+
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    align-items: stretch;
+
     position: relative;
     transition: 300ms ease-in-out;
 
@@ -42,8 +47,8 @@
     }
 
     @media (min-width: 640px) {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      /* display: grid; */
+      /* grid-template-columns: repeat(3, 1fr); */
     }
   }
 
@@ -52,21 +57,58 @@
 
   .cards {
     align-items: stretch;
+    background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
     display: flex;
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    padding: 0 var(--cards-gap) var(--cards-gap);
+    padding: var(--cards-gap);
     position: relative;
+    scroll-snap-align: start;
+    flex: 1 0 var(--expanded-min);
+    min-width: var(--expanded-min);
+    max-width: var(--expanded-min);
+    transition: all 300ms ease;
 
     /* Make sure filter dialogs don't end up behind sticky headers */
     &:has([open]) {
       z-index: 3;
     }
 
+    &.is-collapsed {
+      flex: 0 0 var(--collapsed);
+      min-width: auto;
+      width: var(--collapsed);
+      
+      .blank-slate,
+      .card {
+        display: none;
+      }
+    }
+
     @media (max-width: 639px) {
       padding-block-end: calc(var(--cards-gap) * 2);
       padding-inline-start: var(--cards-gap);
+    }
+
+    .cards__expander {
+      flex-direction: row-reverse;
+      gap: 0.5ch;
+
+      .cards.is-collapsed & {
+        block-size: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+      }
+    }
+
+    .cards__expander-button {
+      --btn-padding: 0;
+
+      .cards.is-collapsed & {
+        writing-mode: vertical-rl;
+      }
     }
 
     .card {
@@ -178,65 +220,8 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--considering {
-    background-color: var(--color-canvas);
-    background-image: linear-gradient(90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--color-considering) 25%, transparent) 33%,
-      color-mix(in srgb, var(--color-considering) 25%, transparent) 66%,
-      transparent 100%);
-    padding-block-start: 2em;
-
-    @supports(mask: radial-gradient(black)) {
-      &:before {
-        background: linear-gradient(90deg,
-          color-mix(in oklch, var(--color-considering) 0%, transparent) 0%,
-          color-mix(in oklch, var(--color-considering) 20%, transparent) 25%,
-          color-mix(in oklch, var(--color-considering) 20%, transparent) 50%,
-          color-mix(in oklch, var(--color-considering) 0%, transparent) 100%);
-        content: "";
-        inset: 0;
-        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
-        position: absolute;
-        z-index: 0;
-      }
-    }
-
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
-    }
-
-    .cards__decoration {
-      --size: 4.25em;
-
-      background-color: var(--color-canvas);
-      background-image: radial-gradient(ellipse at bottom,
-        color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
-        transparent 70%);
-      block-size: var(--size);
-      inline-size: 100%;
-      inset: calc(var(--size) * -1) 0 auto 0;
-      position: absolute;
-      z-index: -1;
-
-      @supports(mask: radial-gradient(black)) {
-        &:before {
-          background: radial-gradient(ellipse at bottom,
-            color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
-            transparent 70%);
-          content: "";
-          inset: 0;
-          mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-                radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
-          position: absolute;
-          z-index: 0;
-        }
-      }
-
-      &.cards__decoration--end {
-        inset: auto 0 calc(var(--size) * -1);
-        rotate: 180deg;
-      }
     }
 
     .card {
@@ -343,6 +328,8 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--doing {
+    margin-block: var(--cards-gap);
+  
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
     }

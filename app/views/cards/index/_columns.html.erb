@@ -1,10 +1,14 @@
 <% cache @cache_key do %>
   <%= turbo_frame_tag :card_columns do %>
-    <div class="card-columns" data-controller="related-element" data-related-element-highlight-class="cards--related">
-      <% unless user_filtering.only_closed? %>
-        <%= render "cards/index/engagement/on_deck", user_filtering: user_filtering, **on_deck.to_h %>
-        <%= render "cards/index/engagement/considering", user_filtering: user_filtering, **considering.to_h %>
-        <%= render "cards/index/engagement/doing", user_filtering: user_filtering, **doing.to_h %>
+    <div class="card-columns">
+      <%= render "cards/index/engagement/considering", user_filtering: user_filtering, **considering.to_h %>
+
+      <% if workflow = user_filtering.single_collection.workflow %>
+        <% workflow.stages.each do |stage| %>
+          <%= render "cards/index/engagement/doing", user_filtering: user_filtering, **doing.to_h, stage: stage, last: stage == workflow.stages.last %>
+        <% end %>
+      <% else %>
+        <%= render "cards/index/engagement/doing", user_filtering: user_filtering, **doing.to_h, last: false %>
       <% end %>
     </div>
 
