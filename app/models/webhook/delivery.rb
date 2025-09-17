@@ -103,7 +103,7 @@ class Webhook::Delivery < ApplicationRecord
     def headers
       {
         "User-Agent" => USER_AGENT,
-        "Content-Type" => "application/json",
+        "Content-Type" => content_type,
         "X-Webhook-Signature" => signature,
         "X-Webhook-Timestamp" => event.created_at.utc.iso8601
       }
@@ -111,6 +111,14 @@ class Webhook::Delivery < ApplicationRecord
 
     def signature
       OpenSSL::HMAC.hexdigest("SHA256", webhook.signing_secret, payload)
+    end
+
+    def content_type
+      if webhook.for_campfire?
+        "text/html"
+      else
+        "application/json"
+      end
     end
 
     def payload
