@@ -21,10 +21,13 @@ module Card::Watchable
   end
 
   def watchers_and_subscribers(include_only_watching: false)
-    involvements = include_only_watching ? [ :watching ] : []
-    subscribers = collection.users.where(accesses: { involvement: involvements })
-
-    User.where(id: subscribers.pluck(:id) +
+    User.active.where(id: subscribers(include_only_watching:).pluck(:id) +
       watches.watching.pluck(:user_id) - watches.not_watching.pluck(:user_id))
   end
+
+  private
+    def subscribers(include_only_watching: false)
+      involvements = include_only_watching ? [ :watching ] : []
+      collection.users.where(accesses: { involvement: involvements })
+    end
 end

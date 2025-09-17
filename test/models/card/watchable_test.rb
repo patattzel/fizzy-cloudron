@@ -39,5 +39,9 @@ class Card::WatchableTest < ActiveSupport::TestCase
     cards(:logo).watch_by users(:david)
 
     assert_equal [ users(:kevin), users(:david) ].sort, cards(:logo).watchers_and_subscribers.sort
+
+    # Only active users
+    users(:david).system!
+    assert_equal [ users(:kevin) ].sort, cards(:logo).watchers_and_subscribers.sort
   end
 end
