@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_15_170056) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -456,7 +456,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_15_170056) do
   end
 
   create_table "webhook_delinquency_trackers", force: :cascade do |t|
-    t.integer "consecutive_failures_count"
+    t.integer "consecutive_failures_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "first_failure_at"
     t.datetime "updated_at", null: false
