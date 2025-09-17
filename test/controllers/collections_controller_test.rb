@@ -45,6 +45,18 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     assert_not collections(:writebook).all_access?
   end
 
+  test "update redirects to root when user removes themselves from collection" do
+    collection = collections(:writebook)
+
+    patch collection_path(collection), params: {
+      collection: { name: "Updated name", all_access: false },
+      user_ids: users(:david, :jz).pluck(:id)
+    }
+
+    assert_redirected_to root_path
+    assert_not collection.reload.users.include?(users(:kevin))
+  end
+
   test "update collection with granular permissions, submitting no user ids" do
     assert_not collections(:private).all_access?
 
