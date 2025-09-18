@@ -13,7 +13,7 @@
   <% end %>
 
     <% if column.page.used? %>
-      <%= render partial: "cards/display/preview", collection: column.cards, as: :card, locals: { draggable: true }, cached: ->(card) { card.cache_invalidation_parts.for_preview } %>
+      <%= render "cards/columns/column", column: column, draggable: true %>
 
       <% unless column.page.last? %>
         <div class="full-width">
