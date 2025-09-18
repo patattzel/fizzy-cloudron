@@ -1,5 +1,6 @@
 class Cards::DropsController < ApplicationController
-  include Collections::ColumnsScoped
+  include FilterScoped
+
   before_action :set_card, :set_drop_target
 
   def create
@@ -34,11 +35,13 @@ class Cards::DropsController < ApplicationController
     end
 
     def render_column_replacement
-      page_and_filter = page_and_filter_for @filter.with(engagement_status: @drop_target.to_s), per_page: CardsController::PAGE_SIZE
+      columns = Cards::Columns.new(user_filtering: @user_filtering, page_size: CardsController::PAGE_SIZE)
+      column = columns.public_send(@drop_target)
+
       render \
         turbo_stream: turbo_stream.replace("#{@drop_target.to_s.gsub('_', '-')}-cards",
         method: :morph,
         partial: "cards/index/engagement/#{@drop_target}",
-        locals: { user_filtering: @user_filtering, **page_and_filter.to_h })
+        locals: { column: column })
     end
 end
