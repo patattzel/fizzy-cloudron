@@ -45,9 +45,14 @@
       z-index: 1;
     }
 
-    @media (min-width: 640px) {
-      /* display: grid; */
-      /* grid-template-columns: repeat(3, 1fr); */
+    &:after {
+      background: var(--gradient-border);
+      block-size: 1px;
+      content: "";
+      inset: 100% -0.6em 0 -0.6em;
+      opacity: 0.15;
+      position: absolute;
+      z-index: 1;
     }
   }
 
