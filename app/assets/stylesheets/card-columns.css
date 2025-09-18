@@ -95,7 +95,6 @@
     }
 
     .cards__expander {
-      /* background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas)); */
       flex-direction: row-reverse;
       gap: 0.5ch;
       position: relative;
@@ -106,9 +105,20 @@
         flex-direction: column;
         justify-content: start;
       }
+
+      &:after {
+        background-color: color-mix(in srgb, var(--card-color) 20%, var(--color-canvas));
+        block-size: 100%;
+        content: " ";
+        inline-size: 1px;
+        inset: 0 0 0 0;
+        position: absolute;
+        z-index: -1;
+      }
     }
 
     .cards__expander-button {
+      --btn-border-radius: 0.2em;
       --btn-padding: 1em 0.5em;
       --focus-ring-size: 0;
 
@@ -126,6 +136,7 @@
 
     .progress {
       background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+      border-radius: 0.2em;
       inline-size: calc(var(--collapsed) + calc(var(--cards-gap) / 2));
       margin-block-start: 2.5em;
       position: absolute;
@@ -159,6 +170,7 @@
 
     .cards__expander-count {
       background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+      border-radius: 0.2em;
       display: none;
       padding: 0.5em 1em;
 
