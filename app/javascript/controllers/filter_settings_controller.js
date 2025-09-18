@@ -4,12 +4,11 @@ export default class extends Controller {
   static classes = ["filtersSet"]
   static targets = ["field"]
 
-  connect() {
-    this.change()
+  async connect() {
   }
 
-  change() {
-    this.#toggleFiltersSetClass()
+  async fieldTargetConnected(field) {
+    this.#toggleFiltersSetClass(this.#isFieldSet(field))
   }
 
   #toggleFiltersSetClass(shouldAdd) {
@@ -22,11 +21,9 @@ export default class extends Controller {
 
   #isFieldSet(field) {
     const value = field.value?.trim()
-
     if (!value) return false
 
     const defaultValue = this.#defaultValueForField(field)
-    console.debug("defaultValue", defaultValue);
     return defaultValue ? value !== defaultValue : true
   }
 

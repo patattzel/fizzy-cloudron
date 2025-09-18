@@ -14,6 +14,7 @@ export default class extends Controller {
 
   connect() {
     this.labelTarget.textContent = this.#selectedLabel
+    this.#updateHiddenFields()
   }
 
   change(event) {
