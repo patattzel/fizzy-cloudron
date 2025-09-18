@@ -17,7 +17,7 @@ module Card::Cacheable
     end
 
     def for_preview(*other)
-      [ card, card.workflow, card.collection.entropy_configuration, card.collection.publication, *other ]
+      [ card, card.workflow, Workflow.all, card.collection.entropy_configuration, card.collection.publication, *other ]
     end
   end
 end
