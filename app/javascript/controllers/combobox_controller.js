@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [ "label", "item", "hiddenField" ]
-  static values = { selectPropertyName: { type: String, default: "aria-checked" } }
+  static values = {
+    selectPropertyName: { type: String, default: "aria-checked" },
+    defaultValue: String
+  }
 
   connect() {
     this.labelTarget.textContent = this.#selectedLabel

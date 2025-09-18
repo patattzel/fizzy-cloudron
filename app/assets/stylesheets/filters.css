@@ -138,5 +138,13 @@
       display: block;
     }
   }
+
+  .filters__manage {
+    display: none;
+  }
+
+  .filters--has-filters-set .filters__manage {
+    display: inline-flex;
+  }
 }
 

@@ -3,7 +3,7 @@ class User::Filtering
 
   attr_reader :user, :filter, :expanded
 
-  delegate :as_params, :any?, :single_collection, to: :filter
+  delegate :as_params, :single_collection, to: :filter
   delegate :only_closed?, to: :filter
 
   def initialize(user, filter, expanded: false)

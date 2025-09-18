@@ -1,6 +1,6 @@
 <% filter = user_filtering.filter %>
 
-<% if user_filtering.any? %>
+<div class="filters__manage center align-center gap-half">
   <% if filter.persisted? %>
     <%= button_to filter_path(filter), method: :delete, class: "btn txt-x-small btn--reversed", form_class: "inline" do %>
       <%= icon_tag "bookmark-outline" %>
@@ -18,4 +18,4 @@
     <%= icon_tag "close" %>
     <span class="for-screen-reader">Clear all</span>
   <% end %>
-<% end %>
+</div>
