@@ -11,9 +11,10 @@
     end
   %>
 
-  <div class="cards__expander btn btn--plain">
+  <div class="cards__expander btn btn--plain" data-action="click->toggle-class#toggle">
     <strong class="font-weight-black cards__expander-count"><%= filtered_records.count %></strong>
-    <button class="btn btn--plain cards__expander-button txt-uppercase" data-action="toggle-class#toggle"><%= stage.name if defined?(stage) && stage %></button>
+    <button class="btn btn--plain cards__expander-button txt-uppercase"><%= stage.name if defined?(stage) && stage %></button>
+    <div class="progress progress-<%= [filtered_records.count, 20].min %>"></div>
   </div>
 
   <% if filtered_records.any? %>

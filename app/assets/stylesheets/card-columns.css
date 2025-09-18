@@ -21,11 +21,11 @@
   }
 
   .card-columns {
-    --collapsed: 60px; 
+    --collapsed: 40px; 
     --expanded-min: 450px;
 
     display: flex;
-    gap: 0.5em;
+    gap: 0.75em;
     justify-content: center;
     align-items: stretch;
     position: relative;
@@ -65,7 +65,6 @@
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    padding: var(--cards-gap);
     position: relative;
     scroll-snap-align: start;
     flex: 1 0 var(--expanded-min);
@@ -79,12 +78,10 @@
     }
 
     &.is-collapsed {
-      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
       border-radius: 0.2em;
-      box-shadow: var(--shadow);
       flex: 0 0 var(--collapsed);
-      min-width: auto;
-      width: var(--collapsed);
+      inline-size: var(--collapsed);
+      min-inline-size: auto;
       
       .blank-slate,
       .card {
@@ -98,9 +95,10 @@
     }
 
     .cards__expander {
-      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+      /* background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas)); */
       flex-direction: row-reverse;
       gap: 0.5ch;
+      position: relative;
 
       .cards.is-collapsed & {
         block-size: 100%;
@@ -108,28 +106,61 @@
         flex-direction: column;
         justify-content: start;
       }
-
-      .cards:not(.is-collapsed) & {
-        margin-block-start: calc(var(--cards-gap) * -1.5);
-        margin-inline: calc(var(--cards-gap) * -1);
-        padding: var(--cards-gap);
-      }
     }
 
     .cards__expander-button {
-      --btn-padding: 0;
+      --btn-padding: 1em 0.5em;
       --focus-ring-size: 0;
-
-      flex-grow: 1;
 
       .cards.is-collapsed & {
         justify-content: start;
         writing-mode: vertical-rl;
       }
+
+      .cards:not(.is-collapsed) & {
+        --btn-padding: 0.5em 1em;
+
+        background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+      }
     }
 
+    .progress {
+      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+      inline-size: calc(var(--collapsed) + calc(var(--cards-gap) / 2));
+      margin-block-start: 2.5em;
+      position: absolute;
+      z-index: -1;
+
+      .cards:not(.is-collapsed) & {
+        display: none;
+      }
+    }
+    
+    .progress-1 { block-size: 5%; }
+    .progress-2 { block-size: 10%; }
+    .progress-3 { block-size: 15%; }
+    .progress-4 { block-size: 20%; }
+    .progress-5 { block-size: 25%; }
+    .progress-6 { block-size: 30%; }
+    .progress-7 { block-size: 35%; }
+    .progress-8 { block-size: 40%; }
+    .progress-9 { block-size: 45%; }
+    .progress-10 { block-size: 50%; }
+    .progress-11 { block-size: 55%; }
+    .progress-12 { block-size: 60%; }
+    .progress-13 { block-size: 65%; }
+    .progress-14 { block-size: 70%; }
+    .progress-15 { block-size: 75%; }
+    .progress-16 { block-size: 80%; }
+    .progress-17 { block-size: 85%; }
+    .progress-18 { block-size: 90%; }
+    .progress-19 { block-size: 95%; }
+    .progress-20 { block-size: 100%; }
+
     .cards__expander-count {
+      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
       display: none;
+      padding: 0.5em 1em;
 
       .cards.is-collapsed & {
         display: initial;
@@ -258,6 +289,7 @@
       color-mix(in srgb, var(--color-considering) 25%, transparent) 33%,
       color-mix(in srgb, var(--color-considering) 25%, transparent) 66%,
       transparent 100%);
+    margin-block: var(--cards-gap);
 
     @supports(mask: radial-gradient(black)) {
       &:before {
@@ -408,9 +440,6 @@
 
   .cards--doing {
     margin-block: var(--cards-gap);
-    border: var(--inline-space) solid color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
-    border-radius: 0.2em;
-    box-shadow: var(--shadow);
   
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
