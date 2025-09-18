@@ -22,6 +22,12 @@
       </div>
     <% end %>
   <% else %>
-    <p class="txt-normal translucent blank-slate"><%= user_filtering.any? ? "No matches" : "Nothing here" %></p>
+    <% if user_filtering.any? %>
+      <p class="txt-normal translucent blank-slate">No matches</p>
+    <% else %>
+      <div class="card blank-slate blank-slate--card">
+        <p class="txt-align-center txt-normal">Drag cards here</p>
+      </div>
+    <% end %>
   <% end %>
 </section>
