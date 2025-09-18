@@ -209,7 +209,7 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      --gradient-opacity: 15%;
+      --gradient-opacity: 10%;
     }
 
     .cards__decoration {
@@ -227,7 +227,7 @@
       z-index: -1;
 
       @media (prefers-color-scheme: dark) {
-        --gradient-opacity: 20%;
+        --gradient-opacity: 15%;
       }
 
       @supports(mask: radial-gradient(black)) {
