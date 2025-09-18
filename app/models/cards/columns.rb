@@ -29,7 +29,7 @@ class Cards::Columns
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key([considering, on_deck, doing, closed, Workflow.all, user_filtering])
+    ActiveSupport::Cache.expand_cache_key([ considering, on_deck, doing, closed, Workflow.all, user_filtering ])
   end
 
   private

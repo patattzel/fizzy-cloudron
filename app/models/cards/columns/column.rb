@@ -13,6 +13,6 @@ class Cards::Columns::Column
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key([cards])
+    ActiveSupport::Cache.expand_cache_key([ cards ])
   end
 end
