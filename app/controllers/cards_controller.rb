@@ -1,7 +1,7 @@
 require "ostruct"
 
 class CardsController < ApplicationController
-  include CardsHelper, FilterScoped
+  include FilterScoped
 
   before_action :set_collection, only: %i[ create ]
   before_action :set_card, only: %i[ show edit update destroy ]
