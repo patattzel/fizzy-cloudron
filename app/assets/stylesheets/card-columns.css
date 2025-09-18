@@ -106,8 +106,12 @@
 
     .cards__expander-button {
       --btn-padding: 0;
+      --focus-ring-size: 0;
+
+      flex-grow: 1;
 
       .cards.is-collapsed & {
+        justify-content: start;
         writing-mode: vertical-rl;
       }
     }
@@ -381,15 +385,6 @@
     }
   }
 
-  /* On Deck
-  /* ------------------------------------------------------------------------ */
-
-  .cards--on-deck {
-    @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    }
-  }
-
   /* Doing
   /* ------------------------------------------------------------------------ */
 
@@ -399,100 +394,16 @@
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
     }
-
-    @media (max-width: 639px) {
-      &::before {
-        background: var(--gradient-border);
-        block-size: 1px;
-        content: "";
-        inset: 0 0 auto;
-        opacity: 0.15;
-        position: absolute;
-      }
-    }
   }
 
   /* Closed
   /* ------------------------------------------------------------------------ */
 
   .cards--closed {
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    inline-size: 100%;
-    margin: 0 auto;
-    position: relative;
+    margin-block: var(--cards-gap);
 
-    &:before {
-      background: var(--gradient-border);
-      block-size: 1px;
-      content: "";
-      inset: 0 -0.6em 100% -0.6em;
-      opacity: 0.15;
-      position: absolute;
-    }
-
-    @media (max-width: 639px) {
-      flex-direction: column;
-      padding-inline: var(--reserved-bubble-space);
-    }
-
-    .cards__heading {
-      min-inline-size: 100%;
-
-      @media (max-width: 639px) {
-        margin-inline-end: calc(-1 * var(--cards-gap));
-      }
-    }
-
-    .card {
-      @media (min-width: 640px) {
-        inline-size: calc((100% - var(--cards-gap)) / 2);
-      }
-
-      @media (min-width: 960px) {
-        inline-size: calc((100% - var(--cards-gap) * 2) / 3);
-      }
-
-      &:nth-of-type(7) {
-        margin-block-start: var(--cards-gap);
-      }
-
-      &:nth-of-type(n+7) {
-        background-color: var(--color-canvas);
-        border: none;
-        border-block-end: 1px solid var(--color-ink-lighter);
-        box-shadow: none;
-        inline-size: 100%;
-        margin-inline: auto;
-        max-inline-size: 110ch;
-        padding: 0 0 var(--cards-gap);
-
-        .card__meta,
-        .card__closed-by-line,
-        .card__closed-date {
-          display: none;
-        }
-
-        .card__body {
-          padding-block-end: 0;
-        }
-
-        .card__closed {
-          border-width: 0.5ch;
-          font-size: 0.75em;
-          inset: auto 0 var(--cards-gap) auto;
-          rotate: 0deg;
-        }
-
-        .card__header {
-          margin: 0;
-        }
-
-        .card__title {
-          min-block-size: 0;
-        }
-      }
+    @media (min-width: 640px) {
+      padding-inline: var(--cards-gap);
     }
   }
 }
