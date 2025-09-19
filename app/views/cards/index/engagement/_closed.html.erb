@@ -9,7 +9,7 @@
   </div>
 
   <% if page.used? %>
-    <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: true %>
+    <%= render partial: "cards/display/preview", collection: page.records, as: :card, locals: { draggable: true }, cached: true %>
 
     <% unless page.last? %>
       <div class="full-width">
