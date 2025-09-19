@@ -18,6 +18,7 @@ export default class extends Controller {
     this.dialogOutlet.close()
     this.#clearTurboFrame()
 
+    this.searchInputTarget.querySelector("input").value = ""
     this.#showItem(this.buttonsContainerTarget)
     this.#hideItem(this.searchInputTarget)
     if (this.hasAskInputTarget) {
