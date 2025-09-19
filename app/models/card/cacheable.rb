@@ -1,6 +1,10 @@
 module Card::Cacheable
   extend ActiveSupport::Concern
 
+  def cache_key
+    [ super, collection.name ].compact.join("/")
+  end
+
   def cache_invalidation_parts
     @cache_invalidation_parts ||= InvalidationParts.new(self)
   end
