@@ -3,9 +3,14 @@
     data-drop-target="closed"
     data-collapsible-columns-target="column">
   <div class="cards__expander btn btn--plain" data-action="click->collapsible-columns#toggle">
-    <strong class="cards__expander-count"><%= filter.cards.count > 99 ? "99+" : filter.cards.count %></strong>
+    <%
+      total_closed_count = filter.collections.any? ?
+        filter.collections.joins(:cards).merge(Card.closed).count :
+        filter.cards.count
+    %>
+    <strong class="cards__expander-count"><%= total_closed_count > 99 ? "99+" : total_closed_count %></strong>
     <button class="btn btn--plain cards__expander-button txt-uppercase">Done</button>
-    <div class="progress progress-<%= [filter.cards.count, 20].min %>"></div>
+    <div class="progress progress-<%= [total_closed_count, 20].min %>"></div>
   </div>
 
   <% if page.used? %>
