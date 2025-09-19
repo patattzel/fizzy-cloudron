@@ -1,28 +1,15 @@
 class FiltersController < ApplicationController
-  before_action :set_filter, only: :destroy
+  include FilterScoped
 
   def create
     @filter = Current.user.filters.remember filter_params
-    redirect_to cards_path(filter_id: @filter.id)
+
+    render turbo_stream: turbo_stream.replace("filter-toggle", partial: "filters/filter_toggle", locals: { filter: @filter })
   end
 
   def destroy
-    filter_params = @filter.as_params
     @filter.destroy!
 
-    if request.referer == root_url
-      redirect_to root_path
-    else
-      redirect_to cards_path(filter_params)
-    end
+    render turbo_stream: turbo_stream.replace("filter-toggle", partial: "filters/filter_toggle", locals: { filter: @filter })
   end
-
-  private
-    def set_filter
-      @filter = Current.user.filters.find params[:id]
-    end
-
-    def filter_params
-      params.permit(*Filter::PERMITTED_PARAMS).compact_blank
-    end
 end

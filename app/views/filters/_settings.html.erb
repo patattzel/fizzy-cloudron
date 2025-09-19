@@ -7,10 +7,10 @@
             data: { controller: "form", turbo_frame: "card_columns", turbo_action: "advance" } do |form| %>
         <%= render "filters/settings/terms", user_filtering: user_filtering, form: form %>
         <%= render "filters/settings/controls", user_filtering: user_filtering, form: form %>
-
-        <%= render "filters/settings/toggle", user_filtering: user_filtering %>
-        <%= render "filters/settings/manage", user_filtering: user_filtering %>
       <% end %>
+
+      <%= render "filters/settings/toggle", user_filtering: user_filtering %>
+      <%= render "filters/settings/manage", user_filtering: user_filtering %>
     </div>
   <% end %>
 <% end %>
