@@ -60,6 +60,8 @@
   /* ------------------------------------------------------------------------ */
 
   .cards {
+    --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
+
     align-items: stretch;
     display: flex;
     flex: 1 0 var(--expanded-min);
@@ -70,7 +72,7 @@
     min-inline-size: var(--expanded-min);
     position: relative;
     scroll-snap-align: start;
-    transition: inline-size 300ms ease;
+    transition: all 300ms var(--ease-out-expo);
 
     /* Make sure filter dialogs don't end up behind sticky headers */
     &:has([open]) {
@@ -81,7 +83,7 @@
       border-radius: 0.2em;
       flex: 0 0 var(--collapsed);
       inline-size: var(--collapsed);
-      min-inline-size: auto;
+      min-inline-size: 0;
       
       .blank-slate,
       .card {
@@ -106,11 +108,11 @@
         justify-content: start;
 
         &:after {
-          background-color: color-mix(in srgb, var(--card-color) 20%, var(--color-canvas));
+          background-color: var(--column-color);
           block-size: 100%;
           content: " ";
           inline-size: 1px;
-          inset: 0 0 0 0;
+          inset: 0 auto;
           position: absolute;
           z-index: -2;
         }
@@ -118,27 +120,48 @@
     }
 
     .cards__expander-button {
-      --btn-border-radius: 0.2em;
+      --btn-border-radius: 2em;
       --btn-padding: 1em 0.5em;
       --focus-ring-size: 0;
 
+      font-size: var(--text-x-small);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      line-height: var(--collapsed);
+
       .cards.is-collapsed & {
+        flex-grow: 1;
         justify-content: start;
         writing-mode: vertical-rl;
       }
 
       .cards:not(.is-collapsed) & {
-        --btn-padding: 0.5em 1em;
+        --btn-padding: 0;
 
-        background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+        margin-block-start: calc(var(--collapsed) / 5);
+      }
+    }
+
+    .cards__expander-count {
+      background-color: var(--column-color);
+      block-size: var(--collapsed);
+      border-radius: 2em;
+      display: none;
+      font-size: var(--text-x-small);
+      font-weight: 500;
+      inline-size: var(--collapsed);
+      line-height: var(--collapsed);
+
+      .cards.is-collapsed & {
+        display: initial;
       }
     }
 
     .progress {
       --max-height: 360px;
 
-      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
-      border-radius: 0.2em;
+      background-color: var(--column-color);
+      border-radius: 2em;
       inline-size: var(--collapsed);
       margin-block-start: 2.5em;
       position: absolute;
@@ -169,20 +192,6 @@
     .progress-18 { block-size: calc(var(--max-height) * 0.90); }
     .progress-19 { block-size: calc(var(--max-height) * 0.95); }
     .progress-20 { block-size: calc(var(--max-height) * 1.00); }
-
-    .cards__expander-count {
-      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
-      block-size: var(--collapsed);
-      border-radius: 0.2em;
-      display: none;
-      font-size: var(--text-x-small);
-      inline-size: var(--collapsed);
-      line-height: var(--collapsed);
-
-      .cards.is-collapsed & {
-        display: initial;
-      }
-    }
 
     .blank-slate--card {
       box-shadow: none !important;
@@ -456,7 +465,13 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--on-deck {
+    --column-color: var(--color-ink-lighter);
+
     margin-block: var(--cards-gap);
+
+    .card {
+      --card-color: var(--color-card-complete) !important;
+    }
   
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
@@ -478,6 +493,8 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--closed {
+    --column-color: var(--color-ink-lighter);
+
     margin-block: var(--cards-gap);
     margin-inline-start: var(--cards-gap);
 
