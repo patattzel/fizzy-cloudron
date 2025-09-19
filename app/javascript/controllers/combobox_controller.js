@@ -47,6 +47,7 @@ export default class extends Controller {
     item.setAttribute(this.selectPropertyNameValue, "true")
     this.labelTarget.textContent = this.#selectedLabel
     this.hiddenField.value = item.dataset.comboboxValue
+    this.hiddenField.disabled = !item.dataset.comboboxValue
     this.#updateWithDefaultClass()
   }
 
