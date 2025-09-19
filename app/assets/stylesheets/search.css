@@ -1,4 +1,20 @@
+summary {
+
+  &::-webkit-details-marker {
+    display: none !important;
+  }
+
+  &::marker {
+    display: none !important;
+  }
+
+  &::marker {
+    content: "";
+  }
+}
+
 @layer components {
+
   .search {
     --gap: 4vmin;
     --width: 80ch;
