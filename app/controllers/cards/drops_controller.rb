@@ -8,7 +8,7 @@ class Cards::DropsController < ApplicationController
   end
 
   private
-    VALID_DROP_TARGETS = %w[ considering on_deck doing ]
+    VALID_DROP_TARGETS = %w[ considering on_deck doing closed ]
 
     def set_card
       @card = Current.user.accessible_cards.find(params[:dropped_item_id])
@@ -30,6 +30,8 @@ class Cards::DropsController < ApplicationController
         @card.move_to_on_deck
       when :doing
         @card.engage
+      when :closed
+        @card.close
       end
     end
 
