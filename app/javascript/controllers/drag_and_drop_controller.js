@@ -73,9 +73,13 @@ export default class extends Controller {
     const body = new FormData()
     const id = item.dataset.id
     const containerTarget = container.dataset.dropTarget
+    const stageId = container.dataset.stageId
 
     body.append("dropped_item_id", id)
     body.append("drop_target", containerTarget)
+    if (stageId) {
+      body.append("stage_id", stageId)
+    }
     return post(this.urlValue, { body, headers: { Accept: "text/vnd.turbo-stream.html" } })
   }
 }

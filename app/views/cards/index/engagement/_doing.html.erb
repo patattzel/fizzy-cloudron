@@ -1,8 +1,10 @@
-<section id="doing-cards" class="cards cards--doing is-collapsed" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
+<section id="<%= defined?(stage) && stage ? "doing-cards-#{stage.id}" : "doing-cards" %>"
+    class="cards cards--doing is-collapsed" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
     data-collapsible-columns-target="column"
     data-drag-and-drop-target="container"
-    data-drop-target="doing">
-  <% 
+    data-drop-target="doing"
+    data-stage-id="<%= stage.id if defined?(stage) && stage %>">
+  <%
     filtered_records = if defined?(stage) && stage
       page.records.select { |card| card.stage == stage }
     else

@@ -30,6 +30,10 @@ class Cards::DropsController < ApplicationController
         @card.move_to_on_deck
       when :doing
         @card.engage
+        if params[:stage_id].present?
+          stage = Workflow::Stage.find(params[:stage_id])
+          @card.change_stage_to(stage)
+        end
       when :closed
         @card.close
       end
@@ -37,10 +41,22 @@ class Cards::DropsController < ApplicationController
 
     def render_column_replacement
       page_and_filter = page_and_filter_for @filter.with(engagement_status: @drop_target.to_s), per_page: CardsController::PAGE_SIZE
-      render \
-        turbo_stream: turbo_stream.replace("#{@drop_target.to_s.gsub('_', '-')}-cards",
-        method: :morph,
-        partial: "cards/index/engagement/#{@drop_target}",
-        locals: { user_filtering: @user_filtering, **page_and_filter.to_h })
+
+      if @drop_target == :doing && params[:stage_id].present?
+        # For stage-specific doing columns, we need to render the specific stage
+        stage = Workflow::Stage.find(params[:stage_id])
+        render \
+          turbo_stream: turbo_stream.replace("doing-cards-#{stage.id}",
+          method: :morph,
+          partial: "cards/index/engagement/doing",
+          locals: { user_filtering: @user_filtering, **page_and_filter.to_h, stage: stage })
+      else
+        # For other columns, use the standard approach
+        render \
+          turbo_stream: turbo_stream.replace("#{@drop_target.to_s.gsub('_', '-')}-cards",
+          method: :morph,
+          partial: "cards/index/engagement/#{@drop_target}",
+          locals: { user_filtering: @user_filtering, **page_and_filter.to_h })
+      end
     end
 end
