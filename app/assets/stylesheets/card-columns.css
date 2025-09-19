@@ -54,6 +54,16 @@
       position: absolute;
       z-index: 1;
     }
+
+    .header__title {
+      align-self: start;
+      flex-grow: 0;
+      font-style: oblique;
+      justify-self: start;
+      margin: var(--cards-gap) var(--cards-gap) auto auto;
+      text-transform: uppercase;
+      writing-mode: vertical-lr;
+    }
   }
 
   /* Cards
@@ -556,7 +566,7 @@
     --column-color: var(--color-ink-lighter);
 
     margin-block: var(--cards-gap);
-    margin-inline-start: var(--cards-gap);
+    margin-inline: var(--cards-gap) auto;
 
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);

@@ -18,9 +18,7 @@
     <% end %>
   </div>
 
-  <h1 class="header__title overflow-ellipsis" style="view-transistion-name: card-collection-title">
-    <%= @user_filtering.selected_collections_label %>
-  </h1>
+  <%= render "filters/settings", user_filtering: @user_filtering %>
 
   <div class="header__actions header__actions--end">
     <% if collection = @filter.single_collection %>
@@ -28,8 +26,6 @@
     <% end %>
   </div>
 <% end %>
-
-<%= render "filters/settings", user_filtering: @user_filtering %>
 
 <%= tag.div data: {
       controller: "drag-and-drop",

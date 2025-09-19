@@ -1,6 +1,9 @@
 <% cache @cache_key do %>
   <%= turbo_frame_tag :card_columns do %>
     <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
+      <h1 class="header__title overflow-ellipsis"">
+        <%= @user_filtering.selected_collections_label %>
+      </h1>
       <%= render "cards/index/engagement/on_deck", user_filtering: user_filtering, **on_deck.to_h %>
       <%= render "cards/index/engagement/considering", user_filtering: user_filtering, **considering.to_h %>
 
