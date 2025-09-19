@@ -41,10 +41,6 @@ class Card < ApplicationRecord
 
   delegate :accessible_to?, to: :collection
 
-  def cache_key
-    [ super, collection.name ].compact.join("/")
-  end
-
   def card
     self
   end
