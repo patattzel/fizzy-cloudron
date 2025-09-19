@@ -3,6 +3,7 @@
     --row-gap: 0.2lh;
 
     background-color: var(--color-terminal-bg);
+    block-size: var(--footer-height);
     color: var(--color-terminal-text);
     display: flex;
     flex-direction: column;
@@ -17,14 +18,18 @@
     @media (prefers-color-scheme: dark) {
       border-block: 1px solid var(--color-ink-lighter);
     }
+
+    &:has(.bar__placeholder[hidden]) {
+      padding-inline: 1ch;
+    }
   }
 
   .bar__input {
-    transform: translateX(50%);
+    transform: translateY(50%);
     transition: transform 350ms cubic-bezier(0.25, 1.25, 0.5, 1);
 
     .bar:has(.bar__placeholder[hidden]) & {
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
 
