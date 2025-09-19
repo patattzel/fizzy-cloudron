@@ -1,0 +1,2 @@
+<%= turbo_stream.replace("filter-toggle", partial: "filters/filter_toggle", locals: { filter: @filter }) %>
+<%= turbo_stream.replace("my-filters", partial: "filters/menu/custom", locals: { filters: @filters }) %>

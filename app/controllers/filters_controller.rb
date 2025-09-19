@@ -1,18 +1,20 @@
 class FiltersController < ApplicationController
-  def create
-    filter = Current.user.filters.remember filter_params
+  before_action :set_filters
 
-    render turbo_stream: turbo_stream.replace("filter-toggle", partial: "filters/filter_toggle", locals: { filter: filter })
+  def create
+    @filter = Current.user.filters.remember filter_params
   end
 
   def destroy
-    filter = Current.user.filters.find(params[:id])
-    filter.destroy!
-
-    render turbo_stream: turbo_stream.replace("filter-toggle", partial: "filters/filter_toggle", locals: { filter: filter })
+    @filter = Current.user.filters.find(params[:id])
+    @filter.destroy!
   end
 
   private
+    def set_filters
+      @filters = Current.user.filters
+    end
+
     def filter_params
       params.permit(*Filter::PERMITTED_PARAMS).compact_blank
     end

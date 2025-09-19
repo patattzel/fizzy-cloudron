@@ -15,15 +15,11 @@ class User::Filtering
   end
 
   def selected_collection_titles
-    if filter.collections.none?
-      [ collections.one? ? collections.first.name : "All collections" ]
-    else
-      filter.collections.map(&:name)
-    end
+    filter.collection_titles
   end
 
   def selected_collections_label
-    selected_collection_titles.to_sentence
+    filter.collections_label
   end
 
   def tags

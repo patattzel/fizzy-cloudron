@@ -21,4 +21,16 @@ module Filter::Resources
   def collections
     creator.collections.where id: super.ids
   end
+
+  def collection_titles
+    if collections.none?
+      [ Collection.one? ? collections.first.name : "All collections" ]
+    else
+      collections.map(&:name)
+    end
+  end
+
+  def collections_label
+    collection_titles.to_sentence
+  end
 end

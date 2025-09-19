@@ -22,7 +22,7 @@
   </div>
 
   <%= render "filters/menu/hotkeys" %>
-  <%= render "filters/menu/custom", user_filtering: @user_filtering %>
+  <%= render "filters/menu/custom", filters: @user_filtering.filters %>
   <%= render "filters/menu/collections", user_filtering: @user_filtering %>
   <%= render "filters/menu/tags", user_filtering: @user_filtering %>
   <%= render "filters/menu/users", user_filtering: @user_filtering %>
