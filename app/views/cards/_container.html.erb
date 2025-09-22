@@ -21,7 +21,7 @@
             <%= render "cards/container/title", card: card %>
             <%= render "cards/display/perma/steps", card: card %>
           </div>
-          <%= render "cards/stagings/stages", card: card if card.doing? %>
+          <%= render "cards/stagings/stages", card: card if card.open? %>
         </div>
 
         <footer class="card__footer full-width flex align-start gap">

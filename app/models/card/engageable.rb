@@ -56,6 +56,7 @@ module Card::Engageable
       reopen
       engagement&.destroy
       activity_spike&.destroy
+      update!(stage: nil)
       touch_last_active_at
     end
   end
@@ -66,6 +67,9 @@ module Card::Engageable
         reopen
         engagement&.destroy
         create_engagement!(status:)
+        if status == "doing" && stage.blank?
+          update!(stage: collection.initial_workflow_stage)
+        end
       end
     end
 end
