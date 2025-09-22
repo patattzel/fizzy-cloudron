@@ -3,13 +3,13 @@
     <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
 
       <div class="title-nav">
-        <h1 class="header__title overflow-ellipsis">
+        <h1 class="header__title overflow-ellipsis margin-block-end">
           <%= @user_filtering.selected_collections_label %>
         </h1>
 
         <% user_filtering.collections.limit(5).last(4).each do |collection| %>
           <div class="header__title overflow-ellipsis">
-            <%= link_to collection.name, cards_path(collection_ids: [ collection ]), class: "txt-subtle txt-normal" %>
+            <%= link_to collection.name, cards_path(collection_ids: [ collection ]), class: "btn btn--plain font-weight-black txt-subtle txt-normal" %>
           </div>
         <% end %>
       </div>
