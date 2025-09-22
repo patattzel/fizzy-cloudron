@@ -16,6 +16,6 @@ class FiltersController < ApplicationController
     end
 
     def filter_params
-      params.permit(*Filter::PERMITTED_PARAMS).compact_blank
+      Filter.normalize_params(params.permit(*Filter::PERMITTED_PARAMS))
     end
 end

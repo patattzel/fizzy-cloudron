@@ -84,7 +84,7 @@ Rails.application.routes.draw do
   resources :filters do
     scope module: :filters do
       collection do
-        resource :save_toggle_refresh, only: :create
+        resource :settings_refresh, only: :create
       end
     end
   end

@@ -5,26 +5,26 @@ import { post } from "@rails/request.js"
 export default class extends Controller {
   static classes = ["filtersSet"]
   static targets = ["field", "form"]
-  static values = { refreshSaveToggleUrl: String }
+  static values = { refreshUrl: String }
 
   initialize() {
-    this.debouncedChange = debounce(this.change.bind(this), 50)
+    this.debouncedToggle = debounce(this.#toggle.bind(this), 50)
   }
 
   connect() {
-    this.change()
+    this.#toggle()
   }
 
   change() {
-    this.#toggleFiltersSetClass()
+    this.#toggle()
     this.#refreshSaveToggleButton()
   }
 
   async fieldTargetConnected(field) {
-    this.debouncedChange()
+    this.debouncedToggle()
   }
 
-  #toggleFiltersSetClass(shouldAdd) {
+  #toggle() {
     this.element.classList.toggle(this.filtersSetClass, this.#hasFiltersSet)
   }
 
@@ -47,7 +47,7 @@ export default class extends Controller {
   }
 
   #refreshSaveToggleButton() {
-    post(this.refreshSaveToggleUrlValue, {
+    post(this.refreshUrlValue, {
       body: this.#collectFilterFormData(),
       responseKind: "turbo-stream"
     })
