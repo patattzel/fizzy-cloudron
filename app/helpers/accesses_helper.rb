@@ -57,7 +57,7 @@ module AccessesHelper
         icon_tag("notification-bell-#{access.involvement.dasherize}"),
         tag.span(
           involvement_access_label(collection, access.involvement),
-          class: "txt-nowrap txt-uppercase#{icon_only ? ' for-screen-reader' : ''}",
+          class: class_names("txt-nowrap txt-uppercase", "for-screen-reader": icon_only),
           id: involvement_label_id
         )
       ])
