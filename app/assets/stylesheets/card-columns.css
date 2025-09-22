@@ -55,14 +55,18 @@
       z-index: 1;
     }
 
-    .header__title {
+    .title-nav {
       align-self: start;
-      flex-grow: 0;
-      font-style: oblique;
       justify-self: start;
       margin: var(--cards-gap) var(--cards-gap) auto auto;
+      writing-mode: vertical-rl;
+    }
+
+    .header__title {
+      font-style: oblique;
+      line-height: 1.2;
+      text-align: start;
       text-transform: uppercase;
-      writing-mode: vertical-lr;
     }
   }
 
