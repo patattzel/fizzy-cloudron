@@ -45,16 +45,6 @@
       z-index: 1;
     }
 
-    &:after {
-      background: var(--gradient-border);
-      block-size: 1px;
-      content: "";
-      inset: 100% -0.6em 0 -0.6em;
-      opacity: 0.15;
-      position: absolute;
-      z-index: 1;
-    }
-
     .left-col {
       display: flex;
       gap: calc(var(--cards-gap) / 4);
