@@ -1,5 +1,5 @@
 @layer components {
-  /* Columns
+  /* Column container
   /* ------------------------------------------------------------------------ */
 
   /* Card contents are resized via container queries. We're using #main here as
@@ -21,7 +21,7 @@
   }
 
   .card-columns {
-    --collapsed: 40px;
+    --collapsed-width: 40px;
     --expanded-min: 450px;
 
     display: grid;
@@ -51,11 +51,14 @@
     }
   }
 
-  /* Cards
+  /* Column
   /* ------------------------------------------------------------------------ */
 
   .cards {
     --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
+    --progress-max-cards: 20;
+    --progress-max-height: 50dvh;
+    --progress-increment: var(--progress-max-height) / var(--progress-max-cards);
 
     align-items: stretch;
     display: flex;
@@ -75,9 +78,9 @@
     }
 
     &.is-collapsed {
-      border-radius: 0.2em;
-      flex: 0 0 var(--collapsed);
-      inline-size: var(--collapsed);
+      border-radius: 99rem;
+      flex: 0 0 var(--collapsed-width);
+      inline-size: var(--collapsed-width);
       min-inline-size: 0;
 
       .blank-slate,
@@ -91,103 +94,78 @@
       padding-inline-start: var(--cards-gap);
     }
 
+    /* Expander
+    /* ---------------------------------------------------------------------- */
+
     .cards__expander {
+      align-items: center;
+      border-radius: 99rem;
+      display: flex;
       flex-direction: row-reverse;
       gap: 0.5ch;
       position: relative;
 
+      font-size: var(--text-x-small);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: var(--collapsed-width);
+      text-transform: uppercase;
+
       .cards.is-collapsed & {
         block-size: 100%;
-        display: flex;
         flex-direction: column;
         justify-content: start;
 
-        &:after {
+        /* Guitar string */
+        &:before {
           background-color: var(--column-color);
           block-size: 100%;
-          content: " ";
+          content: "";
           inline-size: 1px;
           inset: 0 auto;
           position: absolute;
           z-index: -2;
         }
-      }
-    }
 
-    .cards__expander-button {
-      --btn-border-radius: 2em;
-      --btn-padding: 0;
-      --focus-ring-size: 0;
-
-      font-size: var(--text-x-small);
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      line-height: var(--collapsed);
-
-      .cards.is-collapsed & {
-        flex-grow: 1;
-        justify-content: start;
-        writing-mode: vertical-rl;
+        /* Progress */
+        &:after {
+          background: var(--column-color);
+          block-size: calc(var(--collapsed-width) + var(--card-count) * var(--progress-increment));
+          border-radius: 99rem;
+          content: "";
+          inline-size: 100%;
+          inset: 0 0 auto;
+          max-block-size: var(--progress-max-height);
+          min-block-size: var(--collapsed-width);
+          position: absolute;
+          transition: block-size 500ms var(--ease-out-overshoot);
+          z-index: -1;
+        }
       }
 
       .cards:not(.is-collapsed) & {
-        --btn-padding: 0;
-        line-height: 1;
-        margin-block-start: 0.5em;
+        background-color: var(--color-canvas);
+        margin-block-end: calc(-0.5 * var(--cards-gap));
       }
     }
 
     .cards__expander-count {
-      background-color: var(--column-color);
-      block-size: var(--collapsed);
-      border-radius: 2em;
-      display: none;
-      font-size: var(--text-x-small);
-      font-weight: 500;
-      inline-size: var(--collapsed);
-      line-height: var(--collapsed);
-
-      .cards.is-collapsed & {
-        display: initial;
-      }
-    }
-
-    .progress {
-      --max-height: 540px;
-
-      background-color: var(--column-color);
-      border-radius: 0 0 2em 2em;
-      font-size: var(--text-x-small);
-      inline-size: var(--collapsed);
-      margin-block-start: calc(var(--btn-size) / 2);
-      position: absolute;
-      z-index: -1;
-
       .cards:not(.is-collapsed) & {
         display: none;
       }
     }
 
-    .progress-1 { block-size: calc(var(--max-height) * 0.05); }
-    .progress-2 { block-size: calc(var(--max-height) * 0.10); }
-    .progress-3 { block-size: calc(var(--max-height) * 0.15); }
-    .progress-4 { block-size: calc(var(--max-height) * 0.20); }
-    .progress-5 { block-size: calc(var(--max-height) * 0.25); }
-    .progress-6 { block-size: calc(var(--max-height) * 0.30); }
-    .progress-7 { block-size: calc(var(--max-height) * 0.35); }
-    .progress-8 { block-size: calc(var(--max-height) * 0.40); }
-    .progress-9 { block-size: calc(var(--max-height) * 0.45); }
-    .progress-10 { block-size: calc(var(--max-height) * 0.50); }
-    .progress-11 { block-size: calc(var(--max-height) * 0.55); }
-    .progress-12 { block-size: calc(var(--max-height) * 0.60); }
-    .progress-13 { block-size: calc(var(--max-height) * 0.65); }
-    .progress-14 { block-size: calc(var(--max-height) * 0.70); }
-    .progress-15 { block-size: calc(var(--max-height) * 0.75); }
-    .progress-16 { block-size: calc(var(--max-height) * 0.80); }
-    .progress-17 { block-size: calc(var(--max-height) * 0.85); }
-    .progress-18 { block-size: calc(var(--max-height) * 0.90); }
-    .progress-19 { block-size: calc(var(--max-height) * 0.95); }
-    .progress-20 { block-size: calc(var(--max-height) * 1.00); }
+    .cards__expander-title {
+      font-weight: inherit;
+      font-size: inherit;
+
+      .cards.is-collapsed & {
+        writing-mode: vertical-rl;
+      }
+    }
+
+    /* Card styles
+    /* ---------------------------------------------------------------------- */
 
     .blank-slate--card {
       box-shadow: none !important;
@@ -471,7 +449,6 @@
   .cards--on-deck {
     --column-color: var(--color-ink-lighter);
 
-    margin-block: var(--cards-gap);
     margin-inline-start: auto;
 
     .card {
@@ -480,20 +457,18 @@
 
     .bubble { display: none !important; }
 
-    @media (min-width: 640px) {
+    /* @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
-    }
+    } */
   }
 
   /* Doing
   /* ------------------------------------------------------------------------ */
 
   .cards--doing {
-    margin-block: var(--cards-gap);
-
-    @media (min-width: 640px) {
+    /* @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
-    }
+    } */
   }
 
   /* Closed
@@ -502,10 +477,8 @@
   .cards--closed {
     --column-color: var(--color-ink-lighter);
 
-    margin-block: var(--cards-gap);
-
-    @media (min-width: 640px) {
+    /* @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
-    }
+    } */
   }
 }
