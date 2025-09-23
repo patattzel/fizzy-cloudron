@@ -5,50 +5,51 @@
   /* Card contents are resized via container queries. We're using #main here as
      the primary container so all cards have the same container reference */
   #main:has(.card-columns) {
-    --cards-gap: min(1.7cqi, 1.7rem);
-    --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink) 3%, var(--color-ink) 97%, var(--color-canvas));
-    --reserved-bubble-space: 0;
-    --bubble-gap: 0.5rem;
-    --bubble-size: 3.5rem;
-
     container-type: inline-size;
     max-inline-size: var(--main-width);
-
-    @media (max-width: 639px) {
-      --bubble-gap: -0.5rem;
-      --bubble-size: 3rem;
-    }
   }
 
   .card-columns {
-    --collapsed-width: 40px;
-    --expanded-min: 450px;
+    --bubble-size: 3.5rem;
+    --cards-gap: min(1.7cqi, 1.7rem);
+    --column-gap: 8px;
+    --column-width-collapsed: 40px;
+    --column-width-expanded: 450px;
+    --column-transition: 350ms var(--ease-out-expo);
+    --progress-increment: var(--progress-max-height) / var(--progress-max-cards);
+    --progress-max-cards: 20;
+    --progress-max-height: 50dvh;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: center;
     align-items: stretch;
+    display: grid;
+    gap: var(--column-gap);
+    grid-template-columns: 1fr var(--column-width-expanded) 1fr;
+    justify-content: center;
+    margin-block-start: var(--cards-gap);
     position: relative;
-    transition: 200ms var(--ease-out-expo);
 
     &:has(.cards) {
       min-block-size: 20lh;
     }
 
-    .left-col,
-    .right-col {
-      align-items: stretch;
-      display: flex;
-      gap: calc(var(--cards-gap) / 4);
+    @media (max-width: 639px) {
+      --bubble-size: 3rem;
     }
+  }
 
-    .left-col {
-      justify-content: end;
-    }
+  .card-columns__left,
+  .card-columns__right {
+    align-items: stretch;
+    display: flex;
+    gap: var(--column-gap);
+  }
 
-    .right-col {
-      justify-content: start;
-    }
+  .card-columns__left {
+    justify-content: end;
+  }
+
+  .card-columns__right {
+    justify-content: start;
   }
 
   /* Column
@@ -56,21 +57,17 @@
 
   .cards {
     --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
-    --progress-max-cards: 20;
-    --progress-max-height: 50dvh;
-    --progress-increment: var(--progress-max-height) / var(--progress-max-cards);
 
     align-items: stretch;
     display: flex;
-    flex: 1 0 var(--expanded-min);
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    max-inline-size: var(--expanded-min);
-    min-inline-size: var(--expanded-min);
+    max-inline-size: var(--column-width-expanded);
+    min-inline-size: var(--column-width-expanded);
     position: relative;
     scroll-snap-align: start;
-    transition: all 300ms var(--ease-out-expo);
+    transition: var(--column-transition);
 
     /* Make sure filter dialogs don't end up behind sticky headers */
     &:has([open]) {
@@ -79,8 +76,8 @@
 
     &.is-collapsed {
       border-radius: 99rem;
-      flex: 0 0 var(--collapsed-width);
-      inline-size: var(--collapsed-width);
+      flex: 0 0 var(--column-width-collapsed);
+      inline-size: var(--column-width-collapsed);
       min-inline-size: 0;
 
       .blank-slate,
@@ -89,84 +86,125 @@
       }
     }
 
-    @media (max-width: 639px) {
-      padding-block-end: calc(var(--cards-gap) * 2);
-      padding-inline-start: var(--cards-gap);
+    &:not(.is-collapsed) {
+      padding-inline: var(--column-gap);
     }
+  }
 
-    /* Expander
-    /* ---------------------------------------------------------------------- */
+  /* Column Elements
+  /* ------------------------------------------------------------------------ */
 
-    .cards__expander {
-      align-items: center;
-      border-radius: 99rem;
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 0.5ch;
-      position: relative;
+  .cards__expander {
+    align-items: center;
+    border-radius: 99rem;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: var(--text-x-small);
+    font-weight: 600;
+    gap: 0.5ch;
+    line-height: var(--column-width-collapsed);
+    position: relative;
+    text-transform: uppercase;
 
-      font-size: var(--text-x-small);
-      font-weight: 600;
+    .cards.is-collapsed & {
+      block-size: 100%;
+      flex-direction: column;
+      inline-size: var(--column-width-collapsed);
+      justify-content: start;
       letter-spacing: 0.05em;
-      line-height: var(--collapsed-width);
-      text-transform: uppercase;
 
-      .cards.is-collapsed & {
+      /* Guitar string */
+      &:before {
+        background-color: var(--column-color);
         block-size: 100%;
-        flex-direction: column;
-        justify-content: start;
-
-        /* Guitar string */
-        &:before {
-          background-color: var(--column-color);
-          block-size: 100%;
-          content: "";
-          inline-size: 1px;
-          inset: 0 auto;
-          position: absolute;
-          z-index: -2;
-        }
-
-        /* Progress */
-        &:after {
-          background: var(--column-color);
-          block-size: calc(var(--collapsed-width) + var(--card-count) * var(--progress-increment));
-          border-radius: 99rem;
-          content: "";
-          inline-size: 100%;
-          inset: 0 0 auto;
-          max-block-size: var(--progress-max-height);
-          min-block-size: var(--collapsed-width);
-          position: absolute;
-          transition: block-size 500ms var(--ease-out-overshoot);
-          z-index: -1;
-        }
+        content: "";
+        inline-size: 1px;
+        inset: 0 auto;
+        position: absolute;
+        z-index: -2;
       }
 
-      .cards:not(.is-collapsed) & {
-        background-color: var(--color-canvas);
-        margin-block-end: calc(-0.5 * var(--cards-gap));
+      /* Progress */
+      &:after {
+        background: var(--column-color);
+        block-size: calc(var(--column-width-collapsed) + var(--card-count) * var(--progress-increment));
+        border-radius: 99rem;
+        content: "";
+        inline-size: 100%;
+        inset: 0 0 auto;
+        max-block-size: var(--progress-max-height);
+        min-block-size: var(--column-width-collapsed);
+        position: absolute;
+        transition: block-size 500ms var(--ease-out-overshoot);
+        z-index: -1;
       }
     }
 
-    .cards__expander-count {
-      .cards:not(.is-collapsed) & {
-        display: none;
+    .cards:not(.is-collapsed) & {
+      background-color: var(--color-canvas);
+      margin-block-end: calc(-0.5 * var(--cards-gap));
+    }
+  }
+
+  .cards__expander-count {
+    .cards:not(.is-collapsed) & {
+      display: none;
+    }
+  }
+
+  .cards__expander-title {
+    font-weight: inherit;
+    font-size: inherit;
+
+    .cards.is-collapsed & {
+      writing-mode: vertical-rl;
+    }
+  }
+
+  /* TODO: I think this is legacy now? */
+  .cards__heading {
+    display: flex;
+    font-size: var(--text-medium);
+    inset-block-start: 0;
+    justify-content: center;
+    margin-block-start: 1px;
+    margin-inline: -8px; /* enough to cover card shadows, but avoid overlapping bubbles */
+    padding-block: var(--cards-gap) 0;
+    position: sticky;
+    z-index: 3;
+
+    /* Cover bubbles and cards on small viewports */
+    @media (max-width: 639px) {
+      &:not(.cards--closed &) {
+        margin-inline: calc(-1 * var(--cards-gap) - var(--main-padding));
       }
     }
 
-    .cards__expander-title {
-      font-weight: inherit;
-      font-size: inherit;
-
-      .cards.is-collapsed & {
-        writing-mode: vertical-rl;
-      }
+    &, .cards__filter {
+      font-weight: bold;
+      text-transform: uppercase;
     }
 
-    /* Card styles
-    /* ---------------------------------------------------------------------- */
+    .cards__filter {
+      --filter-block-padding: 0.5rem;
 
+      background-color: var(--color-canvas);
+      border-radius: 99rem;
+      inline-size: auto;
+      margin-block: calc(-1 * var(--filter-block-padding));
+      padding-block: var(--filter-block-padding);
+    }
+
+    dialog {
+      font-weight: normal;
+      text-transform: none;
+    }
+  }
+
+  /* Override card styles within columns
+  /* ------------------------------------------------------------------------ */
+
+  .cards {
     .blank-slate--card {
       box-shadow: none !important;
       border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
@@ -232,61 +270,6 @@
     }
   }
 
-  .cards--related:not(:hover):not(.drag-and-drop__hover-container) {
-    .card {
-      box-shadow: 0 0 1px var(--color-ink-medium);
-      opacity: 0.9;
-      transition: box-shadow 450ms ease-in-out, opacity 150ms ease-in-out;
-
-      @media (prefers-color-scheme: dark) {
-        opacity: 0.8;
-        transition: opacity 150ms ease-in-out;
-      }
-    }
-  }
-
-  /* Column elements
-  /* ------------------------------------------------------------------------ */
-
-  .cards__heading {
-    display: flex;
-    font-size: var(--text-medium);
-    inset-block-start: 0;
-    justify-content: center;
-    margin-block-start: 1px;
-    margin-inline: -8px; /* enough to cover card shadows, but avoid overlapping bubbles */
-    padding-block: var(--cards-gap) 0;
-    position: sticky;
-    z-index: 3;
-
-    /* Cover bubbles and cards on small viewports */
-    @media (max-width: 639px) {
-      &:not(.cards--closed &) {
-        margin-inline: calc(-1 * var(--cards-gap) - var(--reserved-bubble-space) - var(--main-padding));
-      }
-    }
-
-    &, .cards__filter {
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .cards__filter {
-      --filter-block-padding: 0.5rem;
-
-      background-color: var(--color-canvas);
-      border-radius: 99rem;
-      inline-size: auto;
-      margin-block: calc(-1 * var(--filter-block-padding));
-      padding-block: var(--filter-block-padding);
-    }
-
-    dialog {
-      font-weight: normal;
-      text-transform: none;
-    }
-  }
-
   /* Considering
   /* ------------------------------------------------------------------------ */
 
@@ -297,7 +280,6 @@
       color-mix(in srgb, var(--color-considering) 25%, transparent) 33%,
       color-mix(in srgb, var(--color-considering) 25%, transparent) 66%,
       transparent 100%);
-    margin-block: var(--cards-gap) 0;
 
     @supports(mask: radial-gradient(black)) {
       &:before {
@@ -312,43 +294,6 @@
               radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
         position: absolute;
         z-index: 0;
-      }
-    }
-
-    @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    }
-
-    .cards__decoration {
-      --size: 4.25em;
-
-      background-color: var(--color-canvas);
-      background-image: radial-gradient(ellipse at bottom,
-        color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
-        transparent 70%);
-      block-size: var(--size);
-      inline-size: 100%;
-      inset: calc(var(--size) * -1) 0 auto 0;
-      position: absolute;
-      z-index: -1;
-
-      @supports(mask: radial-gradient(black)) {
-        &:before {
-          background: radial-gradient(ellipse at bottom,
-            color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
-            transparent 70%);
-          content: "";
-          inset: 0;
-          mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-                radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
-          position: absolute;
-          z-index: 0;
-        }
-      }
-
-      &.cards__decoration--end {
-        inset: auto 0 calc(var(--size) * -1);
-        rotate: 180deg;
       }
     }
 
@@ -368,38 +313,6 @@
       &:nth-child(2n) { rotate: 1deg; }
       &:nth-child(3n) { rotate: -0.5deg; }
       &:nth-child(4n) { rotate: 0.5deg; }
-    }
-
-    .card--new {
-      --border-color: var(--color-selected-dark);
-      --border-size: 1px;
-      --card-padding-block: var(--block-space);
-
-      border: 1px solid var(--color-selected-dark);
-      text-align: center;
-
-      .btn {
-        &.btn--link {
-          font-size: 1.2em;
-          margin-block-start: 0.1em;
-        }
-
-        &:not(.btn--link, .btn--circle) {
-          border: 0;
-          color: var(--color-link);
-        }
-      }
-
-      footer {
-        font-size: var(--text-x-small);
-        margin-block-end: calc(var(--block-space-half) * -1);
-      }
-
-      .overflow-count {
-        font-size: 1.2em;
-        font-weight: 500;
-        padding: 0.5em 0.3em;
-      }
     }
 
     .card__body {
@@ -443,32 +356,84 @@
     }
   }
 
+  .cards__decoration {
+    --size: 4.25em;
+
+    background-color: var(--color-canvas);
+    background-image: radial-gradient(ellipse at bottom,
+      color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
+      transparent 70%);
+    block-size: var(--size);
+    inline-size: 100%;
+    inset: calc(var(--size) * -1) 0 auto 0;
+    position: absolute;
+    z-index: -1;
+
+    @supports(mask: radial-gradient(black)) {
+      &:before {
+        background: radial-gradient(ellipse at bottom,
+          color-mix(in srgb, var(--color-considering) 30%, transparent) 0%,
+          transparent 70%);
+        content: "";
+        inset: 0;
+        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+        position: absolute;
+        z-index: 0;
+      }
+    }
+
+    &.cards__decoration--end {
+      inset: auto 0 calc(var(--size) * -1);
+      rotate: 180deg;
+    }
+  }
+
+  .card--new {
+    --border-color: var(--color-selected-dark);
+    --border-size: 1px;
+    --card-padding-block: var(--block-space);
+
+    border: 1px solid var(--color-selected-dark);
+    text-align: center;
+
+    .btn {
+      &.btn--link {
+        font-size: 1.2em;
+        margin-block-start: 0.1em;
+      }
+
+      &:not(.btn--link, .btn--circle) {
+        border: 0;
+        color: var(--color-link);
+      }
+    }
+
+    footer {
+      font-size: var(--text-x-small);
+      margin-block-end: calc(var(--block-space-half) * -1);
+    }
+
+    .overflow-count {
+      font-size: 1.2em;
+      font-weight: 500;
+      padding: 0.5em 0.3em;
+    }
+  }
+
   /* On Deck (Not Now)
   /* ------------------------------------------------------------------------ */
 
   .cards--on-deck {
     --column-color: var(--color-ink-lighter);
 
-    margin-inline-start: auto;
-
     .card {
       --card-color: var(--color-card-complete) !important;
     }
 
-    .bubble { display: none !important; }
-
-    /* @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    } */
-  }
-
-  /* Doing
-  /* ------------------------------------------------------------------------ */
-
-  .cards--doing {
-    /* @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    } */
+    .bubble {
+      display: none !important;
+    }
   }
 
   /* Closed
@@ -476,9 +441,5 @@
 
   .cards--closed {
     --column-color: var(--color-ink-lighter);
-
-    /* @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    } */
   }
 }

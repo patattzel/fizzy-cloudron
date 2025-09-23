@@ -1,13 +1,13 @@
 <% cache @cache_key do %>
   <%= turbo_frame_tag :card_columns do %>
     <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
-      <div class="left-col">
+      <div class="card-columns__left">
         <%= render "cards/index/engagement/on_deck", user_filtering: user_filtering, **on_deck.to_h %>
       </div>
 
       <%= render "cards/index/engagement/considering", user_filtering: user_filtering, **considering.to_h %>
 
-      <div class="right-col">
+      <div class="card-columns__right">
         <% if workflow = user_filtering.single_collection.workflow %>
           <% workflow.stages.each do |stage| %>
             <%= render "cards/index/engagement/doing", user_filtering: user_filtering, **doing.to_h, stage: stage %>
@@ -16,7 +16,7 @@
 
         <%= render "cards/index/engagement/closed", user_filtering: user_filtering, **closed.to_h %>
 
-        <button class="btn btn--circle txt-xx-small borderless">
+        <button class="btn btn--circle txt-x-small borderless">
           <%= icon_tag "menu-dots-horizontal" %>
           <span class="for-screen-reader">Add a new column, etc.</span>
         </button>
