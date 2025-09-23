@@ -145,8 +145,12 @@
     }
 
     .cards:not(.is-collapsed) & {
-      background-color: var(--color-canvas);
       margin-block-end: calc(-0.5 * var(--cards-gap));
+
+      &:hover {
+        background-color: var(--column-color);
+        filter: none;
+      }
     }
   }
 
