@@ -44,7 +44,7 @@ exporters:
 service:
   telemetry:
     logs:
-      level: "info"
+      level: "debug"
   pipelines:
     metrics:
       receivers: [prometheus]
