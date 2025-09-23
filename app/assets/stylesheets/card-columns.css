@@ -393,7 +393,7 @@
     }
   }
 
-  .card--new {
+  .card.card--new {
     --border-color: var(--color-selected-dark);
     --border-size: 1px;
     --card-padding-block: var(--block-space);
@@ -401,16 +401,13 @@
     border: 1px solid var(--color-selected-dark);
     text-align: center;
 
-    .btn {
-      &.btn--link {
-        font-size: 1.2em;
-        margin-block-start: 0.1em;
-      }
+    .btn--link {
+      font-size: 1.2em;
+    }
 
-      &:not(.btn--link, .btn--circle) {
-        border: 0;
-        color: var(--color-link);
-      }
+    .btn:not(.btn--link, .btn--circle) {
+      border: 0;
+      color: var(--color-link);
     }
 
     footer {
