@@ -10,11 +10,6 @@
         <% end %>
       <% end %>
 
-      <button class="btn btn--circle txt-x-small" style="margin-block: var(--cards-gap);">
-        <%= icon_tag "add" %>
-        <span class="for-screen-reader">Add a new stage</span>
-      </button>
-
       <%= render "cards/index/engagement/closed", user_filtering: user_filtering, **closed.to_h %>
     </div>
   <% end %>
