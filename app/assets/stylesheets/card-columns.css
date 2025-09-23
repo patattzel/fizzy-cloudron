@@ -35,28 +35,19 @@
       min-block-size: 20lh;
     }
 
-    &:before {
-      background: var(--gradient-border);
-      block-size: 1px;
-      content: "";
-      inset: 0 -0.6em 100% -0.6em;
-      opacity: 0.15;
-      position: absolute;
-      z-index: 1;
+    .left-col,
+    .right-col {
+      align-items: stretch;
+      display: flex;
+      gap: calc(var(--cards-gap) / 4);
     }
 
     .left-col {
-      display: flex;
-      gap: calc(var(--cards-gap) / 4);
       justify-content: end;
-      align-items: stretch;
     }
 
     .right-col {
-      display: flex;
-      gap: calc(var(--cards-gap) / 4);
       justify-content: start;
-      align-items: stretch;
     }
   }
 

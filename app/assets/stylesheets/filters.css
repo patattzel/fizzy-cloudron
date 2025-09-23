@@ -1,5 +1,9 @@
 @layer components {
   .filters {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    justify-content: center;
     position: relative;
     view-transition-name: "filters";
   }
