@@ -18,7 +18,11 @@ module Card::Postponable
 
   def postpone
     unless postponed?
-      create_not_now!
+      transaction do
+        reopen
+        activity_spike&.destroy
+        create_not_now!
+      end
     end
   end
 

@@ -35,8 +35,8 @@ module CardsHelper
     classes = [
       options.delete(:class),
       ("golden-effect" if card.golden?),
-      ("card--considering" if card.considering?),
-      ("card--doing" if card.doing?),
+      ("card--postponed" if card.postponed?),
+      ("card--active" if card.active?),
       ("card--drafted" if card.drafted?)
     ].compact.join(" ")
 

@@ -14,11 +14,11 @@ module Card::Colored
   DEFAULT_COLOR = "var(--color-card-default)"
 
   def color
-    color_from_stage || DEFAULT_COLOR
+    color_from_column || DEFAULT_COLOR
   end
 
   private
-    def color_from_stage
-      stage&.color&.presence if doing?
+    def color_from_column
+      column&.color&.presence
     end
 end

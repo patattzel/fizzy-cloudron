@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_24_123001) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_24_124737) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -255,14 +255,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_24_123001) do
   end
 
   create_table "entropy_configurations", force: :cascade do |t|
-    t.bigint "auto_close_period", default: 2592000, null: false
-    t.bigint "auto_reconsider_period", default: 2592000, null: false
+    t.bigint "auto_postpone_period", default: 2592000, null: false
     t.integer "container_id", null: false
     t.string "container_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["container_type", "container_id", "auto_close_period"], name: "idx_on_container_type_container_id_auto_close_perio_74dc880875"
-    t.index ["container_type", "container_id", "auto_reconsider_period"], name: "idx_on_container_type_container_id_auto_reconsider__583aaddbea"
+    t.index ["container_type", "container_id", "auto_postpone_period"], name: "idx_on_container_type_container_id_auto_postpone_pe_47f82c5b73"
     t.index ["container_type", "container_id"], name: "index_entropy_configurations_on_container", unique: true
   end
 

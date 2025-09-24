@@ -7,7 +7,7 @@
     <%= form_with model: model, url: url, data: { controller: "form" } do |form| %>
       <%= render "entropy/knob",
             form: form,
-            name: :auto_close_period,
+            name: :auto_postpone_period,
             knob_options: entropy_auto_close_options,
             label: "Days until auto-close" %>
     <% end %>

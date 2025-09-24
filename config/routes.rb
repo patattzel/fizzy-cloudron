@@ -35,7 +35,6 @@ Rails.application.routes.draw do
 
   resources :cards, only: %i[ index show edit update destroy ] do
     scope module: :cards do
-      resource :engagement
       resource :goldness
       resource :image
       resource :pin

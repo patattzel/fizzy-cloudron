@@ -32,7 +32,7 @@
 
       <div class="card__body justify-space-between">
         <%= render "public/cards/show/title", card: @card %>
-        <%= render "cards/display/public_preview/stages", card: @card if @card.doing? %>
+        <%= render "cards/display/public_preview/stages", card: @card %>
       </div>
 
       <%= render "public/cards/show/steps", card: @card %>

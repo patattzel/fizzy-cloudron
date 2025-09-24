@@ -5,7 +5,6 @@ module Filter::Params
     :assignment_status,
     :indexed_by,
     :sorted_by,
-    :engagement_status,
     :creation,
     :closure,
     card_ids: [],
@@ -54,7 +53,6 @@ module Filter::Params
     @as_params ||= {}.tap do |params|
       params[:indexed_by]        = indexed_by
       params[:sorted_by]         = sorted_by
-      params[:engagement_status] = engagement_status
       params[:creation]          = creation
       params[:closure]           = closure
       params[:assignment_status] = assignment_status
