@@ -106,9 +106,12 @@
     font-size: var(--text-x-small);
     font-weight: 600;
     gap: 0.5ch;
-    line-height: var(--column-width-collapsed);
     position: relative;
     text-transform: uppercase;
+
+    > * {
+      grid-area: unset !important;
+    }
 
     .cards.is-collapsed & {
       block-size: 100%;
@@ -145,6 +148,9 @@
     }
 
     .cards:not(.is-collapsed) & {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      inline-size: 100%;
       margin-block-end: calc(-0.5 * var(--cards-gap));
 
       &:hover {
@@ -155,17 +161,31 @@
   }
 
   .cards__expander-count {
+    line-height: var(--column-width-collapsed);
+
     .cards:not(.is-collapsed) & {
-      display: none;
+      opacity: 0;
     }
   }
 
   .cards__expander-title {
     font-weight: inherit;
     font-size: inherit;
+    grid-column: 2;
+    line-height: var(--column-width-collapsed);
 
     .cards.is-collapsed & {
       writing-mode: vertical-rl;
+    }
+  }
+
+  .cards__expander-menu {
+    .panel {
+      --panel-padding: 1ch;
+    }
+
+    .cards.is-collapsed & {
+      display: none;
     }
   }
 
