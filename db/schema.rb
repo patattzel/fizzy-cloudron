@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_24_100149) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_24_123001) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -129,6 +129,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_24_100149) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["card_id"], name: "index_card_goldnesses_on_card_id", unique: true
+  end
+
+  create_table "card_not_nows", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_card_not_nows_on_card_id", unique: true
   end
 
   create_table "cards", force: :cascade do |t|
@@ -519,6 +526,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_24_100149) do
   add_foreign_key "ai_quotas", "users"
   add_foreign_key "card_activity_spikes", "cards"
   add_foreign_key "card_goldnesses", "cards"
+  add_foreign_key "card_not_nows", "cards"
   add_foreign_key "cards", "columns"
   add_foreign_key "cards", "workflow_stages", column: "stage_id"
   add_foreign_key "closures", "cards"
