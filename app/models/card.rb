@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-  include Assignable, Attachments, Closeable, Colored, Engageable, Entropic, Eventable,
+  include Assignable, Attachments, Cacheable, Closeable, Colored, Engageable, Entropic, Eventable,
     Golden, Mentions, Multistep, Pinnable, Promptable, Readable, Searchable,
     Staged, Stallable, Statuses, Taggable, Watchable
 
@@ -40,10 +40,6 @@ class Card < ApplicationRecord
   end
 
   delegate :accessible_to?, to: :collection
-
-  def cache_key
-    [ super, collection.name ].compact.join("/")
-  end
 
   def card
     self

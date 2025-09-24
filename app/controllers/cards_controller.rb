@@ -1,7 +1,7 @@
 require "ostruct"
 
 class CardsController < ApplicationController
-  include Collections::ColumnsScoped
+  include FilterScoped
 
   before_action :set_collection, only: %i[ create ]
   before_action :set_card, only: %i[ show edit update destroy ]
@@ -11,13 +11,9 @@ class CardsController < ApplicationController
   PAGE_SIZE = 25
 
   def index
-    @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
-    @on_deck = page_and_filter_for @filter.with(engagement_status: "on_deck"), per_page: PAGE_SIZE
-    @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
-    @closed = page_and_filter_for_closed_cards
+    @columns = Cards::Columns.new(user_filtering: @user_filtering, page_size: PAGE_SIZE)
 
-    @cache_key = [ @considering, @on_deck, @doing, @closed ].collect { it.page.records }.including([ Workflow.all, @user_filtering ])
-    fresh_when etag: @cache_key
+    fresh_when etag: @columns
   end
 
   def create
@@ -26,7 +22,7 @@ class CardsController < ApplicationController
   end
 
   def show
-    fresh_when @card
+    fresh_when etag: @card.cache_invalidation_parts.for_perma
   end
 
   def edit

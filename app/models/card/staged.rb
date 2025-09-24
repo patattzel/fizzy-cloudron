@@ -7,10 +7,7 @@ module Card::Staged
     before_create :assign_initial_stage
 
     scope :in_stage, ->(stage) { where stage: stage }
-  end
-
-  def workflow
-    stage&.workflow
+    delegate :workflow, to: :collection, allow_nil: true
   end
 
   def staged?

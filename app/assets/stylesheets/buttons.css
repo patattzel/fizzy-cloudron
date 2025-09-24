@@ -64,6 +64,7 @@
   .btn[aria-label]:where(:has(.icon)),
   .btn:where(:has(.for-screen-reader):has(.icon)) {
     --btn-padding: 0;
+    --icon-size: 75%;
 
     aspect-ratio: 1;
     block-size: var(--btn-size);

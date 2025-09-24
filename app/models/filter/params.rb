@@ -28,7 +28,13 @@ module Filter::Params
     end
 
     def normalize_params(params)
-      params.to_h.compact_blank.reject(&method(:default_value?)).sort_by { |name, _| name.to_s }
+      params
+        .to_h
+        .compact_blank
+        .reject(&method(:default_value?))
+        .collect { |name, value| [ name, value.is_a?(Array) ? value.collect(&:to_s) : value.to_s ] }
+        .sort_by { |name, _| name.to_s }
+        .to_h
     end
   end
 

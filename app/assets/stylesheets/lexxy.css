@@ -88,6 +88,8 @@
   }
 
   lexxy-toolbar {
+    --lexxy-toolbar-icon-size: 1em;
+
     background-color: inherit;
     border-block-end: 1px solid var(--color-ink-light);
     color: currentColor;
@@ -112,48 +114,60 @@
         min-inline-size: 30ch;
       }
     }
+  }
 
-    > button {
-      aspect-ratio: 4/3.5;
-      appearance: none;
-      background-color: transparent;
-      block-size: 2em;
-      border: none;
-      border-radius: 0.2em;
-      color: currentColor;
-      cursor: pointer;
-      display: grid;
-      font-size: inherit;
-      inline-size: auto;
-      place-items: center;
-      transition: background-color 300ms ease;
+  .lexxy-editor__toolbar-button {
+    --toolbar-button-size: 44px;
 
-      svg {
-        -webkit-touch-callout: none;
-        block-size: 0.85em;
-        fill: currentColor;
-        grid-area: 1/1;
-        inline-size: auto;
-        user-select: none;
-      }
+    appearance: none;
+    aspect-ratio: 1;
+    background-color: transparent;
+    block-size: var(--toolbar-button-size);
+    border: none;
+    border-radius: 0.2em;
+    color: currentColor;
+    cursor: pointer;
+    display: grid;
+    font-size: inherit;
+    place-items: center;
 
-      &:is(:focus, :hover) {
-        background-color: var(--color-ink-lighter);
-        box-shadow: none;
-      }
+    &:is(:focus, :hover) {
+      background-color: var(--color-ink-lighter);
+      box-shadow: none;
+    }
 
-      &:is(:active) {
-        background-color: var(--color-selected);
-      }
+    &:is(:active),
+    &[aria-pressed="true"] {
+      background-color: var(--color-selected);
+    }
 
-      &[aria-pressed="true"] {
-        background-color: var(--color-selected);
-      }
+    svg {
+      -webkit-touch-callout: none;
+      block-size: var(--lexxy-toolbar-icon-size);
+      fill: currentColor;
+      grid-area: 1/1;
+      inline-size: var(--lexxy-toolbar-icon-size);
+      user-select: none;
+    }
+
+    @media (min-width: 640px) {
+      --toolbar-button-size: 2em;
     }
   }
 
+  .lexxy-editor__toolbar-overflow-menu {
+    background-color: var(--color-canvas);
+    border-radius: 0.5ch;
+    box-shadow: var(--shadow);
+    display: flex;
+    inset-inline-end: 0;
+    padding: 4px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  /* Based on .input, .input--select */
   .lexxy-code-language-picker {
-    /* Based on .input, .input--select */
     -webkit-appearance: none;
     appearance: none;
     background-color: var(--color-canvas);

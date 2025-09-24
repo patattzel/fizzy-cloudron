@@ -71,9 +71,18 @@
     cursor: pointer;
   }
 
+  summary {
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      content: "";
+    }
+  }
+
   /* Remove all animations and transitions for people that prefer not to see them */
   @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {

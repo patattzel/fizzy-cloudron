@@ -12,6 +12,7 @@
           data: {
                 "1p-ignore": "true",
                 filter_target: "input",
+                nav_section_expander_target: "input",
                 navigable_list_target: "input",
                 action: "input->filter#filter" } %>
     <button class="fizzy-menu__close btn borderless txt-small" data-action="dialog#close">
@@ -21,7 +22,7 @@
   </div>
 
   <%= render "filters/menu/hotkeys" %>
-  <%= render "filters/menu/custom", user_filtering: @user_filtering %>
+  <%= render "filters/menu/custom", filters: @user_filtering.filters %>
   <%= render "filters/menu/collections", user_filtering: @user_filtering %>
   <%= render "filters/menu/tags", user_filtering: @user_filtering %>
   <%= render "filters/menu/users", user_filtering: @user_filtering %>

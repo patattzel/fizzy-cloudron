@@ -13,7 +13,6 @@
   }
 
   .filters {
-
     .btn {
       --btn-border-color: var(--color-ink-medium);
       --input-background: var(--color-canvas);
@@ -111,7 +110,15 @@
   }
 
   .quick-filter {
-    &:not(.default-value):has(.checked) {
+    .checked {
+      display: none;
+    }
+
+    [aria-checked="true"] .checked {
+      display: block;
+    }
+
+    &:has([aria-checked="true"]):not(.quick-filter--with-default) {
       .input--select {
         --input-background: var(--color-selected);
       }
@@ -132,6 +139,14 @@
     .quick-filter {
       display: block;
     }
+  }
+
+  .filters__manage {
+    display: none;
+  }
+
+  .filters--has-filters-set .filters__manage {
+    display: flex;
   }
 }
 

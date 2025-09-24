@@ -1,4 +1,20 @@
+summary {
+
+  &::-webkit-details-marker {
+    display: none !important;
+  }
+
+  &::marker {
+    display: none !important;
+  }
+
+  &::marker {
+    content: "";
+  }
+}
+
 @layer components {
+
   .search {
     --gap: 4vmin;
     --width: 80ch;
@@ -16,7 +32,7 @@
   /* Form
   /* ------------------------------------------------------------------------ */
 
-  .search__form-input {
+  .search__input {
     --clear-icon-size: 1em;
     --focus-ring-size: 0;
     --input-border-color: var(--color-ink-light);
@@ -28,25 +44,21 @@
     position: relative;
 
     &::-webkit-search-cancel-button {
-      --clear-icon-size: 0.66rem;
+      display: none;
+    }
+  }
 
-      -webkit-appearance: none;
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 12.179a.25.25 0 0 1 0-.354l9.263-9.262a1.5 1.5 0 0 0 -2.124-2.121l-9.262 9.258a.25.25 0 0 1 -.354 0l-9.262-9.258a1.5 1.5 0 0 0 -2.122 2.121l9.261 9.262a.25.25 0 0 1 0 .354l-9.261 9.263a1.5 1.5 0 0 0 2.122 2.121l9.262-9.263a.25.25 0 0 1 .354 0l9.262 9.263a1.5 1.5 0 0 0 2.122-2.121z" fill="%23000"/></svg>');
-      background-repeat: no-repeat;
-      background-size: var(--clear-icon-size);
-      block-size: var(--clear-icon-size);
-      cursor: pointer;
-      inline-size: var(--clear-icon-size);
-      inset: 50% 0 auto auto;
-      position: absolute;
-      translate: 0 -50%;
+  .search__reset {
+    --btn-background: var(--color-terminal-bg);
+    --btn-size: 1.25lh;
 
-      @media (prefers-color-scheme: dark) {
-        background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 12.179a.25.25 0 0 1 0-.354l9.263-9.262a1.5 1.5 0 0 0 -2.124-2.121l-9.262 9.258a.25.25 0 0 1 -.354 0l-9.262-9.258a1.5 1.5 0 0 0 -2.122 2.121l9.261 9.262a.25.25 0 0 1 0 .354l-9.261 9.263a1.5 1.5 0 0 0 2.122 2.121l9.262-9.263a.25.25 0 0 1 .354 0l9.262 9.263a1.5 1.5 0 0 0 2.122-2.121z" fill="%23fff"/></svg>');
+    @media (min-width: 800px) {
+      .search__input:placeholder-shown ~ & {
+        opacity: 0;
       }
     }
   }
+
 
   /* Content
   /* ------------------------------------------------------------------------ */

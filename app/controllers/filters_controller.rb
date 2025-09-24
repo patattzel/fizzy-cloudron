@@ -1,28 +1,21 @@
 class FiltersController < ApplicationController
-  before_action :set_filter, only: :destroy
+  before_action :set_filters
 
   def create
     @filter = Current.user.filters.remember filter_params
-    redirect_to cards_path(filter_id: @filter.id)
   end
 
   def destroy
-    filter_params = @filter.as_params
+    @filter = Current.user.filters.find(params[:id])
     @filter.destroy!
-
-    if request.referer == root_url
-      redirect_to root_path
-    else
-      redirect_to cards_path(filter_params)
-    end
   end
 
   private
-    def set_filter
-      @filter = Current.user.filters.find params[:id]
+    def set_filters
+      @filters = Current.user.filters
     end
 
     def filter_params
-      params.permit(*Filter::PERMITTED_PARAMS).compact_blank
+      Filter.normalize_params(params.permit(*Filter::PERMITTED_PARAMS))
     end
 end

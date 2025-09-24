@@ -1,20 +1,22 @@
-<% cache @cache_key do %>
+<% cache columns do %>
   <%= turbo_frame_tag :card_columns do %>
     <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
       <div class="card-columns__left">
-        <%= render "cards/index/engagement/on_deck", user_filtering: user_filtering, **on_deck.to_h %>
+        <%= render "cards/index/engagement/on_deck", column: columns.on_deck %>
       </div>
 
-      <%= render "cards/index/engagement/considering", user_filtering: user_filtering, **considering.to_h %>
+      <%= render "cards/index/engagement/considering", column: columns.considering %>
 
       <div class="card-columns__right">
-        <% if workflow = user_filtering.single_collection.workflow %>
+        <% if workflow = columns.user_filtering.single_collection.workflow %>
           <% workflow.stages.each do |stage| %>
-            <%= render "cards/index/engagement/doing", user_filtering: user_filtering, **doing.to_h, stage: stage %>
+            <%= render "cards/index/engagement/doing", column: columns.doing, stage: stage %>
           <% end %>
+        <% else %>
+          <%= render "cards/index/engagement/doing", column: columns.doing %>
         <% end %>
 
-        <%= render "cards/index/engagement/closed", user_filtering: user_filtering, **closed.to_h %>
+        <%= render "cards/index/engagement/closed", column: columns.closed %>
 
         <button class="btn btn--circle txt-x-small borderless">
           <%= icon_tag "menu-dots-horizontal" %>

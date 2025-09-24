@@ -13,14 +13,16 @@ module FilterScoped
   end
 
   private
-    DEFAULT_PARAMS = { indexed_by: "all", sorted_by: "latest" }
-
     def set_filter
       if params[:filter_id].present?
         @filter = Current.user.filters.find(params[:filter_id])
       else
-        @filter = Current.user.filters.from_params params.reverse_merge(**DEFAULT_PARAMS).permit(*Filter::PERMITTED_PARAMS)
+        @filter = Current.user.filters.from_params filter_params
       end
+    end
+
+    def filter_params
+      params.reverse_merge(**Filter.default_values).permit(*Filter::PERMITTED_PARAMS)
     end
 
     def set_user_filtering

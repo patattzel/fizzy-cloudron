@@ -15,6 +15,7 @@ module User::Highlights
 
   def generate_weekly_highlights(date = Time.current)
     in_time_zone do
+      date = date - 1.day if date.sunday?
       PeriodHighlights.create_or_find_for collections, starts_at: highlights_starts_at(date), duration: 1.week
     end
   end
@@ -27,7 +28,7 @@ module User::Highlights
 
   private
     def highlights_starts_at(date = Time.current)
-      date = date - 1.day if date.sunday?
+      date = date.in_time_zone(timezone)
       date.beginning_of_week(:sunday)
     end
 end

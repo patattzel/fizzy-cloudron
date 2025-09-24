@@ -1,23 +1,12 @@
-<% filter = user_filtering.filter %>
-<%= form_with url: cards_path, method: :get, class: "", data: { controller: "form", turbo_frame: "card_columns", action: "input->form#debouncedSubmit" } do |form| %>
-  <% filter.as_params.except(:terms).each do |key, value| %>
-    <%= filter_hidden_field_tag key, value %>
-  <% end %>
-
-  <% filter.terms.each do |existing_term| %>
-      <%= hidden_field_tag "terms[]", existing_term %>
-  <% end %>
-
-  <% if user_filtering.expanded? %>
-    <%= hidden_field_tag :expand_all, user_filtering.expanded? %>
-  <% end %>
-
-  <%= form.text_field "terms[]", placeholder: "Filter these cards…", class: "input txt-x-small filter__terms",
-        autofocus: false, autocomplete: :off, autocorrect: "off", data: { "1p-ignore": "true", action: "keydown.enter->form#submitToTopTarget" } %>
-<% end %>
+<%= form.text_field "terms[]", placeholder: "Filter these cards…", class: "input txt-x-small filter__terms",
+      autofocus: false, autocomplete: :off, autocorrect: "off", data: {
+            "1p-ignore": "true",
+            filter_settings_target: "field",
+            action: "input->form#debouncedSubmit keydown.enter->form#submitToTopTarget" } %>
 
 <% if filter.terms.present? %>
   <% filter.terms.each do |term| %>
     <%= filter_chip_tag %Q("#{term}"), filter.as_params_without(:terms, term) %>
+    <%= hidden_field_tag "terms[]", term, data: { filter_settings_target: "field" } %>
   <% end %>
 <% end %>
