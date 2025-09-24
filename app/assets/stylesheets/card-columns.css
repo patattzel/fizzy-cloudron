@@ -169,6 +169,13 @@
     }
   }
 
+  .blank-slate--card {
+    box-shadow: none !important;
+    border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
+    font-weight: 600;
+    rotate: 2deg;
+  }
+
   /* TODO: I think this is legacy now? */
   .cards__heading {
     display: flex;
@@ -213,16 +220,10 @@
   /* ------------------------------------------------------------------------ */
 
   .cards {
-    .blank-slate--card {
-      box-shadow: none !important;
-      border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
-      font-weight: 600;
-      rotate: 2deg;
-    }
-
     .card {
       --block-space: 1em;
       --block-space-half: 0.5em;
+      --card-padding-inline: 1em;
       --text-xx-large: 1.6em;
       --text-x-small: 1em;
 
@@ -230,12 +231,8 @@
       font-size: clamp(0.6rem, 0.85cqi, 100px);
     }
 
-    .card__body {
-      margin-block: var(--block-space-half);
-    }
-
-    .card__footer {
-      margin-block-start: var(--block-space-half);
+    .card__tags {
+      gap: calc(var(--card-header-space) / 2);
     }
 
     .card__title {
@@ -249,6 +246,19 @@
 
     .card__hide-on-index {
       display: none;
+    }
+
+    .card__body {
+      padding-block: calc(var(--card-padding-block) * 0.75);
+    }
+
+    .card__meta {
+      font-weight: 600;
+
+      strong,
+      .local-time-value {
+        font-weight: inherit;
+      }
     }
 
     .card:has(.card__background img:not([src=""])) {
@@ -370,20 +380,34 @@
       &:nth-child(4n) { rotate: 0.5deg; }
     }
 
-    .card__body {
-      padding-block-start: 0;
-      padding-inline: 0;
-    }
-
     .card__collection {
       background-color: transparent;
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      color: var(--card-text-color);
     }
 
-    .card__collection-name {
-      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+    /* The following groups the header and title on considering cards */
+    .card__header {
+      color: var(--color-ink);
     }
+
+    .card__collection,
+    .card__tags {
+      color: inherit;
+    }
+
+    .card__body {
+      padding-block: 0 var(--card-padding-block);
+    }
+    /* End */
+
+    /* The Uncomment the following to add borders and such */
+    /*
+    .card__collection {
+      border-block-end: var(--card-border);
+      border-inline-end: var(--card-border);
+    }
+    */
+    /* End */
 
     .card--drafted {
       --card-color: var(--color-ink-medium) !important;
@@ -393,21 +417,12 @@
       box-shadow: none !important;
     }
 
-    .card__header {
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-      margin-inline: calc(-0.5 * var(--card-padding-inline)) calc(-0.25 * var(--card-padding-inline));
-    }
-
     .card__people-label {
       display: none;
     }
 
     .card__title {
       min-block-size: 0;
-    }
-
-    .card__tags {
-      font-size: var(--text-small);
     }
   }
 
