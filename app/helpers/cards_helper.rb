@@ -71,7 +71,7 @@ module CardsHelper
   end
 
   def cards_expander(title, count)
-    tag.header class: "cards__expander btn btn--plain", data: { action: "click->collapsible-columns#toggle" }, style: "--card-count: #{[ count, 20 ].min}", aria: { role: "button" } do
+    tag.header class: "cards__expander", data: { action: "click->collapsible-columns#toggle" }, style: "--card-count: #{[ count, 20 ].min}", aria: { role: "button" } do
       concat(tag.span count > 99 ? "99+" : count, class: "cards__expander-count")
       concat(tag.h2 title, class: "cards__expander-title")
       concat(tag.div class: "cards__expander-menu position-relative", data: { controller: "dialog", action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do

@@ -101,6 +101,7 @@
   .cards__expander {
     align-items: center;
     border-radius: 99rem;
+    cursor: pointer;
     display: flex;
     flex-direction: row-reverse;
     font-size: var(--text-x-small);
@@ -108,9 +109,12 @@
     gap: 0.5ch;
     position: relative;
     text-transform: uppercase;
+    transition: 100ms ease-out;
 
-    > * {
-      grid-area: unset !important;
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(0.9);
+      }
     }
 
     .cards.is-collapsed & {
@@ -162,6 +166,7 @@
 
   .cards__expander-count {
     line-height: var(--column-width-collapsed);
+    inline-size: var(--column-width-collapsed);
 
     .cards:not(.is-collapsed) & {
       opacity: 0;
@@ -180,6 +185,13 @@
   }
 
   .cards__expander-menu {
+    .btn--circle {
+      --btn-background: transparent;
+
+      block-size: var(--column-width-collapsed);
+      inline-size: var(--column-width-collapsed);
+    }
+
     .panel {
       --panel-padding: 1ch;
     }
