@@ -7,6 +7,10 @@ class CollectionsController < ApplicationController
     @collection = Collection.new
   end
 
+  def show
+    set_page_and_extract_portion_from @collection.cards.untriaged.reverse_chronologically
+  end
+
   def create
     @collection = Collection.create! collection_params.with_defaults(all_access: true)
     redirect_to cards_path(collection_ids: [ @collection ])

@@ -1,0 +1,18 @@
+<section id="considering-cards" class="cards cards--considering"
+  data-drag-and-drop-target="container"
+  data-drop-target="considering">
+  <div class="cards__decoration"></div>
+
+  <% if page.used? %>
+    <%= render "collections/columns/list", cards: @page.records, draggable: true %>
+
+    <% unless page.last? %>
+      <div class="full-width">
+      </div>
+    <% end %>
+  <% else %>
+    <div class="card blank-slate blank-slate--card">
+      <p class="txt-align-center txt-normal">Drag cards here</p>
+    </div>
+  <% end %>
+</section>

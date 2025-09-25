@@ -4,7 +4,15 @@ module Card::Triageable
   included do
     belongs_to :column, optional: true
 
-    scope :untriaged, -> { where.missing(:column) }
-    scope :triaged, -> { joins(:column) }
+    scope :untriaged, -> { active.where.missing(:column) }
+    scope :triaged, -> { active.joins(:column) }
+  end
+
+  def triaged?
+    active? && column.present?
+  end
+
+  def untriaged?
+    !triaged?
   end
 end

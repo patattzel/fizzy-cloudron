@@ -4,8 +4,8 @@ module Card::Postponable
   included do
     has_one :not_now, dependent: :destroy, class_name: "Card::NotNow"
 
-    scope :not_now, -> { joins(:not_now) }
-    scope :active, -> { where.missing(:not_now) }
+    scope :postponed, -> { open.joins(:not_now) }
+    scope :active, -> { open.where.missing(:not_now) }
   end
 
   def postponed?
@@ -19,6 +19,7 @@ module Card::Postponable
   def postpone
     unless postponed?
       transaction do
+        update!(column: nil)
         reopen
         activity_spike&.destroy
         create_not_now!

@@ -17,6 +17,13 @@ Rails.application.routes.draw do
       resource :involvement
       resource :publication
       resource :entropy_configuration
+
+      namespace :columns do
+        resource :not_now
+        resource :stream
+      end
+
+      resources :columns
     end
 
     resources :cards, only: %i[ create ]

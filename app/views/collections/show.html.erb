@@ -1,0 +1,38 @@
+<% @page_title = @collection.name %>
+<% turbo_exempts_page_from_cache %>
+
+<% content_for :head do %>
+  <%= tag.meta property: "og:title", content: @page_title %>
+  <%= tag.meta property: "og:description", content: Account.sole.name %>
+  <%= tag.meta property: "og:url", content: collection_url(@collection) %>
+<% end %>
+
+<% content_for :header do %>
+  <div class="header__actions header__actions--start">
+    <%= render "cards/webhooks", collection: @collection if Current.user.admin? %>
+  </div>
+
+  <h1 class="header__title divider divider--fade full-width">
+    <span class="overflow-ellipsis"><%= @collection.name %></span>
+  </h1>
+
+  <div class="header__actions header__actions--end">
+      <%= render "cards/collection_settings", collection: @collection %>
+  </div>
+<% end %>
+
+<%= render "filters/settings", user_filtering: @user_filtering %>
+
+<%= tag.div data: {
+      controller: "drag-and-drop",
+      drag_and_drop_dragged_item_class: "drag-and-drop__dragged-item",
+      drag_and_drop_hover_container_class: "drag-and-drop__hover-container",
+      drag_and_drop_url_value: cards_drops_path(**@filter.as_params),
+      action: "
+        dragstart->drag-and-drop#dragStart
+        dragover->drag-and-drop#dragOver
+        drop->drag-and-drop#drop
+        dragend->drag-and-drop#dragEnd" } do %>
+
+  <%= render "collections/show/columns", page: @page, collection: @collection %>
+<% end %>
