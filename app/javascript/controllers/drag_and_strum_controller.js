@@ -12,9 +12,7 @@ const MANDOLIN_NOTES = [
 ]
 
 export default class extends Controller {
-  static targets = [ "item", "container" ]
-  static values = { url: String }
-  static classes = [ "draggedItem", "hoverContainer" ]
+  static targets = [ "container" ]
 
   connect() {
     this.preloadedAudioFiles = MANDOLIN_NOTES.map(file => {
