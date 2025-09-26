@@ -2,32 +2,44 @@ import { Controller } from "@hotwired/stimulus"
 
 const INSTRUMENTS = [
   [
-    "/audio/banjo/A.mp3",
-    "/audio/banjo/B.mp3",
-    "/audio/banjo/C.mp3",
-    "/audio/banjo/D.mp3",
-    "/audio/banjo/E.mp3"
+   "/audio/vibes/B3.mp3",
+   "/audio/vibes/C3.mp3",
+   "/audio/vibes/D4.mp3",
+   "/audio/vibes/E3.mp3",
+   "/audio/vibes/Fsharp4.mp3",
+   "/audio/vibes/G3.mp3"
   ],
   [
-    "/audio/harpsichord/A.mp3",
-    "/audio/harpsichord/B.mp3",
-    "/audio/harpsichord/C.mp3",
-    "/audio/harpsichord/D.mp3",
-    "/audio/harpsichord/E.mp3"
+    "/audio/banjo/B3.mp3",
+    "/audio/banjo/C3.mp3",
+    "/audio/banjo/D4.mp3",
+    "/audio/banjo/E3.mp3",
+    "/audio/banjo/Fsharp4.mp3",
+    "/audio/banjo/G3.mp3"
   ],
   [
-    "/audio/piano/A.mp3",
-    "/audio/piano/B.mp3",
-    "/audio/piano/C.mp3",
-    "/audio/piano/D.mp3",
-    "/audio/piano/E.mp3"
+    "/audio/harpsichord/B3.mp3",
+    "/audio/harpsichord/C3.mp3",
+    "/audio/harpsichord/D4.mp3",
+    "/audio/harpsichord/E3.mp3",
+    "/audio/harpsichord/Fsharp4.mp3",
+    "/audio/harpsichord/G3.mp3"
   ],
   [
-    "/audio/vibes/A.mp3",
-    "/audio/vibes/B.mp3",
-    "/audio/vibes/C.mp3",
-    "/audio/vibes/D.mp3",
-    "/audio/vibes/E.mp3"
+    "/audio/mandolin/B3.mp3",
+    "/audio/mandolin/C3.mp3",
+    "/audio/mandolin/D4.mp3",
+    "/audio/mandolin/E3.mp3",
+    "/audio/mandolin/Fsharp4.mp3",
+    "/audio/mandolin/G3.mp3"
+  ],
+  [
+   "/audio/piano/B3.mp3",
+   "/audio/piano/C3.mp3",
+   "/audio/piano/D4.mp3",
+   "/audio/piano/E3.mp3",
+   "/audio/piano/Fsharp4.mp3",
+   "/audio/piano/G3.mp3"
   ],
 ]
 
