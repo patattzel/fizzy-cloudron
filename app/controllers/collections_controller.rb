@@ -8,7 +8,7 @@ class CollectionsController < ApplicationController
   end
 
   def show
-    set_page_and_extract_portion_from @collection.cards.untriaged.reverse_chronologically
+    set_page_and_extract_portion_from @collection.cards.awaiting_triage.reverse_chronologically
   end
 
   def create

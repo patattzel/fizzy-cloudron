@@ -19,7 +19,7 @@ module Card::Postponable
   def postpone
     unless postponed?
       transaction do
-        update!(column: nil)
+        send_back_to_triage
         reopen
         activity_spike&.destroy
         create_not_now!

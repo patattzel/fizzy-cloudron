@@ -35,6 +35,18 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :columns do
+    resources :cards do
+      scope module: "cards" do
+        namespace :drops do
+          resource :not_now
+          resource :closure
+          resources :columns
+        end
+      end
+    end
+  end
+
   namespace :cards do
     resources :previews
     resources :drops
@@ -46,6 +58,8 @@ Rails.application.routes.draw do
       resource :image
       resource :pin
       resource :closure
+      resource :not_now
+      resource :triage
       resource :publish
       resource :reading
       resource :recover
