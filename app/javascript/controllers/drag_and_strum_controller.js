@@ -2,21 +2,33 @@ import { Controller } from "@hotwired/stimulus"
 
 const INSTRUMENTS = [
   [
-    "/audio/mandolin/B3.mp3",
-    "/audio/mandolin/C3.mp3",
-    "/audio/mandolin/D4.mp3",
-    "/audio/mandolin/E3.mp3",
-    "/audio/mandolin/Fsharp4.mp3",
-    "/audio/mandolin/G3.mp3"
+    "/audio/banjo/A.mp3",
+    "/audio/banjo/B.mp3",
+    "/audio/banjo/C.mp3",
+    "/audio/banjo/D.mp3",
+    "/audio/banjo/E.mp3"
   ],
   [
-    "/audio/synth/B3.mp3",
-    "/audio/synth/C3.mp3",
-    "/audio/synth/D4.mp3",
-    "/audio/synth/E3.mp3",
-    "/audio/synth/Fsharp4.mp3",
-    "/audio/synth/G3.mp3"
-  ]
+    "/audio/harpsichord/A.mp3",
+    "/audio/harpsichord/B.mp3",
+    "/audio/harpsichord/C.mp3",
+    "/audio/harpsichord/D.mp3",
+    "/audio/harpsichord/E.mp3"
+  ],
+  [
+    "/audio/piano/A.mp3",
+    "/audio/piano/B.mp3",
+    "/audio/piano/C.mp3",
+    "/audio/piano/D.mp3",
+    "/audio/piano/E.mp3"
+  ],
+  [
+    "/audio/vibes/A.mp3",
+    "/audio/vibes/B.mp3",
+    "/audio/vibes/C.mp3",
+    "/audio/vibes/D.mp3",
+    "/audio/vibes/E.mp3"
+  ],
 ]
 
 export default class extends Controller {
@@ -27,11 +39,6 @@ export default class extends Controller {
     this.preloadedAudioFiles = []
 
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
-    // this.preloadedAudioFiles = INSTRUMENTS[0].map(file => {
-    //   const audio = new Audio(file)
-    //   audio.load()
-    //   return audio
-    // });
   }
 
   disconnect() {
@@ -39,11 +46,12 @@ export default class extends Controller {
   }
 
   handleKeyDown(event) {
-    this.#setInstrumentIndex(event)
+    if (event.shiftKey) {
+      this.instrumentIndex = this.#getInstrumentIndex(event)
 
-    if (this.instrumentIndex < INSTRUMENTS.length) {
-      this.#preloadAudioFiles(this.instrumentIndex)
-      console.log(this.preloadedAudioFiles)
+      if (this.instrumentIndex < INSTRUMENTS.length) {
+        this.#preloadAudioFiles(this.instrumentIndex)
+      }
     }
   }
 
@@ -58,9 +66,9 @@ export default class extends Controller {
     }
   }
 
-  #setInstrumentIndex(event) {
+  #getInstrumentIndex(event) {
     const number = Number(event.code.replace("Digit", ""))
-    this.instrumentIndex = isNaN(number) ? 0 : number
+    return isNaN(number) ? 0 : number
   }
 
   #preloadAudioFiles(instrumentIndex) {
@@ -81,12 +89,10 @@ export default class extends Controller {
   }
 
   #playSound() {
-    // At this stage, the preloaded audio files should be ready
+    const randomIndex = Math.floor(Math.random() * this.preloadedAudioFiles.length)
+    const audio = this.preloadedAudioFiles[randomIndex]
+    const audioInstance = new Audio(audio.src)
 
-    // const randomIndex = Math.floor(Math.random() * this.preloadedAudioFiles.length)
-    // const audio = this.preloadedAudioFiles[randomIndex]
-    // const audioInstance = new Audio(audio.src)
-    //
-    // audioInstance.play()
+    audioInstance.play()
   }
 }
