@@ -91,6 +91,20 @@
       }
     }
 
+    .bubble {
+      --bubble-number-max: 42px;
+      --bubble-size: 6rem;
+
+      inset: calc(var(--bubble-size) / -4) calc(var(--bubble-size) / 1.5) auto auto;
+      translate: 0 0;
+
+      @media (max-width: 800px) {
+        --bubble-size: 4.5rem;
+
+        inset: calc(var(--bubble-size) / 1.5) 0 auto auto;
+      }
+    }
+
     @media (max-width: 800px) {
       --padding-inline: var(--main-padding);
 
