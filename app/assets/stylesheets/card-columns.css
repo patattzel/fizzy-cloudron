@@ -91,7 +91,7 @@
     }
 
     &:not(.is-collapsed) {
-      padding-inline: var(--column-gap);
+      padding-inline: calc(var(--column-gap) * 2);
     }
   }
 
@@ -101,14 +101,21 @@
   .cards__expander {
     align-items: center;
     border-radius: 99rem;
+    cursor: pointer;
     display: flex;
     flex-direction: row-reverse;
     font-size: var(--text-x-small);
     font-weight: 600;
     gap: 0.5ch;
-    line-height: var(--column-width-collapsed);
     position: relative;
     text-transform: uppercase;
+    transition: 100ms ease-out;
+
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
 
     .cards.is-collapsed & {
       block-size: 100%;
@@ -145,6 +152,9 @@
     }
 
     .cards:not(.is-collapsed) & {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      inline-size: 100%;
       margin-block-end: calc(-0.5 * var(--cards-gap));
 
       &:hover {
@@ -155,18 +165,47 @@
   }
 
   .cards__expander-count {
+    line-height: var(--column-width-collapsed);
+    inline-size: var(--column-width-collapsed);
+
     .cards:not(.is-collapsed) & {
-      display: none;
+      opacity: 0;
     }
   }
 
   .cards__expander-title {
     font-weight: inherit;
     font-size: inherit;
+    grid-column: 2;
+    line-height: var(--column-width-collapsed);
 
     .cards.is-collapsed & {
       writing-mode: vertical-rl;
     }
+  }
+
+  .cards__expander-menu {
+    .btn--circle {
+      --btn-background: transparent;
+
+      block-size: var(--column-width-collapsed);
+      inline-size: var(--column-width-collapsed);
+    }
+
+    .panel {
+      --panel-padding: 1ch;
+    }
+
+    .cards.is-collapsed & {
+      display: none;
+    }
+  }
+
+  .blank-slate--card {
+    box-shadow: none !important;
+    border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
+    font-weight: 600;
+    rotate: 2deg;
   }
 
   /* TODO: I think this is legacy now? */
@@ -213,16 +252,10 @@
   /* ------------------------------------------------------------------------ */
 
   .cards {
-    .blank-slate--card {
-      box-shadow: none !important;
-      border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
-      font-weight: 600;
-      rotate: 2deg;
-    }
-
     .card {
       --block-space: 1em;
       --block-space-half: 0.5em;
+      --card-padding-inline: 1em;
       --text-xx-large: 1.6em;
       --text-x-small: 1em;
 
@@ -230,12 +263,8 @@
       font-size: clamp(0.6rem, 0.85cqi, 100px);
     }
 
-    .card__body {
-      margin-block: var(--block-space-half);
-    }
-
-    .card__footer {
-      margin-block-start: var(--block-space-half);
+    .card__tags {
+      gap: calc(var(--card-header-space) / 2);
     }
 
     .card__title {
@@ -247,8 +276,22 @@
       z-index: 1;
     }
 
+    .card__stages,
     .card__hide-on-index {
       display: none;
+    }
+
+    .card__body {
+      padding-block: calc(var(--card-padding-block) * 0.75) var(--card-padding-block);
+    }
+
+    .card__meta {
+      font-weight: 600;
+
+      strong,
+      .local-time-value {
+        font-weight: inherit;
+      }
     }
 
     .card:has(.card__background img:not([src=""])) {
@@ -300,8 +343,7 @@
           color-mix(in oklch, var(--color-considering) 0%, transparent) 100%);
         content: "";
         inset: 0;
-        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+        mask: var(--wavy-background-mask);
         position: absolute;
         z-index: 0;
       }
@@ -352,6 +394,7 @@
         rotate: 180deg;
       }
     }
+
     .card {
       --avatar-size: 2.75em;
       --text-small: 1.1em;
@@ -370,20 +413,35 @@
       &:nth-child(4n) { rotate: 0.5deg; }
     }
 
-    .card__body {
-      padding-block-start: 0;
-      padding-inline: 0;
-    }
-
     .card__collection {
       background-color: transparent;
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      color: var(--card-text-color);
     }
 
-    .card__collection-name {
-      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+    /* The following groups the header and title on considering cards */
+    .card__header {
+      color: var(--color-ink);
+      padding-block-start: calc(var(--card-padding-block) / 2);
     }
+
+    .card__collection,
+    .card__tags {
+      color: inherit;
+    }
+
+    .card__body {
+      padding-block: 0 var(--card-padding-block);
+    }
+    /* End */
+
+    /* The Uncomment the following to add borders and such */
+    /*
+    .card__collection {
+      border-block-end: var(--card-border);
+      border-inline-end: var(--card-border);
+    }
+    */
+    /* End */
 
     .card--drafted {
       --card-color: var(--color-ink-medium) !important;
@@ -393,21 +451,12 @@
       box-shadow: none !important;
     }
 
-    .card__header {
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-      margin-inline: calc(-0.5 * var(--card-padding-inline)) calc(-0.25 * var(--card-padding-inline));
-    }
-
     .card__people-label {
       display: none;
     }
 
     .card__title {
       min-block-size: 0;
-    }
-
-    .card__tags {
-      font-size: var(--text-small);
     }
   }
 
@@ -453,6 +502,30 @@
 
     .bubble {
       display: none !important;
+    }
+  }
+
+  /* Doing
+  /* -------------------------------------------------------------------------- */
+
+  /* Surface a mini bubble if there are cards with bubbles inside */
+  .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
+    --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
+    --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
+
+    &:before {
+      background: radial-gradient(
+        color-mix(in srgb, var(--bubble-color) 8%, var(--color-canvas)) 50%,
+        color-mix(in srgb, var(--bubble-color) 48%, var(--color-canvas)) 100%
+      );
+      block-size: 1em;
+      border-radius: var(--bubble-shape);
+      content: "";
+      inline-size: 1em;
+      inset: 0 0 auto auto;
+      position: absolute;
+      translate: 25% -25%;
+      z-index: 1;
     }
   }
 

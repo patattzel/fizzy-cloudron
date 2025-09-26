@@ -106,7 +106,9 @@
   .filter__terms {
     --input-background: var(--color-canvas);
 
-    min-inline-size: 30ch;
+    .filters:not(.filters--expanded) & {
+      min-inline-size: 40ch;
+    }
   }
 
   .quick-filter {
