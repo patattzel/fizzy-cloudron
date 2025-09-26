@@ -7,5 +7,5 @@
 
   <%= cards_expander "Not Now", collection.cards.postponed.count %>
 
-  <%= turbo_frame_tag :not_now_column, src: collection_columns_not_now_path(collection), "data-drag-and-drop-refresh": true, refresh: :morph %>
+  <%= column_frame_tag :not_now_column, src: collection_columns_not_now_path(collection) %>
 </section>

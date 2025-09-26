@@ -78,15 +78,7 @@ export default class extends Controller {
 
   #reloadSourceFrame(sourceContainer) {
     const frame = sourceContainer.querySelector("[data-drag-and-drop-refresh]")
-    if (frame) {
-      frame.addEventListener("turbo:before-frame-render", ({ detail }) => {
-        detail.render = function (currentElement, newElement) {
-          Turbo.morphChildren(currentElement, newElement)
-        }
-      }, { once: true })
-
-      frame.reload()
-    }
+    if (frame) frame.reload()
   }
 
   #decreaseCounter(sourceContainer) {

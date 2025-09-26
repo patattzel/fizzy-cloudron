@@ -8,4 +8,13 @@ module ColumnsHelper
       form_class: "flex align-center gap-half",
       data: { turbo_frame: "_top" }
   end
+
+  def column_frame_tag(id, src: nil, data: {}, **options, &block)
+    data = data.reverse_merge \
+      "drag-and-drop-refresh": true,
+      controller: "frame",
+      action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload"
+
+    turbo_frame_tag(id, src: src, data: data, **options, &block)
+  end
 end

@@ -7,5 +7,5 @@
 >
   <%= cards_expander column.name, column.cards.active.count %>
 
-  <%= turbo_frame_tag dom_id(column, :cards), src: collection_column_path(column.collection, column), "data-drag-and-drop-refresh": true, refresh: :morph %>
+  <%= column_frame_tag dom_id(column, :cards), src: collection_column_path(column.collection, column) %>
 </section>

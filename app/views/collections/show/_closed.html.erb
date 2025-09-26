@@ -7,5 +7,5 @@
 
   <%= cards_expander "Done", collection.cards.closed.count %>
 
-  <%= turbo_frame_tag :closed_column, src: collection_columns_closed_path(collection), "data-drag-and-drop-refresh": true, refresh: :morph %>
+  <%= column_frame_tag :closed_column, src: collection_columns_closed_path(collection) %>
 </section>
