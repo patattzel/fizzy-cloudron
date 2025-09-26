@@ -8,6 +8,8 @@
 <% end %>
 
 <% content_for :header do %>
+  <%= render "filters/menu", user_filtering: @user_filtering %>
+
   <div class="header__actions header__actions--start">
     <%= render "cards/webhooks", collection: @collection if Current.user.admin? %>
   </div>

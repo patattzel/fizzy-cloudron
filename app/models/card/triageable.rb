@@ -20,7 +20,7 @@ module Card::Triageable
     raise "The column must belong to the card collection" unless collection == column.collection
 
     transaction do
-      reopen
+      resume
       activity_spike&.destroy
       update! column: column
     end
