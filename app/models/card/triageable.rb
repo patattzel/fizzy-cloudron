@@ -16,7 +16,7 @@ module Card::Triageable
     active? && !triaged?
   end
 
-  def triage_to(column)
+  def triage_into(column)
     raise "The column must belong to the card collection" unless collection == column.collection
     update! column: column
   end

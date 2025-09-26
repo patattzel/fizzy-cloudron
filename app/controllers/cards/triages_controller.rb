@@ -3,7 +3,7 @@ class Cards::TriagesController < ApplicationController
 
   def create
     column = @card.collection.columns.find(params[:column_id])
-    @card.triage_to(column)
+    @card.triage_into(column)
 
     render_card_replacement
   end
