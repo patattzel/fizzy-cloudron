@@ -12,7 +12,6 @@ module Account::Entropic
 
     def set_default_entropy_configuration
       self.default_entropy_configuration ||= build_default_entropy_configuration \
-        auto_close_period: DEFAULT_ENTROPY_PERIOD,
-        auto_reconsider_period: DEFAULT_ENTROPY_PERIOD
+        auto_postpone_period: DEFAULT_ENTROPY_PERIOD
     end
 end

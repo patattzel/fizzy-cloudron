@@ -7,6 +7,6 @@ class Account::EntropyConfigurationsController < ApplicationController
 
   private
     def entropy_configuration_params
-      params.expect(entropy_configuration: [ :auto_close_period, :auto_reconsider_period ])
+      params.expect(entropy_configuration: [ :auto_postpone_period ])
     end
 end

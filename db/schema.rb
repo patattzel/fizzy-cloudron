@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_24_124737) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -131,8 +131,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
     t.index ["card_id"], name: "index_card_goldnesses_on_card_id", unique: true
   end
 
+  create_table "card_not_nows", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_card_not_nows_on_card_id", unique: true
+  end
+
   create_table "cards", force: :cascade do |t|
     t.integer "collection_id", null: false
+    t.integer "column_id"
     t.datetime "created_at", null: false
     t.integer "creator_id", null: false
     t.date "due_on"
@@ -142,6 +150,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_cards_on_collection_id"
+    t.index ["column_id"], name: "index_cards_on_column_id"
     t.index ["last_active_at", "status"], name: "index_cards_on_last_active_at_and_status"
     t.index ["stage_id"], name: "index_cards_on_stage_id"
   end
@@ -197,6 +206,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
     t.index ["filter_id"], name: "index_collections_filters_on_filter_id"
   end
 
+  create_table "columns", force: :cascade do |t|
+    t.integer "collection_id", null: false
+    t.string "color", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_columns_on_collection_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
@@ -237,14 +255,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
   end
 
   create_table "entropy_configurations", force: :cascade do |t|
-    t.bigint "auto_close_period", default: 2592000, null: false
-    t.bigint "auto_reconsider_period", default: 2592000, null: false
+    t.bigint "auto_postpone_period", default: 2592000, null: false
     t.integer "container_id", null: false
     t.string "container_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["container_type", "container_id", "auto_close_period"], name: "idx_on_container_type_container_id_auto_close_perio_74dc880875"
-    t.index ["container_type", "container_id", "auto_reconsider_period"], name: "idx_on_container_type_container_id_auto_reconsider__583aaddbea"
+    t.index ["container_type", "container_id", "auto_postpone_period"], name: "idx_on_container_type_container_id_auto_postpone_pe_47f82c5b73"
     t.index ["container_type", "container_id"], name: "index_entropy_configurations_on_container", unique: true
   end
 
@@ -508,11 +524,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_17_064006) do
   add_foreign_key "ai_quotas", "users"
   add_foreign_key "card_activity_spikes", "cards"
   add_foreign_key "card_goldnesses", "cards"
+  add_foreign_key "card_not_nows", "cards"
+  add_foreign_key "cards", "columns"
   add_foreign_key "cards", "workflow_stages", column: "stage_id"
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"
   add_foreign_key "collection_publications", "collections"
   add_foreign_key "collections", "workflows"
+  add_foreign_key "columns", "collections"
   add_foreign_key "comments", "cards"
   add_foreign_key "conversation_messages", "conversations"
   add_foreign_key "conversations", "users"

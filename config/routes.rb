@@ -17,6 +17,14 @@ Rails.application.routes.draw do
       resource :involvement
       resource :publication
       resource :entropy_configuration
+
+      namespace :columns do
+        resource :not_now
+        resource :stream
+        resource :closed
+      end
+
+      resources :columns
     end
 
     resources :cards, only: %i[ create ]
@@ -28,18 +36,31 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :columns do
+    resources :cards do
+      scope module: "cards" do
+        namespace :drops do
+          resource :not_now
+          resource :stream
+          resource :closure
+          resource :column
+        end
+      end
+    end
+  end
+
   namespace :cards do
     resources :previews
-    resources :drops
   end
 
   resources :cards, only: %i[ index show edit update destroy ] do
     scope module: :cards do
-      resource :engagement
       resource :goldness
       resource :image
       resource :pin
       resource :closure
+      resource :not_now
+      resource :triage
       resource :publish
       resource :reading
       resource :recover

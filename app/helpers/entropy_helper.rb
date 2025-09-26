@@ -7,7 +7,7 @@ module EntropyHelper
     {
       daysBeforeReminder: card.entropy.days_before_reminder,
       closesAt: card.entropy.auto_clean_at.iso8601,
-      action: card_entropy_action(card)
+      action: "Postpones"
     }
   end
 
@@ -18,14 +18,6 @@ module EntropyHelper
         lastActivitySpikeAt: card.last_activity_spike_at.iso8601,
         action: "Stalled"
       }
-    end
-  end
-
-  def card_entropy_action(card)
-    if card.stagnated?
-      "Falls Back"
-    elsif card.considering?
-      "Closes"
     end
   end
 end

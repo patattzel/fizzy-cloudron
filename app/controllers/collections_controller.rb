@@ -7,6 +7,10 @@ class CollectionsController < ApplicationController
     @collection = Collection.new
   end
 
+  def show
+    set_page_and_extract_portion_from @collection.cards.awaiting_triage.reverse_chronologically
+  end
+
   def create
     @collection = Collection.create! collection_params.with_defaults(all_access: true)
     redirect_to cards_path(collection_ids: [ @collection ])
@@ -38,7 +42,7 @@ class CollectionsController < ApplicationController
     end
 
     def collection_params
-      params.expect(collection: [ :name, :all_access, :auto_close_period, :auto_reconsider_period, :public_description ])
+      params.expect(collection: [ :name, :all_access, :auto_postpone_period, :public_description ])
     end
 
     def grantees

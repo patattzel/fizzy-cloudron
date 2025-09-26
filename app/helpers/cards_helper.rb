@@ -35,8 +35,8 @@ module CardsHelper
     classes = [
       options.delete(:class),
       ("golden-effect" if card.golden?),
-      ("card--considering" if card.considering?),
-      ("card--doing" if card.doing?),
+      ("card--postponed" if card.postponed?),
+      ("card--active" if card.active?),
       ("card--drafted" if card.drafted?)
     ].compact.join(" ")
 
@@ -71,8 +71,8 @@ module CardsHelper
   end
 
   def cards_expander(title, count)
-    tag.header class: "cards__expander", data: { action: "click->collapsible-columns#toggle" }, style: "--card-count: #{[ count, 20 ].min}", aria: { role: "button" } do
-      concat(tag.span count > 99 ? "99+" : count, class: "cards__expander-count")
+    tag.header class: "cards__expander", data: { action: "click->collapsible-columns#toggle" }, style: "--card-count: #{[count, 20].min}", aria: { role: "button" } do
+      concat(tag.span count > 99 ? "99+" : count, class: "cards__expander-count", "data-drag-and-drop-counter": true)
       concat(tag.h2 title, class: "cards__expander-title")
       concat(tag.div class: "cards__expander-menu position-relative", data: { controller: "dialog", action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" } do
         concat(tag.button class: "btn btn--circle txt-x-small borderless", data: { action: "click->dialog#open:stop" } do
