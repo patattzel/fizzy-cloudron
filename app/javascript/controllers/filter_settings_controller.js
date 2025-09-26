@@ -29,7 +29,6 @@ export default class extends Controller {
   }
 
   resetIfNoFiltering(event) {
-    console.debug("CALLED", this.#hasFiltersSet);
     if (!this.#hasFiltersSet) {
       this.#showNoFilteringUrl()
       event.stopImmediatePropagation()
@@ -83,6 +82,6 @@ export default class extends Controller {
   }
 
   #showNoFilteringUrl() {
-    Turbo.visit(this.noFilteringUrlValue, { frame: "cards_container" })
+    Turbo.visit(this.noFilteringUrlValue, { frame: "cards_container", action: "advance" })
   }
 }
