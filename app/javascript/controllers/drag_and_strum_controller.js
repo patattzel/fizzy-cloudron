@@ -1,23 +1,50 @@
 import { Controller } from "@hotwired/stimulus"
 
-const MANDOLIN_NOTES = [
-  "/audio/mandolin/B3.mp3",
-  "/audio/mandolin/C3.mp3",
-  "/audio/mandolin/D4.mp3",
-  "/audio/mandolin/E3.mp3",
-  "/audio/mandolin/Fsharp4.mp3",
-  "/audio/mandolin/G3.mp3"
+const INSTRUMENTS = [
+  [
+    "/audio/mandolin/B3.mp3",
+    "/audio/mandolin/C3.mp3",
+    "/audio/mandolin/D4.mp3",
+    "/audio/mandolin/E3.mp3",
+    "/audio/mandolin/Fsharp4.mp3",
+    "/audio/mandolin/G3.mp3"
+  ],
+  [
+    "/audio/synth/B3.mp3",
+    "/audio/synth/C3.mp3",
+    "/audio/synth/D4.mp3",
+    "/audio/synth/E3.mp3",
+    "/audio/synth/Fsharp4.mp3",
+    "/audio/synth/G3.mp3"
+  ]
 ]
 
 export default class extends Controller {
   static targets = [ "container" ]
 
   connect() {
-    this.preloadedAudioFiles = MANDOLIN_NOTES.map(file => {
-      const audio = new Audio(file)
-      audio.load()
-      return audio
-    });
+    this.instrumentIndex = 0
+    this.preloadedAudioFiles = []
+
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+    // this.preloadedAudioFiles = INSTRUMENTS[0].map(file => {
+    //   const audio = new Audio(file)
+    //   audio.load()
+    //   return audio
+    // });
+  }
+
+  disconnect() {
+    document.removeEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  handleKeyDown(event) {
+    this.#setInstrumentIndex(event)
+
+    if (this.instrumentIndex < INSTRUMENTS.length) {
+      this.#preloadAudioFiles(this.instrumentIndex)
+      console.log(this.preloadedAudioFiles)
+    }
   }
 
   dragEnter(event) {
@@ -31,14 +58,35 @@ export default class extends Controller {
     }
   }
 
+  #setInstrumentIndex(event) {
+    const number = Number(event.code.replace("Digit", ""))
+    this.instrumentIndex = isNaN(number) ? 0 : number
+  }
+
+  #preloadAudioFiles(instrumentIndex) {
+    this.preloadedAudioFiles = []
+    const audioFiles = INSTRUMENTS[instrumentIndex];
+
+    if (audioFiles) {
+      this.preloadedAudioFiles = audioFiles.map(file => {
+        const audio = new Audio(file)
+        audio.load()
+        return audio
+      })
+    }
+  }
+
   #containerContaining(element) {
     return this.containerTargets.find(container => container.contains(element) || container === element)
   }
 
   #playSound() {
-    const randomIndex = Math.floor(Math.random() * this.preloadedAudioFiles.length)
-    const audio = this.preloadedAudioFiles[randomIndex]
-    const audioInstance = new Audio(audio.src)
-    audioInstance.play()
+    // At this stage, the preloaded audio files should be ready
+
+    // const randomIndex = Math.floor(Math.random() * this.preloadedAudioFiles.length)
+    // const audio = this.preloadedAudioFiles[randomIndex]
+    // const audioInstance = new Audio(audio.src)
+    //
+    // audioInstance.play()
   }
 }
