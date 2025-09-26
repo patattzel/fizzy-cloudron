@@ -26,10 +26,4 @@ module Card::Postponable
       end
     end
   end
-
-  def resume
-    if postponed?
-      not_now.destroy
-    end
-  end
 end

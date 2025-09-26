@@ -18,10 +18,19 @@ module Card::Triageable
 
   def triage_into(column)
     raise "The column must belong to the card collection" unless collection == column.collection
-    update! column: column
+
+    transaction do
+      reopen
+      activity_spike&.destroy
+      update! column: column
+    end
   end
 
   def send_back_to_triage
-    update!(column: nil)
+    transaction do
+      reopen
+      activity_spike&.destroy
+      update!(column: nil)
+    end
   end
 end

@@ -22,10 +22,6 @@ class Card::PostponableTest < ActiveSupport::TestCase
     assert_changes -> { card.reload.postponed? }, to: true do
       card.postpone
     end
-
-    assert_changes -> { card.reload.postponed? }, to: false do
-      card.resume
-    end
   end
 
   test "scopes" do
