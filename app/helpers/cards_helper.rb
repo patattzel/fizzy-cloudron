@@ -72,7 +72,7 @@ module CardsHelper
 
   def cards_expander(title, count)
     tag.header class: "cards__expander btn btn--plain", data: { action: "click->collapsible-columns#toggle" }, style: "--card-count: #{[count, 20].min}", aria: { role: "button" } do
-      concat(tag.span count > 99 ? "99+" : count, class: "cards__expander-count")
+      concat(tag.span count > 99 ? "99+" : count, class: "cards__expander-count", "data-drag-and-drop-counter": true)
       concat(tag.h2 title, class: "cards__expander-title")
     end
   end
