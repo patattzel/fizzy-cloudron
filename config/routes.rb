@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       scope module: "cards" do
         namespace :drops do
           resource :not_now
+          resource :stream
           resource :closure
           resources :columns
         end

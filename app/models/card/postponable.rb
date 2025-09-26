@@ -26,4 +26,14 @@ module Card::Postponable
       end
     end
   end
+
+  def resume
+    if postponed?
+      transaction do
+        reopen
+        activity_spike&.destroy
+        not_now.destroy
+      end
+    end
+  end
 end
