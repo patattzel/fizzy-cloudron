@@ -32,13 +32,14 @@
 <%= render "filters/settings", user_filtering: @user_filtering %>
 
 <%= tag.div data: {
-      controller: "drag-and-drop",
+      controller: "drag-and-drop drag-and-strum",
       drag_and_drop_dragged_item_class: "drag-and-drop__dragged-item",
       drag_and_drop_hover_container_class: "drag-and-drop__hover-container",
       drag_and_drop_url_value: cards_drops_path(**@filter.as_params),
       action: "
         dragstart->drag-and-drop#dragStart
         dragover->drag-and-drop#dragOver
+        dragenter->drag-and-strum#dragEnter
         drop->drag-and-drop#drop
         dragend->drag-and-drop#dragEnd" } do %>
 
