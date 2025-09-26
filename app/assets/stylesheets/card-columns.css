@@ -108,6 +108,11 @@
       }
     }
 
+    .bubble {
+      inset-inline-start: 100%;
+      translate: -60% -60%;
+    }
+
     @media (any-hover: hover) {
       .card:has(.card__background img:not([src=""])):hover .card__background img:not([src=""]) {
         filter: blur(3px) brightness(1.2);
