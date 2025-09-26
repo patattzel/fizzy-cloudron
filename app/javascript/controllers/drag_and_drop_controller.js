@@ -4,7 +4,6 @@ import { nextFrame } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "item", "container" ]
-  static values = { url: String }
   static classes = [ "draggedItem", "hoverContainer" ]
 
   // Actions
@@ -72,14 +71,9 @@ export default class extends Controller {
   async #submitDropRequest(item, container) {
     const body = new FormData()
     const id = item.dataset.id
-    const containerTarget = container.dataset.dropTarget
-    const stageId = container.dataset.stageId
+    const url = container.dataset.dragAndDropUrl.replaceAll("__id__", id)
+    console.debug("Es", container.dataset.dragAndDropUrl, container.dataset.dragAndDropUrl.replaceAll("__id__", id));
 
-    body.append("dropped_item_id", id)
-    body.append("drop_target", containerTarget)
-    if (stageId) {
-      body.append("stage_id", stageId)
-    }
-    return post(this.urlValue, { body, headers: { Accept: "text/vnd.turbo-stream.html" } })
+    return post(url, { body, headers: { Accept: "text/vnd.turbo-stream.html" } })
   }
 }
