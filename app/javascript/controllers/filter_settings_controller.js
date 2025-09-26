@@ -5,7 +5,7 @@ import { post } from "@rails/request.js"
 export default class extends Controller {
   static classes = ["filtersSet"]
   static targets = ["field", "form"]
-  static values = { refreshUrl: String }
+  static values = { refreshUrl: String, noFilteringUrl: String }
 
   initialize() {
     this.debouncedToggle = debounce(this.#toggle.bind(this), 50)
@@ -15,9 +15,25 @@ export default class extends Controller {
     this.#toggle()
   }
 
-  change() {
+  change(event) {
     this.#toggle()
     this.#refreshSaveToggleButton()
+  }
+
+  resetIfBlankAndNoFiltering(event) {
+    const { target } = event
+    if (!target.value.trim() && !this.#hasFiltersSet) {
+      this.#showNoFilteringUrl();
+      event.stopImmediatePropagation()
+    }
+  }
+
+  resetIfNoFiltering(event) {
+    console.debug("CALLED", this.#hasFiltersSet);
+    if (!this.#hasFiltersSet) {
+      this.#showNoFilteringUrl()
+      event.stopImmediatePropagation()
+    }
   }
 
   async fieldTargetConnected(field) {
@@ -64,5 +80,9 @@ export default class extends Controller {
     })
 
     return formData
+  }
+
+  #showNoFilteringUrl() {
+    Turbo.visit(this.noFilteringUrlValue, { frame: "cards_container" })
   }
 }

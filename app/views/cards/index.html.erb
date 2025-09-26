@@ -23,10 +23,10 @@
   </div>
 <% end %>
 
-<%= render "filters/settings", user_filtering: @user_filtering %>
+<%= render "filters/settings", user_filtering: @user_filtering, no_filtering_url: cards_path %>
 
 <section class="cards">
-  <%= turbo_frame_tag :card_columns do %>
+  <%= turbo_frame_tag :cards_container do %>
     <%= render partial: "cards/display/preview", collection: @page.records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
   <% end %>
 </section>
