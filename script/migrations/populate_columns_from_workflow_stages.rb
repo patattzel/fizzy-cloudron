@@ -41,7 +41,7 @@ ApplicationRecord.with_each_tenant do |tenant|
 
     # Associate cards with their corresponding columns based on stages
     collection.cards.includes(:stage).find_each do |card|
-      next if !card.doing? || card.stage.present?
+      next if !card.doing? || card.stage.blank?
 
       unless card.stage.workflow.collections.include?(collection)
         puts "Corrupt data: the card with id #{card.id} has the stage #{card.stage.name} with id #{card.stage.id} that belongs to a workflow not asociated ot its collection"
