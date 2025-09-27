@@ -4,4 +4,11 @@ class Column < ApplicationRecord
 
   validates :name, presence: true
   validates :color, presence: true
+
+  before_validation :set_default_color
+
+  private
+    def set_default_color
+      self.color ||= Card::DEFAULT_COLOR
+    end
 end

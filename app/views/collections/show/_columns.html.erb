@@ -1,20 +1,17 @@
-  <%= turbo_frame_tag :cards_container do %>
-    <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
+<%= turbo_frame_tag :cards_container do %>
+  <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
 
-      <div class="card-columns__left">
-        <%= render "collections/show/not_now", collection: collection %>
-      </div>
-
-      <%= render "collections/show/stream", collection: collection, page: page %>
-
-      <div class="card-columns__right">
-        <%= render partial: "collections/show/column", collection: collection.columns, cached: true %>
-        <%= render "collections/show/closed", collection: collection %>
-
-        <button class="btn btn--circle txt-x-small borderless">
-          <%= icon_tag "menu-dots-horizontal" %>
-          <span class="for-screen-reader">Add a new column, etc.</span>
-        </button>
-      </div>
+    <div class="card-columns__left">
+      <%= render "collections/show/not_now", collection: collection %>
     </div>
-  <% end %>
+
+    <%= render "collections/show/stream", collection: collection, page: page %>
+
+    <div class="card-columns__right">
+      <%= render partial: "collections/show/column", collection: collection.columns, cached: true %>
+      <%= render "collections/show/closed", collection: collection %>
+
+      <%= render  "collections/show/columns_menu", collection: collection %>
+    </div>
+  </div>
+<% end %>
