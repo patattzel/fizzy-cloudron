@@ -6,5 +6,4 @@ class Public::Collections::CardPreviewsControllerTest < ActionDispatch::Integrat
 
     collections(:writebook).publish
   end
-
 end

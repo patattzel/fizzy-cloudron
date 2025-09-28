@@ -1,7 +1,7 @@
 class Collections::ColumnsController < ApplicationController
   include ActionView::RecordIdentifier, CollectionScoped
 
-  before_action :set_column, only: [:show, :update, :destroy]
+  before_action :set_column, only: [ :show, :update, :destroy ]
 
   def show
     set_page_and_extract_portion_from @column.cards.active.reverse_chronologically
