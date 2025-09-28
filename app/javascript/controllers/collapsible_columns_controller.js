@@ -6,8 +6,6 @@ export default class extends Controller {
 
   toggle({ target }) {
     const clickedColumn = target.closest('[data-collapsible-columns-target="column"]')
-
-    if (!clickedColumn) return
     this.#expandOnly(clickedColumn);
   }
 
