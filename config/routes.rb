@@ -64,7 +64,6 @@ Rails.application.routes.draw do
       resource :publish
       resource :reading
       resource :recover
-      resource :staging
       resource :watch
       resource :collection, only: :update
 
@@ -113,10 +112,6 @@ Rails.application.routes.draw do
   resources :events, only: :index
   namespace :events do
     resources :days
-  end
-
-  resources :workflows do
-    resources :stages, module: :workflows
   end
 
   resources :uploads, only: :create

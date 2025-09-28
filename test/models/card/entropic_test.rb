@@ -28,7 +28,7 @@ class Card::EntropicTest < ActiveSupport::TestCase
     cards(:logo).update!(last_active_at: 1.day.ago - entropy_configurations("37s_account").auto_postpone_period)
     cards(:shipping).update!(last_active_at: 1.day.from_now - entropy_configurations("37s_account").auto_postpone_period)
 
-    assert_difference -> { Card.not_now.count }, +1 do
+    assert_difference -> { Card.postponed.count }, +1 do
       Card.auto_postpone_all_due
     end
 
@@ -40,7 +40,7 @@ class Card::EntropicTest < ActiveSupport::TestCase
     cards(:logo).update!(last_active_at: 1.day.ago - entropy_configurations(:writebook_collection).auto_postpone_period)
     cards(:shipping).update!(last_active_at: 1.day.from_now - entropy_configurations(:writebook_collection).auto_postpone_period)
 
-    assert_difference -> { Card.not_now.count }, +1 do
+    assert_difference -> { Card.postponed.count }, +1 do
       Card.auto_postpone_all_due
     end
 

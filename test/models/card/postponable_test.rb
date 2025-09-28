@@ -30,8 +30,8 @@ class Card::PostponableTest < ActiveSupport::TestCase
 
     logo.postpone
 
-    assert_includes Card.not_now, logo
-    assert_not_includes Card.not_now, text
+    assert_includes Card.postponed, logo
+    assert_not_includes Card.postponed, text
 
     assert_includes Card.active, text
     assert_not_includes Card.active, logo
