@@ -5,8 +5,8 @@ export default class extends Controller {
   static targets = [ "column", "button" ]
 
   toggle({ target }) {
-    const clickedColumn = target.closest('[data-collapsible-columns-target="column"]')
-    this.#expandOnly(clickedColumn);
+    const column = target.closest('[data-collapsible-columns-target="column"]')
+    this.#toggleColumn(column);
   }
 
   preventToggle(event) {
@@ -15,9 +15,14 @@ export default class extends Controller {
     }
   }
 
-  #expandOnly(clickedColumn) {
-    this.#collapseAllExcept(clickedColumn);
-    this.#expand(clickedColumn)
+  #toggleColumn(column) {
+    this.#collapseAllExcept(column)
+
+    if (this.#isCollapsed(column)) {
+      this.#expand(column)
+    } else {
+      this.#collapse(column)
+    }
   }
 
   #collapseAllExcept(clickedColumn) {
@@ -26,6 +31,10 @@ export default class extends Controller {
         this.#collapse(column)
       }
     })
+  }
+
+  #isCollapsed(column) {
+    return column.classList.contains(this.collapsedClass)
   }
 
   #collapse(column) {
