@@ -7,7 +7,7 @@
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
   data-drag-and-drop-url="<%= columns_card_drops_column_path("__id__", column_id: column.id) %>"
 >
-  <%= render "collections/show/expander", title: column.name, count: column.cards.active.count do %>
+  <%= render "collections/show/expander", title: column.name, count: column.cards.active.count, column_id: dom_id(column) do %>
     <%= render "collections/show/menu/column", column: column %>
   <% end %>
 
