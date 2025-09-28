@@ -7,7 +7,7 @@ class Workflow < ApplicationRecord
   has_many :stages, dependent: :destroy
   has_many :collections, dependent: :nullify
 
-  after_create_commit :create_default_stages
+  after_create_commit :create_default_columns
 
   private
     def create_default_stages

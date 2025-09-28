@@ -13,7 +13,7 @@ class CollectionsController < ApplicationController
 
   def create
     @collection = Collection.create! collection_params.with_defaults(all_access: true)
-    redirect_to cards_path(collection_ids: [ @collection ])
+    redirect_to collection_path(@collection)
   end
 
   def edit
