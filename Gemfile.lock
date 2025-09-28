@@ -6,13 +6,6 @@ GIT
     file_repository (1.4.6)
 
 GIT
-  remote: https://github.com/basecamp/lexxy
-  revision: c6f4e38e225c81721ea97153c368349ac4c4825a
-  specs:
-    lexxy (0.1.8.beta)
-      rails (>= 8.0.2)
-
-GIT
   remote: https://github.com/basecamp/portfolio
   revision: 86411a53d19a42ce44705a50ebe7c22828597991
   ref: 86411a53d19a42ce44705a50ebe7c22828597991
@@ -366,6 +359,8 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
+    lexxy (0.1.8.beta)
+      rails (>= 8.0.2)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.1)
@@ -683,7 +678,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener
-  lexxy!
+  lexxy
   mission_control-jobs
   mocha
   mysql2!
