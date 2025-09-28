@@ -1,5 +1,6 @@
 <section id="<%= defined?(stage) && stage ? "doing-cards-#{stage.id}" : "doing-cards" %>"
-    class="cards cards--doing is-collapsed" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
+    class="cards cards--doing" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
+    aria-expanded="false"
     data-collapsible-columns-target="column"
     data-drag-and-drop-target="container"
     data-drop-target="doing"

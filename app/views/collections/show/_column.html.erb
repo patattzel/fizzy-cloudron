@@ -1,5 +1,6 @@
 <section id="<%= dom_id(column) %>"
-  class="cards cards--doing is-collapsed" style="--card-color: <%= column.color %>;"
+  class="cards cards--doing" style="--card-color: <%= column.color %>;"
+  aria-expanded="false"
   data-drag-and-drop-target="container"
   data-drag-and-strum-target="container"
   data-collapsible-columns-target="column"
