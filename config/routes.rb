@@ -168,6 +168,14 @@ Rails.application.routes.draw do
     resources :collections do
       scope module: :collections do
         resources :card_previews
+
+        namespace :columns do
+          resource :not_now, only: :show
+          resource :stream, only: :show
+          resource :closed, only: :show
+        end
+
+        resources :columns, only: :show
       end
 
       resources :cards, only: :show

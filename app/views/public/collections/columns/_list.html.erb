@@ -1,0 +1,1 @@
+<%= render partial: "cards/display/public_preview", collection: cards, as: :card, cached: ->(card) { card.cache_invalidation_parts.for_preview } %>

@@ -1,4 +1,4 @@
-class Public::CollectionsController < ApplicationController
+class Public::Collections::Columns::StreamsController < ApplicationController
   include PublicCollectionScoped
 
   allow_unauthenticated_access only: :show

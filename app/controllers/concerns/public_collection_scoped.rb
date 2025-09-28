@@ -7,6 +7,6 @@ module PublicCollectionScoped
 
   private
     def set_collection
-      @collection = Collection.find_by_published_key(params[:id] || params[:collection_id])
+      @collection = Collection.find_by_published_key(params[:collection_id] || params[:id])
     end
 end
