@@ -23,7 +23,7 @@
     max-inline-size: var(--main-width);
     position: relative;
 
-    &:has(.card-columns__left .cards[aria-expanded="true"], .card-columns__right .cards[aria-expanded="true"]) {
+    &:has(.card-columns__left .cards:not(.is-collapsed), .card-columns__right .cards:not(.is-collapsed)) {
       grid-template-columns: auto auto auto;
     }
 
@@ -73,7 +73,7 @@
       z-index: 3;
     }
 
-    &[aria-expanded="false"] {
+    &.is-collapsed {
       border-radius: 99rem;
       flex: 0 0 var(--column-width-collapsed);
       inline-size: var(--column-width-collapsed);
@@ -85,7 +85,7 @@
       }
     }
 
-    &[aria-expanded="true"] {
+    &:not(.is-collapsed) {
       padding-inline: calc(var(--column-gap) * 2);
     }
   }
@@ -137,7 +137,7 @@
       }
     }
 
-    .cards[aria-expanded="false"] & {
+    .cards.is-collapsed & {
       block-size: 100%;
       flex-direction: column;
       inline-size: var(--column-width-collapsed);
@@ -171,7 +171,7 @@
       }
     }
 
-    .cards[aria-expanded="true"] & {
+    .cards:not(.is-collapsed) & {
       display: grid;
       grid-template-columns: auto 1fr auto;
       inline-size: 100%;
@@ -188,7 +188,7 @@
     line-height: var(--column-width-collapsed);
     inline-size: var(--column-width-collapsed);
 
-    .cards[aria-expanded="true"] & {
+    .cards:not(.is-collapsed) & {
       opacity: 0;
     }
   }
@@ -199,7 +199,7 @@
     grid-column: 2;
     line-height: var(--column-width-collapsed);
 
-    .cards[aria-expanded="false"] & {
+    .cards.is-collapsed & {
       writing-mode: vertical-rl;
     }
   }
@@ -216,7 +216,7 @@
       --panel-padding: 1ch;
     }
 
-    .cards[aria-expanded="false"] & {
+    .cards.is-collapsed & {
       display: none;
     }
   }
@@ -534,7 +534,7 @@
   /* -------------------------------------------------------------------------- */
 
   /* Surface a mini bubble if there are cards with bubbles inside */
-  .cards--doing[aria-expanded="false"]:has(.bubble:not([hidden])) {
+  .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
     --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
     --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
 
