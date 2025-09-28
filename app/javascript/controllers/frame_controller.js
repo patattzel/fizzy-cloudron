@@ -10,7 +10,7 @@ export default class extends Controller {
 
   morphReload(event) {
     const newElement = event.detail.newElement
-    if (newElement && newElement.tagName === "TURBO-FRAME") {
+    if (newElement && newElement.tagName === "TURBO-FRAME" && newElement.matches('[data-controller~="frame"]')) {
       event.preventDefault()
       this.element.reload()
     }
