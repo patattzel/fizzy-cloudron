@@ -1,7 +1,7 @@
 class Card < ApplicationRecord
-  include Assignable, Attachments, Cacheable, Closeable, Colored, Engageable, Entropic, Eventable,
-    Golden, Mentions, Multistep, Pinnable, Promptable, Readable, Searchable,
-    Staged, Stallable, Statuses, Taggable, Watchable
+  include Assignable, Attachments, Cacheable, Closeable, Colored, Entropic, Eventable,
+    Golden, Mentions, Multistep, Pinnable, Postponable, Promptable, Readable, Searchable,
+    Staged, Stallable, Statuses, Taggable, Triageable, Watchable
 
   belongs_to :collection, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
@@ -21,7 +21,7 @@ class Card < ApplicationRecord
   scope :indexed_by, ->(index) do
     case index
     when "stalled" then stalled
-    when "closing_soon" then closing_soon
+    when "postponing_soon" then postponing_soon
     when "falling_back_soon" then falling_back_soon
     when "closed" then closed.recently_closed_first
     when "golden" then golden

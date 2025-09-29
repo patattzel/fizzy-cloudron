@@ -47,7 +47,7 @@
       <% else %>
         <ul class="margin-none unpad-block">
           <% @webhook.subscribed_actions.each do |action| %>
-            <li><%= action.humanize %></li>
+            <li><%= webhook_action_label(action) %></li>
           <% end %>
         </ul>
       <% end %>

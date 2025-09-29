@@ -12,7 +12,9 @@ create_collection("Fizzy", access_to: [ jason, jz, kevin ]).tap do |fizzy|
 
   create_card("Prepare sign-up page", description: "We need to do this before the launch.", collection: fizzy).tap do |card|
     card.toggle_assignment(kevin)
-    card.engage
+    if stage = card.workflow&.stages&.sample
+      card.change_stage_to(stage)
+    end
   end
 
   create_card("Plain text mentions", description: "We'll support plain text mentions first.", collection: fizzy).tap do |card|

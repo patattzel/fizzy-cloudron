@@ -1,13 +1,15 @@
 @layer components {
   .filters {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    justify-content: center;
     position: relative;
     view-transition-name: "filters";
-    z-index: var(--z-popup);
   }
 
   #header:has(.filters) {
     position: relative;
-    z-index: var(--z-popup);
   }
 
   .filters {
@@ -104,7 +106,9 @@
   .filter__terms {
     --input-background: var(--color-canvas);
 
-    min-inline-size: 30ch;
+    .filters:not(.filters--expanded) & {
+      min-inline-size: 40ch;
+    }
   }
 
   .quick-filter {

@@ -1,13 +1,9 @@
-<section id="closed-cards" class="cards cards--closed pad-block">
-  <% if page.used? %>
-    <%= render partial: "cards/display/public_preview", collection: page.records, as: :card, cached: true %>
+<section id="closed-cards" class="cards cards--on-deck is-collapsed" style="--card-color: var(--color-card-complete);"
+  data-collapsible-columns-target="column"
+  data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
+>
 
-    <% unless page.last? %>
-      <div class="full-width">
-        <%= public_collection_cards_next_page_link collection, "closed-cards", fetch_on_visible: true, page: page %>
-      </div>
-    <% end %>
-  <% else %>
-    <p class="txt-medium translucent">Nothing here</p>
-  <% end %>
+  <%= render "collections/show/expander", title: "Done", count: collection.cards.closed.count, column_id: "closed-cards" %>
+
+  <%= column_frame_tag :closed_column, src: public_collection_columns_closed_path(collection.publication.key) %>
 </section>

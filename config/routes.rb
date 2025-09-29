@@ -13,10 +13,17 @@ Rails.application.routes.draw do
   resources :collections do
     scope module: :collections do
       resource :subscriptions
-      resource :workflow, only: :update
       resource :involvement
       resource :publication
       resource :entropy_configuration
+
+      namespace :columns do
+        resource :not_now
+        resource :stream
+        resource :closed
+      end
+
+      resources :columns
     end
 
     resources :cards, only: %i[ create ]
@@ -28,22 +35,34 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :columns do
+    resources :cards do
+      scope module: "cards" do
+        namespace :drops do
+          resource :not_now
+          resource :stream
+          resource :closure
+          resource :column
+        end
+      end
+    end
+  end
+
   namespace :cards do
     resources :previews
-    resources :drops
   end
 
   resources :cards, only: %i[ index show edit update destroy ] do
     scope module: :cards do
-      resource :engagement
       resource :goldness
       resource :image
       resource :pin
       resource :closure
+      resource :not_now
+      resource :triage
       resource :publish
       resource :reading
       resource :recover
-      resource :staging
       resource :watch
       resource :collection, only: :update
 
@@ -92,10 +111,6 @@ Rails.application.routes.draw do
   resources :events, only: :index
   namespace :events do
     resources :days
-  end
-
-  resources :workflows do
-    resources :stages, module: :workflows
   end
 
   resources :uploads, only: :create
@@ -147,6 +162,14 @@ Rails.application.routes.draw do
     resources :collections do
       scope module: :collections do
         resources :card_previews
+
+        namespace :columns do
+          resource :not_now, only: :show
+          resource :stream, only: :show
+          resource :closed, only: :show
+        end
+
+        resources :columns, only: :show
       end
 
       resources :cards, only: :show

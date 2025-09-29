@@ -17,7 +17,7 @@
       "notch-bottom notch-bottom notch-bottom";
     grid-template-columns: 48px minmax(0, 1120px) 48px;
     inline-size: fit-content;
-    margin-block-start: 2rem;
+    margin-block-start: var(--block-space);
     max-inline-size: 100%;
     margin-inline: auto;
     position: relative;
@@ -88,6 +88,20 @@
 
       + .panel {
         --panel-size: 18ch;
+      }
+    }
+
+    .bubble {
+      --bubble-number-max: 42px;
+      --bubble-size: 6rem;
+
+      inset: calc(var(--bubble-size) / -4) calc(var(--bubble-size) / 1.5) auto auto;
+      translate: 0 0;
+
+      @media (max-width: 800px) {
+        --bubble-size: 4.5rem;
+
+        inset: calc(var(--bubble-size) / 1.5) 0 auto auto;
       }
     }
 

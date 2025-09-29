@@ -12,6 +12,6 @@ class Collections::EntropyConfigurationsController < ApplicationController
 
   private
     def entropy_configuration_params
-      params.expect(collection: [ :auto_close_period, :auto_reconsider_period ])
+      params.expect(collection: [ :auto_postpone_period ])
     end
 end

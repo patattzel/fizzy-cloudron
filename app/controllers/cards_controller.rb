@@ -11,8 +11,7 @@ class CardsController < ApplicationController
   PAGE_SIZE = 25
 
   def index
-    @columns = Cards::Columns.new(user_filtering: @user_filtering, page_size: PAGE_SIZE)
-
+    set_page_and_extract_portion_from @filter.cards
     fresh_when etag: @columns
   end
 

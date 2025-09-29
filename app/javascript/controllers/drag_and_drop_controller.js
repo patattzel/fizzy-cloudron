@@ -4,7 +4,6 @@ import { nextFrame } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "item", "container" ]
-  static values = { url: String }
   static classes = [ "draggedItem", "hoverContainer" ]
 
   // Actions
@@ -38,8 +37,10 @@ export default class extends Controller {
     if (!container || container === this.sourceContainer) { return }
 
     this.wasDropped = true
-
+    this.#decreaseCounter(this.sourceContainer)
+    const sourceContainer = this.sourceContainer
     await this.#submitDropRequest(this.dragItem, container)
+    this.#reloadSourceFrame(sourceContainer);
   }
 
   dragEnd() {
@@ -67,15 +68,30 @@ export default class extends Controller {
     this.containerTargets.forEach(container => container.classList.remove(this.hoverContainerClass))
   }
 
-  // Private
-
   async #submitDropRequest(item, container) {
     const body = new FormData()
     const id = item.dataset.id
-    const containerTarget = container.dataset.dropTarget
+    const url = container.dataset.dragAndDropUrl.replaceAll("__id__", id)
 
-    body.append("dropped_item_id", id)
-    body.append("drop_target", containerTarget)
-    return post(this.urlValue, { body, headers: { Accept: "text/vnd.turbo-stream.html" } })
+    return post(url, { body, headers: { Accept: "text/vnd.turbo-stream.html" } })
+  }
+
+  #reloadSourceFrame(sourceContainer) {
+    const frame = sourceContainer.querySelector("[data-drag-and-drop-refresh]")
+    if (frame) frame.reload()
+  }
+
+  #decreaseCounter(sourceContainer) {
+    const counterElement = sourceContainer.querySelector("[data-drag-and-drop-counter]")
+    if (counterElement) {
+      const currentValue = counterElement.textContent.trim()
+
+      if (!/^\d+$/.test(currentValue)) return
+
+      const count = parseInt(currentValue)
+      if (count > 0) {
+        counterElement.textContent = count - 1
+      }
+    }
   }
 }

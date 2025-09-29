@@ -25,6 +25,10 @@ export default class extends Controller {
     this.submit()
   }
 
+  reset() {
+    this.element.reset()
+  }
+
   cancel() {
     this.cancelTarget?.click()
   }
