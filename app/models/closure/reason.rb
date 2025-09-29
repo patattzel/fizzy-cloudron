@@ -3,7 +3,8 @@ class Closure::Reason < ApplicationRecord
     "Completed",
     "Duplicate",
     "Maybe later",
-    "Working as intended"
+    "Working as intended",
+    "Not now"
   ]
 
   FALLBACK_LABEL = "Done"

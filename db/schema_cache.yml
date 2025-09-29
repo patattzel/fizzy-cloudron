@@ -433,8 +433,23 @@ columns:
   - *5
   - *6
   - *9
+  card_not_nows:
+  - *23
+  - *5
+  - *6
+  - *9
   cards:
   - *24
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: column_id
+    cast_type: *3
+    sql_type_metadata: *4
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   - *5
   - &25 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -610,6 +625,22 @@ columns:
   collections_filters:
   - *24
   - *20
+  columns:
+  - *24
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: color
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - *5
+  - *6
+  - *10
+  - *9
   comments:
   - *23
   - *5
@@ -741,17 +772,7 @@ columns:
   entropy_configurations:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
-    name: auto_close_period
-    cast_type: *11
-    sql_type_metadata: *12
-    'null': false
-    default: 2592000
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: auto_reconsider_period
+    name: auto_postpone_period
     cast_type: *11
     sql_type_metadata: *12
     'null': false
@@ -1488,6 +1509,7 @@ primary_keys:
   card_activity_spikes: id
   card_engagements: id
   card_goldnesses: id
+  card_not_nows: id
   cards: id
   closers_filters:
   closure_reasons: id
@@ -1495,6 +1517,7 @@ primary_keys:
   collection_publications: id
   collections: id
   collections_filters:
+  columns: id
   comments: id
   conversation_messages: id
   conversations: id
@@ -1542,6 +1565,7 @@ data_sources:
   card_activity_spikes: true
   card_engagements: true
   card_goldnesses: true
+  card_not_nows: true
   cards: true
   closers_filters: true
   closure_reasons: true
@@ -1549,6 +1573,7 @@ data_sources:
   collection_publications: true
   collections: true
   collections_filters: true
+  columns: true
   comments: true
   conversation_messages: true
   conversations: true
@@ -1972,6 +1997,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  card_not_nows:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: card_not_nows
+    name: index_card_not_nows_on_card_id
+    unique: true
+    columns:
+    - card_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   cards:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: cards
@@ -1979,6 +2021,22 @@ indexes:
     unique: false
     columns:
     - collection_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: cards
+    name: index_cards_on_column_id
+    unique: false
+    columns:
+    - column_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -2205,6 +2263,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  columns:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: columns
+    name: index_columns_on_collection_id
+    unique: false
+    columns:
+    - collection_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   comments:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: comments
@@ -2292,30 +2367,12 @@ indexes:
   entropy_configurations:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: entropy_configurations
-    name: idx_on_container_type_container_id_auto_close_perio_74dc880875
+    name: idx_on_container_type_container_id_auto_postpone_pe_47f82c5b73
     unique: false
     columns:
     - container_type
     - container_id
-    - auto_close_period
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: entropy_configurations
-    name: idx_on_container_type_container_id_auto_reconsider__583aaddbea
-    unique: false
-    columns:
-    - container_type
-    - container_id
-    - auto_reconsider_period
+    - auto_postpone_period
     lengths: {}
     orders: {}
     opclasses: {}
@@ -3191,4 +3248,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250917064006
+version: 20250924124737

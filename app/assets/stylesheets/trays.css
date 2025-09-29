@@ -6,7 +6,6 @@
     --tray-duration: 350ms;
     --tray-margin: 0.5rem;
     --tray-radius: 0.25rem;
-    --tray-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
 
     align-items: end;
     block-size: var(--footer-height);
@@ -14,7 +13,7 @@
     inset-block: auto env(safe-area-inset-bottom);
     inline-size: var(--tray-size);
     position: fixed;
-    transition: inset var(--tray-duration) var(--tray-timing-function);
+    transition: inset var(--tray-duration) var(--ease-out-overshoot-subtle);
     z-index: var(--z-tray);
 
     /* Make the dialog, expander, and actions inhabit the same space */
@@ -43,7 +42,7 @@
     inline-size: auto;
     inset: auto 0 0 0;
     position: absolute;
-    transition: var(--tray-duration) var(--tray-timing-function);
+    transition: var(--tray-duration) var(--ease-out-overshoot-subtle);
     transition-property: background-color, box-shadow, inset-block-end;
 
     &[open] {
@@ -159,7 +158,7 @@
     .tray__dialog & {
       font-size: 10px;
       margin-block-end: var(--tray-item-margin);
-      transition: var(--tray-duration) var(--tray-timing-function);
+      transition: var(--tray-duration) var(--ease-out-overshoot-subtle);
       transition-delay: var(--tray-item-delay);
       transition-property: margin, opacity, scale;
 

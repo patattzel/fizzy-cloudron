@@ -10,13 +10,18 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show" do
+    get collection_path(collections(:writebook))
+    assert_response :success
+  end
+
   test "create" do
     assert_difference -> { Collection.count }, +1 do
       post collections_path, params: { collection: { name: "Remodel Punch List" } }
     end
 
     collection = Collection.last
-    assert_redirected_to cards_path(collection_ids: [ collection ])
+    assert_redirected_to collection_path(collection)
     assert_includes collection.users, users(:kevin)
     assert_equal "Remodel Punch List", collection.name
   end
@@ -31,8 +36,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
       collection: {
         name: "Writebook bugs",
         all_access: false,
-        auto_close_period: 1.day,
-        auto_reconsider_period: 2.days
+        auto_postpone_period: 1.day
       },
       user_ids: users(:kevin, :jz).pluck(:id)
     }
@@ -40,8 +44,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to edit_collection_path(collections(:writebook))
     assert_equal "Writebook bugs", collections(:writebook).reload.name
     assert_equal users(:kevin, :jz).sort, collections(:writebook).users.sort
-    assert_equal 1.day, entropy_configurations(:writebook_collection).auto_close_period
-    assert_equal 2.days, entropy_configurations(:writebook_collection).auto_reconsider_period
+    assert_equal 1.day, entropy_configurations(:writebook_collection).auto_postpone_period
     assert_not collections(:writebook).all_access?
   end
 

@@ -1,16 +1,4 @@
-<div id="<%= dom_id(card, :tags) %>" class="card__tags gap-half">
-  <div class="min-width overflow-ellipsis">
-    <% if card.tags.any? || card.creating? %>
-      <span class="margin-inline-start-half"># </span>
-      <% card.tags.each_with_index do |tag, index| %>
-        <%= link_to cards_path(collection_ids: [ card.collection ], tag_ids: [ tag.id ]),
-              class: "card__tag btn btn--plain min-width txt-uppercase fill-transparent" do %>
-          <span class="overflow-ellipsis"><%= tag.title %></span>
-        <% end %><%= ", " unless index == card.tags.size - 1 %>
-      <% end %>
-    <% end %>
-  </div>
-
+<div id="<%= dom_id(card, :tags) %>" class="card__tags">
   <div class="position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" <%= "hidden" if card.closed? %>>
     <button class="tag-picker__button btn card__hide-on-index tooltip" data-action="click->dialog#open:stop" style="--btn-background: var(--card-bg-color);">
       <%= icon_tag "tag" %>
@@ -21,4 +9,15 @@
       <%= turbo_frame_tag card, :tagging, src: new_card_tagging_path(card) %>
     </dialog>
   </div>
+
+  <% if card.tags.any? || card.creating? %>
+    <div class="min-width overflow-ellipsis">
+      <% card.tags.each_with_index do |tag, index| %>
+        <%= link_to cards_path(collection_ids: [ card.collection ], tag_ids: [ tag.id ]),
+              class: "card__tag btn btn--plain min-width txt-uppercase fill-transparent" do %>
+          <%= tag.title %>
+        <% end %><%= "," unless index == card.tags.size - 1 %>
+      <% end %>
+    </div>
+  <% end %>
 </div>

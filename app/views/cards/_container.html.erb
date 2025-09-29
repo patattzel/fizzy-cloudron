@@ -1,7 +1,6 @@
 <% cache card.cache_invalidation_parts.for_perma do %>
   <section id="<%= dom_id(card, :card_container) %>"
     class="card-perma" style="--card-color: <%= card.color %>;">
-    <%= render "cards/container/engagement", card: card %>
     <%= render "cards/container/status", card: card %>
 
     <aside class="card-perma__actions card-perma__actions--left" role="toolbar">
@@ -21,7 +20,7 @@
             <%= render "cards/container/title", card: card %>
             <%= render "cards/display/perma/steps", card: card %>
           </div>
-          <%= render "cards/stagings/stages", card: card if card.doing? %>
+          <%= render "cards/triage/columns", card: card if card.open? %>
         </div>
 
         <footer class="card__footer full-width flex align-start gap">

@@ -1,0 +1,47 @@
+module PaginationHelper
+  def pagination_frame_tag(namespace, page, data: {}, **attributes, &)
+    turbo_frame_tag pagination_frame_id_for(namespace, page.number), data: { timeline_target: "frame", **data }, role: "presentation", **attributes, &
+  end
+
+  def link_to_next_page(namespace, page, activate_when_observed: false, label: "Load more...", data: {}, **attributes)
+    if page.before_last? && !params[:previous]
+      pagination_link(namespace, page.number + 1, label: label, activate_when_observed: activate_when_observed, data: data, class: "margin-block btn txt-small", **attributes)
+    end
+  end
+
+  def pagination_link(namespace, page_number, label: spinner_tag, activate_when_observed: false, url_params: {}, data: {}, **attributes)
+    link_to label, url_for(page: page_number, **url_params),
+      "aria-label": "Load page #{page_number}",
+      class: class_names(attributes.delete(:class), "pagination-link", { "pagination-link--active-when-observed" => activate_when_observed }),
+      data: {
+        frame: pagination_frame_id_for(namespace, page_number),
+        pagination_target: "paginationLink",
+        action: ("click->pagination#loadPage:prevent" unless activate_when_observed),
+        **data
+      },
+      **attributes
+  end
+
+  def pagination_frame_id_for(namespace, page_number)
+    "#{namespace}-pagination-contents-#{page_number}"
+  end
+
+  def with_manual_pagination(name, page, **properties)
+    pagination_list name, **properties do
+      concat(pagination_frame_tag(name, page) do
+        yield
+        concat link_to_next_page(name, page)
+      end)
+    end
+  end
+
+  private
+    def pagination_list(name, tag_element: :div, paginate_on_scroll: false, **properties, &block)
+      classes = properties.delete(:class)
+      tag.public_send tag_element,
+        class: token_list(name, "display-contents", classes),
+        role: "list",
+        data: { controller: "pagination", pagination_paginate_on_intersection_value: paginate_on_scroll },
+        &block
+    end
+end

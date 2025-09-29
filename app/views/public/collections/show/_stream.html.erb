@@ -1,0 +1,12 @@
+<section id="the-stream" class="cards cards--considering"
+  data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle">
+  <div class="cards__decoration"></div>
+
+  <% if page.used? %>
+    <%= with_manual_pagination "the-stream", @page do %>
+      <%= render "public/collections/columns/list", cards: page.records %>
+    <% end %>
+  <% end %>
+
+  <div class="cards__decoration cards__decoration--end"></div>
+</section>

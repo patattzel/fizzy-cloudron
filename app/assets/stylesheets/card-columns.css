@@ -1,83 +1,313 @@
 @layer components {
-  /* Columns
+  /* Column container
   /* ------------------------------------------------------------------------ */
 
-  /* Card contents are resized via container queries. We're using #main here as
-     the primary container so all cards have the same container reference */
-  #main:has(.card-columns) {
-    --cards-gap: min(1.5cqi, 1.5rem);
-    --gradient-border: linear-gradient(to right,var(--color-canvas), var(--color-ink) 3%, var(--color-ink) 97%, var(--color-canvas));
-    --reserved-bubble-space: 0;
-    --bubble-gap: 0.5rem;
-    --bubble-size: 3.5rem;
-
-    container-type: inline-size;
-    max-inline-size: var(--main-width);
-
-    @media (max-width: 639px) {
-      --bubble-gap: -0.5rem;
-      --bubble-size: 3rem;
-    }
-  }
-
   .card-columns {
-    margin: auto;
-    max-inline-size: 100%;
-    padding-inline: var(--reserved-bubble-space);
+    --bubble-size: 3.5rem;
+    --cards-gap: min(1.7cqi, 1.7rem);
+    --column-gap: 8px;
+    --column-width-collapsed: 40px;
+    --column-width-expanded: 450px;
+    --column-transition: 350ms var(--ease-out-expo);
+    --progress-increment: var(--progress-max-height) / var(--progress-max-cards);
+    --progress-max-cards: 20;
+    --progress-max-height: 50dvh;
+
+    align-items: stretch;
+    container-type: inline-size;
+    display: grid;
+    gap: var(--column-gap);
+    grid-template-columns: 1fr var(--column-width-expanded) 1fr;
+    justify-content: center;
+    margin: var(--cards-gap) auto 0;
+    max-inline-size: var(--main-width);
     position: relative;
-    transition: 300ms ease-in-out;
+
+    &:has(.card-columns__left .cards:not(.is-collapsed), .card-columns__right .cards:not(.is-collapsed)) {
+      grid-template-columns: auto auto auto;
+    }
 
     &:has(.cards) {
       min-block-size: 20lh;
     }
 
-    &:before {
-      background: var(--gradient-border);
-      block-size: 1px;
-      content: "";
-      inset: 0 -0.6em 100% -0.6em;
-      opacity: 0.15;
-      position: absolute;
-      z-index: 1;
-    }
-
-    @media (min-width: 640px) {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 639px) {
+      --bubble-size: 3rem;
     }
   }
 
-  /* Cards
+  .card-columns__left,
+  .card-columns__right {
+    align-items: stretch;
+    display: flex;
+    gap: var(--column-gap);
+  }
+
+  .card-columns__left {
+    justify-content: end;
+  }
+
+  .card-columns__right {
+    justify-content: start;
+  }
+
+  /* Column
   /* ------------------------------------------------------------------------ */
 
   .cards {
+    --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
+
     align-items: stretch;
     display: flex;
     flex-direction: column;
     gap: var(--cards-gap);
     justify-content: start;
-    min-inline-size: 0;
-    padding: 0 var(--cards-gap) var(--cards-gap);
+    max-inline-size: var(--column-width-expanded);
+    min-inline-size: var(--column-width-expanded);
     position: relative;
+    scroll-snap-align: start;
+    transition: var(--column-transition);
 
     /* Make sure filter dialogs don't end up behind sticky headers */
     &:has([open]) {
       z-index: 3;
     }
 
-    @media (max-width: 639px) {
-      padding-block-end: calc(var(--cards-gap) * 2);
-      padding-inline-start: var(--cards-gap);
+    &.is-collapsed {
+      border-radius: 99rem;
+      flex: 0 0 var(--column-width-collapsed);
+      inline-size: var(--column-width-collapsed);
+      min-inline-size: 0;
+
+      .blank-slate,
+      .pagination-link,
+      .card {
+        display: none;
+      }
+    }
+
+    &:not(.is-collapsed) {
+      padding-inline: calc(var(--column-gap) * 2);
+    }
+
+    .bubble {
+      inset-inline-start: 100%;
+      translate: -60% -60%;
+    }
+
+    @media (any-hover: hover) {
+      .card:has(.card__background img:not([src=""])):hover .card__background img:not([src=""]) {
+        filter: blur(3px) brightness(1.2);
+        opacity: 0.2;
+      }
+    }
+
+    .card__steps {
+      display: flex;
+    }
+  }
+
+  /* Used when filtering */
+  .cards--grid {
+    --cards-gap: 1rem;
+    --card-grid-columns: 1;
+
+    container-type: inline-size;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-inline: auto;
+    max-inline-size: var(--main-width);
+
+    @media (min-width: 640px) {
+      --card-grid-columns: 2;
+    }
+
+    @media (min-width: 960px) {
+      --card-grid-columns: 3;
     }
 
     .card {
+      inline-size: calc((100% - var(--cards-gap) * (var(--card-grid-columns) - 1) ) / var(--card-grid-columns));
+    }
+  }
+
+  /* Column Elements
+  /* ------------------------------------------------------------------------ */
+
+  .cards__expander {
+    align-items: center;
+    border-radius: 99rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: var(--text-x-small);
+    font-weight: 600;
+    gap: 0.5ch;
+    position: relative;
+    text-transform: uppercase;
+    transition: 100ms ease-out;
+
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
+
+    .cards.is-collapsed & {
+      block-size: 100%;
+      flex-direction: column;
+      inline-size: var(--column-width-collapsed);
+      justify-content: start;
+      letter-spacing: 0.05em;
+
+      /* Guitar string */
+      &:before {
+        background-color: var(--column-color);
+        block-size: 100%;
+        content: "";
+        inline-size: 1px;
+        inset: 0 auto;
+        position: absolute;
+        z-index: -2;
+      }
+
+      /* Progress */
+      &:after {
+        background: var(--column-color);
+        block-size: calc(var(--column-width-collapsed) + var(--card-count) * var(--progress-increment));
+        border-radius: 99rem;
+        content: "";
+        inline-size: 100%;
+        inset: 0 0 auto;
+        max-block-size: var(--progress-max-height);
+        min-block-size: var(--column-width-collapsed);
+        position: absolute;
+        transition: block-size 500ms var(--ease-out-overshoot);
+        z-index: -1;
+      }
+    }
+
+    .cards:not(.is-collapsed) & {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      inline-size: 100%;
+      margin-block-end: calc(-0.5 * var(--cards-gap));
+
+      &:hover,
+      &:has(~ .cards__expander-menu:hover) {
+        background-color: var(--column-color);
+        filter: none;
+      }
+    }
+  }
+
+  .cards__expander-count {
+    line-height: var(--column-width-collapsed);
+    inline-size: var(--column-width-collapsed);
+
+    .cards:not(.is-collapsed) & {
+      opacity: 0;
+    }
+  }
+
+  .cards__expander-title {
+    font-weight: inherit;
+    font-size: inherit;
+    grid-column: 2;
+    line-height: var(--column-width-collapsed);
+
+    .cards.is-collapsed & {
+      writing-mode: vertical-rl;
+    }
+  }
+
+  .cards__expander-menu {
+    inset: 0 0 auto auto;
+    position: absolute;
+    translate: calc(var(--column-gap) * -2);
+    z-index: var(--z-popup);
+
+    .btn--circle {
+      --btn-background: transparent;
+
+      block-size: var(--column-width-collapsed);
+      inline-size: var(--column-width-collapsed);
+    }
+
+    .panel {
+      --panel-padding: 1ch;
+    }
+
+    .cards.is-collapsed & {
+      display: none;
+    }
+  }
+
+  .blank-slate--card {
+    box-shadow: none !important;
+    border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
+    font-weight: 600;
+    rotate: 2deg;
+  }
+
+  /* TODO: I think this is legacy now? */
+  .cards__heading {
+    display: flex;
+    font-size: var(--text-medium);
+    inset-block-start: 0;
+    justify-content: center;
+    margin-block-start: 1px;
+    margin-inline: -8px; /* enough to cover card shadows, but avoid overlapping bubbles */
+    padding-block: var(--cards-gap) 0;
+    position: sticky;
+    z-index: 3;
+
+    /* Cover bubbles and cards on small viewports */
+    @media (max-width: 639px) {
+      &:not(.cards--closed &) {
+        margin-inline: calc(-1 * var(--cards-gap) - var(--main-padding));
+      }
+    }
+
+    &, .cards__filter {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .cards__filter {
+      --filter-block-padding: 0.5rem;
+
+      background-color: var(--color-canvas);
+      border-radius: 99rem;
+      inline-size: auto;
+      margin-block: calc(-1 * var(--filter-block-padding));
+      padding-block: var(--filter-block-padding);
+    }
+
+    dialog {
+      font-weight: normal;
+      text-transform: none;
+    }
+  }
+
+  /* Override card styles within columns
+  /* ------------------------------------------------------------------------ */
+
+  .cards {
+    .card {
       --block-space: 1em;
       --block-space-half: 0.5em;
+      --card-padding-inline: 1em;
       --text-xx-large: 1.6em;
       --text-x-small: 1em;
 
       /* Set lower limit for font size */
       font-size: clamp(0.6rem, 0.85cqi, 100px);
+    }
+
+    .card__tags {
+      gap: calc(var(--card-header-space) / 2);
     }
 
     .card__title {
@@ -89,8 +319,22 @@
       z-index: 1;
     }
 
+    .card__stages,
     .card__hide-on-index {
       display: none;
+    }
+
+    .card__body {
+      padding-block: calc(var(--card-padding-block) * 0.75) var(--card-padding-block);
+    }
+
+    .card__meta {
+      font-weight: 600;
+
+      strong,
+      .local-time-value {
+        font-weight: inherit;
+      }
     }
 
     .card:has(.card__background img:not([src=""])) {
@@ -125,61 +369,6 @@
     }
   }
 
-  .cards--related:not(:hover):not(.drag-and-drop__hover-container) {
-    .card {
-      box-shadow: 0 0 1px var(--color-ink-medium);
-      opacity: 0.9;
-      transition: box-shadow 450ms ease-in-out, opacity 150ms ease-in-out;
-
-      @media (prefers-color-scheme: dark) {
-        opacity: 0.8;
-        transition: opacity 150ms ease-in-out;
-      }
-    }
-  }
-
-  /* Column elements
-  /* ------------------------------------------------------------------------ */
-
-  .cards__heading {
-    display: flex;
-    font-size: var(--text-medium);
-    inset-block-start: 0;
-    justify-content: center;
-    margin-block-start: 1px;
-    margin-inline: -8px; /* enough to cover card shadows, but avoid overlapping bubbles */
-    padding-block: var(--cards-gap) 0;
-    position: sticky;
-    z-index: 3;
-
-    /* Cover bubbles and cards on small viewports */
-    @media (max-width: 639px) {
-      &:not(.cards--closed &) {
-        margin-inline: calc(-1 * var(--cards-gap) - var(--reserved-bubble-space) - var(--main-padding));
-      }
-    }
-
-    &, .cards__filter {
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .cards__filter {
-      --filter-block-padding: 0.5rem;
-
-      background-color: var(--color-canvas);
-      border-radius: 99rem;
-      inline-size: auto;
-      margin-block: calc(-1 * var(--filter-block-padding));
-      padding-block: var(--filter-block-padding);
-    }
-
-    dialog {
-      font-weight: normal;
-      text-transform: none;
-    }
-  }
-
   /* Considering
   /* ------------------------------------------------------------------------ */
 
@@ -192,7 +381,6 @@
       color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 33%,
       color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 66%,
       transparent 100%);
-    padding-block-start: 2em;
 
     @supports(mask: radial-gradient(black)) {
       &:before {
@@ -203,8 +391,7 @@
           color-mix(in oklch, var(--color-considering) 0%, transparent) 100%);
         content: "";
         inset: 0;
-        mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
-              radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+        mask: var(--wavy-background-mask);
         position: absolute;
         z-index: 0;
       }
@@ -274,52 +461,35 @@
       &:nth-child(4n) { rotate: 0.5deg; }
     }
 
-    .card--new {
-      --border-color: var(--color-selected-dark);
-      --border-size: 1px;
-      --card-padding-block: var(--block-space);
+    .card__collection {
+      background-color: transparent;
+      color: var(--card-text-color);
+    }
 
-      border: 1px solid var(--color-selected-dark);
-      text-align: center;
+    /* The following groups the header and title on considering cards */
+    .card__header {
+      color: var(--color-ink);
+      padding-block-start: calc(var(--card-padding-block) / 2);
+    }
 
-      .btn {
-        &.btn--link {
-          font-size: 1.2em;
-          margin-block-start: 0.1em;
-        }
-
-        &:not(.btn--link) {
-          border: 0;
-          color: var(--color-link);
-        }
-      }
-
-      footer {
-        font-size: var(--text-x-small);
-        margin-block-end: calc(var(--block-space-half) * -1);
-      }
-
-      .overflow-count {
-        font-size: 1.2em;
-        font-weight: 500;
-        padding: 0.5em 0.3em;
-      }
+    .card__collection,
+    .card__tags {
+      color: inherit;
     }
 
     .card__body {
-      padding-block-start: 0;
-      padding-inline: 0;
+      padding-block: 0 var(--card-padding-block);
     }
+    /* End */
 
+    /* The Uncomment the following to add borders and such */
+    /*
     .card__collection {
-      background-color: transparent;
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      border-block-end: var(--card-border);
+      border-inline-end: var(--card-border);
     }
-
-    .card__collection-name {
-      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-    }
+    */
+    /* End */
 
     .card--drafted {
       --card-color: var(--color-ink-medium) !important;
@@ -329,11 +499,6 @@
       box-shadow: none !important;
     }
 
-    .card__header {
-      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
-      margin-inline: calc(-0.5 * var(--card-padding-inline)) calc(-0.25 * var(--card-padding-inline));
-    }
-
     .card__people-label {
       display: none;
     }
@@ -341,38 +506,74 @@
     .card__title {
       min-block-size: 0;
     }
+  }
 
-    .card__tags {
-      font-size: var(--text-small);
+
+  .card.card--new {
+    --border-color: var(--color-selected-dark);
+    --border-size: 1px;
+    --card-padding-block: var(--block-space);
+
+    border: 1px solid var(--color-selected-dark);
+    text-align: center;
+
+    .btn--link {
+      font-size: 1.2em;
+    }
+
+    .btn:not(.btn--link, .btn--circle) {
+      border: 0;
+      color: var(--color-link);
+    }
+
+    footer {
+      font-size: var(--text-x-small);
+      margin-block-end: calc(var(--block-space-half) * -1);
+    }
+
+    .overflow-count {
+      font-size: 1.2em;
+      font-weight: 500;
+      padding: 0.5em 0.3em;
     }
   }
 
-  /* On Deck
+  /* On Deck (Not Now)
   /* ------------------------------------------------------------------------ */
 
   .cards--on-deck {
-    @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
+    --column-color: var(--color-ink-lighter);
+
+    .card {
+      --card-color: var(--color-card-complete) !important;
+    }
+
+    .bubble {
+      display: none !important;
     }
   }
 
   /* Doing
-  /* ------------------------------------------------------------------------ */
+  /* -------------------------------------------------------------------------- */
 
-  .cards--doing {
-    @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    }
+  /* Surface a mini bubble if there are cards with bubbles inside */
+  .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
+    --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
+    --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
 
-    @media (max-width: 639px) {
-      &::before {
-        background: var(--gradient-border);
-        block-size: 1px;
-        content: "";
-        inset: 0 0 auto;
-        opacity: 0.15;
-        position: absolute;
-      }
+    &:before {
+      background: radial-gradient(
+        color-mix(in srgb, var(--bubble-color) 8%, var(--color-canvas)) 50%,
+        color-mix(in srgb, var(--bubble-color) 48%, var(--color-canvas)) 100%
+      );
+      block-size: 1em;
+      border-radius: var(--bubble-shape);
+      content: "";
+      inline-size: 1em;
+      inset: 0 0 auto auto;
+      position: absolute;
+      translate: 25% -25%;
+      z-index: 1;
     }
   }
 
@@ -380,83 +581,6 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--closed {
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    inline-size: 100%;
-    margin: 0 auto;
-    position: relative;
-
-    &:before {
-      background: var(--gradient-border);
-      block-size: 1px;
-      content: "";
-      inset: 0 -0.6em 100% -0.6em;
-      opacity: 0.15;
-      position: absolute;
-    }
-
-    @media (max-width: 639px) {
-      flex-direction: column;
-      padding-inline: var(--reserved-bubble-space);
-    }
-
-    .cards__heading {
-      min-inline-size: 100%;
-
-      @media (max-width: 639px) {
-        margin-inline-end: calc(-1 * var(--cards-gap));
-      }
-    }
-
-    .card {
-      @media (min-width: 640px) {
-        inline-size: calc((100% - var(--cards-gap)) / 2);
-      }
-
-      @media (min-width: 960px) {
-        inline-size: calc((100% - var(--cards-gap) * 2) / 3);
-      }
-
-      &:nth-of-type(7) {
-        margin-block-start: var(--cards-gap);
-      }
-
-      &:nth-of-type(n+7) {
-        background-color: var(--color-canvas);
-        border: none;
-        border-block-end: 1px solid var(--color-ink-lighter);
-        box-shadow: none;
-        inline-size: 100%;
-        margin-inline: auto;
-        max-inline-size: 110ch;
-        padding: 0 0 var(--cards-gap);
-
-        .card__meta,
-        .card__closed-by-line,
-        .card__closed-date {
-          display: none;
-        }
-
-        .card__body {
-          padding-block-end: 0;
-        }
-
-        .card__closed {
-          border-width: 0.5ch;
-          font-size: 0.75em;
-          inset: auto 0 var(--cards-gap) auto;
-          rotate: 0deg;
-        }
-
-        .card__header {
-          margin: 0;
-        }
-
-        .card__title {
-          min-block-size: 0;
-        }
-      }
-    }
+    --column-color: var(--color-ink-lighter);
   }
 }

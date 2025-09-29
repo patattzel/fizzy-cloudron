@@ -1,7 +1,7 @@
 module Filter::Fields
   extend ActiveSupport::Concern
 
-  INDEXES = %w[ all stalled closing_soon falling_back_soon golden draft ]
+  INDEXES = %w[ all stalled postponing_soon falling_back_soon golden draft ]
   SORTED_BY = %w[ newest oldest latest ]
 
   delegate :default_value?, to: :class
@@ -18,7 +18,7 @@ module Filter::Fields
 
   included do
     store_accessor :fields, :assignment_status, :indexed_by, :sorted_by, :terms,
-      :engagement_status, :card_ids, :creation, :closure
+      :card_ids, :creation, :closure
 
     def assignment_status
       super.to_s.inquiry
@@ -30,10 +30,6 @@ module Filter::Fields
 
     def sorted_by
       (super || default_sorted_by).inquiry
-    end
-
-    def engagement_status
-      super&.inquiry
     end
 
     def creation_window

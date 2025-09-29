@@ -5,11 +5,7 @@ class Card::Entropy
     def for(card)
       return unless card.last_active_at
 
-      if card.considering?
-        new(card, card.auto_close_period)
-      elsif card.stagnated?
-        new(card, card.auto_reconsider_period)
-      end
+      new(card, card.auto_postpone_period)
     end
   end
 

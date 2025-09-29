@@ -26,18 +26,15 @@ class Card::StallableTest < ActiveSupport::TestCase
     assert_includes Card.stalled, cards(:logo)
   end
 
-  test "a card with an old activity spike is not stalled after falling back to considering" do
+  test "a card with an old activity spike is not stalled after being postponed" do
     card = cards(:logo)
-    card.engage
-    card.update!(last_active_at: 1.day.ago - card.collection.entropy_configuration.auto_reconsider_period)
+    card.update!(last_active_at: 1.day.ago - card.collection.entropy_configuration.auto_postpone_period)
     card.create_activity_spike!(updated_at: 3.months.ago)
 
     assert card.stalled?
     assert_includes Card.stalled, card
 
-    assert_difference -> { Card.considering.count }, +1 do
-      Card.auto_reconsider_all_stagnated
-    end
+    Card.auto_postpone_all_due
 
     assert_not card.reload.stalled?
   end

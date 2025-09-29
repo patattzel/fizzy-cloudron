@@ -1,0 +1,6 @@
+<div id="<%= dom_id(card, :stages) %>" class="card__stages">
+  <% card.collection.columns.each do |column| %>
+    <%= tag.div column.name,
+          class: ["workflow-stage overflow-ellipsis flex align-center gap-half btn non-clickable no-hover", { "workflow-stage--current": column == card.column }] %>
+  <% end %>
+</div>

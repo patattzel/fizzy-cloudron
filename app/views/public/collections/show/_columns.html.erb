@@ -1,0 +1,15 @@
+<%= turbo_frame_tag :cards_container do %>
+  <div class="card-columns" data-controller="collapsible-columns" data-collapsible-columns-collapsed-class="is-collapsed">
+
+    <div class="card-columns__left">
+      <%= render "public/collections/show/not_now", collection: collection %>
+    </div>
+
+    <%= render "public/collections/show/stream", collection: collection, page: page %>
+
+    <div class="card-columns__right">
+      <%= render partial: "public/collections/show/column", collection: collection.columns, cached: true %>
+      <%= render "public/collections/show/closed", collection: collection %>
+    </div>
+  </div>
+<% end %>

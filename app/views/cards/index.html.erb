@@ -12,14 +12,8 @@
 <% content_for :header do %>
   <%= render "filters/menu", user_filtering: @user_filtering %>
 
-  <div class="header__actions header__actions--start">
-    <% if collection = @filter.single_collection %>
-      <%= render "cards/webhooks", collection: collection if Current.user.admin? %>
-    <% end %>
-  </div>
-
-  <h1 class="header__title overflow-ellipsis" style="view-transistion-name: card-collection-title">
-    <%= @user_filtering.selected_collections_label %>
+  <h1 class="header__title divider divider--fade full-width">
+    <span class="overflow-ellipsis"><%= @user_filtering.selected_collections_label %></span>
   </h1>
 
   <div class="header__actions header__actions--end">
@@ -29,18 +23,10 @@
   </div>
 <% end %>
 
-<%= render "filters/settings", user_filtering: @user_filtering %>
+<%= render "filters/settings", user_filtering: @user_filtering, no_filtering_url: cards_path %>
 
-<%= tag.div data: {
-      controller: "drag-and-drop",
-      drag_and_drop_dragged_item_class: "drag-and-drop__dragged-item",
-      drag_and_drop_hover_container_class: "drag-and-drop__hover-container",
-      drag_and_drop_url_value: cards_drops_path(**@filter.as_params),
-      action: "
-        dragstart->drag-and-drop#dragStart
-        dragover->drag-and-drop#dragOver
-        drop->drag-and-drop#drop
-        dragend->drag-and-drop#dragEnd" } do %>
-
-  <%= render "cards/index/columns", columns: @columns %>
-<% end %>
+<section class="cards cards--grid">
+  <%= turbo_frame_tag :cards_container do %>
+    <%= render partial: "cards/display/preview", collection: @page.records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
+  <% end %>
+</section>
