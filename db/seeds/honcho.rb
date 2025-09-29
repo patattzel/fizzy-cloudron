@@ -75,7 +75,9 @@ collections.each_with_index do |collection_name, index|
         travel rand(0..20).minutes
         case rand(3)
         when 0
-          card.engage
+          if stage = card.workflow&.stages&.sample
+            card.change_stage_to(stage)
+          end
         when 1
           card.close
           # 2 remains open
