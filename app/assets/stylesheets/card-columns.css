@@ -194,7 +194,8 @@
       inline-size: 100%;
       margin-block-end: calc(-0.5 * var(--cards-gap));
 
-      &:hover {
+      &:hover,
+      &:has(~ .cards__expander-menu:hover) {
         background-color: var(--column-color);
         filter: none;
       }
@@ -222,6 +223,11 @@
   }
 
   .cards__expander-menu {
+    inset: 0 0 auto auto;
+    position: absolute;
+    translate: calc(var(--column-gap) * -2);
+    z-index: var(--z-popup);
+
     .btn--circle {
       --btn-background: transparent;
 
