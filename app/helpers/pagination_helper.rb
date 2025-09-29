@@ -39,7 +39,7 @@ module PaginationHelper
     def pagination_list(name, tag_element: :div, paginate_on_scroll: false, **properties, &block)
       classes = properties.delete(:class)
       tag.public_send tag_element,
-        class: token_list(name, "unpad", classes),
+        class: token_list(name, classes),
         role: "list",
         data: { controller: "pagination", pagination_paginate_on_intersection_value: paginate_on_scroll },
         &block
