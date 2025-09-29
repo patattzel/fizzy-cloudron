@@ -89,6 +89,22 @@
     &:not(.is-collapsed) {
       padding-inline: calc(var(--column-gap) * 2);
     }
+
+    .bubble {
+      inset-inline-start: 100%;
+      translate: -60% -60%;
+    }
+
+    @media (any-hover: hover) {
+      .card:has(.card__background img:not([src=""])):hover .card__background img:not([src=""]) {
+        filter: blur(3px) brightness(1.2);
+        opacity: 0.2;
+      }
+    }
+
+    .card__steps {
+      display: flex;
+    }
   }
 
   /* Used when filtering */
