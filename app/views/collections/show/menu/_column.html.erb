@@ -9,7 +9,7 @@
         <button class="popup__btn btn" data-action="click->clicker#click">Rename column</button>
         <dialog class="popup panel flex-column gap fill-white shadow txt-small margin-block-double" data-dialog-target="dialog">
           <%= form_with model: [column.collection, column], data: { action: "turbo:submit-end->dialog#close" } do |form| %>
-            <%= form.text_field :name, class: "input", placeholder: "Column name", value: column.name, required: true %>
+            <%= form.text_field :name, class: "input", placeholder: "Column name", value: column.name, required: true, autocomplete: "off" %>
             <%= form.submit "Rename column", class: "btn btn--link" %>
           <% end %>
         </dialog>
