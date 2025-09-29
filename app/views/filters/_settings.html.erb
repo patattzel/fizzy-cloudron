@@ -18,6 +18,8 @@
         <%= filter_hidden_field_tag "collection_ids[]", collection.id %>
       <% end %>
 
+      <%= yield form if block_given? %>
+
       <div class="flex-inline center align-center gap-half" data-controller="toggle-enable">
         <%= render "filters/settings/terms", filter: user_filtering.filter, form: form %>
         <%= render "filters/settings/controls", user_filtering: user_filtering, form: form %>
