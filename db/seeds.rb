@@ -40,45 +40,16 @@ def create_tenant(signal_account_name, bare: false)
 end
 
 def find_or_create_user(full_name, email_address)
-  if Rails.application.config.x.local_authentication
-    if user = User.find_by(email_address: email_address)
-      user.password = "secret123456"
-      user.save!
-      user
-    else
-      User.create!(
-        name: full_name,
-        email_address: email_address,
-        password: "secret123456"
-      )
-    end
+  if user = User.find_by(email_address: email_address)
+    user.password = "secret123456"
+    user.save!
+    user
   else
-    SignalId::Database.on_master do
-      unless signal_identity = SignalId::Identity.find_by_email_address(email_address)
-        signal_identity = SignalId::Identity.create!(
-          name: full_name,
-          email_address: email_address,
-          username: email_address,
-          password: "secret123456"
-        )
-      end
-
-      signal_account = Account.sole.external_account
-      signal_user = SignalId::User.find_or_create_by!(identity: signal_identity, account: signal_account)
-
-      if user = User.find_by(external_user_id: signal_user.id)
-        user.password = "secret123456"
-        user.save!
-        user
-      else
-        User.create!(
-          external_user_id: signal_user.id,
-          name: signal_identity.name,
-          email_address: signal_identity.email_address,
-          password: "secret123456"
-        )
-      end
-    end
+    User.create!(
+      name: full_name,
+      email_address: email_address,
+      password: "secret123456"
+    )
   end
 end
 
