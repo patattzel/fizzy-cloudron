@@ -22,7 +22,7 @@ pp signal_identity
 confirm "identity"
 
 ApplicationRecord.with_tenant(tenant) do
-  signal_account = Account.sole.signal_account
+  signal_account = Account.sole.external_account
   pp signal_account
   confirm "account"
 
@@ -30,10 +30,10 @@ ApplicationRecord.with_tenant(tenant) do
     signal_user = SignalId::User.create!(identity: signal_identity, account: signal_account)
 
     user = User.create!(
-      name:           signal_user.name,
-      email_address:  signal_user.email_address,
-      signal_user_id: signal_user.id,
-      password:       SecureRandom.hex(36) # TODO: remove password column?
+      name:             signal_user.name,
+      email_address:    signal_user.email_address,
+      external_user_id: signal_user.id,
+      password:         SecureRandom.hex(36) # TODO: remove password column?
     )
 
     puts "Created: "
