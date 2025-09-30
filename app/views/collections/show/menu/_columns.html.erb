@@ -3,9 +3,6 @@
     <%= icon_tag "add", class: "translucent", "aria-hidden": true %>
   </button>
   <dialog class="popup panel flex-column gap-half fill-white shadow txt-small margin-block-double" data-dialog-target="dialog">
-    <%= form_with model: [ collection, Column.new ], data: { controller: "form", action: "turbo:submit-end->dialog#close turbo:submit-end->form#reset" } do |form| %>
-      <%= form.text_field :name, class: "input", placeholder: "Column name", required: true, autocomplete: "off" %>
-      <%= form.submit "Add a column", class: "btn btn--link" %>
-    <% end %>
+    <%= render "collections/show/menu/column_form", collection: collection, column: Column.new %>
   </dialog>
 </div>

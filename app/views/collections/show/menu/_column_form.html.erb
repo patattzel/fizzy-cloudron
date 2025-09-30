@@ -1,0 +1,5 @@
+<%= form_with model: [collection, column], data: { action: "turbo:submit-end->dialog#close" } do |form| %>
+  <%= form.text_field :name, class: "input", placeholder: "Column name", value: column.name,
+        required: true, autocomplete: "off", pattern: ".*\\S.*", title: "Column name cannot be blank" %>
+  <%= form.submit "Rename column", class: "btn btn--link" %>
+<% end %>
