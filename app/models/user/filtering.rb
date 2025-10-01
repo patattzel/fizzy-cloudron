@@ -67,6 +67,10 @@ class User::Filtering
     filter.closers.any?
   end
 
+  def show_collections?
+    filter.collections.any?
+  end
+
   def enable_collection_filtering(&block)
     @collection_filtering_route_resolver = block
   end
