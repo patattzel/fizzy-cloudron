@@ -4,7 +4,7 @@
 
   .card-columns {
     --bubble-size: 3.5rem;
-    --cards-gap: min(1.7cqi, 1.7rem);
+    --cards-gap: min(1.2cqi, 1.7rem);
     --column-gap: 8px;
     --column-width-collapsed: 40px;
     --column-width-expanded: 450px;
@@ -73,7 +73,7 @@
       z-index: 3;
     }
 
-    &:not(.cards--considering) {
+    &:not(.cards--considering, .is-collapsed) {
       overflow: clip;
     }
 
@@ -470,7 +470,7 @@
 
     .card__collection {
       background-color: transparent;
-      color: var(--card-text-color);
+      color: var(--card-content-color);
     }
 
     .card__header {
@@ -478,7 +478,6 @@
       padding-block-start: calc(var(--card-padding-block) / 2);
     }
 
-    .card__collection,
     .card__tags {
       color: inherit;
     }

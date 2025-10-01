@@ -5,7 +5,7 @@
 
     display: grid;
     gap: calc(var(--settings-spacer) * 2);
-    margin: var(--block-space) auto 0;
+    margin: 0 auto;
     max-inline-size: min(100ch, 100%);
 
     @media (min-width: 960px) {
@@ -24,7 +24,7 @@
     min-inline-size: 0;
 
     @media (min-width: 960px) {
-      --panel-padding: calc(var(--settings-spacer) * 2);
+      --panel-padding: calc(var(--settings-spacer) * 1.5) calc(var(--settings-spacer) * 2);
     }
   }
 
@@ -52,6 +52,7 @@
   .settings__user-filter--bg {
     background-color: var(--color-ink-lightest);
     border-radius: 0.5em;
+    margin-block: 0;
     padding: var(--settings-spacer);
   }
 
