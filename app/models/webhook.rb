@@ -50,7 +50,7 @@ class Webhook < ApplicationRecord
   end
 
   def renderer
-    @renderer ||= ApplicationController.renderer.new
+    @renderer ||= ApplicationController.renderer.new(script_name: "/#{tenant}", https: !Rails.env.local?)
   end
 
   def for_basecamp?
