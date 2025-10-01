@@ -3,6 +3,6 @@
     <%= icon_tag "add", class: "translucent", "aria-hidden": true %>
   </button>
   <dialog class="popup panel flex-column gap-half fill-white shadow txt-small margin-block-double" data-dialog-target="dialog">
-    <%= render "collections/show/menu/column_form", collection: collection, column: Column.new %>
+    <%= render "collections/show/menu/column_form", collection: collection, column: Column.new, label: "Add column" %>
   </dialog>
 </div>
