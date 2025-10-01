@@ -216,8 +216,10 @@
     font-size: var(--text-small);
     font-weight: bold;
     inline-size: auto;
+    padding-inline: 0.5ch;
     place-content: center;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .attachment--preview {
@@ -279,6 +281,7 @@
   }
 
   .attachment--css,
+  .attachment--crash,
   .attachment--php,
   .attachment--json,
   .attachment--htm,
