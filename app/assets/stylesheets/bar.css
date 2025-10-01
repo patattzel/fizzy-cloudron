@@ -50,19 +50,18 @@
   }
 
   .bar__placeholder {
-    font-weight: 500;
-    opacity: 0.66;
-
     .btn--plain {
       color: inherit;
       font-size: var(--text-x-small);
       font-weight: 600;
+      opacity: 0.66;
       padding-inline: 1ch;
       text-transform: uppercase;
       white-space: nowrap;
 
       &:hover {
         color: oklch(var(--lch-blue-dark));
+        opacity: 1;
       }
     }
   }
