@@ -6,6 +6,7 @@
     --tray-duration: 350ms;
     --tray-margin: 0.5rem;
     --tray-radius: 0.25rem;
+    --tray-item-height: 76px; /* FIXME: Magic number */
 
     align-items: end;
     block-size: var(--footer-height);
@@ -132,11 +133,9 @@
 
   .tray__toggle-btn {
     --btn-background: transparent;
-    --btn-border-color: var(--color-ink);
+    --btn-border-size: 0;
     --btn-color: var(--color-ink);
 
-    border-style: dashed;
-    border-radius: 1ch;
     inline-size: 100%;
     opacity: 0.66;
   }
@@ -146,7 +145,6 @@
 
   .tray__item {
     --tray-item-delay: calc((var(--tray-item-index) - 1) * 20ms);
-    --tray-item-height: 76px; /* FIXME: Magic number */
     --tray-item-index: 1;
     --tray-item-margin: calc(-1 * var(--tray-item-height) + var(--tray-item-offset));
     --tray-item-offset: var(--block-space-half); /* The amount they overlap */
