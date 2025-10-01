@@ -178,7 +178,7 @@
   }
 
   .attachment__caption {
-    color: var(--color-ink-dark);
+    color: color-mix(in oklch, var(--color-ink) 66%, transparent);
     font-size: var(--text-small);
 
     .input {
