@@ -177,7 +177,7 @@
 
       /* Progress */
       &:after {
-        background: var(--card-color);
+        background: linear-gradient(to bottom, var(--card-color), var(--column-color) 80%);
         block-size: calc(var(--column-width-collapsed) + var(--card-count) * var(--progress-increment));
         border-radius: 99rem;
         content: "";
