@@ -39,8 +39,7 @@ accessories:
 
   load-balancer:
     image: basecamp/kamal-proxy:lb
-    roles:
-      - web
+    host: fizzy-staging-lb-01
     options:
       publish:
         - 80:80
