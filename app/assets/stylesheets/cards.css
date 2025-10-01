@@ -5,6 +5,7 @@
   .card {
     --avatar-size: 2.75em;
     --card-bg-color: color-mix(in srgb, var(--card-color) 4%, var(--color-canvas));
+    --card-content-color: color-mix(in srgb, var(--card-color) 30%, var(--color-ink));
     --card-text-color: color-mix(in srgb, var(--card-color) 75%, var(--color-ink));
     --card-border: 1px solid color-mix(in srgb, var(--card-color) 33%, var(--color-ink-inverted));
     --card-header-space: 1ch;
@@ -135,7 +136,7 @@
   }
 
   .card__content {
-    color: var(--color-ink);
+    color: var(--card-content-color);
     contain: inline-size;
     flex: 2 1 auto;
     max-inline-size: 100%;
@@ -143,9 +144,10 @@
 
   .card__title {
     --input-border-radius: 0;
+    --input-color: var(--card-content-color);
     --lines: 3;
 
-    color: var(--color-ink);
+    color: var(--card-content-color);
     font-size: var(--text-xx-large);
     font-weight: 900;
     line-height: 1.3;
