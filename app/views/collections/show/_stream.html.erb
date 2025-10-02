@@ -5,6 +5,10 @@
     data-drag-and-drop-url="<%= columns_card_drops_stream_path("__id__") %>">
     <div class="cards__decoration"></div>
 
+    <header class="cards__expander">
+      <h2 class="cards__expander-title">The Stream</h2>
+      <%= render "collections/show/menu/expand", column_path: collection_columns_stream_path(collection) %>
+    </header>
     <%= render "columns/show/add_card_button", collection: collection %>
 
     <% if page.used? %>
