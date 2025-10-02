@@ -27,6 +27,8 @@
 
 <%= turbo_frame_tag :cards_container do %>
   <section class="cards cards--grid">
-    <%= render partial: "cards/display/preview", collection: @page.records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
+    <%= with_automatic_pagination :cards_paginated_container, @page do %>
+      <%= render partial: "cards/display/preview", collection: @page.records, as: :card, locals: { draggable: true }, cached: ->(card) { cacheable_preview_parts_for(card) } %>
+    <% end %>
   </section>
 <% end %>

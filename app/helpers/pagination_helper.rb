@@ -35,6 +35,15 @@ module PaginationHelper
     end
   end
 
+  def with_automatic_pagination(name, page, **properties)
+    pagination_list name, paginate_on_scroll: true, **properties do
+      concat(pagination_frame_tag(name, page) do
+        yield
+        concat link_to_next_page(name, page, activate_when_observed: true)
+      end)
+    end
+  end
+
   def day_timeline_pagination_frame_tag(day_timeline, &)
     turbo_frame_tag day_timeline_pagination_frame_id_for(day_timeline.day), data: { timeline_target: "frame" }, role: "presentation", refresh: :morph, &
   end
