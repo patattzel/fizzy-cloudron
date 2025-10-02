@@ -14,7 +14,7 @@ export default class extends Controller {
   }
 
   preventToggle(event) {
-    if (event.detail.attributeName === "class") {
+    if (event.target.hasAttribute("data-collapsible-columns-target") && event.detail.attributeName === "class") {
       event.preventDefault()
     }
   }
