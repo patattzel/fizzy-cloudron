@@ -8,7 +8,7 @@
           filter_settings_no_filtering_url_value: no_filtering_url,
           filter_settings_refresh_url_value: settings_refresh_path,
           filter_settings_cards_url_value: cards_path,
-          turbo_permanent: true do %>
+          turbo_permanent: true } do %>
     <%= form_with url: filter_url, method: :get, class: "", data: {
           controller: "form",
           turbo_frame: "cards_container",
