@@ -4,7 +4,7 @@ class Account < ApplicationRecord
   has_many_attached :uploads
 
   def slug
-    "/#{tenant_id}"
+    "/#{tenant}"
   end
 
   def setup_basic_template

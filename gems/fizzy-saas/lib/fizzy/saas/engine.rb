@@ -5,10 +5,7 @@ module Fizzy
     class Engine < ::Rails::Engine
       # extend application models
       config.to_prepare do
-        User.prepend User::SignalUser
         Account.prepend Account::SignalAccount
-        LoginHelper.prepend LoginHelper::SignalLogin
-        SessionsController.include Sessions::SignalSessions
       end
 
       # moved from config/initializers/queenbee.rb
@@ -39,7 +36,6 @@ module Fizzy
 
         silence_warnings do
           SignalId::Account::Peer = Account
-          SignalId::User::Peer = User
         end
       end
 
