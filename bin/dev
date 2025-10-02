@@ -1,12 +1,10 @@
 #!/usr/bin/env sh
 
-echo "Login with david@37signals.com / secret123456 to:"
 bin/rails runner - <<EOF
+  puts "Login with david@37signals.com / secret123456 to:"
   ApplicationRecord.with_each_tenant do |tenant|
     next unless tenant =~ /\A\d+\z/
-    if Account.sole.tenant_id
-      puts "  - #{Account.sole.name}: http://fizzy.localhost:3006/#{Account.sole.tenant_id}"
-    end
+    puts "  - #{Account.sole.name}: http://fizzy.localhost:3006#{Account.sole.slug}"
   end
 EOF
 
