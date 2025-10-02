@@ -20,9 +20,8 @@ module Account::SignalAccount
           User.create!(
             name:             account.external_account.owner.name,
             email_address:    account.external_account.owner.email_address,
-            external_user_id: account.external_account.owner.id,
             role:             "admin",
-            password:         SecureRandom.hex(36) # TODO: remove password column?
+            password:         SecureRandom.hex(16)
           )
         end
       end

@@ -50,7 +50,7 @@ module AccessesHelper
       collection_involvement_path(collection),
       method: :put,
       aria: { labelledby: involvement_label_id },
-      class: "btn",
+      class: class_names("btn", { "btn--reversed": access.involvement == "watching" && icon_only }),
       params: { show_watchers: show_watchers, involvement: next_involvement(access.involvement), icon_only: icon_only }
     ) do
       safe_join([
