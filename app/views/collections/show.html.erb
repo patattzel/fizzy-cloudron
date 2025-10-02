@@ -1,6 +1,8 @@
 <% @page_title = @collection.name %>
 <% turbo_exempts_page_from_cache %>
 
+<%= turbo_stream_from @collection %>
+
 <% content_for :head do %>
   <%= tag.meta property: "og:title", content: @page_title %>
   <%= tag.meta property: "og:description", content: Account.sole.name %>
