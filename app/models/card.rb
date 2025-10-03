@@ -58,6 +58,7 @@ class Card < ApplicationRecord
 
     def handle_collection_change
       transaction do
+        send_back_to_triage
         track_collection_change_event
         grant_access_to_assignees unless collection.all_access?
       end
