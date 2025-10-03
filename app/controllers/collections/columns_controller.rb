@@ -1,5 +1,5 @@
 class Collections::ColumnsController < ApplicationController
-  include ActionView::RecordIdentifier, CollectionScoped, FilterScoped
+  include ActionView::RecordIdentifier, CollectionScoped
 
   before_action :set_column, only: [ :show, :update, :destroy ]
 

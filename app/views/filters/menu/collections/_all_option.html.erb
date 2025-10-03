@@ -1,5 +1,3 @@
-<% clear_url_path = user_filtering.self_filter_path(user_filtering.as_params.except(:collection_ids), script_name: request.script_name) %>
-
 <% if Current.user.collections.many? %>
   <li class="popup__item" data-filter-target="item" data-navigable-list-target="item" id="filter-collection-all">
     <%= icon_tag "collection", class: "popup__icon" %>
