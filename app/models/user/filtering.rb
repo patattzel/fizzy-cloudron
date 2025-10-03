@@ -71,28 +71,12 @@ class User::Filtering
     filter.collections.any?
   end
 
-  def enable_collection_filtering(&block)
-    @collection_filtering_route_resolver = block
-  end
-
-  def self_filter_path(...)
-    if supports_collection_filtering?
-      @collection_filtering_route_resolver.call(...)
-    else
-      cards_path(...)
-    end
-  end
-
   def single_collection_or_first
     # Default to the first selected or, when no selection, to the first one
     filter.collections.first || collections.first
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key([ user, filter, expanded?, collections, tags, users, filters, supports_collection_filtering? ], "user-filtering")
-  end
-
-  def supports_collection_filtering?
-    @collection_filtering_route_resolver.present?
+    ActiveSupport::Cache.expand_cache_key([ user, filter, expanded?, collections, tags, users, filters ], "user-filtering")
   end
 end

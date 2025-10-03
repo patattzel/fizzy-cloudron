@@ -6,8 +6,6 @@ class CardsController < ApplicationController
   before_action :set_collection, only: %i[ create ]
   before_action :set_card, only: %i[ show edit update destroy ]
 
-  enable_collection_filtering only: :index
-
   PAGE_SIZE = 25
 
   def index

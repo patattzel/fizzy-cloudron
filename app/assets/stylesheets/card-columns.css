@@ -84,6 +84,10 @@
       .card {
         display: none;
       }
+
+      &:not(.cards--considering) {
+        margin-block-start: var(--column-width-collapsed);
+      }
     }
 
     &:not(.is-collapsed) {
@@ -105,6 +109,10 @@
     .card__steps {
       display: flex;
     }
+  }
+
+  .cards__new-column {
+    margin-block-start: var(--column-width-collapsed);
   }
 
   /* Used when filtering */
@@ -191,12 +199,43 @@
       inline-size: 100%;
       margin-block-end: calc(-0.5 * var(--cards-gap));
       justify-content: center;
+    }
 
-      &:hover,
-      &:has(~ .cards__expander-menu:hover) {
-        background-color: var(--column-color);
-        filter: none;
+    .cards:is(.cards--considering) &:hover {
+      cursor: unset;
+      filter: none;
+    }
+
+    @media (any-hover: hover) {
+      .btn--circle,
+      ~ .btn--circle,
+      ~ .cards__expander-menu .btn--circle {
+        transition: opacity 300ms ease-in-out;
+        opacity: 0;
+
+        .cards:hover & {
+          opacity: 1;
+        }
       }
+    }
+  }
+
+  .btn.cards__expander-button {
+    --btn-background: transparent;
+
+    block-size: var(--column-width-collapsed);
+    inline-size: var(--column-width-collapsed);
+    inset: 0 0 auto auto;
+    position: absolute;
+    translate: calc(var(--column-gap) * -2);
+    z-index: var(--z-popup);
+
+    .cards--considering & {
+      translate: none;
+    }
+
+    .cards.is-collapsed & {
+      display: none;
     }
   }
 
@@ -226,9 +265,9 @@
   }
 
   .cards__expander-menu {
-    inset: 0 0 auto auto;
+    inset: 0 auto auto 0;
     position: absolute;
-    translate: calc(var(--column-gap) * -2);
+    translate: calc(var(--column-gap) * 2);
     z-index: var(--z-popup);
 
     .btn--circle {
@@ -249,14 +288,25 @@
 
   .blank-slate--card {
     box-shadow: none !important;
-    border: 2px dashed color-mix(in srgb, var(--card-color) 40%, var(--color-canvas));;
-    font-weight: 600;
-    rotate: 2deg;
+    color: color-mix(in srgb, var(--card-color) 70%, var(--color-canvas));
 
     p {
+      font-size: var(--text-small);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      &.blank-slate-for-grid {
+        display: none;
+
+        .cards--grid & {
+          display: initial;
+        }
+      }
+
+      .cards--grid &:not(.blank-slate-for-grid) {
+        display: none;
+      }
     }
   }
 
@@ -383,23 +433,32 @@
 
   .cards--considering {
     --gradient-opacity: 25%;
+    --bottom-gradient-size: 4em;
 
-    background-color: var(--color-canvas);
-    background-image: linear-gradient(90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 33%,
-      color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 66%,
-      transparent 100%);
+    padding-bottom: var(--bottom-gradient-size);
+    position: relative;
 
-    @supports(mask: radial-gradient(black)) {
+    @supports(mask: linear-gradient(black)) {
       &:before {
+        background-image: linear-gradient(90deg,
+          transparent 0%,
+          color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 33%,
+          color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 66%,
+          transparent 100%);
+        content: "";
+        inset: calc(var(--column-width-collapsed) + var(--block-space-half)) 0 0 0;
+        position: absolute;
+        z-index: 0;
+      }
+
+      &:after {
         background: linear-gradient(90deg,
           color-mix(in oklch, var(--color-considering) 0%, transparent) 0%,
           color-mix(in oklch, var(--color-considering) 20%, transparent) 25%,
           color-mix(in oklch, var(--color-considering) 20%, transparent) 50%,
           color-mix(in oklch, var(--color-considering) 0%, transparent) 100%);
         content: "";
-        inset: 0;
+        inset: calc(var(--column-width-collapsed) + var(--block-space-half)) 0 0 0;
         mask: var(--wavy-background-mask);
         position: absolute;
         z-index: 0;
@@ -416,7 +475,7 @@
 
     .cards__decoration {
       --gradient-opacity: 30%;
-      --size: 4.25em;
+      --size: 2.2em;
 
       background-color: var(--color-canvas);
       background-image: radial-gradient(ellipse at bottom,
@@ -424,7 +483,7 @@
         transparent 70%);
       block-size: var(--size);
       inline-size: 100%;
-      inset: calc(var(--size) * -1) 0 auto 0;
+      inset: calc(var(--column-width-collapsed) + var(--block-space) - var(--size)) 0 auto 0;
       position: absolute;
       z-index: -1;
 
@@ -433,23 +492,31 @@
       }
 
       @supports(mask: radial-gradient(black)) {
+        --gradient-opacity: 30%;
+
         &:before {
           background: radial-gradient(ellipse at bottom,
             color-mix(in srgb, var(--color-considering) var(--gradient-opacity), transparent) 0%,
             transparent 70%);
           content: "";
           inset: 0;
-          mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+          mask: radial-gradient(6px at 50% calc(100% + 3px),
+                                transparent calc(99% - 2px),
+                                black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
                 radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
           position: absolute;
           z-index: 0;
         }
       }
+    }
 
-      &.cards__decoration--end {
-        inset: auto 0 calc(var(--size) * -1);
-        rotate: 180deg;
-      }
+    .cards__decoration-end {
+      background: linear-gradient( transparent 0%, var(--color-canvas) 90%);
+      block-size: var(--bottom-gradient-size);
+      content: "";
+      inset: auto 0 0;
+      position: absolute;
+      z-index: 1;
     }
 
     .card {
@@ -458,6 +525,7 @@
 
       background-color: var(--color-canvas);
       line-height: 1.2;
+      z-index: 2;
 
       @media (min-width: 640px) {
         --text-xx-large: 1.6em;
@@ -532,16 +600,10 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--on-deck {
-    --column-color: var(--color-ink-lighter);
+    --card-color: var(--color-ink-light) !important;
 
     .card {
       --card-color: var(--color-card-complete) !important;
-    }
-
-    &.cards.is-collapsed {
-      .cards__expander:after {
-        background: var(--column-color);
-      }
     }
 
     .bubble {
@@ -571,12 +633,5 @@
       translate: 25% -25%;
       z-index: 1;
     }
-  }
-
-  /* Closed
-  /* ------------------------------------------------------------------------ */
-
-  .cards--closed {
-    --column-color: var(--color-ink-lighter);
   }
 }
