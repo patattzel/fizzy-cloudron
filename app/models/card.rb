@@ -12,7 +12,7 @@ class Card < ApplicationRecord
   has_rich_text :description
 
   before_save :set_default_title, if: :published?
-  after_save :handle_collection_change, if: :saved_change_to_collection_id?
+  after_update :handle_collection_change, if: :saved_change_to_collection_id?
 
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
@@ -58,6 +58,7 @@ class Card < ApplicationRecord
 
     def handle_collection_change
       transaction do
+        send_back_to_triage
         track_collection_change_event
         grant_access_to_assignees unless collection.all_access?
       end
