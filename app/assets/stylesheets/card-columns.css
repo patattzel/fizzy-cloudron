@@ -205,6 +205,19 @@
       cursor: unset;
       filter: none;
     }
+
+    @media (any-hover: hover) {
+      .btn--circle,
+      ~ .btn--circle,
+      ~ .cards__expander-menu .btn--circle {
+        transition: visibilty 300ms ease-in-out;
+        visibility: hidden;
+
+        .cards:hover & {
+          visibility: visible;
+        }
+      }
+    }
   }
 
   .btn.cards__expander-button {
