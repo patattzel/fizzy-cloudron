@@ -4,10 +4,6 @@ require "queenbee/testing/mocks"
 module ActiveSupport
   class TestCase
     include SignalId::Testing
-
-    def saas_extension_sign_in_as(user)
-      put saas.session_launchpad_path, params: { sig: user.external_user.perishable_signature }
-    end
   end
 end
 

@@ -1,10 +1,4 @@
 Fizzy::Saas::Engine.routes.draw do
-  resource :session do
-    scope module: "sessions" do
-      resource :launchpad, only: %i[ show update ], controller: "launchpad"
-    end
-  end
-
   namespace :signup do
     get "/" => "accounts#new"
     resources :accounts, only: %i[ new create ]

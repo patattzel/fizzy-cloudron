@@ -73,10 +73,6 @@
       z-index: 3;
     }
 
-    &:not(.cards--considering, .is-collapsed, .cards--grid) {
-      overflow: clip;
-    }
-
     &.is-collapsed {
       border-radius: calc(var(--column-width-collapsed) / 2);
       flex: 0 0 var(--column-width-collapsed);

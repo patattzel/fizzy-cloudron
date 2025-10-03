@@ -6,8 +6,9 @@
           toggle_class_toggle_class: "filters--expanded",
           filter_settings_filters_set_class: "filters--has-filters-set",
           filter_settings_no_filtering_url_value: no_filtering_url,
-          turbo_permanent: true,
-          filter_settings_refresh_url_value: settings_refresh_path } do %>
+          filter_settings_refresh_url_value: settings_refresh_path,
+          filter_settings_cards_url_value: cards_path,
+          turbo_permanent: true } do %>
     <%= form_with url: filter_url, method: :get, class: "", data: {
           controller: "form",
           turbo_frame: "cards_container",
@@ -15,9 +16,6 @@
           action: "turbo:submit-end->filter-settings#resetIfNoFiltering",
           turbo_action: "advance" } do |form| %>
       <%= hidden_field_tag :expand_all, true, disabled: !user_filtering.expanded?, data: { toggle_enable_target: "element"} %>
-      <% user_filtering.filter.collections.each do |collection| %>
-        <%= filter_hidden_field_tag "collection_ids[]", collection.id %>
-      <% end %>
 
       <%= yield form if block_given? %>
 
