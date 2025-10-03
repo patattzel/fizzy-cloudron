@@ -84,6 +84,10 @@
       .card {
         display: none;
       }
+
+      &:not(.cards--considering) {
+        margin-block-start: var(--column-width-collapsed);
+      }
     }
 
     &:not(.is-collapsed) {
@@ -105,6 +109,10 @@
     .card__steps {
       display: flex;
     }
+  }
+
+  .cards__new-column {
+    margin-block-start: var(--column-width-collapsed);
   }
 
   /* Used when filtering */
