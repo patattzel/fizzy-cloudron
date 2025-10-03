@@ -12,7 +12,7 @@
   <% end %>
 
   <%= link_to collection_column_path(column.collection, column), class: "btn btn--circle txt-x-small borderless cards__expander-button", data: { turbo_frame: "_top" } do %>
-    <%= icon_tag "expand" %>
+    <%= icon_tag "expand", class: "translucent" %>
     <span class="for-screen-reader">Expand column</span>
   <% end %>
 
