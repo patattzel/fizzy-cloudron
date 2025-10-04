@@ -15,9 +15,6 @@ system("gem install bundler --conservative")
 system("bundle config set --local auto_install true")
 system("bundle check") || system!("bundle install")
 
-require_relative "../lib/bootstrap"
-load File.expand_path("../gems/fizzy-saas/bin/setup", __dir__) unless Bootstrap.oss_config?
-
 puts "\n== Preparing database =="
 if ARGV.include?("--reset")
   system! "bin/rails db:drop db:create db:schema:load db:prepare db:seed"
