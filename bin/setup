@@ -1,11 +1,16 @@
 #!/usr/bin/env ruby
 
+require "mkmf"
 def system!(*args) system(*args, exception: true) end
 
 puts "\n== Installing Ruby and Node =="
 system("mise install -y")
 
 puts "\n== Installing dependencies =="
+if MakeMakefile.find_executable0("pacman")
+  packages = "imagemagick openslide"
+  system("pacman -Q #{packages} || sudo pacman -S --noconfirm --needed #{packages}")
+end
 system("gem install bundler --conservative")
 system("bundle config set --local auto_install true")
 system("bundle check") || system!("bundle install")
