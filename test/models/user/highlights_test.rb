@@ -3,8 +3,6 @@ require "test_helper"
 class User::HighlightsTest < ActiveSupport::TestCase
   include VcrTestHelper
 
-  vcr_record!
-
   setup do
     @user = users(:david)
     travel_to [ Time.current, 1.day.ago ].find { |d| !d.sunday? }
