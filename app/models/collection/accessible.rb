@@ -24,7 +24,7 @@ module Collection::Accessible
 
     scope :all_access, -> { where(all_access: true) }
 
-    after_create -> { grant_access_to_creator }
+    after_create :grant_access_to_creator
     after_save_commit :grant_access_to_everyone
   end
 
@@ -53,10 +53,7 @@ module Collection::Accessible
 
   private
     def grant_access_to_creator
-      # Don't interfere with the abandon cards system
-      Access.no_touching do
-        accesses.create(user: creator, involvement: :watching)
-      end
+      accesses.create(user: creator, involvement: :watching)
     end
 
     def grant_access_to_everyone
