@@ -10,12 +10,8 @@ def seed_account(name)
   puts " #{elapsed.round(2)} sec"
 end
 
-def create_tenant(signal_account_name, bare: false)
-  if bare
-    tenant_id = Digest::SHA256.hexdigest(signal_account_name)[0..8].to_i(16)
-  else
-    tenant_id = ActiveRecord::FixtureSet.identify signal_account_name
-  end
+def create_tenant(signal_account_name)
+  tenant_id = ActiveRecord::FixtureSet.identify signal_account_name
 
   ApplicationRecord.destroy_tenant tenant_id
   ApplicationRecord.create_tenant(tenant_id) do
@@ -26,7 +22,8 @@ def create_tenant(signal_account_name, bare: false)
       },
       owner: {
         name: "David Heinemeier Hansson",
-        email_address: "david@37signals.com"
+        email_address: "david@37signals.com",
+        password: "secret123456"
       }
     )
     account.setup_basic_template
@@ -36,16 +33,11 @@ def create_tenant(signal_account_name, bare: false)
 end
 
 def find_or_create_user(full_name, email_address)
-  if user = User.find_by(email_address: email_address)
-    user.password = "secret123456"
-    user.save!
-    user
-  else
-    User.create!(
+  unless User.find_by(email_address: email_address)
+    User.create! \
       name: full_name,
       email_address: email_address,
       password: "secret123456"
-    )
   end
 end
 
