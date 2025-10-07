@@ -24,11 +24,9 @@ ActiveRecord::Tenanted::DatabaseTasks.migrate_all
 ApplicationRecord.with_tenant(tenant) do |tenant|
   Account.sole.destroy!
 
-  Account.create_with_admin_user(
-    tenant_id: tenant,
-    account_name: "Company #{identifier}",
-    owner_name: "Developer #{identifier}",
-    owner_email: "dev-#{identifier}@example.com")
+  Account.create_with_admin_user \
+    account: { name: "Company #{identifier}" },
+    owner: { name: "Developer #{identifier}", email_address: "dev-#{identifier}@example.com" }
 
   user = User.last
   user.update! password: "secret123456"
