@@ -3,7 +3,7 @@
   <div class="cards__decoration"></div>
 
   <% if page.used? %>
-    <%= with_manual_pagination "the-stream", @page do %>
+    <%= with_automatic_pagination "the-stream", @page do %>
       <%= render "public/collections/columns/list", cards: page.records %>
     <% end %>
   <% end %>

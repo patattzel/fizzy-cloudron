@@ -20,7 +20,7 @@
 <section class="cards cards--grid">
   <%= turbo_frame_tag :closed_column do %>
     <% if @page.used? %>
-      <%= with_manual_pagination :closed_column, @page do %>
+      <%= with_automatic_pagination :closed_column, @page do %>
         <%= render "collections/columns/list", cards: @page.records, draggable: true %>
       <% end %>
     <% else %>
