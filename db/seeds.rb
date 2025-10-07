@@ -10,12 +10,8 @@ def seed_account(name)
   puts " #{elapsed.round(2)} sec"
 end
 
-def create_tenant(signal_account_name, bare: false)
-  if bare
-    tenant_id = Digest::SHA256.hexdigest(signal_account_name)[0..8].to_i(16)
-  else
-    tenant_id = ActiveRecord::FixtureSet.identify signal_account_name
-  end
+def create_tenant(signal_account_name)
+  tenant_id = ActiveRecord::FixtureSet.identify signal_account_name
 
   ApplicationRecord.destroy_tenant tenant_id
   ApplicationRecord.create_tenant(tenant_id) do
