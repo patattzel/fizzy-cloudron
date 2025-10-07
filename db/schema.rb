@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_07_084223) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -145,14 +145,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
     t.integer "creator_id", null: false
     t.date "due_on"
     t.datetime "last_active_at", null: false
-    t.integer "stage_id"
     t.text "status", default: "creating", null: false
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_cards_on_collection_id"
     t.index ["column_id"], name: "index_cards_on_column_id"
     t.index ["last_active_at", "status"], name: "index_cards_on_last_active_at_and_status"
-    t.index ["stage_id"], name: "index_cards_on_stage_id"
   end
 
   create_table "closers_filters", id: false, force: :cascade do |t|
@@ -194,9 +192,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
     t.integer "creator_id", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
-    t.integer "workflow_id"
     t.index ["creator_id"], name: "index_collections_on_creator_id"
-    t.index ["workflow_id"], name: "index_collections_on_workflow_id"
   end
 
   create_table "collections_filters", id: false, force: :cascade do |t|
@@ -286,13 +282,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
     t.string "params_digest", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id", "params_digest"], name: "index_filters_on_creator_id_and_params_digest", unique: true
-  end
-
-  create_table "filters_stages", id: false, force: :cascade do |t|
-    t.integer "filter_id", null: false
-    t.integer "stage_id", null: false
-    t.index ["filter_id"], name: "index_filters_stages_on_filter_id"
-    t.index ["stage_id"], name: "index_filters_stages_on_stage_id"
   end
 
   create_table "filters_tags", id: false, force: :cascade do |t|
@@ -513,21 +502,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
     t.index ["collection_id"], name: "index_webhooks_on_collection_id"
   end
 
-  create_table "workflow_stages", force: :cascade do |t|
-    t.string "color"
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-    t.integer "workflow_id", null: false
-    t.index ["workflow_id"], name: "index_workflow_stages_on_workflow_id"
-  end
-
-  create_table "workflows", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_quotas", "users"
@@ -535,11 +509,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
   add_foreign_key "card_goldnesses", "cards"
   add_foreign_key "card_not_nows", "cards"
   add_foreign_key "cards", "columns"
-  add_foreign_key "cards", "workflow_stages", column: "stage_id"
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"
   add_foreign_key "collection_publications", "collections"
-  add_foreign_key "collections", "workflows"
   add_foreign_key "columns", "collections"
   add_foreign_key "comments", "cards"
   add_foreign_key "conversation_messages", "conversations"
@@ -567,7 +539,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_06_091442) do
   add_foreign_key "webhook_deliveries", "events"
   add_foreign_key "webhook_deliveries", "webhooks"
   add_foreign_key "webhooks", "collections"
-  add_foreign_key "workflow_stages", "workflows"
 
   # Virtual tables defined in this database.
   # Note that virtual tables may not work with other database engines. Be careful if changing database.

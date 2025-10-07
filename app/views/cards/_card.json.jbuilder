@@ -12,9 +12,9 @@ json.cache! card do
     json.partial! "collections/collection", locals: { collection: card.collection }
   end
 
-  json.stage do
-    if card.stage
-      json.partial! "workflows/stages/stage", stage: card.stage
+  json.column do
+    if card.column
+      json.partial! "columns/column", column: card.column
     else
       nil
     end
