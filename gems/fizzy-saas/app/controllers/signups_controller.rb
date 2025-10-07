@@ -17,8 +17,8 @@ class SignupsController < ApplicationController
   def create
     @signup = Signup.new(signup_params)
 
-    if @signup.process
-      redirect_to root_url(script_name: @signup.account.slug)
+    if @signup.create_account
+      redirect_to session_magic_link_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,6 +26,6 @@ class SignupsController < ApplicationController
 
   private
     def signup_params
-      params.require(:signup).permit(*Signup::PERMITTED_KEYS)
+      params.expect(signup: %i[ email_address ])
     end
 end
