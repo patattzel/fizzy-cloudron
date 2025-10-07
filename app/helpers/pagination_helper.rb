@@ -10,7 +10,7 @@ module PaginationHelper
   end
 
   def pagination_link(namespace, page_number, label: spinner_tag, activate_when_observed: false, url_params: {}, data: {}, **attributes)
-    link_to label, url_for(page: page_number, **url_params),
+    link_to label, url_for(params.permit!.to_h.merge(page: page_number, **url_params)),
       "aria-label": "Load page #{page_number}",
       class: class_names(attributes.delete(:class), "pagination-link", { "pagination-link--active-when-observed" => activate_when_observed }),
       data: {
