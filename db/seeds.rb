@@ -22,7 +22,8 @@ def create_tenant(signal_account_name)
       },
       owner: {
         name: "David Heinemeier Hansson",
-        email_address: "david@37signals.com"
+        email_address: "david@37signals.com",
+        password: "secret123456"
       }
     )
     account.setup_basic_template
@@ -32,16 +33,11 @@ def create_tenant(signal_account_name)
 end
 
 def find_or_create_user(full_name, email_address)
-  if user = User.find_by(email_address: email_address)
-    user.password = "secret123456"
-    user.save!
-    user
-  else
-    User.create!(
+  unless User.find_by(email_address: email_address)
+    User.create! \
       name: full_name,
       email_address: email_address,
       password: "secret123456"
-    )
   end
 end
 
