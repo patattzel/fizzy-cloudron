@@ -48,7 +48,7 @@ module Collection::Accessible
   end
 
   def watchers
-    users.where(accesses: { involvement: :watching })
+    users.without(User.system).where(accesses: { involvement: :watching })
   end
 
   private
