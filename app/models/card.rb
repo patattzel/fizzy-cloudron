@@ -1,7 +1,7 @@
 class Card < ApplicationRecord
   include Assignable, Attachments, Cacheable, Closeable, Colored, Entropic, Eventable,
     Golden, Mentions, Multistep, Pinnable, Postponable, Promptable, Readable, Searchable,
-    Staged, Stallable, Statuses, Taggable, Triageable, Watchable
+    Stallable, Statuses, Taggable, Triageable, Watchable
 
   belongs_to :collection, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }

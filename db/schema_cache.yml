@@ -493,16 +493,6 @@ columns:
     comment:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
-    name: stage_id
-    cast_type: *3
-    sql_type_metadata: *4
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
     name: status
     cast_type: *15
     sql_type_metadata: *16
@@ -612,16 +602,6 @@ columns:
   - *6
   - *10
   - *9
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: workflow_id
-    cast_type: *3
-    sql_type_metadata: *4
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
   collections_filters:
   - *24
   - *20
@@ -882,18 +862,6 @@ columns:
     collation:
     comment:
   - *9
-  filters_stages:
-  - *20
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: stage_id
-    cast_type: *3
-    sql_type_metadata: *4
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
   filters_tags:
   - *20
   - &35 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
@@ -1479,36 +1447,6 @@ columns:
     default_function:
     collation:
     comment:
-  workflow_stages:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: color
-    cast_type: *7
-    sql_type_metadata: *8
-    'null': true
-    default:
-    default_function:
-    collation:
-    comment:
-  - *5
-  - *6
-  - *10
-  - *9
-  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
-    auto_increment:
-    name: workflow_id
-    cast_type: *3
-    sql_type_metadata: *4
-    'null': false
-    default:
-    default_function:
-    collation:
-    comment:
-  workflows:
-  - *5
-  - *6
-  - *10
-  - *9
 primary_keys:
   accesses: id
   accounts: id
@@ -1540,7 +1478,6 @@ primary_keys:
   entropy_configurations: id
   events: id
   filters: id
-  filters_stages:
   filters_tags:
   mentions: id
   notification_bundles: id
@@ -1564,8 +1501,6 @@ primary_keys:
   webhook_delinquency_trackers: id
   webhook_deliveries: id
   webhooks: id
-  workflow_stages: id
-  workflows: id
 data_sources:
   accesses: true
   accounts: true
@@ -1597,7 +1532,6 @@ data_sources:
   entropy_configurations: true
   events: true
   filters: true
-  filters_stages: true
   filters_tags: true
   mentions: true
   notification_bundles: true
@@ -1621,8 +1555,6 @@ data_sources:
   webhook_delinquency_trackers: true
   webhook_deliveries: true
   webhooks: true
-  workflow_stages: true
-  workflows: true
 indexes:
   accesses:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
@@ -2081,22 +2013,6 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: cards
-    name: index_cards_on_stage_id
-    unique: false
-    columns:
-    - stage_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
   closers_filters:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: closers_filters
@@ -2221,22 +2137,6 @@ indexes:
     unique: false
     columns:
     - creator_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: collections
-    name: index_collections_on_workflow_id
-    unique: false
-    columns:
-    - workflow_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -2491,39 +2391,6 @@ indexes:
     columns:
     - creator_id
     - params_digest
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  filters_stages:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: filters_stages
-    name: index_filters_stages_on_filter_id
-    unique: false
-    columns:
-    - filter_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: filters_stages
-    name: index_filters_stages_on_stage_id
-    unique: false
-    columns:
-    - stage_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -3281,22 +3148,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  workflow_stages:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: workflow_stages
-    name: index_workflow_stages_on_workflow_id
-    unique: false
-    columns:
-    - workflow_id
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
-  workflows: []
-version: 20251006091442
+version: 20251007084223
