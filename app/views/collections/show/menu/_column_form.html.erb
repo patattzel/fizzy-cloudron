@@ -4,7 +4,7 @@
   <div class="flex flex-wrap gap-half justify-space-between margin-block-half">
     <% Card::COLORS.each do |color| %>
       <label class="btn btn--circle txt-small borderless" style="--btn-background: <%= color %>" title="<%= color %>">
-        <%= form.radio_button :color, color %>
+        <%= form.radio_button :color, color, checked: (column.color == color) %>
         <%= icon_tag "check", class: "checked" %>
         <span class="for-screen-reader"><%= color %></span>
       </label>
