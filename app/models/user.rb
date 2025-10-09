@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   include Accessor, AiQuota, Assignee, Attachable, Configurable, Conversational, Highlights,
-    Mentionable, Named, Notifiable, Role, Searcher, Staff, Transferable, Watcher
+    Identifiable, Mentionable, Named, Notifiable, Role, Searcher, Staff, Transferable, Watcher
   include Timelined # Depends on Accessor
 
   has_one_attached :avatar

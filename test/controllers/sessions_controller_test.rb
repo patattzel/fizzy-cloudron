@@ -17,7 +17,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with valid credentials" do
-    post session_path, params: { email_address: "david@37signals.com", password: "secret123456" }
+    assert_difference -> { Identity.count }, 1 do
+      assert_difference -> { Membership.count }, 1 do
+        post session_path, params: { email_address: "david@37signals.com", password: "secret123456" }
+      end
+    end
 
     assert_redirected_to root_path
     assert cookies[:session_token].present?
