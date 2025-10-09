@@ -5,6 +5,12 @@
   <%= filter_place_menu_item notifications_path, "Notifications", "bell" %>
   <%= filter_place_menu_item notifications_settings_path, "Notification Settings", "settings" %>
 
+  <% cache [ Current.user, Current.identity_token ] do %>
+    <% Current.user.identity.memberships.where.not(user_tenant: Current.user.tenant).each do |membership| %>
+      <%= filter_place_menu_item root_url(script_name: "/#{membership.user_tenant}"), "#{membership.account_name}", "logo-color", new_window: true %>
+    <% end %>
+  <% end %>
+
   <%= tag.li class: "popup__item", data: { filter_target: "item", navigable_list_target: "item" } do %>
     <%= icon_tag "logout", class: "popup__icon" %>
     <%= button_to session_path, method: :delete, class: "popup__btn btn", data: { turbo: false } do %>
