@@ -30,7 +30,7 @@ step() {
   local step_name="$1"
   shift
 
-  gum style --foreground 33 --bold "▸ $step_name"
+  gum style --foreground 135 --bold "▸ $step_name"
   gum style --foreground 240 "$*"
 
   if $no_spin; then
