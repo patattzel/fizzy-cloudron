@@ -24,3 +24,11 @@ plugin :yabeda_prometheus
 # https://edgeguides.rubyonrails.org/tuning_performance_for_deployment.html#puma
 workers Concurrent.physical_processor_count
 threads 1, 1
+
+# Tell the Ruby VM that we're finished booting up.
+#
+# Now's the time to tidy the heap (GC, compact, free empty, malloc_trim, etc)
+# for optimal copy-on-write efficiency.
+before_fork do
+  Process.warmup
+end
