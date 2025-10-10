@@ -38,6 +38,7 @@ module Authentication
 
     def require_tenant
       unless ApplicationRecord.current_tenant.present?
+        set_current_identity_token
         render "sessions/login_menu"
       end
     end
@@ -77,14 +78,27 @@ module Authentication
     end
 
     def start_new_session_for(user)
+      link_identity(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         set_current_session session
       end
     end
 
+    def link_identity(user)
+      token_value = cookies.signed[:identity_token]
+      token_identity = Identity.find_signed(token_value["id"]) if token_value.present?
+      identity = user.set_identity(token_identity)
+      cookies.signed.permanent[:identity_token] = { value: { "id" => identity.signed_id, "updated_at" => identity.updated_at }, httponly: true, same_site: :lax }
+    end
+
+    def set_current_identity_token
+      Current.identity_token = Identity::Mock.new(**cookies.signed[:identity_token])
+    end
+
     def set_current_session(session)
       logger.struct "  Authorized User##{session.user.id}", authentication: { user: { id: session.user.id } }
       Current.session = session
+      set_current_identity_token
       cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :lax, path: Account.sole.slug }
     end
 
