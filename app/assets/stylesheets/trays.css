@@ -119,6 +119,11 @@
 
     /* On desktop… */
     @media (min-width: 800px) {
+      .tray__dialog:not([open]):has(.tray__item:not(.tray__item--hat)) ~ & {
+        block-size: var(--tray-item-height);
+        translate: 0 -1.85rem;
+      }
+
       /* Hide the UI when collapsed, but only if there are items */
       .tray__dialog:not([open]):has(.tray__item--notification) ~ & {
         opacity: 0;
