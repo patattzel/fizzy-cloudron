@@ -576,6 +576,11 @@ GEM
       anyway_config (>= 1.0, < 3)
       concurrent-ruby
       dry-initializer
+    yabeda-actioncable (0.2.2)
+      actioncable (>= 7.2)
+      activesupport (>= 7.2)
+      railties (>= 7.2)
+      yabeda (~> 0.8)
     yabeda-gc (0.4.0)
       yabeda (~> 0.6)
     yabeda-http_requests (0.2.1)
@@ -655,6 +660,7 @@ DEPENDENCIES
   webmock
   webrick
   yabeda
+  yabeda-actioncable
   yabeda-activejob!
   yabeda-gc
   yabeda-http_requests
