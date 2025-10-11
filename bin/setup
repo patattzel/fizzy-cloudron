@@ -21,23 +21,13 @@ if ! command -v gum &> /dev/null; then
 fi
 
 step() {
-  local no_spin=false
-  if [[ "$1" == "--no-spin" ]]; then
-    no_spin=true
-    shift
-  fi
-
   local step_name="$1"
   shift
 
   gum style --foreground 135 --bold "▸ $step_name"
   gum style --foreground 240 "$*"
 
-  if $no_spin; then
-    "$@"
-  else
-    gum spin --spinner dot --title "" --show-output -- "$@"
-  fi
+  "$@"
 
   local exit_code=$?
   echo
@@ -49,7 +39,7 @@ gum style --foreground 153        "   ˚ ∘             ∘ ˚   "
 gum style --foreground 111 --bold "  ∘˚˳°∘°  𝒻𝒾𝓏𝓏𝓎  °∘°˳˚∘  "
 echo
 
-step --no-spin "Installing Ruby" mise install --yes
+step "Installing Ruby" mise install --yes
 eval "$(mise hook-env)"
 
 if which pacman >/dev/null 2>&1; then
