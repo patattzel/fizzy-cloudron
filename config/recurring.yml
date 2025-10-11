@@ -32,5 +32,10 @@ production: &production
     class: SQLiteBackupsJob
     schedule: every day at 05:00
 
+  # Metrics
+  yabeda_actioncable:
+    command: "Yabeda::ActionCable.measure"
+    schedule: every 60 seconds
+
 beta: *production
 staging: *production
