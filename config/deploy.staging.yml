@@ -2,8 +2,11 @@ servers:
   web:
     hosts:
       - fizzy-staging-app-01.sc-chi-int.37signals.com
+      - fizzy-staging-app-02.sc-chi-int.37signals.com
       - fizzy-staging-app-101.df-iad-int.37signals.com
+      - fizzy-staging-app-102.df-iad-int.37signals.com
       - fizzy-staging-app-401.df-ams-int.37signals.com
+      - fizzy-staging-app-402.df-ams-int.37signals.com
     labels:
       otel_scrape_enabled: true
   jobs:
@@ -44,8 +47,11 @@ accessories:
     cmd: beamer run --retention=1h --metrics-port=9000
     hosts:
       - fizzy-staging-app-01.sc-chi-int.37signals.com
+      - fizzy-staging-app-02.sc-chi-int.37signals.com
       - fizzy-staging-app-101.df-iad-int.37signals.com
+      - fizzy-staging-app-102.df-iad-int.37signals.com
       - fizzy-staging-app-401.df-ams-int.37signals.com
+      - fizzy-staging-app-402.df-ams-int.37signals.com
 
   load-balancer:
     image: basecamp/kamal-proxy:lb
