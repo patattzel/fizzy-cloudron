@@ -7,6 +7,8 @@ x-app: &app
       - GITHUB_TOKEN
   volumes:
     - .:/rails
+  extra_hosts:
+    - queenbee.localhost:host-gateway
   environment:
     - RAILS_ENV=development
     - BINDING=0.0.0.0
