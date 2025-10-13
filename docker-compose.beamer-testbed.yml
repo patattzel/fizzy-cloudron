@@ -18,7 +18,7 @@ services:
   kamal-proxy:
     image: basecamp/kamal-proxy:next
     ports:
-      - 127.0.0.1:80:80
+      - 127.0.0.1:3006:80
       - 127.0.0.1:443:443
     command: [ "kamal-proxy", "run", "--debug" ]
 
