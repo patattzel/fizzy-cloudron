@@ -21,7 +21,7 @@ show_usage() {
 
 # Get all fizzy-* services from docker compose
 get_fizzy_services() {
-  fizzy_services=$(docker compose $COMPOSE_OPTIONS config --services | grep '^fizzy-')
+  fizzy_services=$(docker compose $COMPOSE_OPTIONS config --services | grep '^fizzy-' | sort)
 
   if [ -z "$fizzy_services" ]; then
     echo "Error: No fizzy-* services found in docker-compose file"
@@ -53,19 +53,30 @@ wait_for_container() {
   return 1
 }
 
-# Function to register a container with kamal-proxy
-register_with_proxy() {
-  local container=$1
-  local target_name="fizzy-${container##*-}"
+# Function to configure kamal-proxy
+# TODO: set up the other containers as read targets
+configure_proxy() {
+  local writer=$1
+  local readers=${@:2}
 
-  echo "Registering $container with kamal-proxy as $target_name..."
+  echo "Configuring kamal-proxy..."
+
+  local writer_target="$writer:3000"
+  local reader_target=""
+  for reader in $readers; do
+    if [ -n "$reader_target" ]; then
+      reader_target+=","
+    fi
+    reader_target+="$reader:3000"
+  done
 
   docker compose $COMPOSE_OPTIONS exec -T kamal-proxy \
     kamal-proxy deploy fizzy \
-    --target "$container:3000" \
-    --host "fizzy.localhost"
+    --target $writer_target \
+    --read-target $reader_target \
+    --host fizzy.localhost
 
-  echo "$container registered successfully!"
+  echo "Configured kamal-proxy with target=${writer_target} and read-target=${reader_target}"
 }
 
 # Start command
@@ -100,12 +111,12 @@ cmd_start() {
   # Wait for and register each fizzy container
   for container in $fizzy_services; do
     wait_for_container "$container"
-    register_with_proxy "$container"
   done
+  configure_proxy $fizzy_services
 
   echo ""
   echo "All containers are ready and registered!"
-  echo "You can access the application at: http://fizzy.localhost"
+  echo "You can access the application at: http://fizzy.localhost:3006"
 }
 
 # Stop command
