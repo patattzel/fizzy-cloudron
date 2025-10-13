@@ -261,7 +261,7 @@
       writing-mode: vertical-rl;
     }
 
-    .cards:not(.is-collapsed) & {
+    .cards:not(.is-collapsed, .cards--considering) & {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -651,6 +651,7 @@
   /* -------------------------------------------------------------------------- */
 
   /* Surface a mini bubble if there are cards with bubbles inside */
+  .cards--considering:has(.bubble:not([hidden])) .cards__expander-title,
   .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
     --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
     --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
@@ -669,5 +670,9 @@
       translate: 25% -25%;
       z-index: 1;
     }
+  }
+
+  .cards--considering:has(.bubble:not([hidden])) .cards__expander-title:before {
+    translate: 120% 50%;
   }
 }
