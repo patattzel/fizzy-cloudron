@@ -1,7 +1,8 @@
 source "https://rubygems.org"
 git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 
-gem "rails", github: "rails/rails", branch: "main"
+# gem "rails", github: "rails/rails", branch: "main"
+gem "rails", github: "flavorjones/rails", branch: "flavorjones/improve-sqlite-url-support"
 
 # Assets & front end
 gem "importmap-rails"
