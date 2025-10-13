@@ -116,9 +116,9 @@
     .filters:not(.filters--expanded, .filters--has-filters-set) & {
       --input-padding: 0.5em 2.7em 0.5em 1.3em;
 
-      inline-size: calc(var(--input-width) + var(--collapsed-filter-space));
+      inline-size: calc(var(--input-width) + (0.25 * var(--collapsed-filter-space)));
       margin-inline-end: calc((var(--btn-size) + var(--inline-space-half) + 0.25em) * -1);
-      min-inline-size: calc(var(--input-width) + var(--collapsed-filter-space));
+      min-inline-size: calc(var(--input-width) + (0.25 * var(--collapsed-filter-space)));
     }
   }
 
