@@ -106,12 +106,19 @@
   .filter__terms:is(.input) {
     --input-background: var(--color-canvas);
     --input-border-radius: 5em;
-    --input-padding: 0.5em 2.3em 0.5em 1.3em;
+    --input-padding: 0.5em 1.3em;
+    --input-width: 24ch;
+    --collapsed-filter-space: calc(var(--btn-size) + var(--inline-space-half) + 0.25em);
 
-    inline-size: 25ch;
-    min-inline-size: 25ch;
+    inline-size: var(--input-width);
+    min-inline-size: var(--input-width);
 
     .filters:not(.filters--expanded, .filters--has-filters-set) & {
+      --input-padding: 0.5em 2.7em 0.5em 1.3em;
+
+      inline-size: calc(var(--input-width) + var(--collapsed-filter-space));
+      min-inline-size: calc(var(--input-width) + var(--collapsed-filter-space));
+
       margin-inline-end: calc((var(--btn-size) + var(--inline-space-half) + 0.25em) * -1);
     }
   }
