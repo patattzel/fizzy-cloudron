@@ -12,6 +12,14 @@ module Card::Postponable
     open? && published? && not_now.present?
   end
 
+  def postponed_at
+    not_now&.created_at
+  end
+
+  def postponed_by
+    not_now&.user
+  end
+
   def active?
     open? && published? && !postponed?
   end
