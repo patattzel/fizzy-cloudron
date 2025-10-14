@@ -22,7 +22,7 @@
 <div class="panel shadow center flex flex-column gap txt-align-start">
   <header>
     <h1 class="txt-x-large margin-none"><%= @webhook.name %></h1>
-    <span class="txt-medium"><%= @webhook.url %></span>
+    <span class="txt-medium txt-break"><%= @webhook.url %></span>
   </header>
   <% unless @webhook.active? %>
     <div>
