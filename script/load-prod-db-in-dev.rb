@@ -19,7 +19,8 @@ Process.fork do
 
   tenant = ActiveRecord::FixtureSet.identify(identifier)
 
-  path = ApplicationRecord.tenanted_root_config.database_path_for(tenant)
+  config = ApplicationRecord.tenanted_root_config
+  path = config.config_adapter.path_for(config.database_for(tenant))
   FileUtils.mkdir_p(File.dirname(path), verbose: true)
   FileUtils.cp original_dbfile, path, verbose: true
 
