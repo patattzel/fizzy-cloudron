@@ -52,6 +52,12 @@ fi
 bundle config set --local auto_install true
 step "Installing RubyGems" bundle install
 
+if [ -e tmp/minio-dev.txt ] ; then
+  step "Starting Docker services" bash -c "[ -d ~/Work/basecamp/docker-dev ] && git -C ~/Work/basecamp/docker-dev pull || gh repo clone basecamp/docker-dev ~/Work/basecamp/docker-dev && ~/Work/basecamp/docker-dev/setup minio"
+
+  step "Configuring MinIO" bin/minio-setup
+fi
+
 if [[ $* == *--reset* ]]; then
   step "Resetting the database" rails db:reset
 else
