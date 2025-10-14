@@ -142,6 +142,18 @@
     .card {
       inline-size: calc((100% - var(--cards-gap) * (var(--card-grid-columns) - 1) ) / var(--card-grid-columns));
     }
+
+    .card__header .card__column-name--current {
+      --btn-padding: 0.1em 0.5em;
+
+      background: none;
+      border: 1px solid currentColor;
+      color: var(--card-color);
+      display: inline-flex;
+      flex: 0 1 auto;
+      inline-size: fit-content;
+      margin: 0 0 0 auto;
+    }
   }
 
   /* Column Elements
@@ -261,7 +273,7 @@
       writing-mode: vertical-rl;
     }
 
-    .cards:not(.is-collapsed) & {
+    .cards:not(.is-collapsed, .cards--considering) & {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -399,7 +411,7 @@
     .card:has(.card__background img:not([src=""])) {
       .card__content,
       .card__meta,
-      .workflow-stage:not(.workflow-stage--current) {
+      .card__column-name:not(.card__column-name--current) {
         opacity: 0;
         transition: opacity 0.2s ease-in-out;
 
@@ -651,6 +663,7 @@
   /* -------------------------------------------------------------------------- */
 
   /* Surface a mini bubble if there are cards with bubbles inside */
+  .cards--considering:has(.bubble:not([hidden])) .cards__expander-title,
   .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
     --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
     --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
@@ -668,6 +681,55 @@
       position: absolute;
       translate: 25% -25%;
       z-index: 1;
+    }
+  }
+
+  .cards--considering:has(.bubble:not([hidden])) .cards__expander-title:before {
+    translate: 120% 50%;
+  }
+
+  /* Card column indicators
+  /* -------------------------------------------------------------------------- */
+
+  .card__column-name {
+    --btn-background: transparent;
+    --btn-padding: 0.2em 0.5em;
+    --btn-border-size: 0;
+    --btn-border-radius: 0.2em;
+
+    color: inherit;
+    inline-size: 100%;
+    justify-content: flex-start;
+    text-transform: uppercase;
+
+    @media (hover: hover) {
+      &:hover {
+        --btn-background: color(from var(--card-color) srgb r g b / 0.15);
+      }
+    }
+  }
+
+  .card__column-name--current {
+    --btn-background: var(--card-color);
+
+    color: var(--color-ink-inverted);
+
+    @media (hover: hover) {
+      &:hover {
+        --btn-background: var(--card-color);
+      }
+    }
+  }
+
+  @supports(mask: radial-gradient(black)) {
+    .card__column-name--stream:before {
+      background: white;
+      content: "";
+      inset: 0;
+      mask: var(--wavy-background-mask);
+      position: absolute;
+      z-index: 0;
+      opacity: 0.25;
     }
   }
 }

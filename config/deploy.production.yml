@@ -1,13 +1,17 @@
 servers:
   web:
     hosts:
-      - fizzy-app-101
-      - fizzy-app-102
+      - fizzy-app-101.df-iad-int.37signals.com
+      - fizzy-app-102.df-iad-int.37signals.com
     labels:
       otel_scrape_enabled: true
   jobs:
     hosts:
-      - fizzy-app-101
+      - fizzy-app-101.df-iad-int.37signals.com
+    options:
+      # NFS mount for backups
+      # See https://3.basecamp.com/2914079/buckets/37331921/todos/9175385847
+      mount: type=volume,src=backups,dst=/backups,volume-driver=local,volume-opt=type=nfs,volume-opt=device=:/fizzy-production-backups,"volume-opt=o=addr=purestorage.sc-chi-int.37signals.com,nfsvers=3,rw,noatime,nconnect=8,soft,timeo=30,retrans=2"
     labels:
       otel_scrape_enabled: true
 
@@ -42,12 +46,12 @@ accessories:
       - fizzy:/home/beamer
     cmd: beamer run --retention=1h --metrics-port=9000
     hosts:
-      - fizzy-app-101
-      - fizzy-app-102
+      - fizzy-app-101.df-iad-int.37signals.com
+      - fizzy-app-102.df-iad-int.37signals.com
 
   load-balancer:
     image: basecamp/kamal-proxy:lb
-    host: fizzy-lb-101
+    host: fizzy-lb-101.df-iad-int.37signals.com
     labels:
       otel_role: load-balancer
       otel_service: fizzy-load-balancer
