@@ -3,6 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static classes = [ "collapsed" ]
   static targets = [ "column", "button" ]
+  static values = {
+    collection: String
+  }
 
   connect() {
     this.#restoreColumns()
@@ -71,6 +74,6 @@ export default class extends Controller {
   }
 
   #localStorageKeyFor(column) {
-    return `expand-${column.getAttribute("id")}`
+    return `expand-${this.collectionValue}-${column.getAttribute("id")}`
   }
 }
