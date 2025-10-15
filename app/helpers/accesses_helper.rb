@@ -36,7 +36,7 @@ module AccessesHelper
       safe_join([
         safe_join(displayed_watchers.map { |watcher| avatar_tag(watcher) }),
         (tag.div(data: { controller: "dialog", action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside" }) do
-          concat tag.button("+#{overflow_count}", class: "overflow-count btn btn--circle borderless", data: { action: "dialog#open"}, aria: { label: "Show #{overflow_count} more watchers" })
+          concat tag.button("+#{overflow_count}", class: "overflow-count btn btn--circle borderless", data: { action: "dialog#open" }, aria: { label: "Show #{overflow_count} more watchers" })
           concat(tag.dialog(class: "collection-tools__watching-dialog dialog panel", data: { dialog_target: "dialog" }, aria: { hidden: "true" }) do
             safe_join(watchers.map { |watcher| avatar_tag(watcher) })
           end)
