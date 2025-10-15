@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_14_204033) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_15_114014) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -135,7 +135,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_14_204033) do
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["card_id"], name: "index_card_not_nows_on_card_id", unique: true
+    t.index ["user_id"], name: "index_card_not_nows_on_user_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -510,6 +512,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_14_204033) do
   add_foreign_key "card_activity_spikes", "cards"
   add_foreign_key "card_goldnesses", "cards"
   add_foreign_key "card_not_nows", "cards"
+  add_foreign_key "card_not_nows", "users"
   add_foreign_key "cards", "columns"
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"

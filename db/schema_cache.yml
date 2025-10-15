@@ -438,6 +438,7 @@ columns:
   - *5
   - *6
   - *9
+  - *18
   cards:
   - *24
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
@@ -1963,6 +1964,22 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: card_not_nows
+    name: index_card_not_nows_on_user_id
+    unique: false
+    columns:
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   cards:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: cards
@@ -3180,4 +3197,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20251014204033
+version: 20251015114014

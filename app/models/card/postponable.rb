@@ -12,16 +12,24 @@ module Card::Postponable
     open? && published? && not_now.present?
   end
 
+  def postponed_at
+    not_now&.created_at
+  end
+
+  def postponed_by
+    not_now&.user
+  end
+
   def active?
     open? && published? && !postponed?
   end
 
-  def postpone
+  def postpone(user: Current.user)
     transaction do
       send_back_to_triage
       reopen
       activity_spike&.destroy
-      create_not_now! unless postponed?
+      create_not_now!(user: user) unless postponed?
     end
   end
 
