@@ -22,6 +22,8 @@ class Card::PostponableTest < ActiveSupport::TestCase
     assert_changes -> { card.reload.postponed? }, to: true do
       card.postpone
     end
+
+    assert_equal users(:david), card.not_now.user
   end
 
   test "scopes" do
