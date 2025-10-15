@@ -76,7 +76,7 @@ columns:
       precision:
       scale:
     'null': false
-    default: watching
+    default: access_only
     default_function:
     collation:
     comment:
@@ -2947,7 +2947,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  tags: []
+  tags:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: tags
+    name: index_tags_on_title
+    unique: true
+    columns:
+    - title
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   user_settings:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: user_settings
@@ -3155,6 +3171,22 @@ indexes:
     unique: false
     columns:
     - collection_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: webhooks
+    name: index_webhooks_on_subscribed_actions
+    unique: false
+    columns:
+    - subscribed_actions
     lengths: {}
     orders: {}
     opclasses: {}
