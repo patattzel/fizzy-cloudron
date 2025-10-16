@@ -69,14 +69,16 @@ class User::DayTimeline
 
     def filtered_events
       @filtered_events ||= begin
-        events = timelineable_events.where(collection: collections)
+        events = timelineable_events
         events = events.where(creator_id: filter.creators.ids) if filter.creators.present?
         events
       end
     end
 
     def timelineable_events
-      Event.where(action: TIMELINEABLE_ACTIONS)
+      Event
+        .where(collection: collections)
+        .where(action: TIMELINEABLE_ACTIONS)
     end
 
     def collections
