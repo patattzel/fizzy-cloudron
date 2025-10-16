@@ -5,13 +5,15 @@ module PaginationHelper
 
   def link_to_next_page(namespace, page, activate_when_observed: false, label: default_pagination_label(activate_when_observed), data: {}, **attributes)
     if page.before_last? && !params[:previous]
-      pagination_link(namespace, page.number + 1, label: label, activate_when_observed: activate_when_observed, data: data, class: "btn txt-small center-block center", **attributes)
+      attributes[:class] = class_names(attributes[:class], "btn txt-small center-block center": !activate_when_observed)
+      pagination_link(namespace, page.number + 1, label: label, activate_when_observed: activate_when_observed, data: data, **attributes)
     end
   end
 
   def pagination_link(namespace, page_number, activate_when_observed: false, label: default_pagination_label(activate_when_observed), url_params: {}, data: {}, **attributes)
     link_to label, url_for(params.permit!.to_h.merge(page: page_number, **url_params)),
       "aria-label": "Load page #{page_number}",
+      id: "#{namespace}-pagination-link-#{page_number}",
       class: class_names(attributes.delete(:class), "pagination-link", { "pagination-link--active-when-observed" => activate_when_observed }),
       data: {
         frame: pagination_frame_id_for(namespace, page_number),
@@ -62,9 +64,11 @@ module PaginationHelper
   private
     def pagination_list(name, tag_element: :div, paginate_on_scroll: false, **properties, &block)
       classes = properties.delete(:class)
+      properties[:id] ||= "#{name}-pagination-list"
       tag.public_send tag_element,
         class: token_list(name, "display-contents", classes),
         data: { controller: "pagination", pagination_paginate_on_intersection_value: paginate_on_scroll },
+        **properties,
         &block
     end
 

@@ -14,7 +14,7 @@ module ColumnsHelper
       "drag-and-drop-refresh": true,
       controller: "frame",
       action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload"
-
+    options[:refresh] = :morph if src.present?
     turbo_frame_tag(id, src: src, data: data, **options, &block)
   end
 end
