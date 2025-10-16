@@ -4,6 +4,9 @@ import { nextFrame } from "helpers/timing_helpers";
 export default class extends Controller {
   static classes = [ "collapsed", "noTransitions" ]
   static targets = [ "column", "button" ]
+  static values = {
+    collection: String
+  }
 
   async connect() {
     this.#disableTransitions()
@@ -84,6 +87,6 @@ export default class extends Controller {
   }
 
   #localStorageKeyFor(column) {
-    return `expand-${column.getAttribute("id")}`
+    return `expand-${this.collectionValue}-${column.getAttribute("id")}`
   }
 }

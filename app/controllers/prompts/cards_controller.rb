@@ -3,9 +3,9 @@ class Prompts::CardsController < ApplicationController
 
   def index
     @cards = if filter_param.present?
-      prepending_exact_matches_by_id(published_cards.mentioning(params[:filter]))
+      prepending_exact_matches_by_id(search_cards)
     else
-      @cards = published_cards.latest
+      published_cards.latest
     end
 
     if stale? etag: @cards
@@ -18,8 +18,15 @@ class Prompts::CardsController < ApplicationController
       params[:filter]
     end
 
+    def search_cards
+      published_cards
+        .mentioning(params[:filter])
+        .reverse_chronologically
+        .limit(MAX_RESULTS)
+    end
+
     def published_cards
-      Current.user.accessible_cards.published.limit(MAX_RESULTS)
+      Current.user.accessible_cards.published
     end
 
     def prepending_exact_matches_by_id(cards)

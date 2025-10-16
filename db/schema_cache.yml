@@ -2353,6 +2353,24 @@ indexes:
     valid: true
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: events
+    name: index_events_on_collection_id_and_action_and_created_at
+    unique: false
+    columns:
+    - collection_id
+    - action
+    - created_at
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: events
     name: index_events_on_creator_id
     unique: false
     columns:
@@ -3197,4 +3215,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20251015123003
+version: 20251016153034

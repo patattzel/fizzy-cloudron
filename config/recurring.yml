@@ -10,13 +10,13 @@ production: &production
   # Application cleanup
   auto_postpone_all_due:
     class: Card::AutoPostponeAllDueJob
-    schedule: every hour
+    schedule: every hour at minute 50
   remove_abandoned_creations:
     class: RemoveAbandonedCreationsJob
-    schedule: every hour
+    schedule: every hour at minute 59
   delete_unused_tags:
     class: DeleteUnusedTagsJob
-    schedule: every day at 04:00
+    schedule: every day at 04:02
 
   # Operations cleanup and backups
   clear_solid_queue_finished_jobs:
@@ -27,10 +27,10 @@ production: &production
     schedule: every hour at minute 52
   cleanup_webhook_deliveries:
     class: Webhook::CleanupDeliveriesJob
-    schedule: every 4 hours
+    schedule: every 4 hours at minute 51
   sqlite_backups:
     class: SQLiteBackupsJob
-    schedule: every day at 05:00
+    schedule: every day at 05:02
 
   # Metrics
   yabeda_actioncable:

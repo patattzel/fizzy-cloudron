@@ -1,4 +1,5 @@
 <%= link_to event.notifiable_target,
+      id: dom_id(event, "timelined"),
       class: "event event--#{ event.action } #{ "golden-effect" if event.card.golden? } center-block flex flex-column full-width align-start justify-start position-relative",
       style: "--card-color: #{ card.closed? ? "var(--color-card-complete)" : card.color };",
       target: "_top",
@@ -8,7 +9,10 @@
         action: "mouseover->related-element#highlight mouseout->related-element#unhighlight" } do %>
   <div class="card__header flex align-start gap full-width">
     <h4 class="card__collection flex-inline align-start">
-      <span class="card__id"><%= card.id %></span>
+      <span class="card__id">
+        <span class="for-screen-reader">Card number</span>
+        <%= card.id %>
+      </span>
       <span class="card__collection-name">
         <span class="overflow-ellipsis"><%= event.collection.name %></span>
       </span>
