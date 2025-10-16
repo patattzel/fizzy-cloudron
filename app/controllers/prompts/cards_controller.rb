@@ -5,7 +5,7 @@ class Prompts::CardsController < ApplicationController
     @cards = if filter_param.present?
       prepending_exact_matches_by_id(search_cards)
     else
-      @cards = published_cards.latest
+      published_cards.latest
     end
 
     if stale? etag: @cards
