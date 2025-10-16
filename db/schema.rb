@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_16_153034) do
+ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -403,10 +403,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_16_153034) do
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
-
-# Could not dump table "sqlite_stat1" because of following StandardError
-#   Unknown type '' for column 'idx'
-
 
   create_table "steps", force: :cascade do |t|
     t.integer "card_id", null: false
