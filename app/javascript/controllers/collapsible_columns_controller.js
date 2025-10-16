@@ -25,19 +25,11 @@ export default class extends Controller {
   }
 
   #disableTransitions() {
-    this.columnTargets.forEach(column => {
-      if (this.noTransitionsClass) {
-        column.classList.add(this.noTransitionsClass)
-      }
-    })
+    this.element.classList.add(this.noTransitionsClass)
   }
 
   #enableTransitions() {
-    this.columnTargets.forEach(column => {
-      if (this.noTransitionsClass) {
-        column.classList.remove(this.noTransitionsClass)
-      }
-    })
+    this.element.classList.remove(this.noTransitionsClass)
   }
 
   #toggleColumn(column) {

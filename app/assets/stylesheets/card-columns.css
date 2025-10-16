@@ -73,7 +73,7 @@
     transition: var(--column-transition);
 
     /* Disable transitions during restoration */
-    &.no-transitions {
+    .no-transitions & {
       transition: none;
     }
 
