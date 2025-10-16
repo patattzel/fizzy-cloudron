@@ -15,6 +15,7 @@ class Webhook < ApplicationRecord
     card_due_date_removed
     card_published
     card_reopened
+    card_title_changed
     card_unassigned
     card_unstaged
     comment_created
