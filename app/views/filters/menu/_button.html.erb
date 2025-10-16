@@ -3,5 +3,5 @@
             action: "click->dialog#open:stop keydown.j@document->hotkey#click keydown.meta+j@document->hotkey#click keydown.ctrl+j@document->hotkey#click",
             controller: "hotkey" } do %>
   <%= inline_svg "fizzy-logo" %>
-  <strong class="txt-medium overflow-ellipsis margin-none"><%= Account.sole.name %></strong>
+  <strong class="txt-medium overflow-ellipsis margin-none"><%= Current.user.identity.memberships.many? ? Account.sole.name : "Fizzy" %></strong>
 <% end %>

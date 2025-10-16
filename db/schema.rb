@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_15_205212) do
+ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -266,6 +266,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_15_205212) do
     t.json "particulars", default: {}
     t.datetime "updated_at", null: false
     t.index ["action"], name: "index_events_on_summary_id_and_action"
+    t.index ["collection_id", "action", "created_at"], name: "index_events_on_collection_id_and_action_and_created_at"
     t.index ["collection_id"], name: "index_events_on_collection_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"

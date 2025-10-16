@@ -229,6 +229,7 @@
         transition: opacity 300ms ease-in-out;
         opacity: 0;
 
+        &:focus-visible,
         .cards:hover & {
           opacity: 1;
         }
@@ -268,15 +269,17 @@
     font-weight: inherit;
     font-size: inherit;
     line-height: var(--column-width-collapsed);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     .cards.is-collapsed & {
+      max-inline-size: 50vh;
       writing-mode: vertical-rl;
     }
 
     .cards:not(.is-collapsed, .cards--considering) & {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      max-inline-size: calc(100% - var(--column-width-collapsed) * 2);
     }
   }
 
@@ -590,6 +593,10 @@
     border: 1px solid var(--border-color);
     text-align: center;
 
+    &:has(dialog[open]) {
+      z-index: 5;
+    }
+
     .separator--horizontal {
       margin-block: var(--block-space);
     }
@@ -616,32 +623,28 @@
   }
 
   .collection-tools__watching {
+    --btn-size: 32px;
+    --gap: 0.5ch;
+
     display: flex;
-    gap: 0.5ch;
+    gap: var(--gap);
     inline-size: 100%;
     margin-block: var(--block-space-half);
-    overflow: hidden;
     place-content: center;
     position: relative;
+  }
 
-    &:before,
-    &:after {
-      aspect-ratio: 0.5;
-      background: linear-gradient(to right, var(--color-canvas), transparent);
-      content: "";
-      inset-block: 0;
-      position: absolute;
-      z-index: 1;
-    }
+  .collection-tools__watching-dialog {
+    --panel-padding: 2ch;
+    --panel-size: 100%;
 
-    &:before {
-      inset-inline-start: 0;
-    }
-
-    &:after {
-      inset-inline-end: 0;
-      rotate: 180deg;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+    inset-block-start: 0;
+    justify-content: center;
+    position: absolute;
+    z-index: 1;
   }
 
   /* On Deck (Not Now)

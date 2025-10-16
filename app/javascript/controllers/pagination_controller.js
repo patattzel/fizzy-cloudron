@@ -90,7 +90,6 @@ export default class extends Controller {
   #replacePaginationLinkWithFrame(linkElement) {
     const turboFrame = this.#buildTurboFrameFor(linkElement)
     this.#insertTurboFrameAtPosition(linkElement, turboFrame)
-    linkElement.remove()
   }
 
   #buildTurboFrameFor(linkElement) {

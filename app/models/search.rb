@@ -23,6 +23,7 @@ class Search
         "null as comment_body",
         "collections.name as collection_name",
         "cards.creator_id",
+        "cards.created_at",
         "bm25(cards_search_index, 10.0, 2.0) AS score"
       ].join(","))
 
@@ -35,10 +36,11 @@ class Search
         "snippet(comments_search_index, 0, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}', '...', 20) AS comment_body",
         "collections.name as collection_name",
         "comments.creator_id",
+        "comments.created_at",
         "bm25(comments_search_index, 1.0) AS score"
       ].join(","))
 
     union_sql = "(#{cards.to_sql} UNION #{comments.to_sql}) as search_results"
-    Search::Result.from(union_sql).order(score: :desc)
+    Search::Result.from(union_sql).order(created_at: :desc)
   end
 end
