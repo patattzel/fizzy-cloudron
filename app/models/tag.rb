@@ -15,6 +15,6 @@ class Tag < ApplicationRecord
   end
 
   def cards_count
-    cards.count
+    cards.open.count
   end
 end
