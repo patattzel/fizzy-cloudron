@@ -2,7 +2,7 @@
   .input:is(.fizzy-menu-trigger) {
     --input-background: var(--color-canvas);
     --input-border-color: transparent;
-    --input-padding: 0.2em 2em 0.2em 0.9em;
+    --input-padding: 0.3em 2em 0.3em 1em;
 
     inline-size: auto;
     margin-block-start: 0.1em;
@@ -19,6 +19,12 @@
           --input-background: var(--color-ink-lighter);
         }
       }
+    }
+
+    img {
+      block-size: auto;
+      inline-size: 1.5em;
+      margin-inline-end: 0.8ch;
     }
 
     svg {
