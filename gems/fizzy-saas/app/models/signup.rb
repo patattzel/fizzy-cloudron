@@ -19,7 +19,6 @@ class Signup
     @company_name = nil
     @full_name = nil
     @email_address = nil
-    @password = nil
     @tenant = nil
     @account = nil
     @user = nil
@@ -48,9 +47,8 @@ class Signup
     destroy_tenant
     destroy_queenbee_account
 
-    errors.add(:base, "An error occurred during signup: #{error.message}")
-    Rails.logger.error(error)
-    Rails.logger.error(error.backtrace.join("\n"))
+    errors.add(:base, "Something went wrong, and we couldn't create your account. Please give it another try.")
+    Rails.error.report(error, severity: :error)
 
     false
   end
@@ -89,8 +87,8 @@ class Signup
         ApplicationRecord.destroy_tenant(tenant)
       end
 
-      @account = nil
       @user = nil
+      @account = nil
       @tenant = nil
     end
 
@@ -107,8 +105,8 @@ class Signup
         # attributes[:terms_of_service] = true
 
         attributes[:product_name]   = "fizzy"
-        attributes[:name]           = email_address
-        attributes[:owner_name]     = email_address
+        attributes[:name]           = company_name
+        attributes[:owner_name]     = full_name
         attributes[:owner_email]    = email_address
 
         attributes[:trial]          = true

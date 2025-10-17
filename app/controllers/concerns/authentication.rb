@@ -29,6 +29,10 @@ module Authentication
       skip_before_action :require_authentication, **options
       before_action :redirect_tenanted_request, **options
     end
+
+    def require_identity(**options)
+      before_action :require_identity, **options
+    end
   end
 
   private
@@ -38,8 +42,11 @@ module Authentication
 
     def require_tenant
       unless ApplicationRecord.current_tenant.present?
-        resume_identity
-        redirect_to session_login_menu_url(script_name: nil)
+        if resume_identity
+          redirect_to session_login_menu_url(script_name: nil)
+        else
+          request_authentication
+        end
       end
     end
 

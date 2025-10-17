@@ -2,29 +2,26 @@ module User::Identifiable
   extend ActiveSupport::Concern
 
   included do
-    has_one :membership, ->(user) { where(user_tenant: user.tenant) }
-    has_one :identity, through: :membership
-
-    scope :with_identity, ->(identity) { where(id: identity.memberships.where(user_tenant: ApplicationRecord.current_tenant).pluck(:user_id)) }
+    after_create_commit :link_identity, unless: :system?
+    after_update_commit :update_email_address_on_identity, if: -> { saved_change_to_email_address? && !system? }
+    after_destroy_commit :unlink_identity, unless: :system?
   end
 
-  def set_identity(token_identity)
-    if token_identity.present?
-      if identity.nil?
-        token_identity.memberships.create!(user_id: id, user_tenant: tenant, email_address: email_address, account_name: Account.sole.name)
-      elsif identity != token_identity
-        Identity.transaction do
-          identity.memberships.update_all(identity_id: token_identity.id)
-          identity.destroy
-        end
-      end
-      token_identity
-    elsif identity.present?
-      identity
-    else
-      Identity.create!.tap do |identity|
-        identity.memberships.create!(user_id: id, user_tenant: tenant, email_address: email_address, account_name: Account.sole.name)
-      end
+  def identity
+    Identity.find_by(email_address: email_address)
+  end
+
+  private
+    def link_identity
+      IdentityProvider.link(email_address: email_address, to: tenant)
     end
-  end
+
+    def unlink_identity
+      IdentityProvider.unlink(email_address: email_address, from: tenant)
+    end
+
+    def update_email_address_on_identity
+      old_email, new_email = saved_change_to_email_address
+      IdentityProvider.change_email_address(from: old_email, to: new_email, tenant: tenant)
+    end
 end

@@ -1,13 +1,14 @@
 class User < ApplicationRecord
-  include Accessor, Assignee, Attachable, Configurable, Identifiable,
-    Invitable, Mentionable, Named, Notifiable, Role, Searcher, Staff, Transferable,
-    Watcher
+  include Accessor, Assignee, Attachable, Configurable, EmailAddressChangeable,
+    Identifiable, Invitable, Mentionable, Named, Notifiable, Role, Searcher, Staff,
+    Transferable, Watcher
   include Timelined # Depends on Accessor
+
+  self.ignored_columns = %i[ password_digest ]
 
   has_one_attached :avatar
 
   has_many :sessions, dependent: :destroy
-  has_secure_password validations: false
 
   has_many :comments, inverse_of: :creator, dependent: :destroy
 
@@ -21,7 +22,9 @@ class User < ApplicationRecord
   def deactivate
     sessions.delete_all
     accesses.destroy_all
+    old_email = email_address
     update! active: false, email_address: deactived_email_address
+    unlink_identity
   end
 
   private

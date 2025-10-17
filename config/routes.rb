@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :users do
     resource :role, module: :users
     resources :push_subscriptions, module: :users
+    resources :email_addresses, only: %i[ new create ], param: :token, module: :users do
+      resource :confirmation, only: %i[ show create ], module: :email_addresses
+    end
   end
 
   resources :collections do
@@ -131,6 +134,7 @@ Rails.application.routes.draw do
       resources :transfers, only: %i[ show update ]
       resource :magic_link, only: %i[ show create ]
       resource :login_menu, only: %i[ show create ]
+      resource :start, only: %i[ new create ]
     end
   end
 

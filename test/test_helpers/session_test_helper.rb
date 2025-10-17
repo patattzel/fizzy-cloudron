@@ -7,12 +7,10 @@ module SessionTestHelper
     cookies.delete :session_token
     user = users(user) unless user.is_a? User
 
-    set_identity_as user
+    identify_as user
 
-    user.reload
-    membership = user.membership
     tenanted do
-      post session_login_menu_url, params: { membership_id: membership.id }
+      post session_start_url
       assert_response :redirect, "Login should succeed"
 
       cookie = cookies.get_cookie "session_token"
@@ -21,17 +19,17 @@ module SessionTestHelper
     end
   end
 
-  def set_identity_as(user_or_identity)
+  def identify_as(user_or_identity)
     user = if user_or_identity.is_a?(User)
       user_or_identity
     else
       users(user_or_identity)
     end
 
-    membership = user.membership || user.set_identity(nil).memberships.find_by(user_id: user.id, user_tenant: user.tenant)
-    membership.send_magic_link
+    identity = Identity.find_by(email_address: user.email_address)
+    identity.send_magic_link
 
-    magic_link = membership.magic_links.order(id: :desc).first
+    magic_link = identity.magic_links.order(id: :desc).first
 
     untenanted do
       post session_magic_link_url, params: { code: magic_link.code }
