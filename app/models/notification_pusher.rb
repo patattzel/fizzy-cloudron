@@ -47,7 +47,8 @@ class NotificationPusher
       when "comment_created"
         base_payload.merge(
           title: "RE: #{base_payload[:title]}",
-          body: comment_notification_body(event)
+          body: comment_notification_body(event),
+          path: card_path_with_comment_anchor(event.eventable)
         )
       when "card_assigned"
         base_payload.merge(
@@ -110,5 +111,9 @@ class NotificationPusher
 
     def card_path(card)
       "#{Account.sole.slug}#{Rails.application.routes.url_helpers.card_path(card)}"
+    end
+
+    def card_path_with_comment_anchor(comment)
+      "#{Account.sole.slug}#{Rails.application.routes.url_helpers.card_path(comment.card, anchor: ActionView::RecordIdentifier.dom_id(comment))}"
     end
 end
