@@ -111,6 +111,10 @@
     .card {
       inline-size: calc(var(--column-width-expanded) - var(--column-padding-expanded) * 2);
     }
+
+    .cards--grid & {
+      display: contents;
+    }
   }
 
   .cards__new-column {
@@ -123,8 +127,10 @@
     --card-grid-columns: 1;
 
     container-type: inline-size;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: var(--cards-gap);
     justify-content: center;
     margin-inline: auto;
     max-inline-size: var(--main-width);
@@ -589,6 +595,7 @@
     --card-padding-block: var(--block-space);
 
     border: 1px solid var(--border-color);
+    margin-block-end: var(--cards-gap);
     text-align: center;
 
     &:has(dialog[open]) {

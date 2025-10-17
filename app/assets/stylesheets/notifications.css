@@ -3,12 +3,14 @@
   /* ------------------------------------------------------------------------ */
 
   .notifications-list {
+    --panel-size: 45ch;
+
     .tray__item {
       position: relative;
 
       &[aria-selected] {
         outline: 0;
-        
+
         .card {
           border-radius: 0.25ch;
           outline: var(--focus-ring-size) solid var(--focus-ring-color);
@@ -56,8 +58,8 @@
       &:before {
         opacity: 0;
       }
-      
-      .icon { 
+
+      .icon {
         opacity: 1;
       }
     }

@@ -320,6 +320,10 @@
     position: absolute;
     rotate: 5deg;
     transform-origin: top right;
+
+    .cards &  {
+      display: none;
+    }
   }
 
   .card:has(.card__closed),
