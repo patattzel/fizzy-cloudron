@@ -21,7 +21,7 @@ module Card::Cacheable
     end
 
     def for_preview(*other)
-      [ card, card.collection.entropy_configuration, card.collection.publication, card.column&.color, Column.all, *other ]
+      [ card, card.collection.entropy_configuration, card.collection.publication, card.column&.color, *other ]
     end
   end
 end
