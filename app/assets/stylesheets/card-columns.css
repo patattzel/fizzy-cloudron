@@ -66,7 +66,7 @@
     inline-size: var(--column-width-expanded);
     position: relative;
     scroll-snap-align: start;
-    transition: inline-size 200ms ease-out;
+    transition: inline-size 300ms ease-out;
     will-change: inline-size;
 
     .no-transitions & {
@@ -102,7 +102,9 @@
   /* The wrapper around the cards used to clip overflow while transitioning.
    * Also, don't resize cards while transitioning to avoid reflow. */
   .cards__list {
-    display: grid;
+    align-items: flex-end; /* use flex-start to wipe from left */
+    display: flex;
+    flex-direction: column;
     gap: var(--cards-gap);
     margin-block-start: -1ch;
     margin-inline: -1ch;
