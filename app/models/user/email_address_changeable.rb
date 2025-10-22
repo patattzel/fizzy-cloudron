@@ -1,7 +1,13 @@
 module User::EmailAddressChangeable
   EMAIL_CHANGE_TOKEN_PURPOSE = "change_email_address"
+  EMAIL_CHANGE_TOKEN_EXPIRATION = 30.minutes
 
   extend ActiveSupport::Concern
+
+  def send_email_address_change_confirmation(new_email_address)
+    token = generate_email_address_change_token(to: new_email_address, expires_in: EMAIL_CHANGE_TOKEN_EXPIRATION)
+    UserMailer.email_change_confirmation(user: self, email_address: new_email_address, token: token).deliver_later
+  end
 
   def generate_email_address_change_token(from: email_address, to:, **options)
     options = options.reverse_merge(
@@ -23,7 +29,20 @@ module User::EmailAddressChangeable
     elsif email_address != parsed_token.params.fetch("old_email_address")
       raise ArgumentError, "The token was generated for a different email address"
     else
-      update!(email_address: parsed_token.params.fetch("new_email_address"))
+      change_email_address(parsed_token.params.fetch("new_email_address"))
     end
   end
+
+  private
+    def change_email_address(new_email_address)
+      old_email_address = email_address
+      update!(email_address: new_email_address)
+
+      begin
+        IdentityProvider.change_email_address(from: old_email_address, to: new_email_address, tenant: tenant)
+      rescue => e
+        update!(email_address: old_email_address)
+        raise e
+      end
+    end
 end
