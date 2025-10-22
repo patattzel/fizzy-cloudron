@@ -516,7 +516,7 @@
 
   .pinstripes {
     --pinstripe-color: oklch(var(--lch-blue-light));
-    --pinstripe-spacing: 3px;
+    --pinstripe-spacing: 5px;
 
     background: repeating-linear-gradient(
       90deg,
@@ -554,7 +554,7 @@
   }
 
   .pinstripes--alt {
-    --pinstripe-spacing: 6px; /* 2x previous spacing value */
+    --pinstripe-spacing: 10px; /* 2x previous spacing value */
   }
 
   .pinstripes__fade {
