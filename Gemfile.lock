@@ -158,6 +158,22 @@ PATH
       rails_structured_logging
 
 GEM
+  remote: https://gems.stanko.io/private/
+  specs:
+    beamer-rails (0.0.6-arm64-darwin)
+      sqlite3 (>= 2.0)
+    beamer-rails (0.0.6-arm64-linux)
+      sqlite3 (>= 2.0)
+    beamer-rails (0.0.6-x86_64-darwin)
+      sqlite3 (>= 2.0)
+    beamer-rails (0.0.6-x86_64-linux)
+      sqlite3 (>= 2.0)
+    beamer-rails (0.0.6-x86_64-linux-gnu)
+      sqlite3 (>= 2.0)
+    beamer-rails (0.0.6-x86_64-linux-musl)
+      sqlite3 (>= 2.0)
+
+GEM
   remote: https://rubygems.org/
   specs:
     action_text-trix (2.1.15)
@@ -522,7 +538,6 @@ GEM
     sqlite-vec (0.1.7.alpha.2-arm64-linux)
     sqlite-vec (0.1.7.alpha.2-x86_64-darwin)
     sqlite-vec (0.1.7.alpha.2-x86_64-linux)
-    sqlite-vec (0.1.7.alpha.2-x86_64-mingw32)
     sqlite3 (2.7.4)
       mini_portile2 (~> 2.8.0)
     sqlite3 (2.7.4-arm64-darwin)
@@ -614,7 +629,6 @@ PLATFORMS
   x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
-  x86_64-mingw32
 
 DEPENDENCIES
   activerecord-tenanted!
@@ -622,6 +636,7 @@ DEPENDENCIES
   autotuner
   aws-sdk-s3
   bcrypt (~> 3.1.7)
+  beamer-rails!
   benchmark
   bootsnap
   brakeman
