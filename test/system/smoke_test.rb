@@ -10,7 +10,7 @@ class SmokeTest < ApplicationSystemTestCase
     fill_in_lexxy with: "I am editing this thing"
     click_on "Create card"
 
-    assert_selector "h1", text: "Hello, world!"
+    assert_selector "h3", text: "Hello, world!"
   end
 
   test "active storage attachments" do
