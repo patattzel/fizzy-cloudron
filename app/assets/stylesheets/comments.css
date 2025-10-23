@@ -68,8 +68,10 @@
   .comment__content {
     --btn-icon-size: 1.2rem;
     --btn-size: var(--reaction-size);
+    --comment-bg-color: var(--color-ink-lightest);
+    --lexxy-bg-color: var(--comment-bg-color);
 
-    background-color: var(--color-ink-lightest);
+    background-color: var(--comment-bg-color);
     border-radius: 0.2em;
     padding:
       var(--comment-padding-block)

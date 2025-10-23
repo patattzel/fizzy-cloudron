@@ -1,6 +1,6 @@
 @layer components {
   .rich-text-content {
-    --block-margin: 1rem;
+    --block-margin: 0;
 
     :where(h1, h2, h3, h4, h5, h6) {
       display: block;
@@ -40,7 +40,7 @@
       border-inline-start: 0.25em solid var(--color-ink-lighter);
       font-style: italic;
       margin: var(--block-margin) 0;
-      padding: 0.5lh 2ch;
+      padding-inline-start: 2ch;
     }
 
     :where(img, video, embed, object) {
