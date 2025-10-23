@@ -11,7 +11,6 @@
 
 <% content_for :header do %>
   <%= render "filters/menu" %>
-
   <%= link_to collection_url(@card.collection), class: "header__title btn borderless txt-large",
         style: "--btn-padding: 0.25ch 1ch 0.25ch 0.75ch; view-transistion-name: card-collection-title;",
         data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click click->turbo-navigation#backIfSamePath" } do %>
