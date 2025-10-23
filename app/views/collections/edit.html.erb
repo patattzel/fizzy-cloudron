@@ -33,7 +33,7 @@
         <span>Save changes</span>
       </button>
 
-      <%= link_to "Cancel and go back", cards_path(collection_ids: [ @collection ]), data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
+      <%= link_to "Cancel and go back", @collection, data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
     <% end %>
   </div>
 
