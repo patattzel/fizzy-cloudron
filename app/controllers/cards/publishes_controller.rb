@@ -7,7 +7,7 @@ class Cards::PublishesController < ApplicationController
     if add_another_param?
       redirect_to @collection.cards.create!, notice: "Card added"
     else
-      redirect_to @card
+      redirect_to @card.collection
     end
   end
 
