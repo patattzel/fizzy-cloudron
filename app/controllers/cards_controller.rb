@@ -38,7 +38,7 @@ class CardsController < ApplicationController
 
   def destroy
     @card.destroy!
-    redirect_to cards_path(collection_ids: [ @card.collection ]), notice: ("Card deleted" unless @card.creating?)
+    redirect_to @card.collection, notice: ("Card deleted" unless @card.creating?)
   end
 
   private
