@@ -12,7 +12,6 @@ module WebhooksHelper
     card_reopened: "Card reopened",
     card_title_changed: "Card title changed",
     card_unassigned: "Card unassigned",
-    card_unstaged: "Card unstaged",
     comment_created: "Comment created"
   }.with_indifferent_access.freeze
 
