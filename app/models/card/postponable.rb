@@ -38,7 +38,7 @@ module Card::Postponable
     end
   end
 
-  def resume(user: Current.user)
+  def resume
     transaction do
       reopen
       activity_spike&.destroy
