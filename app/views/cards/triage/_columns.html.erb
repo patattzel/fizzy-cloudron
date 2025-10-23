@@ -7,7 +7,7 @@
       aria: { checked: card.postponed? },
       form_class: "flex align-center gap-half" %>
 
-  <%= button_to "The Stream", card_triage_path(card), method: :delete,
+  <%= button_to "Maybe?", card_triage_path(card), method: :delete,
       class: [ "card__column-name card__column-name--stream btn", { "card__column-name--current": card.awaiting_triage? } ],
       role: "radio",
       aria: { checked: card.awaiting_triage? },
