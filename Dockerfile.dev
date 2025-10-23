@@ -26,16 +26,8 @@ RUN --mount=type=secret,id=GITHUB_TOKEN --mount=type=cache,id=fizzy-devbundle-${
     cp -a /devbundle/. "$BUNDLE_PATH"/ && \
     bundle clean --force
 
-# Fetch beamer library
-FROM registry.37signals.com/basecamp/beamer:vfs AS beamer
-
 # Final stage
 FROM base
-
-# Copy beamer into /usr/local because /rails is mounted as a volume and will overwrite anything
-# there.
-COPY --from=beamer /home/beamer/bin/beamer.so /usr/local/lib/beamer/beamer.so
-COPY --from=beamer /usr/local/bin/beamer /usr/local/bin/beamer
 
 # Entrypoint prepares the database
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
