@@ -4,17 +4,16 @@
   <%= render "filters/menu" %>
 <% end %>
 
-<div class="panel shadow center" style="--panel-size: 55ch; view-transition-name: new-collection">
-  <%= form_with model: @collection, class: "flex flex-column gap txt-large", data: { controller: "form" } do |form| %>
-    <h2 class="txt-x-large"><%= @page_title %></h2>
-    <label class="flex align-center gap">
-      <%= form.text_field :name, required: true, class: "input full-width", autofocus: true, autocomplete: "off",placeholder: "Give it a name…", data: { action: "keydown.esc@document->form#cancel" } %>
-    </label>
+<div class="panel panel--centered">
+  <%= form_with model: @collection, class: "flex flex-column gap", data: { controller: "form" } do |form| %>
+    <h1 class="txt-x-large margin-none font-weight-black"><%= @page_title %></h2>
+    <%= form.text_field :name, required: true, class: "input full-width", autofocus: true, autocomplete: "off",placeholder: "Name it…", data: { action: "keydown.esc@document->form#cancel" } %>
 
-    <button type="submit" id="log_in" class="btn btn--reversed center">
-      <%= icon_tag "check" %>
-      <span class="for-screen-reader">Save</span>
+    <button type="submit" class="btn btn--link center">
+      <span>Create board</span>
+      <%= icon_tag "arrow-right" %>
     </button>
+
     <%= link_to "Cancel and go back", root_path, data: { form_target: "cancel", turbo_frame: "_top" }, hidden: true %>
   <% end %>
 </div>
