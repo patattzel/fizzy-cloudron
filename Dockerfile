@@ -44,11 +44,6 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
-
-# Fetch beamer library
-FROM registry.37signals.com/basecamp/beamer:vfs AS beamer
-
-
 # Final stage for app image
 FROM base
 
@@ -60,8 +55,6 @@ RUN apt-get update -qq && \
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
-COPY --from=beamer /home/beamer/bin/beamer.so /rails/bin/lib/beamer.so
-COPY --from=beamer /usr/local/bin/beamer /rails/bin/beamer
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \

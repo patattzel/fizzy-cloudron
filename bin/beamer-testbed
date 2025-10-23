@@ -178,7 +178,7 @@ cmd_run_migrations() {
   echo "Waiting for beamer to be ready..."
 
   # Wait for beamer status to succeed
-  while ! beamer $BEAMER_OPTIONS status >/dev/null 2>&1; do
+  while ! bin/beamer $BEAMER_OPTIONS status >/dev/null 2>&1; do
     echo "Beamer not ready yet, waiting..."
     sleep 1
   done
@@ -187,7 +187,7 @@ cmd_run_migrations() {
   sleep 1
 
   # Check if this is the primary node
-  if beamer $BEAMER_OPTIONS is-primary; then
+  if bin/beamer $BEAMER_OPTIONS is-primary; then
     echo "This is the primary node, running migrations..."
     ./bin/rails db:prepare
     echo "Migrations complete!"
