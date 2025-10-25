@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, AiQuota, Assignee, Attachable, Configurable, Conversational, Highlights,
+  include Accessor, AiQuota, Assignee, Attachable, Configurable, Conversational, Summaries,
     Identifiable, Mentionable, Named, Notifiable, Role, Searcher, Staff, Transferable, Watcher
   include Timelined # Depends on Accessor
 
