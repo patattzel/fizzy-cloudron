@@ -21,7 +21,7 @@ module FiltersHelper
       concat icon_tag(icon, class: "popup__icon")
       concat(link_to(path, link_to_params.merge(class: "popup__btn btn")) do
         concat tag.span(label, class: "overflow-ellipsis")
-        concat icon_tag("check", class: "checked flex-item-justify-end", "aria-hidden": true)
+        concat icon_tag("check", class: "current flex-item-justify-end", "aria-hidden": true)
       end)
     end
   end
