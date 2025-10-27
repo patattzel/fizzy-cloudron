@@ -28,52 +28,6 @@
     }
   }
 
-  /* Menu
-  /* ------------------------------------------------------------------------ */
-
-  .reactions__menu {
-    position: relative;
-  }
-
-  .reactions__trigger {
-    --btn-border-color: var(--reaction-border-color);
-    --btn-size: var(--reaction-size);
-
-    font-size: 0.75em;
-
-    .reactions:not(:has(.reaction)) & {
-    }
-  }
-
-  .reactions__popup {
-    --panel-border-radius: 1.2em;
-    --panel-padding: 0.5ch;
-    --offset: calc(-1 * var(--panel-padding));
-
-    inset: var(--offset) auto auto var(--offset);
-    min-inline-size: auto;
-    transform: none;
-  }
-
-  .reactions__emoji-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    .btn {
-      --btn-icon-size: 1.5ch;
-      --btn-size: var(--reaction-size);
-      --btn-border-color: var(--color-canvas);
-
-      position: relative;
-
-      /* Make sure the selection ring sits on top of adjacent buttons on hover */
-      &:hover,
-      &:focus-visible {
-        z-index: 1;
-      }
-    }
-  }
-
   /* Single reaction
   /* -------------------------------------------------------------------------- */
 
@@ -87,7 +41,7 @@
     border: 1px solid var(--reaction-border-color);
     border-radius: 4rem;
     display: inline-flex;
-    gap: var(--column-gap);
+    gap: 0.25ch;
     max-inline-size: 100%;
     opacity: 1;
     padding: 0.1em 0.12em;
@@ -163,5 +117,57 @@
 
   .reaction--deleting {
     animation: scale-fade-out 0.2s both;
+  }
+
+  .reaction__menu-btn,
+  .reaction__submit-btn,
+  .reaction__cancel-btn {
+    --btn-size: 1.25rem;
+    --icon-size: var(--btn-size);
+  }
+
+  .reaction__submit-btn {
+    color: oklch(var(--lch-green-dark));
+  }
+
+  .reaction__cancel-btn {
+    color: oklch(var(--lch-red-dark));
+  }
+
+
+  /* Menu
+  /* ------------------------------------------------------------------------ */
+
+  .reaction__menu {
+    position: relative;
+  }
+
+  .reaction__popup {
+    --panel-border-radius: 1.2em;
+    --panel-padding: 0.5ch;
+    --offset: calc(-1 * var(--panel-padding));
+
+    inset: var(--offset) auto auto var(--offset);
+    min-inline-size: auto;
+    transform: none;
+  }
+
+  .reaction__emoji-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .btn {
+      --btn-icon-size: 1.5ch;
+      --btn-size: var(--reaction-size);
+      --btn-border-color: var(--color-canvas);
+
+      position: relative;
+
+      /* Make sure the selection ring sits on top of adjacent buttons on hover */
+      &:hover,
+      &:focus-visible {
+        z-index: 1;
+      }
+    }
   }
 }
