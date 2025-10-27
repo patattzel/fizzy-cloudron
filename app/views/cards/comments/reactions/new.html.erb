@@ -15,12 +15,12 @@
     <%= render "cards/comments/reactions/menu", comment: @comment %>
 
     <%= form.button class: "btn btn--circle borderless btn--reversed", type: "submit", data: { form_target: "submit" } do %>
-      <%= icon_tag "check" %> <span class="for-screen-reader">Submit</span>
+      <%= icon_tag "check-circle" %> <span class="for-screen-reader">Submit</span>
     <% end %>
 
     <%= link_to card_comment_reactions_path(@comment.card, @comment), role: "button",
           data: { turbo_frame: dom_id(@comment, :reacting), form_target: "cancel" }, class: "btn btn--circle borderless btn--negative" do %>
-      <%= icon_tag "minus" %> <span class="for-screen-reader">Cancel</span>
+      <%= icon_tag "close-circle" %> <span class="for-screen-reader">Cancel</span>
     <% end %>
   <% end %>
 <% end %>
