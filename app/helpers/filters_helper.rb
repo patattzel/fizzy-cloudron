@@ -17,11 +17,11 @@ module FiltersHelper
 
   def filter_place_menu_item(path, label, icon, new_window: false, current: false)
     link_to_params = new_window ? { target: "_blank" } : {}
-    tag.li class: [ "popup__item", { "popup__item--current": current } ], id: "filter-place-#{label.parameterize}", data: { filter_target: "item", navigable_list_target: "item" } do
+    tag.li class: "popup__item", id: "filter-place-#{label.parameterize}", data: { filter_target: "item", navigable_list_target: "item" }, aria: { checked: current } do
       concat icon_tag(icon, class: "popup__icon")
       concat(link_to(path, link_to_params.merge(class: "popup__btn btn")) do
         concat tag.span(label, class: "overflow-ellipsis")
-        concat icon_tag("check", class: "current flex-item-justify-end", "aria-hidden": true)
+        concat icon_tag("check", class: "checked flex-item-justify-end", "aria-hidden": true)
       end)
     end
   end
