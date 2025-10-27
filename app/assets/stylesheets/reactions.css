@@ -12,6 +12,10 @@
     inline-size: 100%;
     margin-block-start: calc(var(--block-space-half) / 2);
     margin-inline: calc(var(--column-gap) / -1);
+
+    &:has([open]) {
+      z-index: var(--z-popup);
+    }
   }
 
   .reactions__list {

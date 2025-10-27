@@ -6,22 +6,8 @@
   <dialog class="reactions__popup popup panel fill-white shadow" data-dialog-target="dialog">
     <div class="reactions__emoji-list">
       <% EmojiHelper::REACTIONS.each do |character, title| %>
-        <%= form_with model: [ comment.card, comment, Reaction.new ], data: { turbo_frame: dom_id(comment, :new_reaction), action: "dialog#close"} do |form| %>
-          <%= hidden_field_tag "reaction[content]", character %>
-          <%= form.button type: "submit", title: title, class: "reaction__quick-emoji-btn btn btn--circle", data: { emoji: character } do %>
-            <span><%= character %></span>
-          <% end %>
-        <% end %>
+        <%= tag.button character, title: title, class: "reactions__emoji-btn btn btn--circle", data: { emoji: character } %>
       <% end %>
-
-      <div class="flex-inline" data-controller="soft-keyboard">
-        <%= link_to new_card_comment_reaction_path(comment.card, comment), role: "button",
-              class: "btn btn--circle", action: "soft-keyboard#open",
-              data: { turbo_frame: dom_id(comment, :new_reaction), action: "dialog#close" } do %>
-          <%= icon_tag "reaction" %>
-          <span class="for-screen-reader">Add your own reaction</span>
-        <% end %>
-      </div>
     </div>
   </dialog>
 </div>
