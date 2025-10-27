@@ -12,17 +12,40 @@
     inline-size: 100%;
     margin-block-start: calc(var(--block-space-half) / 2);
     margin-inline: calc(var(--column-gap) / -1);
+
+    &:has([open]) {
+      z-index: var(--z-popup);
+    }
+
+    &:not(:has(.reaction)) {
+      inline-size: auto;
+      inset-block-end: var(--comment-padding-block);
+      inset-inline-end: calc(var(--comment-padding-inline) / 2);
+      margin: 0;
+      position: absolute;
+
+      .reactions__list {
+        display: none;
+      }
+
+      .reactions__trigger {
+        background-color: var(--color-ink-lightest);
+
+        &:not(:hover) {
+          opacity: 0.66;
+        }
+      }
+    }
   }
 
   .reactions__list {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--column-gap);
-
-    &:not(:has(.reaction)) {
-      display: none;
-    }
+    gap: var(--inline-space-half);
   }
+
+  /* Single reaction
+  /* -------------------------------------------------------------------------- */
 
   .reaction {
     --btn-size: 100%;
@@ -34,10 +57,10 @@
     border: 1px solid var(--reaction-border-color);
     border-radius: 4rem;
     display: inline-flex;
-    gap: var(--column-gap);
+    gap: 0.25ch;
     max-inline-size: 100%;
     opacity: 1;
-    padding: 0.1em 0.25em 0.1em 0.12em;
+    padding: 0.1em 0.12em;
     postion: relative;
     transition: opacity 100ms ease-in-out, transform 150ms ease-in-out;
 
@@ -51,7 +74,7 @@
     cursor: pointer;
 
     @media (any-hover: hover) {
-      &:not(:active):hover {
+      &:not(.expanded):hover {
         filter: brightness(var(--reaction-hover-brightness));
 
         @media (prefers-color-scheme: dark) {
@@ -70,7 +93,6 @@
 
   .reaction__delete {
     display: none;
-    translate: 0.25em;
 
     .expanded & {
       display: grid;
@@ -88,7 +110,7 @@
 
     &:has(.input:focus) {
       outline: var(--focus-ring-size) solid var(--focus-ring-color);
-      outline-offset: var(--focus-ring-offset);
+      outline-offset: -1px;
     }
 
     .reaction__form-label:focus {
@@ -112,25 +134,30 @@
     animation: scale-fade-out 0.2s both;
   }
 
-  .reaction__action {
-    --btn-border-color: var(--reaction-border-color);
-    --btn-size: var(--reaction-size);
-
-    font-size: 0.75em;
-
-    .reactions:not(:has(.reaction)) & {
-      display: none;
-    }
+  .reaction__menu-btn,
+  .reaction__submit-btn,
+  .reaction__cancel-btn {
+    --btn-size: 1.25rem;
+    --icon-size: var(--btn-size);
   }
 
-  /* Quick reactions
+  .reaction__submit-btn {
+    color: oklch(var(--lch-green-dark));
+  }
+
+  .reaction__cancel-btn {
+    color: oklch(var(--lch-red-dark));
+  }
+
+
+  /* Menu
   /* ------------------------------------------------------------------------ */
 
-  .quick-reaction {
+  .reaction__menu {
     position: relative;
   }
 
-  .quick-reaction__popup {
+  .reaction__popup {
     --panel-border-radius: 1.2em;
     --panel-padding: 0.5ch;
     --offset: calc(-1 * var(--panel-padding));
@@ -140,21 +167,25 @@
     transform: none;
   }
 
-  .quick-reaction__emojis {
+  .reaction__emoji-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(10, 1fr);
 
     .btn {
-      --btn-icon-size: 1.5ch;
-      --btn-size: var(--reaction-size);
-      --btn-border-color: var(--color-canvas);
+      --btn-size: 1.5rem;
 
+      font-size: 1rem;
       position: relative;
 
-      /* Make sure the selection ring sits on top of adjacent buttons on hover */
+      /* Make sure the focus ring sits on top of adjacent buttons */
       &:hover,
       &:focus-visible {
+        filter: none;
         z-index: 1;
+      }
+
+      &:hover {
+        scale: 1.5;
       }
     }
   }
