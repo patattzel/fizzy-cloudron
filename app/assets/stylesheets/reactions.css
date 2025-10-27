@@ -16,16 +16,24 @@
     &:has([open]) {
       z-index: var(--z-popup);
     }
+
+    &:not(:has(.reaction)) {
+      inline-size: auto;
+      margin: 0;
+      inset: auto 0 var(--comment-padding-block) auto;
+      position: absolute;
+      translate: 50%;
+
+      .reactions__list {
+        display: none;
+      }
+    }
   }
 
   .reactions__list {
     display: inline-flex;
     flex-wrap: wrap;
     gap: var(--column-gap);
-
-    &:not(:has(.reaction)) {
-      display: none;
-    }
   }
 
   /* Single reaction
@@ -58,7 +66,7 @@
     cursor: pointer;
 
     @media (any-hover: hover) {
-      &:not(:active):hover {
+      &:not(.expanded):hover {
         filter: brightness(var(--reaction-hover-brightness));
 
         @media (prefers-color-scheme: dark) {
@@ -77,7 +85,6 @@
 
   .reaction__delete {
     display: none;
-    translate: 0.25em;
 
     .expanded & {
       display: grid;
@@ -95,7 +102,7 @@
 
     &:has(.input:focus) {
       outline: var(--focus-ring-size) solid var(--focus-ring-color);
-      outline-offset: var(--focus-ring-offset);
+      outline-offset: -1px;
     }
 
     .reaction__form-label:focus {
