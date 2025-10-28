@@ -150,7 +150,7 @@
     }
 
     /* Hide a quick filter if there's nothing in it to filter by */
-    &:not(:has(.popup__list li)) {
+    &:not(:has(.popup__item)) {
       display: none !important;
     }
 
