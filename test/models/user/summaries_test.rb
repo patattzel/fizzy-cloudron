@@ -5,7 +5,10 @@ class User::SummariesTest < ActiveSupport::TestCase
 
   setup do
     @user = users(:david)
-    travel_to [ Time.current, 1.day.ago ].find { |d| !d.sunday? }
+    if Time.current.sunday?
+      travel_to 1.day.ago
+      Event.update_all "created_at = created_at - INTERVAL '1 day'"
+    end
     Current.session = sessions(:david)
   end
 
