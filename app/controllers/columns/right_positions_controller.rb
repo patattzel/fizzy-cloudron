@@ -1,5 +1,5 @@
 class Columns::RightPositionsController < ApplicationController
-  include ActionView::RecordIdentifier, ColumnScoped
+  include ColumnScoped
 
   def create
     @right_column = @column.right_column
