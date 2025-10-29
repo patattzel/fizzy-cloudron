@@ -66,8 +66,6 @@
     inline-size: var(--column-width-expanded);
     position: relative;
     scroll-snap-align: start;
-    transition: inline-size 300ms ease-out;
-    will-change: inline-size;
 
     .no-transitions & {
       transition: none;
@@ -80,7 +78,6 @@
     &.is-collapsed {
       inline-size: var(--column-width-collapsed);
 
-      .blank-slate,
       .pagination-link.pagination-link--active-when-observed,
       .card {
         display: none;
