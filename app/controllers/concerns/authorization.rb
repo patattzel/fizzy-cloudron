@@ -1,10 +1,10 @@
 module Authorization
   private
-    def ensure_can_administer
+    def ensure_admin
       head :forbidden unless Current.user.admin?
     end
 
-    def ensure_is_staff_member
+    def ensure_staff
       head :forbidden unless Current.user.staff?
     end
 end
