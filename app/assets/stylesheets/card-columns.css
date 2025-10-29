@@ -106,9 +106,12 @@
     margin-block-start: -1ch;
     margin-inline: -1ch;
     overflow: hidden;
+    translate: 0 -1ch;
+    transition: translate 300ms var(--ease-out-overshoot);
 
     .cards:not(.is-collapsed) & {
       padding: 1ch;
+      translate: 0 0;
     }
 
     .card {
