@@ -11,6 +11,7 @@
           <span>Edit column</span>
         </button>
       </li>
+
       <li class="popup__item">
         <%= button_to column_left_position_path(column),
               class: "popup__btn btn",
@@ -20,6 +21,7 @@
           <span>Move left</span>
         <% end %>
       </li>
+
       <li class="popup__item">
         <%= button_to column_right_position_path(column),
               class: "popup__btn btn",
@@ -29,6 +31,7 @@
           <span>Move right</span>
         <% end %>
       </li>
+
       <li class="popup__item">
         <%= button_to collection_column_path(column.collection, column),
               method: :delete,
