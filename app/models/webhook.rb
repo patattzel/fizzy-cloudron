@@ -20,7 +20,6 @@ class Webhook < ApplicationRecord
     card_sent_back_to_triage
     card_triaged
     card_unassigned
-    card_unstaged
     comment_created
   ].freeze
 
