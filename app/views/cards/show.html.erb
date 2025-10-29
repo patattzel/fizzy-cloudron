@@ -8,20 +8,17 @@
 
 <% content_for :header do %>
   <%= render "filters/menu" %>
+
   <%= hotkeyed_link_to_collection(@card.collection) do %>
     <span class="overflow-ellipsis">
-      &larr;
-      <strong class="font-black"><%= @card.collection.name %></strong>
+      &larr; <strong class="font-black"><%= @card.collection.name %></strong>
     </span>
   <% end %>
 <% end %>
 
 <div data-controller="beacon lightbox" data-beacon-url-value="<%= card_reading_path(@card) %>">
   <%= render "cards/container", card: @card %>
-
-  <% if @card.published? || @card.drafted? %>
-    <%= render "cards/messages", card: @card %>
-  <% end %>
+  <%= render "cards/messages",  card: @card if @card.published? || @card.drafted? %>
 
   <%= render "layouts/lightbox" do %>
     <% if @card.image.attached? %>
