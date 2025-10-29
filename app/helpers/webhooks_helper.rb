@@ -1,17 +1,17 @@
 module WebhooksHelper
   ACTION_LABELS = {
     card_assigned: "Card assigned",
-    card_closed: "Card moved to Done",
+    card_closed: "Card moved to “Done”",
     card_postponed: "Card moved to “Not Now”",
     card_auto_postponed: "Card auto-closed as “Not Now”",
     card_collection_changed: "Card collection changed",
-    card_published: "Card published",
+    card_published: "Card added",
     card_reopened: "Card reopened",
-    card_sent_back_to_triage: "Card move back to Maybe",
+    card_sent_back_to_triage: "Card move back to “Maybe?”",
     card_title_changed: "Card title changed",
     card_triaged: "Card column changed",
     card_unassigned: "Card unassigned",
-    comment_created: "Comment created"
+    comment_created: "Comment added"
   }.with_indifferent_access.freeze
 
   def webhook_action_options(actions = Webhook::PERMITTED_ACTIONS)
