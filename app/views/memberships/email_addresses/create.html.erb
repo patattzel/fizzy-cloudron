@@ -2,7 +2,7 @@
 
 <% content_for :header do %>
   <div class="header__title">
-    <%= link_to edit_user_path(@user, script_name: "/#{@tenant}"), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to edit_user_path(@membership.user, script_name: "/#{@tenant}"), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <span class="overflow-ellipsis">&larr; <strong>My profile</strong></span>
     <% end %>
   </div>
@@ -13,5 +13,5 @@
   <p class="margin-none">We just sent an email to <strong><%= params[:email_address] %></strong></p>
   <p class="margin-none-block-start">Hit the link in the email to confirm this is the email address you want to use with Fizzy going forward.</p>
 
-  <%= link_to "Done", edit_user_path(@user, script_name: "/#{@tenant}"), class: "btn btn--link center" %>
+  <%= link_to "Done", edit_user_path(@membership.user, script_name: "/#{@tenant}"), class: "btn btn--link center" %>
 </div>

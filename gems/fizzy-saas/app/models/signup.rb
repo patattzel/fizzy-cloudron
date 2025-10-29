@@ -45,8 +45,9 @@ class Signup
   def create_identity
     return false unless valid?(:identity_creation)
 
-    @identity = Identity.find_or_create_by!(email_address: email_address)
-    @new_user = @identity.new_record?
+    @identity = Identity.find_by(email_address: email_address)
+    @new_user = !@identity
+    @identity = Identity.create!(email_address: email_address) unless @identity
     @identity.send_magic_link
   end
 

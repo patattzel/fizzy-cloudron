@@ -1,5 +1,5 @@
 class Identity < UntenantedRecord
-  include EmailAddressChangeable, Transferable
+  include Transferable
 
   has_many :memberships, dependent: :destroy
   has_many :magic_links, dependent: :destroy
@@ -12,16 +12,6 @@ class Identity < UntenantedRecord
     magic_links.create!.tap do |magic_link|
       MagicLinkMailer.sign_in_instructions(magic_link).deliver_later
     end
-  end
-
-  def link_to(tenant, context: nil)
-    memberships.find_or_create_by!(tenant: tenant) do |membership|
-      membership.context = context
-    end
-  end
-
-  def unlink_from(tenant)
-    memberships.find_by(tenant: tenant)&.destroy
   end
 
   def staff?

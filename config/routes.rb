@@ -136,12 +136,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :identity, only: [] do
-    resources :email_addresses, only: %i[ new create ], param: :token, module: :identity do
-      resource :confirmation, only: %i[ show create ], module: :email_addresses
-    end
-  end
-
   resources :users do
     scope module: :users do
       resource :avatar
@@ -158,6 +152,10 @@ Rails.application.routes.draw do
 
   scope module: :memberships, path: "memberships/:membership_id" do
     resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
+
+    resources :email_addresses, only: %i[ new create ], param: :token do
+      resource :confirmation, only: %i[ show create ], module: :email_addresses
+    end
   end
 
   namespace :my do

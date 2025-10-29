@@ -1,9 +1,7 @@
 class IdentityMailer < ApplicationMailer
-  def email_change_confirmation(identity:, email_address:, token:, tenant:)
-    @identity = identity
+  def email_change_confirmation(email_address:, token:, membership:)
     @token = token
-    @tenant = tenant
-
+    @membership = membership
     mail to: email_address, subject: "Confirm your new email address"
   end
 end

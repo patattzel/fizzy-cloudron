@@ -1,4 +1,6 @@
 class Membership < UntenantedRecord
+  include EmailAddressChangeable
+
   belongs_to :identity, touch: true
 
   serialize :context, coder: JSON

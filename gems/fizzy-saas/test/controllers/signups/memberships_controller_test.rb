@@ -51,7 +51,7 @@ class Signups::MembershipsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "create with validation errors" do
+  test "create with invalid params" do
     untenanted do
       assert_no_difference -> { Membership.count } do
         post saas.signup_membership_path, params: {
@@ -66,7 +66,7 @@ class Signups::MembershipsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "create with new_user flag generates personal account name" do
+  test "create with new_user flag" do
     untenanted do
       post saas.signup_membership_path, params: {
         signup: {

@@ -2,7 +2,7 @@
 
 <% content_for :header do %>
   <div class="header__title">
-    <%= link_to edit_user_path(@user, script_name: "/#{@tenant}"), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to edit_user_path(@membership.user, script_name: "/#{@membership.tenant}"), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <span class="overflow-ellipsis">&larr; <strong>My profile</strong></span>
     <% end %>
   </div>
@@ -16,8 +16,7 @@
     <p class="margin-none">Enter your new email address. We'll send you a confirmation to verify it.</p>
   </header>
 
-  <%= form_with url: identity_email_addresses_path(tenant: @tenant), method: :post, class: "flex flex-column gap", data: { turbo: false } do |form| %>
-    <%= form.hidden_field :tenant, value: @tenant %>
+  <%= form_with url: email_addresses_path(membership_id: @membership.id), method: :post, class: "flex flex-column gap", data: { turbo: false } do |form| %>
     <div class="flex align-center gap">
       <label class="flex align-center gap input input--actor">
         <%= form.email_field :email_address, class: "input full-width", autocomplete: "email", placeholder: "New email address", autofocus: true, required: true %>
