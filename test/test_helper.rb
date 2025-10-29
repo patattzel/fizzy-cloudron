@@ -62,10 +62,6 @@ class ActionDispatch::SystemTestCase
   end
 end
 
-RubyLLM.configure do |config|
-  config.openai_api_key ||= "DUMMY-TEST-KEY" # Run tests with VCR without having to configure OpenAI API key locally.
-end
-
 unless Rails.application.config.x.oss_config
   load File.expand_path("../gems/fizzy-saas/test/test_helper.rb", __dir__)
 end
