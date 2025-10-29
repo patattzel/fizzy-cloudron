@@ -3,6 +3,8 @@
 MESSAGE="$KAMAL_PERFORMER deployed $KAMAL_SERVICE_VERSION to $KAMAL_DESTINATION in $KAMAL_RUNTIME seconds"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
+bin/notify_dash_of_deployment "$MESSAGE" $KAMAL_VERSION $KAMAL_PERFORMER $CURRENT_BRANCH $KAMAL_DESTINATION $KAMAL_RUNTIME
+
 if [[ $CURRENT_BRANCH == "main" && $KAMAL_DESTINATION == "production" ]]; then
   gh release create $KAMAL_SERVICE_VERSION --target $KAMAL_VERSION --generate-notes 2> /dev/null || true
 
