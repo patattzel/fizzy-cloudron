@@ -1929,6 +1929,23 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: columns
+    name: index_columns_on_collection_id_and_position
+    unique: false
+    columns:
+    - collection_id
+    - position
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   comments:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: comments
@@ -2828,4 +2845,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20251029142418
+version: 20251029161222
