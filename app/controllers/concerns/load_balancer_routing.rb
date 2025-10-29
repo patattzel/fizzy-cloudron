@@ -10,7 +10,7 @@ module LoadBalancerRouting
 
   private
     def set_target_header
-        response.headers["X-Kamal-Target"] = request.headers["X-Kamal-Target"]
+      response.headers["X-Kamal-Target"] = request.headers["X-Kamal-Target"]
     end
 
     def set_writer_header
