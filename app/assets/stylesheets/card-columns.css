@@ -105,11 +105,14 @@
     gap: var(--cards-gap);
     margin-block-start: -1ch;
     margin-inline: -1ch;
+    opacity: 0;
     overflow: hidden;
     translate: 0 -1ch;
-    transition: translate 300ms var(--ease-out-overshoot);
+    transition: 350ms var(--ease-out-overshoot);
+    transition-property: opacity, translate;
 
     .cards:not(.is-collapsed) & {
+      opacity: 1;
       padding: 1ch;
       translate: 0 0;
     }
