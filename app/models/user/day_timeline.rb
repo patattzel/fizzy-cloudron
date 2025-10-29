@@ -44,6 +44,9 @@ class User::DayTimeline
       card_due_date_changed
       card_due_date_removed
       card_collection_changed
+      card_postponed
+      card_triaged
+      card_sent_back_to_triage
       comment_created
     ]
 

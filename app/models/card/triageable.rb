@@ -22,6 +22,7 @@ module Card::Triageable
     transaction do
       resume
       update! column: column
+      track_event "triaged", particulars: { column: column.name }
     end
   end
 
@@ -29,6 +30,7 @@ module Card::Triageable
     transaction do
       resume
       update! column: nil
+      track_event "sent_back_to_triage"
     end
   end
 end
