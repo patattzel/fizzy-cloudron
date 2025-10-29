@@ -90,9 +90,9 @@ module EventsHelper
       when "card_resumed"
         "#{event_creator_name(event)} resumed #{event_card_title(card)}"
       when "card_due_date_added"
-        "#{event_creator_name(event)} set the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on #{event_card_title(card)}"
+        "#{event_creator_name(event)} set the date to #{event_due_date(event)} on #{event_card_title(card)}"
       when "card_due_date_changed"
-        "#{event_creator_name(event)} changed the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on #{event_card_title(card)}"
+        "#{event_creator_name(event)} changed the date to #{event_due_date(event)} on #{event_card_title(card)}"
       when "card_due_date_removed"
         "#{event_creator_name(event)} removed the date on #{event_card_title(card)}"
       when "card_title_changed"
@@ -108,6 +108,10 @@ module EventsHelper
 
     def event_card_title(card)
       tag.span card.title, style: "color: var(--card-color)"
+    end
+
+    def event_due_date(event)
+      event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')
     end
 
     def event_action_icon(event)
