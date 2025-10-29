@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_10_15_173452) do
+ActiveRecord::Schema[8.2].define(version: 2025_10_27_131911) do
   create_table "identities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address"
@@ -30,7 +30,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_15_173452) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.string "account_name", null: false
+    t.text "context"
     t.datetime "created_at", null: false
     t.integer "identity_id", null: false
     t.string "tenant", null: false
@@ -39,6 +39,16 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_15_173452) do
     t.index ["tenant"], name: "index_memberships_on_user_tenant_and_user_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "identity_id", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.index ["identity_id"], name: "index_sessions_on_identity_id"
+  end
+
   add_foreign_key "magic_links", "identities"
   add_foreign_key "memberships", "identities"
+  add_foreign_key "sessions", "identities"
 end

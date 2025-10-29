@@ -1,14 +1,15 @@
 class User < ApplicationRecord
-  include Accessor, Assignee, Attachable, Configurable, EmailAddressChangeable,
-    Identifiable, Invitable, Mentionable, Named, Notifiable, Role, Searcher, Staff,
-    Transferable, Watcher
+  include Accessor, Assignee, Attachable, Configurable,
+    Mentionable, Named, Notifiable, Role, Searcher, Watcher
   include Timelined # Depends on Accessor
 
   self.ignored_columns = %i[ password_digest ]
 
   has_one_attached :avatar
 
-  has_many :sessions, dependent: :destroy
+  belongs_to :membership, optional: true
+
+  has_one :identity, through: :membership, disable_joins: true
 
   has_many :comments, inverse_of: :creator, dependent: :destroy
 
@@ -19,21 +20,10 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 
+  delegate :staff?, to: :identity, allow_nil: true
+
   def deactivate
-    old_email_address = email_address
-
-    sessions.delete_all
     accesses.destroy_all
-
-    update! active: false, email_address: deactivated_email_address
-    IdentityProvider.unlink(email_address: old_email_address, from: tenant)
-  rescue => e
-    update! active: true, email_address: old_email_address
-    raise e
+    update! active: false
   end
-
-  private
-    def deactivated_email_address
-      email_address.sub(/@/, "-deactivated-#{SecureRandom.uuid}@")
-    end
 end
