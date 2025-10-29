@@ -31,7 +31,7 @@ class Card::Eventable::SystemCommenter
       when "card_collection_changed"
       "#{event.creator.name} <strong>moved</strong> this from “#{event.particulars.dig('particulars', 'old_collection')}” to “#{event.particulars.dig('particulars', 'new_collection')}”."
       when "card_triaged"
-        "#{event.creator.name} <strong>moved</strong this to “#{event.particulars.dig('particulars', 'column')}”"
+        "#{event.creator.name} <strong>moved</strong> this to “#{event.particulars.dig('particulars', 'column')}”"
       when "card_sent_back_to_triage"
         "#{event.creator.name} <strong>moved</strong> this back to “Maybe?”"
       end
