@@ -23,9 +23,9 @@ class Card::Eventable::SystemCommenter
       when "card_reopened"
         "<strong>Reopened</strong> by #{ event.creator.name }"
       when "card_title_changed"
-        "#{event.creator.name} <strong>changed the title</strong> from ‘#{event.particulars.dig('particulars', 'old_title')}’ to ‘#{event.particulars.dig('particulars', 'new_title')}’."
+        "#{event.creator.name} <strong>changed the title</strong> from “#{event.particulars.dig('particulars', 'old_title')}” to “#{event.particulars.dig('particulars', 'new_title')}”."
       when "card_collection_changed"
-      "#{event.creator.name} <strong>moved</strong> this from ‘#{event.particulars.dig('particulars', 'old_collection')}’ to ‘#{event.particulars.dig('particulars', 'new_collection')}’."
+      "#{event.creator.name} <strong>moved</strong> this from “#{event.particulars.dig('particulars', 'old_collection')}” to “#{event.particulars.dig('particulars', 'new_collection')}”."
       end
     end
 end
