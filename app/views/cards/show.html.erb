@@ -21,7 +21,7 @@
   <% end %>
 <% end %>
 
-<div data-controller="beacon lightbox" data-beacon-url-value="<%= card_reading_url(@card) %>">
+<div data-controller="beacon lightbox" data-beacon-url-value="<%= card_reading_path(@card) %>">
   <%= render "cards/container", card: @card %>
 
   <% if @card.published? || @card.drafted? %>
