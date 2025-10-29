@@ -65,8 +65,10 @@
 
     border-radius: calc(var(--column-width-collapsed) / 2);
     inline-size: var(--column-width-expanded);
+    margin-block-start: 0;
     position: relative;
     scroll-snap-align: start;
+    transition: margin-block-start var(--column-transition-duration) var(--ease-out-overshoot-subtle);
 
     .no-transitions & {
       transition: none;
@@ -124,6 +126,10 @@
 
     .cards--grid & {
       display: contents;
+    }
+
+    .no-transitions & {
+      transition: none;
     }
   }
 
