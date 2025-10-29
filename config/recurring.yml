@@ -3,9 +3,6 @@ production: &production
   deliver_bundled_notifications:
     command: "Notification::Bundle.deliver_all_later"
     schedule: every 30 minutes
-  generate_weekly_summaries:
-    command: "User.generate_all_weekly_summaries_later"
-    schedule: every sunday at noon
 
   # Application cleanup
   auto_postpone_all_due:

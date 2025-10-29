@@ -35,20 +35,6 @@ GIT
       yabeda (~> 0.6)
 
 GIT
-  remote: https://github.com/crmne/ruby_llm.git
-  revision: cf2743079d62897a0ad06f7cfd2796fefe3ebb5e
-  specs:
-    ruby_llm (1.8.2)
-      base64
-      event_stream_parser (~> 1)
-      faraday (>= 1.10.0)
-      faraday-multipart (>= 1)
-      faraday-net_http (>= 1)
-      faraday-retry (>= 1)
-      marcel (~> 1.0)
-      zeitwerk (~> 2)
-
-GIT
   remote: https://github.com/rails/rails.git
   revision: def13087d55a6dbbfa80d114c847555927ce2ed7
   branch: main
@@ -254,17 +240,6 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
-    event_stream_parser (1.0.0)
-    faraday (2.14.0)
-      faraday-net_http (>= 2.0, < 3.5)
-      json
-      logger
-    faraday-multipart (1.1.1)
-      multipart-post (~> 2.0)
-    faraday-net_http (3.4.1)
-      net-http (>= 0.5.0)
-    faraday-retry (2.3.2)
-      faraday (~> 2.0)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-darwin)
@@ -351,9 +326,6 @@ GEM
     mocha (2.7.1)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
-    multipart-post (2.4.1)
-    net-http (0.6.0)
-      uri
     net-http-persistent (4.0.6)
       connection_pool (~> 2.2, >= 2.2.4)
     net-imap (0.5.12)
@@ -558,12 +530,6 @@ GEM
     thruster (0.1.16-arm64-darwin)
     thruster (0.1.16-x86_64-darwin)
     thruster (0.1.16-x86_64-linux)
-    tiktoken_ruby (0.0.12)
-      rb_sys (~> 0.9)
-    tiktoken_ruby (0.0.12-arm64-darwin)
-    tiktoken_ruby (0.0.12-x86_64-darwin)
-    tiktoken_ruby (0.0.12-x86_64-linux)
-    tiktoken_ruby (0.0.12-x86_64-linux-musl)
     timeout (0.4.4)
     tsort (0.2.0)
     turbo-rails (2.0.20)
@@ -665,7 +631,6 @@ DEPENDENCIES
   rouge
   rqrcode
   rubocop-rails-omakase
-  ruby_llm!
   selenium-webdriver
   sentry-rails
   sentry-ruby
@@ -676,7 +641,6 @@ DEPENDENCIES
   sqlite3 (>= 2.0)
   stimulus-rails
   thruster
-  tiktoken_ruby
   turbo-rails
   vcr
   web-push
