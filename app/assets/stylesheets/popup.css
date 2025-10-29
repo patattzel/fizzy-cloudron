@@ -30,6 +30,10 @@
       transform: translateX(0);
     }
 
+    &.orient-top {
+      inset-block: auto 0;
+    }
+
     &:has(.popup__footer) {
       --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space);
     }
