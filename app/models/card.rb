@@ -59,20 +59,19 @@ class Card < ApplicationRecord
     end
 
     def handle_collection_change
+      old_collection = Collection.find_by(id: collection_id_before_last_save)
+
       transaction do
         update! column: nil
-        track_collection_change_event
+        track_collection_change_event(old_collection.name)
         grant_access_to_assignees unless collection.all_access?
       end
 
       remove_inaccessible_notifications_later
     end
 
-    def track_collection_change_event
-      old_collection = Collection.find_by(id: collection_id_before_last_save)
-      if old_collection.present?
-        track_event "collection_changed", particulars: { old_collection: old_collection.name, new_collection: collection.name }
-      end
+    def track_collection_change_event(old_collection_name)
+      track_event "collection_changed", particulars: { old_collection: old_collection_name, new_collection: collection.name }
     end
 
     def grant_access_to_assignees
