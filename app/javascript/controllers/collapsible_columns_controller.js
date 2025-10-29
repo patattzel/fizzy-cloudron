@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { nextFrame, delay, debounce } from "helpers/timing_helpers";
+import { nextFrame, debounce } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static classes = [ "collapsed", "noTransitions" ]
