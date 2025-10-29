@@ -19,7 +19,8 @@
           required: true,
           autofocus: true,
           min: @join_code.usage_count,
-          class: "input center txt-large fit-content font-weight-black",
+          class: "input center txt-large fit-content font-weight-black txt-align-center",
+          style: "max-inline-size: 8ch",
           data: { action: "keydown.esc@document->form#cancel focus->form#select" } %>
 
     <p class="margin-none txt-subtle">
