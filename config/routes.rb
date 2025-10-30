@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       resource :recover
       resource :watch
       resource :collection
+      resource :column
 
       resources :assignments
       resources :taggings
