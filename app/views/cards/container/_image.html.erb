@@ -8,6 +8,7 @@
     <label class="btn input--file" data-controller="tooltip">
       <%= icon_tag "picture-add" %>
       <span class="for-screen-reader">Add background image</span>
+
       <%= form.file_field :image, class: "input",
             accept: "image/png, image/jpeg, image/jpg, image/webp",
             aria: { label: "Add background image" },
