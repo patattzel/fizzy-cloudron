@@ -16,12 +16,12 @@ module Card::Cacheable
       @card = card
     end
 
-    def for_perma(*other)
-      [ card, User.all, Tag.all, Column.all, *other ]
+    def for_perma
+      [ card, card.collection.columns ]
     end
 
-    def for_preview(*other)
-      [ card, card.collection.entropy_configuration, card.collection.publication, card.column&.color, *other ]
+    def for_preview
+      [ card, card.collection.entropy_configuration, card.collection.publication, card.column ]
     end
   end
 end
