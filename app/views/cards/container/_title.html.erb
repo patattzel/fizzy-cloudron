@@ -3,6 +3,7 @@
     <h1 class="card__title flex align-start gap-half">
       <%= link_to card.title, edit_card_path(card), class: "card__title-link" %>
     </h1>
+
     <div class="card__description rich-text-content" data-controller="syntax-highlight retarget-links">
       <%= card.description %>
     </div>
@@ -17,6 +18,7 @@
               data: { autoresize_target: "textarea", action: "input->autoresize#resize auto-save#change blur->auto-save#submit keydown.enter->auto-save#submit:prevent" } %>
       <% end %>
     </h1>
+
     <%= form.rich_textarea :description, class: "card-field__description rich-text-content",
           placeholder: "Add some notes, context, pictures, or video about this…",
           data: { action: "lexxy:change->auto-save#change focusout->auto-save#submit" } do %>
