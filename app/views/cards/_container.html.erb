@@ -19,7 +19,10 @@
             <%= render "cards/container/title", card: card %>
             <%= render "cards/display/perma/steps", card: card %>
           </div>
-          <%= render "cards/triage/columns", card: card %>
+
+          <% if card.published? %>
+            <%= render "cards/triage/columns", card: card %>
+          <% end %>
         </div>
 
         <footer class="card__footer full-width flex align-start gap">
