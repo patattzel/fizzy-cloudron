@@ -16,12 +16,12 @@ class Column < ApplicationRecord
       self.color ||= Card::DEFAULT_COLOR
     end
 
-    def should_invalidate_cards?
-      saved_change_to_name? || saved_change_to_color?
-    end
-
     def touch_all_cards_later
       Card::TouchAllJob.perform_later(self)
+    end
+
+    def should_invalidate_cards?
+      saved_change_to_name? || saved_change_to_color?
     end
 
     def touch_all_collection_cards
