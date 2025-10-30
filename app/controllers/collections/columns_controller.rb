@@ -5,7 +5,7 @@ class Collections::ColumnsController < ApplicationController
 
   def show
     set_page_and_extract_portion_from @column.cards.active.by_last_activity.with_golden_first
-    cards_fresh_when @page.records
+    fresh_when @page.records
   end
 
   def create
