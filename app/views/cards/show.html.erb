@@ -1,6 +1,5 @@
 <% @page_title = @card.title %>
 <% @header_class = "header--card" %>
-<%= turbo_stream_from @card %>
 
 <% content_for :head do %>
   <%= card_social_tags(@card) %>
@@ -9,6 +8,8 @@
 <% content_for :header do %>
   <%= link_back_to_collection(@card.collection) %>
 <% end %>
+
+<%= turbo_stream_from @card %>
 
 <div data-controller="beacon lightbox" data-beacon-url-value="<%= card_reading_path(@card) %>">
   <%= render "cards/container", card: @card %>
