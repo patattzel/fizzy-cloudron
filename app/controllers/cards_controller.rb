@@ -25,11 +25,7 @@ class CardsController < ApplicationController
       @card.update! card_params
     end
 
-    if @card.published?
-      render_card_replacement
-    else
-      redirect_to @card
-    end
+    redirect_to @card
   end
 
   def destroy
@@ -56,9 +52,5 @@ class CardsController < ApplicationController
 
     def card_params
       params.expect(card: [ :status, :title, :description, :image, tag_ids: [] ])
-    end
-
-    def render_card_replacement
-      render turbo_stream: turbo_stream.replace([ @card, :card_container ], partial: "cards/container", locals: { card: @card.reload })
     end
 end
