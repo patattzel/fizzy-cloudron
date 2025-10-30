@@ -3,7 +3,7 @@
 <div class="panel panel--centered flex flex-column gap-half <%= "shake" if flash[:alert] %>">
   <h1 class="txt-x-large font-weight-black margin-none"><%= @page_title %></h1>
 
-  <%= form_with model: @signup, url: saas.signup_membership_path, scope: "signup", class: "flex flex-column gap" do |form| %>
+  <%= form_with model: @signup, url: saas.signup_membership_path, scope: "signup", class: "flex flex-column gap", data: { controller: "form" } do |form| %>
     <%= form.hidden_field :new_user %>
 
     <%= form.text_field :full_name, class: "input", autocomplete: "name", placeholder: "Your name", autofocus: true, required: true %>
@@ -22,7 +22,7 @@
       </div>
     <% end %>
 
-    <button type="submit" class="btn btn--link center">
+    <button type="submit" class="btn btn--link center" data-form-target="submit">
       <span>Continue</span>
       <%= icon_tag "arrow-right" %>
     </button>

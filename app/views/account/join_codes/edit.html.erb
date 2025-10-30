@@ -27,7 +27,7 @@
       This code has been used <%= @join_code.usage_count %>/<%= @join_code.usage_limit %> times.
     </p>
 
-    <%= form.button type: :submit, class: "btn btn--link center txt-medium" do %>
+    <%= form.button type: :submit, class: "btn btn--link center txt-medium", data: { form_target: "submit" } do %>
       <span>Save changes</span>
     <% end %>
 

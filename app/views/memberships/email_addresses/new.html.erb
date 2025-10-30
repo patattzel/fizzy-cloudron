@@ -16,14 +16,14 @@
     <p class="margin-none">Enter your new email address. We'll send you a confirmation to verify it.</p>
   </header>
 
-  <%= form_with url: email_addresses_path(membership_id: @membership.id), method: :post, class: "flex flex-column gap", data: { turbo: false } do |form| %>
+  <%= form_with url: email_addresses_path(membership_id: @membership.id), method: :post, class: "flex flex-column gap", data: { controller: "form", turbo: false } do |form| %>
     <div class="flex align-center gap">
       <label class="flex align-center gap input input--actor">
         <%= form.email_field :email_address, class: "input full-width", autocomplete: "email", placeholder: "New email address", autofocus: true, required: true %>
       </label>
     </div>
 
-    <button type="submit" class="btn btn--reversed center">
+    <button type="submit" class="btn btn--reversed center" data-form-target="submit">
       <span>Next</span>
       <%= icon_tag "arrow-right" %>
     </button>

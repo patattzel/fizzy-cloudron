@@ -9,10 +9,10 @@
   </header>
 
   <%= form_with \
-      url: unlink_membership_path(membership_id: params[:membership_id]), 
+      url: unlink_membership_path(membership_id: params[:membership_id]),
       class: "flex flex-column gap txt-medium",
-      data: { controller: "auto-submit" } do |form| %>
-    <button type="submit" id="log_in" class="btn btn--link center">
+      data: { controller: "form auto-submit" } do |form| %>
+    <button type="submit" id="log_in" class="btn btn--link center" data-form-target="submit">
       <span>Leave</span>
       <%= icon_tag "arrow-right" %>
     </button>

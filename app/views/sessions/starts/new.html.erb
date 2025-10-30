@@ -9,8 +9,8 @@
     <p class="margin-none">Just a sec while we sign you in with <%= Account.sole.name %>.</p>
   </header>
 
-  <%= form_with url: session_start_path, method: :post, data: { controller: "auto-submit" } do |form| %>
-    <%= form.button "Sign in", type: "submit", class: "btn btn-primary", data: { turbo_submits_with: "Signing in..." } %>
+  <%= form_with url: session_start_path, method: :post, data: { controller: "form auto-submit" } do |form| %>
+    <%= form.button "Sign in", type: "submit", class: "btn btn-primary", data: { form_target: "submit", turbo_submits_with: "Signing in..." } %>
   <% end %>
 </div>
 

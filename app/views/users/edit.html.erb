@@ -36,7 +36,7 @@
           <%= link_to "Change email", new_email_address_url(script_name: nil, membership_id: Current.membership.id), class: "btn btn--plain txt-link txt-small txt-nowrap" %>
         </div>
       </div>
-      <button type="submit" id="log_in" class="btn btn--reversed center">
+      <button type="submit" id="log_in" class="btn btn--reversed center" data-form-target="submit">
         <span>Save changes</span>
       </button>
 
