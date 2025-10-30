@@ -46,4 +46,8 @@ module CardsHelper
       icon_tag("trash") + tag.span("Remove background image", class: "for-screen-reader")
     end
   end
+
+  def card_preview_cache_parts(card)
+    [ card, card.collection.entropy_configuration, card.collection.publication, card.collection.name, card.column ]
+  end
 end

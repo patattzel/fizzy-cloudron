@@ -1,4 +1,4 @@
-<% cache card.cache_invalidation_parts.for_preview do %>
+<% cache card_preview_cache_parts(card) do %>
   <%= card_article_tag card, class: "card" do %>
     <div class="flex flex-column flex-item-grow max-inline-size">
       <header class="card__header">
