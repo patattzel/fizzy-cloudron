@@ -18,7 +18,7 @@
 
   <div class="header__actions header__actions--end">
     <% if collection = @filter.single_collection %>
-      <%= render "cards/collection_settings", collection: collection %>
+      <%= link_to_edit_collection collection %>
     <% end %>
   </div>
 <% end %>
