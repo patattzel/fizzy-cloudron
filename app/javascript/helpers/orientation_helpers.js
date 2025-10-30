@@ -4,8 +4,7 @@ export function orient(el, orient = true) {
   const directions = [
     ["orient-left", spaceOnRight],
     ["orient-right", spaceOnLeft],
-    ["orient-top", spaceOnBottom],
-    ["orient-bottom", spaceOnTop]
+    ["orient-top", spaceOnBottom]
   ];
 
   directions.forEach(([className, fn]) =>
@@ -23,8 +22,4 @@ function spaceOnRight(el) {
 
 function spaceOnBottom(el) {
   return window.innerHeight - el.getBoundingClientRect().bottom
-}
-
-function spaceOnTop(el) {
-  return el.getBoundingClientRect().top
 }
