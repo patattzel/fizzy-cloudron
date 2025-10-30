@@ -3,22 +3,14 @@
 
 <%= render "cards/broadcasts", records: @page.records %>
 
-<% content_for :head do %>
-  <%= tag.meta property: "og:title", content: @page_title %>
-  <%= tag.meta property: "og:description", content: Account.sole.name %>
-  <%= tag.meta property: "og:url", content: cards_url(@filter.as_params) %>
-<% end %>
-
 <% content_for :header do %>
-  <%= render "filters/menu" %>
-
   <h1 class="header__title divider divider--fade full-width">
     <span class="overflow-ellipsis"><%= @user_filtering.selected_collections_label %></span>
   </h1>
 
   <div class="header__actions header__actions--end">
     <% if collection = @filter.single_collection %>
-      <%= render "cards/collection_settings", collection: collection %>
+      <%= link_to_edit_collection collection %>
     <% end %>
   </div>
 <% end %>
