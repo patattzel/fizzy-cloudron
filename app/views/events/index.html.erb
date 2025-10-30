@@ -4,7 +4,6 @@
 <%= render "cards/broadcasts", records: @day_timeline.events %>
 
 <% content_for :header do %>
-  <%= render "filters/menu" %>
   <%= render "events/index/add_card_button", user_filtering: @user_filtering %>
 
   <h1 class="header__title">

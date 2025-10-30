@@ -21,4 +21,12 @@ module WebhooksHelper
   def webhook_action_label(action)
     ACTION_LABELS[action] || action.to_s.humanize
   end
+
+  def link_to_webhooks(collection, &)
+    link_to collection_webhooks_path(collection_id: collection),
+        class: [ "btn", { "btn--reversed": collection.webhooks.any? } ],
+        data: { controller: "tooltip" } do
+      icon_tag("world") + tag.span("Webhooks", class: "for-screen-reader")
+    end
+  end
 end
