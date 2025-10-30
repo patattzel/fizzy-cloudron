@@ -9,4 +9,8 @@ module CollectionScoped
     def set_collection
       @collection = Current.user.collections.find(params[:collection_id])
     end
+
+    def cards_fresh_when(cards)
+      fresh_when etag: [ cards, @collection.entropy_configuration, @collection.name, Column.all ]
+    end
 end

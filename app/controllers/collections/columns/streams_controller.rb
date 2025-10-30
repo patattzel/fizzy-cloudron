@@ -3,6 +3,6 @@ class Collections::Columns::StreamsController < ApplicationController
 
   def show
     set_page_and_extract_portion_from @collection.cards.awaiting_triage.by_last_activity.with_golden_first
-    fresh_when etag: [ @collection, @page.records ]
+    cards_fresh_when @page.records
   end
 end
