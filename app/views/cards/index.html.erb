@@ -4,8 +4,6 @@
 <%= render "cards/broadcasts", records: @page.records %>
 
 <% content_for :header do %>
-  <%= render "filters/menu" %>
-
   <h1 class="header__title divider divider--fade full-width">
     <span class="overflow-ellipsis"><%= @user_filtering.selected_collections_label %></span>
   </h1>

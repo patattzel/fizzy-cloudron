@@ -4,8 +4,6 @@
 <%= turbo_stream_from @collection %>
 
 <% content_for :header do %>
-  <%= render "filters/menu" %>
-
   <div class="header__actions header__actions--start">
     <%= link_to_webhooks(@collection) if Current.user.admin? %>
   </div>
