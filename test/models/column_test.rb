@@ -22,4 +22,12 @@ class ColumnTest < ActiveSupport::TestCase
       column.update!(updated_at: 1.hour.from_now)
     end
   end
+
+  test "touch all collection cards when column is destroyed" do
+    column = columns(:writebook_triage)
+
+    assert_enqueued_with(job: Card::TouchAllJob, args: [ column.collection ]) do
+      column.destroy
+    end
+  end
 end
