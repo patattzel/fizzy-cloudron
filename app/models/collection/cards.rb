@@ -7,7 +7,8 @@ module Collection::Cards
     after_update_commit :touch_all_cards_later, if: :saved_change_to_name?
   end
 
-  def touch_all_cards_later
-    Card::TouchAllJob.perform_later(self)
-  end
+  private
+    def touch_all_cards_later
+      Card::TouchAllJob.perform_later(self)
+    end
 end
