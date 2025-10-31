@@ -10,7 +10,7 @@ class DropSessions < ActiveRecord::Migration[8.2]
       t.datetime "updated_at", null: false
       t.string "user_agent"
       t.integer "user_id", null: false
-      t.index ["user_id"], name: "index_sessions_on_user_id"
+      t.index [ "user_id" ], name: "index_sessions_on_user_id"
     end
 
     add_foreign_key "sessions", "users"
