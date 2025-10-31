@@ -5,7 +5,7 @@ class Identity::TransferableTest < ActiveSupport::TestCase
     identity = identities(:david)
     transfer_id = identity.transfer_id
 
-    assert_kind String, transfer_id
+    assert_kind_of String, transfer_id
   end
 
   test "find_by_transfer_id" do
