@@ -1,7 +1,7 @@
 <% @page_title = @user_filtering.selected_collections_label %>
 <% turbo_exempts_page_from_cache %>
 
-<%= render "cards/broadcasts", records: @page.records %>
+<%= render "cards/broadcasts", filter: @filter %>
 
 <% content_for :header do %>
   <h1 class="header__title divider divider--fade full-width">

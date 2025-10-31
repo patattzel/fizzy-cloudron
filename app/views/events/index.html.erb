@@ -1,7 +1,7 @@
 <% @page_title = "Home" %>
 <% @header_class = "header--events" %>
 
-<%= render "cards/broadcasts", records: @day_timeline.events %>
+<%= render "cards/broadcasts", filter: @filter %>
 
 <% content_for :header do %>
   <%= render "events/index/add_card_button", user_filtering: @user_filtering %>

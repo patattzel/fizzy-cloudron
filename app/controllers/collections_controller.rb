@@ -9,7 +9,7 @@ class CollectionsController < ApplicationController
 
   def show
     if @filter.used?(ignore_collections: true)
-      show_filtered_events
+      show_filtered_cards
     else
       show_columns
     end
@@ -45,7 +45,7 @@ class CollectionsController < ApplicationController
       @collection = Current.user.collections.find params[:id]
     end
 
-    def show_filtered_events
+    def show_filtered_cards
       @filter.collection_ids = [ @collection.id ]
       set_page_and_extract_portion_from @filter.cards
     end
