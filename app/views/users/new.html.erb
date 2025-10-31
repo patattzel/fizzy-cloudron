@@ -1,39 +1,28 @@
-<% @page_title = "Create your account" %>
+<% @page_title = "Join #{Account.sole.name}" %>
 
-<% content_for :header do %>
-  <div class="header__actions header__actions--start"></div>
-  <div class="header__actions header__actions--end">
-    <%= link_to login_url, class: "btn", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
-      <span class="for-screen-reader">Sign in instead</span>
-    <% end %>
-  </div>
-<% end %>
+<div class="panel panel--centered flex flex-column gap-half">
+  <header>
+    <h1 class="txt-x-large font-weight-black margin-none">
+      <%= @page_title %>
+    </h1>
+    <p class="margin-none-block-start">Enter your name to continue</p>
+  </header>
 
-<div class="panel shadow center">
-  <h1 class="margin-none-block-start margin-block-end-double">BOXCAR</h1>
-
-  <%= form_with model: @user, url: join_path(params[:join_code]), class: "flex flex-column gap" do |form| %>
+  <%= form_with scope: "user", url: users_path(membership: params[:membership]), class: "flex flex-column gap txt-medium", data: { controller: "form" } do |form| %>
     <div class="flex align-center gap">
       <label class="flex align-center gap input input--actor">
         <%= form.text_field :name, class: "input full-width", autocomplete: "name", placeholder: "Name", autofocus: true, required: true, data: { "1p-ignore": true } %>
         <%= icon_tag "person", class: "txt-large" %>
       </label>
     </div>
-    <div class="flex align-center gap">
-      <label class="flex align-center gap input input--actor">
-        <%= form.email_field :email_address, class: "input full-width", autocomplete: "username", placeholder: "Email address", required: true %>
-        <%= icon_tag "email", class: "txt-large" %>
-      </label>
-    </div>
-    <div class="flex align-center gap">
-      <label class="flex align-center gap input input--actor">
-        <%= form.password_field :password, class: "input full-width", autocomplete: "new-password", placeholder: "Password", required: true, maxlength: 72 %>
-        <%= icon_tag "password", class: "txt-large" %>
-      </label>
-    </div>
-    <button type="submit" id="log_in" class="btn btn--reversed center">
+
+    <button type="submit" id="log_in" class="btn btn--link center" data-form-target="submit">
+      <span>Join</span>
       <%= icon_tag "arrow-right" %>
-      <span>Create account</span>
     </button>
   <% end %>
 </div>
+
+<% content_for :footer do %>
+  <%= render "sessions/footer" %>
+<% end %>

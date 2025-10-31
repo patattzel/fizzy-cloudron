@@ -5,6 +5,12 @@
 <% end %>
 
 <section class="settings">
-  <%= render "account/settings/users", users: @users %>
+  <div class="settings__panel settings__panel--users panel shadow center">
+    <% if Current.user.can_administer? %>
+      <%= render "account/settings/name", account: @account %>
+    <% end%>
+    <%= render "account/settings/users", users: @users %>
+  </div>
+
   <%= render "account/settings/entropy_configuration", account: @account %>
 </section>

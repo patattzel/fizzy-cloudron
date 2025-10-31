@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :account do
-    resource :join_code
+    post :enter, to: "entries#create"
+    resource :join_code, only: %i[ show edit update destroy ]
     resource :settings
     resource :entropy_configuration
   end
@@ -123,12 +124,15 @@ Rails.application.routes.draw do
   get "/u/*slug" => "uploads#show", as: :upload
 
   resources :qr_codes
-  get "join/:join_code", to: "users#new", as: :join
-  post "join/:join_code", to: "users#create"
+
+  get "join/:tenant/:code", to: "join_codes#new", as: :join
+  post "join/:tenant/:code", to: "join_codes#create"
 
   resource :session do
     scope module: "sessions" do
       resources :transfers, only: %i[ show update ]
+      resource :magic_link, only: %i[ show create ]
+      resource :menu, only: %i[ show create ]
     end
   end
 
@@ -143,6 +147,14 @@ Rails.application.routes.draw do
   resource :conversation, only: %i[ show create ] do
     scope module: :conversations do
       resources :messages, only: %i[ index create ]
+    end
+  end
+
+  scope module: :memberships, path: "memberships/:membership_id" do
+    resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
+
+    resources :email_addresses, only: %i[ new create ], param: :token do
+      resource :confirmation, only: %i[ show create ], module: :email_addresses
     end
   end
 

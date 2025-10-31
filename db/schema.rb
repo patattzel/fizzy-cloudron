@@ -24,10 +24,18 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_29_161222) do
     t.index ["user_id"], name: "index_accesses_on_user_id"
   end
 
+  create_table "account_join_codes", force: :cascade do |t|
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "usage_count", default: 0, null: false
+    t.integer "usage_limit", default: 10, null: false
+    t.index ["code"], name: "index_account_join_codes_on_code", unique: true
+  end
+
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "external_account_id"
-    t.string "join_code"
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["external_account_id"], name: "index_accounts_on_external_account_id", unique: true
@@ -342,15 +350,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_29_161222) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "ip_address"
-    t.datetime "updated_at", null: false
-    t.string "user_agent"
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id"
-  end
-
   create_table "steps", force: :cascade do |t|
     t.integer "card_id", null: false
     t.boolean "completed", default: false, null: false
@@ -391,11 +390,13 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_29_161222) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "email_address"
+    t.integer "membership_id"
     t.string "name", null: false
     t.string "password_digest"
     t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["membership_id"], name: "index_users_on_membership_id"
     t.index ["role"], name: "index_users_on_role"
   end
 
@@ -465,7 +466,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_29_161222) do
   add_foreign_key "pins", "users"
   add_foreign_key "push_subscriptions", "users"
   add_foreign_key "search_queries", "users"
-  add_foreign_key "sessions", "users"
   add_foreign_key "steps", "cards"
   add_foreign_key "taggings", "cards"
   add_foreign_key "taggings", "tags"

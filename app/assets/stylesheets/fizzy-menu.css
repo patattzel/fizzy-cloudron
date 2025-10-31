@@ -1,4 +1,16 @@
 @layer components {
+  .boxcar-header-logo {
+    color: var(--color-ink);
+    inline-size: auto;
+    margin-block-start: 0.1em;
+
+    img {
+      block-size: auto;
+      inline-size: 1.15em; 
+      margin-inline-end: 0.8ch; 
+    }
+  }
+
   .input:is(.fizzy-menu-trigger) {
     --input-background: var(--color-canvas);
     --input-border-color: transparent;

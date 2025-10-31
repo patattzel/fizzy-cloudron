@@ -26,7 +26,6 @@ module Authentication
 
     def require_untenanted_access(**options)
       skip_before_action :require_tenant, **options
-      skip_before_action :require_authentication, **options
       before_action :redirect_tenanted_request, **options
     end
   end
@@ -38,8 +37,7 @@ module Authentication
 
     def require_tenant
       unless ApplicationRecord.current_tenant.present?
-        set_current_identity_token
-        render "sessions/login_menu"
+        redirect_to session_menu_url(script_name: nil)
       end
     end
 
@@ -57,7 +55,7 @@ module Authentication
       Session.find_signed(cookies.signed[:session_token])
     end
 
-    def request_authentication(untenanted: false)
+    def request_authentication
       if ApplicationRecord.current_tenant.present?
         session[:return_to_after_authenticating] = request.url
       end
@@ -77,30 +75,16 @@ module Authentication
       redirect_to root_url if ApplicationRecord.current_tenant
     end
 
-    def start_new_session_for(user)
-      link_identity(user)
-      user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
+    def start_new_session_for(identity)
+      identity.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         set_current_session session
       end
     end
 
-    def link_identity(user)
-      token_value = cookies.signed[:identity_token]
-      token_identity = Identity.find_signed(token_value["id"]) if token_value.present?
-      identity = user.set_identity(token_identity)
-      cookies.signed.permanent[:identity_token] = { value: { "id" => identity.signed_id, "updated_at" => identity.updated_at }, httponly: true, same_site: :lax }
-    end
-
-    def set_current_identity_token
-      link_identity(Current.user) if cookies.signed[:identity_token].nil? && Current.user.present?
-      Current.identity_token = Identity::Mock.new(**cookies.signed[:identity_token])
-    end
-
     def set_current_session(session)
-      logger.struct "  Authorized User##{session.user.id}", authentication: { user: { id: session.user.id } }
+      logger.struct "  Authorized Identity##{session.identity.id}", authentication: { identity: { id: session.identity.id } }
       Current.session = session
-      set_current_identity_token
-      cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :lax, path: Account.sole.slug }
+      cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :lax }
     end
 
     def terminate_session
