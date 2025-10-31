@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include LoadBalancerRouting, WriterAffinity
-  include Authentication, Authorization
+  include Authentication
+  include Authorization
   include CurrentRequest, CurrentTimezone, SetPlatform
   include TurboFlash, ViewTransitions
 

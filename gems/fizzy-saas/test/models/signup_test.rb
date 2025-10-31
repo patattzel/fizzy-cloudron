@@ -38,7 +38,7 @@ class SignupTest < ActiveSupport::TestCase
     )
 
     assert_difference -> { Membership.count }, 1 do
-      assert signup.create_membership, signup.errors.full_messages.to_sentence(words_connector: ". ")
+      assert signup.create_membership
     end
 
     assert signup.tenant
@@ -63,7 +63,6 @@ class SignupTest < ActiveSupport::TestCase
     )
     signup_for_membership.create_membership
 
-    # Then complete the signup
     signup = Signup.new(
       full_name: "Kevin",
       account_name: "37signals",
@@ -71,7 +70,7 @@ class SignupTest < ActiveSupport::TestCase
       identity: identities(:kevin)
     )
 
-    assert signup.complete, signup.errors.full_messages.to_sentence(words_connector: ". ")
+    assert signup.complete
 
     assert signup.tenant
     assert signup.account
@@ -79,7 +78,6 @@ class SignupTest < ActiveSupport::TestCase
     assert_equal "Kevin", signup.user.name
     assert_equal "37signals", signup.account.name
 
-    # Test validation failure
     signup_invalid = Signup.new(
       full_name: "",
       account_name: "37signals",

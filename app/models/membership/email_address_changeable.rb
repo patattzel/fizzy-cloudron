@@ -19,6 +19,8 @@ module Membership::EmailAddressChangeable
         new_email_address = parsed_token.params.fetch("new_email_address")
         membership.change_email_address(new_email_address)
       end
+
+      membership
     end
   end
 

@@ -1,13 +1,16 @@
 class Account::SettingsController < ApplicationController
-  before_action 
   def show
     @account = Account.sole
     @users = User.active.alphabetically
   end
 
   def update
-    Account.sole.update!(account_params)
-    redirect_to account_settings_path
+    if Current.user.can_administer?
+      Account.sole.update!(account_params)
+      redirect_to account_settings_path
+    else
+      head :forbidden
+    end
   end
 
   private

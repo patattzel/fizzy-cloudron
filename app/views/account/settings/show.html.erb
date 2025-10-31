@@ -6,7 +6,9 @@
 
 <section class="settings">
   <div class="settings__panel settings__panel--users panel shadow center">
-    <%= render "account/settings/name", account: @account %>
+    <% if Current.user.can_administer? %>
+      <%= render "account/settings/name", account: @account %>
+    <% end%>
     <%= render "account/settings/users", users: @users %>
   </div>
 

@@ -2,53 +2,40 @@ require "test_helper"
 
 class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @identity = Identity.create!(email_address: "newuser@example.com")
-    magic_link = @identity.send_magic_link
+    @signup = Signup.new(email_address: "newuser@example.com", full_name: "New User")
 
-    untenanted do
-      post session_magic_link_url, params: { code: magic_link.code }
-      assert_response :redirect, "Magic link should succeed"
+    @signup.create_identity || raise("Failed to create identity")
 
-      cookie = cookies.get_cookie "session_token"
-      assert_not_nil cookie, "Expected session_token cookie to be set after magic link consumption"
-    end
+    sign_in_as @signup.identity
 
-    # Create membership first (new step in the flow)
-    untenanted do
-      post saas.signup_membership_path, params: {
-        signup: {
-          full_name: "New User"
-        }
-      }, headers: http_basic_auth_headers
-
-      # Extract membership_id from redirect params
-      redirect_url = response.location
-      @membership_id = Rack::Utils.parse_query(URI.parse(redirect_url).query)["signup[membership_id]"]
-    end
+    @signup.create_membership || raise("Failed to create membership")
   end
 
   test "new" do
     untenanted do
-      get saas.new_signup_completion_path(signup: { membership_id: @membership_id, full_name: "New User", account_name: "New Company" }), headers: http_basic_auth_headers
-
-      assert_response :success
+      get saas.new_signup_completion_path(signup: {
+        membership_id: @signup.membership_id,
+        full_name: @signup.full_name,
+        account_name: @signup.account_name }), headers: http_basic_auth_headers
     end
+
+    assert_response :success
   end
 
   test "create" do
     untenanted do
       post saas.signup_completion_path, params: {
         signup: {
-          membership_id: @membership_id,
-          full_name: "New User",
-          account_name: "New Company"
+          membership_id: @signup.membership_id,
+          full_name: @signup.full_name,
+          account_name: @signup.account_name
         }
       }, headers: http_basic_auth_headers
+    end
 
-      tenant = Membership.last.tenant
-      assert_redirected_to root_url(script_name: "/#{tenant}"), "Successful completion should redirect to root in new tenant"
+    assert_redirected_to root_url(script_name: "/#{@signup.tenant}"), "Successful completion should redirect to root in new tenant"
 
-      # Test validation error
+    untenanted do
       post saas.signup_completion_path, params: {
         signup: {
           membership_id: @membership_id,
@@ -56,9 +43,9 @@ class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
           account_name: ""
         }
       }, headers: http_basic_auth_headers
-
-      assert_response :unprocessable_entity, "Invalid params should return unprocessable entity"
     end
+
+    assert_response :unprocessable_entity, "Invalid params should return unprocessable entity"
   end
 
   private

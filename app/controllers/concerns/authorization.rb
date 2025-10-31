@@ -38,18 +38,4 @@ module Authorization
     def redirect_existing_user
       redirect_to root_path if Current.user
     end
-
-    def account_entry_url(membership)
-      if !ApplicationRecord.tenant_exists?(membership.tenant)
-      elsif membership.user.blank?
-        # We are joining an account. This means the user doesn't yet exist and
-        # we have to create it
-        new_user_url(script_name: "/#{membership.tenant}", membership: membership.to_signed(for: :user_creation))
-        # The user exists, but was deactivated, we want to remove the membership
-        unlink_membership_url(script_name: nil, membership: membership.to_signed(for: :unlinking))
-      else
-        # Everything is fine, let the user enter the account
-        root_url(script_name: "/#{membership.tenant}")
-      end
-    end
 end

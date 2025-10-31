@@ -9,10 +9,10 @@ class Memberships::EmailAddresses::ConfirmationsController < ApplicationControll
   end
 
   def create
-    Membership.change_email_address_using_token(token)
+    membership = Membership.change_email_address_using_token(token)
 
     terminate_session
-    start_new_session_for @membership.reload.identity
+    start_new_session_for membership.reload.identity
 
     redirect_to edit_user_url(script_name: "/#{@membership.tenant}", id: @membership.user)
   end
