@@ -4,13 +4,10 @@ CARDS_COUNT = 10_000
 
 # 37signals seed
 ApplicationRecord.current_tenant = "897362094"
-account = Account.sole
-user = User.first
-user.sessions.create!
-Current.session = user.sessions.last
+Current.session = Session.first
 collection = Collection.first
 
 CARDS_COUNT.times do |index|
-  card = collection.cards.create!(title: "Doing card #{index}", creator: user, status: :published)
+  card = collection.cards.create!(title: "Card #{index}", status: :published)
   print "."
 end
