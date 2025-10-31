@@ -6,8 +6,8 @@
 
     img {
       block-size: auto;
-      inline-size: 1.15em; 
-      margin-inline-end: 0.8ch; 
+      inline-size: 1.15em;
+      margin-inline-end: 0.8ch;
     }
   }
 
@@ -71,6 +71,15 @@
     flex-direction: column;
     gap: 2px;
     scrollbar-gutter: stable both-edges;
+
+    /* Safari doesn't position the sticky footer properly during the
+     * transition, so we need to delay the footer entrance. */
+    .popup__footer {
+      animation: safari-sticky-footer-hack 0s;
+      animation-delay: var(--dialog-duration);
+      animation-fill-mode: both;
+      inset-inline: var(--block-space);
+    }
   }
 
   .fizzy-menu__close {
