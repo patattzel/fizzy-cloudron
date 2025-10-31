@@ -8,4 +8,9 @@
       <%= local_datetime_tag events.first.created_at, class: "event__timestamp txt-small translucent" %>
     <% end %>
   <% end %>
+
+  <%# FIXME: Need to style this cut-off %>
+  <% if column[:events].count < column[:full_events_count] %>
+    <p>...and <%= column[:full_events_count] - column[:events].count %> more</p>
+  <% end %>
 </div>
