@@ -12,8 +12,4 @@ module CollectionsHelper
       icon_tag("settings") + tag.span("Settings for #{collection.name}", class: "for-screen-reader")
     end
   end
-
-  def referenced_collections_from(records)
-    Current.user.collections.where id: records.pluck(:collection_id).uniq
-  end
 end
