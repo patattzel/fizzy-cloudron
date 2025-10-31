@@ -9,8 +9,7 @@
     <% end %>
   <% end %>
 
-  <%# FIXME: Need to style this cut-off %>
   <% if column[:events].count < column[:full_events_count] %>
-    <p>...and <%= column[:full_events_count] - column[:events].count %> more</p>
+    <div class="pad-inline pad-block-half margin-block-end-half fill-highlight txt-x-small margin-inline-half border-radius">Showing the first 100 items (<%= column[:full_events_count] - column[:events].count %> are hidden)</div
   <% end %>
 </div>
