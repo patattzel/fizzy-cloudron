@@ -12,5 +12,5 @@ collection = Collection.first
 
 CARDS_COUNT.times do |index|
   card = collection.cards.create!(title: "Doing card #{index}", creator: user, status: :published)
-  puts "."
+  print "."
 end
