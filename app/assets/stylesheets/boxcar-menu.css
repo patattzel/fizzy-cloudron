@@ -11,7 +11,7 @@
     }
   }
 
-  .input:is(.fizzy-menu-trigger) {
+  .input:is(.boxcar-menu-trigger) {
     --input-background: var(--color-canvas);
     --input-border-color: transparent;
     --input-padding: 0.3em 2em 0.3em 0.75em;
@@ -58,7 +58,7 @@
     }
   }
 
-  .fizzy-menu:is(.panel) {
+  .boxcar-menu:is(.panel) {
     --panel-border-color: var(--color-selected-dark);
     --panel-border-radius: 1.4em;
     --panel-size: 45ch;
@@ -82,13 +82,13 @@
     }
   }
 
-  .fizzy-menu__close {
+  .boxcar-menu__close {
     @media (any-hover: hover) {
       display: none;
     }
   }
 
-  .fizzy-menu__hotkeys {
+  .boxcar-menu__hotkeys {
     --gap: 8px;
 
     align-items: center;
