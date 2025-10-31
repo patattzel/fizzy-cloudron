@@ -5,7 +5,10 @@
 <% end %>
 
 <section class="settings">
-  <%= render "account/settings/users", users: @users %>
+  <div class="settings__panel settings__panel--users panel shadow center">
+    <%= render "account/settings/name", account: @account %>
+    <%= render "account/settings/users", users: @users %>
+  </div>
+
   <%= render "account/settings/entropy_configuration", account: @account %>
-  <%= render "account/settings/name", account: @account %>
 </section>
