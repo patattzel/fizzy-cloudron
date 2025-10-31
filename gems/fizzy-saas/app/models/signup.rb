@@ -1,12 +1,11 @@
 class Signup
-  BOOLEAN = ActiveRecord::Type::Boolean.new
   MEMBERSHIP_PURPOSE = :account_creation
 
   include ActiveModel::Model
   include ActiveModel::Attributes
   include ActiveModel::Validations
 
-  attr_accessor :company_name, :full_name, :email_address, :identity, :membership_id, :new_user
+  attr_accessor :full_name, :email_address, :identity, :membership_id, :account_name
   attr_reader :queenbee_account, :account, :user, :tenant, :membership
 
   with_options on: :identity_creation do
@@ -14,15 +13,14 @@ class Signup
   end
 
   with_options on: :membership_creation do
-    validates_presence_of :company_name, :full_name, :identity
+    validates_presence_of :full_name, :identity
   end
 
   with_options on: :completion do
-    validates_presence_of :company_name, :full_name, :email_address, :tenant
+    validates_presence_of :full_name, :account_name, :identity, :membership
   end
 
   def initialize(...)
-    @company_name = nil
     @full_name = nil
     @email_address = nil
     @tenant = nil
@@ -32,6 +30,7 @@ class Signup
     @membership = nil
     @membership_id = nil
     @identity = nil
+    @account_name = nil
 
     super
 
@@ -45,15 +44,11 @@ class Signup
   def create_identity
     return false unless valid?(:identity_creation)
 
-    @identity = Identity.find_by(email_address: email_address)
-    @new_user = !@identity
-    @identity = Identity.create!(email_address: email_address) unless @identity
+    @identity = Identity.find_or_create_by!(email_address: email_address)
     @identity.send_magic_link
   end
 
   def create_membership
-    self.company_name ||= personal_account_name if new_user?
-
     if valid?(:membership_creation)
       begin
         create_queenbee_account
@@ -96,21 +91,9 @@ class Signup
     end
   end
 
-  def new_user?
-    BOOLEAN.cast(new_user)
-  end
-
   private
-    def personal_account_name
-      if full_name.present?
-        first_name = full_name.split(" ", 2).first
-        "#{first_name}'s BOXCAR"
-      else
-        nil
-      end
-    end
-
     def create_queenbee_account
+      @account_name = AccountNameGenerator.new(identity: identity, name: full_name).generate
       @queenbee_account = Queenbee::Remote::Account.create!(queenbee_account_attributes)
       @tenant = queenbee_account.id.to_s
     end
@@ -125,7 +108,7 @@ class Signup
         @account = Account.create_with_admin_user(
           account: {
             external_account_id: tenant,
-            name: company_name
+            name: account_name
           },
           owner: {
             name: full_name,
@@ -149,24 +132,23 @@ class Signup
 
     def queenbee_account_attributes
       {}.tap do |attributes|
-        # Tell Queenbee to skip the request to create a local account. We've created it ourselves.
-        attributes[:skip_remote]    = true
-
-        # # TODO: once we are doing our own email validation, consider setting this
-        # # Queenbee should not do spam checks on this account, we've done our own.
-        # attributes[:auto_allow]     = true
-
-        # # TODO: Terms of Service
-        # attributes[:terms_of_service] = true
-
         attributes[:product_name]   = "fizzy"
-        attributes[:name]           = company_name
+        attributes[:name]           = account_name
         attributes[:owner_name]     = full_name
         attributes[:owner_email]    = email_address
 
         attributes[:trial]          = true
         attributes[:subscription]   = subscription_attributes
         attributes[:remote_request] = request_attributes
+
+        # # TODO: Terms of Service
+        # attributes[:terms_of_service] = true
+
+        # We've confirmed the email
+        attributes[:auto_allow]     = true
+
+        # Tell Queenbee to skip the request to create a local account. We've created it ourselves.
+        attributes[:skip_remote]    = true
       end
     end
 

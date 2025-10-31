@@ -34,7 +34,6 @@ class SignupTest < ActiveSupport::TestCase
   test "#create_membership" do
     signup = Signup.new(
       full_name: "Kevin",
-      company_name: "37signals",
       identity: identities(:kevin)
     )
 
@@ -48,7 +47,6 @@ class SignupTest < ActiveSupport::TestCase
 
     signup_invalid = Signup.new(
       full_name: "",
-      company_name: "37signals",
       identity: identities(:kevin)
     )
     assert_not signup_invalid.create_membership, "Create membership should fail with invalid params"
@@ -61,7 +59,6 @@ class SignupTest < ActiveSupport::TestCase
     # First create the membership
     signup_for_membership = Signup.new(
       full_name: "Kevin",
-      company_name: "37signals",
       identity: identities(:kevin)
     )
     signup_for_membership.create_membership
@@ -69,7 +66,7 @@ class SignupTest < ActiveSupport::TestCase
     # Then complete the signup
     signup = Signup.new(
       full_name: "Kevin",
-      company_name: "37signals",
+      account_name: "37signals",
       membership_id: signup_for_membership.membership_id,
       identity: identities(:kevin)
     )
@@ -85,7 +82,7 @@ class SignupTest < ActiveSupport::TestCase
     # Test validation failure
     signup_invalid = Signup.new(
       full_name: "",
-      company_name: "37signals",
+      account_name: "37signals",
       membership_id: signup_for_membership.membership_id,
       identity: identities(:kevin)
     )

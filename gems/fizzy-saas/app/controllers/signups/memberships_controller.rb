@@ -6,7 +6,7 @@ class Signups::MembershipsController < ApplicationController
   layout "public"
 
   def new
-    @signup = Signup.new(new_user: params.dig(:signup, :new_user) || false)
+    @signup = Signup.new
   end
 
   def create
@@ -17,7 +17,7 @@ class Signups::MembershipsController < ApplicationController
         signup: {
           membership_id: @signup.membership_id,
           full_name: @signup.full_name,
-          company_name: @signup.company_name
+          account_name: @signup.account_name
         }
       )
     else
@@ -27,6 +27,6 @@ class Signups::MembershipsController < ApplicationController
 
   private
     def signup_params
-      params.expect(signup: %i[ full_name company_name new_user]).with_defaults(new_user: false, identity: Current.identity)
+      params.expect(signup: %i[ full_name ]).with_defaults(identity: Current.identity)
     end
 end

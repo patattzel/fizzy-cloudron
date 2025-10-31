@@ -17,8 +17,7 @@ class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
     untenanted do
       post saas.signup_membership_path, params: {
         signup: {
-          full_name: "New User",
-          company_name: "New Company"
+          full_name: "New User"
         }
       }, headers: http_basic_auth_headers
 
@@ -30,7 +29,7 @@ class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
 
   test "new" do
     untenanted do
-      get saas.new_signup_completion_path(signup: { membership_id: @membership_id, full_name: "New User", company_name: "New Company" }), headers: http_basic_auth_headers
+      get saas.new_signup_completion_path(signup: { membership_id: @membership_id, full_name: "New User", account_name: "New Company" }), headers: http_basic_auth_headers
 
       assert_response :success
     end
@@ -42,7 +41,7 @@ class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
         signup: {
           membership_id: @membership_id,
           full_name: "New User",
-          company_name: "New Company"
+          account_name: "New Company"
         }
       }, headers: http_basic_auth_headers
 
@@ -54,7 +53,7 @@ class Signups::CompletionsControllerTest < ActionDispatch::IntegrationTest
         signup: {
           membership_id: @membership_id,
           full_name: "",
-          company_name: ""
+          account_name: ""
         }
       }, headers: http_basic_auth_headers
 

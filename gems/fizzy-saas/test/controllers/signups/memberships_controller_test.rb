@@ -35,19 +35,19 @@ class Signups::MembershipsControllerTest < ActionDispatch::IntegrationTest
       assert_difference -> { Membership.count }, 1 do
         post saas.signup_membership_path, params: {
           signup: {
-            full_name: "New User",
-            company_name: "New Company"
+            full_name: "New User"
           }
         }, headers: http_basic_auth_headers
       end
 
+      membership = Membership.last
       assert_redirected_to saas.new_signup_completion_path(
         signup: {
-          membership_id: Membership.last.signed_id(purpose: :account_creation),
+          membership_id: membership.signed_id(purpose: :account_creation),
           full_name: "New User",
-          company_name: "New Company"
+          account_name: "New's BOXCAR"
         }
-      ), "Successful membership creation should redirect to completion step"
+      )
     end
   end
 
@@ -56,30 +56,12 @@ class Signups::MembershipsControllerTest < ActionDispatch::IntegrationTest
       assert_no_difference -> { Membership.count } do
         post saas.signup_membership_path, params: {
           signup: {
-            full_name: "",
-            company_name: ""
+            full_name: ""
           }
         }, headers: http_basic_auth_headers
       end
 
       assert_response :unprocessable_entity, "Invalid params should return unprocessable entity"
-    end
-  end
-
-  test "create with new_user flag" do
-    untenanted do
-      post saas.signup_membership_path, params: {
-        signup: {
-          full_name: "John Smith",
-          new_user: true
-        }
-      }, headers: http_basic_auth_headers
-
-      # When new_user is true and company_name is blank, it should use personal account name
-      # Follow the redirect to check the generated company name
-      assert_response :redirect
-      redirect_params = Rack::Utils.parse_query(URI.parse(response.location).query)
-      assert_equal "John's BOXCAR", redirect_params["signup[company_name]"]
     end
   end
 

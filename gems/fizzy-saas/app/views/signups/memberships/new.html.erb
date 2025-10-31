@@ -8,10 +8,6 @@
 
     <%= form.text_field :full_name, class: "input", autocomplete: "name", placeholder: "Your name", autofocus: true, required: true %>
 
-    <% unless @signup.new_user? %>
-      <%= form.text_field :company_name, class: "input", autocomplete: "organization", placeholder: "Your organization", required: true %>
-    <% end %>
-
     <% if @signup.errors.any? %>
       <div class="margin-block-half">
         <ul class="margin-block-none txt-negative txt-small">
