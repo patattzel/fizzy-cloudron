@@ -27,7 +27,7 @@
     BOXCAR is designed, built, and backed by <strong class="txt-nowrap"><%= icon_tag "37signals" %> <a href="https://37signals.com" target="_blank" class="txt-subtle">37signals</a>.</strong>
   </div>
 
-  <%= render "custom", filters: @user_filtering.filters %>
+  <%= render "saved_filter", filters: @user_filtering.filters %>
   <%= render "collections", user_filtering: @user_filtering %>
   <%= render "tags", user_filtering: @user_filtering %>
   <%= render "users", user_filtering: @user_filtering %>
