@@ -31,6 +31,10 @@ class Account < ApplicationRecord
     Collection.create!(name: "Cards", creator: user, all_access: true)
   end
 
+  def setup_customer_template
+    Account::Seeder.new(self, User.first).seed
+  end
+
   private
     def create_join_code
       Account::JoinCode.create!
