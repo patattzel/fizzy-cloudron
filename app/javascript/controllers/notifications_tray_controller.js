@@ -9,7 +9,15 @@ export default class extends Controller {
   }
 
   group() {
-    this.notificationTargets.forEach(notification => this.#groupNotification(notification))
+    const notificationsByCardId = this.#groupNotificationsByCardId()
+
+    for (const cardId in notificationsByCardId) {
+      const notifications = notificationsByCardId[cardId]
+      if (notifications.length > 1) {
+        this.#renderGroup(notifications)
+      }
+    }
+
     this.grouped = true
   }
 
@@ -17,6 +25,18 @@ export default class extends Controller {
     if (this.grouped && notification.parentElement !== this.hiddenNotificationsTarget) {
       this.#groupNotification(notification)
     }
+  }
+
+  #groupNotificationsByCardId() {
+    const notificationsByCardId = {}
+
+    this.notificationTargets.forEach(notification => {
+      const cardId = notification.dataset.cardId
+      notificationsByCardId[cardId] ||= []
+      notificationsByCardId[cardId].push(notification)
+    })
+
+    return notificationsByCardId
   }
 
   #groupNotification(notification) {
@@ -31,10 +51,11 @@ export default class extends Controller {
     const cardId = notification.dataset.cardId
     return this.notificationTargets
       .filter(notification => notification.dataset.cardId === cardId)
-      .sort((notification_1, notification_2) => parseInt(notification_1.dataset.timestamp) - parseInt(notification_2.dataset.timestamp))
   }
 
   #renderGroup(groupedNotifications) {
+    groupedNotifications.sort((notification_1, notification_2) => parseInt(notification_1.dataset.timestamp) - parseInt(notification_2.dataset.timestamp))
+
     this.#showAsGrouped(groupedNotifications[0], groupedNotifications.length)
     groupedNotifications.slice(1).forEach(notification => this.#hideInGroup(notification))
   }
