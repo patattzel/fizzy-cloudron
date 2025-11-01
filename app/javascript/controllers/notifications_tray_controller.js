@@ -4,11 +4,22 @@ export default class extends Controller {
   static targets = [ "notification", "hiddenNotifications" ]
   static classes = [ "grouped" ]
 
-  notificationTargetConnected(notification) {
-    this.#groupNotificationIfNeeded(notification)
+  connect() {
+    this.group()
   }
 
-  #groupNotificationIfNeeded(notification) {
+  group() {
+    this.notificationTargets.forEach(notification => this.#groupNotification(notification))
+    this.grouped = true
+  }
+
+  notificationTargetConnected(notification) {
+    if (this.grouped && notification.parentElement !== this.hiddenNotificationsTarget) {
+      this.#groupNotification(notification)
+    }
+  }
+
+  #groupNotification(notification) {
     const groupedNotifications = this.#groupedNotificationsFor(notification)
 
     if (groupedNotifications.length > 1) {
@@ -40,7 +51,7 @@ export default class extends Controller {
   }
 
   // We use a hidden container instead of hiding the notifications directly so that the CSS that sort the
-  // tray element indexes doesn't get messed up.
+  // tray element indexes doesn't get messed up with the child positions changing.
   #showGroupedNotification(notification) {
     if (notification.parentElement === this.hiddenNotificationsTarget) {
       this.hiddenNotificationsTarget.parentElement.insertBefore(notification, this.hiddenNotificationsTarget)
