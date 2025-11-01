@@ -20,7 +20,10 @@ module NotificationsHelper
   end
 
   def notification_tag(notification, &)
-    tag.div id: dom_id(notification), class: "tray__item tray__item--notification", data: { navigable_list_target: "item" } do
+    tag.div id: dom_id(notification), class: "tray__item tray__item--notification", data: {
+      navigable_list_target: "item",
+      notifications_tray_target: "notification",
+      card_id: notification.card.id, timestamp: notification.created_at.to_i } do
       concat(
         link_to(notification,
           class: [ "card card--notification", { "card--closed": notification.card.closed? }, { "unread": !notification.read? } ],
