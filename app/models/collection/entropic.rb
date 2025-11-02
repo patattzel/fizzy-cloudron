@@ -2,15 +2,15 @@ module Collection::Entropic
   extend ActiveSupport::Concern
 
   included do
-    delegate :auto_postpone_period, to: :entropy_configuration
+    delegate :auto_postpone_period, to: :entropy
   end
 
-  def entropy_configuration
-    super || Entropy::Configuration.default
+  def entropy
+    super || Entropy.default
   end
 
   def auto_postpone_period=(new_value)
-    entropy_configuration ||= association(:entropy_configuration).reader || self.build_entropy_configuration
-    entropy_configuration.update auto_postpone_period: new_value
+    entropy ||= association(:entropy).reader || self.build_entropy
+    entropy.update auto_postpone_period: new_value
   end
 end
