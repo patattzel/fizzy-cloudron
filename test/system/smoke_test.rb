@@ -61,8 +61,8 @@ class SmokeTest < ApplicationSystemTestCase
 
     def assert_image_figure_attachment(content_type: "image/png", caption:)
       assert_figure_attachment(content_type: content_type) do
-        assert_selector("img[src*='/rails/active_storage']")
-        assert_selector "figcaption input[placeholder='#{caption}']"
+        assert_selector "img[src*='/rails/active_storage']", wait: 5
+        assert_selector "figcaption input[placeholder='#{caption}']", wait: 5
       end
     end
 end

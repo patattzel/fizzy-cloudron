@@ -3,24 +3,30 @@ module EventsHelper
     case event_type
     when "added"
       events = day_timeline.events.where(action: [ "card_published", "card_reopened" ])
+      full_events_count = events.count
       {
-        title: event_column_title("Added", events.count, day_timeline.day),
+        title: event_column_title("Added", full_events_count, day_timeline.day),
         index: 1,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     when "closed"
       events = day_timeline.events.where(action: "card_closed")
+      full_events_count = events.count
       {
-        title: event_column_title("Closed", events.count, day_timeline.day),
+        title: event_column_title("Closed", full_events_count, day_timeline.day),
         index: 3,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     else
       events = day_timeline.events.where.not(action: [ "card_published", "card_closed", "card_reopened" ])
+      full_events_count = events.count
       {
-        title: event_column_title("Updated", events.count, day_timeline.day),
+        title: event_column_title("Updated", full_events_count, day_timeline.day),
         index: 2,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     end
   end
