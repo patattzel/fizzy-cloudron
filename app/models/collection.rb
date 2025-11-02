@@ -17,8 +17,6 @@ class Collection < ApplicationRecord
 
   private
     def ensure_default_collection
-      if Collection.count.zero?
-        Collection.create!(name: "Cards")
-      end
+      Collection.create!(name: "Cards") if Collection.none?
     end
 end
