@@ -128,6 +128,10 @@ Rails.application.routes.draw do
   get "join/:tenant/:code", to: "join_codes#new", as: :join
   post "join/:tenant/:code", to: "join_codes#create"
 
+  namespace :users do
+    resources :joins
+  end
+
   resource :session do
     scope module: "sessions" do
       resources :transfers
