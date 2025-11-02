@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
 
   def create
     Identity.find_by_email_address(email_address)&.send_magic_link
-
     redirect_to session_magic_link_path
   end
 
