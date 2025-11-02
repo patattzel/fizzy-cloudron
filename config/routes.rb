@@ -120,9 +120,6 @@ Rails.application.routes.draw do
     resources :days
   end
 
-  resources :uploads, only: :create
-  get "/u/*slug" => "uploads#show", as: :upload
-
   resources :qr_codes
 
   get "join/:tenant/:code", to: "join_codes#new", as: :join
