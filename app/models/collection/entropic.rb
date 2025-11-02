@@ -7,7 +7,7 @@ module Collection::Entropic
   end
 
   def entropy
-    super || Entropy.default
+    super || Account.sole.entropy
   end
 
   def auto_postpone_period=(new_value)

@@ -6,14 +6,14 @@ module Card::Entropic
       active
         .left_outer_joins(collection: :entropy)
         .where("last_active_at <= DATETIME('now', '-' || COALESCE(entropies.auto_postpone_period, ?) || ' seconds')",
-          Entropy.default.auto_postpone_period)
+          Account.sole.entropy.auto_postpone_period)
     end
 
     scope :postponing_soon, -> do
       active
         .left_outer_joins(collection: :entropy)
-        .where("last_active_at >  DATETIME('now', '-' || COALESCE(entropies.auto_postpone_period, ?) || ' seconds')", Entropy.default.auto_postpone_period)
-        .where("last_active_at <= DATETIME('now', '-' || CAST(COALESCE(entropies.auto_postpone_period, ?) * 0.75 AS INTEGER) || ' seconds')", Entropy.default.auto_postpone_period)
+        .where("last_active_at >  DATETIME('now', '-' || COALESCE(entropies.auto_postpone_period, ?) || ' seconds')", Account.sole.entropy.auto_postpone_period)
+        .where("last_active_at <= DATETIME('now', '-' || CAST(COALESCE(entropies.auto_postpone_period, ?) * 0.75 AS INTEGER) || ' seconds')", Account.sole.entropy.auto_postpone_period)
     end
 
     delegate :auto_postpone_period, to: :collection
