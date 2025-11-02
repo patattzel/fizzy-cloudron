@@ -4,8 +4,6 @@ class Account::Seeder
   def initialize(account, creator)
     @account = account
     @creator = creator
-
-    puts creator.inspect
   end
 
   def seed

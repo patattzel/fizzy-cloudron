@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Entropic
+  include Entropic, Seedeable
 
   has_many_attached :uploads
 
@@ -23,16 +23,6 @@ class Account < ApplicationRecord
 
   def slug
     "/#{tenant}"
-  end
-
-  def setup_basic_template
-    user = User.first
-
-    Collection.create!(name: "Cards", creator: user, all_access: true)
-  end
-
-  def setup_customer_template
-    Account::Seeder.new(self, User.first).seed
   end
 
   private
