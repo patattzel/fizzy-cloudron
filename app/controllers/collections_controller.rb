@@ -3,16 +3,16 @@ class CollectionsController < ApplicationController
 
   include FilterScoped
 
-  def new
-    @collection = Collection.new
-  end
-
   def show
     if @filter.used?(ignore_collections: true)
       show_filtered_cards
     else
       show_columns
     end
+  end
+
+  def new
+    @collection = Collection.new
   end
 
   def create
