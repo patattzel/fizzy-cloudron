@@ -10,7 +10,7 @@
     </dialog>
   </div>
 
-  <% if card.tags.any? || card.creating? %>
+  <% if card.tags.any? %>
     <div class="min-width overflow-ellipsis">
       <% card.tags.each_with_index do |tag, index| %>
         <%= link_to cards_path(collection_ids: [ card.collection ], tag_ids: [ tag.id ]),

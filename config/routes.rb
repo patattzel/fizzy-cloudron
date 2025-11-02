@@ -71,7 +71,6 @@ Rails.application.routes.draw do
       resource :triage
       resource :publish
       resource :reading
-      resource :recover
       resource :watch
       resource :collection
       resource :column

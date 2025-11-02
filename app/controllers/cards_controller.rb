@@ -9,7 +9,7 @@ class CardsController < ApplicationController
   end
 
   def create
-    card = @collection.cards.create!
+    card = @collection.cards.find_or_create_by!(creator: Current.user, status: "drafted")
     redirect_to card
   end
 
@@ -30,7 +30,7 @@ class CardsController < ApplicationController
 
   def destroy
     @card.destroy!
-    redirect_to @card.collection, notice: ("Card deleted" unless @card.creating?)
+    redirect_to @card.collection, notice: "Card deleted"
   end
 
   private
