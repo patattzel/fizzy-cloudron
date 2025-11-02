@@ -1,7 +1,6 @@
 class Account::EntropyConfigurationsController < ApplicationController
   def update
     Entropy::Configuration.default.update!(entropy_configuration_params)
-
     redirect_to account_settings_path, notice: "Account updated"
   end
 
