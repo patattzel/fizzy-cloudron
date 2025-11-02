@@ -26,6 +26,6 @@ class Collections::ColumnsController < ApplicationController
     end
 
     def column_params
-      params.require(:column).permit(:name, :color)
+      params.expect(column: [ :name, :color ])
     end
 end
