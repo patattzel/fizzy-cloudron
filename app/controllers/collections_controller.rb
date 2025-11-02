@@ -1,7 +1,7 @@
 class CollectionsController < ApplicationController
-  before_action :set_collection, except: %i[ new create ]
-
   include FilterScoped
+
+  before_action :set_collection, except: %i[ new create ]
 
   def show
     if @filter.used?(ignore_collections: true)
