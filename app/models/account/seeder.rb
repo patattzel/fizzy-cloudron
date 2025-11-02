@@ -59,7 +59,11 @@ class Account::Seeder
       bug_tracker.cards.create! creator: creator, column: resolved_column, title: "Fix broken links in footer", status: "published"
 
       # Comments
-      profile_crash_card.comments.create! creator: creator, body: "I can reproduce this with images over 5MB"
+      profile_crash_card.comments.create! creator: creator, body: <<~HTML
+        I can reproduce this with images over 5MB
+
+        <action-text-attachment url="https://videos.37signals.com/dev/assets/videos/page-refreshes-with-morphing-demo/page-refreshes-with-morphing.mp4" caption="Demo video" content-type="video/mp4" filename="page-refreshes-with-morphing.mp4"></action-text-attachment>
+      HTML
       profile_crash_card.comments.create! creator: creator, body: "Looking into adding client-side image compression before upload"
 
       # ----------------------------
