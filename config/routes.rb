@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resource :avatar
       resource :role
       resource :events
+
       resources :push_subscriptions
     end
   end
