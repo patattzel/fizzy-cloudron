@@ -1,11 +1,7 @@
 class CollectionsController < ApplicationController
-  before_action :set_collection, except: %i[ new create ]
-
   include FilterScoped
 
-  def new
-    @collection = Collection.new
-  end
+  before_action :set_collection, except: %i[ new create ]
 
   def show
     if @filter.used?(ignore_collections: true)
@@ -15,6 +11,10 @@ class CollectionsController < ApplicationController
     end
   end
 
+  def new
+    @collection = Collection.new
+  end
+
   def create
     @collection = Collection.create! collection_params.with_defaults(all_access: true)
     redirect_to collection_path(@collection)
@@ -22,12 +22,14 @@ class CollectionsController < ApplicationController
 
   def edit
     selected_user_ids = @collection.users.pluck :id
-    @selected_users, @unselected_users = User.active.alphabetically.partition { |user| selected_user_ids.include? user.id }
+    @selected_users, @unselected_users = \
+      User.active.alphabetically.partition { |user| selected_user_ids.include? user.id }
   end
 
   def update
     @collection.update! collection_params
     @collection.accesses.revise granted: grantees, revoked: revokees if grantees_changed?
+
     if @collection.accessible_to?(Current.user)
       redirect_to edit_collection_path(@collection), notice: "Saved"
     else

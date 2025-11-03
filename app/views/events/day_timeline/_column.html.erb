@@ -8,4 +8,10 @@
       <%= local_datetime_tag events.first.created_at, class: "event__timestamp txt-small translucent" %>
     <% end %>
   <% end %>
+
+  <% if column[:events].count < column[:full_events_count] %>
+    <div class="events__column-footer fill-highlight txt-x-small border-radius" style="grid-column-start: <%= column[:index] %>">
+      Showing the 100 most recent (<%= column[:full_events_count] - column[:events].count %> are hidden)
+    </div>
+  <% end %>
 </div>

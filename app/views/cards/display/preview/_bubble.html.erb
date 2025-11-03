@@ -1,4 +1,7 @@
-<%= tag.div hidden: true, class: "bubble",
+<%= tag.div \
+      id: dom_id(card, "bubble"),
+      hidden: true,
+      class: "bubble",
       data: {
         controller: "bubble",
         action: "turbo:morph-element->bubble#update",

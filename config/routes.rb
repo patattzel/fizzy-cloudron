@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
   namespace :account do
     post :enter, to: "entries#create"
-    resource :join_code, only: %i[ show edit update destroy ]
+    resource :join_code
     resource :settings
-    resource :entropy_configuration
+    resource :entropy
   end
 
   resources :users do
-    resource :role, module: :users
-    resources :push_subscriptions, module: :users
+    scope module: :users do
+      resource :avatar
+      resource :role
+      resource :events
+
+      resources :push_subscriptions
+    end
   end
 
   resources :collections do
@@ -16,7 +21,7 @@ Rails.application.routes.draw do
       resource :subscriptions
       resource :involvement
       resource :publication
-      resource :entropy_configuration
+      resource :entropy
 
       namespace :columns do
         resource :not_now
@@ -27,11 +32,11 @@ Rails.application.routes.draw do
       resources :columns
     end
 
-    resources :cards, only: %i[ create ]
+    resources :cards, only: :create
 
     resources :webhooks do
-      scope module: "webhooks" do
-        resource :activation, only: %i[ create ]
+      scope module: :webhooks do
+        resource :activation, only: :create
       end
     end
   end
@@ -43,7 +48,7 @@ Rails.application.routes.draw do
 
   namespace :columns do
     resources :cards do
-      scope module: "cards" do
+      scope module: :cards do
         namespace :drops do
           resource :not_now
           resource :stream
@@ -58,7 +63,7 @@ Rails.application.routes.draw do
     resources :previews
   end
 
-  resources :cards, only: %i[ index show edit update destroy ] do
+  resources :cards do
     scope module: :cards do
       resource :goldness
       resource :image
@@ -68,7 +73,6 @@ Rails.application.routes.draw do
       resource :triage
       resource :publish
       resource :reading
-      resource :recover
       resource :watch
       resource :collection
       resource :column
@@ -95,7 +99,7 @@ Rails.application.routes.draw do
     scope module: :notifications do
       get "tray", to: "trays#show", on: :collection
 
-      resource :reading, only: %i[ create destroy ]
+      resource :reading
       collection do
         resource :bulk_reading, only: :create
       end
@@ -120,41 +124,36 @@ Rails.application.routes.draw do
     resources :days
   end
 
-  resources :uploads, only: :create
-  get "/u/*slug" => "uploads#show", as: :upload
-
   resources :qr_codes
 
   get "join/:tenant/:code", to: "join_codes#new", as: :join
   post "join/:tenant/:code", to: "join_codes#create"
 
-  resource :session do
-    scope module: "sessions" do
-      resources :transfers, only: %i[ show update ]
-      resource :magic_link, only: %i[ show create ]
-      resource :menu, only: %i[ show create ]
-    end
+  namespace :users do
+    resources :joins
   end
 
-  resources :users do
-    scope module: :users do
-      resource :avatar
+  resource :session do
+    scope module: :sessions do
+      resources :transfers
+      resource :magic_link
+      resource :menu
     end
   end
 
   resources :commands
 
-  resource :conversation, only: %i[ show create ] do
+  resource :conversation do
     scope module: :conversations do
-      resources :messages, only: %i[ index create ]
+      resources :messages
     end
   end
 
   scope module: :memberships, path: "memberships/:membership_id" do
-    resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
+    resource :unlink, controller: :unlink, as: :unlink_membership
 
-    resources :email_addresses, only: %i[ new create ], param: :token do
-      resource :confirmation, only: %i[ show create ], module: :email_addresses
+    resources :email_addresses, param: :token do
+      resource :confirmation, module: :email_addresses
     end
   end
 
