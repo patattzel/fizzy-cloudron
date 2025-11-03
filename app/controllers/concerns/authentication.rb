@@ -52,6 +52,7 @@ module Authentication
       end
     end
 
+    # FIXME: Remove before launch
     def clear_old_scoped_session_cookies
       if request.script_name.present? && cookies.signed[:session_token].present? && !find_session_by_cookie
         cookies.signed[:session_token] = { value: "invalid-session-token", path: request.script_name, expires: 1.hour.ago }
