@@ -144,7 +144,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_02_115338) do
     t.integer "creator_id", null: false
     t.date "due_on"
     t.datetime "last_active_at", null: false
-    t.text "status", default: "creating", null: false
+    t.text "status", default: "drafted", null: false
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_cards_on_collection_id"

@@ -38,7 +38,7 @@
 
     <% if card.published? %>
       <%= render "cards/container/footer/published", card: card %>
-    <% elsif card.creating? %>
+    <% elsif card.drafted? %>
       <%= render "cards/container/footer/draft", card: card %>
     <% end %>
   </section>
