@@ -37,7 +37,7 @@ module Authentication
     end
 
     def require_tenant
-      unless ApplicationRecord.current_tenant.present?
+      if ApplicationRecord.current_tenant.blank?
         redirect_to session_menu_url(script_name: nil)
       end
     end
