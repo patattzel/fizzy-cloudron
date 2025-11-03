@@ -4,7 +4,7 @@ class Webhooks::ActivationsController < ApplicationController
 
   def create
     @webhook.activate unless @webhook.active?
-    redirect_to @webhook, status: :see_other
+    redirect_to @webhook
   end
 
   private
