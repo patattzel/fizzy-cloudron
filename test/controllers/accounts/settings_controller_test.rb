@@ -11,7 +11,7 @@ class Account::SettingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update" do
-    put account_settings_path, params: { account: { name: "New Account Name" }}
+    put account_settings_path, params: { account: { name: "New Account Name" } }
     assert_equal "New Account Name", Account.sole.name
     assert_redirected_to account_settings_path
   end

@@ -29,4 +29,3 @@ class Users::JoinsController < ApplicationController
       params.expect(user: [ :name, :avatar ])
     end
 end
-
