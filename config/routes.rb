@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   namespace :account do
-    post :enter, to: "entries#create"
     resource :join_code
     resource :settings
     resource :entropy
