@@ -5,13 +5,13 @@ class Account::SedeableTest < ActiveSupport::TestCase
     @account = Account.sole
   end
 
-  test "setup_basic_template changes collection count" do
+  test "setup_basic_template adds collections" do
     assert_changes -> { Collection.count } do
       @account.setup_basic_template
     end
   end
 
-  test "setup_customer_template changes collections, cards, and comments count" do
+  test "setup_customer_template adds collections, cards, and comments" do
     assert_changes -> { Collection.count } do
       assert_changes -> { Card.count } do
         assert_changes -> { Comment.count } do
