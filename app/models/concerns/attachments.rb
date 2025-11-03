@@ -29,7 +29,7 @@ module Attachments
   end
 
   def remote_images
-    rich_text_record&.body&.attachables&.grep(ActionText::Attachables::RemoteImage) || []
+    @remote_images ||= rich_text_record&.body&.attachables&.grep(ActionText::Attachables::RemoteImage) || []
   end
 
   def has_remote_images?
@@ -37,7 +37,7 @@ module Attachments
   end
 
   def remote_videos
-    rich_text_record&.body&.attachables&.grep(ActionText::Attachables::RemoteVideo) || []
+    @remote_videos ||= rich_text_record&.body&.attachables&.grep(ActionText::Attachables::RemoteVideo) || []
   end
 
   def has_remote_videos?
