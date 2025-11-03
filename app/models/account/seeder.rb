@@ -31,8 +31,12 @@ class Account::Seeder
       playground = Collection.create! name: "Playground", creator: creator, all_access: true
 
       # Cards
-      have_fun_card = playground.cards.create! creator: creator, title: "Have fun!", status: "published", description: <<~HTML
-        <p>Mess around, make more boards, add more cards, and get your work, issues, or ideas organized! Include a video of the full product walkthrough.</p>
+      have_fun_card = playground.cards.create! creator: creator, title: "Watch this: Fizzy orientation video", status: "published", description: <<~HTML
+        <p>There’s a whole lot more you can do in Fizzy. In the video below 37signals founder and CEO, Jason Fried, will walk you through the basics in just 8 minutes.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Grab the invite link to invite someone else", status: "published", description: <<~HTML
+        <p>Open Fizzy menu, select “<b><strong>+ Add people</b></strong>”, then copy the invite link. You can give this link to someone else so they can make an login for themselves in your account.</p>
       HTML
 
       playground.cards.create! creator: creator, title: "Head back home to check out activity", status: "published", description: <<~HTML
@@ -40,15 +44,11 @@ class Account::Seeder
       HTML
 
       playground.cards.create! creator: creator, title: "Check out all cards assigned to you", status: "published", description: <<~HTML
-        <p>Pull down the Fizzy menu at the top of the screen, and select “Assigned to me” or just type “3” any time.</p>
+        <p>Pull down the Fizzy menu at the top of the screen, and select “<b><strong>Assigned to me</b></strong>” or just hit “3” on your keyboard any time.</p>
       HTML
 
-      playground.cards.create! creator: creator, title: "Grab the invite link to invite someone else", status: "published", description: <<~HTML
-        <p>Pull down the Fizzy menu at the top of the screen, select “Account” or just hit 6, then grab the invite link over on the left side. You can give this link to someone else so they can make an login for themselves in your account.</p>
-      HTML
-
-      playground.cards.create! creator: creator, title: "Grab the invite link to invite someone else", status: "published", description: <<~HTML
-        <p>Pull down the Fizzy menu at the top of the screen, select “Account” or just hit 6, then grab the invite link over on the left side. You can give this link to someone else so they can make an login for themselves in your account.</p>
+      playground.cards.create! creator: creator, title: "Open the Fizzy menu", status: "published", description: <<~HTML
+        <p>The Fizzy menu is how you get around the app. Click “<b><strong>Fizzy</b></strong>” at the top of the screen or hit the “J” key on your keyboard to pop it open.</p>
       HTML
 
       playground.cards.create! creator: creator, title: "Assign this card to yourself", status: "published", description: <<~HTML
@@ -56,7 +56,7 @@ class Account::Seeder
       HTML
 
       playground.cards.create! creator: creator, title: "Tag this card “Design” then move it to YES", status: "published", description: <<~HTML
-        <p>Click the little Tag icon, type Design, then save. Then, move the card to the new “YES” column you created in the previous step.</p>
+        <p>Click the little Tag icon, type “design”, then “<b><strong>Create tag</b></strong>”. Then, move the card to the new “YES” column you created in the previous step.</p>
       HTML
 
       playground.cards.create! creator: creator, title: "Make two more columns", status: "published", description: <<~HTML
@@ -71,11 +71,15 @@ class Account::Seeder
       HTML
 
       playground.cards.create! creator: creator, title: "Move this card to NOT NOW", status: "published", description: <<~HTML
-        <p>You can either select “NOT NOW” over in the sidebar, or you can go back out to the Board view and drag this card into the NOT NOW column on the left side.</p>
+        <p>You can either select “NOT NOW” over in the sidebar, or you can go back out to the board view and drag this card into the “NOT NOW” column on the left side.</p>
       HTML
 
       playground.cards.create! creator: creator, title: "Rename this card", status: "published", description: <<~HTML
-        <p>Click the title and you can rename the card, change the description, or add more information to the card.</p>
+        <ol>
+          <li>Click the title and you can rename the card, change the description, or add more information to the card.</li>
+          <li>Then, hit "Mark as Done" at the bottom of the card.</li>
+          <li>Finally, hit “<b><strong>←Playground</strong></b>” in the top left of the screen to go back to the board.</li>
+        </ol>
       HTML
     end
 
