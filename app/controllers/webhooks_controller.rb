@@ -1,6 +1,7 @@
 class WebhooksController < ApplicationController
+  include CollectionScoped
+
   before_action :ensure_admin
-  before_action :set_collection
   before_action :set_webhook, except: %i[ index new create ]
 
   def index
@@ -33,10 +34,6 @@ class WebhooksController < ApplicationController
   end
 
   private
-    def set_collection
-      @collection = Collection.find(params[:collection_id])
-    end
-
     def set_webhook
       @webhook = @collection.webhooks.find(params[:id])
     end
