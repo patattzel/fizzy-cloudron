@@ -15,8 +15,8 @@ class WebhooksController < ApplicationController
   end
 
   def create
-    @webhook = @collection.webhooks.create!(webhook_params)
-    redirect_to @webhook
+    webhook = @collection.webhooks.create!(webhook_params)
+    redirect_to webhook
   end
 
   def edit
