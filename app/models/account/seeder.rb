@@ -26,77 +26,57 @@ class Account::Seeder
 
     def populate
       # ---------------
-      # Bugs Collection
+      # Playground Collection
       # ---------------
-      bug_tracker = Collection.create! name: "Bugs", creator: creator, all_access: true
-
-      # Columns
-      triage_column = bug_tracker.columns.create! name: "Triage", color: "#ef4444"
-      in_progress_column = bug_tracker.columns.create! name: "In Progress", color: "#f97316"
-      resolved_column = bug_tracker.columns.create! name: "Resolved", color: "#22c55e"
+      playground = Collection.create! name: "Playground", creator: creator, all_access: true
 
       # Cards
-      bug_tracker.cards.create! creator: creator, column: triage_column, title: "Login button not responding on mobile", status: "published", description: <<~HTML
-        <p>Users are reporting that the login button is not responding on mobile devices.</p>
-
-        <p>Steps to reproduce:</p>
-        <ul>
-          <li>Open the app on mobile browser</li>
-          <li>Navigate to login page</li>
-          <li>Tap the login button</li>
-          <li>Nothing happens</li>
-        </ul>
-
-        <p>This appears to be affecting iOS devices primarily.</p>
-
-        <action-text-attachment url="https://app.box-car.com/app-icon.png" caption="App icon" content-type="image/*"</action-text-attachment>
+      have_fun_card = playground.cards.create! creator: creator, title: "Have fun!", status: "published", description: <<~HTML
+        <p>Mess around, make more boards, add more cards, and get your work, issues, or ideas organized! Include a video of the full product walkthrough.</p>
       HTML
-      bug_tracker.cards.create! creator: creator, column: triage_column, title: "Search results showing duplicates", status: "published"
-      profile_crash_card = bug_tracker.cards.create! creator: creator, column: in_progress_column, title: "Profile page crashes when uploading large images", status: "published"
-      bug_tracker.cards.create! creator: creator, column: in_progress_column, title: "Email notifications not being sent", status: "published"
-      bug_tracker.cards.create! creator: creator, column: resolved_column, title: "Fix broken links in footer", status: "published"
 
-      # Comments
-      profile_crash_card.comments.create! creator: creator, body: <<~HTML
-        I can reproduce this with images over 5MB
-
-        <action-text-attachment url="https://videos.37signals.com/dev/assets/videos/page-refreshes-with-morphing-demo/page-refreshes-with-morphing.mp4" caption="Demo video" content-type="video/mp4" filename="page-refreshes-with-morphing.mp4"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Head back home to check out activity", status: "published", description: <<~HTML
+        <p>Hit “1” or pull down the BOXCAR menu and select “Home”.</p>
       HTML
-      profile_crash_card.comments.create! creator: creator, body: "Looking into adding client-side image compression before upload"
 
-      # ----------------------------
-      # Feature Requests Collection
-      # ----------------------------
-      feature_requests = Collection.create! name: "Feature Requests", creator: creator, all_access: true
-
-      # Columns
-      backlog_column = feature_requests.columns.create! name: "Backlog", color: "#6366f1"
-      planning_column = feature_requests.columns.create! name: "Planning", color: "#8b5cf6"
-
-      # Cards
-      feature_requests.cards.create! creator: creator, column: backlog_column, title: "Add dark mode support", status: "published", description: <<~HTML
-        <p>Many users have requested a dark mode option for better usability in low-light environments.</p>
-
-        <p>Proposed features:</p>
-        <ul>
-          <li>Toggle in user settings</li>
-          <li>Respect system preferences automatically</li>
-          <li>Smooth transition between themes</li>
-          <li>Persistent theme selection across sessions</li>
-        </ul>
-
-        <p>This would improve accessibility and reduce eye strain for our users.</p>
-
-        <action-text-attachment url="https://app.box-car.com/app-icon.png" alt="App icon" caption="" content-type="image/*" filename="" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Check out all cards assigned to you", status: "published", description: <<~HTML
+        <p>Pull down the Fizzy menu at the top of the screen, and select “Assigned to me” or just type “3” any time.</p>
       HTML
-      feature_requests.cards.create! creator: creator, column: backlog_column, title: "Export data to CSV", status: "published"
-      feature_requests.cards.create! creator: creator, column: backlog_column, title: "Add keyboard shortcuts for navigation", status: "published"
-      two_factor_card = feature_requests.cards.create! creator: creator, column: planning_column, title: "Implement two-factor authentication", status: "published"
-      feature_requests.cards.create! creator: creator, column: planning_column, title: "Add bulk actions for managing items", status: "published"
 
-      # Comments
-      two_factor_card.comments.create! creator: creator, body: "Should we support SMS and authenticator apps?"
-      two_factor_card.comments.create! creator: creator, body: "Let's start with authenticator apps only to keep it simple"
+      playground.cards.create! creator: creator, title: "Grab the invite link to invite someone else", status: "published", description: <<~HTML
+        <p>Pull down the Fizzy menu at the top of the screen, select “Account” or just hit 6, then grab the invite link over on the left side. You can give this link to someone else so they can make an login for themselves in your account.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Grab the invite link to invite someone else", status: "published", description: <<~HTML
+        <p>Pull down the Fizzy menu at the top of the screen, select “Account” or just hit 6, then grab the invite link over on the left side. You can give this link to someone else so they can make an login for themselves in your account.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Assign this card to yourself", status: "published", description: <<~HTML
+        <p>Click the little head with the + next to it, pick yourself.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Tag this card “Design” the move it to YES", status: "published", description: <<~HTML
+        <p>Click the little Tag icon, type Design, then save. Then, move the card to the new “YES” column you created in the previous step.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Make two more columns", status: "published", description: <<~HTML
+        <ol>
+          <li>Make one called "Yes"</li>
+          <li>Make another called "Working on"</li>
+        </ol>
+        <p><br></p>
+        <p>Go back to the Board view, click the little “+” to the right of the DONE column, name the column, pick a color, then do it again.</p>
+        <p><br></p>
+        <p>After that, drag this card to “DONE” or select “DONE” in the sidebar.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Move this card to NOT NOW", status: "published", description: <<~HTML
+        <p>You can either select “NOT NOW” over in the sidebar, or you can go back out to the Board view and drag this card into the NOT NOW column on the left side.</p>
+      HTML
+
+      playground.cards.create! creator: creator, title: "Rename this card", status: "published", description: <<~HTML
+        <p>Click the title and you can rename the card, change the description, or add more information to the card.</p>
+      HTML
     end
 
     def delete_everything
