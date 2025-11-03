@@ -17,8 +17,8 @@
   <% url = join_url(code: @join_code.code, tenant: @join_code.tenant, script_name: nil) %>
   <div class="flex align-center gap-half">
     <input type="text" class="input flex-item-grow" value="<%= url %>" readonly>
-    <%= button_to account_join_code_path, method: :delete, class: "btn btn--circle txt-small",
-          data: { turbo_confirm: "Are you sure you want to generate a new link? The previous code will stop working." } do %>
+    <%= button_to account_join_code_path, method: :delete, class: "btn btn--circle txt-small", data: {
+          turbo_confirm: "Are you sure you want to generate a new link? The previous code will stop working." } do %>
       <%= icon_tag "refresh" %>
       <span class="for-screen-reader">Generate a new code</span>
     <% end %>
@@ -26,9 +26,8 @@
 
   <div class="center flex align-center gap">
     <%= tag.button class: "btn btn--link", data: {
-        controller: "copy-to-clipboard", action: "copy-to-clipboard#copy",
-        copy_to_clipboard_success_class: "btn--success", copy_to_clipboard_content_value: url } do %>
-
+          controller: "copy-to-clipboard", action: "copy-to-clipboard#copy",
+          copy_to_clipboard_success_class: "btn--success", copy_to_clipboard_content_value: url } do %>
       <%= icon_tag "copy-paste" %>
       <span class="txt-nowrap">Copy invite link</span>
     <% end %>
@@ -59,6 +58,7 @@
     <p class="margin-none <%= "txt-negative" if !@join_code.active? %>">
       This code has been used <%= @join_code.usage_count %>/<%= @join_code.usage_limit %> times
       (<%= @join_code.active? ? @join_code.usage_limit - @join_code.usage_count : "none" %> remaining)
+
       <%= link_to edit_account_join_code_path, class: @join_code.active? ? "txt-link" : "txt-negative txt-underline" do %>
         <span>Change limit</span>
       <% end %>
