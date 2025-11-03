@@ -1,5 +1,5 @@
 class Public::Collections::ColumnsController < ApplicationController
-  include ActionView::RecordIdentifier, CachedPublicly, PublicCollectionScoped
+  include CachedPublicly, PublicCollectionScoped
 
   allow_unauthenticated_access only: :show
   allow_unauthorized_access only: :show
