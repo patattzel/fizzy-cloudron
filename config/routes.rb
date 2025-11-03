@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     resources :cards, only: :create
 
     resources :webhooks do
-      scope module: "webhooks" do
+      scope module: :webhooks do
         resource :activation, only: :create
       end
     end
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
   namespace :columns do
     resources :cards do
-      scope module: "cards" do
+      scope module: :cards do
         namespace :drops do
           resource :not_now
           resource :stream
@@ -134,7 +134,7 @@ Rails.application.routes.draw do
   end
 
   resource :session do
-    scope module: "sessions" do
+    scope module: :sessions do
       resources :transfers
       resource :magic_link
       resource :menu
