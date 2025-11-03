@@ -1,11 +1,4 @@
-class Public::Collections::ColumnsController < ApplicationController
-  include CachedPublicly, PublicCollectionScoped
-
-  allow_unauthenticated_access only: :show
-  allow_unauthorized_access only: :show
-
-  layout "public"
-
+class Public::Collections::ColumnsController < Public::BaseController
   before_action :set_column, only: :show
 
   def show
@@ -13,6 +6,11 @@ class Public::Collections::ColumnsController < ApplicationController
   end
 
   private
+    # Unlike the other public controllers, this is using params[:id] to fetch the column
+    def set_collection_and_card
+      @collection = Collection.find_by_published_key(params[:collection_id])
+    end
+
     def set_column
       @column = @collection.columns.find(params[:id])
     end
