@@ -2,7 +2,7 @@ class Cards::WatchesController < ApplicationController
   include CardScoped
 
   def show
-    fresh_when etag: @card.watch_for(Current.user)
+    fresh_when etag: @card.watch_for(Current.user) || "none"
   end
 
   def create
