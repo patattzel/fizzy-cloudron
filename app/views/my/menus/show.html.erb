@@ -1,20 +1,7 @@
 <%= turbo_frame_tag "my_menu", target: "_top" do %>
   <div class="flex gap">
-    <%= text_field_tag :search, nil,
-          type: "search",
-          role: "combobox",
-          placeholder: "Type to jump to a collection, person, place, or tag…",
-          class: "input input--transparent txt-small",
-          autofocus: true,
-          autocorrect: "off",
-          autocomplete: "off",
-          aria: { activedescendant: "" },
-          data: {
-            "1p-ignore": "true",
-            filter_target: "input",
-            nav_section_expander_target: "input",
-            navigable_list_target: "input",
-            action: "input->filter#filter" } %>
+    <%= jump_field_tag %>
+
     <button class="boxcar-menu__close btn borderless txt-small" data-action="dialog#close">
       <%= icon_tag "close" %>
       <span class="for-screen-reader">Close menu</span>
