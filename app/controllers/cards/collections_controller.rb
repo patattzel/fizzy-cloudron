@@ -6,6 +6,7 @@ class Cards::CollectionsController < ApplicationController
 
   def edit
     @collections = Current.user.collections.ordered_by_recently_accessed
+    fresh_when @collections
   end
 
   def update
