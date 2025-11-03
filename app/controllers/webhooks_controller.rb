@@ -29,7 +29,7 @@ class WebhooksController < ApplicationController
 
   def destroy
     @webhook.destroy!
-    redirect_to collection_webhooks_path, status: :see_other
+    redirect_to collection_webhooks_path
   end
 
   private
