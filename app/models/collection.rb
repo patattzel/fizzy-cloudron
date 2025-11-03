@@ -12,13 +12,4 @@ class Collection < ApplicationRecord
 
   scope :alphabetically, -> { order("lower(name)") }
   scope :ordered_by_recently_accessed, -> { merge(Access.ordered_by_recently_accessed) }
-
-  after_destroy_commit :ensure_default_collection
-
-  private
-    def ensure_default_collection
-      if Collection.count.zero?
-        Collection.create!(name: "Cards")
-      end
-    end
 end
