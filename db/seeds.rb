@@ -33,7 +33,7 @@ def create_tenant(signal_account_name)
 end
 
 def find_or_create_user(full_name, email_address)
-  if user = User.find_by(email_address: email_address)
+  if user = Identity.find_by(email_address: email_address)&.memberships&.find_by(tenant: ApplicationRecord.current_tenant)&.user
     user
   else
     identity = Identity.find_or_create_by!(email_address: email_address)
