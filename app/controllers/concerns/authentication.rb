@@ -23,6 +23,7 @@ module Authentication
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
       before_action :resume_session, **options
+      allow_unauthorized_access **options
     end
 
     def require_untenanted_access(**options)
