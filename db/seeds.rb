@@ -27,7 +27,6 @@ def create_tenant(signal_account_name)
         membership: membership
       }
     )
-    account.setup_basic_template
   end
 
   ApplicationRecord.current_tenant = tenant_id
