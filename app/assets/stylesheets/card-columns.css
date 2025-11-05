@@ -63,14 +63,9 @@
   .cards {
     --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
 
-    border-radius: calc(var(--column-width-collapsed) / 2);
     inline-size: var(--column-width-expanded);
     position: relative;
     scroll-snap-align: start;
-
-    &:not(.is-collapsed) {
-      padding-inline: var(--column-padding-expanded);
-    }
 
     &.is-collapsed {
       inline-size: var(--column-width-collapsed);
@@ -82,8 +77,8 @@
     }
 
     &.drag-and-drop__hover-container {
-      --dnd-bg-color: var(--column-color);
-      --dnd-border-color: var(--card-color);
+      --dnd-bg-color: transparent;
+      --dnd-border-color: transparent;
     }
 
     @media (any-hover: hover) {
@@ -96,11 +91,27 @@
 
   .cards__transition-container {
     block-size: 100%;
+    border-radius: calc(var(--column-width-collapsed) / 2);
     translate: 0;
     transition: translate var(--column-transition-duration) var(--ease-out-overshoot-subtle);
 
     .is-collapsed:not(.cards--considering) & {
       translate: 0 var(--column-width-collapsed);
+    }
+
+    .cards:not(.is-collapsed) & {
+      padding-inline: var(--column-padding-expanded);
+    }
+
+    .drag-and-drop__hover-container & {
+      --dnd-bg-color: var(--column-color);
+      --dnd-border-color: var(--card-color);
+
+      background-color: var(--dnd-bg-color);
+      outline: 2px dashed var(--dnd-border-color);
+      outline-offset: -2px;
+      transition: background-color 200ms;
+      z-index: 1;
     }
 
     .no-transitions & {
