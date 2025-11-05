@@ -2,7 +2,7 @@ class BoardsController < ApplicationController
   include FilterScoped
 
   before_action :set_board, except: %i[ new create ]
-  before_action :ensure_permission_to_change_all_access, only: %i[ update ]
+  before_action :ensure_permission_to_change_accesses, only: %i[ update ]
 
   def show
     if @filter.used?(ignore_boards: true)
@@ -48,14 +48,22 @@ class BoardsController < ApplicationController
       @board = Current.user.boards.find params[:id]
     end
 
-    def ensure_permission_to_change_all_access
-      if all_access_changed? && !Current.user.can_administer_board?(@board)
+    def ensure_permission_to_change_accesses
+      if trying_to_change_accesses? && !Current.user.can_administer_board?(@board)
         head :forbidden
       end
     end
 
+    def trying_to_change_accesses?
+      all_access_changed? || grantees_changed?
+    end
+
     def all_access_changed?
       params[:board]&.key?(:all_access)
+    end
+
+    def grantees_changed?
+      params.key?(:user_ids)
     end
 
     def show_filtered_cards
@@ -82,9 +90,5 @@ class BoardsController < ApplicationController
 
     def grantee_ids
       params.fetch :user_ids, []
-    end
-
-    def grantees_changed?
-      params.key?(:user_ids)
     end
 end

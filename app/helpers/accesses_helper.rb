@@ -10,10 +10,10 @@ module AccessesHelper
       toggle_class_toggle_class: "toggler--toggled" }, &
   end
 
-  def access_toggles_for(users, selected:)
+  def access_toggles_for(users, selected:, disabled: false)
     render partial: "boards/access_toggle",
       collection: users, as: :user,
-      locals: { selected: selected },
+      locals: { selected: selected, disabled: disabled },
       cached: ->(user) { [ user, selected ] }
   end
 
