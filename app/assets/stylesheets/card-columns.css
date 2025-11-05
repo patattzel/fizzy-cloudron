@@ -79,7 +79,30 @@
     &.drag-and-drop__hover-container {
       --dnd-bg-color: transparent;
       --dnd-border-color: transparent;
+
+      &.show-column-name-on-hover {
+        &:after {
+          color: var(--card-color);
+          content: attr(data-column-name);
+          font-size: var(--text-x-small);
+          font-weight: 500;
+          line-height: var(--column-width-collapsed);
+          padding-inline: 1ch;
+          position: fixed;
+          text-transform: uppercase;
+          top: 0;
+          translate: -50%;
+          border-radius: 99rem;
+        }
+
+        &.is-collapsed {
+          &:after {
+            writing-mode: vertical-rl;
+          }
+        }
+      }
     }
+
 
     @media (any-hover: hover) {
       .card:has(.card__background img:not([src=""])):hover .card__background img:not([src=""]) {
