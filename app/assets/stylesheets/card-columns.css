@@ -527,11 +527,9 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--considering {
-    position: relative;
+    --card-color: oklch(var(--lch-blue-medium));
 
-    @media (min-width: 640px) {
-      padding-inline: var(--cards-gap);
-    }
+    position: relative;
 
     .card {
       --avatar-size: 2.75em;
