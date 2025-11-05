@@ -16,7 +16,7 @@
     <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium); --border-style: dashed" aria-hidden="true" />
 
     <label for="board_all_access" class="switch">
-      <%= form.check_box :all_access, class: "switch__input", checked: board.all_access?, data: { action: "change->toggle-class#toggle" } %>
+      <%= form.check_box :all_access, class: "switch__input", checked: board.all_access?, disabled: !Current.user.can_administer_board?(board), data: { action: "change->toggle-class#toggle" } %>
       <span class="switch__btn round"></span>
       <span class="for-screen-reader">Give everyone access to this board</span>
     </label>

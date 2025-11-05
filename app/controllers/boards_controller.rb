@@ -2,6 +2,7 @@ class BoardsController < ApplicationController
   include FilterScoped
 
   before_action :set_board, except: %i[ new create ]
+  before_action :ensure_permission_to_change_all_access, only: %i[ update ]
 
   def show
     if @filter.used?(ignore_boards: true)
@@ -45,6 +46,16 @@ class BoardsController < ApplicationController
   private
     def set_board
       @board = Current.user.boards.find params[:id]
+    end
+
+    def ensure_permission_to_change_all_access
+      if all_access_changed? && !Current.user.can_administer_board?(@board)
+        head :forbidden
+      end
+    end
+
+    def all_access_changed?
+      params[:board]&.key?(:all_access)
     end
 
     def show_filtered_cards
