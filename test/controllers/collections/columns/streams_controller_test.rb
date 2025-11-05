@@ -1,12 +1,12 @@
 require "test_helper"
 
-class Collections::Columns::StreamsControllerTest < ActionDispatch::IntegrationTest
+class Boards::Columns::StreamsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
 
   test "show" do
-    get collection_columns_stream_path(collections(:writebook))
+    get board_columns_stream_path(boards(:writebook))
     assert_response :success
   end
 end

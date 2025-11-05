@@ -1,29 +1,29 @@
 require "test_helper"
 
-class Collections::PublicationsControllerTest < ActionDispatch::IntegrationTest
+class Boards::PublicationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
-    @collection = collections(:writebook)
+    @board = boards(:writebook)
   end
 
-  test "publish a collection" do
-    assert_not @collection.published?
+  test "publish a board" do
+    assert_not @board.published?
 
-    assert_changes -> { @collection.reload.published? }, from: false, to: true do
-      post collection_publication_path(@collection, format: :turbo_stream)
+    assert_changes -> { @board.reload.published? }, from: false, to: true do
+      post board_publication_path(@board, format: :turbo_stream)
     end
 
-    assert_turbo_stream action: :replace, target: dom_id(@collection, :publication)
+    assert_turbo_stream action: :replace, target: dom_id(@board, :publication)
   end
 
-  test "unpublish a collection" do
-    @collection.publish
-    assert @collection.published?
+  test "unpublish a board" do
+    @board.publish
+    assert @board.published?
 
-    assert_changes -> { @collection.reload.published? }, from: true, to: false do
-      delete collection_publication_path(@collection, format: :turbo_streamn)
+    assert_changes -> { @board.reload.published? }, from: true, to: false do
+      delete board_publication_path(@board, format: :turbo_streamn)
     end
 
-    assert_turbo_stream action: :replace, target: dom_id(@collection, :publication)
+    assert_turbo_stream action: :replace, target: dom_id(@board, :publication)
   end
 end

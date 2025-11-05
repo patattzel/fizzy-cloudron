@@ -1,39 +1,39 @@
 require "test_helper"
 
-class CollectionsControllerTest < ActionDispatch::IntegrationTest
+class BoardsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
 
   test "new" do
-    get new_collection_path
+    get new_board_path
     assert_response :success
   end
 
   test "show" do
-    get collection_path(collections(:writebook))
+    get board_path(boards(:writebook))
     assert_response :success
   end
 
   test "create" do
-    assert_difference -> { Collection.count }, +1 do
-      post collections_path, params: { collection: { name: "Remodel Punch List" } }
+    assert_difference -> { Board.count }, +1 do
+      post boards_path, params: { board: { name: "Remodel Punch List" } }
     end
 
-    collection = Collection.last
-    assert_redirected_to collection_path(collection)
-    assert_includes collection.users, users(:kevin)
-    assert_equal "Remodel Punch List", collection.name
+    board = Board.last
+    assert_redirected_to board_path(board)
+    assert_includes board.users, users(:kevin)
+    assert_equal "Remodel Punch List", board.name
   end
 
   test "edit" do
-    get edit_collection_path(collections(:writebook))
+    get edit_board_path(boards(:writebook))
     assert_response :success
   end
 
   test "update" do
-    patch collection_path(collections(:writebook)), params: {
-      collection: {
+    patch board_path(boards(:writebook)), params: {
+      board: {
         name: "Writebook bugs",
         all_access: false,
         auto_postpone_period: 1.day
@@ -41,58 +41,58 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
       user_ids: users(:kevin, :jz).pluck(:id)
     }
 
-    assert_redirected_to edit_collection_path(collections(:writebook))
-    assert_equal "Writebook bugs", collections(:writebook).reload.name
-    assert_equal users(:kevin, :jz).sort, collections(:writebook).users.sort
-    assert_equal 1.day, entropies(:writebook_collection).auto_postpone_period
-    assert_not collections(:writebook).all_access?
+    assert_redirected_to edit_board_path(boards(:writebook))
+    assert_equal "Writebook bugs", boards(:writebook).reload.name
+    assert_equal users(:kevin, :jz).sort, boards(:writebook).users.sort
+    assert_equal 1.day, entropies(:writebook_board).auto_postpone_period
+    assert_not boards(:writebook).all_access?
   end
 
-  test "update redirects to root when user removes themselves from collection" do
-    collection = collections(:writebook)
+  test "update redirects to root when user removes themselves from board" do
+    board = boards(:writebook)
 
-    patch collection_path(collection), params: {
-      collection: { name: "Updated name", all_access: false },
+    patch board_path(board), params: {
+      board: { name: "Updated name", all_access: false },
       user_ids: users(:david, :jz).pluck(:id)
     }
 
     assert_redirected_to root_path
-    assert_not collection.reload.users.include?(users(:kevin))
+    assert_not board.reload.users.include?(users(:kevin))
   end
 
-  test "update collection with granular permissions, submitting no user ids" do
-    assert_not collections(:private).all_access?
+  test "update board with granular permissions, submitting no user ids" do
+    assert_not boards(:private).all_access?
 
-    collections(:private).users = [ users(:kevin) ]
-    collections(:private).save!
+    boards(:private).users = [ users(:kevin) ]
+    boards(:private).save!
 
-    patch collection_path(collections(:private)), params: {
-      collection: { name: "Renamed" }
+    patch board_path(boards(:private)), params: {
+      board: { name: "Renamed" }
     }
 
-    assert_redirected_to edit_collection_path(collections(:private))
-    assert_equal "Renamed", collections(:private).reload.name
-    assert_equal [ users(:kevin) ], collections(:private).users
-    assert_not collections(:private).all_access?
+    assert_redirected_to edit_board_path(boards(:private))
+    assert_equal "Renamed", boards(:private).reload.name
+    assert_equal [ users(:kevin) ], boards(:private).users
+    assert_not boards(:private).all_access?
   end
 
   test "update all access" do
-    collection = Current.set(session: sessions(:kevin)) do
-      Collection.create! name: "New collection", all_access: false
+    board = Current.set(session: sessions(:kevin)) do
+      Board.create! name: "New board", all_access: false
     end
-    assert_equal [ users(:kevin) ], collection.users
+    assert_equal [ users(:kevin) ], board.users
 
-    patch collection_path(collection), params: { collection: { name: "Bugs", all_access: true } }
+    patch board_path(board), params: { board: { name: "Bugs", all_access: true } }
 
-    assert_redirected_to edit_collection_path(collection)
-    assert collection.reload.all_access?
-    assert_equal User.active.sort, collection.users.sort
+    assert_redirected_to edit_board_path(board)
+    assert board.reload.all_access?
+    assert_equal User.active.sort, board.users.sort
   end
 
   test "destroy" do
-    collection = collections(:writebook)
-    delete collection_path(collection)
+    board = boards(:writebook)
+    delete board_path(board)
     assert_redirected_to root_path
-    assert_raises(ActiveRecord::RecordNotFound) { collection.reload }
+    assert_raises(ActiveRecord::RecordNotFound) { board.reload }
   end
 end

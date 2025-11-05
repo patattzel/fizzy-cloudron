@@ -1,13 +1,13 @@
 require "test_helper"
 
-class Prompts::Collections::UsersControllerTest < ActionDispatch::IntegrationTest
+class Prompts::Boards::UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
-    @collection = collections(:writebook)
+    @board = boards(:writebook)
   end
 
   test "index" do
-    get prompts_collection_users_path(@collection)
+    get prompts_board_users_path(@board)
     assert_response :success
   end
 end

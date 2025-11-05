@@ -2,7 +2,7 @@
   <h2 class="divider txt-medium margin-block-start">Who can access this board?</h2>
 </header>
 
-<%= access_menu_tag collection, class: "settings__user-filter unpad margin-none" do %>
+<%= access_menu_tag board, class: "settings__user-filter unpad margin-none" do %>
   <li class="flex align-center gap-half">
     <figure class="avatar fill-selected">
       <%= icon_tag "everyone" %>
@@ -15,8 +15,8 @@
 
     <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium); --border-style: dashed" aria-hidden="true" />
 
-    <label for="collection_all_access" class="switch">
-      <%= form.check_box :all_access, class: "switch__input", checked: collection.all_access?, data: { action: "change->toggle-class#toggle" } %>
+    <label for="board_all_access" class="switch">
+      <%= form.check_box :all_access, class: "switch__input", checked: board.all_access?, data: { action: "change->toggle-class#toggle" } %>
       <span class="switch__btn round"></span>
       <span class="for-screen-reader">Give everyone access to this board</span>
     </label>

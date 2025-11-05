@@ -6,7 +6,7 @@
 
   <% if page.used? %>
     <%= with_automatic_pagination "the-stream", @page do %>
-      <%= render "public/collections/columns/list", cards: page.records %>
+      <%= render "public/boards/columns/list", cards: page.records %>
     <% end %>
   <% end %>
 </section>

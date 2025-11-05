@@ -1,10 +1,10 @@
-class CollectionsController < ApplicationController
+class BoardsController < ApplicationController
   include FilterScoped
 
-  before_action :set_collection, except: %i[ new create ]
+  before_action :set_board, except: %i[ new create ]
 
   def show
-    if @filter.used?(ignore_collections: true)
+    if @filter.used?(ignore_boards: true)
       show_filtered_cards
     else
       show_columns
@@ -12,53 +12,53 @@ class CollectionsController < ApplicationController
   end
 
   def new
-    @collection = Collection.new
+    @board = Board.new
   end
 
   def create
-    @collection = Collection.create! collection_params.with_defaults(all_access: true)
-    redirect_to collection_path(@collection)
+    @board = Board.create! board_params.with_defaults(all_access: true)
+    redirect_to board_path(@board)
   end
 
   def edit
-    selected_user_ids = @collection.users.pluck :id
+    selected_user_ids = @board.users.pluck :id
     @selected_users, @unselected_users = \
       User.active.alphabetically.partition { |user| selected_user_ids.include? user.id }
   end
 
   def update
-    @collection.update! collection_params
-    @collection.accesses.revise granted: grantees, revoked: revokees if grantees_changed?
+    @board.update! board_params
+    @board.accesses.revise granted: grantees, revoked: revokees if grantees_changed?
 
-    if @collection.accessible_to?(Current.user)
-      redirect_to edit_collection_path(@collection), notice: "Saved"
+    if @board.accessible_to?(Current.user)
+      redirect_to edit_board_path(@board), notice: "Saved"
     else
-      redirect_to root_path, notice: "Saved (you were removed from the collection)"
+      redirect_to root_path, notice: "Saved (you were removed from the board)"
     end
   end
 
   def destroy
-    @collection.destroy
+    @board.destroy
     redirect_to root_path
   end
 
   private
-    def set_collection
-      @collection = Current.user.collections.find params[:id]
+    def set_board
+      @board = Current.user.boards.find params[:id]
     end
 
     def show_filtered_cards
-      @filter.collection_ids = [ @collection.id ]
+      @filter.board_ids = [ @board.id ]
       set_page_and_extract_portion_from @filter.cards
     end
 
     def show_columns
-      set_page_and_extract_portion_from @collection.cards.awaiting_triage.latest.with_golden_first
-      fresh_when etag: [ @collection, @page.records, @user_filtering ]
+      set_page_and_extract_portion_from @board.cards.awaiting_triage.latest.with_golden_first
+      fresh_when etag: [ @board, @page.records, @user_filtering ]
     end
 
-    def collection_params
-      params.expect(collection: [ :name, :all_access, :auto_postpone_period, :public_description ])
+    def board_params
+      params.expect(board: [ :name, :all_access, :auto_postpone_period, :public_description ])
     end
 
     def grantees
@@ -66,7 +66,7 @@ class CollectionsController < ApplicationController
     end
 
     def revokees
-      @collection.users.where.not id: grantee_ids
+      @board.users.where.not id: grantee_ids
     end
 
     def grantee_ids

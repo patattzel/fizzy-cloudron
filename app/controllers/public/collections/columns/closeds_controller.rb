@@ -1,5 +1,5 @@
-class Public::Collections::Columns::ClosedsController < Public::BaseController
+class Public::Boards::Columns::ClosedsController < Public::BaseController
   def show
-    set_page_and_extract_portion_from @collection.cards.closed.recently_closed_first
+    set_page_and_extract_portion_from @board.cards.closed.recently_closed_first
   end
 end

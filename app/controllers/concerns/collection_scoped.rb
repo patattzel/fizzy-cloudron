@@ -1,12 +1,12 @@
-module CollectionScoped
+module BoardScoped
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_collection
+    before_action :set_board
   end
 
   private
-    def set_collection
-      @collection = Current.user.collections.find(params[:collection_id])
+    def set_board
+      @board = Current.user.boards.find(params[:board_id])
     end
 end

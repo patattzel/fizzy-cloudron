@@ -1,12 +1,12 @@
-class Collections::EntropiesController < ApplicationController
-  include CollectionScoped
+class Boards::EntropiesController < ApplicationController
+  include BoardScoped
 
   def update
-    @collection.entropy.update!(entropy_params)
+    @board.entropy.update!(entropy_params)
   end
 
   private
     def entropy_params
-      params.expect(collection: [ :auto_postpone_period ])
+      params.expect(board: [ :auto_postpone_period ])
     end
 end

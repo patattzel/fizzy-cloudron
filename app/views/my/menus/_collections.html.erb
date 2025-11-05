@@ -2,11 +2,11 @@
 <%= collapsible_nav_section "Boards" do %>
   <li class="popup__item" data-filter-target="item" data-navigable-list-target="item">
     <%= icon_tag "add", class: "popup__icon" %>
-    <%= link_to new_collection_path, class: "popup__btn btn" do %>
+    <%= link_to new_board_path, class: "popup__btn btn" do %>
       <span class="overflow-ellipsis">Add board</span>
     <% end %>
   </li>
-  <% if user_filtering.collections.any? %>
-    <%= render partial: "my/menus/collections/collection", collection: user_filtering.collections, as: :collection %>
+  <% if user_filtering.boards.any? %>
+    <%= render partial: "my/menus/boards/board", board: user_filtering.boards, as: :board %>
   <% end %>
 <% end %>

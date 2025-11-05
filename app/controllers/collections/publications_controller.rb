@@ -1,12 +1,12 @@
-class Collections::PublicationsController < ApplicationController
-  include CollectionScoped
+class Boards::PublicationsController < ApplicationController
+  include BoardScoped
 
   def create
-    @collection.publish
+    @board.publish
   end
 
   def destroy
-    @collection.unpublish
-    @collection.reload
+    @board.unpublish
+    @board.reload
   end
 end

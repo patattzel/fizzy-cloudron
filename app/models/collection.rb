@@ -1,4 +1,4 @@
-class Collection < ApplicationRecord
+class Board < ApplicationRecord
   include AutoClosing, Accessible, Broadcastable, Cards, Entropic, Filterable, Publishable, Triageable
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }

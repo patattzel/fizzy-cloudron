@@ -3,7 +3,7 @@
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
 >
 
-  <%= render "collections/show/expander", title: "Not Now", count: collection.cards.postponed.count, column_id: "not-now" %>
+  <%= render "boards/show/expander", title: "Not Now", count: board.cards.postponed.count, column_id: "not-now" %>
 
-  <%= column_frame_tag :not_now_column, src: public_collection_columns_not_now_path(collection.publication.key) %>
+  <%= column_frame_tag :not_now_column, src: public_board_columns_not_now_path(board.publication.key) %>
 </section>

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag :not_now_column do %>
   <% if @page.used? %>
     <%= with_automatic_pagination :not_now_column, @page do %>
-      <%= render "public/collections/columns/list", cards: @page.records %>
+      <%= render "public/boards/columns/list", cards: @page.records %>
     <% end %>
   <% else %>
     <div class="card blank-slate blank-slate--card">

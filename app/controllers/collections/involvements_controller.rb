@@ -1,7 +1,7 @@
-class Collections::InvolvementsController < ApplicationController
-  include CollectionScoped
+class Boards::InvolvementsController < ApplicationController
+  include BoardScoped
 
   def update
-    @collection.access_for(Current.user).update!(involvement: params[:involvement])
+    @board.access_for(Current.user).update!(involvement: params[:involvement])
   end
 end

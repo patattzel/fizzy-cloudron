@@ -1,4 +1,4 @@
-module Collection::Accessible
+module Board::Accessible
   extend ActiveSupport::Concern
 
   included do
@@ -11,7 +11,7 @@ module Collection::Accessible
       end
 
       def grant_to(users)
-        Access.insert_all Array(users).collect { |user| { collection_id: proxy_association.owner.id, user_id: user.id } }
+        Access.insert_all Array(users).collect { |user| { board_id: proxy_association.owner.id, user_id: user.id } }
       end
 
       def revoke_from(users)
@@ -69,7 +69,7 @@ module Collection::Accessible
         .joins("LEFT JOIN cards ON mentions.source_id = cards.id AND mentions.source_type = 'Card'")
         .joins("LEFT JOIN comments ON mentions.source_id = comments.id AND mentions.source_type = 'Comment'")
         .joins("LEFT JOIN cards AS comment_cards ON comments.card_id = comment_cards.id")
-        .where("(mentions.source_type = 'Card' AND cards.collection_id = ?) OR (mentions.source_type = 'Comment' AND comment_cards.collection_id = ?)", id, id)
+        .where("(mentions.source_type = 'Card' AND cards.board_id = ?) OR (mentions.source_type = 'Comment' AND comment_cards.board_id = ?)", id, id)
     end
 
     def notifications_for_user(user)
@@ -85,8 +85,8 @@ module Collection::Accessible
         .joins("LEFT JOIN cards AS event_cards ON events.eventable_id = event_cards.id AND events.eventable_type = 'Card'")
         .joins("LEFT JOIN comments AS event_comments ON events.eventable_id = event_comments.id AND events.eventable_type = 'Comment'")
         .joins("LEFT JOIN cards AS event_comment_cards ON event_comments.card_id = event_comment_cards.id")
-        .where("(notifications.source_type = 'Event' AND events.eventable_type = 'Card' AND event_cards.collection_id = ?) OR
-              (notifications.source_type = 'Event' AND events.eventable_type = 'Comment' AND event_comment_cards.collection_id = ?)",
+        .where("(notifications.source_type = 'Event' AND events.eventable_type = 'Card' AND event_cards.board_id = ?) OR
+              (notifications.source_type = 'Event' AND events.eventable_type = 'Comment' AND event_comment_cards.board_id = ?)",
                id, id)
     end
 end

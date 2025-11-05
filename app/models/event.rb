@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   include Notifiable, Particulars, Promptable
 
-  belongs_to :collection
+  belongs_to :board
   belongs_to :creator, class_name: "User"
   belongs_to :eventable, polymorphic: true
 

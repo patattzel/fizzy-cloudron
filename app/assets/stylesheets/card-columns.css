@@ -492,7 +492,7 @@
       }
     }
 
-    .card__collection {
+    .card__board {
       background-color: transparent;
       color: var(--card-content-color);
     }
@@ -519,10 +519,10 @@
     }
   }
 
-  /* Collection tools
+  /* Board tools
   /* -------------------------------------------------------------------------- */
 
-  .collection-tools.card {
+  .board-tools.card {
     --border-color: var(--color-selected-dark);
     --border-size: 1px;
     --card-padding-block: var(--block-space);
@@ -560,7 +560,7 @@
     }
   }
 
-  .collection-tools__watching {
+  .board-tools__watching {
     --btn-size: 32px;
     --gap: 0.5ch;
 
@@ -572,7 +572,7 @@
     position: relative;
   }
 
-  .collection-tools__watching-dialog {
+  .board-tools__watching-dialog {
     --panel-padding: 2ch;
     --panel-size: 100%;
 

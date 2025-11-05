@@ -2,10 +2,10 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to @collection, class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to @board, class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <span class="overflow-ellipsis">
         &larr;
-        <strong><%= @collection.name %></strong>
+        <strong><%= @board.name %></strong>
       </span>
     <% end %>
   </div>
@@ -19,7 +19,7 @@
   <%= turbo_frame_tag :closed_column do %>
     <% if @page.used? %>
       <%= with_automatic_pagination :closed_column, @page do %>
-        <%= render "collections/columns/list", cards: @page.records, draggable: true %>
+        <%= render "boards/columns/list", cards: @page.records, draggable: true %>
       <% end %>
     <% else %>
       <div class="cards__list">

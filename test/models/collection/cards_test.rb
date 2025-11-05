@@ -1,15 +1,15 @@
 require "test_helper"
 
-class Collection::CardsTest < ActiveSupport::TestCase
+class Board::CardsTest < ActiveSupport::TestCase
   test "touch cards when the name changes" do
-    collection = collections(:writebook)
+    board = boards(:writebook)
 
-    assert_changes -> { collection.cards.first.updated_at } do
-      collection.update!(name: "New Name")
+    assert_changes -> { board.cards.first.updated_at } do
+      board.update!(name: "New Name")
     end
 
-    assert_no_changes -> { collection.cards.first.updated_at } do
-      collection.update!(updated_at: 1.hour.from_now)
+    assert_no_changes -> { board.cards.first.updated_at } do
+      board.update!(updated_at: 1.hour.from_now)
     end
   end
 end

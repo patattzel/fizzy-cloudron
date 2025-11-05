@@ -1,13 +1,13 @@
-<% @page_title = @collection.name %>
+<% @page_title = @board.name %>
 
 <% content_for :head do %>
-  <%= tag.meta property: "og:title", content: "#{@collection.name} | #{Account.sole.name}" %>
-  <%= tag.meta property: "og:description", content: format_excerpt(@collection&.public_description, length: 200) %>
+  <%= tag.meta property: "og:title", content: "#{@board.name} | #{Account.sole.name}" %>
+  <%= tag.meta property: "og:description", content: format_excerpt(@board&.public_description, length: 200) %>
   <%= tag.meta property: "og:image", content: "#{request.base_url}/app-icon.png" %>
-  <%= tag.meta property: "og:url", content: published_collection_url(@collection) %>
+  <%= tag.meta property: "og:url", content: published_board_url(@board) %>
 
-  <%= tag.meta property: "twitter:title", content: "#{@collection.name} | #{Account.sole.name}" %>
-  <%= tag.meta property: "twitter:description", content: format_excerpt(@collection&.public_description, length: 200) %>
+  <%= tag.meta property: "twitter:title", content: "#{@board.name} | #{Account.sole.name}" %>
+  <%= tag.meta property: "twitter:description", content: format_excerpt(@board&.public_description, length: 200) %>
   <%= tag.meta property: "twitter:image", content: "#{request.base_url}/app-icon.png" %>
   <%= tag.meta property: "twitter:card", content: "summary_large_image" %>
 <% end %>
@@ -18,10 +18,10 @@
   </h1>
 <% end %>
 
-<% if @collection.public_description.present? %>
-  <div class="card__collection-public-description txt-align-center center margin-block-end">
-    <%= @collection.public_description %>
+<% if @board.public_description.present? %>
+  <div class="card__board-public-description txt-align-center center margin-block-end">
+    <%= @board.public_description %>
   </div>
 <% end %>
 
-<%= render "public/collections/show/columns", page: @page, collection: @collection %>
+<%= render "public/boards/show/columns", page: @page, board: @board %>

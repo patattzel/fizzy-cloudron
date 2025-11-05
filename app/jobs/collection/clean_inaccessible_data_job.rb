@@ -1,5 +1,5 @@
-class Collection::CleanInaccessibleDataJob < ApplicationJob
-  def perform(user, collection)
-    collection.clean_inaccessible_data_for(user)
+class Board::CleanInaccessibleDataJob < ApplicationJob
+  def perform(user, board)
+    board.clean_inaccessible_data_for(user)
   end
 end

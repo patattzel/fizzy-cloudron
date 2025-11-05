@@ -40,7 +40,7 @@ class User::DayTimeline
       card_published
       card_closed
       card_reopened
-      card_collection_changed
+      card_board_changed
       card_postponed
       card_triaged
       card_sent_back_to_triage
@@ -57,12 +57,12 @@ class User::DayTimeline
 
     def timelineable_events
       Event
-        .where(collection: collections)
+        .where(board: boards)
         .where(action: TIMELINEABLE_ACTIONS)
     end
 
-    def collections
-      filter.collections.presence || user.collections
+    def boards
+      filter.boards.presence || user.boards
     end
 
     def latest_event_before

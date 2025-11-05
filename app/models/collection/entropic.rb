@@ -1,4 +1,4 @@
-module Collection::Entropic
+module Board::Entropic
   extend ActiveSupport::Concern
 
   included do

@@ -1,4 +1,4 @@
-module Collection::Triageable
+module Board::Triageable
   extend ActiveSupport::Concern
 
   included do

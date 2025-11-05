@@ -1,4 +1,4 @@
-module Collection::AutoClosing
+module Board::AutoClosing
   extend ActiveSupport::Concern
 
   included do

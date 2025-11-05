@@ -1,16 +1,16 @@
 require "test_helper"
 
-class Collections::EntropiesControllerTest < ActionDispatch::IntegrationTest
+class Boards::EntropiesControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
-    @collection = collections(:writebook)
+    @board = boards(:writebook)
   end
 
   test "update" do
-    put collection_entropy_path(@collection, format: :turbo_stream), params: { collection: { auto_postpone_period: 1.day } }
+    put board_entropy_path(@board, format: :turbo_stream), params: { board: { auto_postpone_period: 1.day } }
 
-    assert_equal 1.day, @collection.entropy.reload.auto_postpone_period
+    assert_equal 1.day, @board.entropy.reload.auto_postpone_period
 
-    assert_turbo_stream action: :replace, target: dom_id(@collection, :entropy)
+    assert_turbo_stream action: :replace, target: dom_id(@board, :entropy)
   end
 end

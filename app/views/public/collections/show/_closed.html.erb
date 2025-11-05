@@ -3,7 +3,7 @@
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
 >
 
-  <%= render "collections/show/expander", title: "Done", count: collection.cards.closed.count, column_id: "closed-cards" %>
+  <%= render "boards/show/expander", title: "Done", count: board.cards.closed.count, column_id: "closed-cards" %>
 
-  <%= column_frame_tag :closed_column, src: public_collection_columns_closed_path(collection.publication.key) %>
+  <%= column_frame_tag :closed_column, src: public_board_columns_closed_path(board.publication.key) %>
 </section>

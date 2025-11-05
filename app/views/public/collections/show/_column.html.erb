@@ -4,7 +4,7 @@
   data-controller="clicker"
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
 >
-  <%= render "collections/show/expander", title: column.name, count: column.cards.active.count, column_id: dom_id(column) %>
+  <%= render "boards/show/expander", title: column.name, count: column.cards.active.count, column_id: dom_id(column) %>
 
-  <%= column_frame_tag dom_id(column, :cards), src: public_collection_column_path(column.collection.publication.key, column) %>
+  <%= column_frame_tag dom_id(column, :cards), src: public_board_column_path(column.board.publication.key, column) %>
 </section>

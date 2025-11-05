@@ -1,16 +1,16 @@
 require "test_helper"
 
-class Collections::InvolvementsControllerTest < ActionDispatch::IntegrationTest
+class Boards::InvolvementsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end
 
   test "update" do
-    collection = collections(:writebook)
-    collection.access_for(users(:kevin)).access_only!
+    board = boards(:writebook)
+    board.access_for(users(:kevin)).access_only!
 
-    assert_changes -> { collection.access_for(users(:kevin)).involvement }, from: "access_only", to: "watching" do
-      put collection_involvement_path(collection, involvement: "watching")
+    assert_changes -> { board.access_for(users(:kevin)).involvement }, from: "access_only", to: "watching" do
+      put board_involvement_path(board, involvement: "watching")
     end
 
     assert_response :success

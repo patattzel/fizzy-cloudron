@@ -1,29 +1,29 @@
 require "test_helper"
 
-class Public::CollectionsControllerTest < ActionDispatch::IntegrationTest
+class Public::BoardsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
 
-    collections(:writebook).publish
+    boards(:writebook).publish
   end
 
   test "show" do
-    get published_collection_path(collections(:writebook))
+    get published_board_path(boards(:writebook))
     assert_response :success
   end
 
-  test "not found if the collection is not published" do
-    key = collections(:writebook).publication.key
+  test "not found if the board is not published" do
+    key = boards(:writebook).publication.key
 
-    collections(:writebook).unpublish
-    get public_collection_path(key)
+    boards(:writebook).unpublish
+    get public_board_path(key)
 
     assert_response :not_found
   end
 
   test "show works without authentication" do
     sign_out
-    get published_collection_path(collections(:writebook))
+    get published_board_path(boards(:writebook))
     assert_response :success
   end
 end

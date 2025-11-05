@@ -1,7 +1,7 @@
 class LandingsController < ApplicationController
   def show
-    if Current.user.collections.one?
-      redirect_to collection_path(Current.user.collections.first)
+    if Current.user.boards.one?
+      redirect_to board_path(Current.user.boards.first)
     else
       redirect_to events_path
     end

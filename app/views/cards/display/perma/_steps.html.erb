@@ -1,5 +1,5 @@
 <ol class="steps txt-small margin-block-start-auto">
-  <%= render partial: "cards/steps/step", collection: card.steps, as: :step %>
+  <%= render partial: "cards/steps/step", board: card.steps, as: :step %>
 
   <li id="<%= dom_id(card, :new_step) %>" class="step">
     <input type="checkbox" class="step__checkbox" disabled>

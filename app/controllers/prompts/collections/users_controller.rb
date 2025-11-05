@@ -1,8 +1,8 @@
-class Prompts::Collections::UsersController < ApplicationController
-  include CollectionScoped
+class Prompts::Boards::UsersController < ApplicationController
+  include BoardScoped
 
   def index
-    @users = @collection.users.alphabetically
+    @users = @board.users.alphabetically
 
     if stale? etag: @users
       render layout: false

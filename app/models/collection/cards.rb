@@ -1,4 +1,4 @@
-module Collection::Cards
+module Board::Cards
   extend ActiveSupport::Concern
 
   included do

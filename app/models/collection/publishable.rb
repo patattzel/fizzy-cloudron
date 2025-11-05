@@ -1,14 +1,14 @@
-module Collection::Publishable
+module Board::Publishable
   extend ActiveSupport::Concern
 
   included do
-    has_one :publication, class_name: "Collection::Publication", dependent: :destroy
+    has_one :publication, class_name: "Board::Publication", dependent: :destroy
     scope :published, -> { joins(:publication) }
   end
 
   class_methods do
     def find_by_published_key(key)
-      Collection::Publication.find_by!(key: key).collection
+      Board::Publication.find_by!(key: key).board
     end
   end
 

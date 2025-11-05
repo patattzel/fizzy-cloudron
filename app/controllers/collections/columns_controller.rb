@@ -1,5 +1,5 @@
-class Collections::ColumnsController < ApplicationController
-  include CollectionScoped
+class Boards::ColumnsController < ApplicationController
+  include BoardScoped
 
   before_action :set_column, only: %i[ show update destroy ]
 
@@ -9,7 +9,7 @@ class Collections::ColumnsController < ApplicationController
   end
 
   def create
-    @column = @collection.columns.create!(column_params)
+    @column = @board.columns.create!(column_params)
   end
 
   def update
@@ -22,7 +22,7 @@ class Collections::ColumnsController < ApplicationController
 
   private
     def set_column
-      @column = @collection.columns.find(params[:id])
+      @column = @board.columns.find(params[:id])
     end
 
     def column_params

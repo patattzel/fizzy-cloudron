@@ -1,55 +1,55 @@
 require "test_helper"
 
-class Collection::PublishableTest < ActiveSupport::TestCase
+class Board::PublishableTest < ActiveSupport::TestCase
   setup do
     Current.session = sessions(:david)
   end
 
   test "published scope" do
-    collections(:writebook).publish
-    assert_includes Collection.published, collections(:writebook)
-    assert_not_includes Collection.published, collections(:private)
+    boards(:writebook).publish
+    assert_includes Board.published, boards(:writebook)
+    assert_not_includes Board.published, boards(:private)
   end
 
   test "published?" do
-    assert_not collections(:writebook).published?
-    collections(:writebook).publish
-    assert collections(:writebook).published?
+    assert_not boards(:writebook).published?
+    boards(:writebook).publish
+    assert boards(:writebook).published?
   end
 
   test "publish and unpublish" do
-    assert_not collections(:writebook).published?
+    assert_not boards(:writebook).published?
 
-    assert_difference -> { Collection::Publication.count }, +1 do
-      collections(:writebook).publish
+    assert_difference -> { Board::Publication.count }, +1 do
+      boards(:writebook).publish
     end
 
-    assert collections(:writebook).published?
+    assert boards(:writebook).published?
 
-    assert_difference -> { Collection::Publication.count }, -1 do
-      collections(:writebook).unpublish
+    assert_difference -> { Board::Publication.count }, -1 do
+      boards(:writebook).unpublish
     end
 
-    assert_not collections(:writebook).reload.published?
+    assert_not boards(:writebook).reload.published?
   end
 
-  test "find collection by publication key" do
-    collections(:writebook).publish
-    assert_equal collections(:writebook), Collection.find_by_published_key(collections(:writebook).publication.key)
+  test "find board by publication key" do
+    boards(:writebook).publish
+    assert_equal boards(:writebook), Board.find_by_published_key(boards(:writebook).publication.key)
 
     assert_raise ActiveRecord::RecordNotFound do
-      Collection.find_by_published_key("invalid")
+      Board.find_by_published_key("invalid")
     end
   end
 
   test "publish doesn't create duplicate publications" do
-    collections(:writebook).publish
-    original_publication = collections(:writebook).publication
+    boards(:writebook).publish
+    original_publication = boards(:writebook).publication
 
-    assert_no_difference -> { Collection::Publication.count } do
-      collections(:writebook).publish
+    assert_no_difference -> { Board::Publication.count } do
+      boards(:writebook).publish
     end
 
-    assert_equal original_publication, collections(:writebook).reload.publication
+    assert_equal original_publication, boards(:writebook).reload.publication
   end
 end

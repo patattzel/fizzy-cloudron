@@ -1,13 +1,13 @@
 require "test_helper"
 
-class Public::Collections::ColumnsControllerTest < ActionDispatch::IntegrationTest
+class Public::Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    collections(:writebook).publish
+    boards(:writebook).publish
   end
 
   test "show" do
     column = columns(:writebook_in_progress)
-    get public_collection_column_path(collections(:writebook).publication.key, column)
+    get public_board_column_path(boards(:writebook).publication.key, column)
     assert_response :success
   end
 end

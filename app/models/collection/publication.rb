@@ -1,5 +1,5 @@
-class Collection::Publication < ApplicationRecord
-  belongs_to :collection
+class Board::Publication < ApplicationRecord
+  belongs_to :board
 
   has_secure_token :key
 end

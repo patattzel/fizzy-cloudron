@@ -1,4 +1,4 @@
-class Public::Collections::ColumnsController < Public::BaseController
+class Public::Boards::ColumnsController < Public::BaseController
   before_action :set_column
 
   def show
@@ -11,6 +11,6 @@ class Public::Collections::ColumnsController < Public::BaseController
     end
 
     def set_column
-      @column = @collection.columns.find(params[:id])
+      @column = @board.columns.find(params[:id])
     end
 end

@@ -4,11 +4,11 @@
   </h2>
 
   <% if page.used? %>
-    <%= render partial: "cards/display/public_preview", collection: page.records, as: :card, cached: true %>
+    <%= render partial: "cards/display/public_preview", board: page.records, as: :card, cached: true %>
 
     <% unless page.last? %>
       <div class="full-width">
-        <%= public_collection_cards_next_page_link collection, "on-deck-cards", page: page %>
+        <%= public_board_cards_next_page_link board, "on-deck-cards", page: page %>
       </div>
     <% end %>
   <% else %>

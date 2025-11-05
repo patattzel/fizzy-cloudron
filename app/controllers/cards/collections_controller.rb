@@ -1,16 +1,16 @@
-class Cards::CollectionsController < ApplicationController
-  include CollectionScoped
+class Cards::BoardsController < ApplicationController
+  include BoardScoped
 
-  skip_before_action :set_collection, only: %i[ edit ]
+  skip_before_action :set_board, only: %i[ edit ]
   before_action :set_card
 
   def edit
-    @collections = Current.user.collections.ordered_by_recently_accessed
-    fresh_when @collections
+    @boards = Current.user.boards.ordered_by_recently_accessed
+    fresh_when @boards
   end
 
   def update
-    @card.move_to(@collection)
+    @card.move_to(@board)
     redirect_to @card
   end
 
