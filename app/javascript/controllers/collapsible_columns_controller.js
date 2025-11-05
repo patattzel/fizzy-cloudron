@@ -5,7 +5,7 @@ export default class extends Controller {
   static classes = [ "collapsed", "noTransitions", "titleNotVisible" ]
   static targets = [ "column", "button", "title" ]
   static values = {
-    collection: String
+    board: String
   }
 
   initialize() {
@@ -112,7 +112,7 @@ export default class extends Controller {
   }
 
   #localStorageKeyFor(column) {
-    return `expand-${this.collectionValue}-${column.getAttribute("id")}`
+    return `expand-${this.boardValue}-${column.getAttribute("id")}`
   }
 
   #setupIntersectionObserver() {

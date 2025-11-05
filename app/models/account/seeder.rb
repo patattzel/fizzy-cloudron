@@ -26,9 +26,9 @@ class Account::Seeder
 
     def populate
       # ---------------
-      # Playground Collection
+      # Playground Board
       # ---------------
-      playground = Collection.create! name: "Playground", creator: creator, all_access: true
+      playground = Board.create! name: "Playground", creator: creator, all_access: true
 
       # Cards
       playground.cards.create! creator: creator, title: "Watch this: Fizzy orientation video", status: "published", description: <<~HTML
@@ -105,7 +105,7 @@ class Account::Seeder
 
     def delete_everything
       Current.set session: session do
-        Collection.destroy_all
+        Board.destroy_all
       end
     end
 end
