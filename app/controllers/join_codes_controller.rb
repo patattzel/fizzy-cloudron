@@ -10,8 +10,10 @@ class JoinCodesController < ApplicationController
 
   def create
     Identity.transaction do
-      identity = Identity.find_or_create_by(email_address: params.expect(:email_address))
-      identity.memberships.create!(tenant: tenant, join_code: code)
+      identity = Identity.find_or_create_by!(email_address: params.expect(:email_address))
+      identity.memberships.find_or_create_by!(tenant: tenant) do |membership|
+        membership.join_code = code
+      end
       identity.send_magic_link
     end
 
