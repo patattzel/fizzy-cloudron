@@ -95,4 +95,31 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_raises(ActiveRecord::RecordNotFound) { board.reload }
   end
+
+  test "non-admin cannot change all_access on board they don't own" do
+    logout_and_sign_in_as :jz
+
+    board = boards(:writebook)
+    original_all_access = board.all_access
+
+    patch board_path(board), params: { board: { all_access: !original_all_access } }
+
+    assert_response :forbidden
+    assert_equal original_all_access, board.reload.all_access
+  end
+
+  test "non-admin cannot change individual user accesses on board they don't own" do
+    logout_and_sign_in_as :jz
+
+    board = boards(:writebook)
+    original_users = board.users.sort
+
+    patch board_path(board), params: {
+      board: { name: board.name },
+      user_ids: [ users(:jz).id ]
+    }
+
+    assert_response :forbidden
+    assert_equal original_users, board.reload.users.sort
+  end
 end
