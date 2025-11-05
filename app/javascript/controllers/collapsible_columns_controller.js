@@ -5,7 +5,7 @@ export default class extends Controller {
   static classes = [ "collapsed", "noTransitions" ]
   static targets = [ "column", "button" ]
   static values = {
-    collection: String
+    board: String
   }
 
   initialize() {
@@ -104,6 +104,6 @@ export default class extends Controller {
   }
 
   #localStorageKeyFor(column) {
-    return `expand-${this.collectionValue}-${column.getAttribute("id")}`
+    return `expand-${this.boardValue}-${column.getAttribute("id")}`
   }
 }
