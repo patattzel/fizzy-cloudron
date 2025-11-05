@@ -2,12 +2,14 @@
   data-drag-and-drop-target="container"
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
   data-drag-and-drop-url="<%= columns_card_drops_stream_path("__id__") %>">
-  <header class="cards__expander">
-    <h2 class="cards__expander-title position-relative">Maybe?</h2>
-    <%= link_to collection_columns_stream_path(collection), class: "cards__expander-button btn btn--circle txt-x-small borderless", data: { turbo_frame: "_top" } do %>
-      <%= icon_tag "expand", class: "translucent" %>
-      <span class="for-screen-reader">Expand column</span>
-    <% end %>
+  <header class="cards__header">
+    <div class="cards__expander">
+      <h2 class="cards__expander-title position-relative">Maybe?</h2>
+      <%= link_to collection_columns_stream_path(collection), class: "cards__expander-button btn btn--circle txt-x-small borderless", data: { turbo_frame: "_top" } do %>
+        <%= icon_tag "expand", class: "translucent" %>
+        <span class="for-screen-reader">Expand column</span>
+      <% end %>
+    </div>
   </header>
 
   <%= render "columns/show/add_card_button", collection: collection %>

@@ -5,10 +5,12 @@
   data-action="turbo:before-morph-attribute->collapsible-columns#preventToggle"
   data-drag-and-drop-url="<%= columns_card_drops_not_now_path("__id__") %>"
 >
-
-  <%= render "collections/show/expander", title: "Not Now", count: collection.cards.postponed.count, column_id: "not-now" do %>
-    <%= render "collections/show/menu/expand", column_path: collection_columns_not_now_path(collection) %>
-  <% end %>
-
-  <%= column_frame_tag :not_now_column, src: collection_columns_not_now_path(collection) %>
+  <div class="cards__transition-container">
+    <header class="cards__header">
+      <%= render "collections/show/expander", title: "Not Now", count: collection.cards.postponed.count, column_id: "not-now" do %>
+        <%= render "collections/show/menu/expand", column_path: collection_columns_not_now_path(collection) %>
+      <% end %>
+    </header>
+    <%= column_frame_tag :not_now_column, src: collection_columns_not_now_path(collection) %>
+  </div>
 </section>
