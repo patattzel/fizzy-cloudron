@@ -6,9 +6,9 @@ module Board::AutoClosing
   end
 
   private
-    DEFAULT_auto_postpone_period = 30.days
+    DEFAULT_AUTO_POSTPONE_PERIOD = 30.days
 
     def set_default_auto_postpone_period
-      self.auto_postpone_period ||= DEFAULT_auto_postpone_period unless attribute_present?(:auto_postpone_period)
+      self.auto_postpone_period ||= DEFAULT_AUTO_POSTPONE_PERIOD unless attribute_present?(:auto_postpone_period)
     end
 end
