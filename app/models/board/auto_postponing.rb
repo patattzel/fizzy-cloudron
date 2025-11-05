@@ -1,4 +1,4 @@
-module Board::AutoClosing
+module Board::AutoPostponing
   extend ActiveSupport::Concern
 
   included do
