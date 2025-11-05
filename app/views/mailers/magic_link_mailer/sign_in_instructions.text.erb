@@ -1,8 +1,6 @@
-Sign in to Fizzy
-<%= "=" * 80 %>
+Hit the button below to confirm your email:
 
-Open this link in your browser to login on this device:
 <%= session_magic_link_url(code: @magic_link.code) %>
 
-If you're signing in on another device, enter this code:
+If Fizzy is on another device, enter this special code instead:
 <%= @magic_link.code %>

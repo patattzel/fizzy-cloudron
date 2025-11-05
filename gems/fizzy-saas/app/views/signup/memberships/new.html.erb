@@ -1,12 +1,12 @@
-<% @page_title = "Create your account" %>
+<% @page_title = "Create your new Fizzy account" %>
 
-<div class="panel panel--centered flex flex-column gap-half <%= "shake" if flash[:alert] %>">
-  <h1 class="txt-x-large font-weight-black margin-none"><%= @page_title %></h1>
+<div class="panel panel--centered full-width flex flex-column gap-half <%= "shake" if flash[:alert] %>">
+  <h1 class="txt-large font-weight-black margin-none"><%= @page_title %></h1>
 
   <%= form_with model: @signup, url: saas.signup_membership_path, scope: "signup", class: "flex flex-column gap", data: { controller: "form" } do |form| %>
     <%= form.hidden_field :new_user %>
 
-    <%= form.text_field :full_name, class: "input", autocomplete: "name", placeholder: "Your name", autofocus: true, required: true %>
+    <%= form.text_field :full_name, class: "input", autocomplete: "name", placeholder: "Full name", autofocus: true, required: true %>
 
     <% if @signup.errors.any? %>
       <div class="margin-block-half">
