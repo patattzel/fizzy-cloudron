@@ -122,8 +122,8 @@ export default class extends Controller {
     this._intersectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const title = entry.target
-        const column = title.closest('[data-collapsible-columns-target="column"]')
-        
+        const column = title.closest(".cards")
+
         if (!column) return
 
         const offscreen = entry.intersectionRatio === 0
