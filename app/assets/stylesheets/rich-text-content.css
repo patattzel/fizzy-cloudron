@@ -62,14 +62,17 @@
     }
 
     :where(hr) {
+      color: currentColor;
       block-size: 0;
-      border-block-end: 1px solid currentColor;
+      border: none;
+      border-block-end: 2px solid currentColor;
       inline-size: 20%;
-      margin: var(--block-margin) 0;
+      margin: calc(var(--block-margin) * 2) 0;
     }
 
     .horizontal-divider  {
-      margin-inline: 0;
+      margin: var(--block-margin) 0;
+      padding-block: var(--block-margin);
     }
 
     .lexxy-content__strikethrough {
