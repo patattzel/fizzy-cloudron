@@ -41,6 +41,8 @@ class JoinCodesControllerTest < ActionDispatch::IntegrationTest
         end
       end
 
+      assert_equal @join_code.code, Membership.last.join_code
+
       assert_redirected_to session_magic_link_path
       assert_equal landing_url(script_name: "/#{@tenant}"), session[:return_to_after_authenticating]
     end
@@ -51,7 +53,7 @@ class JoinCodesControllerTest < ActionDispatch::IntegrationTest
 
     untenanted do
       assert_no_difference -> { Identity.count } do
-        assert_difference -> { Membership.count }, 1 do
+        assert_no_difference -> { Membership.count } do
           post join_path(tenant: @tenant, code: @join_code.code), params: { email_address: identity.email_address }
         end
       end

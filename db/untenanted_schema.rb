@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_11_03_125952) do
+ActiveRecord::Schema[8.2].define(version: 2025_11_05_082803) do
   create_table "identities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", null: false
@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_03_125952) do
     t.string "tenant", null: false
     t.datetime "updated_at", null: false
     t.index ["identity_id"], name: "index_memberships_on_identity_id"
+    t.index ["tenant", "identity_id"], name: "index_memberships_on_tenant_and_identity_id", unique: true
     t.index ["tenant"], name: "index_memberships_on_user_tenant_and_user_id"
   end
 

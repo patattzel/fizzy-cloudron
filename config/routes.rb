@@ -151,7 +151,7 @@ Rails.application.routes.draw do
   end
 
   scope module: :memberships, path: "memberships/:membership_id" do
-    resource :unlink, controller: :unlink, as: :unlink_membership
+    resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
 
     resources :email_addresses, param: :token do
       resource :confirmation, module: :email_addresses
