@@ -20,7 +20,7 @@ gem "solid_queue", "~> 1.2"
 gem "sqlite3", ">= 2.0"
 gem "thruster", require: false
 source "https://e95ae463b12de3f204526a44650f6ae0@gems.stanko.io/private" do
-  gem "beamer-rails"
+  gem "beamer-rails", "~> 0.1.0.beta4"
 end
 
 # Features
@@ -54,9 +54,6 @@ gem "webrick" # required for yabeda-prometheus metrics server
 gem "prometheus-client-mmap", "~> 1.1"
 gem "autotuner"
 gem "benchmark" # indirect dependency, being removed from Ruby 3.5 stdlib so here to quash warnings
-
-# AI
-gem "sqlite-vec", "0.1.7.alpha.2"
 
 group :development, :test do
   gem "debug"

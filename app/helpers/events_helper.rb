@@ -3,24 +3,30 @@ module EventsHelper
     case event_type
     when "added"
       events = day_timeline.events.where(action: [ "card_published", "card_reopened" ])
+      full_events_count = events.count
       {
-        title: event_column_title("Added", events.count, day_timeline.day),
+        title: event_column_title("Added", full_events_count, day_timeline.day),
         index: 1,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     when "closed"
       events = day_timeline.events.where(action: "card_closed")
+      full_events_count = events.count
       {
-        title: event_column_title("Closed", events.count, day_timeline.day),
+        title: event_column_title("Closed", full_events_count, day_timeline.day),
         index: 3,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     else
       events = day_timeline.events.where.not(action: [ "card_published", "card_closed", "card_reopened" ])
+      full_events_count = events.count
       {
-        title: event_column_title("Updated", events.count, day_timeline.day),
+        title: event_column_title("Updated", full_events_count, day_timeline.day),
         index: 2,
-        events: events
+        events: events.limit(100).load,
+        full_events_count: full_events_count
       }
     end
   end
@@ -62,7 +68,12 @@ module EventsHelper
     end
 
     def event_creator_name(event)
-      event.creator == Current.user ? "You" : h(event.creator.name)
+      tag.span data: { creator_id: event.creator.id } do
+        safe_join([
+          tag.span("You", data: { only_visible_to_you: true }),
+          tag.span(h(event.creator.name), data: { only_visible_to_others: true })
+        ])
+      end
     end
 
     def card_event_action_sentence(event)
@@ -91,8 +102,8 @@ module EventsHelper
         "#{event_creator_name(event)} resumed #{event_card_title(card)}"
       when "card_title_changed"
         "#{event_creator_name(event)} renamed #{event_card_title(card)} (was: “#{h event.particulars.dig('particulars', 'old_title')}”)"
-      when "card_collection_changed"
-        "#{event_creator_name(event)} moved #{event_card_title(card)} to “#{h event.particulars.dig('particulars', 'new_collection')}”"
+      when "card_board_changed", "card_collection_changed"
+        "#{event_creator_name(event)} moved #{event_card_title(card)} to “#{h (event.particulars.dig('particulars', 'new_board') || event.particulars.dig('particulars', 'new_collection'))}”"
       when "card_triaged"
         "#{event_creator_name(event)} moved #{event_card_title(card)} to “#{h event.particulars.dig('particulars', 'column')}”"
       when "card_sent_back_to_triage"
@@ -118,7 +129,7 @@ module EventsHelper
         "comment"
       when "card_title_changed"
         "rename"
-      when "card_collection_changed"
+      when "card_board_changed"
         "move"
       else
         "person"

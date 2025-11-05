@@ -2,7 +2,7 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    before_action :ensure_can_access_account, if: -> { ApplicationRecord.current_tenant && Current.session }
+    before_action :ensure_can_access_account, if: -> { ApplicationRecord.current_tenant && authenticated? }
   end
 
   class_methods do
@@ -29,7 +29,7 @@ module Authorization
       if Current.membership.blank?
         redirect_to session_menu_url(script_name: nil)
       elsif Current.user.nil? && Current.membership.join_code.present?
-        redirect_to new_user_path
+        redirect_to new_users_join_path
       elsif !Current.user&.active?
         redirect_to unlink_membership_url(script_name: nil, membership_id: Current.membership.signed_id(purpose: :unlinking))
       end

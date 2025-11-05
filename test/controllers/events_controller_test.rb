@@ -12,7 +12,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     get events_path
 
     assert_select "div.events__time-block[style='grid-area: 17/2']" do
-      assert_select "strong", text: "David assigned JZ to Layout is broken"
+      assert_select "strong", text: /assigned JZ to Layout is broken/
     end
   end
 
@@ -22,19 +22,19 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     get events_path
 
     assert_select "div.events__time-block[style='grid-area: 22/2']" do
-      assert_select "strong", text: "David assigned JZ to Layout is broken"
+      assert_select "strong", text: /assigned JZ to Layout is broken/
     end
   end
 
-  test "only displays events from filtered collections" do
-    get events_path(collection_ids: [ collections(:writebook).id ])
+  test "only displays events from filtered boards" do
+    get events_path(board_ids: [ boards(:writebook).id ])
     assert_response :success
 
     events_shown = css_select(".event").count
     assert events_shown > 0, "Should show some events"
 
     css_select(".event").each do |event|
-      assert_includes event.text, collections(:writebook).name
+      assert_includes event.text, boards(:writebook).name
     end
   end
 end

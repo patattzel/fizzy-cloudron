@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  include Entropic
+  include Entropic, Seedeable
 
   has_many_attached :uploads
 
@@ -16,19 +16,13 @@ class Account < ApplicationRecord
     end
   end
 
-  # To use the account as a generic card container. See +Entropy::Configuration+.
+  # To use the account as a generic card container. See +Entropy+.
   def cards
     Card.all
   end
 
   def slug
     "/#{tenant}"
-  end
-
-  def setup_basic_template
-    user = User.first
-
-    Collection.create!(name: "Cards", creator: user, all_access: true)
   end
 
   private

@@ -2,14 +2,14 @@ class Cards::TriagesController < ApplicationController
   include CardScoped
 
   def create
-    column = @card.collection.columns.find(params[:column_id])
+    column = @card.board.columns.find(params[:column_id])
     @card.triage_into(column)
 
-    render_card_replacement
+    redirect_to @card
   end
 
   def destroy
     @card.send_back_to_triage
-    render_card_replacement
+    redirect_to @card
   end
 end

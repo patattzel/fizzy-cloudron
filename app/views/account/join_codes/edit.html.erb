@@ -1,7 +1,6 @@
 <% @page_title = "Change usage limit" %>
 
 <% content_for :header do %>
-  <%= render "my/menus/menu" %>
   <div class="header__actions header__actions--start">
     <%= link_to account_join_code_path, class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <span class="overflow-ellipsis">&larr; <strong>Invite link</strong></span>
@@ -14,13 +13,11 @@
     <h2 class="txt-large margin-none font-weight-black"><%= @page_title %></h2>
     <p class="txt-medium margin-none">How many times can this link be used to join the account?</p>
   </header>
+
   <%= form_with model: @join_code, url: account_join_code_path, method: :patch, data: { controller: "form" }, html: { class: "flex flex-column gap" } do |form| %>
     <%= form.number_field :usage_limit,
-          required: true,
-          autofocus: true,
-          min: @join_code.usage_count,
-          class: "input center txt-large fit-content font-weight-black txt-align-center",
-          style: "max-inline-size: 8ch",
+          required: true, autofocus: true, min: @join_code.usage_count,
+          class: "input center txt-large fit-content font-weight-black txt-align-center", style: "max-inline-size: 8ch",
           data: { action: "keydown.esc@document->form#cancel focus->form#select" } %>
 
     <p class="margin-none txt-subtle">
