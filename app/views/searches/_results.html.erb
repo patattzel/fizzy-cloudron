@@ -15,7 +15,7 @@
 
     <ul class="search__list">
       <%= with_automatic_pagination :filtered_search_results, page do %>
-        <%= render partial: "searches/result", board: page.records %>
+        <%= render partial: "searches/result", collection: page.records %>
       <% end %>
     </ul>
   </div>

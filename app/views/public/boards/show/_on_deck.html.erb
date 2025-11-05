@@ -4,7 +4,7 @@
   </h2>
 
   <% if page.used? %>
-    <%= render partial: "cards/display/public_preview", board: page.records, as: :card, cached: true %>
+    <%= render partial: "cards/display/public_preview", collection: page.records, as: :card, cached: true %>
 
     <% unless page.last? %>
       <div class="full-width">

@@ -16,7 +16,7 @@
     <%= render "boards/show/stream", board: board, page: page %>
 
     <div class="card-columns__right">
-      <%= render partial: "boards/show/column", board: board.columns.sorted, cached: ->(column){ [ column, column.leftmost?, column.rightmost? ] } %>
+      <%= render partial: "boards/show/column", collection: board.columns.sorted, cached: ->(column){ [ column, column.leftmost?, column.rightmost? ] } %>
       <%= render "boards/show/closed", board: board %>
 
       <%= render "boards/show/menu/columns", board: board %>

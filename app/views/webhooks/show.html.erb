@@ -58,7 +58,7 @@
         <p class="margin-none txt-subtle">This Webhook hasn't been triggered yet<p/>
       <% else %>
         <ul class="margin-none unpad-block">
-          <%= render partial: "webhooks/delivery", board: @webhook.deliveries.ordered.limit(20), as: :delivery %>
+          <%= render partial: "webhooks/delivery", collection: @webhook.deliveries.ordered.limit(20), as: :delivery %>
         </ul>
       <% end %>
     </div>

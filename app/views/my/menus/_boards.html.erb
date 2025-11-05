@@ -7,6 +7,6 @@
     <% end %>
   </li>
   <% if user_filtering.boards.any? %>
-    <%= render partial: "my/menus/boards/board", board: user_filtering.boards, as: :board %>
+    <%= render partial: "my/menus/boards/board", collection: user_filtering.boards, as: :board %>
   <% end %>
 <% end %>

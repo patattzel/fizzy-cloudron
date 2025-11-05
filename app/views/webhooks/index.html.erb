@@ -23,7 +23,7 @@
 <%= tag.section class: "panel shadow center webhooks" do %>
   <% if @page.records.any? %>
     <ul class="flex flex-column align-start gap margin-none unpad webhooks-list">
-      <%= render partial: "webhooks/webhook", board: @page.records %>
+      <%= render partial: "webhooks/webhook", collection: @page.records %>
     </ul>
   <% else %>
     <p>Webhooks can notify another application when something happens in this Fizzy board. You’ll choose which events to subscribe to and provide a URL to receive the data.</p>
