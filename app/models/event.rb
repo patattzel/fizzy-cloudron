@@ -22,6 +22,10 @@ class Event < ApplicationRecord
     eventable
   end
 
+  def description_for(user)
+    Event::Description.new(self, user)
+  end
+
   private
     def dispatch_webhooks
       Event::WebhookDispatchJob.perform_later(self)
