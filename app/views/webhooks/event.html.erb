@@ -1,4 +1,4 @@
-<%= event_action_sentence(@event) %>
+<%= event_action_sentence_text(@event) %>
 <% if @event.eventable %>
 <%= link_to "↗︎", polymorphic_url(@event.eventable) %>
 <% end %>
