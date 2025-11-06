@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       magic_link = identity.send_magic_link
       flash[:magic_link_code] = magic_link&.code if Rails.env.development?
       redirect_to session_magic_link_path
-    elsif defined?(Signup) && defined?(saas)
+    elsif signups_allowed?
       Signup.new(email_address: email_address).create_identity
       session[:return_to_after_authenticating] = saas.new_signup_membership_path
       redirect_to session_magic_link_path
