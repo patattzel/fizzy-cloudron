@@ -1,6 +1,7 @@
-Hit the button below to confirm your email:
+<% if @identity.memberships.any? %>
+Please enter this 6-character verification code on the Fizzy sign-in page:
+<% else %>
+Please enter this 6-character verification code on the Fizzy sign-up page to create your new account:
+<% end %>
 
-<%= session_magic_link_url(code: @magic_link.code) %>
-
-If Fizzy is on another device, enter this special code instead:
 <%= @magic_link.code %>
