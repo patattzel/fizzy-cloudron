@@ -18,8 +18,12 @@ class Event::Description
   end
 
   private
-    def card
-      @card ||= event.action.comment_created? ? event.eventable.card : event.eventable
+    def to_sentence(creator, card_title)
+      if event.action.comment_created?
+        comment_sentence(creator, card_title)
+      else
+        action_sentence(creator, card_title)
+      end
     end
 
     def creator_tag
@@ -29,20 +33,16 @@ class Event::Description
       end
     end
 
-    def creator_text
-      event.creator == user ? "You" : h(event.creator.name)
-    end
-
     def card_title_tag
       tag.span card.title, class: "txt-underline"
     end
 
-    def to_sentence(creator, card_title)
-      if event.action.comment_created?
-        comment_sentence(creator, card_title)
-      else
-        action_sentence(creator, card_title)
-      end
+    def creator_text
+      event.creator == user ? "You" : h(event.creator.name)
+    end
+
+    def card
+      @card ||= event.action.comment_created? ? event.eventable.card : event.eventable
     end
 
     def comment_sentence(creator, card_title)
