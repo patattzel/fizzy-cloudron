@@ -29,7 +29,7 @@ class Event::Description
     def creator_tag
       tag.span data: { creator_id: event.creator.id } do
         tag.span("You", data: { only_visible_to_you: true }) +
-        tag.span(h(event.creator.name), data: { only_visible_to_others: true })
+        tag.span(event.creator.name, data: { only_visible_to_others: true })
       end
     end
 
