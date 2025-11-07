@@ -1,17 +1,9 @@
 @layer components {
-  .nav {
-    inset-block-start: calc(var(--block-space-half) + env(safe-area-inset-top));
-    inset-inline-start: 50%;
-    position: fixed;
-    translate: -50%;
-  }
-
   .nav__trigger {
-    --input-background: color-mix(in srgb, var(--color-canvas) 30%, transparent);
+    --input-background: var(--color-canvas);
     --input-border-color: transparent;
     --input-padding: 0.3em 2em 0.3em 0.75em;
 
-    backdrop-filter: blur(20px);
     font-weight: 600;
     inline-size: auto;
     margin-block-start: 0.1em;
