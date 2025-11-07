@@ -21,7 +21,7 @@ module AvatarsHelper
 
   def mail_avatar_tag(user, size: 48, **options)
     if user.avatar.attached?
-      image_tag user_avatar_url(user), alt: user.name, class: "avatar", **options
+      image_tag user_avatar_url(user), alt: user.name, class: "avatar", size: size, **options
     else
       tag.span class: "avatar", style: "background-color: #{avatar_background_color(user)};" do
         user.initials
