@@ -1,6 +1,7 @@
 module ApplicationHelper
   def page_title_tag
-    tag.title @page_title || "Fizzy"
+    account_name = ApplicationRecord.current_tenant && Current.user&.identity&.memberships&.many? && Account.sole&.name
+    tag.title [ @page_title, account_name, "Fizzy" || "Fizzy" ].compact.join(" | ")
   end
 
   def icon_tag(name, **options)
