@@ -21,15 +21,19 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "create for a new user" do
-    untenanted do
-      assert_difference -> { Identity.count }, +1 do
-        assert_difference -> { MagicLink.count }, +1 do
-          post session_path, params: { email_address: "nonexistent@example.com" }, headers: http_basic_auth_headers("testname", "testpassword")
+  unless Bootstrap.oss_config?
+    test "create for a new user" do
+      untenanted do
+        assert_difference -> { Identity.count }, +1 do
+          assert_difference -> { MagicLink.count }, +1 do
+            post session_path,
+              params: { email_address: "nonexistent-#{SecureRandom.hex(6)}@example.com" },
+              headers: http_basic_auth_headers("testname", "testpassword")
+          end
         end
-      end
 
-      assert_redirected_to session_magic_link_path
+        assert_redirected_to session_magic_link_path
+      end
     end
   end
 
