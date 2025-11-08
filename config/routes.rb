@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root "events#index"
+
   namespace :account do
     resource :join_code
     resource :settings
@@ -218,8 +220,6 @@ Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "pwa#service_worker"
-
-  root "events#index"
 
   unless Rails.application.config.x.oss_config
     mount Fizzy::Saas::Engine, at: "/", as: "saas"
