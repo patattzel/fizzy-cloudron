@@ -144,8 +144,6 @@ Rails.application.routes.draw do
 
   resource :landing
 
-  resources :commands
-
   resource :conversation do
     scope module: :conversations do
       resources :messages
