@@ -144,12 +144,6 @@ Rails.application.routes.draw do
 
   resource :landing
 
-  resource :conversation do
-    scope module: :conversations do
-      resources :messages
-    end
-  end
-
   scope module: :memberships, path: "memberships/:membership_id" do
     resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
 
@@ -190,9 +184,6 @@ Rails.application.routes.draw do
 
       resources :cards, only: :show
     end
-  end
-
-  namespace :admin do
   end
 
   direct :published_board do |board, options|
