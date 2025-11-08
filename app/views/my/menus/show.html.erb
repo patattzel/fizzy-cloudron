@@ -16,7 +16,7 @@
     <%= filter_hotkey_link "My Profile", user_path(Current.user), 5, "person" %>
     <%= filter_hotkey_link "Settings", account_settings_path, 6, "settings" %>
   </div>
-  
+
   <%= render "saved_filter", filters: @filters %>
   <%= render "boards", boards: @boards %>
   <%= render "tags", tags: @tags %>
