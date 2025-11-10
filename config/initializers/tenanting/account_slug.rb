@@ -3,23 +3,38 @@ module AccountSlug
   FORMAT = "%07d"
   PATH_INFO_MATCH = /\A(\/#{AccountSlug::PATTERN})/
 
-  # We're using account id prefixes in the URL path. Rather than namespace
-  # all our routes, we're "mounting" the Rails app at this URL prefix.
-  def self.extract(request)
-    # $1, $2, $' == script_name, slug, path_info
-    if request.script_name && request.script_name =~ PATH_INFO_MATCH
-      # Likely due to restarting the action cable connection after upgrade
-      AccountSlug.decode($2)
-    elsif request.path_info =~ PATH_INFO_MATCH
-      # Yanks the prefix off PATH_INFO and move it to SCRIPT_NAME
-      request.engine_script_name = request.script_name = $1
-      request.path_info   = $'.empty? ? "/" : $'
+  class Extractor
+    def initialize(app)
+      @app = app
+    end
 
-      # Return the account id
-      AccountSlug.decode($2)
+    # We're using account id prefixes in the URL path. Rather than namespace
+    # all our routes, we're "mounting" the Rails app at this URL prefix.
+    def call(env)
+      request = ActionDispatch::Request.new(env)
+
+      # $1, $2, $' == script_name, slug, path_info
+      if request.script_name && request.script_name =~ PATH_INFO_MATCH
+        # Likely due to restarting the action cable connection after upgrade
+        AccountSlug.decode($2)
+      elsif request.path_info =~ PATH_INFO_MATCH
+        # Yanks the prefix off PATH_INFO and move it to SCRIPT_NAME
+        request.engine_script_name = request.script_name = $1
+        request.path_info   = $'.empty? ? "/" : $'
+
+        # Stash the account's Queenbee ID.
+        env["fizzy.external_account_id"] = AccountSlug.decode($2)
+        Rails.logger.debug "MIKE: Extracted account id #{env["fizzy.external_account_id"].inspect}"
+      end
+
+      @app.call env
     end
   end
 
   def self.decode(slug) slug.to_i end
   def self.encode(id) FORMAT % id end
+end
+
+Rails.application.config.middleware.tap do |stack|
+  stack.insert_before Rails::Rack::Logger, AccountSlug::Extractor
 end

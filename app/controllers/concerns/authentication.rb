@@ -52,7 +52,9 @@ module Authentication
     end
 
     def request_authentication
-      session[:return_to_after_authenticating] = request.url
+      if request_account_id.present?
+        session[:return_to_after_authenticating] = request.url
+      end
 
       redirect_to_login_url
     end
@@ -80,5 +82,9 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_token)
+    end
+
+    def request_account_id
+      request.env["fizzy.external_account_id"]
     end
 end

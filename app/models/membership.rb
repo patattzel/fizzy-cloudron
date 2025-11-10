@@ -15,8 +15,12 @@ class Membership < ApplicationRecord
     end
   end
 
+  def account
+    Account.find_by_external_account_id(tenant)
+  end
+
   def account_name
-    Current.account.name
+    account&.name
   end
 
   def user

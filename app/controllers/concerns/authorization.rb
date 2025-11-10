@@ -2,7 +2,8 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    before_action :ensure_can_access_account, if: -> { authenticated? }
+    prepend_before_action :set_account, if: -> { request_account_id.present? }
+    before_action :ensure_can_access_account, if: -> { Current.account.present? && authenticated? }
   end
 
   class_methods do
@@ -17,6 +18,10 @@ module Authorization
   end
 
   private
+    def set_account
+      Current.account = Account.find_by(external_account_id: request_account_id)
+    end
+
     def ensure_admin
       head :forbidden unless Current.user.admin?
     end
@@ -26,7 +31,10 @@ module Authorization
     end
 
     def ensure_can_access_account
-      if Current.membership.blank?
+      if Current.account.nil?
+        redirect_to session_menu_url(script_name: nil)
+      elsif Current.membership.blank?
+        Rails.logger.debug "MIKE: blank membership, session is #{Current.session.inspect}"
         redirect_to session_menu_url(script_name: nil)
       elsif Current.user.nil? && Current.membership.join_code.present?
         redirect_to new_users_join_path
