@@ -6,17 +6,16 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "page_title_tag on untenanted page" do
-    ApplicationRecord.without_tenant do
-      assert_select parse(page_title_tag), "title", text: "Fizzy"
-    end
+    Current.account = nil
+
+    assert_select parse(page_title_tag), "title", text: "Fizzy"
   end
 
   test "page_title_tag on untenanted page with a page title" do
     @page_title = "Holodeck"
+    Current.account = nil
 
-    ApplicationRecord.without_tenant do
-      assert_select parse(page_title_tag), "title", text: "Holodeck | Fizzy"
-    end
+    assert_select parse(page_title_tag), "title", text: "Holodeck | Fizzy"
   end
 
   test "page_title_tag on tenanted page when user has a single membership" do

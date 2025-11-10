@@ -3,7 +3,7 @@ require "test_helper"
 class Users::JoinsControllerTest < ActionDispatch::IntegrationTest
   test "new" do
     identity = Identity.create!(email_address: "new.user@example.com")
-    identity.memberships.create(tenant: ApplicationRecord.current_tenant, join_code: Account::JoinCode.sole.code)
+    identity.memberships.create(tenant: Current.account.external_account_id, join_code: Account::JoinCode.sole.code)
     sign_in_as identity
 
     get new_users_join_path
@@ -12,7 +12,7 @@ class Users::JoinsControllerTest < ActionDispatch::IntegrationTest
 
   test "new with invalid params" do
     identity = Identity.create!(email_address: "new.user@example.com")
-    membership = identity.memberships.create(tenant: ApplicationRecord.current_tenant, join_code: "PHONY")
+    membership = identity.memberships.create(tenant: Current.account.external_account_id, join_code: "PHONY")
     sign_in_as identity
 
     get new_users_join_path
@@ -21,7 +21,7 @@ class Users::JoinsControllerTest < ActionDispatch::IntegrationTest
 
   test "create" do
     identity = Identity.create!(email_address: "newart.userbaum@example.com")
-    identity.memberships.create(tenant: ApplicationRecord.current_tenant, join_code: Account::JoinCode.sole.code)
+    identity.memberships.create(tenant: Current.account.external_account_id, join_code: Account::JoinCode.sole.code)
     sign_in_as identity
 
     assert_difference -> { User.count }, +1 do

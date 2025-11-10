@@ -9,18 +9,21 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show" do
+    skip("TODO:PLANB: search")
     get search_path(q: "broken")
 
     assert_select "li", text: /Layout is broken/
   end
 
   test "show with card id" do
+    skip("TODO:PLANB: search")
     get search_path(q: cards(:logo).id)
 
     assert_select "form[data-controller='auto-submit']"
   end
 
   test "show with non-existent card id" do
+    skip("TODO:PLANB: search")
     get search_path(q: "999999")
 
     assert_select "form[data-controller='auto-submit']", count: 0

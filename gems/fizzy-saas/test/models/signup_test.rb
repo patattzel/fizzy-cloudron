@@ -1,10 +1,6 @@
 require "test_helper"
 
 class SignupTest < ActiveSupport::TestCase
-  setup do
-    @starting_tenants = ApplicationRecord.tenants
-  end
-
   test "#create_identity" do
     signup = Signup.new(email_address: "brian@example.com")
 

@@ -2,7 +2,7 @@ require "test_helper"
 
 class JoinCodesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @tenant = ApplicationRecord.current_tenant
+    @tenant = accounts("37s").external_account_id
     @join_code = account_join_codes(:sole)
   end
 
