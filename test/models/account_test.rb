@@ -8,7 +8,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "slug" do
-    account = Account.sole
+    account = Current.account
     assert_equal "/#{ApplicationRecord.current_tenant}", account.slug
   end
 

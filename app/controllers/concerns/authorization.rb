@@ -2,7 +2,7 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    before_action :ensure_can_access_account, if: -> { ApplicationRecord.current_tenant && authenticated? }
+    before_action :ensure_can_access_account, if: -> { authenticated? }
   end
 
   class_methods do

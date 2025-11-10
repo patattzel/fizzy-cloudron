@@ -1,5 +1,4 @@
 class Memberships::UnlinkController < ApplicationController
-  require_untenanted_access
   before_action :set_membership
 
   def show

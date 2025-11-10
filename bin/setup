@@ -42,8 +42,8 @@ needs_seeding() {
     return 1
   fi
 
-  has_tenant=$(bin/rails runner "pp ApplicationRecord.tenants.any? { ApplicationRecord.with_tenant(_1) { Account.sole } }" 2>/dev/null)
-  if [ "$has_tenant" = "true" ]; then
+  has_data=$(bin/rails runner "pp Account.all.any?" 2>/dev/null)
+  if [ "$has_data" = "true" ] ; then
     return 1
   else
     return 0

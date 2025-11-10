@@ -1,5 +1,5 @@
 {
-  "name": <%= [ "Fizzy", Account.sole.name, Rails.env.production? ? nil : Rails.env ].compact.join(" - ").to_json.html_safe %>,
+  "name": <%= [ "Fizzy", Current.account.name, Rails.env.production? ? nil : Rails.env ].compact.join(" - ").to_json.html_safe %>,
   "icons": [
     {
       "src": "/app-icon-192.png",

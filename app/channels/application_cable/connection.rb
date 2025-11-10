@@ -10,8 +10,9 @@ module ApplicationCable
     private
       def set_current_user
         if session = find_session_by_cookie
-          membership = session.identity.memberships.find_by!(tenant: current_tenant)
-          self.current_user = membership.user if membership.user.active?
+          # # TODO:PLANB: not sure how to fix this
+          # membership = session.identity.memberships.find_by!(tenant: current_tenant)
+          # self.current_user = membership.user if membership.user.active?
         end
       end
 

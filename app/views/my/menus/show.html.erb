@@ -61,7 +61,7 @@
       <% end %>
     <% end %>
 
-    <%= turbo_frame_tag Current.identity, :account_menu, src: session_menu_url(script_name: nil, menu_section: true, without: ApplicationRecord.current_tenant) %>
+    <%= turbo_frame_tag Current.identity, :account_menu, src: session_menu_url(script_name: nil, menu_section: true, without: Current.account.id) %>
   <% end %>
 
   <footer class="nav__footer">

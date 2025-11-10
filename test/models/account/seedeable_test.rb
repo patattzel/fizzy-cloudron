@@ -2,7 +2,7 @@ require "test_helper"
 
 class Account::SedeableTest < ActiveSupport::TestCase
   setup do
-    @account = Account.sole
+    @account = Current.account
   end
 
   test "setup_customer_template adds boards, cards, and comments" do

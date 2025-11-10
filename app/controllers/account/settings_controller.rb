@@ -13,7 +13,7 @@ class Account::SettingsController < ApplicationController
 
   private
     def set_account
-      @account = Account.sole
+      @account = Current.account
     end
 
     def account_params

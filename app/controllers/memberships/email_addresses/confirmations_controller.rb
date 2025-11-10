@@ -1,5 +1,4 @@
 class Memberships::EmailAddresses::ConfirmationsController < ApplicationController
-  require_untenanted_access
   allow_unauthenticated_access
 
   before_action :set_membership

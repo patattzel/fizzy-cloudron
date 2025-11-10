@@ -16,14 +16,11 @@ class Membership < ApplicationRecord
   end
 
   def account_name
-    ApplicationRecord.with_tenant(tenant) { Account.sole.name }
-  rescue ActiveRecord::Tenanted::TenantDoesNotExistError, ActiveRecord::RecordNotFound
-    nil
+    Current.account.name
   end
 
   def user
-    ApplicationRecord.with_tenant(tenant) { User.find_by(membership_id: id) }
-  rescue ActiveRecord::Tenanted::TenantDoesNotExistError
-    nil
+    # TODO:PLANB: should this find should be scoped by account?
+    User.find_by(membership_id: id)
   end
 end
