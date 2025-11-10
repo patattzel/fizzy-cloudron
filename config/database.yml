@@ -12,12 +12,12 @@ default: &default
 development:
   primary:
     <<: *default
-    adapter: <%= %w[1 true].include?(ENV["BEAMER"]&.downcase) ? "beamer" : "sqlite3" %>
+    adapter: sqlite3
     database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
     tenanted: true
   untenanted:
     <<: *default
-    adapter: <%= %w[1 true].include?(ENV["BEAMER"]&.downcase) ? "beamer" : "sqlite3" %>
+    adapter: sqlite3
     database: storage/untenanted/development.sqlite3
     migrations_paths: db/untenanted_migrate
   cable:
@@ -49,12 +49,12 @@ test:
 production: &production
   primary:
     <<: *default
-    adapter: beamer
+    adapter: sqlite3
     database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
     tenanted: true
   untenanted:
     <<: *default
-    adapter: beamer
+    adapter: sqlite3
     database: storage/untenanted/<%= Rails.env %>.sqlite3
     migrations_paths: db/untenanted_migrate
   cable:
