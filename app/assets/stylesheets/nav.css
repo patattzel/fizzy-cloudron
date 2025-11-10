@@ -58,15 +58,16 @@
     --panel-padding: var(--block-space) var(--block-space) 0 var(--block-space);
     --panel-size: 45ch;
     --popup-display: grid;
+    --nav-section-gap: 2px;
 
-    align-items: stretch;
+    block-size: auto;
     box-shadow: 0 0 0 1px oklch(var(--lch-blue-medium) / 5%),
                 0 0.2em 0.2em oklch(var(--lch-blue-medium) / 5%),
                 0 0.4em 0.4em oklch(var(--lch-blue-medium) / 5%),
                 0 0.8em 0.8em oklch(var(--lch-blue-medium) / 5%);
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 2px;
+    gap: var(--nav-section-gap);
     overflow: hidden;
     scrollbar-gutter: stable both-edges;
   }
@@ -74,10 +75,11 @@
   .nav__scroll-container {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    margin-inline: -1ch;
+    gap: var(--nav-section-gap);
+    margin-inline: calc(-1 * var(--block-space)); /* space for scrollbar */
     overflow: auto;
-    padding-inline: 1ch; /* room for scrollbar */
+    padding-block-end: var(--nav-section-gap);
+    padding-inline: var(--block-space);
   }
 
   .nav__close {
@@ -156,7 +158,7 @@
     border-block-start: 1px solid var(--color-ink-lighter);
     font-size: var(--text-small);
     line-height: 1.6;
-    margin-block-start: var(--block-space-half);
+    margin-block-start: calc(-1 * var(--nav-section-gap));
     padding: 1.5ch;
     text-align: center;
     z-index: 1;
