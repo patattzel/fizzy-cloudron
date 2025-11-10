@@ -35,7 +35,7 @@ require_relative "../config/environment"
 tenant = ActiveRecord::FixtureSet.identify(identifier)
 
 ApplicationRecord.with_tenant(tenant) do |tenant|
-  Account.sole.destroy!
+  Current.account.destroy!
 
   Account.create_with_admin_user \
     account: { name: "Company #{identifier}" },
@@ -48,6 +48,6 @@ ApplicationRecord.with_tenant(tenant) do |tenant|
     board.accesses.grant_to(user)
   end
 
-  url = Rails.application.routes.url_helpers.root_url(Rails.application.config.action_controller.default_url_options.merge(script_name: Account.sole.slug))
+  url = Rails.application.routes.url_helpers.root_url(Rails.application.config.action_controller.default_url_options.merge(script_name: Current.account.slug))
   puts "\n\nLogin to #{url} as #{user.email_address} / secret123456"
 end

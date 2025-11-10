@@ -1,7 +1,7 @@
 module ApplicationHelper
   def page_title_tag
-    account_name = if ApplicationRecord.current_tenant && Current.session&.identity&.memberships&.many?
-      Account.sole&.name
+    account_name = if Current.account && Current.session&.identity&.memberships&.many?
+      Current.account&.name
     end
     tag.title [ @page_title, account_name, "Fizzy" ].compact.join(" | ")
   end

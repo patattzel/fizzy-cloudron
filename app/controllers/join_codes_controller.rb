@@ -1,5 +1,4 @@
 class JoinCodesController < ApplicationController
-  require_untenanted_access
   allow_unauthenticated_access
   before_action :set_join_code
   before_action :ensure_join_code_is_valid
@@ -7,7 +6,7 @@ class JoinCodesController < ApplicationController
   layout "public"
 
   def new
-    @account_name = ApplicationRecord.with_tenant(tenant) { Account.sole.name }
+    @account_name = Current.account.name
   end
 
   def create
@@ -30,7 +29,8 @@ class JoinCodesController < ApplicationController
     end
 
     def set_join_code
-      @join_code ||= ApplicationRecord.with_tenant(tenant) { Account::JoinCode.active.find_by(code: code) }
+      # TODO:PLANB: this find should be scoped by account
+      @join_code ||= Account::JoinCode.active.find_by(code: code)
     end
 
     def tenant

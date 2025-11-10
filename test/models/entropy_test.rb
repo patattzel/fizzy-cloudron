@@ -8,7 +8,7 @@ class Entropy::Test < ActiveSupport::TestCase
   end
 
   test "touch cards when entropy changes for account container" do
-    account = Account.sole
+    account = Current.account
 
     assert_changes -> { account.cards.first.updated_at } do
       boards(:writebook).entropy.update!(auto_postpone_period: 15.days)

@@ -27,9 +27,8 @@ def create_tenant(signal_account_name)
         membership: membership
       }
     )
+    Current.account = account
   end
-
-  ApplicationRecord.current_tenant = tenant_id
 end
 
 def find_or_create_user(full_name, email_address)

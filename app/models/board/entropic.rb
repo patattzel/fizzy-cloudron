@@ -7,7 +7,7 @@ module Board::Entropic
   end
 
   def entropy
-    super || Account.sole.entropy
+    super || Current.account.entropy
   end
 
   def auto_postpone_period=(new_value)
