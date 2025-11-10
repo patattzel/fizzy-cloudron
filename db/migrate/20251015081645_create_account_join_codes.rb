@@ -10,9 +10,10 @@ class CreateAccountJoinCodes < ActiveRecord::Migration[8.1]
 
     reversible do |dir|
       dir.up do
+        # MySQL uses NOW() instead of SQLite's datetime('now')
         execute <<-SQL
           INSERT INTO account_join_codes (code, usage_count, usage_limit, created_at, updated_at)
-          SELECT join_code, 0, 10, datetime('now'), datetime('now')
+          SELECT join_code, 0, 10, NOW(), NOW()
           FROM accounts
           WHERE join_code IS NOT NULL;
         SQL

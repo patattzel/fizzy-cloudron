@@ -3,9 +3,10 @@ class MoveEmailToIdentity < ActiveRecord::Migration[8.1]
     add_column :identities, :email_address, :string
 
     # Create identities for each unique email
+    # MySQL uses NOW() instead of SQLite's datetime('now')
     execute <<-SQL
       INSERT INTO identities (email_address, created_at, updated_at)
-      SELECT DISTINCT email_address, datetime('now'), datetime('now')
+      SELECT DISTINCT email_address, NOW(), NOW()
       FROM memberships
       WHERE email_address IS NOT NULL
         AND email_address NOT IN (SELECT email_address FROM identities WHERE email_address IS NOT NULL);

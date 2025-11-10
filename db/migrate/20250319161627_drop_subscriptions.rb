@@ -3,10 +3,12 @@ class DropSubscriptions < ActiveRecord::Migration[8.1]
     execute "
       update accesses set involvement = 'access_only'
     "
+    # MySQL uses JOIN syntax for multi-table updates
     execute "
-      update accesses set involvement = 'watching'
-      from (select user_id, subscribable_id as bucket_id from subscriptions) as subscriptions
-      where subscriptions.user_id = accesses.user_id and subscriptions.bucket_id = accesses.bucket_id
+      update accesses
+      join (select user_id, subscribable_id as bucket_id from subscriptions) as subscriptions
+        on subscriptions.user_id = accesses.user_id and subscriptions.bucket_id = accesses.bucket_id
+      set accesses.involvement = 'watching'
     "
 
     drop_table :subscriptions

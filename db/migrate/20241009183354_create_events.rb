@@ -3,7 +3,7 @@ class CreateEvents < ActiveRecord::Migration[8.0]
     create_table :events do |t|
       t.references :bubble, null: false, index: false
       t.references :creator, null: false
-      t.json :particulars, default: {}
+      t.column :particulars, :json, default: -> { '(JSON_OBJECT())' }
       t.string :action, null: false
 
       t.timestamps

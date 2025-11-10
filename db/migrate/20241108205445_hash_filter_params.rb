@@ -1,7 +1,10 @@
 class HashFilterParams < ActiveRecord::Migration[8.0]
   def change
-    change_column_default :filters, :params, from: {}, to: nil
-    change_column :filters, :params, :string, null: false
-    rename_column :filters, :params, :params_digest
+    remove_index :filters, %i[ creator_id params_hash ], unique: true
+    remove_column :filters, :params_hash
+    remove_column :filters, :params
+
+    add_column :filters, :params_digest, :string, null: false
+    add_index :filters, %i[ creator_id params_digest ], unique: true
   end
 end
