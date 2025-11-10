@@ -46,10 +46,6 @@ class User::DayTimeline
   end
 
   private
-    def build_column(base_title, index, events)
-      Column.new(self, base_title, index, events)
-    end
-
     TIMELINEABLE_ACTIONS = %w[
       card_assigned
       card_unassigned
@@ -84,6 +80,10 @@ class User::DayTimeline
 
     def latest_event_before
       filtered_events.where(created_at: ...day.beginning_of_day).chronologically.last
+    end
+
+    def build_column(base_title, index, events)
+      Column.new(self, base_title, index, events)
     end
 
     def window
