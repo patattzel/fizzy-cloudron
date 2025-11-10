@@ -16,7 +16,7 @@ module AccountSlug
       # $1, $2, $' == script_name, slug, path_info
       if request.script_name && request.script_name =~ PATH_INFO_MATCH
         # Likely due to restarting the action cable connection after upgrade
-        AccountSlug.decode($2)
+        env["fizzy.external_account_id"] = AccountSlug.decode($2)
       elsif request.path_info =~ PATH_INFO_MATCH
         # Yanks the prefix off PATH_INFO and move it to SCRIPT_NAME
         request.engine_script_name = request.script_name = $1

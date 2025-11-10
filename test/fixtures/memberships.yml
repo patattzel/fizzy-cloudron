@@ -1,12 +1,12 @@
 # TODO:PLANB: not sure what to set membership tenant to right now
 david_in_37signals:
   identity: david
-  tenant: 1 # <%# Rails.application.config.active_record_tenanted.default_tenant %>
+  tenant: <%= ActiveRecord::FixtureSet.identify("37signals") %> # matches the external_account_id
 
 jz_in_37signals:
   identity: jz
-  tenant: 2 # <%# Rails.application.config.active_record_tenanted.default_tenant %>
+  tenant: <%= ActiveRecord::FixtureSet.identify("37signals") %> # matches the external_account_id
 
 kevin_in_37signals:
   identity: kevin
-  tenant: 3 # <%# Rails.application.config.active_record_tenanted.default_tenant %>
+  tenant: <%= ActiveRecord::FixtureSet.identify("37signals") %> # matches the external_account_id

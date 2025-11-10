@@ -22,7 +22,7 @@ class Account < ApplicationRecord
   end
 
   def slug
-    "/#{tenant}"
+    "/#{external_account_id}"
   end
 
   private

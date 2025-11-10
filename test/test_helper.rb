@@ -47,18 +47,17 @@ module ActiveSupport
   end
 end
 
-# # TODO:PLANB: not sure if we need these anymore
-# class ActionDispatch::IntegrationTest
-#   setup do
-#     integration_session.default_url_options[:script_name] = "/#{Current.account.slug}"
-#   end
-# end
+class ActionDispatch::IntegrationTest
+  setup do
+    integration_session.default_url_options[:script_name] = "/#{ActiveRecord::FixtureSet.identify("37signals")}"
+  end
+end
 
-# class ActionDispatch::SystemTestCase
-#   setup do
-#     self.default_url_options[:script_name] = "/#{ApplicationRecord.current_tenant}"
-#   end
-# end
+class ActionDispatch::SystemTestCase
+  setup do
+    self.default_url_options[:script_name] = "/#{ActiveRecord::FixtureSet.identify("37signals")}"
+  end
+end
 
 unless Rails.application.config.x.oss_config
   load File.expand_path("../gems/fizzy-saas/test/test_helper.rb", __dir__)
