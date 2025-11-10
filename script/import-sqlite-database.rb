@@ -22,17 +22,17 @@ class Import
     setup_account
 
     ActiveRecord::Base.no_touching do
-      Event.suppress do
-        Current.with(account: account) do
-          Webhook.skip_callback(:create, :after, :create_delinquency_tracker!)
-          Comment.skip_callback(:commit, :after, :watch_card_by_creator)
-          Mention.skip_callback(:commit, :after, :watch_source_by_mentionee)
-          Notification.skip_callback(:commit, :after, :broadcast_unread)
-          Notification.skip_callback(:create, :after, :bundle)
-          Reaction.skip_callback(:create, :after, :register_card_activity)
-          Card.skip_callback(:save, :before, :set_default_title)
-          Card.skip_callback(:update, :after, :handle_board_change)
+      Current.with(account: account) do
+        Webhook.skip_callback(:create, :after, :create_delinquency_tracker!)
+        Comment.skip_callback(:commit, :after, :watch_card_by_creator)
+        Mention.skip_callback(:commit, :after, :watch_source_by_mentionee)
+        Notification.skip_callback(:commit, :after, :broadcast_unread)
+        Notification.skip_callback(:create, :after, :bundle)
+        Reaction.skip_callback(:create, :after, :register_card_activity)
+        Card.skip_callback(:save, :before, :set_default_title)
+        Card.skip_callback(:update, :after, :handle_board_change)
 
+        Event.suppress do
           # copy_entropies
           copy_users
           copy_boards
@@ -48,13 +48,14 @@ class Import
           copy_pins
           copy_webhooks
           copy_push_subscriptions
-          copy_notifications
-          copy_notification_bundles
           copy_filters
-          copy_events
-
-          fix_links
         end
+
+        copy_events
+        copy_notifications
+        copy_notification_bundles
+
+        fix_links
       end
     end
 
@@ -282,6 +283,7 @@ class Import
     def copy_comments
       puts "⏩ Copying comments"
       mapping[:comments] ||= {}
+
       import.comments.find_each do |old_comment|
         new_comment = Comment.create!(
           account_id: account.id,
@@ -301,9 +303,9 @@ class Import
     def copy_mentions
       puts "⏩ Copying mentions"
       mapping[:mentions] ||= {}
+
       import.mentions.find_each do |old_mention|
         new_mention = Mention.create!(
-          account_id: account.id,
           source_type: old_mention.source_type,
           source_id: mapping[old_mention.source_type.tableize.to_sym][old_mention.source_id],
           mentioner_id: mapping[:users][old_mention.mentioner_id],
@@ -319,6 +321,8 @@ class Import
 
     def copy_accesses
       puts "⏩ Copying accesses"
+      mapping[:accesses] ||= {}
+
       import.accesses.find_each do |old_access|
         new_access = Access.find_or_create_by!(
           board_id: mapping[:boards][old_access.board_id],
@@ -330,7 +334,6 @@ class Import
           access.updated_at = old_access.updated_at
         end
 
-        mapping[:accesses] ||= {}
         mapping[:accesses][old_access.id] = new_access.id
       end
       puts "✅ Copied #{mapping[:accesses].size} accesses"
@@ -341,12 +344,12 @@ class Import
       mapping[:notifications] ||= {}
 
       import.notifications.find_each do |old_notification|
-        new_notification = Notification.create!(
+        new_notification = Notification.find_or_create_by!(
           account_id: account.id,
           user_id: mapping[:users][old_notification.user_id],
           creator_id: old_notification.creator_id ? mapping[:users][old_notification.creator_id] : nil,
           source_type: old_notification.source_type,
-          source_id: mapping[old_notification.source_type.tableize.to_sym][old_notification.source_id],
+          source_id: mapping.fetch(old_notification.source_type.tableize.to_sym)[old_notification.source_id],
           read_at: old_notification.read_at,
           created_at: old_notification.created_at,
           updated_at: old_notification.updated_at
@@ -443,6 +446,8 @@ class Import
 
     def copy_events
       puts "⏩ Copying events"
+      mapping[:events] ||= {}
+
       import.events.find_each do |old_event|
         new_event = Event.create!(
           account_id: account.id,
@@ -456,7 +461,6 @@ class Import
           updated_at: old_event.updated_at
         )
 
-        mapping[:events] ||= {}
         mapping[:events][old_event.id] = new_event.id
       end
       puts "✅ Copied #{mapping[:events].size} events"
@@ -514,7 +518,6 @@ class Import
       mapping[:reactions] ||= {}
       import.reactions.find_each do |old_reaction|
         new_reaction = Reaction.create!(
-          account_id: account.id,
           comment_id: mapping[:comments][old_reaction.comment_id],
           reacter_id: mapping[:users][old_reaction.reacter_id],
           content: old_reaction.content,
