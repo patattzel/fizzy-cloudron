@@ -12,6 +12,6 @@ module User::Accessor
 
   private
     def grant_access_to_boards
-      Access.insert_all Board.all_access.pluck(:id).collect { |board_id| { board_id: board_id, user_id: id } }
+      Access.insert_all account.boards.all_access.pluck(:id).collect { |board_id| { board_id: board_id, user_id: id } }
     end
 end

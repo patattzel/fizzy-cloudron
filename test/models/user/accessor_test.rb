@@ -5,7 +5,7 @@ class User::AccessorTest < ActiveSupport::TestCase
     user = User.create!(name: "Jorge")
 
     assert_includes user.boards, boards(:writebook)
-    assert_equal Board.all_access.count, user.boards.count
+    assert_equal user.account.boards.all_access.count, user.boards.count
   end
 
   test "system user does not get added to boards on creation" do
