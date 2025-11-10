@@ -29,11 +29,27 @@ class User::DayTimeline
     day.yesterday.beginning_of_day
   end
 
+  def added_column
+    @added_column ||= build_column("Added", 1, events.where(action: %w[card_published card_reopened]))
+  end
+
+  def updated_column
+    @updated_column ||= build_column("Updated", 2, events.where.not(action: %w[card_published card_closed card_reopened]))
+  end
+
+  def closed_column
+    @closed_column ||= build_column("Closed", 3, events.where(action: "card_closed"))
+  end
+
   def cache_key
     ActiveSupport::Cache.expand_cache_key [ user, filter, day.to_date, events ], "day-timeline"
   end
 
   private
+    def build_column(base_title, index, events)
+      Column.new(self, base_title, index, events)
+    end
+
     TIMELINEABLE_ACTIONS = %w[
       card_assigned
       card_unassigned
