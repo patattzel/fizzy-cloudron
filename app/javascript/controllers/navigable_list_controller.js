@@ -80,13 +80,9 @@ export default class extends Controller {
       selectedItem.setAttribute(this.selectionAttributeValue, "true")
       this.currentItem = selectedItem
       await nextFrame()
-      // Ensure the selected item is visible inside any scrollable container.
-      // Use 'nearest' so we avoid jumping the viewport unnecessarily.
       try {
         this.currentItem.scrollIntoView({ block: "nearest", inline: "nearest" })
-      } catch (e) {
-        // scrollIntoView may not be supported in older environments; ignore.
-      }
+      } catch (e) {}
 
       if (this.focusOnSelectionValue) { this.currentItem.focus() }
       if (this.hasInputTarget && id) {
