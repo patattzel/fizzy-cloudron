@@ -10,7 +10,6 @@ gem "stimulus-rails"
 gem "turbo-rails"
 
 # Deployment and drivers
-gem "activerecord-tenanted", bc: "activerecord-tenanted"
 gem "bootsnap", require: false
 gem "kamal", require: false
 gem "puma", ">= 5.0"

@@ -15,31 +15,11 @@ module AccountSlug
       request.engine_script_name = request.script_name = $1
       request.path_info   = $'.empty? ? "/" : $'
 
-      # Return the account id for tenanting.
+      # Return the account id
       AccountSlug.decode($2)
     end
   end
 
   def self.decode(slug) slug.to_i end
   def self.encode(id) FORMAT % id end
-
-  def self.creation_request?(request)
-    if defined?(Fizzy::Saas) && request.post?
-      path = Fizzy::Saas::Engine.routes.url_helpers.signup_completion_path
-      request.path_info =~ /\A\/#{PATTERN}#{Regexp.escape(path)}\Z/
-    else
-      false
-    end
-  end
-end
-
-Rails.application.config.after_initialize do
-  Rails.application.config.active_record_tenanted.tenant_resolver = ->(request) do
-    if AccountSlug.creation_request?(request)
-      AccountSlug.extract(request)
-      nil
-    else
-      AccountSlug.extract(request)
-    end
-  end
 end

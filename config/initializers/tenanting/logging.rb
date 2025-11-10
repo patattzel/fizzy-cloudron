@@ -1,3 +1,4 @@
-ActiveSupport.on_load(:action_controller_base) do
-  before_action { logger.struct tenant: ApplicationRecord.current_tenant }
-end
+# # TODO:PLANB: we should log account id
+# ActiveSupport.on_load(:action_controller_base) do
+#   before_action { logger.struct tenant: ApplicationRecord.current_tenant }
+# end

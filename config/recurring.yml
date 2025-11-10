@@ -25,9 +25,6 @@ production: &production
   cleanup_magic_links:
     command: "MagicLink.cleanup"
     schedule: every 4 hours
-  sqlite_backups:
-    class: SQLiteBackupsJob
-    schedule: every day at 05:02
 
   # Metrics
   yabeda_actioncable:

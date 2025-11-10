@@ -2,8 +2,6 @@ class Notification::Bundle::DeliverAllJob < ApplicationJob
   queue_as :backend
 
   def perform
-    ApplicationRecord.with_each_tenant do |tenant|
-      Notification::Bundle.deliver_all
-    end
+    Notification::Bundle.deliver_all
   end
 end
