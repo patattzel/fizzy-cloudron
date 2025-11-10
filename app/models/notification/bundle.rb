@@ -1,5 +1,5 @@
 class Notification::Bundle < ApplicationRecord
-  belongs_to :account, default: -> { Current.account }
+  belongs_to :account, default: -> { user.account }
   belongs_to :user
 
   enum :status, %i[ pending processing delivered ]
