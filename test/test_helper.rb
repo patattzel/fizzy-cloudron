@@ -5,6 +5,7 @@ require "rails/test_help"
 require "webmock/minitest"
 require "vcr"
 require "mocha/minitest"
+require "turbo/broadcastable/test_helper"
 
 WebMock.allow_net_connect!
 
