@@ -72,6 +72,9 @@
   }
 
   .nav__scroll-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     margin-inline: -1ch;
     overflow: auto;
     padding-inline: 1ch; /* room for scrollbar */
