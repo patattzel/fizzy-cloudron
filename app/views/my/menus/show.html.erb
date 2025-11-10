@@ -65,6 +65,6 @@
   <%= turbo_frame_tag Current.identity, :account_menu, src: session_menu_url(script_name: nil, menu_section: true, without: ApplicationRecord.current_tenant) %>
 
   <footer class="nav__footer">
-    <strong><%= link_to "https://www.fizzy.do", "Fizzy", class: "txt-ink" %></strong> is designed, built, and backed by <strong class="txt-nowrap"><%= icon_tag "37signals", class: "v-align-middle" %> <a href="https://37signals.com" target="_blank" class="txt-ink">37signals</a></strong>
+    <strong><%= link_to "Fizzy", "https://www.fizzy.do", class: "txt-ink", target: "_blank" %></strong> is designed, built, and backed by <strong class="txt-nowrap"><%= icon_tag "37signals", class: "v-align-middle", target: "_blank" %> <a href="https://37signals.com" target="_blank" class="txt-ink">37signals</a></strong>
   </footer>
 <% end %>
