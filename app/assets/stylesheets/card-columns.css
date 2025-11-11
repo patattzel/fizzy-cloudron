@@ -45,7 +45,7 @@
       min-block-size: 20lh;
     }
 
-    @media (max-width: 639px) {
+    @media (max-width: 519px) {
       --bubble-size: 3rem;
 
       display: none;
@@ -744,9 +744,9 @@
     --progress-max-cards: 20;
     --progress-max-width: 100%;
 
-    padding-inline: 1ch;
+    padding-inline: 3vw;
 
-    @media (min-width: 640px) {
+    @media (min-width: 520px) {
       display: none;
     }
 
