@@ -9,6 +9,10 @@ development:
   primary:
     <<: *default
     database: fizzy_development
+  replica:
+    <<: *default
+    database: fizzy_development
+    replica: true
   cable:
     <<: *default
     database: development_cable
@@ -29,6 +33,10 @@ test:
   primary:
     <<: *default
     database: fizzy_test
+  replica:
+    <<: *default
+    database: fizzy_test
+    replica: true
 
 production: &production
   primary:
