@@ -15,7 +15,10 @@
       <%= general_prompts(@card.board) %>
     <% end %>
 
-    <%= form.button "Save changes", type: :submit, class: "btn btn--reversed fit-content txt-small" %>
+    <%= form.button type: :submit, class: "btn btn--reversed fit-content txt-small", data: { form_target: "submit" } do %>
+      <span>Save changes</span>
+      <kbd class="txt-x-small hide-on-touch"><%= hotkey_label([ "ctrl", "enter" ]) %></kdb>
+    <% end %>
     <%= link_to "Close editor and discard changes", @card, data: { form_target: "cancel" }, hidden: true %>
   <% end %>
 <% end %>

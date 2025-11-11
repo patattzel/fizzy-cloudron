@@ -10,7 +10,10 @@
       </div>
     <% end %>
 
-    <%= link_to "Edit", edit_card_path(card), class: "btn fit-content txt-small" %>
+    <%= link_to edit_card_path(card), class: "btn fit-content txt-small", data: { controller: "hotkey", action: "keydown.e@document->hotkey#click" } do %>
+      <span>Edit</span>
+      <kbd class="txt-x-small hide-on-touch">e</kbd>
+    <% end %>
   <% end %>
 <% else %>
   <%= form_with model: card, id: "card_form", data: { controller: "autoresize auto-save" } do |form| %>
