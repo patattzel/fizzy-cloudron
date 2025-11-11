@@ -1,0 +1,41 @@
+<section class="mobile-card-columns">
+
+  <div class="cards cards--on-deck is-collapsed" style="--card-color: var(--color-card-complete);">
+    <div class="cards__expander btn btn--plain" style="--card-count: 0">
+      <span class="cards__expander-count">0</span>
+      <h2 class="cards__expander-title">
+        Not Now
+      </h2>
+    </div>
+  </div>
+
+  <div class="cards cards--considering is-collapsed">
+    <div class="cards__expander btn btn--plain" style="--card-count: 0">
+      <span class="cards__expander-count">0</span>
+      <h2 class="cards__expander-title">
+        Maybe?
+      </h2>
+    </div>
+  </div>
+
+  <% board.columns.sorted.each do |column| %>
+    <div class="cards cards--doing is-collapsed" style="--card-color: <%= column.color %>;">
+      <div class="cards__expander btn btn--plain" style="--card-count: 0">
+        <span class="cards__expander-count">0</span>
+        <h2 class="cards__expander-title">
+          <%= column.name %>
+        </h2>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="cards cards--on-deck is-collapsed" style="--card-color: var(--color-card-complete);">
+    <div class="cards__expander btn btn--plain" style="--card-count: 0">
+      <span class="cards__expander-count">0</span>
+      <h2 class="cards__expander-title">
+        Done
+      </h2>
+    </div>
+  </div>
+
+</section>
