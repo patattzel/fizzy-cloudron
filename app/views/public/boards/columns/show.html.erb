@@ -2,7 +2,7 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to published_board_path(@column.board), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
+    <%= link_to published_board_url(@column.board), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
       <span class="flex align-center">
         <strong class="overflow-ellipsis">Back to <%= @column.board.name %></strong>
         <kbd class="txt-x-small hide-on-touch margin-inline-start">&larr;</kbd>
