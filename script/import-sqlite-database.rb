@@ -100,6 +100,10 @@ class Import
       result
     end
 
+    def generate_uuid
+      SecureRandom.uuid_v7
+    end
+
     def setup_account
       step("Setting up account", "Account set up in %{duration}") do
         oldest_admin = import.users.order(id: :asc).where(role: :admin, active: true).first
@@ -229,8 +233,6 @@ class Import
         mapping[:cards] ||= {}
         account.update_columns(cards_count: import.cards.maximum(:id) || 0)
 
-        next_id = (Card.maximum(:id) || 0) + 1
-
         activity_spikes_to_insert = []
         engagements_to_insert = []
         goldnesses_to_insert = []
@@ -242,8 +244,7 @@ class Import
           cards_to_insert = []
 
           batch.each do |old_card|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:cards][old_card.id] = new_id
 
             # Map old 'creating' status to 'drafted' since it's no longer a valid enum value
@@ -267,6 +268,7 @@ class Import
             old_activity_spike = old_card.activity_spike
             if old_activity_spike
               activity_spikes_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 created_at: old_activity_spike.created_at,
                 updated_at: old_activity_spike.updated_at
@@ -276,6 +278,7 @@ class Import
             old_engagement = old_card.engagement
             if old_engagement
               engagements_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 status: old_engagement.status,
                 created_at: old_engagement.created_at,
@@ -286,6 +289,7 @@ class Import
             old_goldness = old_card.goldness
             if old_goldness
               goldnesses_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 created_at: old_goldness.created_at,
                 updated_at: old_goldness.updated_at
@@ -295,6 +299,7 @@ class Import
             old_not_now = old_card.not_now
             if old_not_now
               not_nows_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 user_id: old_not_now.user_id ? mapping[:users][old_not_now.user_id] : nil,
                 created_at: old_not_now.created_at,
@@ -304,6 +309,7 @@ class Import
 
             old_card.assignments.each do |old_assignment|
               assignments_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 assignee_id: mapping[:users][old_assignment.assignee_id],
                 assigner_id: mapping[:users][old_assignment.assigner_id],
@@ -315,6 +321,7 @@ class Import
             old_closure = old_card.closure
             if old_closure
               closures_to_insert << {
+                id: generate_uuid,
                 card_id: new_id,
                 user_id: old_closure.user_id ? mapping[:users][old_closure.user_id] : nil,
                 created_at: old_closure.created_at,
@@ -368,14 +375,12 @@ class Import
     def copy_comments
       step("Copying comments", "Copied %{count} comments in %{duration}") do
         mapping[:comments] ||= {}
-        next_id = (Comment.maximum(:id) || 0) + 1
 
         import.comments.in_batches(of: 1000) do |batch|
           comments_to_insert = []
 
           batch.each do |old_comment|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:comments][old_comment.id] = new_id
 
             comments_to_insert << {
@@ -425,14 +430,12 @@ class Import
     def copy_accesses
       step("Copying accesses", "Copied %{count} accesses in %{duration}") do
         mapping[:accesses] ||= {}
-        next_id = (Access.maximum(:id) || 0) + 1
 
         import.accesses.in_batches(of: 1000) do |batch|
           accesses_to_insert = []
 
           batch.each do |old_access|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:accesses][old_access.id] = new_id
 
             accesses_to_insert << {
@@ -456,14 +459,12 @@ class Import
     def copy_notifications
       step("Copying notifications", "Copied %{count} notifications in %{duration}") do
         mapping[:notifications] ||= {}
-        next_id = (Notification.maximum(:id) || 0) + 1
 
         import.notifications.in_batches(of: 1000) do |batch|
           notifications_to_insert = []
 
           batch.each do |old_notification|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:notifications][old_notification.id] = new_id
 
             notifications_to_insert << {
@@ -489,14 +490,12 @@ class Import
     def copy_notification_bundles
       step("Copying notification bundles", "Copied %{count} notification bundles in %{duration}") do
         mapping[:notification_bundles] ||= {}
-        next_id = (Notification::Bundle.maximum(:id) || 0) + 1
 
         import.notification_bundles.in_batches(of: 1000) do |batch|
           bundles_to_insert = []
 
           batch.each do |old_bundle|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:notification_bundles][old_bundle.id] = new_id
 
             bundles_to_insert << {
@@ -542,15 +541,13 @@ class Import
     def copy_filters
       step("Copying filters", "Copied %{count} filters in %{duration}") do
         mapping[:filters] ||= {}
-        next_id = (Filter.maximum(:id) || 0) + 1
 
         # First, insert all filters
         import.filters.in_batches(of: 1000) do |batch|
           filters_to_insert = []
 
           batch.each do |old_filter|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:filters][old_filter.id] = new_id
 
             filters_to_insert << {
@@ -600,14 +597,12 @@ class Import
     def copy_events
       step("Copying events", "Copied %{count} events in %{duration}") do
         mapping[:events] ||= {}
-        next_id = (Event.maximum(:id) || 0) + 1
 
         import.events.in_batches(of: 1000) do |batch|
           events_to_insert = []
 
           batch.each do |old_event|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:events][old_event.id] = new_id
 
             events_to_insert << {
@@ -765,14 +760,12 @@ class Import
     def copy_watches
       step("Copying watches", "Copied %{count} watches in %{duration}") do
         mapping[:watches] ||= {}
-        next_id = (Watch.maximum(:id) || 0) + 1
 
         import.watches.in_batches(of: 1000) do |batch|
           watches_to_insert = []
 
           batch.each do |old_watch|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:watches][old_watch.id] = new_id
 
             watches_to_insert << {
@@ -795,14 +788,12 @@ class Import
     def copy_pins
       step("Copying pins", "Copied %{count} pins in %{duration}") do
         mapping[:pins] ||= {}
-        next_id = (Pin.maximum(:id) || 0) + 1
 
         import.pins.in_batches(of: 1000) do |batch|
           pins_to_insert = []
 
           batch.each do |old_pin|
-            new_id = next_id
-            next_id += 1
+            new_id = generate_uuid
             mapping[:pins][old_pin.id] = new_id
 
             pins_to_insert << {

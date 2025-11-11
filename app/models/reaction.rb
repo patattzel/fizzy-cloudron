@@ -1,4 +1,4 @@
-class Reaction < ApplicationRecord
+class Reaction < AccountScopedRecord
   belongs_to :comment, touch: true
   belongs_to :reacter, class_name: "User", default: -> { Current.user }
 

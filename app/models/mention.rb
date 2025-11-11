@@ -1,4 +1,4 @@
-class Mention < ApplicationRecord
+class Mention < AccountScopedRecord
   include Notifiable
 
   belongs_to :source, polymorphic: true

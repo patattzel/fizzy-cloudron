@@ -1,4 +1,4 @@
-class User::Settings < ApplicationRecord
+class User::Settings < AccountScopedRecord
   belongs_to :user
 
   enum :bundle_email_frequency, %i[ never every_few_hours daily weekly ],

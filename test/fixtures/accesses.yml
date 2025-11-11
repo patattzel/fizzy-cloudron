@@ -1,15 +1,19 @@
 writebook_david:
-  board: writebook
-  user: david
+  id: <%= ActiveRecord::FixtureSet.identify("writebook_david", :uuid) %>
+  board: writebook_uuid
+  user: david_uuid
 
 writebook_jz:
-  board: writebook
-  user: jz
+  id: <%= ActiveRecord::FixtureSet.identify("writebook_jz", :uuid) %>
+  board: writebook_uuid
+  user: jz_uuid
 
 writebook_kevin:
-  board: writebook
-  user: kevin
+  id: <%= ActiveRecord::FixtureSet.identify("writebook_kevin", :uuid) %>
+  board: writebook_uuid
+  user: kevin_uuid
 
 private_kevin:
-  board: private
-  user: kevin
+  id: <%= ActiveRecord::FixtureSet.identify("private_kevin", :uuid) %>
+  board: private_uuid
+  user: kevin_uuid

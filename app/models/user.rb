@@ -1,4 +1,4 @@
-class User < ApplicationRecord
+class User < AccountScopedRecord
   include Accessor, Assignee, Attachable, Configurable,
     Mentionable, Named, Notifiable, Role, Searcher, Watcher
   include Timelined # Depends on Accessor

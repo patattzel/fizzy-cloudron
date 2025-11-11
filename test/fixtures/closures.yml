@@ -1,3 +1,4 @@
 shipping:
-  card: shipping
-  user: kevin
+  id: <%= ActiveRecord::FixtureSet.identify("shipping_closure", :uuid) %>
+  card: shipping_uuid
+  user: kevin_uuid

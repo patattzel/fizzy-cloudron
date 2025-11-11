@@ -1,11 +1,14 @@
 37s_account:
-  container: 37s (Account)
+  id: <%= ActiveRecord::FixtureSet.identify("37s_account", :uuid) %>
+  container: 37s_uuid (Account)
   auto_postpone_period: <%= 30.days.to_i %>
 
 writebook_board:
-  container: writebook (Board)
+  id: <%= ActiveRecord::FixtureSet.identify("writebook_board", :uuid) %>
+  container: writebook_uuid (Board)
   auto_postpone_period: <%= 90.days.to_i %>
 
 private_board:
-  container: private (Board)
+  id: <%= ActiveRecord::FixtureSet.identify("private_board", :uuid) %>
+  container: private_uuid (Board)
   auto_postpone_period: <%= 30.days.to_i %>

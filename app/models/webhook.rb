@@ -1,4 +1,4 @@
-class Webhook < ApplicationRecord
+class Webhook < AccountScopedRecord
   include Triggerable
 
   SLACK_WEBHOOK_URL_REGEX = %r{//hooks\.slack\.com/services/T[^\/]+/B[^\/]+/[^\/]+\Z}i

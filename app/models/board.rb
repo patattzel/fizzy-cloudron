@@ -1,4 +1,4 @@
-class Board < ApplicationRecord
+class Board < AccountScopedRecord
   include Accessible, AutoPostponing, Broadcastable, Cards, Entropic, Filterable, Publishable, Triageable
 
   belongs_to :account, default: -> { Current.account }

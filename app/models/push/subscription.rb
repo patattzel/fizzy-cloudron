@@ -1,4 +1,4 @@
-class Push::Subscription < ApplicationRecord
+class Push::Subscription < AccountScopedRecord
   belongs_to :account, default: -> { Current.account }
   belongs_to :user
 

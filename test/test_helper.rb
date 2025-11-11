@@ -70,6 +70,25 @@ class ActionDispatch::SystemTestCase
   end
 end
 
+module FixturesTestHelper
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def identify(label, column_type = :integer)
+      if label.to_s.end_with?("_uuid")
+        label_without_suffix = label.to_s.delete_suffix("_uuid")
+        super(label_without_suffix, :uuid)
+      else
+        super(label, column_type)
+      end
+    end
+  end
+end
+
+ActiveSupport.on_load(:active_record_fixture_set) do
+  prepend(FixturesTestHelper)
+end
+
 unless Rails.application.config.x.oss_config
   load File.expand_path("../gems/fizzy-saas/test/test_helper.rb", __dir__)
 end

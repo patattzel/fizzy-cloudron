@@ -1,4 +1,4 @@
-class Account < ApplicationRecord
+class Account < AccountScopedRecord
   include Entropic, Seedeable
 
   has_one :join_code

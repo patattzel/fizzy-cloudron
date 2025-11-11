@@ -1,4 +1,4 @@
-class Access < ApplicationRecord
+class Access < AccountScopedRecord
   belongs_to :board, touch: true
   belongs_to :user, touch: true
 

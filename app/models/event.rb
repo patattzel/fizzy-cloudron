@@ -1,4 +1,4 @@
-class Event < ApplicationRecord
+class Event < AccountScopedRecord
   include Notifiable, Particulars, Promptable
 
   belongs_to :account, default: -> { Current.account }

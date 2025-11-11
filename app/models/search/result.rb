@@ -1,4 +1,4 @@
-class Search::Result < ApplicationRecord
+class Search::Result < AccountScopedRecord
   belongs_to :creator, class_name: "User"
   belongs_to :card, foreign_key: :card_id, optional: true
   belongs_to :comment, foreign_key: :comment_id, optional: true

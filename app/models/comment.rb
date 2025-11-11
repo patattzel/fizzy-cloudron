@@ -1,4 +1,4 @@
-class Comment < ApplicationRecord
+class Comment < AccountScopedRecord
   include Attachments, Eventable, Mentions, Promptable, Searchable
 
   belongs_to :account, default: -> { Current.account }

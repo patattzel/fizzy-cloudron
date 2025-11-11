@@ -1,4 +1,4 @@
-class Notification::Bundle < ApplicationRecord
+class Notification::Bundle < AccountScopedRecord
   belongs_to :account, default: -> { user.account }
   belongs_to :user
 

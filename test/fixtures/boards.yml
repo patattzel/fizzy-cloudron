@@ -1,17 +1,20 @@
 writebook:
+  id: <%= ActiveRecord::FixtureSet.identify("writebook", :uuid) %>
   name: Writebook
-  creator: david
+  creator: david_uuid
   all_access: true
-  account: 37s
+  account: 37s_uuid
 
 private:
+  id: <%= ActiveRecord::FixtureSet.identify("private", :uuid) %>
   name: Private board
-  creator: kevin
+  creator: kevin_uuid
   all_access: false
-  account: 37s
+  account: 37s_uuid
 
 staplers:
+  id: <%= ActiveRecord::FixtureSet.identify("staplers", :uuid) %>
   name: Staplers
-  creator: mike
+  creator: mike_uuid
   all_access: true
-  account: initech
+  account: initech_uuid
