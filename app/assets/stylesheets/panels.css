@@ -6,7 +6,11 @@
     color: var(--color-ink);
     inline-size: var(--panel-size, 60ch);
     max-inline-size: 100%;
-    padding: var(--panel-padding, calc(var(--block-space) * 2));
+    padding: var(--panel-padding, var(--block-space));
+
+    @media (min-width: 640px) {
+      padding: var(--panel-padding, var(--block-space-double));
+    }
   }
 
   .panel--centered {
