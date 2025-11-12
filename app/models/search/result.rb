@@ -1,6 +1,7 @@
 class Search::Result < ApplicationRecord
   attribute :card_id, :uuid
   attribute :comment_id, :uuid
+  attribute :creator_id, :uuid
 
   belongs_to :creator, class_name: "User"
   belongs_to :card, foreign_key: :card_id, optional: true
