@@ -2,7 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   def self.search_index_table_name(account_id)
-    "search_index_#{account_id.to_s.hash.abs % 16}"
+    "search_index_#{account_id.hash.abs % 16}"
   end
 
   included do
@@ -21,7 +21,8 @@ module Searchable
       uuid_type = ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
 
       self.class.connection.execute self.class.sanitize_sql([
-        "INSERT INTO #{table_name} (searchable_type, searchable_id, card_id, board_id, title, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO #{table_name} (id, searchable_type, searchable_id, card_id, board_id, title, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        uuid_type.serialize(ActiveRecord::Type::Uuid.generate),
         self.class.name,
         uuid_type.serialize(id),
         uuid_type.serialize(search_card_id),

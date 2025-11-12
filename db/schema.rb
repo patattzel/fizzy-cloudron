@@ -375,7 +375,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["reacter_id"], name: "index_reactions_on_reacter_id"
   end
 
-  create_table "search_index_0", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_0", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -387,7 +387,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si0_type_id", unique: true
   end
 
-  create_table "search_index_1", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_1", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -399,7 +399,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si1_type_id", unique: true
   end
 
-  create_table "search_index_10", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_10", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -411,7 +411,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si10_type_id", unique: true
   end
 
-  create_table "search_index_11", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_11", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -423,7 +423,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si11_type_id", unique: true
   end
 
-  create_table "search_index_12", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_12", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -435,7 +435,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si12_type_id", unique: true
   end
 
-  create_table "search_index_13", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_13", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -447,7 +447,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si13_type_id", unique: true
   end
 
-  create_table "search_index_14", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_14", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -459,7 +459,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si14_type_id", unique: true
   end
 
-  create_table "search_index_15", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_15", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -471,7 +471,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si15_type_id", unique: true
   end
 
-  create_table "search_index_2", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_2", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -483,7 +483,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si2_type_id", unique: true
   end
 
-  create_table "search_index_3", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_3", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -495,7 +495,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si3_type_id", unique: true
   end
 
-  create_table "search_index_4", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_4", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -507,7 +507,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si4_type_id", unique: true
   end
 
-  create_table "search_index_5", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_5", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -519,7 +519,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si5_type_id", unique: true
   end
 
-  create_table "search_index_6", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_6", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -531,7 +531,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si6_type_id", unique: true
   end
 
-  create_table "search_index_7", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_7", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -543,7 +543,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si7_type_id", unique: true
   end
 
-  create_table "search_index_8", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_8", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"
@@ -555,7 +555,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si8_type_id", unique: true
   end
 
-  create_table "search_index_9", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "search_index_9", id: { type: :binary, limit: 16 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.binary "board_id", null: false, limit: 16
     t.binary "card_id", null: false, limit: 16
     t.text "content"

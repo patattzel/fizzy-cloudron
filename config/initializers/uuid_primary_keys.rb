@@ -1,6 +1,6 @@
 # Automatically use UUID type for all binary(16) columns
 ActiveSupport.on_load(:active_record) do
-  ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.class_eval do
+  module MysqlUuidAdapter
     def lookup_cast_type(sql_type)
       if sql_type == "varbinary(16)"
         ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
@@ -9,16 +9,17 @@ ActiveSupport.on_load(:active_record) do
       end
     end
 
-    # Override quote to handle binary UUID values properly
     def quote(value)
       if value.is_a?(String) && value.encoding == Encoding::BINARY && value.bytesize == 16
-        # Quote binary UUID as hex literal for MySQL
+        # Convert binary UUIDs to hex literals to avoid encoding conflicts in SQL strings
         "X'#{value.unpack1('H*')}'"
       else
         super
       end
     end
   end
+
+  ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.prepend(MysqlUuidAdapter)
 
   # Fix schema dumper to include limit for binary columns
   module SchemaDumperBinaryLimit
@@ -33,43 +34,37 @@ ActiveSupport.on_load(:active_record) do
   end
 
   ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper.prepend(SchemaDumperBinaryLimit)
-end
 
-# Automatically convert :uuid to binary(16) for primary keys and columns
-module ActiveRecord
-  module ConnectionAdapters
-    class TableDefinition
-      alias_method :original_set_primary_key, :set_primary_key
-
-      def set_primary_key(table_name, id, primary_key, **options)
-        # Convert :uuid to :binary with limit 16
-        if id == :uuid
-          id = :binary
-          options[:limit] = 16
-        elsif id.is_a?(Hash) && id[:type] == :uuid
-          id[:type] = :binary
-          id[:limit] = 16
-        end
-
-        original_set_primary_key(table_name, id, primary_key, **options)
+  # Automatically convert :uuid to binary(16) for primary keys and columns
+  module TableDefinitionUuidSupport
+    def set_primary_key(table_name, id, primary_key, **options)
+      # Convert :uuid to :binary with limit 16
+      if id == :uuid
+        id = :binary
+        options[:limit] = 16
+      elsif id.is_a?(Hash) && id[:type] == :uuid
+        id[:type] = :binary
+        id[:limit] = 16
       end
 
-      alias_method :original_column, :column
+      super
+    end
 
-      def column(name, type, **options)
-        # Convert :uuid to :binary with limit 16 for regular columns too
-        if type == :uuid
-          type = :binary
-          options[:limit] = 16
-        end
-
-        original_column(name, type, **options)
+    def column(name, type, **options)
+      # Convert :uuid to :binary with limit 16 for regular columns too
+      if type == :uuid
+        type = :binary
+        options[:limit] = 16
       end
 
-      # Define uuid as a column type method (like string, integer, etc.)
-      def uuid(name, **options)
-        column(name, :uuid, **options)
-      end
+      super
+    end
+
+    # Define uuid as a column type method (like string, integer, etc.)
+    def uuid(name, **options)
+      column(name, :uuid, **options)
     end
   end
+
+  ActiveRecord::ConnectionAdapters::TableDefinition.prepend(TableDefinitionUuidSupport)
 end
