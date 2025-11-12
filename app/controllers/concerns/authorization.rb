@@ -26,11 +26,7 @@ module Authorization
     end
 
     def ensure_can_access_account
-      if Current.account.nil?
-        redirect_to session_menu_url(script_name: nil)
-      elsif Current.membership.blank?
-        redirect_to session_menu_url(script_name: nil)
-      end
+      redirect_to session_menu_url(script_name: nil) if Current.membership.blank?
     end
 
     def redirect_existing_user
