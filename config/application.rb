@@ -36,5 +36,10 @@ module Fizzy
     config.after_initialize do
       Rails.event.debug_mode = true
     end
+
+    # Use UUID primary keys for all new tables
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
   end
 end

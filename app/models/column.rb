@@ -1,4 +1,4 @@
-class Column < AccountScopedRecord
+class Column < ApplicationRecord
   include Colored, Positioned
 
   belongs_to :account, default: -> { Current.account }
