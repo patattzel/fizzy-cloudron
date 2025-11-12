@@ -25,7 +25,6 @@ class Search
 
     def perform_search
       query_string = query.to_s
-      sanitized_query = Search::Result.connection.quote(query_string)
       sanitized_raw_query = Search::Result.connection.quote(query.terms)
       table_name = Searchable.search_index_table_name(user.account_id)
 
@@ -37,13 +36,9 @@ class Search
         .select([
           "#{table_name}.card_id as card_id",
           "CASE WHEN #{table_name}.searchable_type = 'Comment' THEN #{table_name}.searchable_id ELSE NULL END as comment_id",
-          "COALESCE(#{table_name}.title, cards.title) AS card_title_in_database",
-          "CASE WHEN #{table_name}.searchable_type = 'Card' THEN #{table_name}.content ELSE NULL END AS card_description_in_database",
-          "CASE WHEN #{table_name}.searchable_type = 'Comment' THEN #{table_name}.content ELSE NULL END AS comment_body_in_database",
           "boards.name as board_name",
           "cards.creator_id",
           "#{table_name}.created_at as created_at",
-          "MATCH(#{table_name}.content, #{table_name}.title) AGAINST(#{sanitized_query} IN BOOLEAN MODE) AS score",
           "#{sanitized_raw_query} AS query"
         ].join(","))
         .order("#{table_name}.created_at DESC")
