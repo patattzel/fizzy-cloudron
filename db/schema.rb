@@ -375,11 +375,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_0", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si0_fulltext", type: :fulltext
@@ -387,11 +387,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_1", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si1_fulltext", type: :fulltext
@@ -399,11 +399,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_10", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si10_fulltext", type: :fulltext
@@ -411,11 +411,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_11", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si11_fulltext", type: :fulltext
@@ -423,11 +423,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_12", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si12_fulltext", type: :fulltext
@@ -435,11 +435,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_13", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si13_fulltext", type: :fulltext
@@ -447,11 +447,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_14", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si14_fulltext", type: :fulltext
@@ -459,11 +459,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_15", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si15_fulltext", type: :fulltext
@@ -471,11 +471,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_2", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si2_fulltext", type: :fulltext
@@ -483,11 +483,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_3", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si3_fulltext", type: :fulltext
@@ -495,11 +495,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_4", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si4_fulltext", type: :fulltext
@@ -507,11 +507,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_5", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si5_fulltext", type: :fulltext
@@ -519,11 +519,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_6", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si6_fulltext", type: :fulltext
@@ -531,11 +531,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_7", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si7_fulltext", type: :fulltext
@@ -543,11 +543,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_8", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si8_fulltext", type: :fulltext
@@ -555,11 +555,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
   end
 
   create_table "search_index_9", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "card_id", null: false
+    t.string "board_id", limit: 25, null: false
+    t.string "card_id", limit: 25, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.bigint "searchable_id", null: false
+    t.string "searchable_id", limit: 25, null: false
     t.string "searchable_type", null: false
     t.string "title"
     t.index ["content", "title"], name: "idx_si9_fulltext", type: :fulltext

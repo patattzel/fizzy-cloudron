@@ -2,7 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   def self.search_index_table_name(account_id)
-    "search_index_#{account_id % 16}"
+    "search_index_#{account_id.to_s.hash.abs % 16}"
   end
 
   included do
