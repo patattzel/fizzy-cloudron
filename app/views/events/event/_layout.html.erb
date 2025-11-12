@@ -18,7 +18,7 @@
       </span>
     </h4>
 
-    <% if event_column(event) == 2 %>
+    <% unless event.action.in?(%w[ card_closed card_published card_reopened ]) %>
       <span class="event__icon flex-item-justify-end txt-reversed">
         <%= icon_tag event_action_icon(event) %>
       </span>
@@ -32,7 +32,7 @@
 
       <div class="flex flex-column min-width txt-small align-start txt-align-start" style="color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));">
         <strong class="event__title txt-break overflow-line-clamp txt-tight-lines">
-          <%= event_action_sentence(event) %>
+          <%= event.description_for(Current.user).to_html %>
         </strong>
 
         <%= yield %>

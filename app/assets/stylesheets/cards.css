@@ -179,16 +179,19 @@
       display: none;
     }
 
-    & ~ .btn {
-      --btn-background: var(--card-color);
-      --btn-color: var(--color-ink-inverted);
-    }
-  }
-
-  .card-field__description {
     lexxy-toolbar {
       border-block-start: 1px solid var(--color-ink-light);
       margin-block-start: var(--block-space-half) !important;
+    }
+
+    & ~ .btn.btn--reversed {
+      --btn-background: var(--card-color);
+      --btn-color: var(--color-ink-inverted);
+    }
+
+    & ~ .btn {
+      --btn-border-color: var(--card-color);
+      --btn-color: var(--card-color);
     }
   }
 
@@ -250,6 +253,21 @@
 
     .avatar {
       margin-inline-end: calc(-1 * var(--meta-spacer-inline));
+    }
+  }
+
+  .card__assignees-trigger {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+
+    &:focus-visible {
+      outline: none;
+
+      .btn {
+        box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+      }
     }
   }
 
@@ -497,6 +515,10 @@
       inline-size: fit-content;
       margin-inline: auto;
       text-align: start;
+    }
+
+    code {
+      text-align: left;
     }
   }
 }

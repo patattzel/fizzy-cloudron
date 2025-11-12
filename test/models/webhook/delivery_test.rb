@@ -218,4 +218,44 @@ class Webhook::DeliveryTest < ActiveSupport::TestCase
     assert Webhook::Delivery.exists?(fresh_delivery.id)
     assert_not Webhook::Delivery.exists?(stale_delivery.id)
   end
+
+  test "renders the creator name when event creator is current user" do
+    webhook = Webhook.create!(
+      board: boards(:writebook),
+      name: "Basecamp",
+      url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/789/lines"
+    )
+    event = events(:logo_published)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    Current.session = sessions(:david)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with { |request| CGI.parse(request.body)["content"].first.include?("David added") }
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+  end
+
+  test "renders creator name when event creator is not current user" do
+    webhook = Webhook.create!(
+      board: boards(:writebook),
+      name: "Basecamp",
+      url: "https://3.basecamp.com/123/integrations/webhook/buckets/456/chats/789/lines"
+    )
+    event = events(:logo_published)
+    delivery = Webhook::Delivery.create!(webhook: webhook, event: event)
+
+    Current.session = sessions(:kevin)
+
+    request_stub = stub_request(:post, webhook.url)
+      .with { |request| CGI.parse(request.body)["content"].first.include?("David added") }
+      .to_return(status: 200)
+
+    delivery.deliver
+
+    assert_requested request_stub
+  end
 end

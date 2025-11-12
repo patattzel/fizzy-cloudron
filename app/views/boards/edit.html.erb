@@ -2,15 +2,15 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to @board, class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
-      <span class="overflow-ellipsis">
-        &larr;
-        <strong><%= @board.name %></strong>
-      </span>
-    <% end %>
+    <%= link_back_to_board(@board) %>
   </div>
 
-  <h1 class="header__title"><%= @page_title %></h1>
+  <h1 class="header__title">
+    <div><%= @page_title %></div>
+    <% unless Current.user.can_administer_board?(@board) %>
+      <div class="txt-normal font-weight-normal">Only admins can change these settings</div>
+    <% end %>
+  </h1>
 <% end %>
 
 <section class="settings">
@@ -19,10 +19,10 @@
           controller: "form boards-form",
           boards_form_self_removal_prompt_message_value: "Are you sure you want to remove yourself from this board? You won’t be able to get back in unless someone invites you.",
           action: "turbo:submit-start->boards-form#submitWithWarning" } do |form| %>
-      <%= render "boards/edit/name", form: form %>
+      <%= render "boards/edit/name", form: form, board: @board %>
       <%= render "boards/edit/users", board: @board, selected_users: @selected_users, unselected_users: @unselected_users, form: form %>
 
-      <button type="submit" id="log_in" class="btn btn--link center txt-normal">
+      <button type="submit" id="log_in" class="btn btn--link center txt-normal" <%= "disabled" unless Current.user.can_administer_board?(@board) %>>
         <span>Save changes</span>
       </button>
 
@@ -33,6 +33,6 @@
   <div class="settings__panel panel shadow center">
     <%= render "boards/edit/auto_close", board: @board %>
     <%= render "boards/edit/publication", board: @board %>
-    <%= render "boards/edit/delete", board: @board %>
+    <%= render "boards/edit/delete", board: @board if Current.user.can_administer_board?(@board) %>
   </div>
 </section>
