@@ -1,8 +1,10 @@
 namespace :search do
   desc "Reindex all cards and comments in the search index"
   task reindex: :environment do
-    puts "Clearing search index..."
-    ActiveRecord::Base.connection.execute("DELETE FROM search_index")
+    puts "Clearing search index shards..."
+    16.times do |i|
+      ActiveRecord::Base.connection.execute("DELETE FROM search_index_#{i}")
+    end
 
     puts "Reindexing cards..."
     Card.find_each do |card|

@@ -27,24 +27,25 @@ class Search
       query_string = query.to_s
       sanitized_query = Search::Result.connection.quote(query_string)
       sanitized_raw_query = Search::Result.connection.quote(query.terms)
+      table_name = Searchable.search_index_table_name(user.account_id)
 
-      Search::Result.from("search_index")
-        .joins("INNER JOIN cards ON search_index.card_id = cards.id")
+      Search::Result.from(table_name)
+        .joins("INNER JOIN cards ON #{table_name}.card_id = cards.id")
         .joins("INNER JOIN boards ON cards.board_id = boards.id")
-        .where("search_index.board_id IN (?)", board_ids)
-        .where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query_string)
+        .where("#{table_name}.board_id IN (?)", board_ids)
+        .where("MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", query_string)
         .select([
-          "search_index.card_id as card_id",
-          "CASE WHEN search_index.searchable_type = 'Comment' THEN search_index.searchable_id ELSE NULL END as comment_id",
-          "COALESCE(search_index.title, cards.title) AS card_title_in_database",
-          "CASE WHEN search_index.searchable_type = 'Card' THEN search_index.content ELSE NULL END AS card_description_in_database",
-          "CASE WHEN search_index.searchable_type = 'Comment' THEN search_index.content ELSE NULL END AS comment_body_in_database",
+          "#{table_name}.card_id as card_id",
+          "CASE WHEN #{table_name}.searchable_type = 'Comment' THEN #{table_name}.searchable_id ELSE NULL END as comment_id",
+          "COALESCE(#{table_name}.title, cards.title) AS card_title_in_database",
+          "CASE WHEN #{table_name}.searchable_type = 'Card' THEN #{table_name}.content ELSE NULL END AS card_description_in_database",
+          "CASE WHEN #{table_name}.searchable_type = 'Comment' THEN #{table_name}.content ELSE NULL END AS comment_body_in_database",
           "boards.name as board_name",
           "cards.creator_id",
-          "search_index.created_at as created_at",
-          "MATCH(search_index.content, search_index.title) AGAINST(#{sanitized_query} IN BOOLEAN MODE) AS score",
+          "#{table_name}.created_at as created_at",
+          "MATCH(#{table_name}.content, #{table_name}.title) AGAINST(#{sanitized_query} IN BOOLEAN MODE) AS score",
           "#{sanitized_raw_query} AS query"
         ].join(","))
-        .order("search_index.created_at DESC")
+        .order("#{table_name}.created_at DESC")
     end
 end

@@ -4,13 +4,14 @@ module Card::Searchable
   included do
     include ::Searchable
 
-    scope :mentioning, ->(query, board_ids:) do
+    scope :mentioning, ->(query, user:) do
       query = Search::Query.wrap(query)
 
       if query.valid?
-        joins("INNER JOIN search_index ON search_index.card_id = cards.id AND search_index.board_id = cards.board_id")
-          .where("search_index.board_id IN (?)", board_ids)
-          .where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
+        table_name = Searchable.search_index_table_name(user.account_id)
+        joins("INNER JOIN #{table_name} ON #{table_name}.card_id = cards.id AND #{table_name}.board_id = cards.board_id")
+          .where("#{table_name}.board_id IN (?)", user.board_ids)
+          .where("MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
           .distinct
       else
         none

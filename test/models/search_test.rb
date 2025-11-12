@@ -4,16 +4,17 @@ class SearchTest < ActiveSupport::TestCase
   self.use_transactional_tests = false
 
   setup do
-    ActiveRecord::Base.connection.execute "DELETE FROM search_index"
+    16.times { |i| ActiveRecord::Base.connection.execute "DELETE FROM search_index_#{i}" }
     Account.find_by(name: "Search Test")&.destroy
 
     @account = Account.create!(name: "Search Test")
     @user = User.create!(name: "Test User", account: @account)
     @board = Board.create!(name: "Test Board", account: @account, creator: @user)
+    Current.account = @account
   end
 
   teardown do
-    ActiveRecord::Base.connection.execute "DELETE FROM search_index"
+    16.times { |i| ActiveRecord::Base.connection.execute "DELETE FROM search_index_#{i}" }
     Account.find_by(name: "Search Test")&.destroy
   end
 

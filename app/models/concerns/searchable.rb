@@ -1,6 +1,10 @@
 module Searchable
   extend ActiveSupport::Concern
 
+  def self.search_index_table_name(account_id)
+    "search_index_#{account_id % 16}"
+  end
+
   included do
     after_create_commit :create_in_search_index
     after_update_commit :update_in_search_index
@@ -13,8 +17,10 @@ module Searchable
 
   private
     def create_in_search_index
+      table_name = Searchable.search_index_table_name(account_id)
+
       self.class.connection.execute self.class.sanitize_sql([
-        "INSERT INTO search_index (searchable_type, searchable_id, card_id, board_id, title, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO #{table_name} (searchable_type, searchable_id, card_id, board_id, title, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
         self.class.name,
         id,
         search_card_id,
@@ -26,8 +32,10 @@ module Searchable
     end
 
     def update_in_search_index
+      table_name = Searchable.search_index_table_name(account_id)
+
       result = self.class.connection.execute(self.class.sanitize_sql([
-        "UPDATE search_index SET card_id = ?, board_id = ?, title = ?, content = ?, created_at = ? WHERE searchable_type = ? AND searchable_id = ?",
+        "UPDATE #{table_name} SET card_id = ?, board_id = ?, title = ?, content = ?, created_at = ? WHERE searchable_type = ? AND searchable_id = ?",
         search_card_id,
         search_board_id,
         search_title,
@@ -41,8 +49,10 @@ module Searchable
     end
 
     def remove_from_search_index
+      table_name = Searchable.search_index_table_name(account_id)
+
       self.class.connection.execute self.class.sanitize_sql([
-        "DELETE FROM search_index WHERE searchable_type = ? AND searchable_id = ?",
+        "DELETE FROM #{table_name} WHERE searchable_type = ? AND searchable_id = ?",
         self.class.name,
         id
       ])

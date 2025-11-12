@@ -33,7 +33,7 @@ class Filter < ApplicationRecord
       result = result.closed_at_window(closure_window) if closure_window
       result = result.closed_by(closers) if closers.present?
       result = terms.reduce(result) do |result, term|
-        result.mentioning(term, board_ids: creator.board_ids)
+        result.mentioning(term, user: creator)
       end
 
       result
