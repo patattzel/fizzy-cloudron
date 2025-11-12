@@ -40,6 +40,7 @@ class Search
           "CASE WHEN #{table_name}.searchable_type = 'Comment' THEN #{table_name}.searchable_id ELSE NULL END as comment_id",
           "boards.name as board_name",
           "cards.creator_id",
+          "cards.number as number",
           "#{table_name}.created_at as created_at",
           "#{sanitized_raw_query} AS query"
         ].join(","))

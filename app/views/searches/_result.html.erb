@@ -2,7 +2,7 @@
   <%= link_to result.source, class: "search__result", data: { turbo_frame: "_top", action: "bar#reset" } do %>
       <div>
         <h3 class="search__title txt--medium margin-none">
-          # <%= result.card_id %> <%= result.card_title %>
+          # <%= result.number %> <%= result.card_title %>
         </h3>
 
         <% if result.card_description.present? %>
