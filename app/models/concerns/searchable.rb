@@ -5,18 +5,6 @@ module Searchable
     after_create_commit :create_in_search_index
     after_update_commit :update_in_search_index
     after_destroy_commit :remove_from_search_index
-
-    scope :search, ->(query) do
-      query = Search::Query.wrap(query)
-
-      base = joins("INNER JOIN search_index ON search_index.searchable_type = '#{name}' AND search_index.searchable_id = #{table_name}.id")
-
-      if query.valid?
-        base.where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
-      else
-        base.none
-      end
-    end
   end
 
   def reindex

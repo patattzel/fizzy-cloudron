@@ -4,11 +4,17 @@ module Card::Searchable
   included do
     include ::Searchable
 
-    scope :mentioning, ->(query) do
-      cards = Card.search(query).select(:id).to_sql
-      comments = Comment.search(query).select(:id).to_sql
+    scope :mentioning, ->(query, board_ids:) do
+      query = Search::Query.wrap(query)
 
-      left_joins(:comments).where("cards.id in (#{cards}) or comments.id in (#{comments})").distinct
+      if query.valid?
+        joins("INNER JOIN search_index ON search_index.card_id = cards.id AND search_index.board_id = cards.board_id")
+          .where("search_index.board_id IN (?)", board_ids)
+          .where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
+          .distinct
+      else
+        none
+      end
     end
   end
 
