@@ -7,7 +7,6 @@ class Comment < ApplicationRecord
   has_many :reactions, dependent: :delete_all
 
   has_rich_text :body
-  searchable_by :body, using: :comments_search_index
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
   scope :by_system, -> { joins(:creator).where(creator: { role: "system" }) }

@@ -14,33 +14,38 @@ class Search
   end
 
   def results
-    cards = user.accessible_cards.search(query)
-      .select([
-        "cards.id as card_id",
-        "null as comment_id",
-        "highlight(cards_search_index, 0, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}') AS card_title",
-        "snippet(cards_search_index, 1, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}', '...', 20) AS card_description",
-        "null as comment_body",
-        "boards.name as board_name",
-        "cards.creator_id",
-        "cards.created_at",
-        "bm25(cards_search_index, 10.0, 2.0) AS score"
-      ].join(","))
-
-    comments = user.accessible_comments.search(query)
-      .select([
-        "comments.card_id as card_id",
-        "comments.id as comment_id",
-        "cards.title AS card_title",
-        "null AS card_description",
-        "snippet(comments_search_index, 0, '#{HIGHLIGHT_OPENING_MARK}', '#{HIGHLIGHT_CLOSING_MARK}', '...', 20) AS comment_body",
-        "boards.name as board_name",
-        "comments.creator_id",
-        "comments.created_at",
-        "bm25(comments_search_index, 1.0) AS score"
-      ].join(","))
-
-    union_sql = "(#{cards.to_sql} UNION #{comments.to_sql}) as search_results"
-    Search::Result.from(union_sql).order(created_at: :desc)
+    if query.valid? && board_ids.any?
+      perform_search
+    else
+      Search::Result.none
+    end
   end
+
+  private
+    def board_ids
+      @board_ids ||= user.board_ids
+    end
+
+    def perform_search
+      query_string = query.to_s
+      sanitized_query = Search::Result.connection.quote(query_string)
+
+      Search::Result.from("search_index")
+        .joins("INNER JOIN cards ON search_index.card_id = cards.id")
+        .joins("INNER JOIN boards ON cards.board_id = boards.id")
+        .where("search_index.board_id IN (?)", board_ids)
+        .where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query_string)
+        .select([
+          "search_index.card_id as card_id",
+          "CASE WHEN search_index.searchable_type = 'Comment' THEN search_index.searchable_id ELSE NULL END as comment_id",
+          "COALESCE(search_index.title, cards.title) AS card_title_in_database",
+          "CASE WHEN search_index.searchable_type = 'Card' THEN search_index.content ELSE NULL END AS card_description_in_database",
+          "CASE WHEN search_index.searchable_type = 'Comment' THEN search_index.content ELSE NULL END AS comment_body_in_database",
+          "boards.name as board_name",
+          "cards.creator_id",
+          "search_index.created_at as created_at",
+          "MATCH(search_index.content, search_index.title) AGAINST(#{sanitized_query} IN BOOLEAN MODE) AS score"
+        ].join(","))
+        .order("search_index.created_at DESC")
+    end
 end

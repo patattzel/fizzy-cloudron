@@ -4,8 +4,6 @@ module Card::Searchable
   included do
     include ::Searchable
 
-    searchable_by :title, :description, using: :cards_search_index
-
     scope :mentioning, ->(query) do
       cards = Card.search(query).select(:id).to_sql
       comments = Comment.search(query).select(:id).to_sql
@@ -15,8 +13,19 @@ module Card::Searchable
   end
 
   private
-    # TODO: Temporary until we stabilize the search API
-    def title_and_description
-      [ title, description.to_plain_text ].join(" ")
+    def search_title
+      title
+    end
+
+    def search_content
+      description.to_plain_text
+    end
+
+    def search_card_id
+      id
+    end
+
+    def search_board_id
+      board_id
     end
 end

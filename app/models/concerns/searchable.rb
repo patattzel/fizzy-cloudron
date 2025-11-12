@@ -1,37 +1,20 @@
 module Searchable
   extend ActiveSupport::Concern
 
-  class_methods do
-    def searchable_by(*fields, using:)
-      define_method :search_fields do
-        fields
-      end
+  included do
+    after_create_commit :create_in_search_index
+    after_update_commit :update_in_search_index
+    after_destroy_commit :remove_from_search_index
 
-      define_method :search_values do
-        fields.map do
-          value = send(it)
-          value.respond_to?(:to_plain_text) ? value.to_plain_text : value
-        end
-      end
+    scope :search, ->(query) do
+      query = Search::Query.wrap(query)
 
-      define_method :search_table do
-        using
-      end
+      base = joins("INNER JOIN search_index ON search_index.searchable_type = '#{name}' AND search_index.searchable_id = #{table_name}.id")
 
-      after_create_commit :create_in_search_index
-      after_update_commit :update_in_search_index
-      after_destroy_commit :remove_from_search_index
-
-      scope :search, ->(query) do
-        query = Search::Query.wrap(query)
-
-        base = joins("join #{using} idx on #{table_name}.id = idx.rowid")
-
-        if query.valid?
-          base.where("#{using} match ?", query.to_s)
-        else
-          base.none
-        end
+      if query.valid?
+        base.where("MATCH(search_index.content, search_index.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
+      else
+        base.none
       end
     end
   end
@@ -42,39 +25,44 @@ module Searchable
 
   private
     def create_in_search_index
-      # # TODO:PLANB: need to replace SQLite FTS
-      # fields_sql = [ "rowid", *search_fields ].join(", ")
-      # placeholders = ([ "?" ] * (search_fields.size + 1)).join(", ")
-      # values = [ id, *search_values ]
-
-      # execute_sql_with_binds(
-      #   "insert into #{search_table}(#{fields_sql}) values (#{placeholders})",
-      #   *values
-      # )
+      self.class.connection.execute self.class.sanitize_sql([
+        "INSERT INTO search_index (searchable_type, searchable_id, card_id, board_id, title, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        self.class.name,
+        id,
+        search_card_id,
+        search_board_id,
+        search_title,
+        search_content,
+        created_at
+      ])
     end
 
     def update_in_search_index
-      # # TODO:PLANB: need to replace SQLite FTS
-      # transaction do
-      #   set_clause = search_fields.map { |field| "#{field} = ?" }.join(", ")
-      #   binds = search_values + [ id ]
+      result = self.class.connection.execute(self.class.sanitize_sql([
+        "UPDATE search_index SET card_id = ?, board_id = ?, title = ?, content = ?, created_at = ? WHERE searchable_type = ? AND searchable_id = ?",
+        search_card_id,
+        search_board_id,
+        search_title,
+        search_content,
+        created_at,
+        self.class.name,
+        id
+      ]))
 
-      #   updated = execute_sql_with_binds(
-      #     "update #{search_table} set #{set_clause} where rowid = ?",
-      #     *binds
-      #   )
-
-      #   create_in_search_index unless updated
-      # end
+      create_in_search_index if result.affected_rows == 0
     end
 
     def remove_from_search_index
-      # # TODO:PLANB: need to replace SQLite FTS
-      # execute_sql_with_binds "delete from #{search_table} where rowid = ?", id
+      self.class.connection.execute self.class.sanitize_sql([
+        "DELETE FROM search_index WHERE searchable_type = ? AND searchable_id = ?",
+        self.class.name,
+        id
+      ])
     end
 
-    def execute_sql_with_binds(*statement)
-      self.class.connection.execute self.class.sanitize_sql(statement)
-      self.class.connection.raw_connection.changes.nonzero?
-    end
+    # Models must implement these methods:
+    # - search_title: returns title string or nil
+    # - search_content: returns content string
+    # - search_card_id: returns the card id (self.id for cards, card_id for comments)
+    # - search_board_id: returns the board id
 end

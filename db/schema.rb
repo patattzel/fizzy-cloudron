@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_11_11_153019) do
+ActiveRecord::Schema[8.2].define(version: 2025_11_12_093037) do
   create_table "accesses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "accessed_at"
     t.bigint "board_id", null: false
@@ -373,6 +373,18 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_11_153019) do
     t.datetime "updated_at", null: false
     t.index ["comment_id"], name: "index_reactions_on_comment_id"
     t.index ["reacter_id"], name: "index_reactions_on_reacter_id"
+  end
+
+  create_table "search_index", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "card_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.bigint "searchable_id", null: false
+    t.string "searchable_type", null: false
+    t.string "title"
+    t.index ["content", "title"], name: "index_search_index_on_content_and_title", type: :fulltext
+    t.index ["searchable_type", "searchable_id"], name: "index_search_index_on_searchable_type_and_searchable_id", unique: true
   end
 
   create_table "search_queries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
