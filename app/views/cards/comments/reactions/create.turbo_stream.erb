@@ -1,0 +1,1 @@
+<%= turbo_stream.append([ @comment, :reactions ], partial: "cards/comments/reactions/reaction", locals: { reaction: @reaction }) %>
