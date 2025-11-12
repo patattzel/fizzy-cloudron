@@ -14,10 +14,10 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to published_board_url(@card.board), class: "btn borderless txt-medium", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
-      <span class="flex align-center">
-        <strong class="overflow-ellipsis">Back to <%= @card.board.name %></strong>
-        <kbd class="txt-x-small hide-on-touch margin-inline-start">&larr;</kbd>
+    <%= link_to published_board_url(@card.board), class: "btn borderless txt-medium", style: "view-transistion-name: card-board-title;", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
+      <span class="overflow-ellipsis flex align-center">
+        <strong>Back to <%= @card.board.name %></strong>
+        <kbd class="txt-x-small margin-inline-start hide-on-touch">&larr;</kbd>
       </span>
     <% end %>
   </div>

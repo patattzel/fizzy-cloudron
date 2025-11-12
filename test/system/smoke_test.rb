@@ -27,7 +27,7 @@ class SmokeTest < ApplicationSystemTestCase
       assert_selector "figcaption input[placeholder='moon.jpg']"
     end
 
-    click_on "Post this comment"
+    click_on "Post"
 
     within("action-text-attachment") do
       assert_selector "a img[src*='/rails/active_storage']"
