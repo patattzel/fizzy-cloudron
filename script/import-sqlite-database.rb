@@ -358,6 +358,7 @@ class Import
 
           batch.each do |old_step|
             steps_to_insert << {
+              id: generate_uuid,
               account_id: account.id,
               card_id: mapping[:cards][old_step.card_id],
               content: old_step.content,
