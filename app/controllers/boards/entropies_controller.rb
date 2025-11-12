@@ -8,12 +8,6 @@ class Boards::EntropiesController < ApplicationController
   end
 
   private
-    def ensure_permission_to_admin_board
-      unless Current.user.can_administer_board?(@board)
-        head :forbidden
-      end
-    end
-
     def entropy_params
       params.expect(board: [ :auto_postpone_period ])
     end
