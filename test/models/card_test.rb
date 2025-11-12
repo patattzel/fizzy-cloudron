@@ -85,24 +85,24 @@ class CardTest < ActiveSupport::TestCase
   end
 
   test "open" do
-    assert_equal cards(:logo, :layout, :text, :buy_domain), Card.open
+    assert_same_elements cards(:logo, :layout, :text, :buy_domain), Card.open
   end
 
   test "card_unassigned" do
-    assert_equal cards(:shipping, :text, :buy_domain), Card.unassigned
+    assert_same_elements cards(:shipping, :text, :buy_domain), Card.unassigned
   end
 
   test "assigned to" do
-    assert_equal cards(:logo, :layout), Card.assigned_to(users(:jz))
+    assert_same_elements cards(:logo, :layout), Card.assigned_to(users(:jz))
   end
 
   test "assigned by" do
-    assert_equal cards(:layout, :logo), Card.assigned_by(users(:david))
+    assert_same_elements cards(:layout, :logo), Card.assigned_by(users(:david))
   end
 
   test "in board" do
     new_board = Board.create! name: "New Board", creator: users(:david)
-    assert_equal cards(:logo, :shipping, :layout, :text, :buy_domain), Card.where(board: boards(:writebook))
+    assert_same_elements cards(:logo, :shipping, :layout, :text, :buy_domain), Card.where(board: boards(:writebook))
     assert_empty Card.where(board: new_board)
   end
 

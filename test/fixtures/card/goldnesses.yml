@@ -1,2 +1,3 @@
 logo:
-  card: logo
+  id: <%= ActiveRecord::FixtureSet.identify("logo_goldness", :uuid) %>
+  card: logo_uuid
