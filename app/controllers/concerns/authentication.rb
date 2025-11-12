@@ -2,8 +2,6 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
-    prepend_before_action :clear_old_scoped_session_cookies
-
     before_action :require_account # Checking and setting account must happen first
     before_action :require_authentication
     helper_method :authenticated?
@@ -20,9 +18,9 @@ module Authentication
     end
 
     def allow_unauthenticated_access(**options)
+      @unauthenticated_access_allowed = true
       skip_before_action :require_authentication, **options
       before_action :resume_session, **options
-      allow_unauthorized_access **options
     end
 
     def disallow_account_scope(**options)
@@ -51,13 +49,6 @@ module Authentication
     def resume_session
       if session = find_session_by_cookie
         set_current_session session
-      end
-    end
-
-    # FIXME: Remove before launch
-    def clear_old_scoped_session_cookies
-      if request.script_name.present? && cookies.signed[:session_token].present? && !find_session_by_cookie
-        cookies.signed[:session_token] = { value: "invalid-session-token", path: request.script_name, expires: 1.hour.ago }
       end
     end
 
