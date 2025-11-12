@@ -5,7 +5,7 @@ class Board::AccessibleTest < ActiveSupport::TestCase
     boards(:writebook).update! all_access: false
 
     boards(:writebook).accesses.revise granted: users(:david, :jz), revoked: users(:kevin)
-    assert_equal users(:david, :jz), boards(:writebook).users
+    assert_equal users(:david, :jz).to_set, boards(:writebook).users.to_set
 
     boards(:writebook).accesses.grant_to users(:kevin)
     assert_includes boards(:writebook).users.reload, users(:kevin)

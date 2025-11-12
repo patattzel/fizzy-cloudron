@@ -80,8 +80,9 @@ module FixturesTestHelper
         label = label.to_s.delete_suffix("_uuid")
       end
 
-      return super(label, column_type) unless column_type == :uuid
-      UuidPrimaryKey.uuid_to_base36(super(label, column_type))
+      # Rails passes :string for varchar columns, so handle both :uuid and :string
+      return super(label, column_type) unless column_type.in?([:uuid, :string])
+      UuidPrimaryKey.generate_fixture_uuid(label)
     end
   end
 end
