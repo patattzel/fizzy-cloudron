@@ -374,11 +374,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["reacter_id"], name: "index_reactions_on_reacter_id"
   end
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 5d9f248c (Compact the UUIDs to base36)
   create_table "search_index_0", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.bigint "card_id", null: false
@@ -571,14 +566,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_12_184932) do
     t.index ["searchable_type", "searchable_id"], name: "idx_si9_type_id", unique: true
   end
 
-  create_table "search_queries", id: { type: :string, limit: 36 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-<<<<<<< HEAD
-=======
->>>>>>> b2324bc8 (Update primary keys on customer data to UUIDs)
-=======
   create_table "search_queries", id: { type: :string, limit: 25 }, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
->>>>>>> dcbd66d5 (Compact the UUIDs to base36)
->>>>>>> 5d9f248c (Compact the UUIDs to base36)
     t.datetime "created_at", null: false
     t.string "terms", limit: 2000, null: false
     t.datetime "updated_at", null: false
