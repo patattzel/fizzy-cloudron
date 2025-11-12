@@ -2,7 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   def self.search_index_table_name(account_id)
-    "search_index_#{account_id.hash.abs % 16}"
+    "search_index_#{Zlib.crc32(account_id) % 16}"
   end
 
   included do
