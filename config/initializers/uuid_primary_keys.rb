@@ -10,7 +10,7 @@ ActiveSupport.on_load(:active_record) do
     end
 
     def quote(value)
-      if value.is_a?(String) && value.encoding == Encoding::BINARY && value.bytesize == 16
+      if value.is_a?(ActiveRecord::Type::UuidValue)
         # Convert binary UUIDs to hex literals to avoid encoding conflicts in SQL strings
         "X'#{value.unpack1('H*')}'"
       else
