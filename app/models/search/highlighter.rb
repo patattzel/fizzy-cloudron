@@ -1,6 +1,7 @@
 class Search::Highlighter
-  HIGHLIGHT_OPENING_MARK = "<mark class=\"circled-text\"><span></span>"
-  HIGHLIGHT_CLOSING_MARK = "</mark>"
+  OPENING_MARK = "<mark class=\"circled-text\"><span></span>"
+  CLOSING_MARK = "</mark>"
+  ELIPSIS = "..."
 
   attr_reader :query
 
@@ -13,7 +14,7 @@ class Search::Highlighter
 
     terms.each do |term|
       result.gsub!(/(#{Regexp.escape(term)})/i) do |match|
-        "#{HIGHLIGHT_OPENING_MARK}#{match}#{HIGHLIGHT_CLOSING_MARK}"
+        "#{OPENING_MARK}#{match}#{CLOSING_MARK}"
       end
     end
 
@@ -22,17 +23,15 @@ class Search::Highlighter
 
   def snippet(text, max_words: 20)
     words = text.split(/\s+/)
-    return highlight(text) if words.length <= max_words
-
     match_index = words.index { |word| terms.any? { |term| word.downcase.include?(term.downcase) } }
 
-    if match_index
+    if words.length <= max_words
+      highlight(text)
+    elsif match_index
       start_index = [0, match_index - max_words / 2].max
       end_index = [words.length - 1, start_index + max_words - 1].min
 
-      snippet_words = words[start_index..end_index]
-      snippet_text = snippet_words.join(" ")
-
+      snippet_text = words[start_index..end_index].join(" ")
       snippet_text = "...#{snippet_text}" if start_index > 0
       snippet_text = "#{snippet_text}..." if end_index < words.length - 1
 
@@ -62,8 +61,8 @@ class Search::Highlighter
 
     def escape_highlight_marks(html)
       CGI.escapeHTML(html)
-        .gsub(CGI.escapeHTML(HIGHLIGHT_OPENING_MARK), HIGHLIGHT_OPENING_MARK.html_safe)
-        .gsub(CGI.escapeHTML(HIGHLIGHT_CLOSING_MARK), HIGHLIGHT_CLOSING_MARK.html_safe)
+        .gsub(CGI.escapeHTML(OPENING_MARK), OPENING_MARK.html_safe)
+        .gsub(CGI.escapeHTML(CLOSING_MARK), CLOSING_MARK.html_safe)
         .html_safe
     end
 end
