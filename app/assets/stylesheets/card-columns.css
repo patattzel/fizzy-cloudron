@@ -271,6 +271,8 @@
   }
 
   .cards__expander {
+    --gradient-direction: to bottom;
+
     align-items: center;
     border-radius: 99rem;
     cursor: pointer;
@@ -292,7 +294,7 @@
 
     /* Progress */
     &:after {
-      background: linear-gradient(to bottom, var(--card-color), var(--column-color) 80%);
+      background: linear-gradient(var(--gradient-direction), var(--card-color), var(--column-color) 80%);
       block-size: var(--column-width-collapsed);
       border-radius: 99rem;
       content: "";
@@ -756,6 +758,8 @@
       padding-block: 0.5ch;
 
       .cards__expander {
+        --gradient-direction: to right;
+
         flex-direction: row;
         inline-size: auto;
 
