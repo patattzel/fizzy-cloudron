@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   has_one :join_code
   has_many :users, dependent: :destroy
   has_many :boards, dependent: :destroy
+  has_many :cards, through: :boards
 
   has_many_attached :uploads
 
@@ -18,11 +19,6 @@ class Account < ApplicationRecord
         User.create!(**owner.reverse_merge(role: "admin", account: account))
       end
     end
-  end
-
-  # To use the account as a generic card container. See +Entropy+.
-  def cards
-    Card.all
   end
 
   def slug
