@@ -17,7 +17,7 @@ module Card::Colored
   def color
     if column&.color.present?
       found = COLORS.find { |c| c[:value] == column.color }
-      return found || { name: column.color, value: column.color }
+      found || { name: column.color, value: column.color }
     else
       DEFAULT_COLOR
     end

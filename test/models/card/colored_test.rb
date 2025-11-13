@@ -7,6 +7,6 @@ class Card::ColoredTest < ActiveSupport::TestCase
   end
 
   test "infer color from column" do
-    assert_equal cards(:layout).column.color, cards(:layout).color
+    assert_equal cards(:layout).column.color, cards(:layout).color[:value]
   end
 end
