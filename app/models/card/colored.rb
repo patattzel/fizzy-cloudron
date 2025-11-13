@@ -1,24 +1,25 @@
 module Card::Colored
   extend ActiveSupport::Concern
 
-  COLORS = %w[
-    var(--color-card-1)
-    var(--color-card-2)
-    var(--color-card-3)
-    var(--color-card-4)
-    var(--color-card-5)
-    var(--color-card-6)
-    var(--color-card-7)
-    var(--color-card-8)
+  COLORS = [
+    { name: "Blue", value: "var(--color-card-default)" },
+    { name: "Gray", value: "oklch(var(--lch-ink-dark))" },
+    { name: "Tan", value: "oklch(var(--lch-uncolor-medium))" },
+    { name: "Yellow", value: "oklch(var(--lch-yellow-medium))" },
+    { name: "Lime", value: "oklch(var(--lch-lime-medium))" },
+    { name: "Aqua", value: "oklch(var(--lch-aqua-medium))" },
+    { name: "Violet", value: "oklch(var(--lch-violet-medium))" },
+    { name: "Purple", value: "oklch(var(--lch-purple-medium))" },
+    { name: "Pink", value: "oklch(var(--lch-pink-medium))" }
   ]
-  DEFAULT_COLOR = "var(--color-card-default)"
+  DEFAULT_COLOR = COLORS.first
 
   def color
-    color_from_column || DEFAULT_COLOR
-  end
-
-  private
-    def color_from_column
-      column&.color&.presence
+    if column&.color.present?
+      found = COLORS.find { |c| c[:value] == column.color }
+      return found || { name: column.color, value: column.color }
+    else
+      DEFAULT_COLOR
     end
+  end
 end
