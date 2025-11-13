@@ -200,11 +200,14 @@
   }
 
   .btn--back {
+    --btn-border-size: 0;
+
+    font-size: var(--text-medium);
+
     @media (max-width: 639px) {
       padding: 0.5em;
 
-      kbd,
-      .btn--back__label {
+      strong, kbd {
         display: none;
       }
     }

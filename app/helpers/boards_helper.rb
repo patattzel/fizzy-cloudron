@@ -1,9 +1,6 @@
 module BoardsHelper
   def link_back_to_board(board)
-    link_to board, class: "btn--back btn borderless txt-medium",
-      data: { controller: "hotkey", action: "keydown.left@document->hotkey#click click->turbo-navigation#backIfSamePath" } do
-        icon_tag("arrow-left") + tag.strong("Back to #{board.name}", class: "btn--back__label overflow-ellipsis") + tag.kbd("←", class: "txt-x-small hide-on-touch").html_safe
-    end
+    back_link_to board.name, board, "keydown.left@document->hotkey#click click->turbo-navigation#backIfSamePath"
   end
 
   def link_to_edit_board(board)

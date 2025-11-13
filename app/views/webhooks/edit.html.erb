@@ -2,11 +2,7 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to @webhook, class: "btn btn--back borderless txt-medium", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
-      <%= icon_tag("arrow-left") %>
-      <strong class="btn--back__label overflow-ellipsis">Back to <%= @page_title %></strong>
-      <kbd class="txt-x-small hide-on-touch">&larr;</kbd>
-    <% end %>
+    <%= back_link_to @page_title, @webhook, "keydown.left@document->hotkey#click" %>
   </div>
 <% end %>
 

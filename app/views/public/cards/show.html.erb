@@ -14,10 +14,7 @@
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= link_to published_board_url(@card.board), class: "btn btn--back borderless txt-medium", style: "view-transistion-name: card-board-title;", data: { controller: "hotkey", action: "keydown.left@document->hotkey#click" } do %>
-      <strong class="btn--back__label overflow-ellipsis">Back to <%= @card.board.name %></strong>
-      <kbd class="txt-x-small hide-on-touch">&larr;</kbd>
-    <% end %>
+    <%= back_link_to @card.board.name, published_board_url(@card.board), "keydown.left@document->hotkey#click", style: "view-transistion-name: card-board-title;" %>
   </div>
 <% end %>
 
