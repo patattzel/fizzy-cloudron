@@ -27,10 +27,10 @@ class IdentityTest < ActiveSupport::TestCase
       identity.join(account)
     end
 
-    membership = identity.memberships.last
+    membership = identity.memberships.order(created_at: :desc).first
     assert_equal account.external_account_id.to_s, membership.tenant
 
-    user = account.users.last
+    user = account.users.order(created_at: :desc).first
     assert_equal membership, user.membership
     assert_equal identity.email_address, user.name
   end
