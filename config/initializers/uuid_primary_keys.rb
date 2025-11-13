@@ -1,8 +1,25 @@
 # Automatically use UUID type for all binary(16) columns
 ActiveSupport.on_load(:active_record) do
+  # Add UUID to MySQL's native database types
+  module MysqlUuidNativeType
+    def native_database_types
+      super.merge(uuid: { name: "binary", limit: 16 })
+    end
+  end
+
   module MysqlUuidAdapter
+    # Override type_to_sql to use binary instead of varbinary for UUID columns
+    def type_to_sql(type, limit: nil, **options)
+      if type.to_s == "binary" && limit == 16
+        "binary(16)"
+      else
+        super
+      end
+    end
+
+    # Override lookup_cast_type to recognize binary(16) as UUID type
     def lookup_cast_type(sql_type)
-      if sql_type == "varbinary(16)"
+      if sql_type == "binary(16)"
         ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
       else
         super
@@ -10,14 +27,14 @@ ActiveSupport.on_load(:active_record) do
     end
   end
 
+  ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.prepend(MysqlUuidNativeType)
   ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.prepend(MysqlUuidAdapter)
 
-  # Fix schema dumper to include limit for binary columns
   module SchemaDumperBinaryLimit
     def prepare_column_options(column)
       spec = super
       # Ensure binary columns with limits always include them in schema
-      if column.type == :binary && column.sql_type =~ /varbinary\((\d+)\)/
+      if column.type == :binary && column.sql_type =~ /binary\((\d+)\)/
         spec[:limit] = $1.to_i
       end
       spec
@@ -26,32 +43,7 @@ ActiveSupport.on_load(:active_record) do
 
   ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper.prepend(SchemaDumperBinaryLimit)
 
-  # Automatically convert :uuid to binary(16) for primary keys and columns
   module TableDefinitionUuidSupport
-    def set_primary_key(table_name, id, primary_key, **options)
-      # Convert :uuid to :binary with limit 16
-      if id == :uuid
-        id = :binary
-        options[:limit] = 16
-      elsif id.is_a?(Hash) && id[:type] == :uuid
-        id[:type] = :binary
-        id[:limit] = 16
-      end
-
-      super
-    end
-
-    def column(name, type, **options)
-      # Convert :uuid to :binary with limit 16 for regular columns too
-      if type == :uuid
-        type = :binary
-        options[:limit] = 16
-      end
-
-      super
-    end
-
-    # Define uuid as a column type method (like string, integer, etc.)
     def uuid(name, **options)
       column(name, :uuid, **options)
     end
