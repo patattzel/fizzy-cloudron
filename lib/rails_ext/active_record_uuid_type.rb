@@ -7,7 +7,11 @@ module ActiveRecord
       def self.generate
         uuid = SecureRandom.uuid_v7
         hex = uuid.delete("-")
-        hex.to_i(16).to_s(36).rjust(25, "0")
+        normalize_base36(hex.to_i(16))
+      end
+
+      def self.normalize_base36(integer)
+        integer.to_s(36).rjust(BASE36_LENGTH, "0")
       end
 
       def serialize(value)
@@ -15,19 +19,18 @@ module ActiveRecord
 
         hex = value.to_s.to_i(36).to_s(16).rjust(32, "0")
         binary = hex.scan(/../).map(&:hex).pack("C*")
-        binary.force_encoding(Encoding::BINARY)
-        Data.new(binary)
+        super(binary)
       end
 
       def deserialize(value)
         return unless value
 
         hex = value.to_s.unpack1("H*")
-        hex.to_i(16).to_s(36).rjust(BASE36_LENGTH, "0")
+        Uuid.normalize_base36(hex.to_i(16))
       end
 
       def cast(value)
-        deserialize(serialize(value))
+        value
       end
     end
   end
