@@ -1,30 +1,6 @@
 # Custom UUID attribute type for MySQL binary storage with base36 string representation
 module ActiveRecord
   module Type
-    # Wrapper class to distinguish UUID binary values from regular binary strings
-    class UuidValue
-      def initialize(binary_string)
-        @value = binary_string
-      end
-
-      def to_s
-        @value
-      end
-
-      # Delegate methods needed for SQL quoting
-      def unpack1(format)
-        @value.unpack1(format)
-      end
-
-      def bytesize
-        @value.bytesize
-      end
-
-      def encoding
-        @value.encoding
-      end
-    end
-
     class Uuid < Binary
       BASE36_LENGTH = 25 # 36^25 > 2^128
 
@@ -40,20 +16,19 @@ module ActiveRecord
         hex = value.to_s.to_i(36).to_s(16).rjust(32, "0")
         binary = hex.scan(/../).map(&:hex).pack("C*")
         binary.force_encoding(Encoding::BINARY)
-        UuidValue.new(binary)
+        Data.new(binary)
       end
 
       def deserialize(value)
         return unless value
 
-        hex = value.unpack1("H*")
+        hex = value.to_s.unpack1("H*")
         hex.to_i(16).to_s(36).rjust(BASE36_LENGTH, "0")
       end
 
       def cast(value)
         deserialize(serialize(value))
       end
-
     end
   end
 end

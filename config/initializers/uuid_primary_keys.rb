@@ -8,15 +8,6 @@ ActiveSupport.on_load(:active_record) do
         super
       end
     end
-
-    def quote(value)
-      if value.is_a?(ActiveRecord::Type::UuidValue)
-        # Convert binary UUIDs to hex literals to avoid encoding conflicts in SQL strings
-        "X'#{value.unpack1('H*')}'"
-      else
-        super
-      end
-    end
   end
 
   ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.prepend(MysqlUuidAdapter)
