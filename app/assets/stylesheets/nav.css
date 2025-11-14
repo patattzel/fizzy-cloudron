@@ -42,10 +42,18 @@
       display: grid;
       height: 1.5em;
       inline-size: 1.5em;
-      margin-inline-end: 0.8ch;
       padding: 0.325em 0.275em 0.225em 0.275em;
       place-content: center;
       width: 1.5em;
+    }
+
+    svg {
+      height: 100%;
+      margin-inline-start: 0.4125em;
+      margin-inline-end: 0.5375em;
+      max-height: 0.8625em;
+      overflow: visible;
+      width: auto;
     }
   }
 
