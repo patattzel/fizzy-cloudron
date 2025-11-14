@@ -2,7 +2,7 @@
   <%= notification_tag notification do %>
 
     <header class="card__header">
-      <%= render "notifications/notification/#{notification.source_type.underscore}/header", notification: notification %>
+      <%= render "notifications/notification/header", notification: notification %>
     </header>
 
     <div class="card__body">
