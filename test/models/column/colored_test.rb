@@ -4,7 +4,7 @@ class Column::ColoredTest < ActiveSupport::TestCase
   test "creates column with default color when color not provided" do
     column = boards(:writebook).columns.create!(name: "New Column")
 
-    assert_equal Card::Colored::DEFAULT_COLOR, column.color
+    assert_equal Column::Colored::DEFAULT_COLOR, column.color
   end
 
   test "update the column color" do

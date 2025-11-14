@@ -1,12 +1,13 @@
 module Column::Colored
   extend ActiveSupport::Concern
 
+  DEFAULT_COLOR = Color::COLORS.first
+
   included do
-    before_validation -> { self[:color] ||= Card::Colored::DEFAULT_COLOR.value }
+    before_validation -> { self[:color] ||= DEFAULT_COLOR.value }
   end
 
   def color
-    color_value = super
-    Color.for_value(color_value) || Card::Colored::DEFAULT_COLOR
+    Color.for_value(super) || DEFAULT_COLOR
   end
 end

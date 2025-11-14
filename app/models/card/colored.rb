@@ -1,9 +1,7 @@
 module Card::Colored
   extend ActiveSupport::Concern
 
-  DEFAULT_COLOR = Color::COLORS.first
-
   def color
-    column&.color || DEFAULT_COLOR
+    column&.color || Column::Colored::DEFAULT_COLOR
   end
 end
