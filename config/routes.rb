@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       resource :reading
       resource :triage
       resource :watch
+      resource :reading
 
       resources :assignments
       resources :steps
