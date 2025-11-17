@@ -1,7 +1,3 @@
-<%= turbo_stream.before [ @card, :new_comment ] do %>
-  <%= render "cards/comments/comment", comment: @comment %>
-<% end %>
+<%= turbo_stream.before [ @card, :new_comment ], partial: "cards/comments/comment", locals: { comment: @comment } %>
 
-<%= turbo_stream.update [ @card, :new_comment ] do %>
-  <%= render "cards/comments/new", card: @card %>
-<% end %>
+<%= turbo_stream.update [ @card, :new_comment ], partial: "cards/comments/new", locals: { card: @card } %>
