@@ -34,12 +34,13 @@ class JoinCodesControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_redirected_to session_magic_link_path
+    assert_redirected_to session_magic_link_url(script_name: nil)
     assert_equal new_users_join_url(script_name: @account.slug), session[:return_to_after_authenticating]
   end
 
   test "create for existing identity" do
     identity = identities(:jz)
+    sign_in_as :jz
 
     assert_no_difference -> { Identity.count } do
       assert_no_difference -> { User.count } do

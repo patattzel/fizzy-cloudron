@@ -12,18 +12,18 @@ class JoinCodesController < ApplicationController
   def create
     identity = Identity.find_or_create_by!(email_address: params.expect(:email_address))
 
-    unless identity.member_of?(@join_code.account)
-      @join_code.redeem do |account|
-        identity.join(account)
-      end
+    @join_code.redeem { |account| identity.join(account) } unless identity.member_of?(@join_code.account)
+
+    if identity == Current.identity
+      redirect_to landing_url(script_name: @join_code.account.slug)
+    else
+      terminate_session if Current.identity
 
       magic_link = identity.send_magic_link
       flash[:magic_link_code] = magic_link&.code if Rails.env.development?
 
       session[:return_to_after_authenticating] = new_users_join_url(script_name: @join_code.account.slug)
-      redirect_to session_magic_link_path
-    else
-      redirect_to landing_url(script_name: @join_code.account.slug)
+      redirect_to session_magic_link_url(script_name: nil)
     end
   end
 
