@@ -17,6 +17,7 @@ class User::EmailAddressChangeableTest < ActiveSupport::TestCase
 
   test "change_email_address" do
     old_identity = @identity
+    new_identity = identities(:mike)
 
     assert_difference -> { Identity.count }, +1 do
       @user.change_email_address(@new_email)
@@ -27,9 +28,9 @@ class User::EmailAddressChangeableTest < ActiveSupport::TestCase
     assert_equal @new_email, @user.reload.identity.email_address
 
     assert_no_difference -> { Identity.count } do
-      @user.change_email_address(identities(:david).email_address)
+      @user.change_email_address(new_identity.email_address)
     end
-    assert_equal identities(:david).email_address, @user.reload.identity.email_address
+    assert_equal new_identity.email_address, @user.reload.identity.email_address
   end
 
   test "change_email_address_using_token" do
