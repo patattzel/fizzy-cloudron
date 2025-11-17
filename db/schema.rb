@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_11_14_183203) do
+ActiveRecord::Schema[8.2].define(version: 2025_11_17_192434) do
   create_table "accesses", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_14_183203) do
   create_table "accounts", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "cards_count", default: 0, null: false
     t.datetime "created_at", null: false
-    t.integer "external_account_id"
+    t.bigint "external_account_id"
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["external_account_id"], name: "index_accounts_on_external_account_id", unique: true
@@ -375,13 +375,13 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_14_183203) do
     t.uuid "account_id", null: false
     t.string "auth_key"
     t.datetime "created_at", null: false
-    t.string "endpoint"
+    t.text "endpoint"
     t.string "p256dh_key"
     t.datetime "updated_at", null: false
     t.string "user_agent"
     t.uuid "user_id", null: false
     t.index ["account_id"], name: "index_push_subscriptions_on_account_id"
-    t.index ["user_id", "endpoint"], name: "index_push_subscriptions_on_user_id_and_endpoint", unique: true
+    t.index ["user_id", "endpoint"], name: "index_push_subscriptions_on_user_id_and_endpoint", unique: true, length: { endpoint: 255 }
   end
 
   create_table "reactions", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

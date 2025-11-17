@@ -4,6 +4,8 @@ require_relative "../config/environment"
 require "pathname"
 require "optparse"
 
+class AccountExistsError < StandardError; end
+
 class Import
   FIX_LINK_HOSTS = {
     "fizzy.37signals.com" => "app.fizzy.do",
@@ -11,12 +13,13 @@ class Import
     "app.box-car.com" => "app.fizzy.do"
   }.freeze
 
-  attr_reader :db_path, :untenanted_db_path
+  attr_reader :db_path, :untenanted_db_path, :skip_already_imported
   attr_reader :account, :tenant, :mapping
 
-  def initialize(db_path, untenanted_db_path)
+  def initialize(db_path, untenanted_db_path, skip_already_imported: false)
     @db_path = Pathname(db_path)
     @untenanted_db_path = Pathname(untenanted_db_path)
+    @skip_already_imported = skip_already_imported
     @mapping = nil
   end
 
@@ -31,21 +34,25 @@ class Import
 
         ActiveRecord::Base.no_touching do
           Current.with(account: account) do
-            Webhook.skip_callback(:create, :after, :create_delinquency_tracker!)
-            Comment.skip_callback(:commit, :after, :watch_card_by_creator)
-            Comment.skip_callback(:commit, :after, :track_creation)
-            Mention.skip_callback(:commit, :after, :watch_source_by_mentionee)
-            Notification.skip_callback(:commit, :after, :broadcast_unread)
-            Notification.skip_callback(:create, :after, :bundle)
-            Reaction.skip_callback(:create, :after, :register_card_activity)
-            Card.skip_callback(:save, :before, :set_default_title)
-            Card.skip_callback(:update, :after, :handle_board_change)
-            ActiveStorage::Blob.skip_callback(:update, :after, :touch_attachments)
-            ActiveStorage::Blob.skip_callback(:commit, :after, :update_service_metadata)
-            ActiveStorage::Attachment.skip_callback(:commit, :after, :mirror_blob_later)
-            ActiveStorage::Attachment.skip_callback(:commit, :after, :analyze_blob_later)
-            ActiveStorage::Attachment.skip_callback(:commit, :after, :transform_variants_later)
-            ActiveStorage::Attachment.skip_callback(:commit, :after, :purge_dependent_blob_later)
+            begin
+              Webhook.skip_callback(:create, :after, :create_delinquency_tracker!)
+              Comment.skip_callback(:commit, :after, :watch_card_by_creator)
+              Comment.skip_callback(:commit, :after, :track_creation)
+              Mention.skip_callback(:commit, :after, :watch_source_by_mentionee)
+              Notification.skip_callback(:commit, :after, :broadcast_unread)
+              Notification.skip_callback(:create, :after, :bundle)
+              Reaction.skip_callback(:create, :after, :register_card_activity)
+              Card.skip_callback(:save, :before, :set_default_title)
+              Card.skip_callback(:update, :after, :handle_board_change)
+              ActiveStorage::Blob.skip_callback(:update, :after, :touch_attachments)
+              ActiveStorage::Blob.skip_callback(:commit, :after, :update_service_metadata)
+              ActiveStorage::Attachment.skip_callback(:commit, :after, :mirror_blob_later)
+              ActiveStorage::Attachment.skip_callback(:commit, :after, :analyze_blob_later)
+              ActiveStorage::Attachment.skip_callback(:commit, :after, :transform_variants_later)
+              ActiveStorage::Attachment.skip_callback(:commit, :after, :purge_dependent_blob_later)
+            rescue => e
+              puts "⚠️  Warning: Could not skip some callbacks: #{e.message}"
+            end
 
             Event.suppress do
               copy_users
@@ -81,6 +88,8 @@ class Import
     end
 
     puts "🎉 Import complete! (#{duration.round(2)}s)"
+  rescue AccountExistsError => e
+    raise e unless skip_already_imported
   end
 
   private
@@ -115,7 +124,7 @@ class Import
         new_identity = Identity.find_or_create_by!(email_address: membership.identity.email_address)
 
         if Account.all.exists?(external_account_id: account.external_account_id)
-          raise "Account already exists"
+          raise AccountExistsError, "Account already exists"
         else
           @account = Account.create_with_admin_user(
             account: {
@@ -542,8 +551,8 @@ class Import
           end
 
           Entropy.find_or_create_by!(account_id: account.id, container_type: old_entropy.container_type, container_id: container_id) do |entropy|
-            entropy.auto_postpone_period = old_entropy.auto_postpone_period,
-            entropy.created_at = old_entropy.created_at,
+            entropy.auto_postpone_period = old_entropy.auto_postpone_period || 0
+            entropy.created_at = old_entropy.created_at
             entropy.updated_at = old_entropy.updated_at
           end
         end
@@ -1290,10 +1299,20 @@ class Models
   end
 end
 
-options = {}
+options = {
+  skip_already_imported: false
+}
 
 parser = OptionParser.new do |parser|
-  parser.banner = "Usage: #{$PROGRAM_NAME} <db_path> <untenanted_db_path>"
+  parser.banner = "Usage: #{$PROGRAM_NAME} [options] <tenanted_db_path>..."
+
+  parser.on("--untenanted-db-path PATH", "Path to the untenanted database") do |path|
+    options[:untenanted_db_path] = path
+  end
+
+  parser.on("--skip-already-imported", "Skip import if account already exists") do
+    options[:skip_already_imported] = true
+  end
 
   parser.on("-h", "--help", "Show this help message") do
     puts parser
@@ -1303,20 +1322,40 @@ end
 
 parser.parse!
 
-db_path = ARGV[0]
-untenanted_db_path = ARGV[1]
+untenanted_db_path = options[:untenanted_db_path]
+tenanted_db_paths = ARGV
 
-if db_path.nil? || untenanted_db_path.nil?
-  $stderr.puts "Error: both db_path and untenanted_db_path are required"
+if untenanted_db_path.nil?
+  $stderr.puts "Error: --untenanted-db-path is required"
   $stderr.puts
   $stderr.puts parser
   exit 1
 end
 
-begin
-  Import.new(db_path, untenanted_db_path).import_database
-rescue => e
-  $stderr.puts "Error: #{e.message}"
-  $stderr.puts e.backtrace.join("\n") if ENV["DEBUG"]
+if tenanted_db_paths.empty?
+  $stderr.puts "Error: at least one tenanted database path is required"
+  $stderr.puts
+  $stderr.puts parser
   exit 1
 end
+
+total_imported = 0
+
+duration = ActiveSupport::Benchmark.realtime do
+  tenanted_db_paths.each_with_index do |db_path, index|
+    puts
+    puts "="*80
+    puts "Processing database #{index + 1}/#{tenanted_db_paths.size}: #{db_path}"
+    puts "="*80
+
+    Import.new(db_path, untenanted_db_path, skip_already_imported: options[:skip_already_imported]).import_database
+    total_imported += 1
+  end
+end
+
+puts
+puts "="*80
+puts "Summary:"
+puts "  Imported: #{total_imported}"
+puts "  Total time: #{duration.round(2)} seconds"
+puts "="*80
