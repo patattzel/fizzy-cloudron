@@ -47,6 +47,21 @@ class SmokeTest < ApplicationSystemTestCase
     assert_no_selector "div##{dom_id(notif)}"
   end
 
+  test "dragging card to a new column" do
+    sign_in_as(users(:david))
+
+    card = Card.find("03axhd1h3qgnsffqplkyf28fv")
+    assert_nil(card.column)
+
+    visit board_url(boards(:writebook))
+
+    card_el = page.find("#article_card_03axhd1h3qgnsffqplkyf28fv")
+    column_el = page.find("#column_03axmcferfmbnv4qg816nw6bg")
+    card_el.drag_to(column_el)
+
+    assert_equal("Triage", card.reload.column.name)
+  end
+
   private
     def sign_in_as(user)
       visit session_transfer_url(user.identity.transfer_id, script_name: nil)
