@@ -86,6 +86,6 @@ module NotificationsHelper
     end
 
     def card_notification_title(card)
-      card.title.presence || "Card #{card.id}"
+      card.title.presence || "Card #{card.number}"
     end
 end
