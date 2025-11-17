@@ -5,7 +5,7 @@
           data: { form_target: "submit", controller: "clicker", action: "keydown.ctrl+enter@document->clicker#click keydown.meta+enter@document->clicker#click" } do %>
       <span>Create card</span>
     <% end %>
-    <kbd class="txt-x-small txt-subtle center"><%= hotkey_label([ "ctrl", "enter" ]) %></kbd>
+    <kbd class="txt-x-small txt-subtle center hide-on-touch"><%= hotkey_label([ "ctrl", "enter" ]) %></kbd>
   </div>
 
   <div class="flex flex-column gap-half">
@@ -14,6 +14,6 @@
           data: { form_target: "submit", controller: "clicker", action: "keydown.ctrl+shift+enter@document->clicker#click keydown.meta+shift+enter@document->clicker#click" } do %>
       <span>Create and add another</span>
     <% end %>
-    <kbd class="txt-x-small txt-subtle center"><%= hotkey_label([ "ctrl", "shift", "enter" ]) %></kbd>
+    <kbd class="txt-x-small txt-subtle center hide-on-touch"><%= hotkey_label([ "ctrl", "shift", "enter" ]) %></kbd>
   </div>
 </div>
