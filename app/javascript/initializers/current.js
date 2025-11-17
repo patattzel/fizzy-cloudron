@@ -3,7 +3,7 @@ class Current {
     const currentUserId = this.#extractContentFromMetaTag("current-user-id")
 
     if (currentUserId) {
-      return { id: parseInt(currentUserId) }
+      return { id: currentUserId }
     }
   }
 

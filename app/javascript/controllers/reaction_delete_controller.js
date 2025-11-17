@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static classes = [ "deleteable", "reveal", "perform" ]
   static targets = [ "button", "content" ]
-  static values = { reacterId: Number }
+  static values = { reacterId: String }
 
   connect() {
     if (this.#currentUserIsReacter) {
