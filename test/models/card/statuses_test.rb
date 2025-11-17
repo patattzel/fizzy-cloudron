@@ -51,4 +51,20 @@ class Card::StatusesTest < ActiveSupport::TestCase
     assert_equal card, event.eventable
     assert_equal "card_published", event.action
   end
+
+  test "created_at is updated when the card is published" do
+    Current.session = sessions(:david)
+    freeze_time
+
+    card = travel_to 1.week.ago do
+      boards(:writebook).cards.create! creator: users(:kevin), title: "Newly created card"
+    end
+
+    assert card.drafted?
+    assert_equal 1.week.ago, card.created_at
+
+    card.publish
+
+    assert_equal Time.now, card.created_at
+  end
 end
