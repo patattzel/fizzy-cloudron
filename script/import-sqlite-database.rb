@@ -128,11 +128,11 @@ class Import
         else
           @account = Account.create_with_admin_user(
             account: {
-              external_account_id: account.external_account_id.to_s,
-              name: account.name
+              external_account_id: account.external_account_id,
+              name: account.name.truncate(255, omission: "")
             },
             owner: {
-              name: oldest_admin.name,
+              name: oldest_admin.name.truncate(255, omission: ""),
               identity: new_identity
             }
           )
@@ -169,7 +169,7 @@ class Import
             User.create!(
               account: account,
               identity: new_identity,
-              name: old_user.name,
+              name: old_user.name.truncate(255, omission: ""),
               role: old_user.role,
               active: old_user.active,
             )
@@ -198,7 +198,7 @@ class Import
           new_board = Board.create!(
             account_id: account.id,
             creator_id: mapping[:users][old_board.creator_id],
-            name: old_board.name,
+            name: old_board.name.truncate(255, omission: ""),
             all_access: old_board.all_access,
             created_at: old_board.created_at,
             updated_at: old_board.updated_at
@@ -229,7 +229,7 @@ class Import
           new_column = Column.create!(
             account_id: account.id,
             board_id: mapping[:boards][old_column.board_id],
-            name: old_column.name,
+            name: old_column.name.truncate(255, omission: ""),
             color: old_column.color,
             position: old_column.position,
             created_at: old_column.created_at,
@@ -848,7 +848,7 @@ class Import
           new_webhook = Webhook.create!(
             account_id: account.id,
             board_id: mapping[:boards][old_webhook.board_id],
-            name: old_webhook.name,
+            name: old_webhook.name.truncate(255, omission: ""),
             url: old_webhook.url,
             signing_secret: old_webhook.signing_secret,
             subscribed_actions: subscribed_actions,

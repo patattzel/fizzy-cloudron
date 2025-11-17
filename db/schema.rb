@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_11_17_192434) do
+ActiveRecord::Schema[8.2].define(version: 2025_11_17_202517) do
   create_table "accesses", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -30,8 +30,8 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_17_192434) do
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "usage_count", default: 0, null: false
-    t.integer "usage_limit", default: 10, null: false
+    t.bigint "usage_count", default: 0, null: false
+    t.bigint "usage_limit", default: 10, null: false
     t.index ["account_id", "code"], name: "index_account_join_codes_on_account_id_and_code", unique: true
   end
 
