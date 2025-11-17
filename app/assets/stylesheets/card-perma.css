@@ -166,6 +166,18 @@
     }
   }
 
+  .card-perma__image-btn {
+    &:has(input[type="file"]:focus),
+    &:has(input[type="file"]:focus-visible) {
+      outline: var(--focus-ring) !important;
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    input[type="file"] {
+      outline: none;
+    }
+  }
+
   .card__banner {
     align-items: center;
     background-color: var(--color-highlight);
