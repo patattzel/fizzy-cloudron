@@ -44,5 +44,5 @@ module AccountSlug
 end
 
 Rails.application.config.middleware.tap do |stack|
-  stack.insert_before Rails::Rack::Logger, AccountSlug::Extractor
+  stack.insert_before ActiveRecord::Middleware::DatabaseSelector, AccountSlug::Extractor
 end
