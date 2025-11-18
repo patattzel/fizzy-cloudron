@@ -1,8 +1,12 @@
 class SessionsController < ApplicationController
   # FIXME: Remove this before launch!
-  SIGNUP_USERNAME = Rails.env.local? ? "testname" : Rails.application.credentials.account_signup_http_basic_auth.name
-  SIGNUP_PASSWORD = Rails.env.local? ? "testpassword" : Rails.application.credentials.account_signup_http_basic_auth.password
-  http_basic_authenticate_with name: SIGNUP_USERNAME, password: SIGNUP_PASSWORD, realm: "Fizzy Signup", only: :create, unless: -> { Identity.exists?(email_address: email_address) }
+  if Rails.env.remote?
+    http_basic_authenticate_with \
+      name: Rails.application.credentials.account_signup_http_basic_auth.name,
+      password: Rails.application.credentials.account_signup_http_basic_auth.password,
+      realm: "Fizzy Signup",
+      only: :create, unless: -> { Identity.exists?(email_address: email_address) }
+  end
 
   disallow_account_scope
   require_unauthenticated_access except: :destroy
