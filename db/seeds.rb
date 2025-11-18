@@ -55,4 +55,3 @@ else
   seed_account "37signals"
   seed_account "honcho"
 end
-
