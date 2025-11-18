@@ -4,7 +4,7 @@ class Card < ApplicationRecord
     Readable, Searchable, Stallable, Statuses, Taggable, Triageable, Watchable
 
   belongs_to :account, default: -> { board.account }
-  belongs_to :board, touch: true
+  belongs_to :board
   belongs_to :creator, class_name: "User", default: -> { Current.user }
 
   has_many :comments, dependent: :destroy
@@ -13,8 +13,10 @@ class Card < ApplicationRecord
   has_rich_text :description
 
   before_save :set_default_title, if: :published?
-  after_update :handle_board_change, if: :saved_change_to_board_id?
   before_create :assign_number
+
+  after_save   -> { board.touch }, if: :published?
+  after_update :handle_board_change, if: :saved_change_to_board_id?
 
   scope :reverse_chronologically, -> { order created_at:     :desc, id: :desc }
   scope :chronologically,         -> { order created_at:     :asc,  id: :asc  }
