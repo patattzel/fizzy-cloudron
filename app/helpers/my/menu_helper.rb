@@ -25,7 +25,7 @@ module My::MenuHelper
 
   def my_menu_tag_item(the_tag)
     my_menu_item("tag", tag) do
-      link_to(tag.span("#{the_tag.title} (#{the_tag.cards_count})", class: "overflow-ellipsis"), cards_path(tag_ids: [ the_tag ]), class: "popup__btn btn")
+      link_to(tag.span(the_tag.title, class: "overflow-ellipsis"), cards_path(tag_ids: [ the_tag ]), class: "popup__btn btn")
     end
   end
 
