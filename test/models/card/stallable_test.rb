@@ -20,7 +20,29 @@ class Card::StallableTest < ActiveSupport::TestCase
   end
 
   test "a card with an old activity spike is stalled" do
-    cards(:logo).create_activity_spike!(updated_at: 3.months.ago)
+    cards(:logo).create_activity_spike!
+
+    travel_to 3.months.from_now
+
+    assert cards(:logo).stalled?
+    assert_includes Card.stalled, cards(:logo)
+  end
+
+  test "a stalled card can be unstalled with a single comment" do
+    cards(:logo).create_activity_spike!
+
+    travel_to 3.months.from_now
+
+    assert cards(:logo).stalled?
+    assert_includes Card.stalled, cards(:logo)
+
+    cards(:logo).comments.create!(body: "A new comment to unstall the card")
+
+    assert_not cards(:logo).stalled?
+    assert_not_includes Card.stalled, cards(:logo)
+
+    # and stalls again after more time passes
+    travel_to 3.months.from_now
 
     assert cards(:logo).stalled?
     assert_includes Card.stalled, cards(:logo)
@@ -28,15 +50,20 @@ class Card::StallableTest < ActiveSupport::TestCase
 
   test "a card with an old activity spike is not stalled after being postponed" do
     card = cards(:logo)
-    card.update!(last_active_at: 1.day.ago - card.board.entropy.auto_postpone_period)
-    card.create_activity_spike!(updated_at: 3.months.ago)
+    card.create_activity_spike!
+
+    travel_to 3.months.from_now
 
     assert card.stalled?
     assert_includes Card.stalled, card
 
+    travel_to Time.now + card.board.entropy.auto_postpone_period + 1.day
+    assert_includes Card.due_to_be_postponed, card
+
     Card.auto_postpone_all_due
 
     assert_not card.reload.stalled?
+    assert_not_includes Card.stalled, card
   end
 
   # More fine-grained testing in Card::ActivitySpike::Detector
