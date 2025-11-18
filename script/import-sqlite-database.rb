@@ -82,6 +82,13 @@ class Import
             copy_notification_bundles
 
             fix_links
+
+            unless Rails.env.production?
+              # Don't spam real webhooks
+              Webhook.all.update_all(active: false)
+              # Don't send emails to real users
+              User::Settings.all.update_all(bundle_email_frequency: :never)
+            end
           end
         end
       end
