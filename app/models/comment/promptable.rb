@@ -16,11 +16,11 @@ module Comment::Promptable
         #### Metadata
 
         * Id: #{id}
-        * Card id: #{card.id}
+        * Card id: #{card.number}
         * Card title: #{card.title}
         * Created by: #{creator.name}}
         * Created at: #{created_at}}
-        * Path: #{card_path(card, anchor: ActionView::RecordIdentifier.dom_id(self), script_name: Account.sole.slug)}
+        * Path: #{card_path(card, anchor: ActionView::RecordIdentifier.dom_id(self), script_name: account.slug)}
         END OF COMMENT #{id}
       PROMPT
   end

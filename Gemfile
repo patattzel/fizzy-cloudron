@@ -10,7 +10,6 @@ gem "stimulus-rails"
 gem "turbo-rails"
 
 # Deployment and drivers
-gem "activerecord-tenanted", bc: "activerecord-tenanted"
 gem "bootsnap", require: false
 gem "kamal", require: false
 gem "puma", ">= 5.0"
@@ -19,7 +18,7 @@ gem "solid_cache", "~> 1.0"
 gem "solid_queue", "~> 1.2"
 gem "sqlite3", ">= 2.0"
 gem "thruster", require: false
-gem "beamer-rails", "~> 0.1.0.beta4"
+gem "trilogy", "~> 2.9"
 
 # Features
 gem "bcrypt", "~> 3.1.7"
@@ -34,6 +33,7 @@ gem "platform_agent"
 gem "aws-sdk-s3", require: false
 gem "web-push"
 gem "net-http-persistent"
+gem "mittens"
 
 # Telemetry, logging, and operations
 gem "mission_control-jobs"
@@ -54,12 +54,13 @@ gem "autotuner"
 gem "benchmark" # indirect dependency, being removed from Ruby 3.5 stdlib so here to quash warnings
 
 group :development, :test do
-  gem "debug"
-  gem "bundler-audit", require: false
   gem "brakeman", require: false
-  gem "rubocop-rails-omakase", require: false
-  gem "letter_opener"
+  gem "bundler-audit", require: false
+  gem "debug"
   gem "faker"
+  gem "letter_opener"
+  gem "rack-mini-profiler"
+  gem "rubocop-rails-omakase", require: false
 end
 
 group :development do

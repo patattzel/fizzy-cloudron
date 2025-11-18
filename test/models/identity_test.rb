@@ -18,4 +18,21 @@ class IdentityTest < ActiveSupport::TestCase
     assert Identity.new(email_address: "test@basecamp.com").staff?
     assert_not Identity.new(email_address: "test@example.com").staff?
   end
+
+  test "join" do
+    identity = identities(:david)
+    account = accounts(:initech)
+
+    Current.without_account do
+      assert_difference "User.count", 1 do
+        identity.join(account)
+      end
+
+      user = account.users.find_by!(identity: identity)
+
+      assert_not_nil user
+      assert_equal identity, user.identity
+      assert_equal identity.email_address, user.name
+    end
+  end
 end

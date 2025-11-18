@@ -77,7 +77,7 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update all access" do
-    board = Current.set(session: sessions(:kevin)) do
+    board = Current.set(account: accounts("37s"), session: sessions(:kevin), user: users(:kevin)) do
       Board.create! name: "New board", all_access: false
     end
     assert_equal [ users(:kevin) ], board.users
@@ -86,7 +86,7 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to edit_board_path(board)
     assert board.reload.all_access?
-    assert_equal User.active.sort, board.users.sort
+    assert_equal accounts("37s").users.active.sort, board.users.sort
   end
 
   test "destroy" do

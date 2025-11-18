@@ -1,39 +1,10 @@
 module Searchable
   extend ActiveSupport::Concern
 
-  class_methods do
-    def searchable_by(*fields, using:)
-      define_method :search_fields do
-        fields
-      end
-
-      define_method :search_values do
-        fields.map do
-          value = send(it)
-          value.respond_to?(:to_plain_text) ? value.to_plain_text : value
-        end
-      end
-
-      define_method :search_table do
-        using
-      end
-
-      after_create_commit :create_in_search_index
-      after_update_commit :update_in_search_index
-      after_destroy_commit :remove_from_search_index
-
-      scope :search, ->(query) do
-        query = Search::Query.wrap(query)
-
-        base = joins("join #{using} idx on #{table_name}.id = idx.rowid")
-
-        if query.valid?
-          base.where("#{using} match ?", query.to_s)
-        else
-          base.none
-        end
-      end
-    end
+  included do
+    after_create_commit :create_in_search_index
+    after_update_commit :update_in_search_index
+    after_destroy_commit :remove_from_search_index
   end
 
   def reindex
@@ -42,36 +13,40 @@ module Searchable
 
   private
     def create_in_search_index
-      fields_sql = [ "rowid", *search_fields ].join(", ")
-      placeholders = ([ "?" ] * (search_fields.size + 1)).join(", ")
-      values = [ id, *search_values ]
-
-      execute_sql_with_binds(
-        "insert into #{search_table}(#{fields_sql}) values (#{placeholders})",
-        *values
-      )
+      Search::Record.for_account(account_id).create!(search_record_attributes)
     end
 
     def update_in_search_index
-      transaction do
-        set_clause = search_fields.map { |field| "#{field} = ?" }.join(", ")
-        binds = search_values + [ id ]
-
-        updated = execute_sql_with_binds(
-          "update #{search_table} set #{set_clause} where rowid = ?",
-          *binds
-        )
-
-        create_in_search_index unless updated
-      end
+      Search::Record.for_account(account_id).upsert_all(
+        [ search_record_attributes.merge(id: ActiveRecord::Type::Uuid.generate) ],
+        update_only: [ :card_id, :board_id, :title, :content, :created_at ]
+      )
     end
 
     def remove_from_search_index
-      execute_sql_with_binds "delete from #{search_table} where rowid = ?", id
+      Search::Record.for_account(account_id).where(
+        searchable_type: self.class.name,
+        searchable_id: id
+      ).delete_all
     end
 
-    def execute_sql_with_binds(*statement)
-      self.class.connection.execute self.class.sanitize_sql(statement)
-      self.class.connection.raw_connection.changes.nonzero?
+    def search_record_attributes
+      {
+        account_id: account_id,
+        searchable_type: self.class.name,
+        searchable_id: id,
+        card_id: search_card_id,
+        board_id: search_board_id,
+        title: Search::Stemmer.stem(search_title),
+        content: Search::Stemmer.stem(search_content),
+        created_at: created_at
+      }
     end
+
+  # Models must implement these methods:
+  # - account_id: returns the account id
+  # - search_title: returns title string or nil
+  # - search_content: returns content string
+  # - search_card_id: returns the card id (self.id for cards, card_id for comments)
+  # - search_board_id: returns the board id
 end

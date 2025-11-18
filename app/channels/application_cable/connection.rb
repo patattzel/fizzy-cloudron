@@ -3,15 +3,15 @@ module ApplicationCable
     identified_by :current_user
 
     def connect
-      super
       set_current_user || reject_unauthorized_connection
     end
 
     private
       def set_current_user
         if session = find_session_by_cookie
-          membership = session.identity.memberships.find_by!(tenant: current_tenant)
-          self.current_user = membership.user if membership.user.active?
+          account = Account.find_by(external_account_id: request.env["fizzy.external_account_id"])
+          Current.account = account
+          self.current_user = session.identity.users.find_by!(account: account) if account
         end
       end
 

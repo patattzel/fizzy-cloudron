@@ -1,4 +1,7 @@
 class Search::Query < ApplicationRecord
+  belongs_to :account, default: -> { user&.account || Current.account }
+  belongs_to :user, optional: true
+
   validates :terms, presence: true
   before_validation :sanitize_terms
 
@@ -12,7 +15,9 @@ class Search::Query < ApplicationRecord
     end
   end
 
-  alias_attribute :to_s, :terms
+  def to_s
+    Search::Stemmer.stem(terms.to_s)
+  end
 
   private
     def sanitize_terms

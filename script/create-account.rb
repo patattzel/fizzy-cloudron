@@ -83,7 +83,7 @@ Current.set(
 
   # Step 3: Get or create join code
   ApplicationRecord.with_tenant(tenant_id) do
-    account = Account.sole
+    account = Current.account
     join_code = account.join_code
 
     puts "✓ Join code ready"

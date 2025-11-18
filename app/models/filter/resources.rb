@@ -12,13 +12,14 @@ module Filter::Resources
   def resource_removed(resource)
     kind = resource.class.model_name.plural
     send "#{kind}=", send(kind).without(resource)
+    @boards = nil
     empty? ? destroy! : save!
   rescue ActiveRecord::RecordNotUnique
     destroy!
   end
 
   def boards
-    creator.boards.where id: super.ids
+    @boards ||= creator.boards.where id: super.ids
   end
 
   def board_titles

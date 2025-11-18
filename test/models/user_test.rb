@@ -2,25 +2,27 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   test "create" do
-    user = User.create! \
+    user = User.create!(
+      account: accounts("37s"),
       role: "member",
       name: "Victor Cooper"
+    )
 
     assert_equal [ boards(:writebook) ], user.boards
     assert user.settings.present?
   end
 
   test "creation gives access to all_access boards" do
-    user = User.create! \
+    user = User.create!(
+      account: accounts("37s"),
       role: "member",
       name: "Victor Cooper"
+    )
 
     assert_equal [ boards(:writebook) ], user.boards
   end
 
   test "deactivate" do
-    tenant = ApplicationRecord.current_tenant
-
     assert_changes -> { users(:jz).active? }, from: true, to: false do
       assert_changes -> { users(:jz).accesses.count }, from: 1, to: 0 do
         users(:jz).deactivate

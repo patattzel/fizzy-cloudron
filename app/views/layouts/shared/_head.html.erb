@@ -1,7 +1,7 @@
 <head>
   <%= page_title_tag %>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
   <% unless @disable_view_transition %>
     <meta name="view-transition" content="same-origin">
   <% end %>
@@ -23,7 +23,7 @@
 
   <%= yield :head %>
 
-  <% if ApplicationRecord.current_tenant %>
+  <% if Current.account %>
     <link rel="manifest" href="<%= pwa_manifest_path(format: :json) %>">
   <% end %>
   <link rel="icon" href="/favicon.png" type="image/png">

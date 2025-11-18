@@ -7,7 +7,7 @@ class Boards::EntropiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update" do
-    assert_no_difference -> { Account.sole.entropy.reload.auto_postpone_period } do
+    assert_no_difference -> { Current.account.entropy.reload.auto_postpone_period } do
       put board_entropy_path(@board, format: :turbo_stream), params: { board: { auto_postpone_period: 123.days } }
 
       assert_equal 123.days, @board.entropy.reload.auto_postpone_period

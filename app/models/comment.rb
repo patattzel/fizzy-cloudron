@@ -1,12 +1,12 @@
 class Comment < ApplicationRecord
   include Attachments, Eventable, Mentions, Promptable, Searchable
-  belongs_to :card, touch: true
 
+  belongs_to :account, default: -> { card.account }
+  belongs_to :card, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
   has_many :reactions, dependent: :delete_all
 
   has_rich_text :body
-  searchable_by :body, using: :comments_search_index
 
   scope :chronologically, -> { order created_at: :asc, id: :desc }
   scope :by_system, -> { joins(:creator).where(creator: { role: "system" }) }

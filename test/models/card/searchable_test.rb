@@ -1,24 +1,34 @@
 require "test_helper"
 
 class Card::SearchableTest < ActiveSupport::TestCase
-  setup do
-    Card.all.each(&:reindex)
-    Comment.all.each(&:reindex)
-  end
+  include SearchTestHelper
 
-  test "searching by title" do
-    assert_includes Card.mentioning("layout is broken"), cards(:layout)
-  end
+  test "card search" do
+    # Searching by title
+    card = @board.cards.create!(title: "layout is broken", creator: @user)
+    results = Card.mentioning("layout", user: @user)
+    assert_includes results, card
 
-  test "searching by comment" do
-    assert_includes Card.mentioning("overflowing"), cards(:layout)
-  end
+    # Searching by comment
+    card_with_comment = @board.cards.create!(title: "Some card", creator: @user)
+    card_with_comment.comments.create!(body: "overflowing text", creator: @user)
+    results = Card.mentioning("overflowing", user: @user)
+    assert_includes results, card_with_comment
 
-  test "sanitizing search query" do
-    assert_includes Card.mentioning("broken \""), cards(:layout)
-  end
+    # Sanitizing search query
+    card_broken = @board.cards.create!(title: "broken layout", creator: @user)
+    results = Card.mentioning("broken \"", user: @user)
+    assert_includes results, card_broken
 
-  test "a search with no valid terms returns empty results" do
-    assert_empty Card.mentioning("\"")
+    # Empty query returns no results
+    assert_empty Card.mentioning("\"", user: @user)
+
+    # Filtering by board_ids
+    other_board = Board.create!(name: "Other Board", account: @account, creator: @user)
+    card_in_board = @board.cards.create!(title: "searchable content", creator: @user)
+    card_in_other_board = other_board.cards.create!(title: "searchable content", creator: @user)
+    results = Card.mentioning("searchable", user: @user)
+    assert_includes results, card_in_board
+    assert_not_includes results, card_in_other_board
   end
 end

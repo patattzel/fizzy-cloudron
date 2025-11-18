@@ -1,7 +1,7 @@
 <% @page_title = "Enter your email" %>
 
 <div class="panel panel--centered flex flex-column gap-half">
-  <h1 class="txt-x-large font-weight-black margin-block-end">Let’s get you in to Fizzy</h1>
+  <h1 class="txt-x-large font-weight-black margin-block-end">Get into Fizzy</h1>
 
   <%= form_with url: session_path, class: "flex flex-column gap-half txt-medium" do |form| %>
     <div class="flex align-center gap">
@@ -10,7 +10,7 @@
       </label>
     </div>
 
-    <p>If you’ve already got an account we’ll get you signed in. If you’re new here, we’ll set you up with your own Fizzy account.</p>
+    <p><strong>New here?</strong> Enter your email to create an account. <strong>Already have an account?</strong> Enter your email and we’ll get you signed in.</p>
 
     <button type="submit" id="log_in" class="btn btn--link center txt-medium">
       <span>Let’s go</span>

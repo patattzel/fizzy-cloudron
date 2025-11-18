@@ -2,7 +2,7 @@ class Filter < ApplicationRecord
   include Fields, Params, Resources, Summarized
 
   belongs_to :creator, class_name: "User", default: -> { Current.user }
-  has_one :account, through: :creator
+  belongs_to :account, default: -> { creator.account }
 
   class << self
     def from_params(params)
@@ -33,7 +33,7 @@ class Filter < ApplicationRecord
       result = result.closed_at_window(closure_window) if closure_window
       result = result.closed_by(closers) if closers.present?
       result = terms.reduce(result) do |result, term|
-        result.mentioning(term)
+        result.mentioning(term, user: creator)
       end
 
       result
@@ -66,7 +66,7 @@ class Filter < ApplicationRecord
 
   private
     def include_closed_cards?
-      only_closed? || card_ids.present? || creator_ids.present?
+      only_closed? || card_ids.present?
     end
 
     def include_not_now_cards?

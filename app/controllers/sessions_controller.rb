@@ -1,10 +1,14 @@
 class SessionsController < ApplicationController
   # FIXME: Remove this before launch!
-  SIGNUP_USERNAME = Rails.env.local? ? "testname" : Rails.application.credentials.account_signup_http_basic_auth.name
-  SIGNUP_PASSWORD = Rails.env.local? ? "testpassword" : Rails.application.credentials.account_signup_http_basic_auth.password
-  http_basic_authenticate_with name: SIGNUP_USERNAME, password: SIGNUP_PASSWORD, realm: "Fizzy Signup", only: :create, unless: -> { Identity.exists?(email_address: email_address) }
+  if Rails.env.remote?
+    http_basic_authenticate_with \
+      name: Rails.application.credentials.account_signup_http_basic_auth.name,
+      password: Rails.application.credentials.account_signup_http_basic_auth.password,
+      realm: "Fizzy Signup",
+      only: :create, unless: -> { Identity.exists?(email_address: email_address) }
+  end
 
-  require_untenanted_access
+  disallow_account_scope
   require_unauthenticated_access except: :destroy
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_path, alert: "Try again later." }
 
@@ -20,7 +24,7 @@ class SessionsController < ApplicationController
       redirect_to session_magic_link_path
     elsif signups_allowed?
       Signup.new(email_address: email_address).create_identity
-      session[:return_to_after_authenticating] = saas.new_signup_membership_path
+      session[:return_to_after_authenticating] = saas.new_signup_completion_path
       redirect_to session_magic_link_path
     end
   end

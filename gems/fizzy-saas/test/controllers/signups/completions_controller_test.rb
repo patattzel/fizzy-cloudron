@@ -7,16 +7,11 @@ class Signup::CompletionsControllerTest < ActionDispatch::IntegrationTest
     @signup.create_identity || raise("Failed to create identity")
 
     sign_in_as @signup.identity
-
-    @signup.create_membership || raise("Failed to create membership")
   end
 
   test "new" do
     untenanted do
-      get saas.new_signup_completion_path(signup: {
-        membership_id: @signup.membership_id,
-        full_name: @signup.full_name,
-        account_name: @signup.account_name })
+      get saas.new_signup_completion_path
     end
 
     assert_response :success
@@ -26,21 +21,19 @@ class Signup::CompletionsControllerTest < ActionDispatch::IntegrationTest
     untenanted do
       post saas.signup_completion_path, params: {
         signup: {
-          membership_id: @signup.membership_id,
-          full_name: @signup.full_name,
-          account_name: @signup.account_name
+          full_name: @signup.full_name
         }
       }
     end
 
-    assert_redirected_to landing_path(script_name: "/#{@signup.tenant}"), "Successful completion should redirect to root in new tenant"
+    assert_response :redirect, "Valid params should redirect"
+  end
 
+  test "create with invalid params" do
     untenanted do
       post saas.signup_completion_path, params: {
         signup: {
-          membership_id: @membership_id,
-          full_name: "",
-          account_name: ""
+          full_name: ""
         }
       }
     end

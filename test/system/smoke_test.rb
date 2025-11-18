@@ -38,13 +38,31 @@ class SmokeTest < ApplicationSystemTestCase
   test "dismissing notifications" do
     sign_in_as(users(:david))
 
-    notif = notifications(:logo_comment_david_mention_by_jz)
+    notif = notifications(:logo_card_david_mention_by_jz)
 
     assert_selector "div##{dom_id(notif)}"
 
     within_window(open_new_window) { visit card_url(notif.card) }
 
     assert_no_selector "div##{dom_id(notif)}"
+  end
+
+  test "dragging card to a new column" do
+    sign_in_as(users(:david))
+
+    card = Card.find("03axhd1h3qgnsffqplkyf28fv")
+    assert_nil(card.column)
+
+    visit board_url(boards(:writebook))
+
+    card_el = page.find("#article_card_03axhd1h3qgnsffqplkyf28fv")
+    column_el = page.find("#column_03axmcferfmbnv4qg816nw6bg")
+    cards_count = column_el.find(".cards__expander-count").text.to_i
+
+    card_el.drag_to(column_el)
+
+    column_el.find(".cards__expander-count", text: cards_count + 1)
+    assert_equal("Triage", card.reload.column.name)
   end
 
   private

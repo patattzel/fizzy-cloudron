@@ -2,10 +2,7 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
-    # Checking for tenant must happen first so we redirect before trying to access the db.
-    before_action :require_tenant
-    prepend_before_action :clear_old_scoped_session_cookies
-
+    before_action :require_account # Checking and setting account must happen first
     before_action :require_authentication
     helper_method :authenticated?
 
@@ -26,8 +23,8 @@ module Authentication
       allow_unauthorized_access **options
     end
 
-    def require_untenanted_access(**options)
-      skip_before_action :require_tenant, **options
+    def disallow_account_scope(**options)
+      skip_before_action :require_account, **options
       before_action :redirect_tenanted_request, **options
     end
   end
@@ -37,8 +34,8 @@ module Authentication
       Current.session.present?
     end
 
-    def require_tenant
-      if ApplicationRecord.current_tenant.blank?
+    def require_account
+      unless Current.account.present?
         redirect_to session_menu_url(script_name: nil)
       end
     end
@@ -53,19 +50,12 @@ module Authentication
       end
     end
 
-    # FIXME: Remove before launch
-    def clear_old_scoped_session_cookies
-      if request.script_name.present? && cookies.signed[:session_token].present? && !find_session_by_cookie
-        cookies.signed[:session_token] = { value: "invalid-session-token", path: request.script_name, expires: 1.hour.ago }
-      end
-    end
-
     def find_session_by_cookie
       Session.find_signed(cookies.signed[:session_token])
     end
 
     def request_authentication
-      if ApplicationRecord.current_tenant.present?
+      if Current.account.present?
         session[:return_to_after_authenticating] = request.url
       end
 
@@ -81,7 +71,7 @@ module Authentication
     end
 
     def redirect_tenanted_request
-      redirect_to root_url if ApplicationRecord.current_tenant
+      redirect_to root_url if Current.account.present?
     end
 
     def start_new_session_for(identity)

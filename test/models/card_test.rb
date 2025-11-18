@@ -5,6 +5,19 @@ class CardTest < ActiveSupport::TestCase
     Current.session = sessions(:david)
   end
 
+  test "create assigns a number to the card" do
+    user = users(:david)
+    board = boards(:writebook)
+    account = board.account
+    card = nil
+
+    assert_difference -> { account.reload.cards_count }, +1 do
+      card = Card.create!(title: "Test", board: board, creator: user)
+    end
+
+    assert_equal account.reload.cards_count, card.number
+  end
+
   test "capturing messages" do
     assert_difference -> { cards(:logo).comments.count }, +1 do
       cards(:logo).comments.create!(body: "Agreed.")
@@ -25,15 +38,17 @@ class CardTest < ActiveSupport::TestCase
       cards(:logo).toggle_assignment users(:kevin)
     end
     assert_not cards(:logo).assigned_to?(users(:kevin))
-    assert_equal "card_unassigned", Event.last.action
-    assert_equal [ users(:kevin) ], Event.last.assignees
+    unassign_event = Event.last
+    assert_equal "card_unassigned", unassign_event.action
+    assert_equal [ users(:kevin) ], unassign_event.assignees
 
     assert_difference %w[ cards(:logo).assignees.count Event.count ], +1 do
       cards(:logo).toggle_assignment users(:kevin)
     end
     assert cards(:logo).assigned_to?(users(:kevin))
-    assert_equal "card_assigned", Event.last.action
-    assert_equal [ users(:kevin) ], Event.last.assignees
+    assign_event = Event.last
+    assert_equal "card_assigned", assign_event.action
+    assert_equal [ users(:kevin) ], assign_event.assignees
   end
 
   test "tagged states" do
@@ -60,54 +75,35 @@ class CardTest < ActiveSupport::TestCase
     assert_equal "prioritized", cards(:logo).taggings.last.tag.title
   end
 
-  test "searchable by title" do
-    card = boards(:writebook).cards.create! title: "Insufficient haggis", creator: users(:kevin)
-
-    assert_includes Card.search("haggis"), card
-  end
-
   test "closed" do
     assert_equal [ cards(:shipping) ], Card.closed
   end
 
   test "open" do
-    assert_equal cards(:logo, :layout, :text, :buy_domain), Card.open
+    assert_equal cards(:logo, :layout, :text, :buy_domain).to_set, accounts("37s").cards.open.to_set
+    assert_equal cards(:radio, :paycheck).to_set, accounts("initech").cards.open.to_set
   end
 
   test "card_unassigned" do
-    assert_equal cards(:shipping, :text, :buy_domain), Card.unassigned
+    assert_equal cards(:shipping, :text, :buy_domain).to_set, accounts("37s").cards.unassigned.to_set
   end
 
   test "assigned to" do
-    assert_equal cards(:logo, :layout), Card.assigned_to(users(:jz))
+    assert_equal cards(:logo, :layout).to_set, Card.assigned_to(users(:jz)).to_set
   end
 
   test "assigned by" do
-    assert_equal cards(:layout, :logo), Card.assigned_by(users(:david))
+    assert_equal cards(:layout, :logo).to_set, Card.assigned_by(users(:david)).to_set
   end
 
   test "in board" do
     new_board = Board.create! name: "New Board", creator: users(:david)
-    assert_equal cards(:logo, :shipping, :layout, :text, :buy_domain), Card.where(board: boards(:writebook))
+    assert_equal cards(:logo, :shipping, :layout, :text, :buy_domain).to_set, Card.where(board: boards(:writebook)).to_set
     assert_empty Card.where(board: new_board)
   end
 
   test "tagged with" do
     assert_equal cards(:layout, :text), Card.tagged_with(tags(:mobile))
-  end
-
-  test "mentioning" do
-    card = boards(:writebook).cards.create! title: "Insufficient haggis", creator: users(:kevin)
-    cards(:logo).comments.create!(body: "I hate haggis")
-    cards(:text).comments.create!(body: "I love haggis")
-
-    assert_equal [ card, cards(:logo), cards(:text) ].sort, Card.mentioning("haggis").sort
-  end
-
-  test "cache key includes the tenant name" do
-    card = cards(:logo)
-
-    assert_includes card.cache_key, ApplicationRecord.current_tenant, "cache key must always include the tenant"
   end
 
   test "for published cards, it should set the default title 'Untitiled' when not provided" do

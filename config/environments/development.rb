@@ -73,6 +73,9 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # Prepend all log lines with the following tags.
+  config.log_tags = [ :request_id ]
+
   if Rails.root.join("tmp/email-dev.txt").exist?
     config.action_mailer.delivery_method = :letter_opener
     config.action_mailer.perform_deliveries = true
@@ -88,7 +91,7 @@ Rails.application.configure do
 
   if Rails.root.join("tmp/solid-queue.txt").exist?
     config.active_job.queue_adapter = :solid_queue
-    config.solid_queue.connects_to = { database: { writing: :queue } }
+    config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
   end
 
   if Rails.root.join("tmp/structured-logging.txt").exist?

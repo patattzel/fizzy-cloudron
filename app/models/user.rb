@@ -1,13 +1,12 @@
 class User < ApplicationRecord
-  include Accessor, Assignee, Attachable, Configurable,
+  include Accessor, Assignee, Attachable, Configurable, EmailAddressChangeable,
     Mentionable, Named, Notifiable, Role, Searcher, Watcher
   include Timelined # Depends on Accessor
 
   has_one_attached :avatar
 
-  belongs_to :membership, optional: true
-
-  has_one :identity, through: :membership, disable_joins: true
+  belongs_to :account
+  belongs_to :identity, optional: true
 
   has_many :comments, inverse_of: :creator, dependent: :destroy
 
@@ -16,10 +15,14 @@ class User < ApplicationRecord
   has_many :pins, dependent: :destroy
   has_many :pinned_cards, through: :pins, source: :card
 
+  scope :with_avatars, -> { preload(:account, :avatar_attachment) }
+
   delegate :staff?, to: :identity, allow_nil: true
 
   def deactivate
-    accesses.destroy_all
-    update! active: false
+    transaction do
+      accesses.destroy_all
+      update! active: false, identity: nil
+    end
   end
 end

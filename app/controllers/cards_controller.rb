@@ -21,10 +21,7 @@ class CardsController < ApplicationController
   end
 
   def update
-    suppressing_broadcasts_unless_published(@card) do
-      @card.update! card_params
-    end
-
+    @card.update! card_params
     redirect_to @card
   end
 
@@ -39,19 +36,11 @@ class CardsController < ApplicationController
     end
 
     def set_card
-      @card = Current.user.accessible_cards.find params[:id]
+      @card = Current.user.accessible_cards.find_by!(number: params[:id])
     end
 
     def ensure_permission_to_administer_card
       head :forbidden unless Current.user.can_administer_card?(@card)
-    end
-
-    def suppressing_broadcasts_unless_published(card, &block)
-      if card.published?
-        yield
-      else
-        Board.suppressing_turbo_broadcasts(&block)
-      end
     end
 
     def card_params

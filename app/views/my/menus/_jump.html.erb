@@ -1,9 +1,9 @@
 <div class="flex gap">
   <div class="flex flex-column full-width justify-center gap-half">
     <div class="nav__header">
-      <% if Current.user.identity.memberships.many? %>
+      <% if Current.user.identity.users.many? %>
         <div class="nav__header-title max-width">
-          <div class="overflow-ellipsis"><strong><%= Account.sole.name %></strong></div>
+          <div class="overflow-ellipsis"><strong><%= Current.account.name %></strong></div>
         </div>
       <% end %>
       <div class="nav__header-actions nav__header-actions--end nav__close">

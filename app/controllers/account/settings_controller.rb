@@ -3,7 +3,7 @@ class Account::SettingsController < ApplicationController
   before_action :set_account
 
   def show
-    @users = User.active.alphabetically
+    @users = @account.users.active.alphabetically
   end
 
   def update
@@ -13,7 +13,7 @@ class Account::SettingsController < ApplicationController
 
   private
     def set_account
-      @account = Account.sole
+      @account = Current.account
     end
 
     def account_params

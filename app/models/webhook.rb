@@ -25,6 +25,7 @@ class Webhook < ApplicationRecord
   has_many :deliveries, dependent: :delete_all
   has_one :delinquency_tracker, dependent: :delete
 
+  belongs_to :account, default: -> { board.account }
   belongs_to :board
 
   serialize :subscribed_actions, type: Array, coder: JSON
@@ -48,7 +49,7 @@ class Webhook < ApplicationRecord
   end
 
   def renderer
-    @renderer ||= ApplicationController.renderer.new(script_name: "/#{tenant}", https: !Rails.env.local?)
+    @renderer ||= ApplicationController.renderer.new(script_name: account.slug, https: !Rails.env.local?)
   end
 
   def for_basecamp?

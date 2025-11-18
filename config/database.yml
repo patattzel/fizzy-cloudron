@@ -1,37 +1,48 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
-#
+<%
+  if ENV["MIGRATE"].present?
+    mysql_app_user_key = "MYSQL_ALTER_USER"
+    mysql_app_password_key = "MYSQL_ALTER_PASSWORD"
+  else
+    mysql_app_user_key = "MYSQL_APP_USER"
+    mysql_app_password_key = "MYSQL_APP_PASSWORD"
+  end
+
+  mysql_app_user = ENV[mysql_app_user_key]
+  mysql_app_password = ENV[mysql_app_password_key]
+%>
+
 default: &default
-  adapter: sqlite3
+  adapter: trilogy
+  host: <%= ENV.fetch "FIZZY_DB_HOST", "127.0.0.1" %>
+  port: <%= ENV.fetch "FIZZY_DB_PORT", 3306 %>
   pool: 50
   timeout: 5000
 
 development:
   primary:
     <<: *default
-    adapter: <%= %w[1 true].include?(ENV["BEAMER"]&.downcase) ? "beamer" : "sqlite3" %>
-    database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
-    tenanted: true
-  untenanted:
+    database: fizzy_development
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
+  replica:
     <<: *default
-    adapter: <%= %w[1 true].include?(ENV["BEAMER"]&.downcase) ? "beamer" : "sqlite3" %>
-    database: storage/untenanted/development.sqlite3
-    migrations_paths: db/untenanted_migrate
+    database: fizzy_development
+    replica: true
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
   cable:
     <<: *default
-    database: storage/development_cable.sqlite3
+    database: development_cable
     migrations_paths: db/cable_migrate
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
   cache:
     <<: *default
-    database: storage/development_cache.sqlite3
+    database: development_cache
     migrations_paths: db/cache_migrate
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
   queue:
     <<: *default
-    database: storage/development_queue.sqlite3
+    database: development_queue
     migrations_paths: db/queue_migrate
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -39,36 +50,49 @@ development:
 test:
   primary:
     <<: *default
-    database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
-    tenanted: true
-  untenanted:
+    database: fizzy_test
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
+  replica:
     <<: *default
-    database: storage/untenanted/test.sqlite3
-    migrations_paths: db/untenanted_migrate
+    database: fizzy_test
+    port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
+    replica: true
 
 production: &production
   primary:
     <<: *default
-    adapter: beamer
-    database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
-    tenanted: true
-  untenanted:
+    database: fizzy_production
+    host: <%= ENV["MYSQL_DATABASE_HOST"] %>
+    username: <%= mysql_app_user %>
+    password: <%= mysql_app_password %>
+  replica:
     <<: *default
-    adapter: beamer
-    database: storage/untenanted/<%= Rails.env %>.sqlite3
-    migrations_paths: db/untenanted_migrate
+    database: fizzy_production
+    host: <%= ENV["MYSQL_DATABASE_REPLICA_HOST"] %>
+    username: <%= ENV["MYSQL_READONLY_USER"] %>
+    password: <%= ENV["MYSQL_READONLY_PASSWORD"] %>
+    replica: true
   cable:
     <<: *default
-    database: storage/production_cable.sqlite3
+    database: fizzy_solidcable_production
+    host: <%= ENV["MYSQL_SOLID_CABLE_HOST"] %>
+    username: <%= mysql_app_user %>
+    password: <%= mysql_app_password %>
     migrations_paths: db/cable_migrate
-  cache:
-    <<: *default
-    database: storage/production_cache.sqlite3
-    migrations_paths: db/cache_migrate
   queue:
     <<: *default
-    database: storage/production_queue.sqlite3
+    database: fizzy_solidqueue_production
+    host: <%= ENV["MYSQL_SOLID_QUEUE_HOST"] %>
+    username: <%= mysql_app_user %>
+    password: <%= mysql_app_password %>
     migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: fizzy_solidcache_production
+    host: <%= ENV["MYSQL_SOLID_CACHE_HOST"] %>
+    username: <%= mysql_app_user %>
+    password: <%= mysql_app_password %>
+    migrations_paths: db/cache_migrate
 
 beta: *production
 staging: *production

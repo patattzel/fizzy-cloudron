@@ -14,6 +14,10 @@ Rails.application.routes.draw do
       resource :events
 
       resources :push_subscriptions
+
+      resources :email_addresses, param: :token do
+        resource :confirmation, module: :email_addresses
+      end
     end
   end
 
@@ -130,8 +134,11 @@ Rails.application.routes.draw do
 
   resources :qr_codes
 
-  get "join/:tenant/:code", to: "join_codes#new", as: :join
-  post "join/:tenant/:code", to: "join_codes#create"
+  # FIXME: Remove this before release
+  get "join/:tenant/:code", to: redirect { |params, request| "/#{params[:tenant]}/join/#{params[:code]}" }
+
+  get "join/:code", to: "join_codes#new", as: :join
+  post "join/:code", to: "join_codes#create"
 
   namespace :users do
     resources :joins
@@ -146,14 +153,6 @@ Rails.application.routes.draw do
   end
 
   resource :landing
-
-  scope module: :memberships, path: "memberships/:membership_id" do
-    resource :unlink, only: %i[ show create ], controller: :unlink, as: :unlink_membership
-
-    resources :email_addresses, param: :token do
-      resource :confirmation, module: :email_addresses
-    end
-  end
 
   namespace :my do
     resources :pins

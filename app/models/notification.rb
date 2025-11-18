@@ -1,6 +1,7 @@
 class Notification < ApplicationRecord
   include PushNotifiable
 
+  belongs_to :account, default: -> { user.account }
   belongs_to :user
   belongs_to :creator, class_name: "User"
   belongs_to :source, polymorphic: true
@@ -12,6 +13,8 @@ class Notification < ApplicationRecord
   after_create_commit :broadcast_unread
   after_destroy_commit :broadcast_read
   after_create :bundle
+
+  scope :preloaded, -> { preload(:creator, :account, source: [ :board, :creator ]) }
 
   delegate :notifiable_target, to: :source
   delegate :card, to: :source

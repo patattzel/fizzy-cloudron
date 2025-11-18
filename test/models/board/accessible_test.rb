@@ -5,7 +5,7 @@ class Board::AccessibleTest < ActiveSupport::TestCase
     boards(:writebook).update! all_access: false
 
     boards(:writebook).accesses.revise granted: users(:david, :jz), revoked: users(:kevin)
-    assert_equal users(:david, :jz), boards(:writebook).users
+    assert_equal users(:david, :jz).to_set, boards(:writebook).users.to_set
 
     boards(:writebook).accesses.grant_to users(:kevin)
     assert_includes boards(:writebook).users.reload, users(:kevin)
@@ -15,20 +15,20 @@ class Board::AccessibleTest < ActiveSupport::TestCase
   end
 
   test "grants access to everyone after creation" do
-    board = Current.set(session: sessions(:david)) do
+    board = Current.set(session: sessions(:david), user: users(:david)) do
       Board.create! name: "New board", all_access: true
     end
-    assert_equal User.active.sort, board.users.sort
+    assert_equal accounts("37s").users.active.sort, board.users.sort
   end
 
   test "grants access to everyone after update" do
-    board = Current.set(session: sessions(:david)) do
+    board = Current.set(session: sessions(:david), user: users(:david)) do
       Board.create! name: "New board"
     end
     assert_equal [ users(:david) ], board.users
 
     board.update! all_access: true
-    assert_equal User.active.sort, board.users.reload.sort
+    assert_equal accounts("37s").users.active.sort, board.users.reload.sort
   end
 
   test "board watchers" do

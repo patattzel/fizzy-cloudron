@@ -38,6 +38,6 @@ module AvatarsHelper
   end
 
   def avatar_image_tag(user, **options)
-    image_tag user_avatar_url(user), aria: { hidden: "true" }, size: 48, title: user.name, **options
+    image_tag user_avatar_url(user, script_name: user.account.slug), aria: { hidden: "true" }, size: 48, title: user.name, **options
   end
 end

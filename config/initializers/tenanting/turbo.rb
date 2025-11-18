@@ -3,9 +3,8 @@ module TurboStreamsJobExtensions
 
   class_methods do
     def render_format(format, **rendering)
-      if ApplicationRecord.current_tenant
-        script_name = "/#{ApplicationRecord.current_tenant}"
-        ApplicationController.renderer.new(script_name: script_name).render(formats: [ format ], **rendering)
+      if Current.account.present?
+        ApplicationController.renderer.new(script_name: Current.account.slug).render(formats: [ format ], **rendering)
       else
         super
       end
