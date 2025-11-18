@@ -40,7 +40,7 @@ export default class extends Controller {
       return this.noSelectionLabelValue
     }
 
-    const labels = this.#selectedItems().map(item => item.dataset.multiSelectionComboboxLabel)
+    const labels = this.#selectedItems.map(item => item.dataset.multiSelectionComboboxLabel)
     const sentence = toSentence(labels, {
       two_words_connector: " or ",
       last_word_connector: ", or "
@@ -55,11 +55,26 @@ export default class extends Controller {
     if (isSelected) {
       item.setAttribute(this.selectPropertyNameValue, "false")
     } else {
+      if (this.isAnExclusiveSelectionItemInvolved(item)) {
+        this.#deselectAll()
+      }
+
       item.setAttribute(this.selectPropertyNameValue, "true")
     }
 
     this.#updateHiddenFields()
+    if (item.dataset.multiSelectionFieldName) {
+      this.#renameHiddenFields(item.dataset.multiSelectionFieldName)
+    }
     this.labelTarget.textContent = this.#selectedLabel
+  }
+
+  isAnExclusiveSelectionItemInvolved(item) {
+    return this.#isExclusiveSelection(item) || Array.from(this.#selectedItems).some((item) => this.#isExclusiveSelection(item))
+  }
+
+  #isExclusiveSelection(item) {
+    return item.dataset.multiSelectionExclusive === "true"
   }
 
   #updateHiddenFields() {
@@ -73,20 +88,30 @@ export default class extends Controller {
     })
   }
 
-  #selectedItems() {
+  get #selectedItems() {
     return this.itemTargets.filter(item =>
       item.getAttribute(this.selectPropertyNameValue) === "true"
     )
   }
 
   #selectedValues() {
-    return this.#selectedItems().map(item => item.dataset.multiSelectionComboboxValue)
+    return this.#selectedItems.map(item => item.dataset.multiSelectionComboboxValue)
   }
 
   #clearHiddenFields() {
-    this.element.querySelectorAll('input[type="hidden"]').forEach(field => {
+    this.#hiddenFields.forEach(field => {
       field.remove()
     })
+  }
+
+  #renameHiddenFields(fieldName) {
+    this.#hiddenFields.forEach(field => {
+      field.setAttribute("name", fieldName)
+    })
+  }
+
+  get #hiddenFields() {
+    return this.element.querySelectorAll("input[type='hidden']")
   }
 
   #addHiddenFields() {
