@@ -1,7 +1,7 @@
 <div class="flex gap">
   <div class="flex flex-column full-width justify-center gap-half">
     <div class="nav__header">
-      <% if Current.user.identity.users.many? %>
+      <% if Current.identity.accounts.many? %>
         <div class="nav__header-title max-width">
           <div class="overflow-ellipsis"><strong><%= Current.account.name %></strong></div>
         </div>
