@@ -11,19 +11,23 @@ Current.session = ACCOUNT.users.last.identity.sessions.first
 
 puts "Creating #{CARDS_COUNT} cards with #{TAGS_COUNT} tags across #{BOARDS_COUNT} board(s)"
 
-BOARDS_COUNT.times do
-  ACCOUNT.boards.create! name: Faker::Company.buzzword, all_access: true
-  print "."
-end
+Board.suppressing_turbo_broadcasts do
+  Card.suppressing_turbo_broadcasts do
+    BOARDS_COUNT.times do
+      ACCOUNT.boards.create! name: Faker::Company.buzzword, all_access: true
+      print "."
+    end
 
-CARDS_COUNT.times do
-  card = ACCOUNT.boards.take.cards.create! \
-    title: Faker::Company.bs, description: Faker::Hacker.say_something_smart, status: :published
+    CARDS_COUNT.times do
+      card = ACCOUNT.boards.take.cards.create! \
+        title: Faker::Company.bs, description: Faker::Hacker.say_something_smart, status: :published
 
-  print "."
-end
+      print "."
+    end
 
-TAGS_COUNT.times do
-  ACCOUNT.cards.take.toggle_tag_with Faker::Game.title
-  print "."
+    TAGS_COUNT.times do
+      ACCOUNT.cards.take.toggle_tag_with Faker::Game.title
+      print "."
+    end
+  end
 end
