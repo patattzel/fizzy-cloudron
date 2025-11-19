@@ -11,8 +11,8 @@ servers:
       otel_scrape_enabled: true
   jobs:
     hosts:
-      - fizzy-staging-app-101.df-iad-int.37signals.com: df_iad
-      - fizzy-staging-app-102.df-iad-int.37signals.com: df_iad
+      - fizzy-staging-jobs-101.df-iad-int.37signals.com: df_iad
+      - fizzy-staging-jobs-102.df-iad-int.37signals.com: df_iad
     labels:
       otel_scrape_enabled: true
 
