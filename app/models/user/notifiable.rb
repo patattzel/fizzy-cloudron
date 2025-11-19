@@ -9,7 +9,7 @@ module User::Notifiable
   end
 
   def bundle(notification)
-    transaction do
+    with_lock do
       find_or_create_bundle_for(notification)
     end
   end
