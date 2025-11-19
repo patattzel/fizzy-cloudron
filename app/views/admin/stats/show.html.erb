@@ -52,7 +52,7 @@
   <div class="settings__panel panel shadow center">
     <header>
       <h2 class="divider txt-medium margin-block-start">
-        Top 10 Accounts by Card Count
+        Top 20 Accounts by Card Count
       </h2>
     </header>
 
@@ -60,9 +60,12 @@
       <% @top_accounts.each do |account| %>
         <% admin_user = account.users.find { |u| u.role == "admin" } %>
         <li class="flex align-center gap-half margin-block-start-half">
-          <div class="flex-item-grow min-width overflow-ellipsis">
+          <div class="flex-item-grow min-width overflow-ellipsis" style="text-align: left">
             <strong><%= account.name %></strong>
-            <span class="txt-x-small txt-ink-medium"> • #<%= account.external_account_id %> • <%= admin_user&.identity&.email_address || "No admin" %></span>
+            <span class="txt-x-small txt-ink-medium">
+              • #<%= account.external_account_id %> •
+              <%= admin_user&.identity&.email_address || "No admin" %>
+            </span>
           </div>
 
           <div class="txt-medium">

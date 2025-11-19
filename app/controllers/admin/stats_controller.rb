@@ -13,7 +13,6 @@ class Admin::StatsController < AdminController
     @top_accounts = Account
       .where("cards_count > 0")
       .order(cards_count: :desc)
-      .limit(10)
-      .includes(users: :identity)
+      .limit(20)
   end
 end
