@@ -1,0 +1,19 @@
+class Admin::StatsController < AdminController
+  disallow_account_scope
+
+  layout "public"
+
+  def show
+    @accounts_last_7_days = Account.where(created_at: 7.days.ago..).count
+    @accounts_last_24_hours = Account.where(created_at: 24.hours.ago..).count
+
+    @identities_last_7_days = Identity.where(created_at: 7.days.ago..).count
+    @identities_last_24_hours = Identity.where(created_at: 24.hours.ago..).count
+
+    @top_accounts = Account
+      .where("cards_count > 0")
+      .order(cards_count: :desc)
+      .limit(10)
+      .includes(users: :identity)
+  end
+end
