@@ -17,7 +17,6 @@ module NotificationsHelper
     when "card_reopened" then "Reopened by #{name}"
     when "card_postponed" then %(Moved to "Not Now" by #{name})
     when "card_auto_postponed" then %(Closed as "Not Now" due to inactivity)
-    when "card_resumed" then "Resumed by #{name}"
     when "card_title_changed" then "Renamed by #{name}"
     when "card_board_changed" then "Moved by #{name}"
     when "card_triaged" then "Triaged by #{name}"
