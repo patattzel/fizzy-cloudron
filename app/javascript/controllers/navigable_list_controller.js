@@ -20,6 +20,7 @@ export default class extends Controller {
     if (this.autoSelectValue) {
       this.reset()
     } else {
+      console.debug("CALLED", this.element);
       this.#activateManualSelection()
     }
   }
@@ -35,14 +36,12 @@ export default class extends Controller {
   }
 
   navigate(event) {
-    console.debug("PRESSED", this.element);
     this.#keyHandlers[event.key]?.call(this, event)
 
     const parentNavigableList = this.element.parentElement?.closest('[data-controller~="navigable-list"]')
     if (parentNavigableList) {
       const parentController = this.application.getControllerForElementAndIdentifier(parentNavigableList, "navigable-list")
       if (parentController) {
-        console.debug("CALLED!");
         parentNavigableList.focus()
         parentController.navigate(event)
       }
@@ -50,7 +49,7 @@ export default class extends Controller {
   }
 
   select({ target }) {
-    this.#setCurrentFrom(target)
+    this.#selectItem(target, true)
   }
 
   selectCurrentOrReset(event) {
@@ -99,34 +98,30 @@ export default class extends Controller {
     }
   }
 
-  async #selectItem(item) {
+  async #selectItem(item, skipFocus = false) {
     this.#clearSelection()
     item.setAttribute(this.selectionAttributeValue, "true")
     this.currentItem = item
+    this.#refreshActiveDescendant()
 
     await nextFrame()
 
-    this.#scrollAndFocusOnSelectedItem()
-  }
-
-  #scrollAndFocusOnSelectedItem() {
-    const id = this.currentItem?.getAttribute("id")
     this.currentItem.scrollIntoView({ block: "nearest", inline: "nearest" })
-  console.debug("this.currentItem", this.currentItem);
-    if (this.hasNestedNavigationValue) {
-      this.#activateNestedNavigableList()
-    }
+    if (this.hasNestedNavigationValue) { this.#activateNestedNavigableList() }
 
-    if (this.focusOnSelectionValue) { this.currentItem.focus() }
-    if (this.hasInputTarget && id) {
-      this.inputTarget.setAttribute("aria-activedescendant", id)
-    }
-
+    if (!skipFocus && this.focusOnSelectionValue) { this.currentItem.focus() }
   }
 
   #clearSelection() {
     for (const item of this.itemTargets) {
       item.removeAttribute(this.selectionAttributeValue)
+    }
+  }
+
+  #refreshActiveDescendant() {
+    const id = this.currentItem?.getAttribute("id")
+    if (this.hasInputTarget && id) {
+      this.inputTarget.setAttribute("aria-activedescendant", id)
     }
   }
 
@@ -171,7 +166,6 @@ export default class extends Controller {
   #activateNestedNavigableList() {
     const nestedController = this.#findNestedNavigableListController()
     if (nestedController) {
-      console.debug("CALLED!", this.element);
       nestedController.reset()
       return true
     }
