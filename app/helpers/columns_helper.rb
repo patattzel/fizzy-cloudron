@@ -32,6 +32,7 @@ module ColumnsHelper
         navigable_list_prevent_handled_keys_value: "true",
         navigable_list_auto_select_value: "false",
         navigable_list_actionable_items_value: "true",
+        navigable_list_only_act_on_focused_items_value: "true",
         action: "keydown->navigable-list#navigate"
       }, &block)
     end

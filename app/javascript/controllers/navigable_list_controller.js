@@ -13,7 +13,8 @@ export default class extends Controller {
     supportsVerticalNavigation: { type: Boolean, default: true },
     hasNestedNavigation: { type: Boolean, default: false },
     preventHandledKeys: { type: Boolean, default: false },
-    autoSelect: { type: Boolean, default: true }
+    autoSelect: { type: Boolean, default: true },
+    onlyActOnFocusedItems: { type: Boolean, default: false }
   }
 
   connect() {
@@ -140,7 +141,7 @@ export default class extends Controller {
   }
 
   get #isFocusContainedOnNavigableItem() {
-    return this.itemTargets.some(item => item.contains(document.activeElement))
+    return !this.onlyActOnFocusedItemsValue && this.itemTargets.some(item => item.contains(document.activeElement))
   }
 
   #toggleCurrentItem(event) {
