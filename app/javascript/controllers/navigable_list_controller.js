@@ -20,7 +20,6 @@ export default class extends Controller {
     if (this.autoSelectValue) {
       this.reset()
     } else {
-      console.debug("CALLED", this.element);
       this.#activateManualSelection()
     }
   }
