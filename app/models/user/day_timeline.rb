@@ -55,6 +55,7 @@ class User::DayTimeline
       card_collection_changed
       card_board_changed
       card_postponed
+      card_auto_postponed
       card_triaged
       card_sent_back_to_triage
       comment_created
