@@ -37,7 +37,6 @@ export default class extends Controller {
 
   navigate(event) {
     this.#keyHandlers[event.key]?.call(this, event)
-    // Stimulus won't let you handle keydown events with different handlers for the same (nested) stimulus controllers.
     this.#relayNavigationToParentNavigableList(event)
   }
 
@@ -173,6 +172,7 @@ export default class extends Controller {
     return null
   }
 
+  // Stimulus won't let you handle keydown events with different handlers for the same (nested) stimulus controllers.
   #relayNavigationToParentNavigableList(event) {
     const parentNavigableList = this.element.parentElement?.closest('[data-controller~="navigable-list"]')
     if (parentNavigableList) {
