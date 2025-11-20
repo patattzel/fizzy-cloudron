@@ -3,6 +3,7 @@ class Search::Record < ApplicationRecord
 
   SHARD_COUNT = 16
 
+  # MySQL sharded table classes
   SHARD_CLASSES = SHARD_COUNT.times.map do |shard_id|
     Class.new(self) do
       self.table_name = "search_records_#{shard_id}"
@@ -13,8 +14,8 @@ class Search::Record < ApplicationRecord
     end
   end.freeze
 
-  belongs_to :searchable, polymorphic: true
-  belongs_to :card
+  belongs_to :searchable, polymorphic: true, optional: true
+  belongs_to :card, optional: true
 
   # Virtual attributes from search query
   attribute :query, :string
@@ -22,8 +23,29 @@ class Search::Record < ApplicationRecord
   validates :account_id, :searchable_type, :searchable_id, :card_id, :board_id, :created_at, presence: true
 
   class << self
+    def sqlite?
+      connection.adapter_name == "SQLite"
+    end
+
     def for_account(account_id)
-      SHARD_CLASSES[shard_id_for_account(account_id)]
+      if sqlite?
+        # SQLite uses a single table, no sharding - use a non-abstract subclass
+        @sqlite_class ||= Class.new(self) do
+          self.abstract_class = false
+          self.table_name = "search_records"
+
+          # Override the UUID id attribute from ApplicationRecord
+          # SQLite uses integer auto-increment primary key (no default)
+          attribute :id, :integer, default: nil
+
+          def self.name
+            "Search::Record"
+          end
+        end
+      else
+        # MySQL uses sharded tables
+        SHARD_CLASSES[shard_id_for_account(account_id)]
+      end
     end
 
     def shard_id_for_account(account_id)
@@ -32,6 +54,41 @@ class Search::Record < ApplicationRecord
 
     def card_join
       "INNER JOIN #{table_name} ON #{table_name}.card_id = cards.id"
+    end
+
+    # Convert MySQL BOOLEAN MODE syntax to SQLite FTS5 syntax
+    def convert_to_fts5_query(query)
+      query = query.to_s.dup
+
+      # Handle quoted phrases - these work the same in both
+      # Extract them to protect during processing
+      phrases = []
+      query.gsub!(/"([^"]+)"/) do
+        phrases << $1
+        "__PHRASE_#{phrases.length - 1}__"
+      end
+
+      # Split into tokens
+      tokens = query.split(/\s+/)
+
+      processed_tokens = tokens.map do |token|
+        if token.start_with?("__PHRASE_")
+          # Restore phrase
+          idx = token[/\d+/].to_i
+          "\"#{phrases[idx]}\""
+        elsif token.start_with?("+")
+          # Remove + prefix (FTS5 ANDs by default)
+          token[1..]
+        elsif token.start_with?("-")
+          # Convert -term to NOT term
+          "NOT #{token[1..]}"
+        else
+          token
+        end
+      end
+
+      # Join with AND (FTS5 uses AND/OR/NOT operators)
+      processed_tokens.reject(&:blank?).join(" ")
     end
   end
 
@@ -44,7 +101,18 @@ class Search::Record < ApplicationRecord
   end
 
   scope :matching, ->(query) do
-    where("MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", query)
+    if sqlite?
+      # SQLite FTS5: join on rowid for fast lookup with native highlighting
+      # Porter tokenizer handles stemming automatically
+      fts_query = convert_to_fts5_query(query)
+
+      joins("INNER JOIN search_records_fts ON search_records_fts.rowid = #{table_name}.id")
+        .where("search_records_fts MATCH ?", fts_query)
+    else
+      # MySQL FULLTEXT: manually stem query terms
+      stemmed_query = Search::Stemmer.stem(query)
+      where("MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", stemmed_query)
+    end
   end
 
   scope :for_user, ->(user) do
@@ -52,10 +120,36 @@ class Search::Record < ApplicationRecord
   end
 
   scope :search, ->(query:, user:) do
-    for_query(query: query, user: user)
+    relation = for_query(query: query, user: user)
       .includes(:searchable, card: [ :board, :creator ])
-      .select(:id, :searchable_type, :searchable_id, :card_id, :board_id, :account_id, :created_at, "#{connection.quote(query.terms)} AS query")
       .order(created_at: :desc)
+
+    if sqlite?
+      # SQLite: matching scope already selected all columns + FTS5 highlight columns
+      # Re-select to add query terms (ActiveRecord replaces the select list)
+      opening_mark = Search::Highlighter::OPENING_MARK
+      closing_mark = Search::Highlighter::CLOSING_MARK
+      ellipsis = Search::Highlighter::ELIPSIS
+
+      relation.select(
+        "#{table_name}.id",
+        "#{table_name}.account_id",
+        "#{table_name}.searchable_type",
+        "#{table_name}.searchable_id",
+        "#{table_name}.card_id",
+        "#{table_name}.board_id",
+        "#{table_name}.title",
+        "#{table_name}.content",
+        "#{table_name}.created_at",
+        "highlight(search_records_fts, 0, #{connection.quote(opening_mark)}, #{connection.quote(closing_mark)}) AS highlighted_title",
+        "highlight(search_records_fts, 1, #{connection.quote(opening_mark)}, #{connection.quote(closing_mark)}) AS highlighted_content",
+        "snippet(search_records_fts, 1, #{connection.quote(opening_mark)}, #{connection.quote(closing_mark)}, #{connection.quote(ellipsis)}, 20) AS content_snippet",
+        "#{connection.quote(query.terms)} AS query"
+      )
+    else
+      # MySQL: select specific columns needed
+      relation.select(:id, :searchable_type, :searchable_id, :card_id, :board_id, :account_id, :created_at, "#{connection.quote(query.terms)} AS query")
+    end
   end
 
   def source
@@ -67,15 +161,39 @@ class Search::Record < ApplicationRecord
   end
 
   def card_title
-    highlight(card.title, show: :full) if card_id
+    if card_id
+      if self.class.sqlite? && attribute?(:highlighted_title)
+        # Use FTS5 native highlighting (already HTML-safe from FTS5)
+        highlighted_title.html_safe
+      else
+        # MySQL: use Ruby highlighter
+        highlight(card.title, show: :full)
+      end
+    end
   end
 
   def card_description
-    highlight(card.description.to_plain_text, show: :snippet) if card_id
+    if card_id
+      if self.class.sqlite? && attribute?(:content_snippet)
+        # Use FTS5 native snippet for content (already HTML-safe from FTS5)
+        content_snippet.html_safe if content_snippet.present?
+      else
+        # MySQL: use Ruby highlighter
+        highlight(card.description.to_plain_text, show: :snippet)
+      end
+    end
   end
 
   def comment_body
-    highlight(comment.body.to_plain_text, show: :snippet) if comment
+    if comment
+      if self.class.sqlite? && attribute?(:content_snippet)
+        # Use FTS5 native snippet for content (already HTML-safe from FTS5)
+        content_snippet.html_safe if content_snippet.present?
+      else
+        # MySQL: use Ruby highlighter
+        highlight(comment.body.to_plain_text, show: :snippet)
+      end
+    end
   end
 
   private

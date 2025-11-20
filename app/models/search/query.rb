@@ -16,7 +16,10 @@ class Search::Query < ApplicationRecord
   end
 
   def to_s
-    Search::Stemmer.stem(terms.to_s)
+    # Return unstemmed terms - each adapter handles stemming appropriately:
+    # - SQLite: FTS5 Porter tokenizer stems automatically
+    # - MySQL: Search::Record.matching applies stemming
+    terms.to_s
   end
 
   private

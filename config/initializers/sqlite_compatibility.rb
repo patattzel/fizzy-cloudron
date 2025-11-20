@@ -16,8 +16,6 @@ module SQLiteCompatibility
     # Override index method to filter out MySQL-specific index options
     def index(column_name, **options)
       if @conn.is_a?(ActiveRecord::ConnectionAdapters::SQLite3Adapter)
-        # Skip fulltext indexes entirely for SQLite
-        return if options[:type] == :fulltext
         # SQLite doesn't support length-limited indexes
         options = options.except(:length)
       end

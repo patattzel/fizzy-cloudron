@@ -1,4 +1,15 @@
 # Automatically use UUID type for all binary(16) columns
+
+# Define schema dumper module outside on_load so it can be prepended
+module SchemaDumperUuidType
+  # Map binary(16) and blob(16) columns to :uuid type in schema.rb
+  def schema_type(column)
+    return :uuid if column.sql_type == "binary(16)"
+    return :uuid if column.sql_type == "blob(16)"
+    super
+  end
+end
+
 ActiveSupport.on_load(:active_record) do
   module MysqlUuidAdapter
     # Add UUID to MySQL's native database types
@@ -21,7 +32,7 @@ ActiveSupport.on_load(:active_record) do
   end
 
   module SqliteUuidAdapter
-    # Add UUID to SQLite's native database types
+    # Add UUID to SQLite's native database types (instance method)
     def native_database_types
       @native_database_types_with_uuid ||= super.merge(uuid: { name: "blob", limit: 16 })
     end
@@ -51,21 +62,40 @@ ActiveSupport.on_load(:active_record) do
 
   if defined?(ActiveRecord::ConnectionAdapters::SQLite3Adapter)
     ActiveRecord::ConnectionAdapters::SQLite3Adapter.prepend(SqliteUuidAdapter)
-  end
 
-  module SchemaDumperUuidType
-    # Map binary(16) columns to :uuid type in schema.rb
-    def schema_type(column)
-      if column.sql_type == "binary(16)"
-        :uuid
-      else
-        super
+    # Also add UUID to class-level native_database_types
+    ActiveRecord::ConnectionAdapters::SQLite3Adapter.class_eval do
+      @native_database_types = nil # Clear cache
+
+      class << self
+        alias_method :original_native_database_types, :native_database_types
+
+        def native_database_types
+          @native_database_types_with_uuid ||= original_native_database_types.merge(uuid: { name: "blob", limit: 16 })
+        end
       end
     end
   end
 
+  # Ensure schema dumper classes are loaded before prepending
+  begin
+    require 'active_record/connection_adapters/mysql/schema_dumper'
+  rescue LoadError
+    # MySQL adapter not available
+  end
+
+  begin
+    require 'active_record/connection_adapters/sqlite3/schema_dumper'
+  rescue LoadError
+    # SQLite3 adapter not available
+  end
+
   if defined?(ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper)
     ActiveRecord::ConnectionAdapters::MySQL::SchemaDumper.prepend(SchemaDumperUuidType)
+  end
+
+  if defined?(ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper)
+    ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper.prepend(SchemaDumperUuidType)
   end
 
   module TableDefinitionUuidSupport

@@ -32,11 +32,13 @@ development:
   primary:
     <<: *default
     database: db/development.sqlite3
+    schema_dump: schema_sqlite.rb
   <% else %>
   primary:
     <<: *default
     database: fizzy_development
     port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
+    schema_dump: schema.rb
   replica:
     <<: *default
     database: fizzy_development
@@ -67,11 +69,13 @@ test:
   primary:
     <<: *default
     database: db/test.sqlite3
+    schema_dump: schema_sqlite.rb
   <% else %>
   primary:
     <<: *default
     database: fizzy_test
     port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
+    schema_dump: schema.rb
   replica:
     <<: *default
     database: fizzy_test
