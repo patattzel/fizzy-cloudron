@@ -2,6 +2,12 @@
   /* Column container
   /* ------------------------------------------------------------------------ */
 
+  /* DEBUG: Remove this when done debugging keyboard navigation */
+  .card-columns:focus,
+  .cards:focus {
+    outline: 3px solid purple !important;
+  }
+
   #main:has(.card-columns) {
     --main-padding: 0;
   }
@@ -74,6 +80,7 @@
     --column-color: color-mix(in srgb, var(--card-color) 15%, var(--color-canvas));
 
     inline-size: var(--column-width-expanded);
+    outline: none;
     position: relative;
     scroll-snap-align: start;
 
@@ -117,7 +124,6 @@
         }
       }
     }
-
 
     @media (any-hover: hover) {
       .card:has(.card__background img:not([src=""])):hover .card__background img:not([src=""]) {
@@ -178,6 +184,10 @@
 
     .cards--grid & {
       display: contents;
+    }
+
+    .card[aria-selected] {
+      outline: 2px solid tomato;
     }
   }
 
