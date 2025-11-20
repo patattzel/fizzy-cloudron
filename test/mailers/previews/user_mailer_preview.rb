@@ -3,6 +3,7 @@ class UserMailerPreview < ActionMailer::Preview
     new_email_address = "new.email@example.com"
     user = User.active.sample
     token = user.send(:generate_email_address_change_token, to: new_email_address)
+    Current.account = user.account
 
     UserMailer.email_change_confirmation(
       email_address: new_email_address,
