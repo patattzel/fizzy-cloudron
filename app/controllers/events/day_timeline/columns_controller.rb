@@ -8,15 +8,6 @@ class Events::DayTimeline::ColumnsController < ApplicationController
 
   private
     def column_for_id(id)
-      case id.to_s.downcase
-      when "added", "1"
-        @day_timeline.added_column
-      when "updated", "2"
-        @day_timeline.updated_column
-      when "closed", "3"
-        @day_timeline.closed_column
-      else
-        head :not_found
-      end
+      @day_timeline.try("#{id}_column") or head :not_found
     end
 end
