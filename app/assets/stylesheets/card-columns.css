@@ -180,7 +180,7 @@
       display: contents;
     }
 
-    .card[aria-selected] {
+    [aria-selected] & .card[aria-selected] {
       outline: 2px solid tomato;
     }
   }
