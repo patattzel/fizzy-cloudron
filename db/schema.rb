@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_11_20_194700) do
+ActiveRecord::Schema[8.2].define(version: 2025_11_20_203100) do
   create_table "accesses", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -150,7 +150,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_20_194700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_card_activity_spikes_on_account_id"
-    t.index ["card_id"], name: "index_card_activity_spikes_on_card_id"
+    t.index ["card_id"], name: "index_card_activity_spikes_on_card_id", unique: true
   end
 
   create_table "card_engagements", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
