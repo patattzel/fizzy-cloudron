@@ -174,7 +174,8 @@
     }
 
     [aria-selected] & .card[aria-selected] {
-      outline: 2px solid tomato;
+      outline: var(--focus-ring-size) solid var(--color-selected-dark);
+      outline-offset: var(--focus-ring-offset);
     }
   }
 
