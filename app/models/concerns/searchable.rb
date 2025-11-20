@@ -13,79 +13,21 @@ module Searchable
 
   private
     def create_in_search_index
-      search_class = Search::Record.for_account(account_id)
-
-      if Search::Record.sqlite?
-        # SQLite: create with unstemmed content, FTS5 handles stemming
-        record = search_class.create!(search_record_attributes)
-        upsert_to_fts5(record.id)
-      else
-        # MySQL: create with stemmed content for FULLTEXT search
-        attrs = search_record_attributes.merge(
-          title: Search::Stemmer.stem(search_record_attributes[:title]),
-          content: Search::Stemmer.stem(search_record_attributes[:content])
-        )
-        search_class.create!(attrs)
-      end
+      search_record_class.create!(search_record_attributes)
     end
 
     def update_in_search_index
-      search_class = Search::Record.for_account(account_id)
-
-      if Search::Record.sqlite?
-        # SQLite: find or create record, then upsert to FTS5
-        record = search_class.find_or_initialize_by(
-          searchable_type: self.class.name,
-          searchable_id: id
-        )
-        record.assign_attributes(search_record_attributes)
-        record.save!
-        upsert_to_fts5(record.id)
-      else
-        # MySQL: use upsert_all with stemmed content
-        attrs = search_record_attributes.merge(
-          id: ActiveRecord::Type::Uuid.generate,
-          title: Search::Stemmer.stem(search_record_attributes[:title]),
-          content: Search::Stemmer.stem(search_record_attributes[:content])
-        )
-        search_class.upsert_all(
-          [ attrs ],
-          update_only: [ :card_id, :board_id, :title, :content, :created_at ]
-        )
+      search_record_class.find_or_initialize_by(searchable_type: self.class.name, searchable_id: id).tap do |record|
+        record.update!(search_record_attributes)
       end
     end
 
     def remove_from_search_index
-      search_class = Search::Record.for_account(account_id)
-      record = search_class.find_by(searchable_type: self.class.name, searchable_id: id)
-
-      if record
-        # For SQLite, delete from FTS5 first
-        if Search::Record.sqlite?
-          delete_from_fts5(record.id)
-        end
-
-        record.delete
-      end
+      search_record_class.find_by(searchable_type: self.class.name, searchable_id: id)&.destroy
     end
 
-    def upsert_to_fts5(record_id)
-      # Use raw unstemmed text - FTS5 Porter tokenizer handles stemming automatically
-      title = search_title
-      content = search_content
-
-      # Note: FTS5 virtual tables don't work properly with bound parameters in SQLite,
-      # so we need to use string interpolation with proper quoting
-      conn = ActiveRecord::Base.connection
-      sql = "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (#{record_id}, #{conn.quote(title)}, #{conn.quote(content)})"
-      conn.execute(sql)
-    end
-
-    def delete_from_fts5(record_id)
-      # Note: Use string interpolation for consistency (rowid is always an integer, so safe)
-      ActiveRecord::Base.connection.execute(
-        "DELETE FROM search_records_fts WHERE rowid = #{record_id}"
-      )
+    def search_record_class
+      Search::Record.for_account(account_id)
     end
 
     def search_record_attributes

@@ -22,9 +22,29 @@ class Search::Record < ApplicationRecord
 
   validates :account_id, :searchable_type, :searchable_id, :card_id, :board_id, :created_at, presence: true
 
+  before_save :stem_content, unless: :sqlite?
+  after_save :upsert_to_fts5_table, if: :sqlite?
+  after_destroy :delete_from_fts5_table, if: :sqlite?
+
   class << self
     def sqlite?
       connection.adapter_name == "SQLite"
+    end
+
+    def upsert_to_fts5(record_id, title:, content:)
+      # Use raw unstemmed text - FTS5 Porter tokenizer handles stemming automatically
+      # Note: FTS5 virtual tables don't work properly with bound parameters in SQLite,
+      # so we need to use string interpolation with proper quoting
+      conn = connection
+      sql = "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (#{record_id}, #{conn.quote(title)}, #{conn.quote(content)})"
+      conn.execute(sql)
+    end
+
+    def delete_from_fts5(record_id)
+      # Note: Use string interpolation for consistency (rowid is always an integer, so safe)
+      connection.execute(
+        "DELETE FROM search_records_fts WHERE rowid = #{record_id}"
+      )
     end
 
     def for_account(account_id)
@@ -152,6 +172,10 @@ class Search::Record < ApplicationRecord
     end
   end
 
+  def sqlite?
+    self.class.sqlite?
+  end
+
   def source
     searchable_type == "Comment" ? searchable : card
   end
@@ -197,6 +221,21 @@ class Search::Record < ApplicationRecord
   end
 
   private
+    def stem_content
+      # MySQL: stem content for FULLTEXT search
+      self.title = Search::Stemmer.stem(title) if title_changed?
+      self.content = Search::Stemmer.stem(content) if content_changed?
+    end
+
+    def upsert_to_fts5_table
+      # Use raw unstemmed text - FTS5 Porter tokenizer handles stemming automatically
+      self.class.upsert_to_fts5(id, title: title, content: content)
+    end
+
+    def delete_from_fts5_table
+      self.class.delete_from_fts5(id)
+    end
+
     def highlight(text, show:)
       if text.present? && attribute?(:query)
         highlighter = Search::Highlighter.new(query)
