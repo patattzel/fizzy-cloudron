@@ -2,7 +2,7 @@ namespace :search do
   desc "Reindex all cards and comments in the search index"
   task reindex: :environment do
     puts "Clearing search records..."
-    Search::Record::SHARD_COUNT.times do |shard_id|
+    Search::Record::Trilogy::SHARD_COUNT.times do |shard_id|
       ActiveRecord::Base.connection.execute("DELETE FROM search_records_#{shard_id}")
     end
 
