@@ -1,10 +1,10 @@
 test:
   service: Disk
-  root: <%= Rails.root.join("tmp/storage/%{tenant}") %>
+  root: <%= Rails.root.join("tmp/storage/files") %>
 
 local:
   service: Disk
-  root: <%= Rails.root.join("storage", "tenants", Rails.env, "%{tenant}", "files") %>
+  root: <%= Rails.root.join("storage", Rails.env, "files") %>
 
 devminio:
   service: S3
