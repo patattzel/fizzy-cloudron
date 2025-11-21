@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
+import { nextFrame } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static targets = [ "turboFrame", "search", "searchInput", "form", "buttonsContainer" ]
@@ -19,6 +20,11 @@ export default class extends Controller {
 
     this.#showItem(this.buttonsContainerTarget)
     this.#hideItem(this.searchTarget)
+  }
+
+  clearInput() {
+    this.searchInputTarget.value = ""
+    this.searchInputTarget.focus()
   }
 
   showModalAndSubmit(event) {
@@ -50,10 +56,12 @@ export default class extends Controller {
     this.turboFrameTarget.innerHtml = ""
   }
 
-  #showItem(element) {
+  async #showItem(element) {
     element.removeAttribute("hidden")
 
     const autofocusElement = element.querySelector("[autofocus]")
+
+    await nextFrame()
     autofocusElement?.focus()
     autofocusElement?.select()
   }
