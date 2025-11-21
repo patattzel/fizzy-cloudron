@@ -35,18 +35,10 @@ module SQLiteCompatibility
   end
 end
 
-# Apply the prepends - both in on_load callback and immediately
-def apply_sqlite_compatibility
+# Also run when ActiveRecord loads (for cases where it loads later)
+ActiveSupport.on_load(:active_record) do
   if defined?(ActiveRecord::ConnectionAdapters::SQLite3Adapter)
     ActiveRecord::ConnectionAdapters::TableDefinition.prepend(SQLiteCompatibility::SQLiteTableDefinitionCompatibility)
     ActiveRecord::ConnectionAdapters::SQLite3Adapter.prepend(SQLiteCompatibility::SQLiteSchemaStatementCompatibility)
   end
-end
-
-# Run immediately if ActiveRecord is already loaded
-apply_sqlite_compatibility
-
-# Also run when ActiveRecord loads (for cases where it loads later)
-ActiveSupport.on_load(:active_record) do
-  apply_sqlite_compatibility
 end
