@@ -47,7 +47,6 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
 
     get search_path(q: "highlighting", script_name: "/#{@account.external_account_id}")
     assert_response :success
-
   end
 
   test "search preserves highlight marks but escapes surrounding HTML" do
