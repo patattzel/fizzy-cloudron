@@ -52,12 +52,18 @@ module Search::Record::SQLite
 
   private
     def upsert_to_fts5_table
-      self.class.connection.execute(
-        "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (#{id}, #{self.class.connection.quote(title)}, #{self.class.connection.quote(content)})"
+      self.class.connection.exec_query(
+        "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (?, ?, ?)",
+        "Search::Record Upsert FTS5",
+        [id, title, content]
       )
     end
 
     def delete_from_fts5_table
-      self.class.connection.execute("DELETE FROM search_records_fts WHERE rowid = #{id}")
+      self.class.connection.exec_query(
+        "DELETE FROM search_records_fts WHERE rowid = ?",
+        "Search::Record Delete FTS5",
+        [id]
+      )
     end
 end
