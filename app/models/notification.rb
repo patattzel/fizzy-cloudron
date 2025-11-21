@@ -9,7 +9,6 @@ class Notification < ApplicationRecord
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
   scope :ordered, -> { order(read_at: :desc, created_at: :desc) }
-  scope :with_unread_first, -> { order(Arel.sql("CASE WHEN read_at IS NULL THEN 0 ELSE 1 END")) }
 
   after_create_commit :broadcast_unread
   after_destroy_commit :broadcast_read
