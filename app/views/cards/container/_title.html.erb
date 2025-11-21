@@ -10,11 +10,6 @@
         <%= card.description %>
       </div>
     <% end %>
-
-    <%= link_to edit_card_path(card), class: "btn fit-content txt-small", data: { controller: "hotkey", action: "keydown.e@document->hotkey#click" } do %>
-      <span>Edit</span>
-      <kbd class="txt-x-small hide-on-touch">e</kbd>
-    <% end %>
   <% end %>
   </div>
 <% else %>
