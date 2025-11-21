@@ -24,6 +24,29 @@
       "note": "No user input allowed"
     },
     {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "746ab8227e04231f0002e099e2f670bcc2b8927af85cdc69fab1440002d5c2a6",
+      "check_name": "Send",
+      "message": "User controlled method execution",
+      "file": "app/controllers/events/day_timeline/columns_controller.rb",
+      "line": 19,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "Current.user.timeline_for(day, :filter => ((Current.user.filters.find(params[:filter_id]) or Current.user.filters.from_params(filter_params)))).public_send(\"#{params[:id]}_column\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Events::DayTimeline::ColumnsController",
+        "method": "set_column"
+      },
+      "user_input": "params[:id]",
+      "confidence": "High",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 70,
       "fingerprint": "ac0fa1970dea215e2f47a5676ffd63d8728951e361da12a53dd424bf6dc46f2a",
