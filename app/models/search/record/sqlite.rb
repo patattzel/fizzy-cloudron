@@ -2,10 +2,8 @@ module Search::Record::SQLite
   extend ActiveSupport::Concern
 
   included do
-    self.table_name = "search_records"
-
     # Override the UUID id attribute from ApplicationRecord
-    # SQLite uses integer auto-increment primary key (no default)
+    # FTS tables require integer rowids
     attribute :id, :integer, default: nil
 
     after_save :upsert_to_fts5_table
