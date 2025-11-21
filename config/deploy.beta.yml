@@ -41,6 +41,10 @@ accessories:
   load-balancer:
     image: basecamp/kamal-proxy:lb
     host: fizzy-beta-lb-01.sc-chi-int.37signals.com
+    labels:
+      otel_role: load-balancer
+      otel_service: fizzy-load-balancer
+      otel_scrape_enabled: true
     options:
       publish:
         - 80:80
