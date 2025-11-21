@@ -39,7 +39,7 @@ module Searchable
         board_id: search_board_id,
         title: search_title,
         content: search_content,
-        created_at: created_at || Time.current
+        created_at: created_at
       }
     end
 
