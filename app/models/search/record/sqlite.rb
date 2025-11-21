@@ -8,34 +8,23 @@ module Search::Record::SQLite
 
     after_save :upsert_to_fts5_table
     after_destroy :delete_from_fts5_table
-  end
 
-  class_methods do
-    def matching_scope(query, account_id)
+    scope :matching, ->(query, account_id) do
       joins("INNER JOIN search_records_fts ON search_records_fts.rowid = #{table_name}.id")
         .where("search_records_fts MATCH ?", query)
     end
+  end
 
-    def search_scope(relation, query)
+  class_methods do
+    def search_fields(query)
       opening_mark = connection.quote(Search::Highlighter::OPENING_MARK)
       closing_mark = connection.quote(Search::Highlighter::CLOSING_MARK)
       ellipsis = connection.quote(Search::Highlighter::ELIPSIS)
 
-      relation.select(
-        "#{table_name}.id",
-        "#{table_name}.account_id",
-        "#{table_name}.searchable_type",
-        "#{table_name}.searchable_id",
-        "#{table_name}.card_id",
-        "#{table_name}.board_id",
-        "#{table_name}.title",
-        "#{table_name}.content",
-        "#{table_name}.created_at",
-        "highlight(search_records_fts, 0, #{opening_mark}, #{closing_mark}) AS highlighted_title",
+      [ "highlight(search_records_fts, 0, #{opening_mark}, #{closing_mark}) AS highlighted_title",
         "highlight(search_records_fts, 1, #{opening_mark}, #{closing_mark}) AS highlighted_content",
         "snippet(search_records_fts, 1, #{opening_mark}, #{closing_mark}, #{ellipsis}, 20) AS content_snippet",
-        "#{connection.quote(query.terms)} AS query"
-      )
+        "#{connection.quote(query.terms)} AS query" ]
     end
   end
 

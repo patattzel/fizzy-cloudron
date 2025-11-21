@@ -23,20 +23,15 @@ class Search::Record < ApplicationRecord
     end
   end
 
-  scope :matching, ->(query, account_id) do
-    matching_scope(query, account_id)
-  end
-
   scope :for_user, ->(user) do
     where(account_id: user.account_id, board_id: user.board_ids)
   end
 
   scope :search, ->(query:, user:) do
-    relation = for_query(query: query, user: user)
+    for_query(query: query, user: user)
       .includes(:searchable, card: [ :board, :creator ])
       .order(created_at: :desc)
-
-    search_scope(relation, query)
+      .select(:id, :account_id, :searchable_type, :searchable_id, :card_id, :board_id, :title, :content, :created_at, *(search_fields(query)))
   end
 
   def source

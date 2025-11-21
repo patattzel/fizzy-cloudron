@@ -5,6 +5,11 @@ module Search::Record::Trilogy
 
   included do
     before_save :set_account_key, :stem_content
+
+    scope :matching, ->(query, account_id) do
+      full_query = "+account#{account_id} +(#{Search::Stemmer.stem(query)})"
+      where("MATCH(#{table_name}.account_key, #{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", full_query)
+    end
   end
 
   class_methods do
@@ -20,13 +25,8 @@ module Search::Record::Trilogy
       Zlib.crc32(account_id.to_s) % SHARD_COUNT
     end
 
-    def matching_scope(query, account_id)
-      full_query = "+account#{account_id} +(#{Search::Stemmer.stem(query)})"
-      where("MATCH(#{table_name}.account_key, #{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", full_query)
-    end
-
-    def search_scope(relation, query)
-      relation.select(:id, :searchable_type, :searchable_id, :card_id, :board_id, :account_id, :created_at, "#{connection.quote(query.terms)} AS query")
+    def search_fields(query)
+      "#{connection.quote(query.terms)} AS query"
     end
   end
 
