@@ -17,14 +17,10 @@ class Search::Record < ApplicationRecord
 
   scope :for_query, ->(query:, user:) do
     if query.valid? && user.board_ids.any?
-      matching(query.to_s, user.account_id).for_user(user)
+      matching(query.to_s, user.account_id).where(account_id: user.account_id, board_id: user.board_ids)
     else
       none
     end
-  end
-
-  scope :for_user, ->(user) do
-    where(account_id: user.account_id, board_id: user.board_ids)
   end
 
   scope :search, ->(query:, user:) do
