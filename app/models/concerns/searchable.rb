@@ -2,6 +2,8 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
+    has_one :search_record, class_name: "Search::Record", as: :searchable
+
     before_save :ensure_current_account
     after_create_commit :create_in_search_index
     after_update_commit :update_in_search_index
@@ -20,17 +22,15 @@ module Searchable
     end
 
     def create_in_search_index
-      Search::Record.create!(search_record_attributes)
+      create_search_record!(search_record_attributes)
     end
 
     def update_in_search_index
-      Search::Record.find_or_initialize_by(searchable_type: self.class.name, searchable_id: id).tap do |record|
-        record.update!(search_record_attributes)
-      end
+      search_record&.update!(search_record_attributes) || create_in_search_index
     end
 
     def remove_from_search_index
-      Search::Record.find_by(searchable_type: self.class.name, searchable_id: id)&.destroy
+      search_record&.destroy
     end
 
     def search_record_attributes
