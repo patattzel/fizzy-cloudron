@@ -38,7 +38,6 @@ development:
     <<: *default
     database: fizzy_development
     port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
-    schema_dump: schema.rb
   replica:
     <<: *default
     database: fizzy_development
@@ -75,7 +74,6 @@ test:
     <<: *default
     database: fizzy_test
     port: <%= ENV.fetch "FIZZY_DB_PORT", 33380 %>
-    schema_dump: schema.rb
   replica:
     <<: *default
     database: fizzy_test
