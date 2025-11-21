@@ -6,6 +6,10 @@ module Search::Record::SQLite
     # FTS tables require integer rowids
     attribute :id, :integer, default: nil
 
+    # Virtual attributes from FTS5 functions
+    attribute :result_title, :string
+    attribute :result_content, :string
+
     after_save :upsert_to_fts5_table
     after_destroy :delete_from_fts5_table
 
@@ -21,36 +25,34 @@ module Search::Record::SQLite
       closing_mark = connection.quote(Search::Highlighter::CLOSING_MARK)
       ellipsis = connection.quote(Search::Highlighter::ELIPSIS)
 
-      [ "highlight(search_records_fts, 0, #{opening_mark}, #{closing_mark}) AS highlighted_title",
-        "highlight(search_records_fts, 1, #{opening_mark}, #{closing_mark}) AS highlighted_content",
-        "snippet(search_records_fts, 1, #{opening_mark}, #{closing_mark}, #{ellipsis}, 20) AS content_snippet",
+      [ "highlight(search_records_fts, 0, #{opening_mark}, #{closing_mark}) AS result_title",
+        "snippet(search_records_fts, 1, #{opening_mark}, #{closing_mark}, #{ellipsis}, 20) AS result_content",
         "#{connection.quote(query.terms)} AS query" ]
     end
   end
 
   def card_title
-    if card_id
-      if has_attribute?(:highlighted_title) && highlighted_title.present?
-        highlighted_title.html_safe
-      else
-        card.title
-      end
-    end
+    escape_fts_highlight(result_title || card.title)
   end
 
   def card_description
-    if card_id && has_attribute?(:content_snippet) && content_snippet.present?
-      content_snippet.html_safe
-    end
+    escape_fts_highlight(result_content) unless comment
   end
 
   def comment_body
-    if comment && has_attribute?(:content_snippet) && content_snippet.present?
-      content_snippet.html_safe
-    end
+    escape_fts_highlight(result_content) if comment
   end
 
   private
+    def escape_fts_highlight(html)
+      return nil unless html.present?
+
+      CGI.escapeHTML(html)
+        .gsub(CGI.escapeHTML(Search::Highlighter::OPENING_MARK), Search::Highlighter::OPENING_MARK.html_safe)
+        .gsub(CGI.escapeHTML(Search::Highlighter::CLOSING_MARK), Search::Highlighter::CLOSING_MARK.html_safe)
+        .html_safe
+    end
+
     def upsert_to_fts5_table
       self.class.connection.exec_query(
         "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (?, ?, ?)",
