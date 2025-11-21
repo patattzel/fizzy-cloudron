@@ -32,7 +32,7 @@ class Users::AvatarsController < ApplicationController
       if @user == Current.user
         {}
       else
-        { max_age: 30.minutes, stale_while_revalidate: 1.week }
+        { max_age: 30.minutes, stale_while_revalidate: 1.week, public: true }
       end
     end
 
