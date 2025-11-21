@@ -14,7 +14,7 @@ class Search::Record::SQLite::Fts < ApplicationRecord
   def self.upsert(rowid, title, content)
     connection.exec_query(
       "INSERT OR REPLACE INTO search_records_fts(rowid, title, content) VALUES (?, ?, ?)",
-      "Search::Record::SqliteFts Upsert",
+      "Search::Record::SQLite::Fts Upsert",
       [ rowid, title, content ]
     )
   end
