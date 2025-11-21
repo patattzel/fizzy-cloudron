@@ -16,7 +16,7 @@ module NotificationsHelper
     when "card_closed" then "Moved to Done by #{creator}"
     when "card_reopened" then "Reopened by #{creator}"
     when "card_postponed" then "Moved to Not Now by #{creator}"
-    when "card_auto_postponed" then "Closed as Not Now due to inactivity"
+    when "card_auto_postponed" then "Moved to Not Now due to inactivity"
     when "card_title_changed" then "Renamed by #{creator}"
     when "card_board_changed" then "Moved by #{creator}"
     when "card_triaged" then "Moved to #{event.particulars.dig("particulars", "column")} by #{creator}"
