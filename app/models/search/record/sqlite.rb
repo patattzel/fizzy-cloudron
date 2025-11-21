@@ -7,8 +7,8 @@ module Search::Record::SQLite
     attribute :result_title, :string
     attribute :result_content, :string
 
-    has_one :search_records_fts,
-      -> { with_rowid }, class_name: "Search::Record::SQLite::Fts", foreign_key: :rowid, primary_key: :id, dependent: :destroy
+    has_one :search_records_fts, -> { with_rowid },
+      class_name: "Search::Record::SQLite::Fts", foreign_key: :rowid, primary_key: :id, dependent: :destroy
 
     after_save :upsert_to_fts5_table
 
@@ -44,8 +44,8 @@ module Search::Record::SQLite
       return nil unless html.present?
 
       CGI.escapeHTML(html)
-        .gsub(CGI.escapeHTML(Search::Highlighter::OPENING_MARK), Search::Highlighter::OPENING_MARK.html_safe)
-        .gsub(CGI.escapeHTML(Search::Highlighter::CLOSING_MARK), Search::Highlighter::CLOSING_MARK.html_safe)
+        .gsub(CGI.escapeHTML(Search::Highlighter::OPENING_MARK), Search::Highlighter::OPENING_MARK)
+        .gsub(CGI.escapeHTML(Search::Highlighter::CLOSING_MARK), Search::Highlighter::CLOSING_MARK)
         .html_safe
     end
 
