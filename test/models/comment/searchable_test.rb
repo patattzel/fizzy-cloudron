@@ -10,18 +10,18 @@ class Comment::SearchableTest < ActiveSupport::TestCase
   test "comment search" do
     # Comment is indexed on create
     comment = @card.comments.create!(body: "searchable comment text", creator: @user)
-    record = Search::Record.for_account(@account.id).find_by(searchable_type: "Comment", searchable_id: comment.id)
+    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment.id)
     assert_not_nil record
 
     # Comment is updated in index
     comment.update!(body: "updated text")
-    record = Search::Record.for_account(@account.id).find_by(searchable_type: "Comment", searchable_id: comment.id)
+    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment.id)
     assert_match /updat/, record.content
 
     # Comment is removed from index on destroy
     comment_id = comment.id
     comment.destroy
-    record = Search::Record.for_account(@account.id).find_by(searchable_type: "Comment", searchable_id: comment_id)
+    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment_id)
     assert_nil record
 
     # Finding cards via comment search
@@ -34,8 +34,18 @@ class Comment::SearchableTest < ActiveSupport::TestCase
 
     # Comment stores parent card_id and board_id
     new_comment = @card.comments.create!(body: "test comment", creator: @user)
-    record = Search::Record.for_account(@account.id).find_by(searchable_type: "Comment", searchable_id: new_comment.id)
+    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: new_comment.id)
     assert_equal @card.id, record.card_id
     assert_equal @board.id, record.board_id
+  end
+
+  test "comment requires Current.account to be set" do
+    Current.account = nil
+
+    error = assert_raises(RuntimeError) do
+      @card.comments.create!(body: "Test comment", creator: @user)
+    end
+
+    assert_match(/Current.account must be set to save Comment/, error.message)
   end
 end

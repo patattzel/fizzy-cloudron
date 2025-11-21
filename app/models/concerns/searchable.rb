@@ -2,6 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
+    before_save :ensure_current_account
     after_create_commit :create_in_search_index
     after_update_commit :update_in_search_index
     after_destroy_commit :remove_from_search_index
@@ -12,22 +13,24 @@ module Searchable
   end
 
   private
+    def ensure_current_account
+      unless Current.account
+        raise "Current.account must be set to save #{self.class.name}"
+      end
+    end
+
     def create_in_search_index
-      search_record_class.create!(search_record_attributes)
+      Search::Record.create!(search_record_attributes)
     end
 
     def update_in_search_index
-      search_record_class.find_or_initialize_by(searchable_type: self.class.name, searchable_id: id).tap do |record|
+      Search::Record.find_or_initialize_by(searchable_type: self.class.name, searchable_id: id).tap do |record|
         record.update!(search_record_attributes)
       end
     end
 
     def remove_from_search_index
-      search_record_class.find_by(searchable_type: self.class.name, searchable_id: id)&.destroy
-    end
-
-    def search_record_class
-      Search::Record.for_account(account_id)
+      Search::Record.find_by(searchable_type: self.class.name, searchable_id: id)&.destroy
     end
 
     def search_record_attributes

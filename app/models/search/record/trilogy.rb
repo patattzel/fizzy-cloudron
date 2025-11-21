@@ -8,20 +8,16 @@ module Search::Record::Trilogy
   end
 
   class_methods do
-    def table_name
+    def compute_table_name
       if Current.account
         "search_records_#{shard_id_for_account(Current.account.id)}"
       else
-        super
+        raise "Current.account is not set; cannot determine shard for Search::Record"
       end
     end
 
     def shard_id_for_account(account_id)
       Zlib.crc32(account_id.to_s) % SHARD_COUNT
-    end
-
-    def for_account(account_id)
-      self
     end
 
     def matching_scope(query, account_id)

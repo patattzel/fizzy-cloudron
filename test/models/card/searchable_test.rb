@@ -31,4 +31,14 @@ class Card::SearchableTest < ActiveSupport::TestCase
     assert_includes results, card_in_board
     assert_not_includes results, card_in_other_board
   end
+
+  test "card requires Current.account to be set" do
+    Current.account = nil
+
+    error = assert_raises(RuntimeError) do
+      @board.cards.create!(title: "Test card", creator: @user)
+    end
+
+    assert_match(/Current.account must be set to save Card/, error.message)
+  end
 end

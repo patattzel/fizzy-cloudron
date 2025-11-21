@@ -4,6 +4,6 @@ module Search
   end
 
   def self.results(query:, user:)
-    Record.for_account(user.account_id).search(query: Query.wrap(query), user: user)
+    Record.search(query: Query.wrap(query), user: user)
   end
 end
