@@ -18,7 +18,6 @@
     --progress-max-cards: 20;
     --progress-max-height: 50dvh;
 
-    -ms-overflow-style: none;  /* Hide x-scrollbar on Edge */
     container-type: inline-size;
     display: grid;
     gap: var(--column-gap);
@@ -29,12 +28,6 @@
     overflow-y: hidden;
     padding-block-end: var(--column-width-collapsed);
     position: relative;
-    scrollbar-width: none; /* Hide x-scrollbar on FF */
-
-    /* Hide x-scrollbar on Chrome/Safari/Opera */
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     /* When it has something expanded */
     &:has(.card-columns__left .cards:not(.is-collapsed), .card-columns__right .cards:not(.is-collapsed)) {
