@@ -61,4 +61,8 @@ export default class extends Controller {
   select(event) {
     event.target.select()
   }
+
+  blurActiveInput() {
+    document.activeElement?.blur()
+  }
 }
