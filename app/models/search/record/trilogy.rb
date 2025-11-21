@@ -17,7 +17,7 @@ module Search::Record::Trilogy
       if Current.account
         "search_records_#{shard_id_for_account(Current.account.id)}"
       else
-        "search_records"
+        "search_records_0"
       end
     end
 
