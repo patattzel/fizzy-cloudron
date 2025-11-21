@@ -9,12 +9,6 @@ class Search::Record < ApplicationRecord
 
   validates :account_id, :searchable_type, :searchable_id, :card_id, :board_id, :created_at, presence: true
 
-  class << self
-    def card_join
-      "INNER JOIN #{table_name} ON #{table_name}.card_id = cards.id"
-    end
-  end
-
   scope :for_query, ->(query:, user:) do
     if query.valid? && user.board_ids.any?
       matching(query.to_s, user.account_id).where(account_id: user.account_id, board_id: user.board_ids)
