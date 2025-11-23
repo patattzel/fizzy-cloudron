@@ -15,7 +15,7 @@ class Notification::Bundle < ApplicationRecord
     )
   end
 
-  before_create :set_default_window
+  before_validation :set_default_window, if: :new_record?
 
   validate :validate_no_overlapping
 

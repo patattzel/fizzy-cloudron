@@ -83,6 +83,16 @@ class Notification::BundleTest < ActiveSupport::TestCase
     assert bundle_5.valid?
   end
 
+  test "overlapping bundles that are created relying on set_default_window are not created" do
+    @user.notification_bundles.destroy_all
+
+    bundle = @user.notification_bundles.create!(starts_at: Time.current)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      @user.notification_bundles.create!(starts_at: bundle.starts_at - 1.second)
+    end
+  end
+
   test "deliver_all delivers due bundles" do
     notification = @user.notifications.create!(source: events(:logo_published), creator: @user)
 
