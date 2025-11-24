@@ -214,5 +214,9 @@
     padding: 1.5ch;
     text-align: center;
     z-index: 1;
+
+    @media (max-height: 668px) {
+      font-size: var(--text-x-small);
+    }
   }
 }
