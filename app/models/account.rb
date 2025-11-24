@@ -18,16 +18,7 @@ class Account < ApplicationRecord
   class << self
     def create_with_admin_user(account:, owner:)
       create!(**account).tap do |account|
-        system_user = account.users.create!(role: :system, name: "System")
-
-        Current.with_account(account) do
-          system_user.avatar.attach(
-            io: File.open(Rails.root.join("public", "apple-touch-icon.png")),
-            filename: "apple-touch-icon.png",
-            content_type: "image/png"
-          )
-        end
-
+        account.users.create!(role: :system, name: "System")
         account.users.create!(**owner.reverse_merge(role: "admin"))
       end
     end
