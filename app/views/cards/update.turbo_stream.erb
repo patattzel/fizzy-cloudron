@@ -1,0 +1,7 @@
+<%= turbo_stream.update dom_id(@card, :edit) do %>
+  <%= render "cards/container/content_display", card: @card %>
+<% end %>
+
+<%= turbo_stream.update dom_id(@card, :card_closure_toggle) do %>
+  <%= render "cards/container/closure_buttons", card: @card %>
+<% end %>
