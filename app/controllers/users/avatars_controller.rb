@@ -8,7 +8,7 @@ class Users::AvatarsController < ApplicationController
 
   def show
     if @user.system?
-      redirect_to "/apple-touch-icon.png"
+      redirect_to view_context.image_path("system_user.png")
     elsif @user.avatar.attached?
       redirect_to rails_blob_url(@user.avatar.variant(:thumb), disposition: "inline")
     elsif stale? @user, cache_control: cache_control

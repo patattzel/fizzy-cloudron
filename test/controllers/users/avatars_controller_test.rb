@@ -9,7 +9,7 @@ class Users::AvatarsControllerTest < ActionDispatch::IntegrationTest
     get user_avatar_path(users(:system))
 
     assert_response :redirect
-    assert_redirected_to "/apple-touch-icon.png"
+    assert_redirected_to ActionController::Base.helpers.image_path("system_user.png")
   end
 
   test "show own initials without caching" do
