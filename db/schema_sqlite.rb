@@ -46,7 +46,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
 
   create_table "action_text_rich_texts", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.text "body", limit: 65535
+    t.text "body", limit: 4294967295
     t.datetime "created_at", null: false
     t.string "name", limit: 255, null: false
     t.uuid "record_id", null: false
