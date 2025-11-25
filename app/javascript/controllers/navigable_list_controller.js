@@ -14,6 +14,7 @@ export default class extends Controller {
     hasNestedNavigation: { type: Boolean, default: false },
     preventHandledKeys: { type: Boolean, default: false },
     autoSelect: { type: Boolean, default: true },
+    autoScroll: { type: Boolean, default: true },
     onlyActOnFocusedItems: { type: Boolean, default: false }
   }
 
@@ -80,10 +81,10 @@ export default class extends Controller {
 
     await nextFrame()
 
-    this.currentItem.scrollIntoView({ block: "nearest", inline: "nearest" })
+    if (this.autoScrollValue) { this.currentItem.scrollIntoView({ block: "nearest", inline: "nearest" }) }
     if (this.hasNestedNavigationValue) { this.#activateNestedNavigableList() }
 
-    if (!skipFocus && this.focusOnSelectionValue) { this.currentItem.focus() }
+    if (!skipFocus && this.focusOnSelectionValue) { this.currentItem.focus({ preventScroll: !this.autoScrollValue }) }
   }
 
   isSelected(item) {
@@ -160,7 +161,7 @@ export default class extends Controller {
   #relayNavigationToParentNavigableList(event) {
     const parentController = this.#parentNavigableListController
     if (parentController) {
-      parentController.element.focus()
+      parentController.element.focus({ preventScroll: !this.autoScrollValue })
       parentController.navigate(event)
     }
   }
