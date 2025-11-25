@@ -69,7 +69,7 @@ test:
   <% if use_sqlite %>
   primary:
     <<: *default
-    database: db/test.sqlite3
+    database: storage/test.sqlite3
     schema_dump: schema_sqlite.rb
   <% else %>
   primary:
