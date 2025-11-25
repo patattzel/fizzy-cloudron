@@ -25,6 +25,10 @@ module Search::Record::SQLite
         "snippet(search_records_fts, 1, #{opening_mark}, #{closing_mark}, #{ellipsis}, 20) AS result_content",
         "#{connection.quote(query.terms)} AS query" ]
     end
+
+    def for(account_id)
+      self
+    end
   end
 
   def card_title

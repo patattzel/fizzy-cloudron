@@ -4,10 +4,9 @@ module Card::Searchable
   included do
     include ::Searchable
 
-    has_many :card_search_records, class_name: "Search::Record"
-
     scope :mentioning, ->(query, user:) do
-      joins(:card_search_records).merge(Search::Record.for_query(query, user: user))
+      search_record_class = Search::Record.for(user.account_id)
+      joins(search_record_class.card_join).merge(search_record_class.for_query(query, user: user))
     end
   end
 

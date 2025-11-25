@@ -8,14 +8,15 @@ class Comment::SearchableTest < ActiveSupport::TestCase
   end
 
   test "comment search" do
+    search_record_class = Search::Record.for(@user.account_id)
     # Comment is indexed on create
     comment = @card.comments.create!(body: "searchable comment text", creator: @user)
-    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment.id)
+    record = search_record_class.find_by(searchable_type: "Comment", searchable_id: comment.id)
     assert_not_nil record
 
     # Comment is updated in index
     comment.update!(body: "updated text")
-    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment.id)
+    record = search_record_class.find_by(searchable_type: "Comment", searchable_id: comment.id)
     assert_match /updat/, record.content
 
     # Comment is removed from index on destroy
@@ -23,17 +24,17 @@ class Comment::SearchableTest < ActiveSupport::TestCase
     search_record_id = record.id
 
     # For SQLite, verify FTS entry exists before deletion
-    if Search::Record.connection.adapter_name == "SQLite"
+    if search_record_class.connection.adapter_name == "SQLite"
       fts_entry = record.search_records_fts
       assert_not_nil fts_entry, "FTS entry should exist before comment deletion"
     end
 
     comment.destroy
-    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: comment_id)
+    record = search_record_class.find_by(searchable_type: "Comment", searchable_id: comment_id)
     assert_nil record
 
     # For SQLite, verify FTS entry is also deleted
-    if Search::Record.connection.adapter_name == "SQLite"
+    if search_record_class.connection.adapter_name == "SQLite"
       fts_count = Search::Record::SQLite::Fts.where(rowid: search_record_id).count
       assert_equal 0, fts_count, "FTS entry should be deleted after comment deletion"
     end
@@ -48,18 +49,8 @@ class Comment::SearchableTest < ActiveSupport::TestCase
 
     # Comment stores parent card_id and board_id
     new_comment = @card.comments.create!(body: "test comment", creator: @user)
-    record = Search::Record.find_by(searchable_type: "Comment", searchable_id: new_comment.id)
+    record = search_record_class.find_by(searchable_type: "Comment", searchable_id: new_comment.id)
     assert_equal @card.id, record.card_id
     assert_equal @board.id, record.board_id
-  end
-
-  test "comment requires Current.account to be set" do
-    Current.account = nil
-
-    error = assert_raises(RuntimeError) do
-      @card.comments.create!(body: "Test comment", creator: @user)
-    end
-
-    assert_match(/Current.account must be set to save Comment/, error.message)
   end
 end

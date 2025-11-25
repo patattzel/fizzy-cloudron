@@ -4,29 +4,36 @@ module Search::Record::Trilogy
   SHARD_COUNT = 16
 
   included do
+    self.abstract_class = true
     before_save :set_account_key, :stem_content
 
     scope :matching, ->(query, account_id) do
       full_query = "+account#{account_id} +(#{Search::Stemmer.stem(query)})"
       where("MATCH(#{table_name}.account_key, #{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", full_query)
     end
+
+    SHARD_CLASSES = SHARD_COUNT.times.map do |shard_id|
+      Class.new(self) do
+        self.table_name = "search_records_#{shard_id}"
+
+        def self.name
+          "Search::Record"
+        end
+      end
+    end.freeze
   end
 
   class_methods do
-    def compute_table_name
-      if Current.account
-        "search_records_#{shard_id_for_account(Current.account.id)}"
-      else
-        "search_records_0"
-      end
-    end
-
     def shard_id_for_account(account_id)
       Zlib.crc32(account_id.to_s) % SHARD_COUNT
     end
 
     def search_fields(query)
       "#{connection.quote(query.terms)} AS query"
+    end
+
+    def for(account_id)
+      SHARD_CLASSES[shard_id_for_account(account_id)]
     end
   end
 

@@ -12,16 +12,10 @@ namespace :search do
     end
 
     puts "Reindexing cards..."
-    Card.find_each do |card|
-      Current.account = card.account
-      card.reindex
-    end
+    Card.includes(:rich_text_description).find_each(&:reindex)
 
     puts "Reindexing comments..."
-    Comment.find_each do |comment|
-      Current.account = comment.account
-      comment.reindex
-    end
+    Comment.includes(:rich_text_body, :card).find_each(&:reindex)
 
     puts "Done! Reindexed #{Card.count} cards and #{Comment.count} comments."
   end
