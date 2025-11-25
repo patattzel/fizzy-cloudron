@@ -41,4 +41,14 @@ class AllowBrowserTest < ActionDispatch::IntegrationTest
 
     assert_response :not_acceptable
   end
+
+  test "Google Image Proxy is allowed" do
+    sign_in_as :kevin
+
+    get cards_path, headers: {
+      "User-Agent" => "Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)"
+    }
+
+    assert_response :success
+  end
 end
