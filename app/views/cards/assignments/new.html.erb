@@ -15,7 +15,9 @@
           type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
 
     <ul class="popup__list" data-filter-target="list">
-      <%= render partial: "user", locals: { card: @card, user: Current.user, user_label: "Me" } %>
+      <%= render "user", card: @card, user: Current.user, user_label: "Me" do %>
+        <span class="visually-hidden"><%= Current.user.name %></span>
+      <% end %>
       <%= render collection: @assigned_to, partial: "user", locals: { card: @card } %>
       <%= render collection: @users, partial: "user", locals: { card: @card } %>
     </ul>
