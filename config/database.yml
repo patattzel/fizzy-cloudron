@@ -33,7 +33,7 @@ development:
   <% if use_sqlite %>
   primary:
     <<: *default
-    database: db/development.sqlite3
+    database: storage/development.sqlite3
     schema_dump: schema_sqlite.rb
   <% else %>
   primary:
