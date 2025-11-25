@@ -16,7 +16,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "board_id", null: false
     t.datetime "created_at", null: false
-    t.string "involvement", default: "access_only", null: false
+    t.string "involvement", limit: 255, default: "access_only", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["account_id", "accessed_at"], name: "index_accesses_on_account_id_and_accessed_at"
@@ -27,7 +27,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
 
   create_table "account_join_codes", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.string "code", null: false
+    t.string "code", limit: 255, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "usage_count", default: 0, null: false
@@ -39,18 +39,18 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.bigint "cards_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.bigint "external_account_id"
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["external_account_id"], name: "index_accounts_on_external_account_id", unique: true
   end
 
   create_table "action_text_rich_texts", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.text "body"
+    t.text "body", limit: 65535
     t.datetime "created_at", null: false
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.uuid "record_id", null: false
-    t.string "record_type", null: false
+    t.string "record_type", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_action_text_rich_texts_on_account_id"
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
@@ -60,9 +60,9 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.uuid "record_id", null: false
-    t.string "record_type", null: false
+    t.string "record_type", limit: 255, null: false
     t.index ["account_id"], name: "index_active_storage_attachments_on_account_id"
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -71,13 +71,13 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
   create_table "active_storage_blobs", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.string "content_type"
+    t.string "checksum", limit: 255
+    t.string "content_type", limit: 255
     t.datetime "created_at", null: false
-    t.string "filename", null: false
-    t.string "key", null: false
-    t.text "metadata"
-    t.string "service_name", null: false
+    t.string "filename", limit: 255, null: false
+    t.string "key", limit: 255, null: false
+    t.text "metadata", limit: 65535
+    t.string "service_name", limit: 255, null: false
     t.index ["account_id"], name: "index_active_storage_blobs_on_account_id"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -85,7 +85,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
   create_table "active_storage_variant_records", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.uuid "blob_id", null: false
-    t.string "variation_digest", null: false
+    t.string "variation_digest", limit: 255, null: false
     t.index ["account_id"], name: "index_active_storage_variant_records_on_account_id"
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -120,7 +120,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "board_id", null: false
     t.datetime "created_at", null: false
-    t.string "key"
+    t.string "key", limit: 255
     t.datetime "updated_at", null: false
     t.index ["account_id", "key"], name: "index_board_publications_on_account_id_and_key"
     t.index ["board_id"], name: "index_board_publications_on_board_id"
@@ -131,7 +131,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.boolean "all_access", default: false, null: false
     t.datetime "created_at", null: false
     t.uuid "creator_id", null: false
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_boards_on_account_id"
     t.index ["creator_id"], name: "index_boards_on_creator_id"
@@ -157,7 +157,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "card_id"
     t.datetime "created_at", null: false
-    t.string "status", default: "doing", null: false
+    t.string "status", limit: 255, default: "doing", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "status"], name: "index_card_engagements_on_account_id_and_status"
     t.index ["card_id"], name: "index_card_engagements_on_card_id"
@@ -192,8 +192,8 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.date "due_on"
     t.datetime "last_active_at", null: false
     t.bigint "number", null: false
-    t.string "status", default: "drafted", null: false
-    t.string "title"
+    t.string "status", limit: 255, default: "drafted", null: false
+    t.string "title", limit: 255
     t.datetime "updated_at", null: false
     t.index ["account_id", "last_active_at", "status"], name: "index_cards_on_account_id_and_last_active_at_and_status"
     t.index ["account_id", "number"], name: "index_cards_on_account_id_and_number", unique: true
@@ -223,9 +223,9 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
   create_table "columns", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.uuid "board_id", null: false
-    t.string "color", null: false
+    t.string "color", limit: 255, null: false
     t.datetime "created_at", null: false
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.integer "position", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_columns_on_account_id"
@@ -254,7 +254,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.bigint "auto_postpone_period", default: 2592000, null: false
     t.uuid "container_id", null: false
-    t.string "container_type", null: false
+    t.string "container_type", limit: 255, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_entropies_on_account_id"
@@ -264,12 +264,12 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
 
   create_table "events", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.string "action", null: false
+    t.string "action", limit: 255, null: false
     t.uuid "board_id", null: false
     t.datetime "created_at", null: false
     t.uuid "creator_id", null: false
     t.uuid "eventable_id", null: false
-    t.string "eventable_type", null: false
+    t.string "eventable_type", limit: 255, null: false
     t.json "particulars", default: -> { "json_object()" }
     t.datetime "updated_at", null: false
     t.index ["account_id", "action"], name: "index_events_on_account_id_and_action"
@@ -284,7 +284,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.datetime "created_at", null: false
     t.uuid "creator_id", null: false
     t.json "fields", default: -> { "json_object()" }, null: false
-    t.string "params_digest", null: false
+    t.string "params_digest", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_filters_on_account_id"
     t.index ["creator_id", "params_digest"], name: "index_filters_on_creator_id_and_params_digest", unique: true
@@ -299,13 +299,13 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
 
   create_table "identities", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "email_address", null: false
+    t.string "email_address", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_identities_on_email_address", unique: true
   end
 
   create_table "magic_links", id: :uuid, force: :cascade do |t|
-    t.string "code", null: false
+    t.string "code", limit: 255, null: false
     t.datetime "created_at", null: false
     t.datetime "expires_at", null: false
     t.uuid "identity_id"
@@ -321,7 +321,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "mentionee_id", null: false
     t.uuid "mentioner_id", null: false
     t.uuid "source_id", null: false
-    t.string "source_type", null: false
+    t.string "source_type", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_mentions_on_account_id"
     t.index ["mentionee_id"], name: "index_mentions_on_mentionee_id"
@@ -349,7 +349,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "creator_id"
     t.datetime "read_at"
     t.uuid "source_id", null: false
-    t.string "source_type", null: false
+    t.string "source_type", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["account_id"], name: "index_notifications_on_account_id"
@@ -373,12 +373,12 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
 
   create_table "push_subscriptions", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.string "auth_key"
+    t.string "auth_key", limit: 255
     t.datetime "created_at", null: false
-    t.text "endpoint"
-    t.string "p256dh_key"
+    t.text "endpoint", limit: 65535
+    t.string "p256dh_key", limit: 255
     t.datetime "updated_at", null: false
-    t.string "user_agent"
+    t.string "user_agent", limit: 255
     t.uuid "user_id", null: false
     t.index ["account_id"], name: "index_push_subscriptions_on_account_id"
     t.index ["user_id", "endpoint"], name: "index_push_subscriptions_on_user_id_and_endpoint", unique: true
@@ -412,11 +412,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "board_id", null: false
     t.uuid "card_id", null: false
-    t.text "content"
+    t.text "content", limit: 65535
     t.datetime "created_at", null: false
     t.uuid "searchable_id", null: false
-    t.string "searchable_type", null: false
-    t.string "title"
+    t.string "searchable_type", limit: 255, null: false
+    t.string "title", limit: 255
     t.index ["account_id"], name: "index_search_records_on_account_id"
     t.index ["searchable_type", "searchable_id"], name: "index_search_records_on_searchable_type_and_searchable_id", unique: true
   end
@@ -424,9 +424,9 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
   create_table "sessions", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.uuid "identity_id", null: false
-    t.string "ip_address"
+    t.string "ip_address", limit: 255
     t.datetime "updated_at", null: false
-    t.string "user_agent"
+    t.string "user_agent", limit: 255
     t.index ["identity_id"], name: "index_sessions_on_identity_id"
   end
 
@@ -434,7 +434,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.uuid "card_id", null: false
     t.boolean "completed", default: false, null: false
-    t.text "content", null: false
+    t.text "content", limit: 65535, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_steps_on_account_id"
@@ -456,7 +456,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
   create_table "tags", id: :uuid, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", null: false
-    t.string "title"
+    t.string "title", limit: 255
     t.datetime "updated_at", null: false
     t.index ["account_id", "title"], name: "index_tags_on_account_id_and_title", unique: true
   end
@@ -465,7 +465,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.integer "bundle_email_frequency", default: 0, null: false
     t.datetime "created_at", null: false
-    t.string "timezone_name"
+    t.string "timezone_name", limit: 255
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.index ["account_id"], name: "index_user_settings_on_account_id"
@@ -478,8 +478,8 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.uuid "identity_id"
-    t.string "name", null: false
-    t.string "role", default: "member", null: false
+    t.string "name", limit: 255, null: false
+    t.string "role", limit: 255, default: "member", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "identity_id"], name: "index_users_on_account_id_and_identity_id", unique: true
     t.index ["account_id", "role"], name: "index_users_on_account_id_and_role"
@@ -514,9 +514,9 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.uuid "account_id", null: false
     t.datetime "created_at", null: false
     t.uuid "event_id", null: false
-    t.text "request"
-    t.text "response"
-    t.string "state", null: false
+    t.text "request", limit: 65535
+    t.text "response", limit: 65535
+    t.string "state", limit: 255, null: false
     t.datetime "updated_at", null: false
     t.uuid "webhook_id", null: false
     t.index ["account_id"], name: "index_webhook_deliveries_on_account_id"
@@ -529,11 +529,11 @@ ActiveRecord::Schema[8.2].define(version: 2025_11_21_112416) do
     t.boolean "active", default: true, null: false
     t.uuid "board_id", null: false
     t.datetime "created_at", null: false
-    t.string "name"
-    t.string "signing_secret", null: false
-    t.text "subscribed_actions"
+    t.string "name", limit: 255
+    t.string "signing_secret", limit: 255, null: false
+    t.text "subscribed_actions", limit: 65535
     t.datetime "updated_at", null: false
-    t.text "url", null: false
+    t.text "url", limit: 65535, null: false
     t.index ["account_id"], name: "index_webhooks_on_account_id"
     t.index ["board_id", "subscribed_actions"], name: "index_webhooks_on_board_id_and_subscribed_actions"
   end

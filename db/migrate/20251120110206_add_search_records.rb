@@ -5,11 +5,11 @@ class AddSearchRecords < ActiveRecord::Migration[8.2]
     # Create regular table with integer primary key for FTS5 rowid compatibility
     create_table :search_records do |t|
       t.uuid :account_id, null: false
-      t.string :searchable_type, null: false
+      t.string :searchable_type, limit: 255, null: false
       t.uuid :searchable_id, null: false
       t.uuid :card_id, null: false
       t.uuid :board_id, null: false
-      t.string :title
+      t.string :title, limit: 255
       t.text :content
       t.datetime :created_at, null: false
 
