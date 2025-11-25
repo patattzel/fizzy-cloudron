@@ -34,6 +34,7 @@ gem "aws-sdk-s3", require: false
 gem "web-push"
 gem "net-http-persistent"
 gem "mittens"
+gem "useragent", bc: "useragent"
 
 # Telemetry, logging, and operations
 gem "mission_control-jobs"

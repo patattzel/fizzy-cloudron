@@ -17,6 +17,12 @@ GIT
       rails (>= 6.0.0)
 
 GIT
+  remote: https://github.com/basecamp/useragent
+  revision: 746e37ba93cef6399920d18ad88903db92ba4e30
+  specs:
+    useragent (0.16.10)
+
+GIT
   remote: https://github.com/basecamp/yabeda-activejob.git
   revision: 684973f77ff01d8b3dd75874538fae55961e15e6
   branch: bulk-and-scheduled-jobs
@@ -519,7 +525,6 @@ GEM
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
     uri (1.1.1)
-    useragent (0.16.11)
     vcr (6.3.1)
       base64
     web-console (4.2.1)
@@ -626,6 +631,7 @@ DEPENDENCIES
   thruster
   trilogy (~> 2.9)
   turbo-rails
+  useragent!
   vcr
   web-console
   web-push
