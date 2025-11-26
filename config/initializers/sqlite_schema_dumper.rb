@@ -17,8 +17,6 @@ module SQLiteFTS5SchemaDumperFix
   end
 end
 
-ActiveSupport.on_load(:active_record) do
-  if defined?(ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper)
-    ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper.prepend(SQLiteFTS5SchemaDumperFix)
-  end
+ActiveSupport.on_load(:active_record_sqlite3adapter) do
+  ActiveRecord::ConnectionAdapters::SQLite3::SchemaDumper.prepend(SQLiteFTS5SchemaDumperFix)
 end

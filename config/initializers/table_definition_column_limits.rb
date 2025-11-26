@@ -39,10 +39,6 @@ module TableDefinitionColumnLimits
   end
 end
 
-ActiveSupport.on_load(:active_record) do
-  ActiveRecord::ConnectionAdapters::TableDefinition.prepend(TableDefinitionColumnLimits)
-end
-
 # For SQLite: append inline CHECK constraints to enforce string/text length limits.
 # since SQLite doesn't natively enforce VARCHAR/TEXT length limits.
 module SQLiteColumnLimitCheckConstraints
@@ -63,6 +59,10 @@ module SQLiteColumnLimitCheckConstraints
 
     sql
   end
+end
+
+ActiveSupport.on_load(:active_record) do
+  ActiveRecord::ConnectionAdapters::TableDefinition.prepend(TableDefinitionColumnLimits)
 end
 
 ActiveSupport.on_load(:active_record_sqlite3adapter) do
