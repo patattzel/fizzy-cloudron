@@ -12,9 +12,7 @@ CI.run do
   step "Security: Brakeman audit",  "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
   step "Security: Gitleaks audit",  "bin/gitleaks-audit"
 
-  step "Tests: Fizzy",              "bin/rails test"
-  step "Tests: SaaS",               "SAAS=1 bin/rails test:saas" if Fizzy.saas?
-
+  step "Tests: Open source",        "bin/rails test"
   step "Tests: System",             "bin/rails test:system"
 
   if success?
