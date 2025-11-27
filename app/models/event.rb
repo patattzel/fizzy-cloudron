@@ -15,7 +15,7 @@ class Event < ApplicationRecord
         :goldness, :closure, :image_attachment,
         { rich_text_body: :embeds_attachments },
         { rich_text_description: :embeds_attachments },
-        { card: [:goldness, :closure, :image_attachment] }
+        { card: [ :goldness, :closure, :image_attachment ] }
       ]
     })
   }
