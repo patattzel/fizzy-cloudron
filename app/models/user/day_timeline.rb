@@ -71,7 +71,7 @@ class User::DayTimeline
 
     def timelineable_events
       Event
-        .includes(:creator, :board, :eventable)
+        .preloaded
         .where(board: boards)
         .where(action: TIMELINEABLE_ACTIONS)
     end
