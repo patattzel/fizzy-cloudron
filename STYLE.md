@@ -135,6 +135,22 @@ class SomeModule
 end
 ```
 
+## CRUD controllers
+
+We model web endpoints as CRUD operations on resources (REST). When an action doesn't map cleanly to a standard CRUD verb, we introduce a new resource rather than adding custom actions.
+
+```ruby
+# Bad
+resources :cards do
+  post :close
+  post :reopen
+end
+
+# Good
+resources :cards do
+  resource :closure
+end
+```
 
 ## Controller and model interactions
 
