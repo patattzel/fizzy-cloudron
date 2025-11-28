@@ -60,8 +60,11 @@ accessories:
     image: basecamp/kamal-proxy:lb
     hosts:
       - fizzy-lb-101.df-iad-int.37signals.com
+      - fizzy-lb-102.df-iad-int.37signals.com
       - fizzy-lb-01.sc-chi-int.37signals.com
+      - fizzy-lb-02.sc-chi-int.37signals.com
       - fizzy-lb-401.df-ams-int.37signals.com
+      - fizzy-lb-402.df-ams-int.37signals.com
     labels:
       otel_role: load-balancer
       otel_service: fizzy-load-balancer
