@@ -1,11 +1,22 @@
 GIT
   remote: https://github.com/basecamp/fizzy-saas
-  revision: 720bedaf37faf8dff18c9586e1fa7031bad1d2a9
+  revision: 071e657caad9d42210d3ec3fea269a355b202395
   specs:
     fizzy-saas (0.1.0)
+      prometheus-client-mmap
       queenbee
       rails (>= 8.1.0.beta1)
       rails_structured_logging
+      sentry-rails
+      sentry-ruby
+      yabeda
+      yabeda-actioncable
+      yabeda-activejob
+      yabeda-gc
+      yabeda-http_requests
+      yabeda-prometheus-mmap
+      yabeda-puma-plugin
+      yabeda-rails
 
 GIT
   remote: https://github.com/basecamp/queenbee-plugin
