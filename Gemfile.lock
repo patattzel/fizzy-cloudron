@@ -1,35 +1,8 @@
 GIT
-  remote: https://github.com/basecamp/queenbee-plugin
-  revision: eb01c697de1ad028afc65cc7d9b5345a7a8e849f
-  ref: eb01c697de1ad028afc65cc7d9b5345a7a8e849f
-  specs:
-    queenbee (3.2.0)
-      activeresource
-      builder
-      rexml
-
-GIT
-  remote: https://github.com/basecamp/rails-structured-logging
-  revision: 76960cb5c15fc2b6b5f7542e05d7dcc031cef9e6
-  specs:
-    rails_structured_logging (0.2.1)
-      json
-      rails (>= 6.0.0)
-
-GIT
   remote: https://github.com/basecamp/useragent
   revision: 433ca320a42db1266c4b89df74d0abdb9a880c5e
   specs:
     useragent (0.16.11)
-
-GIT
-  remote: https://github.com/basecamp/yabeda-activejob.git
-  revision: 684973f77ff01d8b3dd75874538fae55961e15e6
-  branch: bulk-and-scheduled-jobs
-  specs:
-    yabeda-activejob (0.6.0)
-      rails (>= 6.1)
-      yabeda (~> 0.6)
 
 GIT
   remote: https://github.com/rails/rails.git
@@ -132,31 +105,13 @@ GIT
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
 
-PATH
-  remote: gems/fizzy-saas
-  specs:
-    fizzy-saas (0.1.0)
-      queenbee
-      rails (>= 8.1.0.beta1)
-      rails_structured_logging
-
 GEM
   remote: https://rubygems.org/
   specs:
     action_text-trix (2.1.15)
       railties
-    activemodel-serializers-xml (1.0.3)
-      activemodel (>= 5.0.0.a)
-      activesupport (>= 5.0.0.a)
-      builder (~> 3.1)
-    activeresource (6.2.0)
-      activemodel (>= 7.0)
-      activemodel-serializers-xml (~> 1.0)
-      activesupport (>= 7.0)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
-    anyway_config (2.7.2)
-      ruby-next-core (~> 1.0)
     ast (2.4.3)
     autotuner (1.1.0)
     aws-eventstream (1.4.0)
@@ -216,7 +171,6 @@ GEM
       reline (>= 0.3.8)
     dotenv (3.1.8)
     drb (2.2.3)
-    dry-initializer (3.2.0)
     ed25519 (1.4.0)
     erb (6.0.0)
     erubi (1.13.1)
@@ -259,7 +213,7 @@ GEM
     json (2.16.0)
     jwt (3.1.2)
       base64
-    kamal (2.8.2)
+    kamal (2.9.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -352,31 +306,6 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.6.0)
-    prometheus-client-mmap (1.3.0)
-      base64
-      bigdecimal
-      logger
-      rb_sys (~> 0.9.117)
-    prometheus-client-mmap (1.3.0-arm64-darwin)
-      base64
-      bigdecimal
-      logger
-      rb_sys (~> 0.9.117)
-    prometheus-client-mmap (1.3.0-x86_64-darwin)
-      base64
-      bigdecimal
-      logger
-      rb_sys (~> 0.9.117)
-    prometheus-client-mmap (1.3.0-x86_64-linux-gnu)
-      base64
-      bigdecimal
-      logger
-      rb_sys (~> 0.9.117)
-    prometheus-client-mmap (1.3.0-x86_64-linux-musl)
-      base64
-      bigdecimal
-      logger
-      rb_sys (~> 0.9.117)
     propshaft (1.3.1)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -408,9 +337,6 @@ GEM
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rainbow (3.1.1)
     rake (13.3.1)
-    rake-compiler-dock (1.9.1)
-    rb_sys (0.9.117)
-      rake-compiler-dock (= 1.9.1)
     rdoc (6.16.0)
       erb
       psych (>= 4.0.0)
@@ -453,7 +379,6 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
-    ruby-next-core (1.1.2)
     ruby-progressbar (1.13.0)
     ruby-vips (2.2.5)
       ffi (~> 1.12)
@@ -467,15 +392,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sentry-rails (6.1.2)
-      railties (>= 5.2.0)
-      sentry-ruby (~> 6.1.2)
-    sentry-ruby (6.1.2)
-      bigdecimal
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-    sniffer (0.5.0)
-      anyway_config (>= 1.0)
-      dry-initializer (~> 3)
     solid_cable (3.0.12)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -539,7 +455,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.9.1)
     websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
@@ -547,33 +462,6 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yabeda (0.14.0)
-      anyway_config (>= 1.0, < 3)
-      concurrent-ruby
-      dry-initializer
-    yabeda-actioncable (0.2.2)
-      actioncable (>= 7.2)
-      activesupport (>= 7.2)
-      railties (>= 7.2)
-      yabeda (~> 0.8)
-    yabeda-gc (0.4.0)
-      yabeda (~> 0.6)
-    yabeda-http_requests (0.3.0)
-      anyway_config (>= 1.3, < 3.0)
-      sniffer
-      yabeda
-    yabeda-prometheus-mmap (0.4.0)
-      prometheus-client-mmap
-      yabeda (~> 0.10)
-    yabeda-puma-plugin (0.9.0)
-      json
-      puma
-      yabeda (~> 0.5)
-    yabeda-rails (0.10.0)
-      activesupport
-      anyway_config (>= 1.3, < 3)
-      railties
-      yabeda (~> 0.8)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -585,7 +473,6 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  activeresource
   autotuner
   aws-sdk-s3
   bcrypt (~> 3.1.7)
@@ -596,7 +483,6 @@ DEPENDENCIES
   capybara
   debug
   faker
-  fizzy-saas!
   geared_pagination (~> 1.2)
   image_processing (~> 1.14)
   importmap-rails
@@ -609,20 +495,15 @@ DEPENDENCIES
   mocha
   net-http-persistent
   platform_agent
-  prometheus-client-mmap (~> 1.3)
   propshaft
   puma (>= 5.0)
-  queenbee!
   rack-mini-profiler
   rails!
-  rails_structured_logging!
   redcarpet
   rouge
   rqrcode
   rubocop-rails-omakase
   selenium-webdriver
-  sentry-rails
-  sentry-ruby
   solid_cable (>= 3.0)
   solid_cache (~> 1.0)
   solid_queue (~> 1.2)
@@ -636,15 +517,6 @@ DEPENDENCIES
   web-console
   web-push
   webmock
-  webrick
-  yabeda
-  yabeda-actioncable
-  yabeda-activejob!
-  yabeda-gc
-  yabeda-http_requests
-  yabeda-prometheus-mmap
-  yabeda-puma-plugin
-  yabeda-rails
 
 BUNDLED WITH
    2.7.2

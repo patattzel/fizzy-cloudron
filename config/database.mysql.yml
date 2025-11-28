@@ -1,0 +1,20 @@
+default: &default
+  adapter: trilogy
+  host: <%= ENV.fetch("MYSQL_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("MYSQL_PORT", "3306") %>
+  username: <%= ENV.fetch("MYSQL_USER", "root") %>
+  password: <%= ENV["MYSQL_PASSWORD"] %>
+  pool: 50
+  timeout: 5000
+
+development:
+  <<: *default
+  database: fizzy_development
+
+test:
+  <<: *default
+  database: fizzy_test
+
+production:
+  <<: *default
+  database: fizzy_production

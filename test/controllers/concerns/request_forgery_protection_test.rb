@@ -134,8 +134,10 @@ class RequestForgeryProtectionTest < ActionDispatch::IntegrationTest
     end
 
     def assert_report
-      Sentry.expects(:capture_message).with do |message, **kwargs|
-        message == "CSRF protection mismatch" && kwargs[:level] == :info
+      if Fizzy.saas?
+        Sentry.expects(:capture_message).with do |message, **kwargs|
+          message == "CSRF protection mismatch" && kwargs[:level] == :info
+        end
       end
     end
 
