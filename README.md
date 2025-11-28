@@ -82,3 +82,4 @@ This gem depends on some private git repositories and it is not meant to be used
 ## License
 
 Fizzy is released under the [O'Saasy License](LICENSE.md).
+
