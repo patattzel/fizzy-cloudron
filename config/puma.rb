@@ -10,12 +10,14 @@ plugin :tmp_restart
 # Run Solid Queue with Puma
 plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
 
-# Expose Prometheus metrics at http://0.0.0.0:9394/metrics.
+# Expose Prometheus metrics at http://0.0.0.0:9394/metrics (SaaS only).
 # In dev, overridden to http://127.0.0.1:9306/metrics in .mise.toml.
-control_uri = Rails.env.local? ? "unix://tmp/pumactl.sock" : "auto"
-activate_control_app control_uri, no_token: true
-plugin :yabeda
-plugin :yabeda_prometheus
+if Fizzy.saas?
+  control_uri = Rails.env.local? ? "unix://tmp/pumactl.sock" : "auto"
+  activate_control_app control_uri, no_token: true
+  plugin :yabeda
+  plugin :yabeda_prometheus
+end
 
 if !Rails.env.local?
   # Because we expect fewer I/O waits than Rails apps that connect to the

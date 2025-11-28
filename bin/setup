@@ -8,6 +8,14 @@ app_root="$(
 )"
 export PATH="$app_root/bin:$PATH"
 
+if [ -e tmp/saas.txt ]; then
+  export SAAS=1
+fi
+
+if [ -n "$SAAS" ]; then
+  export BUNDLE_GEMFILE="Gemfile.saas"
+fi
+
 # Install gum if needed
 if ! command -v gum &>/dev/null; then
   echo
@@ -50,6 +58,24 @@ needs_seeding() {
   fi
 }
 
+
+setup_database() {
+  local adapter="$1"
+  local reset="$2"
+  local label="${adapter:+ ($adapter)}"
+  local env_cmd="${adapter:+env DATABASE_ADAPTER=$adapter}"
+
+  if [ "$reset" = "true" ]; then
+    step "Resetting the database$label" $env_cmd rails db:reset
+  else
+    step "Preparing the database$label" $env_cmd rails db:prepare
+
+    if needs_seeding; then
+      step "Seeding the database$label" $env_cmd rails db:seed
+    fi
+  fi
+}
+
 echo
 gum style --foreground 153 "   ˚ ∘             ∘ ˚   "
 gum style --foreground 111 --bold "  ∘˚˳°∘°  𝒻𝒾𝓏𝓏𝓎  °∘°˳˚∘  "
@@ -71,22 +97,38 @@ step "Set up gh-signoff" bash -c "gh extension install basecamp/gh-signoff || gh
 bundle config set --local auto_install true
 step "Installing RubyGems" bundle install
 
-if [ -e tmp/minio-dev.txt ]; then
-  step "Starting Docker services" bash -c "[ -d ~/Work/basecamp/docker-dev ] && git -C ~/Work/basecamp/docker-dev pull || gh repo clone basecamp/docker-dev ~/Work/basecamp/docker-dev && ~/Work/basecamp/docker-dev/setup minio"
-
-  step "Configuring MinIO" bin/minio-setup
+if [ -n "$SAAS" ]; then
+  saas_setup=$(bundle show fizzy-saas)/bin/setup
+  source "$saas_setup"
+else
+  if ! nc -z localhost 3306 2>/dev/null; then
+    if docker ps -aq -f name=fizzy-mysql | grep -q .; then
+      step "Starting MySQL" docker start fizzy-mysql
+    else
+      step "Setting up MySQL" bash -c '
+        docker pull mysql:8.4
+        docker run -d \
+          --name fizzy-mysql \
+          -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+          -p 3306:3306 \
+          mysql:8.4
+        echo "MySQL is starting… (it may take a few seconds)"
+      '
+    fi
+  fi
 fi
 
-step "Starting mysql" bash -c "[ -d ~/Work/basecamp/docker-dev ] && git -C ~/Work/basecamp/docker-dev pull || gh repo clone basecamp/docker-dev ~/Work/basecamp/docker-dev && ~/Work/basecamp/docker-dev/setup mysql80"
+reset_flag=""
+[[ $* == *--reset* ]] && reset_flag="true"
 
-if [[ $* == *--reset* ]]; then
-  step "Resetting the database" rails db:reset
+if [ -n "$SAAS" ]; then
+  for adapter in saas sqlite; do
+    setup_database "$adapter" "$reset_flag"
+  done
 else
-  step "Preparing the database" rails db:prepare
-
-  if needs_seeding; then
-    step "Seeding the database" rails db:seed
-  fi
+  for adapter in sqlite mysql; do
+    setup_database "$adapter" "$reset_flag"
+  done
 fi
 
 step "Cleaning up logs and tempfiles" rails log:clear tmp:clear

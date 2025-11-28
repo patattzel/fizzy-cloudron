@@ -155,6 +155,12 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/signup/new", to: redirect("/session/new")
+
+  namespace :signup do
+    resource :completion, only: %i[ new create ]
+  end
+
   resource :landing
 
   namespace :my do
@@ -223,10 +229,6 @@ Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "pwa#service_worker"
-
-  unless Rails.application.config.x.oss_config
-    mount Fizzy::Saas::Engine, at: "/", as: "saas"
-  end
 
   namespace :admin do
     mount MissionControl::Jobs::Engine, at: "/jobs"
