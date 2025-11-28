@@ -24,7 +24,7 @@ class BoardsController < ApplicationController
   def edit
     selected_user_ids = @board.users.pluck :id
     @selected_users, @unselected_users = \
-      @board.account.users.active.alphabetically.partition { |user| selected_user_ids.include? user.id }
+      @board.account.users.active.alphabetically.includes(:identity).partition { |user| selected_user_ids.include? user.id }
   end
 
   def update

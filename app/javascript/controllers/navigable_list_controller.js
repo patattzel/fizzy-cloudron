@@ -161,7 +161,7 @@ export default class extends Controller {
   #relayNavigationToParentNavigableList(event) {
     const parentController = this.#parentNavigableListController
     if (parentController) {
-      parentController.element.focus({ preventScroll: !this.autoScrollValue })
+      parentController.element.focus({ preventScroll: !parentController.autoScrollValue })
       parentController.navigate(event)
     }
   }
