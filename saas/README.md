@@ -16,6 +16,14 @@ bin/rails saas:disable
 
 Then you can work do [Fizzy development as usual](https://github.com/basecamp/fizzy).
 
+## How to update Fizzy
+
+After making changes to this gem, you need to update Fizzy to pick up the changes:
+
+```ruby
+BUNDLE_GEMFILE=Gemfile.saas bundle update --conservative fizzy-saas
+```
+
 ## Environments
 
 Fizzy is deployed with [Kamal](https://kamal-deploy.org/). You'll need to have the 1Password CLI set up in order to access the secrets that are used when deploying. Provided you have that, it should be as simple as `bin/kamal deploy` to the correct environment.
