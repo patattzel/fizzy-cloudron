@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/basecamp/fizzy-saas
-  revision: 45cd6f3b7a8864fe9096e2b7cb7862ac0c0b8174
+  revision: 130c8b23f9861a89feb59ca68f192bd05d51310c
   specs:
     fizzy-saas (0.1.0)
       prometheus-client-mmap
@@ -16,7 +16,7 @@ GIT
       yabeda-http_requests
       yabeda-prometheus-mmap
       yabeda-puma-plugin
-      yabeda-rails
+      yabeda-rails (>= 0.10)
 
 GIT
   remote: https://github.com/basecamp/queenbee-plugin
