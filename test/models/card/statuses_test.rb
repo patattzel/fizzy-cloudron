@@ -67,4 +67,26 @@ class Card::StatusesTest < ActiveSupport::TestCase
 
     assert_equal Time.current, card.created_at
   end
+
+  test "detect drafts that were just published" do
+    Current.session = sessions(:david)
+
+    card = boards(:writebook).cards.create! creator: users(:kevin), title: "Draft Card"
+    assert card.drafted?
+    assert_not card.was_just_published?
+
+    card.publish
+
+    assert card.was_just_published?
+    assert_not Card.find(card.id).was_just_published?
+  end
+
+  test "detect cards that were created and published" do
+    Current.session = sessions(:david)
+
+    card = boards(:writebook).cards.create! creator: users(:kevin), title: "Published Card", status: :published
+    assert card.was_just_published?
+
+    assert_not Card.find(card.id).was_just_published?
+  end
 end
