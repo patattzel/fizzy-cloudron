@@ -111,6 +111,10 @@
     }
   }
 
+  .nav__section--secret:not([data-is-filtering]) {
+    display: none;
+  }
+
   .nav__header {
     --actions-width: 2rem;
 
