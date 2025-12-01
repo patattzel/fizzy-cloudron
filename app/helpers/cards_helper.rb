@@ -39,9 +39,13 @@ module CardsHelper
 
   def card_social_tags(card)
     tag.meta(property: "og:title", content: "#{card.title} | #{card.board.name}") +
-    tag.meta(property: "og:description", content: format_excerpt(@card&.description, length: 200)) +
-    tag.meta(property: "og:image", content: @card.image.attached? ? "#{request.base_url}#{url_for(@card.image)}" : "#{request.base_url}/app-icon.png") +
-    tag.meta(property: "og:url", content: card_url(@card))
+    tag.meta(property: "og:description", content: format_excerpt(card&.description, length: 200)) +
+    tag.meta(property: "og:image", content: card.image.attached? ? "#{request.base_url}#{url_for(card.image)}" : "#{request.base_url}/opengraph.png") +
+    tag.meta(property: "og:url", content: card_url(card)) +
+    tag.meta(property: "twitter:title", content: "#{card.title} | #{card.board.name}") +
+    tag.meta(property: "twitter:description", content: format_excerpt(card&.description, length: 200)) +
+    tag.meta(property: "twitter:image", content: card.image.attached? ? "#{request.base_url}#{url_for(card.image)}" : "#{request.base_url}/opengraph.png") +
+    tag.meta(property: "twitter:card", content: "summary_large_image")
   end
 
   def button_to_remove_card_image(card)
