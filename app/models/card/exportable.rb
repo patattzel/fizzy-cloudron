@@ -34,13 +34,20 @@ module Card::Exportable
       return "" if rich_text.blank?
 
       rich_text.body.render_attachments do |attachment|
-        blob = attachment.attachable
-        path = export_attachment_path(blob)
+        attachable = attachment.attachable
 
-        if blob.image?
-          tag.img(src: path, alt: blob.filename)
+        case attachable
+        when ActiveStorage::Blob
+          path = export_attachment_path(attachable)
+          if attachable.image?
+            tag.img(src: path, alt: attachable.filename)
+          else
+            tag.a(attachable.filename, href: path)
+          end
+        when ActionText::Attachables::RemoteImage
+          tag.img(src: attachable.url, alt: "Remote image")
         else
-          tag.a(blob.filename, href: path)
+          attachment.to_html
         end
       end.to_html
     end
