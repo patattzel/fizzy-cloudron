@@ -70,6 +70,8 @@ class Account::Export < ApplicationRecord
         zip.get_output_stream(attachment[:path]) do |f|
           attachment[:blob].download { |chunk| f.write(chunk) }
         end
+      rescue ActiveStorage::FileNotFoundError
+        # Skip attachments where the file is missing from storage
       end
     end
 end
