@@ -35,7 +35,7 @@ The full continuous integration tests can be run with:
 
 ### Database configuration
 
-Fizzy works on SQLite by default and supports MySQL too. You can switch adapters with the `DATABASE_ADAPTER` environment variable. For example, to develop locally against MySQL:
+Fizzy works with SQLite by default and supports MySQL too. You can switch adapters with the `DATABASE_ADAPTER` environment variable. For example, to develop locally against MySQL:
 
 ```sh
 DATABASE_ADAPTER=mysql bin/setup --reset

@@ -58,6 +58,23 @@ needs_seeding() {
   fi
 }
 
+oss_mysql_setup() {
+  if ! nc -z localhost 3306 2>/dev/null; then
+    if docker ps -aq -f name=fizzy-mysql | grep -q .; then
+      step "Starting MySQL" docker start fizzy-mysql
+    else
+      step "Setting up MySQL" bash -c '
+        docker pull mysql:8.4
+        docker run -d \
+          --name fizzy-mysql \
+          -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+          -p 3306:3306 \
+          mysql:8.4
+        echo "MySQL is starting… (it may take a few seconds)"
+      '
+    fi
+  fi
+}
 
 echo
 gum style --foreground 153 "   ˚ ∘             ∘ ˚   "
@@ -85,21 +102,7 @@ if [ -n "$SAAS" ]; then
   source "$saas_setup"
 else
   if [ "$DATABASE_ADAPTER" = "mysql" ]; then
-    if ! nc -z localhost 3306 2>/dev/null; then
-      if docker ps -aq -f name=fizzy-mysql | grep -q .; then
-        step "Starting MySQL" docker start fizzy-mysql
-      else
-        step "Setting up MySQL" bash -c '
-          docker pull mysql:8.4
-          docker run -d \
-            --name fizzy-mysql \
-            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
-            -p 3306:3306 \
-            mysql:8.4
-          echo "MySQL is starting… (it may take a few seconds)"
-        '
-      fi
-    fi
+    oss_mysql_setup
   fi
 fi
 
