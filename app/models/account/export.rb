@@ -23,7 +23,7 @@ class Account::Export < ApplicationRecord
     zipfile = generate_zip
     file.attach(
       io: File.open(zipfile.path),
-      filename: "export-#{id}.zip",
+      filename: "fizzy-export-#{id}.zip",
       content_type: "application/zip"
     )
 
