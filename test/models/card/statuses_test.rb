@@ -1,6 +1,10 @@
 require "test_helper"
 
 class Card::StatusesTest < ActiveSupport::TestCase
+  setup do
+    Current.session = sessions(:david)
+  end
+
   test "cards start out in a `drafted` state" do
     card = boards(:writebook).cards.create! creator: users(:kevin), title: "Newly created card"
 
@@ -24,8 +28,6 @@ class Card::StatusesTest < ActiveSupport::TestCase
   end
 
   test "an event is created when a card is created in the published state" do
-    Current.session = sessions(:david)
-
     assert_no_difference(-> { Event.count }) do
       boards(:writebook).cards.create! creator: users(:kevin), title: "Draft Card"
     end
@@ -40,8 +42,6 @@ class Card::StatusesTest < ActiveSupport::TestCase
   end
 
   test "an event is created when a card is published" do
-    Current.session = sessions(:david)
-
     card = boards(:writebook).cards.create! creator: users(:kevin), title: "Published Card"
     assert_difference(-> { Event.count } => +1) do
       card.publish
@@ -53,7 +53,6 @@ class Card::StatusesTest < ActiveSupport::TestCase
   end
 
   test "created_at is updated when the card is published" do
-    Current.session = sessions(:david)
     freeze_time
 
     card = travel_to 1.week.ago do
@@ -69,8 +68,6 @@ class Card::StatusesTest < ActiveSupport::TestCase
   end
 
   test "detect drafts that were just published" do
-    Current.session = sessions(:david)
-
     card = boards(:writebook).cards.create! creator: users(:kevin), title: "Draft Card"
     assert card.drafted?
     assert_not card.was_just_published?
@@ -82,8 +79,6 @@ class Card::StatusesTest < ActiveSupport::TestCase
   end
 
   test "detect cards that were created and published" do
-    Current.session = sessions(:david)
-
     card = boards(:writebook).cards.create! creator: users(:kevin), title: "Published Card", status: :published
     assert card.was_just_published?
 
