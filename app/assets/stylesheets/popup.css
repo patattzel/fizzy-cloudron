@@ -65,6 +65,7 @@
       align-items: center;
       cursor: pointer;
       display: flex;
+      gap: 0.5ch;
     }
 
     &::-webkit-details-marker {
@@ -73,10 +74,8 @@
 
     .icon--caret-down {
       font-size: 1ch;
-      inset: 50% auto auto 0;
-      position: absolute;
+      margin-inline-start: -0.5ch;
       transition: rotate 150ms ease-out;
-      translate: -100% -50%;
     }
 
     .popup__section:not([open]) & {
@@ -95,6 +94,10 @@
     max-inline-size: 100%;
     padding: 0;
     row-gap: 1px;
+
+    details & {
+      margin-inline-start: 0.75ch;
+    }
   }
 
   .popup__item {
