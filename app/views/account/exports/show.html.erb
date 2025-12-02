@@ -11,12 +11,10 @@
 <% end %>
 
 <div class="panel panel--wide shadow center flex flex-column gap">
-  <header>
-    <h2 class="txt-large margin-none font-weight-black"><%= @page_title %></h2>
-  </header>
+  <h2 class="txt-large margin-none font-weight-black"><%= @page_title %></h2>
 
   <% if @export.present? %>
-    <p>Your export is ready. The download should start automatically.</p>
+    <p class="margin-none-block-start">Your export is ready. The download should start automatically.</p>
 
     <%= link_to rails_blob_path(@export.file, disposition: "attachment"),
           id: "download-link",
@@ -25,7 +23,7 @@
       Download your data
     <% end %>
   <% else %>
-    <p>That download link has expired. You’ll need to <%= link_to "request a new export", account_settings_path, class: "txt-lnk" %>.</p>
+    <p class="margin-none-block-start">That download link has expired. You’ll need to <%= link_to "request a new export", account_settings_path, class: "txt-lnk" %>.</p>
   <% end %>
 
 </div>
