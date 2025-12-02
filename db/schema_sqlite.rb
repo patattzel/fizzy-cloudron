@@ -326,7 +326,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_05_010536) do
     t.text "description", limit: 65535
     t.uuid "identity_id", null: false
     t.string "permission", limit: 255
-    t.uuid "session_id", null: false
     t.string "token", limit: 255
     t.datetime "updated_at", null: false
     t.index ["identity_id"], name: "index_access_token_on_identity_id"
