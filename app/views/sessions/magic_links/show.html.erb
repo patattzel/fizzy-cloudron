@@ -13,7 +13,7 @@
         data: { magic_link_target: "input", action: "keydown.enter->magic-link#submit paste->magic-link#paste" } %>
   <% end %>
 
-  <p class="txt-small">The code is good for <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
+  <p class="txt-small">The code you receive will work for <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
 </div>
 
 <% if Rails.env.development? %>
