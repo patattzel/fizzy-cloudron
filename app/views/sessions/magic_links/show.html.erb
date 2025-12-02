@@ -12,6 +12,8 @@
         autocomplete: "one-time-code", maxlength: "6", placeholder: "••••••", value: params[:code],
         data: { magic_link_target: "input", action: "keydown.enter->magic-link#submit paste->magic-link#paste" } %>
   <% end %>
+
+  <p class="txt-small">The code is good for <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
 </div>
 
 <% if Rails.env.development? %>
