@@ -42,7 +42,7 @@ class JoinCodesController < ApplicationController
       terminate_session if Current.identity
 
       magic_link = identity.send_magic_link
-      flash[:magic_link_code] = magic_link&.code if Rails.env.development?
+      serve_development_magic_link(magic_link)
 
       session[:return_to_after_authenticating] = new_users_join_url(script_name: @join_code.account.slug)
     end
