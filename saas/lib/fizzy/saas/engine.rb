@@ -28,7 +28,7 @@ module Fizzy
         ActiveSupport.on_load(:action_controller_base) do
           before_action do
             if Current.identity.present?
-              logger.struct("  Authorized Identity##{Current.identity.id}", authentication: { identity: { id: Current.identity.id } })
+              logger.struct(authentication: { identity: { id: Current.identity.id } })
             end
 
             if Current.account.present?
