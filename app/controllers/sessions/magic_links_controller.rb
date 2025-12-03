@@ -13,7 +13,7 @@ class Sessions::MagicLinksController < ApplicationController
       start_new_session_for magic_link.identity
       redirect_to after_sign_in_url(magic_link)
     else
-      redirect_to session_magic_link_path, alert: "Try another code."
+      redirect_to session_magic_link_path, flash: { shake: true }
     end
   end
 
