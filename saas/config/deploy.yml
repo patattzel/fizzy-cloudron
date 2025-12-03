@@ -28,10 +28,6 @@ builder:
   remote: ssh://app@docker-builder-102
   local: <%= ENV.fetch("KAMAL_BUILDER_LOCAL", "true") %>
 
-env:
-  secret:
-    - RAILS_MASTER_KEY
-
 aliases:
-  console: app exec -i --reuse "bin/rails console"
-  ssh: app exec -i --reuse /bin/bash
+  console: app exec -i --reuse -e CONSOLE_USER:<%= ENV["USER"] %> "bin/rails console"
+  ssh: app exec -i --reuse -e CONSOLE_USER:<%= ENV["USER"] %> /bin/bash
