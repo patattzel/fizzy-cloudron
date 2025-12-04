@@ -28,13 +28,18 @@ export default class extends Controller {
     }
   }
 
+  morphed({target}) {
+    if (this.element === target) {
+      this.update()
+    }
+  }
+
   get #hasEntropy() {
     return this.#entropyCleanupInDays < this.entropyValue.daysBeforeReminder
   }
 
   get #entropyCleanupInDays() {
-    this.entropyCleanupInDays ??= signedDifferenceInDays(new Date(), new Date(this.entropyValue.closesAt))
-    return this.entropyCleanupInDays
+    return signedDifferenceInDays(new Date(), new Date(this.entropyValue.closesAt))
   }
 
   #showEntropy() {
