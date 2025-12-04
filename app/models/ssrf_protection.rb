@@ -4,7 +4,9 @@ module SsrfProtection
   DNS_RESOLUTION_TIMEOUT = 2
 
   DISALLOWED_IP_RANGES = [
-    IPAddr.new("0.0.0.0/8") # Broadcasts
+    IPAddr.new("0.0.0.0/8"),     # "This" network (RFC1700)
+    IPAddr.new("100.64.0.0/10"), # Carrier-grade NAT (RFC6598)
+    IPAddr.new("198.18.0.0/15")  # Benchmark testing (RFC2544)
   ].freeze
 
   def resolve_public_ip(hostname)
