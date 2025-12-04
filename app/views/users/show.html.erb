@@ -1,6 +1,10 @@
 <% @page_title = @user.name %>
 <% me_or_you = Current.user == @user ? "me" : @user.first_name %>
 
+<% if Current.user == @user %>
+  <%= render "users/theme" %>
+<% end %>
+
 <div class="profile-layout">
   <section class="panel shadow txt-align-center" style="--panel-size: 45ch;">
     <div class="flex flex-column gap position-relative">
