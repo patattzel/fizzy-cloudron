@@ -190,4 +190,25 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
       assert_select "input.switch__input[name='user_ids[]'][value='#{david.id}'][disabled]"
     end
   end
+
+  test "index as JSON" do
+    get boards_path, as: :json
+    assert_response :success
+    assert_equal users(:kevin).boards.count, @response.parsed_body.count
+  end
+
+  test "show as JSON" do
+    get board_path(boards(:writebook)), as: :json
+    assert_response :success
+    assert_equal boards(:writebook).name, @response.parsed_body["name"]
+  end
+
+  test "create as JSON" do
+    assert_difference -> { Board.count }, +1 do
+      post boards_path, params: { board: { name: "My new board" } }, as: :json
+    end
+
+    assert_response :created
+    assert_equal board_path(Board.last, format: :json), @response.headers["Location"]
+  end
 end
