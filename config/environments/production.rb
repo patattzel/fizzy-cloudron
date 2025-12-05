@@ -41,7 +41,7 @@ Rails.application.configure do
   }
 
   # Select Active Storage service via env var; default to local disk.
-  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", nil).presence&.to_sym || :local
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
