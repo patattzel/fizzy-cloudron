@@ -34,16 +34,11 @@ class Sessions::MagicLinksController < ApplicationController
 
     def respond_to_valid_code_from(magic_link)
       if email_address_pending_authentication_matches?(magic_link.identity.email_address)
-        respond_to do |format|
-          format.html do
-            start_new_session_for magic_link.identity
-            redirect_to after_sign_in_url(magic_link)
-          end
+        start_new_session_for magic_link.identity
 
-          format.json do
-            new_access_token = magic_link.identity.access_tokens.create!(permission: :write)
-            render json: { access_token: new_access_token.token }
-          end
+        respond_to do |format|
+          format.html { redirect_to after_sign_in_url(magic_link) }
+          format.json { render json: { session_token: cookies[:session_token] } }
         end
       else
         alert_message = "Authentication failed. Please try again."
