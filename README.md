@@ -95,6 +95,23 @@ After the first deploy is done, any subsequent steps won't need to do that initi
 bin/kamal deploy
 ```
 
+## File storage (Active Storage)
+
+Production uses the local disk service by default. To use any other service defined in `config/storage.yml`, set `ACTIVE_STORAGE_SERVICE`.
+
+To use the included `aws` service, set:
+
+- `ACTIVE_STORAGE_SERVICE=aws`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_BUCKET` (defaults to `fizzy-#{Rails.env}-activestorage`)
+- `AWS_REGION` (defaults to `us-east-1`)
+- `AWS_SECRET_ACCESS_KEY`
+
+Optional for S3-compatible endpoints:
+
+- `AWS_ENDPOINT`
+- `AWS_FORCE_PATH_STYLE=true`
+
 ## Development
 
 ### Setting up
