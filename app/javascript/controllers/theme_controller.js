@@ -4,34 +4,38 @@ export default class extends Controller {
   static targets = ["lightBtn", "darkBtn", "autoBtn"]
 
   connect() {
-    this.applyStoredTheme()
-    this.updateButtons()
+    this.#applyStoredTheme()
+    this.#updateButtons()
   }
 
   setLight() {
-    this.setTheme("light")
+    this.#setTheme("light")
     document.documentElement.setAttribute("data-theme", "light")
-    this.updateButtons()
+    this.#updateButtons()
   }
 
   setDark() {
-    this.setTheme("dark")
+    this.#setTheme("dark")
     document.documentElement.setAttribute("data-theme", "dark")
-    this.updateButtons()
+    this.#updateButtons()
   }
 
   setAuto() {
-    this.setTheme("auto")
+    this.#setTheme("auto")
     document.documentElement.removeAttribute("data-theme")
-    this.updateButtons()
+    this.#updateButtons()
   }
 
-  setTheme(theme) {
+  get #storedTheme() {
+    return localStorage.getItem("theme") || "auto"
+  }
+
+  #setTheme(theme) {
     localStorage.setItem("theme", theme)
   }
 
-  applyStoredTheme() {
-    const storedTheme = localStorage.getItem("theme") || "auto"
+  #applyStoredTheme() {
+    const storedTheme = this.#storedTheme
 
     if (storedTheme === "light") {
       document.documentElement.setAttribute("data-theme", "light")
@@ -43,8 +47,8 @@ export default class extends Controller {
     }
   }
 
-  updateButtons() {
-    const storedTheme = localStorage.getItem("theme") || "auto"
+  #updateButtons() {
+    const storedTheme = this.#storedTheme
 
     // Reset all buttons
     if (this.hasLightBtnTarget) this.lightBtnTarget.removeAttribute("aria-selected")
