@@ -1,10 +1,16 @@
+<%
+  storage_root = ENV.fetch("STORAGE_PATH") do
+    Rails.root.join("storage", Rails.env, "files")
+  end
+%>
+
 test:
   service: Disk
-  root: <%= Rails.root.join("tmp/storage/files") %>
+  root: <%= storage_root %>
 
 local:
   service: Disk
-  root: <%= Rails.root.join("storage", Rails.env, "files") %>
+  root: <%= storage_root %>
 
 devminio:
   service: S3

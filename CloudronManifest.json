@@ -1,0 +1,21 @@
+{
+  "id": "do.fizzy.cloudron",
+  "title": "Fizzy",
+  "author": "37signals",
+  "description": "Kanban-style project management and idea tracking by 37signals/Basecamp.",
+  "tagline": "Plan, discuss, and deliver work together.",
+  "version": "1.0.0",
+  "website": "https://fizzy.do",
+  "contactEmail": "support@fizzy.do",
+  "healthCheckPath": "/up",
+  "httpPort": 3000,
+  "addons": {
+    "localstorage": {},
+    "mysql": {},
+    "sendmail": {}
+  },
+  "manifestVersion": 2,
+  "memoryLimit": 1073741824,
+  "icon": "public/app-icon.png",
+  "changelog": "Initial Cloudron packaging"
+}
