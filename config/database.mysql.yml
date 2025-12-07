@@ -1,8 +1,24 @@
+<%
+  base_database = ENV.fetch("MYSQL_DATABASE") { "fizzy_#{Rails.env}" }
+
+  cable_database = ENV.fetch("MYSQL_CABLE_DATABASE") do
+    ENV["MYSQL_DATABASE"] ? base_database : "#{base_database}_cable"
+  end
+
+  queue_database = ENV.fetch("MYSQL_QUEUE_DATABASE") do
+    ENV["MYSQL_DATABASE"] ? base_database : "#{base_database}_queue"
+  end
+
+  cache_database = ENV.fetch("MYSQL_CACHE_DATABASE") do
+    ENV["MYSQL_DATABASE"] ? base_database : "#{base_database}_cache"
+  end
+%>
+
 default: &default
   adapter: trilogy
   host: <%= ENV.fetch("MYSQL_HOST", "127.0.0.1") %>
   port: <%= ENV.fetch("MYSQL_PORT", "3306") %>
-  username: <%= ENV.fetch("MYSQL_USER", "root") %>
+  username: <%= ENV.fetch("MYSQL_USER", ENV.fetch("MYSQL_USERNAME", "root")) %>
   password: <%= ENV["MYSQL_PASSWORD"] %>
   pool: 50
   timeout: 5000
@@ -10,34 +26,34 @@ default: &default
 development:
   primary:
     <<: *default
-    database: fizzy_development
+    database: <%= base_database %>
   cable:
     <<: *default
-    database: fizzy_development_cable
+    database: <%= cable_database %>
     migrations_paths: db/cable_migrate
 
 test:
   primary:
     <<: *default
-    database: fizzy_test
+    database: <%= base_database %>
   cable:
     <<: *default
-    database: fizzy_test_cable
+    database: <%= cable_database %>
     migrations_paths: db/cable_migrate
 
 production:
   primary:
     <<: *default
-    database: fizzy_production
+    database: <%= base_database %>
   cable:
     <<: *default
-    database: fizzy_production_cable
+    database: <%= cable_database %>
     migrations_paths: db/cable_migrate
   queue:
     <<: *default
-    database: fizzy_production_queue
+    database: <%= queue_database %>
     migrations_paths: db/queue_migrate
   cache:
     <<: *default
-    database: fizzy_production_cache
+    database: <%= cache_database %>
     migrations_paths: db/cache_migrate

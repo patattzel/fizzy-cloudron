@@ -19,6 +19,10 @@ The steps to configure your very own Fizzy are:
 
 We'll go through each of these in turn.
 
+### Cloudron
+
+If you prefer Cloudron, this repo includes a `CloudronManifest.json` plus a tailored Dockerfile (`Dockerfile.cloudron`). See `docs/cloudron.md` for build/install steps (use `--dockerfile Dockerfile.cloudron` when building).
+
 ### Fork the repo
 
 To make it easy to customise Fizzy's settings for your own instance, you should start by creating your own GitHub fork of the repo.
