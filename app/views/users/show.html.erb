@@ -24,7 +24,7 @@
             Unverified
             <div class="txt-small txt-tinted">A sign-in code has been sent to this email address, but the user has not yet logged in to confirm their identity.</div>
           <% else %>
-            <%= mail_to @user.identity.email_address %>
+            <%= @user.identity ? mail_to(@user.identity.email_address) : "No email" %>
           <% end %>
         </div>
       </div>

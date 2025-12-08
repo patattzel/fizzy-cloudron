@@ -4,11 +4,12 @@
   "author": "37signals",
   "description": "Fizzy packaged for Cloudron. Ersteinrichtung: Docker-Image mit Dockerfile.cloudron bauen und pushen, per cloudron install --image <image> installieren, Updates per cloudron update --image <image>. Siehe Cloudron Packaging Tutorial für Details.",
   "tagline": "Plan, discuss, and deliver work together.",
-  "version": "1.0.0",
-  "website": "https://example.com",
-  "contactEmail": "support@example.com",
+  "version": "1.0.1",
+  "website": "https://fizzy.tzel.ch",
+  "contactEmail": "support@fizzy.tzel.ch",
   "healthCheckPath": "/up",
   "httpPort": 3000,
+  "documentationUrl": "https://github.com/patattzel/fizzy-cloudron/blob/main/docs/cloudron.md",
   "addons": {
     "localstorage": {},
     "mysql": {},
@@ -17,5 +18,6 @@
   "manifestVersion": 2,
   "memoryLimit": 1073741824,
   "icon": "public/app-icon.png",
-  "changelog": "Initial Cloudron packaging"
+  "tags": [ "project", "notes", "collaboration" ],
+  "changelog": "Dynamic Puma worker sizing; Cloudron docs link; tags added"
 }
