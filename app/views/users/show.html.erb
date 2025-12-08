@@ -37,15 +37,14 @@
 
   <% if Current.user == @user %>
     <section class="panel shadow" style="--panel-size: 45ch;">
+      <%= render "users/theme" %>
       <%= render "users/transfer", user: @user %>
 
-      <%= render "users/theme" %>
+      <hr class="separator--horizontal flex-item-grow margin-block" style="--border-color: var(--color-ink-light);" aria-hidden="true">
 
-      <div class="center margin-block-start-double">
-        <%= button_to session_url(script_name: nil), method: :delete, class: "btn btn--plain txt-link txt-small", data: { turbo: false } do %>
-        <span>Sign out</span>
+      <%= button_to session_url(script_name: nil), method: :delete, class: "btn txt-x-small center", data: { turbo: false } do %>
+        <span>Sign out of Fizzy on this device</span>
       <% end %>
-      </div>
     </section>
   <% end %>
 </div>
