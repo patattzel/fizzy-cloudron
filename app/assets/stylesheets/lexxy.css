@@ -234,10 +234,11 @@
     background: var(--color-canvas);
     border: none;
     border-radius: 0.5ch;
+    color: inherit;
     display: grid;
     font-weight: 500;
     inline-size: var(--lexxy-dropdown-btn-size);
-    place-items: center;
+    place-content: center;
     position: relative;
     outline: none;
 
