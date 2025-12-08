@@ -149,12 +149,14 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/signup", to: redirect("/signup/new")
+  if SignupToggle.allowed?
+    get "/signup", to: redirect("/signup/new")
 
-  resource :signup, only: %i[ new create ] do
-    collection do
-      scope module: :signups, as: :signup do
-        resource :completion, only: %i[ new create ]
+    resource :signup, only: %i[ new create ] do
+      collection do
+        scope module: :signups, as: :signup do
+          resource :completion, only: %i[ new create ]
+        end
       end
     end
   end

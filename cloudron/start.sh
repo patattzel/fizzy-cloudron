@@ -22,6 +22,7 @@ export TMPDIR="${TMPDIR:-/app/data/tmp}"
 export BOOTSNAP_CACHE_DIR="${BOOTSNAP_CACHE_DIR:-/app/data/bootsnap-cache}"
 export PIDFILE="${PIDFILE:-${TMPDIR}/pids/server.pid}"
 APP_USER="${APP_USER:-cloudron}"
+SIGNUPS_FLAG_PATH="${SIGNUPS_FLAG_PATH:-/app/data/allow_signups}"
 
 # Map Cloudron-provided MySQL variables into the names Fizzy expects.
 if [ -n "${CLOUDRON_MYSQL_HOST:-}" ] && [ -z "${MYSQL_HOST:-}" ]; then
@@ -50,6 +51,10 @@ if [ -n "${CLOUDRON_APP_ORIGIN:-}" ] && [ -z "${APP_ORIGIN:-}" ]; then
   export APP_ORIGIN="${CLOUDRON_APP_ORIGIN}"
 fi
 if [ -n "${MAIL_FROM:-}" ] && [ -z "${MAILER_FROM_ADDRESS:-}" ]; then
+  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
+fi
+if [ -n "${CLOUDRON_MAIL_SMTP_USERNAME:-}" ] && [ -z "${MAIL_FROM:-}${MAILER_FROM_ADDRESS:-}" ]; then
+  export MAIL_FROM="${CLOUDRON_MAIL_SMTP_USERNAME}"
   export MAILER_FROM_ADDRESS="${MAIL_FROM}"
 fi
 
@@ -84,6 +89,12 @@ fi
 mkdir -p /app/data "${STORAGE_PATH}" "${TMPDIR}" /app/data/log "${BOOTSNAP_CACHE_DIR}"
 mkdir -p "${TMPDIR}/pids" "${STORAGE_PATH}/${RAILS_ENV}/files"
 chown -R "${APP_USER}:${APP_USER}" /app/data
+
+# Persist the signup toggle flag so it can be changed outside the container.
+if [ ! -f "${SIGNUPS_FLAG_PATH}" ]; then
+  echo "${ALLOW_SIGNUPS:-true}" > "${SIGNUPS_FLAG_PATH}"
+  chown "${APP_USER}:${APP_USER}" "${SIGNUPS_FLAG_PATH}"
+fi
 
 # Persist and generate secrets if they are not provided externally.
 if [ -z "${SECRET_KEY_BASE:-}" ]; then

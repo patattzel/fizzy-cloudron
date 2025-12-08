@@ -13,6 +13,8 @@ class Identity < ApplicationRecord
   validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }
   normalizes :email_address, with: ->(value) { value.strip.downcase.presence }
 
+  after_commit :ensure_first_staff, on: :create
+
   def send_magic_link(**attributes)
     attributes[:purpose] = attributes.delete(:for) if attributes.key?(:for)
 
@@ -24,5 +26,13 @@ class Identity < ApplicationRecord
   private
     def deactivate_users
       users.find_each(&:deactivate)
+    end
+
+    # First created identity becomes staff so admins exist even ohne SMTP/Setup.
+    def ensure_first_staff
+      return if staff?
+      return if self.class.where(staff: true).exists?
+
+      update_column(:staff, true)
     end
 end
