@@ -27,8 +27,9 @@ Set these in the Cloudron app settings:
 - `APP_HOST` / `APP_ORIGIN` are auto-filled by Cloudron, no change needed.
 - Database comes from the Cloudron MySQL addon (auto-mapped).
 - Mail (Cloudron mail addon is auto-mapped):
-  - `MAIL_SMTP_SERVER`, `MAIL_SMTP_PORT`, `MAIL_SMTP_USERNAME`, `MAIL_SMTP_PASSWORD`
-  - `MAIL_FROM` or `MAILER_FROM_ADDRESS` (must match your allowed sender)
+  - `MAIL_SMTP_SERVER`, `MAIL_SMTP_PORT`, `MAIL_SMTP_USERNAME`, `MAIL_SMTP_PASSWORD` (mapped from Cloudron sendmail vars)
+  - `MAIL_FROM` or `MAILER_FROM_ADDRESS` (mapped from `CLOUDRON_MAIL_FROM` if set; must match your allowed sender)
+  - `MAIL_FROM_DISPLAY_NAME` (mapped from `CLOUDRON_MAIL_FROM_DISPLAY_NAME` if set)
   - `SUPPORT_EMAIL` (mailto in UI/emails, defaults to `MAIL_FROM`)
 - Push notifications: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` (auto-generated on first run if missing).
 - Logging: `LOG_LEVEL` (default `info`).

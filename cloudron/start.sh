@@ -24,6 +24,21 @@ export PIDFILE="${PIDFILE:-${TMPDIR}/pids/server.pid}"
 APP_USER="${APP_USER:-cloudron}"
 SIGNUPS_FLAG_PATH="${SIGNUPS_FLAG_PATH:-/app/data/allow_signups}"
 
+# Derive a sensible Puma worker count from cgroup memory unless explicitly set.
+if [ -z "${WEB_CONCURRENCY:-}" ]; then
+  if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
+    memory_limit="$(cat /sys/fs/cgroup/memory.max)"
+    [ "${memory_limit}" = "max" ] && memory_limit=$(( 2 * 1024 * 1024 * 1024 ))
+  else
+    memory_limit="$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)"
+  fi
+
+  worker_count=$(( memory_limit / 1024 / 1024 / 150 ))
+  [ "${worker_count}" -lt 1 ] && worker_count=1
+  [ "${worker_count}" -gt 8 ] && worker_count=8
+  export WEB_CONCURRENCY="${worker_count}"
+fi
+
 # Map Cloudron-provided MySQL variables into the names Fizzy expects.
 if [ -n "${CLOUDRON_MYSQL_HOST:-}" ] && [ -z "${MYSQL_HOST:-}" ]; then
   export MYSQL_HOST="${CLOUDRON_MYSQL_HOST}"
@@ -49,13 +64,6 @@ if [ -n "${CLOUDRON_APP_DOMAIN:-}" ] && [ -z "${APP_HOST:-}" ]; then
 fi
 if [ -n "${CLOUDRON_APP_ORIGIN:-}" ] && [ -z "${APP_ORIGIN:-}" ]; then
   export APP_ORIGIN="${CLOUDRON_APP_ORIGIN}"
-fi
-if [ -n "${MAIL_FROM:-}" ] && [ -z "${MAILER_FROM_ADDRESS:-}" ]; then
-  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
-fi
-if [ -n "${CLOUDRON_MAIL_SMTP_USERNAME:-}" ] && [ -z "${MAIL_FROM:-}${MAILER_FROM_ADDRESS:-}" ]; then
-  export MAIL_FROM="${CLOUDRON_MAIL_SMTP_USERNAME}"
-  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
 fi
 
 # Map Cloudron sendmail addon vars into the names our initializer uses.
@@ -83,6 +91,21 @@ if [ -n "${MAIL_SMTP_USERNAME:-}" ] && [ -z "${SMTP_USERNAME:-}" ]; then
 fi
 if [ -n "${MAIL_SMTP_PASSWORD:-}" ] && [ -z "${SMTP_PASSWORD:-}" ]; then
   export SMTP_PASSWORD="${MAIL_SMTP_PASSWORD}"
+fi
+
+# Prefer Cloudron-provided from address/display name when present.
+if [ -n "${CLOUDRON_MAIL_FROM:-}" ] && [ -z "${MAIL_FROM:-}" ]; then
+  export MAIL_FROM="${CLOUDRON_MAIL_FROM}"
+fi
+if [ -n "${CLOUDRON_MAIL_FROM_DISPLAY_NAME:-}" ] && [ -z "${MAIL_FROM_DISPLAY_NAME:-}" ]; then
+  export MAIL_FROM_DISPLAY_NAME="${CLOUDRON_MAIL_FROM_DISPLAY_NAME}"
+fi
+if [ -n "${MAIL_FROM:-}" ] && [ -z "${MAILER_FROM_ADDRESS:-}" ]; then
+  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
+fi
+if [ -n "${CLOUDRON_MAIL_SMTP_USERNAME:-}" ] && [ -z "${MAIL_FROM:-}${MAILER_FROM_ADDRESS:-}" ]; then
+  export MAIL_FROM="${CLOUDRON_MAIL_SMTP_USERNAME}"
+  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
 fi
 
 # Ensure persistent storage is used for uploads, tmp data, logs, and cache.
