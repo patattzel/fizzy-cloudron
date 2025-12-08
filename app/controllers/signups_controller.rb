@@ -2,6 +2,7 @@ class SignupsController < ApplicationController
   disallow_account_scope
   allow_unauthenticated_access
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_signup_path, alert: "Try again later." }
+  before_action :ensure_signups_allowed
   before_action :redirect_authenticated_user
 
   layout "public"
@@ -20,6 +21,10 @@ class SignupsController < ApplicationController
   end
 
   private
+    def ensure_signups_allowed
+      head :not_found unless SignupToggle.allowed?
+    end
+
     def redirect_authenticated_user
       redirect_to new_signup_completion_path if authenticated?
     end

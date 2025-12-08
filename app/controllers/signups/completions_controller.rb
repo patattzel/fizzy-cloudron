@@ -2,6 +2,7 @@ class Signups::CompletionsController < ApplicationController
   layout "public"
 
   disallow_account_scope
+  before_action :ensure_signups_allowed
 
   def new
     @signup = Signup.new(identity: Current.identity)
@@ -18,6 +19,10 @@ class Signups::CompletionsController < ApplicationController
   end
 
   private
+    def ensure_signups_allowed
+      head :not_found unless SignupToggle.allowed?
+    end
+
     def signup_params
       params.expect(signup: %i[ full_name ]).with_defaults(identity: Current.identity)
     end
