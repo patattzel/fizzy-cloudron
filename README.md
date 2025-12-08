@@ -4,16 +4,21 @@ This repo is configured to run Fizzy as a Cloudron app using the supplied `Docke
 
 ## Build & install on Cloudron
 
-1. Build the image (bump `version` in `CloudronManifest.json` when updating):
-   ```sh
-   cloudron build --set-version <x.y.z> --dockerfile Dockerfile.cloudron
-   ```
-2. Install or update:
-   ```sh
-   cloudron install --app <your-domain>   # first install
-   cloudron update  --app <your-domain>   # subsequent updates
-   ```
-   Alternatively push to a registry and `cloudron install --image <registry>/fizzy-cloudron:<tag>`.
+The CLI option `cloudron build` with a custom Dockerfile is not available everywhere, so use standard Docker build/push and then install/update:
+
+1) Build and push (bump `version` in `CloudronManifest.json` when updating):
+```sh
+docker build -f Dockerfile.cloudron -t <registry>/fizzy-cloudron:<tag> .
+docker push <registry>/fizzy-cloudron:<tag>
+```
+
+2) Install or update on your Cloudron:
+```sh
+cloudron install --image <registry>/fizzy-cloudron:<tag> --app <your-domain>
+cloudron update  --image <registry>/fizzy-cloudron:<new-tag> --app <your-domain>
+```
+
+If you prefer the Cloudron builder flow, see the Cloudron packaging tutorial for the `cloudron build`/`cloudron update` workflow.
 
 ## Required/optional environment variables
 
@@ -45,6 +50,8 @@ Signup routes are gated by a persisted flag file:
 - To enable:  `echo true  > /app/data/allow_signups && cloudron restart --app <domain>`
 
 `ALLOW_SIGNUPS` env (default `true`) seeds the flag on first boot; afterwards the file takes precedence.
+
+Disabling signups only blocks public self-signup. Invite/join flows and magic-link login for existing users continue to work.
 
 ## First staff user
 
