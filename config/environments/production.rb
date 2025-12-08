@@ -48,9 +48,16 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Mount Action Cable outside main process or domain.
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  cable_host = ENV["ACTION_CABLE_HOST"] || ENV["APP_HOST"]
+  cable_origin = ENV["ACTION_CABLE_ORIGIN"] || ENV["APP_ORIGIN"]
+  if cable_host.present?
+    config.action_cable.url = ENV["ACTION_CABLE_URL"] || "wss://#{cable_host}/cable"
+    config.action_cable.allowed_request_origins = [
+      cable_origin.presence,
+      "https://#{cable_host}",
+      "http://#{cable_host}"
+    ].compact
+  end
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
