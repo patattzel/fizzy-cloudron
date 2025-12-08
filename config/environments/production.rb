@@ -78,6 +78,9 @@ Rails.application.configure do
   config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
   # config.active_job.queue_name_prefix = "fizzy_production"
 
+  # Active Storage: default to disk unless overridden (Cloudron uses shared volume).
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
