@@ -82,7 +82,7 @@ class ApplicationPlatform < PlatformAgent
 
   def scoped_stylesheet_paths(scope = css_asset_name)
     # Allow new stylesheets to be added in dev/test without restarting server
-    SCOPED_STYLESHEET_PATHS.clear if Rails.env.local?
+      SCOPED_STYLESHEET_PATHS.clear if Rails.env.development?
 
     SCOPED_STYLESHEET_PATHS[scope] ||=
       Rails.root.join("app/assets/stylesheets").then do |stylesheet_root|
