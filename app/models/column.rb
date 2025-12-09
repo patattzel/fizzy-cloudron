@@ -7,4 +7,8 @@ class Column < ApplicationRecord
 
   after_save_commit    -> { cards.touch_all }, if: -> { saved_change_to_name? || saved_change_to_color? }
   after_destroy_commit -> { board.cards.touch_all }
+
+  def sibling_columns
+    board.columns.where.not(id:).sorted
+  end
 end
