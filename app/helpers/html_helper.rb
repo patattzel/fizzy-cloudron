@@ -1,6 +1,9 @@
 module HtmlHelper
   include ERB::Util
 
+  EXCLUDE_PUNCTUATION = %(.?,:!;"'<>)
+  EXCLUDE_PUNCTUATION_REGEX = /[#{Regexp.escape(EXCLUDE_PUNCTUATION)}]+\z/
+
   def format_html(html)
     fragment = Nokogiri::HTML5.fragment(html)
 
@@ -44,8 +47,10 @@ module HtmlHelper
     end
 
     def extract_url_and_punctuation(url_match)
-      if url_match.end_with?(".", "?", ",", ":")
-        [ url_match[..-2], url_match[-1] ]
+      url_match = CGI.unescapeHTML(url_match)
+      if match = url_match.match(EXCLUDE_PUNCTUATION_REGEX)
+        len = match[0].length
+        [ url_match[..-(len+1)], url_match[-len..] ]
       else
         [ url_match, "" ]
       end
