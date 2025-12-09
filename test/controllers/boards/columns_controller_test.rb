@@ -19,13 +19,13 @@ class Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New Column", boards(:writebook).columns.last.name
   end
 
-  test "create refreshes sibling columns" do
+  test "create refreshes surrounding columns" do
     board = boards(:writebook)
-    existing_columns = board.columns.to_a
 
     post board_columns_path(board), params: { column: { name: "New Column" } }, as: :turbo_stream
 
-    existing_columns.each do |column|
+    new_column = board.columns.find_by!(name: "New Column")
+    new_column.surroundings.each do |column|
       assert_turbo_stream action: :replace, target: dom_id(column)
     end
   end
@@ -48,15 +48,14 @@ class Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "destroy refreshes sibling columns" do
-    board = boards(:writebook)
-    column = columns(:writebook_on_hold)
-    sibling_columns = column.sibling_columns.to_a
+  test "destroy refreshes surrounding columns" do
+    column = columns(:writebook_in_progress)
+    surroundings = column.surroundings.to_a
 
-    delete board_column_path(board, column), as: :turbo_stream
+    delete board_column_path(column.board, column), as: :turbo_stream
 
-    sibling_columns.each do |sibling_column|
-      assert_turbo_stream action: :replace, target: dom_id(sibling_column)
+    surroundings.each do |surrounding|
+      assert_turbo_stream action: :replace, target: dom_id(surrounding)
     end
   end
 end
