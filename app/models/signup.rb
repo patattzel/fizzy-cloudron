@@ -16,6 +16,7 @@ class Signup
   end
 
   def create_identity
+    return if single_tenant?
     @identity = Identity.find_or_create_by!(email_address: email_address)
     @identity.send_magic_link for: :sign_up
   end
@@ -95,5 +96,9 @@ class Signup
         attributes[:user_agent]     = Current.user_agent
         attributes[:referrer]       = Current.referrer
       end
+    end
+
+    def single_tenant?
+      ENV.fetch("SINGLE_TENANT", "false") == "true"
     end
 end
