@@ -21,6 +21,17 @@ class Columns::RightPositionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal original_position_a, column_b.reload.position
   end
 
+  test "move right refreshes sibling columns" do
+    column = columns(:writebook_in_progress)
+    sibling_columns = column.sibling_columns.to_a
+
+    post column_right_position_path(column), as: :turbo_stream
+
+    sibling_columns.each do |sibling_column|
+      assert_turbo_stream action: :replace, target: dom_id(sibling_column)
+    end
+  end
+
   test "users can only reorder columns in boards they have access to" do
     column = columns(:writebook_triage)
 
