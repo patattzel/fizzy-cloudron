@@ -33,7 +33,7 @@ Then click on "Generate access token".
 To authenticate a request using your access token, include it in the `Authorization` header:
 
 ```bash
-curl -H "Authorization: Bearer put-your-access-token-here" -H "Accept: application/json" https://app.fizzy.do/identity
+curl -H "Authorization: Bearer put-your-access-token-here" -H "Accept: application/json" https://app.fizzy.do/my/identity
 ```
 
 ## Caching
@@ -225,7 +225,7 @@ The `sgid` attribute should contain the `signed_id` returned from the direct upl
 
 An Identity represents a person using Fizzy, their email address and their users in different accounts.
 
-### `GET /identity`
+### `GET /my/identity`
 
 Returns a list of accounts, including the User, the Identity has access to
 
