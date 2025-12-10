@@ -11,6 +11,11 @@ export RAILS_SERVE_STATIC_FILES="${RAILS_SERVE_STATIC_FILES:-1}"
 export RAILS_LOG_TO_STDOUT="${RAILS_LOG_TO_STDOUT:-1}"
 export LOG_LEVEL="${LOG_LEVEL:-info}"
 export SOLID_QUEUE_IN_PUMA="${SOLID_QUEUE_IN_PUMA:-1}"
+export RAILS_MAX_THREADS="${RAILS_MAX_THREADS:-5}"
+export PUMA_MIN_THREADS="${PUMA_MIN_THREADS:-${RAILS_MAX_THREADS}}"
+export RUBY_GC_HEAP_GROWTH_FACTOR="${RUBY_GC_HEAP_GROWTH_FACTOR:-1.1}"
+export RUBY_GC_HEAP_INIT_SLOTS="${RUBY_GC_HEAP_INIT_SLOTS:-600000}"
+export RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR="${RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR:-1.2}"
 export BUNDLE_WITHOUT="${BUNDLE_WITHOUT:-development:test}"
 export BUNDLE_DEPLOYMENT=1
 export BUNDLE_PATH="${BUNDLE_PATH:-/usr/local/bundle}"
@@ -112,6 +117,10 @@ fi
 mkdir -p /app/data "${STORAGE_PATH}" "${TMPDIR}" /app/data/log "${BOOTSNAP_CACHE_DIR}"
 mkdir -p "${TMPDIR}/pids" "${STORAGE_PATH}/${RAILS_ENV}/files"
 chown -R "${APP_USER}:${APP_USER}" /app/data
+
+# Clear any stale cache and PID files before boot.
+rm -rf "${TMPDIR}/cache" "${PIDFILE}"
+mkdir -p "${TMPDIR}/cache"
 
 # Persist the signup toggle flag so it can be changed outside the container.
 if [ ! -f "${SIGNUPS_FLAG_PATH}" ]; then

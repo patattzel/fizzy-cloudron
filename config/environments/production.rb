@@ -79,8 +79,8 @@ Rails.application.configure do
                                        .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-  # Suppress unstructured log lines
-  config.log_level = :fatal
+  # Respect LOG_LEVEL env (default info) so Cloudron logs include useful context.
+  config.log_level = ENV.fetch("LOG_LEVEL", "info").downcase.to_sym
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
