@@ -3,7 +3,7 @@ module Authorization
 
   included do
     before_action :ensure_can_access_account, if: -> { Current.account.present? && authenticated? }
-    before_action :ensure_only_staff_can_access_non_production_remote_environments, if: :authenticated? 
+    before_action :ensure_only_staff_can_access_non_production_remote_environments, if: :authenticated?
   end
 
   class_methods do
