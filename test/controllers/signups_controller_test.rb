@@ -65,8 +65,8 @@ class SignupsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "redirects to session#new when single_tenant and user exists" do
-    previous_single_tenant = ENV["SINGLE_TENANT"]
-    ENV["SINGLE_TENANT"] = "true"
+    previous_multi_tenant = ENV["MULTI_TENANT"]
+    ENV["MULTI_TENANT"] = "false"
 
     users(:david)
 
@@ -76,6 +76,6 @@ class SignupsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to new_session_url
     end
   ensure
-    ENV["SINGLE_TENANT"] = previous_single_tenant
+    ENV["MULTI_TENANT"] = previous_multi_tenant
   end
 end

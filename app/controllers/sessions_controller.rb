@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     else
       signup = Signup.new(email_address: email_address)
       if signup.valid?(:identity_creation)
-        identity = signup.create_identity unless single_tenant?
+        identity = signup.create_identity if Account.accepting_signups?
         redirect_to_session_magic_link identity
       else
         head :unprocessable_entity

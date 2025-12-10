@@ -4,7 +4,7 @@
   <header>
     <h1 class="txt-x-large font-weight-black margin-none"><%= @page_title %></h1>
     <p class="margin-none-block-start txt-medium">
-      <% if single_tenant? %>
+      <% unless Account.accepting_signups? %>
         If your email belongs to an existing account. 
       <% end %>
       Then enter the verification code included in the email below:
