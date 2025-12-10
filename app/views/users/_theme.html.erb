@@ -2,19 +2,22 @@
   <strong class="divider txt-large">Appearance</strong>
 
   <div class="theme-switcher flex gap max-width justify-center txt-small margin-block-start-half">
-    <button type="button" class="btn theme-switcher__btn" data-action="click->theme#setLight" data-theme-target="lightBtn">
+    <label class="btn theme-switcher__btn">
       <%= icon_tag "sun" %>
       <span class="overflow-ellipsis">Always light</span>
-    </button>
+      <input type="radio" name="theme" data-action="click->theme#setLight" data-theme-target="lightButton">
+    </label>
 
-    <button type="button" class="btn theme-switcher__btn" data-action="click->theme#setDark" data-theme-target="darkBtn">
+    <label class="btn theme-switcher__btn" >
       <%= icon_tag "moon" %>
       <span class="overflow-ellipsis">Always dark</span>
-    </button>
+      <input type="radio" name="theme" data-action="click->theme#setDark" data-theme-target="darkButton">
+    </label>
 
-    <button type="button" class="btn theme-switcher__btn" data-action="click->theme#setAuto" data-theme-target="autoBtn">
+    <label class="btn theme-switcher__btn">
       <%= icon_tag "monitor" %>
       <span class="overflow-ellipsis">Same as OS</span>
-    </button>
+      <input type="radio" name="theme" data-action="click->theme#setAuto" data-theme-target="autoButton">
+    </label>
   </div>
 </section>

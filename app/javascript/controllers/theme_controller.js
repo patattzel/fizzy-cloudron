@@ -5,25 +5,18 @@ export default class extends Controller {
 
   connect() {
     this.#applyStoredTheme()
-    this.#updateButtons()
   }
 
   setLight() {
     this.#setTheme("light")
-    document.documentElement.setAttribute("data-theme", "light")
-    this.#updateButtons()
   }
 
   setDark() {
     this.#setTheme("dark")
-    document.documentElement.setAttribute("data-theme", "dark")
-    this.#updateButtons()
   }
 
   setAuto() {
     this.#setTheme("auto")
-    document.documentElement.removeAttribute("data-theme")
-    this.#updateButtons()
   }
 
   get #storedTheme() {
@@ -32,36 +25,21 @@ export default class extends Controller {
 
   #setTheme(theme) {
     localStorage.setItem("theme", theme)
+
+    theme === "auto" ? document.documentElement.removeAttribute("data-theme") : document.documentElement.setAttribute("data-theme", theme)
+
+    this.#updateButtons()
   }
 
   #applyStoredTheme() {
-    const storedTheme = this.#storedTheme
-
-    if (storedTheme === "light") {
-      document.documentElement.setAttribute("data-theme", "light")
-    } else if (storedTheme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark")
-    } else {
-      // auto - don't set data-theme, let CSS media query handle it
-      document.documentElement.removeAttribute("data-theme")
-    }
+    this.#setTheme(this.#storedTheme)
   }
 
   #updateButtons() {
     const storedTheme = this.#storedTheme
 
-    // Reset all buttons
-    if (this.hasLightBtnTarget) this.lightButtonTarget.removeAttribute("aria-selected")
-    if (this.hasDarkBtnTarget) this.darkButtonTarget.removeAttribute("aria-selected")
-    if (this.hasAutoBtnTarget) this.autoButtonTarget.removeAttribute("aria-selected")
-
-    // Highlight active button
-    if (storedTheme === "light" && this.hasLightBtnTarget) {
-      this.lightButtonTarget.setAttribute("aria-selected", "true")
-    } else if (storedTheme === "dark" && this.hasDarkBtnTarget) {
-      this.darkButtonTarget.setAttribute("aria-selected", "true")
-    } else if (this.hasAutoBtnTarget) {
-      this.autoButtonTarget.setAttribute("aria-selected", "true")
-    }
+    if (this.lightButtonTarget) { this.lightButtonTarget.checked = (storedTheme === "light") }
+    if (this.darkButtonTarget)  { this.darkButtonTarget.checked  = (storedTheme === "dark") }
+    if (this.autoButtonTarget)  { this.autoButtonTarget.checked  = (storedTheme !== "light" && storedTheme !== "dark") }
   }
 }
