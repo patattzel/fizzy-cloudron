@@ -12,17 +12,9 @@ json.cache! card do
 
   json.url card_url(card)
 
-  json.board do
-    json.partial! "boards/board", locals: { board: card.board }
-  end
-
-  json.column do
-    json.partial! "columns/column", column: card.column if card.column
-  end
-
-  json.creator do
-    json.partial! "users/user", user: card.creator
-  end
+  json.board card.board, partial: "boards/board", as: :board
+  json.column card.column, partial: "columns/column", as: :column if card.column
+  json.creator card.creator, partial: "users/user", as: :user
 
   json.comments_url card_comments_url(card)
 end

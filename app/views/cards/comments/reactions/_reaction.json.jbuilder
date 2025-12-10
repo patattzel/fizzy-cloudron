@@ -1,7 +1,5 @@
 json.cache! reaction do
   json.(reaction, :id, :content)
-  json.reacter do
-    json.partial! "users/user", user: reaction.reacter
-  end
+  json.reacter reaction.reacter, partial: "users/user", as: :user
   json.url card_comment_reaction_url(reaction.comment.card, reaction.comment, reaction)
 end

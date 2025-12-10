@@ -3,7 +3,5 @@ json.cache! board do
   json.created_at board.created_at.utc
   json.url board_url(board)
 
-  json.creator do
-    json.partial! "users/user", user: board.creator
-  end
+  json.creator board.creator, partial: "users/user", as: :user
 end
