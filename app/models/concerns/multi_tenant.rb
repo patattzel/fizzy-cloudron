@@ -1,9 +1,13 @@
 module MultiTenant
   extend ActiveSupport::Concern
 
+  included do
+    cattr_accessor :multi_tenant, default: false
+  end
+
   class_methods do
     def accepting_signups?
-      ENV.fetch("MULTI_TENANT", "false") == "true" || Account.none?
+      multi_tenant || Account.none?
     end
   end
 end
