@@ -28,7 +28,7 @@ class Cards::CommentsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.json { render :show }
+      format.json { head :no_content }
     end
   end
 
