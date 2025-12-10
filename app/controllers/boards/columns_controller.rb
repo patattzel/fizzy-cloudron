@@ -11,11 +11,6 @@ class Boards::ColumnsController < ApplicationController
   def show
     set_page_and_extract_portion_from @column.cards.active.latest.with_golden_first.preloaded
     fresh_when etag: @page.records
-
-    respond_to do |format|
-      format.html
-      format.json
-    end
   end
 
   def create
