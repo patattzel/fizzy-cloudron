@@ -120,6 +120,16 @@ curl -H "Authorization: Bearer put-your-access-token-here" -H "Accept: applicati
 # ...
 ```
 
+## List parameters
+
+When an endpoint accepts a list of values as a parameter, you can provide multiple values by repeating the parameter name:
+
+```
+?tags_ids[]=tag1&tags_ids[]=tag2&tags_ids[]=tag3
+```
+
+List parameters always end with `[]`.
+
 ## File Uploads
 
 Some endpoints accept file uploads. To upload a file, send a `multipart/form-data` request instead of JSON.
@@ -405,11 +415,18 @@ __Query Parameters:__
 
 | Parameter | Description |
 |-----------|-------------|
-| `board_id` | Filter by board ID |
-| `column_id` | Filter by column ID |
-| `tag_id` | Filter by tag ID |
-| `assignee_id` | Filter by assignee user ID |
-| `status` | Filter by status: `published`, `closed`, `not_now` |
+| `board_ids[]` | Filter by board ID(s) |
+| `tag_ids[]` | Filter by tag ID(s) |
+| `assignee_ids[]` | Filter by assignee user ID(s) |
+| `creator_ids[]` | Filter by card creator ID(s) |
+| `closer_ids[]` | Filter by user ID(s) who closed the cards |
+| `card_ids[]` | Filter to specific card ID(s) |
+| `indexed_by` | Filter by: `all` (default), `closed`, `not_now`, `stalled`, `postponing_soon`, `golden` |
+| `sorted_by` | Sort order: `latest` (default), `newest`, `oldest` |
+| `assignment_status` | Filter by assignment status: `unassigned` |
+| `creation` | Filter by creation date: `today`, `yesterday`, `thisweek`, `lastweek`, `thismonth`, `lastmonth`, `thisyear`, `lastyear` |
+| `closure` | Filter by closure date: `today`, `yesterday`, `thisweek`, `lastweek`, `thismonth`, `lastmonth`, `thisyear`, `lastyear` |
+| `terms[]` | Search terms to filter cards |
 
 __Response:__
 
@@ -474,7 +491,7 @@ Creates a new card in a board.
 |-----------|------|----------|-------------|
 | `title` | string | Yes | The title of the card |
 | `description` | string | No | Rich text description of the card |
-| `status` | string | No | Initial status: `published` (default), `closed`, `not_now` |
+| `status` | string | No | Initial status: `published` (default), `drafted` |
 | `image` | file | No | Header image for the card |
 | `tag_ids` | array | No | Array of tag IDs to apply to the card |
 
@@ -501,7 +518,7 @@ Updates a card.
 |-----------|------|----------|-------------|
 | `title` | string | No | The title of the card |
 | `description` | string | No | Rich text description of the card |
-| `status` | string | No | Card status: `published`, `closed`, `not_now` |
+| `status` | string | No | Card status: `drafted`, `published` |
 | `image` | file | No | Header image for the card |
 | `tag_ids` | array | No | Array of tag IDs to apply to the card |
 
