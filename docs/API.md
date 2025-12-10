@@ -83,6 +83,29 @@ else
 end
 ```
 
+## Error Responses
+
+When a request fails, the API response will communicate the source of the problem through the HTTP status code.
+
+| Status Code | Description |
+|-------------|-------------|
+| `400 Bad Request` | The request was malformed or missing required parameters |
+| `401 Unauthorized` | Authentication failed or access token is invalid |
+| `403 Forbidden` | You don't have permission to perform this action |
+| `404 Not Found` | The requested resource doesn't exist or you don't have access to it |
+| `422 Unprocessable Entity` | Validation failed (see error response format above) |
+| `500 Internal Server Error` | An unexpected error occurred on the server |
+
+If a request contains invalid data for fields, such as entering a string into a number field, in most cases the API will respond with a `500 Internal Server Error`. Clients are expected to perform some validation on their end before making a request.
+
+Validation error will produce a `422 Unprocessable Entity` which will sometimes be accompanied by details about the validation errors:
+
+```json
+{
+  "avatar": ["must be a JPEG, PNG, GIF, or WebP image"]
+}
+```
+
 ## Pagination
 
 All endpoints that return a list of items are paginated. The page size can vary from endpoint to endpoint,

@@ -112,6 +112,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New David", users(:david).reload.name
   end
 
+  test "update as JSON with invalid avatar returns errors" do
+    sign_in_as :kevin
+
+    svg_file = fixture_file_upload("avatar.svg", "image/svg+xml")
+
+    put user_path(users(:kevin), format: :json), params: { user: { avatar: svg_file } }
+
+    assert_response :unprocessable_entity
+    assert @response.parsed_body["avatar"].present?
+  end
+
   test "destroy as JSON" do
     sign_in_as :kevin
 
