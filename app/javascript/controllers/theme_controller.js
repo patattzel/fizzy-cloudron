@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["lightBtn", "darkBtn", "autoBtn"]
+  static targets = ["lightButton", "darkButton", "autoButton"]
 
   connect() {
     this.#applyStoredTheme()
@@ -51,17 +51,17 @@ export default class extends Controller {
     const storedTheme = this.#storedTheme
 
     // Reset all buttons
-    if (this.hasLightBtnTarget) this.lightBtnTarget.removeAttribute("aria-selected")
-    if (this.hasDarkBtnTarget) this.darkBtnTarget.removeAttribute("aria-selected")
-    if (this.hasAutoBtnTarget) this.autoBtnTarget.removeAttribute("aria-selected")
+    if (this.hasLightBtnTarget) this.lightButtonTarget.removeAttribute("aria-selected")
+    if (this.hasDarkBtnTarget) this.darkButtonTarget.removeAttribute("aria-selected")
+    if (this.hasAutoBtnTarget) this.autoButtonTarget.removeAttribute("aria-selected")
 
     // Highlight active button
     if (storedTheme === "light" && this.hasLightBtnTarget) {
-      this.lightBtnTarget.setAttribute("aria-selected", "true")
+      this.lightButtonTarget.setAttribute("aria-selected", "true")
     } else if (storedTheme === "dark" && this.hasDarkBtnTarget) {
-      this.darkBtnTarget.setAttribute("aria-selected", "true")
+      this.darkButtonTarget.setAttribute("aria-selected", "true")
     } else if (this.hasAutoBtnTarget) {
-      this.autoBtnTarget.setAttribute("aria-selected", "true")
+      this.autoButtonTarget.setAttribute("aria-selected", "true")
     }
   }
 }
