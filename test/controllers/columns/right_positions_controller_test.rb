@@ -21,13 +21,13 @@ class Columns::RightPositionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal original_position_a, column_b.reload.position
   end
 
-  test "move right refreshes surrounding columns" do
+  test "move right refreshes adjacent columns" do
     column = columns(:writebook_in_progress)
 
     post column_right_position_path(column), as: :turbo_stream
 
-    column.reload.surroundings.each do |surrounding|
-      assert_turbo_stream action: :replace, target: dom_id(surrounding)
+    column.reload.adjacent_columns.each do |adjacent_column|
+      assert_turbo_stream action: :replace, target: dom_id(adjacent_column)
     end
   end
 

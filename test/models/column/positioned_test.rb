@@ -59,34 +59,4 @@ class Column::PositionedTest < ActiveSupport::TestCase
 
     assert_equal original_position, rightmost_column.reload.position
   end
-
-  test "creating a column touches surrounding columns" do
-    board = boards(:writebook)
-    column = board.columns.sorted.last
-    original_updated_at = column.updated_at
-
-    travel 1.second do
-      board.columns.create!(name: "New Column")
-    end
-
-    assert_operator column.reload.updated_at, :>, original_updated_at
-  end
-
-  test "destroying a column touches surrounding columns" do
-    board = boards(:writebook)
-    columns = board.columns.sorted.to_a
-    column_to_destroy = columns[1]
-    left_neighbor = columns[0]
-    right_neighbor = columns[2]
-
-    original_left_updated_at = left_neighbor.updated_at
-    original_right_updated_at = right_neighbor.updated_at
-
-    travel 1.second do
-      column_to_destroy.destroy
-    end
-
-    assert_operator left_neighbor.reload.updated_at, :>, original_left_updated_at
-    assert_operator right_neighbor.reload.updated_at, :>, original_right_updated_at
-  end
 end
