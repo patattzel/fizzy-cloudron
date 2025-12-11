@@ -8,22 +8,22 @@ export default class extends Controller {
   }
 
   setLight() {
-    this.#setTheme("light")
+    this.#theme = "light"
   }
 
   setDark() {
-    this.#setTheme("dark")
+    this.#theme = "dark"
   }
 
   setAuto() {
-    this.#setTheme("auto")
+    this.#theme = "auto"
   }
 
   get #storedTheme() {
     return localStorage.getItem("theme") || "auto"
   }
 
-  #setTheme(theme) {
+  set #theme(theme) {
     localStorage.setItem("theme", theme)
 
     if (theme === "auto") {
@@ -36,7 +36,7 @@ export default class extends Controller {
   }
 
   #applyStoredTheme() {
-    this.#setTheme(this.#storedTheme)
+    this.#theme = this.#storedTheme
   }
 
   #updateButtons() {
