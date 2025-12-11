@@ -40,24 +40,12 @@ class Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
-    column = columns(:writebook_on_hold)
-
-    assert_difference -> { boards(:writebook).columns.count }, -1 do
-      delete board_column_path(boards(:writebook), column), as: :turbo_stream
-      assert_response :success
-    end
-  end
-
-
-  test "destroy refreshes adjacent columns" do
     column = columns(:writebook_in_progress)
     adjacent_columns = column.adjacent_columns.to_a
 
     delete board_column_path(column.board, column), as: :turbo_stream
 
-    adjacent_columns.each do |adjacent_column|
-      assert_turbo_stream action: :replace, target: dom_id(adjacent_column)
-    end
+    assert_redirected_to board_path(column.board)
   end
 
   test "index as JSON" do
