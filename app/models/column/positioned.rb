@@ -5,8 +5,6 @@ module Column::Positioned
     scope :sorted, -> { order(position: :asc) }
 
     before_create :set_position
-    after_create_commit -> { surroundings.touch_all }
-    after_destroy_commit -> { surroundings.touch_all }
   end
 
   def move_left
