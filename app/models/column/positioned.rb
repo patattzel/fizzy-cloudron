@@ -33,7 +33,7 @@ module Column::Positioned
     right_column.nil?
   end
 
-  def surroundings
+  def adjacent_columns
     board.columns.where(id: [ left_column&.id, right_column&.id ].compact)
   end
 
