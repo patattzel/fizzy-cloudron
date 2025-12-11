@@ -26,7 +26,11 @@ export default class extends Controller {
   #setTheme(theme) {
     localStorage.setItem("theme", theme)
 
-    theme === "auto" ? document.documentElement.removeAttribute("data-theme") : document.documentElement.setAttribute("data-theme", theme)
+    if (theme === "auto") {
+      document.documentElement.removeAttribute("data-theme")
+    } else {
+      document.documentElement.setAttribute("data-theme", theme)
+    }
 
     this.#updateButtons()
   }
