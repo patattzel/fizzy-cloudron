@@ -42,8 +42,8 @@ export default class extends Controller {
   #updateButtons() {
     const storedTheme = this.#storedTheme
 
-    if (this.lightButtonTarget) { this.lightButtonTarget.checked = (storedTheme === "light") }
-    if (this.darkButtonTarget)  { this.darkButtonTarget.checked  = (storedTheme === "dark") }
-    if (this.autoButtonTarget)  { this.autoButtonTarget.checked  = (storedTheme !== "light" && storedTheme !== "dark") }
+    if (this.hasLightButtonTarget) { this.lightButtonTarget.checked = (storedTheme === "light") }
+    if (this.hasDarkButtonTarget)  { this.darkButtonTarget.checked  = (storedTheme === "dark") }
+    if (this.hasAutoButtonTarget)  { this.autoButtonTarget.checked  = (storedTheme !== "light" && storedTheme !== "dark") }
   }
 }
