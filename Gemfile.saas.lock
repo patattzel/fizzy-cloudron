@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/basecamp/fizzy-saas
-  revision: 43dbc896ce7b6a08194a92ddd1695d3f1ebf554b
+  revision: a14df11b57818697df4b2cc7b6a43e762ebaa196
   specs:
     fizzy-saas (0.1.0)
       audits1984
@@ -40,6 +40,13 @@ GIT
       yabeda-prometheus-mmap
       yabeda-puma-plugin
       yabeda-rails (>= 0.10)
+
+GIT
+  remote: https://github.com/basecamp/lexxy
+  revision: d292280b6d2c5d8a924327adf8bb9f0b25953539
+  specs:
+    lexxy (0.1.23.beta)
+      rails (>= 8.0.2)
 
 GIT
   remote: https://github.com/basecamp/queenbee-plugin
@@ -75,8 +82,8 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 3d105fc346fbb3121bbcf6340f2b19104bf326f0
-  branch: main
+  revision: 0636a79d1bf268db6cdbbc6327106d08c3ff3751
+  branch: ast-immediate-variants-process-locally
   specs:
     actioncable (8.2.0.alpha)
       actionpack (= 8.2.0.alpha)
@@ -313,8 +320,6 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
-    lexxy (0.1.23.beta)
-      rails (>= 8.0.2)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.1)
@@ -653,7 +658,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener
-  lexxy
+  lexxy!
   mission_control-jobs
   mittens
   mocha

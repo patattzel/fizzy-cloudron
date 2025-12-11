@@ -48,6 +48,7 @@ class Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+
   test "destroy refreshes surrounding columns" do
     column = columns(:writebook_in_progress)
     surroundings = column.surroundings.to_a
@@ -57,5 +58,52 @@ class Boards::ColumnsControllerTest < ActionDispatch::IntegrationTest
     surroundings.each do |surrounding|
       assert_turbo_stream action: :replace, target: dom_id(surrounding)
     end
+
+  test "index as JSON" do
+    board = boards(:writebook)
+
+    get board_columns_path(board), as: :json
+
+    assert_response :success
+    assert_equal board.columns.count, @response.parsed_body.count
+  end
+
+  test "show as JSON" do
+    column = columns(:writebook_in_progress)
+
+    get board_column_path(column.board, column), as: :json
+
+    assert_response :success
+    assert_equal column.id, @response.parsed_body["id"]
+  end
+
+  test "create as JSON" do
+    board = boards(:writebook)
+
+    assert_difference -> { board.columns.count }, +1 do
+      post board_columns_path(board), params: { column: { name: "New Column" } }, as: :json
+    end
+
+    assert_response :created
+    assert_equal board_column_path(board, Column.last, format: :json), @response.headers["Location"]
+  end
+
+  test "update as JSON" do
+    column = columns(:writebook_in_progress)
+
+    put board_column_path(column.board, column), params: { column: { name: "Updated Name" } }, as: :json
+
+    assert_response :no_content
+    assert_equal "Updated Name", column.reload.name
+  end
+
+  test "destroy as JSON" do
+    column = columns(:writebook_on_hold)
+
+    assert_difference -> { column.board.columns.count }, -1 do
+      delete board_column_path(column.board, column), as: :json
+    end
+
+    assert_response :no_content
   end
 end

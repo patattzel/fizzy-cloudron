@@ -1,3 +1,7 @@
+ActiveSupport.on_load(:active_storage_attachment) do
+  include Storage::AttachmentTracking
+end
+
 ActiveSupport.on_load(:active_storage_blob) do
   ActiveStorage::DiskController.after_action only: :show do
     expires_in 5.minutes, public: true
@@ -11,10 +15,9 @@ end
 # before the User model's upload callback, causing FileNotFoundError when
 # using `process: :immediately` for variants.
 # See: https://github.com/rails/rails/issues/53694
-#
-# ActiveSupport.on_load(:active_storage_record) do
-#   configure_replica_connections
-# end
+ActiveSupport.on_load(:active_storage_record) do
+  configure_replica_connections
+end
 
 module ActiveStorageControllerExtensions
   extend ActiveSupport::Concern
