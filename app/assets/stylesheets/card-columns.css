@@ -738,53 +738,12 @@
     }
   }
 
-  /* Mobile columns
+  /* Mobile stuff
   /* -------------------------------------------------------------------------- */
 
-  .mobile-card-columns {
-    --column-gap: 8px;
-    --column-padding-expanded: calc(var(--column-gap) * 2);
-    --column-width-collapsed: 40px;
-    --progress-increment: var(--progress-max-width) / var(--progress-max-cards);
-    --progress-max-cards: 20;
-    --progress-max-width: 100%;
-
-    padding-inline: 3vw;
-
-    /* Hide on larger devices with cursors */
-    @media (min-width: 520px) {
+  @media (min-width: 640px) {
+    .hide-on-desktop {
       display: none;
-    }
-
-    .cards.is-collapsed {
-      inline-size: auto;
-      display: block;
-      padding-block: 0.5ch;
-
-      .cards__expander {
-        --gradient-direction: to right;
-
-        flex-direction: row;
-        inline-size: auto;
-
-        &:before {
-          block-size: 1px;
-          inline-size: 100%;
-          inset: 50% 0 auto;
-          translate: 0 -50%;
-        }
-
-        &:after {
-          block-size: var(--column-width-collapsed);
-          inline-size: calc(var(--column-width-collapsed) + var(--card-count) * var(--progress-increment));
-          margin-inline-start: 0;
-          max-inline-size: var(--progress-max-width);
-        }
-      }
-
-      .cards__expander-title {
-        writing-mode: revert;
-      }
     }
   }
 }

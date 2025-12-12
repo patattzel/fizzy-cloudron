@@ -21,11 +21,14 @@
   <%= hidden_field_tag "board_ids[]", @board.id %>
 <% end %>
 
+<div class="cards hide-on-desktop">
+  <%= render "columns/show/add_card_button", board: @board %>
+</div>
+
 <%= turbo_frame_tag :cards_container do %>
   <% if @filter.used?(ignore_boards: true) %>
     <%= render "boards/show/filtered_cards", page: @page %>
   <% else %>
     <%= render "boards/show/columns", page: @page, board: @board %>
-    <%= render "boards/show/mobile_columns", page: @page, board: @board %>
   <% end %>
 <% end %>
