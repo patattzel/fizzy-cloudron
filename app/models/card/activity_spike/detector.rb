@@ -51,6 +51,6 @@ class Card::ActivitySpike::Detector
     end
 
     def last_event
-      card.events.order(created_at: :desc).first
+      card.events.order(:created_at).last
     end
 end
