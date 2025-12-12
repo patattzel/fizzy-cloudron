@@ -152,12 +152,12 @@ export default class extends Controller {
     this.titleTargets.forEach(title => this._intersectionObserver.observe(title))
   }
 
-  #isDesktop(e) {
-    return e.matches ?? e
+  get #isDesktop() {
+    return this.mediaQuery?.matches
   }
 
-  #handleDesktop(e) {
-    this.#isDesktop(e) ? this.#handleDesktopMode() : this.#handleMobileMode()
+  #handleDesktop() {
+    this.#isDesktop ? this.#handleDesktopMode() : this.#handleMobileMode()
   }
 
   async #handleDesktopMode() {
