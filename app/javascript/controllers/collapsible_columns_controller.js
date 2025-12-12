@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { nextFrame, debounce } from "helpers/timing_helpers";
 
 export default class extends Controller {
-  static classes = [ "collapsed", "noTransitions", "titleNotVisible" ]
+  static classes = [ "collapsed", "expanded", "noTransitions", "titleNotVisible" ]
   static targets = [ "column", "button", "title" ]
   static values = {
     board: String
@@ -89,6 +89,7 @@ export default class extends Controller {
     const key = this.#localStorageKeyFor(column)
 
     this.#buttonFor(column).setAttribute("aria-expanded", "false")
+    column.classList.remove(this.expandedClass)
     column.classList.add(this.collapsedClass)
     localStorage.removeItem(key)
   }
@@ -98,6 +99,7 @@ export default class extends Controller {
 
     this.#buttonFor(column).setAttribute("aria-expanded", "true")
     column.classList.remove(this.collapsedClass)
+    column.classList.add(this.expandedClass)
     localStorage.setItem(key, true)
   }
 
