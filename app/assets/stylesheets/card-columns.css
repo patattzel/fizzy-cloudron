@@ -741,8 +741,10 @@
   /* Mobile stuff
   /* -------------------------------------------------------------------------- */
 
-  @media (min-width: 640px) {
-    .hide-on-desktop {
+  .mobile-add-card-container {
+    padding-inline: 1rem;
+
+    @media (min-width: 640px) {
       display: none;
     }
   }

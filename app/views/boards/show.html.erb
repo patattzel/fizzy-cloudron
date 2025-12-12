@@ -21,7 +21,7 @@
   <%= hidden_field_tag "board_ids[]", @board.id %>
 <% end %>
 
-<div class="cards hide-on-desktop">
+<div class="mobile-add-card-container cards">
   <%= render "columns/show/add_card_button", board: @board %>
 </div>
 
