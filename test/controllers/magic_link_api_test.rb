@@ -1,11 +1,6 @@
 require "test_helper"
 
-class ApiAuthenticationTest < ActionDispatch::IntegrationTest
-  setup do
-    @davids_bearer_token = bearer_token_env(identity_access_tokens(:davids_api_token).token)
-    @jasons_bearer_token = bearer_token_env(identity_access_tokens(:jasons_api_token).token)
-  end
-
+class MagicLinkApiTest < ActionDispatch::IntegrationTest
   test "request a magic link" do
     untenanted do
       post session_path(format: :json), params: { email_address: identities(:david).email_address }
@@ -92,24 +87,6 @@ class ApiAuthenticationTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "authenticate with valid access token" do
-    get boards_path(format: :json), env: @davids_bearer_token
-    assert_response :success
-  end
-
-  test "fail to authenticate with invalid access token" do
-    get boards_path(format: :json), env: bearer_token_env("nonsense")
-    assert_response :unauthorized
-  end
-
-  test "changing data requires a write-endowed access token" do
-    post boards_path(format: :json), params: { board: { name: "My new board" } }, env: @jasons_bearer_token
-    assert_response :unauthorized
-
-    post boards_path(format: :json), params: { board: { name: "My new board" } }, env: @davids_bearer_token
-    assert_response :success
-  end
-
   test "create session for new user via JSON" do
     new_email = "new-user-#{SecureRandom.hex(6)}@example.com"
 
@@ -136,10 +113,6 @@ class ApiAuthenticationTest < ActionDispatch::IntegrationTest
   end
 
   private
-    def bearer_token_env(token)
-      { "HTTP_AUTHORIZATION" => "Bearer #{token}" }
-    end
-
     def pending_authentication_token_for(email_address)
       Rails.application.message_verifier(:pending_authentication).generate(email_address, expires_in: 10.minutes)
     end
