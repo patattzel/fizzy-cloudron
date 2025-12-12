@@ -70,7 +70,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
           post session_path, params: { email_address: "not-a-valid-email" }
         end
 
-        assert_redirected_to session_magic_link_path
+        assert_response :unprocessable_entity
       end
     end
   end
