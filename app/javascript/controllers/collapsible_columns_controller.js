@@ -81,7 +81,9 @@ export default class extends Controller {
   }
 
   #collapseAllExcept(clickedColumn) {
-    this.columnTargets.forEach(column => {
+    const columns = this.#isDesktop ? this.columnTargets.filter(c => c !== this.maybeColumnTarget) : this.columnTargets
+
+    columns.forEach(column => {
       if (column !== clickedColumn) {
         this.#collapse(column)
       }
@@ -150,18 +152,21 @@ export default class extends Controller {
     this.titleTargets.forEach(title => this._intersectionObserver.observe(title))
   }
 
-  #handleDesktop(e) {
-    const matches = e.matches ?? e // handle both Event and MediaQueryList
-    matches ? this.#disableMaybeToggle() : this.#enableMaybeToggle()
+  #isDesktop(e) {
+    return e.matches ?? e
   }
 
-  #disableMaybeToggle() {
+  #handleDesktop(e) {
+    this.#isDesktop(e) ? this.#handleDesktopMode() : this.#handleMobileMode()
+  }
+
+  async #handleDesktopMode() {
     this.#expand(this.maybeColumnTarget)
     this.#maybeButton.setAttribute("disabled", true)
   }
 
-  #enableMaybeToggle() {
-    this.#collapse(this.maybeColumnTarget)
+  #handleMobileMode() {
+    this.columnTargets.forEach(column => this.#collapse(column))
     this.#maybeButton.removeAttribute("disabled")
   }
 
