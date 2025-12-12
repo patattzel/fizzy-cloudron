@@ -3,9 +3,10 @@ import { nextFrame, debounce } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static classes = [ "collapsed", "expanded", "noTransitions", "titleNotVisible" ]
-  static targets = [ "column", "button", "title" ]
+  static targets = [ "column", "button", "title", "maybeColumn" ]
   static values = {
-    board: String
+    board: String,
+    desktopBreakpoint: { type: String, default: "(min-width: 640px)" }
   }
 
   initialize() {
@@ -15,6 +16,11 @@ export default class extends Controller {
   async connect() {
     await this.#restoreColumnsDisablingTransitions()
     this.#setupIntersectionObserver()
+
+    this.mediaQuery = window.matchMedia(this.desktopBreakpointValue)
+    this.handleDesktop = this.#handleDesktop.bind(this)
+    this.mediaQuery.addEventListener("change", this.handleDesktop)
+    this.handleDesktop(this.mediaQuery)
   }
 
   disconnect() {
@@ -22,6 +28,7 @@ export default class extends Controller {
       this._intersectionObserver.disconnect()
       this._intersectionObserver = null
     }
+    this.mediaQuery.removeEventListener("change", this.handleDesktop)
   }
 
   toggle({ target }) {
@@ -141,5 +148,24 @@ export default class extends Controller {
     }, { threshold: [0] })
 
     this.titleTargets.forEach(title => this._intersectionObserver.observe(title))
+  }
+
+  #handleDesktop(e) {
+    const matches = e.matches ?? e // handle both Event and MediaQueryList
+    matches ? this.#disableMaybeToggle() : this.#enableMaybeToggle()
+  }
+
+  #disableMaybeToggle() {
+    this.#expand(this.maybeColumnTarget)
+    this.#maybeButton.setAttribute("disabled", true)
+  }
+
+  #enableMaybeToggle() {
+    this.#collapse(this.maybeColumnTarget)
+    this.#maybeButton.removeAttribute("disabled")
+  }
+
+  get #maybeButton() {
+    return this.maybeColumnTarget.querySelector('[data-collapsible-columns-target="button"]')
   }
 }

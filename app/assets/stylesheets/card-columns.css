@@ -297,8 +297,16 @@
     position: relative;
     text-transform: uppercase;
 
+    &[disabled] {
+      opacity: 1;
+    }
+
     @media (any-hover: hover) {
-      &:hover {
+      .is-expanded &:hover {
+        filter: none;
+      }
+
+      .is-collapsed &:hover {
         filter: brightness(0.9);
       }
     }
