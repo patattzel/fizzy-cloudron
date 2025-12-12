@@ -5,6 +5,14 @@ class Sessions::MagicLinksControllerTest < ActionDispatch::IntegrationTest
     untenanted do
       get session_magic_link_url
 
+      assert_response :redirect, "Without an email address pending authentication, should redirect"
+      assert_redirected_to new_session_path
+    end
+
+    untenanted do
+      post session_path, params: { email_address: "test@example.com" }
+      get session_magic_link_url
+
       assert_response :success
     end
   end
