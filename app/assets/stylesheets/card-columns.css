@@ -31,18 +31,19 @@
     position: relative;
 
     /* When it has something expanded */
-    &:has(.card-columns__left .cards:not(.is-collapsed), .card-columns__right .cards:not(.is-collapsed)) {
-      grid-template-columns: auto var(--column-width-expanded) auto;
+    &:has(.card-columns__left .is-expanded, .card-columns__right .is-expanded) {
+      grid-template-columns: auto auto auto;
     }
 
     &:has(.cards) {
       min-block-size: 20lh;
     }
 
-    body:not(.public) & {
-      @media (max-width: 519px) {
-        display: none;
-      }
+    @media (max-width: 639px) {
+      --column-padding-expanded: 0px;
+      --column-width-expanded: calc(100vw - var(--column-gap) * 4);
+
+      scroll-snap-type: inline mandatory;
     }
   }
 
@@ -73,6 +74,10 @@
     outline: none;
     position: relative;
     scroll-snap-align: start;
+
+    @media (max-width: 639px) {
+      scroll-snap-align: center;
+    }
 
     &.is-collapsed {
       inline-size: var(--column-width-collapsed);
@@ -691,7 +696,8 @@
 
       &:before {
         inset-block-start: 50%;
-        translate: 125% -75%;
+        inset-inline-start: 0;
+        translate: -125% -75%;
         z-index: -1;
       }
     }
