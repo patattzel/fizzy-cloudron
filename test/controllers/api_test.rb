@@ -63,19 +63,16 @@ class ApiTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "magic link consumption with cross-user code via JSON creates session for magic link owner" do
+  test "magic link consumption with cross-user code via JSON returns unauthorized" do
     identity = identities(:david)
     other_identity = identities(:jason)
     magic_link = other_identity.send_magic_link
     pending_token = pending_authentication_token_for(identity.email_address)
 
-    # Note: Unlike the HTML flow, the JSON flow creates a session for the magic link's identity
-    # regardless of whose pending_authentication_token was provided. The token only proves
-    # that *someone* requested a magic link for *some* email address.
     untenanted do
       post session_magic_link_path(format: :json), params: { code: magic_link.code, pending_authentication_token: pending_token }
-      assert_response :success
-      assert @response.parsed_body["session_token"].present?
+      assert_response :unauthorized
+      assert_equal "Authentication failed. Please try again.", @response.parsed_body["message"]
     end
   end
 
