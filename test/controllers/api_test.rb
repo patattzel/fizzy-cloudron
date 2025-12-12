@@ -125,12 +125,13 @@ class ApiTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "create session with invalid email via JSON" do
+  test "create session with invalid email via JSON still returns token to prevent enumeration" do
     untenanted do
       assert_no_difference -> { Identity.count } do
         post session_path(format: :json), params: { email_address: "not-a-valid-email" }
       end
-      assert_response :unprocessable_entity
+      assert_response :created
+      assert @response.parsed_body["pending_authentication_token"].present?
     end
   end
 

@@ -17,7 +17,10 @@ class SessionsController < ApplicationController
         format.json { render json: { pending_authentication_token: pending_authentication_token_for(email_address) }, status: :created }
       end
     else
-      head :unprocessable_entity
+      respond_to do |format|
+        format.html { redirect_to session_magic_link_path }
+        format.json { render json: { pending_authentication_token: pending_authentication_token_for(email_address) }, status: :created }
+      end
     end
   end
 
