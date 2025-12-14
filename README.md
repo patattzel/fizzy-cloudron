@@ -12,6 +12,7 @@ You can find the details of how to do a Docker-based deployment in our [Docker d
 
 If you want more flexibility to customize your Fizzy installation by changing its code, and deploy those changes to your server, then we recommend you deploy Fizzy with Kamal. You can find a complete walkthrough of doing that in our [Kamal deployment guide](docs/kamal-deployment.md).
 
+
 ## Development
 
 You are welcome -- and encouraged -- to modify Fizzy to your liking.
