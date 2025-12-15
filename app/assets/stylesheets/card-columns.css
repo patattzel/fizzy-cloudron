@@ -33,6 +33,10 @@
     /* When it has something expanded */
     &:has(.card-columns__left .is-expanded, .card-columns__right .is-expanded) {
       grid-template-columns: auto auto auto;
+
+      @media (min-width: 640px) {
+        grid-template-columns: auto var(--column-width-expanded) auto;
+      }
     }
 
     &:has(.cards) {
@@ -61,6 +65,10 @@
   .card-columns__left {
     justify-content: end;
     padding-inline-start: var(--column-gap);
+
+    @media (max-width: 639px) {
+      padding-inline-start: calc(var(--column-gap) * 2);
+    }
   }
 
   .card-columns__right {
