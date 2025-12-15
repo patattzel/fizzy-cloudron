@@ -178,8 +178,10 @@
     translate: 0;
     transition: translate var(--column-transition-duration) var(--ease-out-overshoot-subtle);
 
-    .is-collapsed & {
-      translate: 0 var(--column-width-collapsed);
+    @media (min-width: 640px) {
+      .is-collapsed & {
+        translate: 0 var(--column-width-collapsed);
+      }
     }
 
     .drag-and-drop__hover-container & {
@@ -245,7 +247,9 @@
   }
 
   .cards__new-column {
-    margin-block-start: var(--column-width-collapsed);
+    @media (min-width: 640px) {
+      margin-block-start: var(--column-width-collapsed);
+    }
   }
 
   /* Cards grid; used when filtering
