@@ -1,3 +1,4 @@
 <div class="cards__list hide-scrollbar" data-drag-drop-item-container>
+  <%= yield %>
   <%= render "cards/display/previews", cards: cards, draggable: draggable %>
 </div>
