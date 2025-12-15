@@ -110,6 +110,10 @@ export default class extends Controller {
     column.classList.remove(this.collapsedClass)
     column.classList.add(this.expandedClass)
     localStorage.setItem(key, true)
+
+    if (window.matchMedia('(max-width: 639px)').matches) {
+      column.scrollIntoView({ behavior: "smooth", inline: "nearest" })
+    }
   }
 
   #buttonFor(column) {
