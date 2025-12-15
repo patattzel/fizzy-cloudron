@@ -48,7 +48,8 @@ class Stripe::WebhooksController < ApplicationController
           stripe_subscription_id: stripe_subscription.id,
           status: stripe_subscription.status,
           current_period_end: current_period_end_for(stripe_subscription),
-          cancel_at: stripe_subscription.cancel_at ? Time.at(stripe_subscription.cancel_at) : nil
+          cancel_at: stripe_subscription.cancel_at ? Time.at(stripe_subscription.cancel_at) : nil,
+          next_amount_due_in_cents: next_amount_due_for(stripe_subscription)
         }
 
         yield subscription_properties if block_given?
@@ -65,5 +66,14 @@ class Stripe::WebhooksController < ApplicationController
     def current_period_end_for(stripe_subscription)
       timestamp = stripe_subscription.items.data.first&.current_period_end
       Time.at(timestamp) if timestamp
+    end
+
+    def next_amount_due_for(stripe_subscription)
+      return nil if stripe_subscription.status == "canceled"
+
+      preview = Stripe::Invoice.create_preview(customer: stripe_subscription.customer, subscription: stripe_subscription.id)
+      preview.amount_due
+    rescue Stripe::InvalidRequestError
+      nil
     end
 end

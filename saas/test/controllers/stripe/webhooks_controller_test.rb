@@ -29,6 +29,7 @@ class Stripe::WebhooksControllerTest < ActionDispatch::IntegrationTest
 
     Stripe::Webhook.stubs(:construct_event).returns(event)
     Stripe::Subscription.stubs(:retrieve).returns(stripe_sub)
+    Stripe::Invoice.stubs(:create_preview).returns(OpenStruct.new(amount_due: 1999))
 
     post stripe_webhooks_path
 
@@ -38,7 +39,7 @@ class Stripe::WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "active", @subscription.status
   end
 
-  test "subscription updated changes status" do
+  test "subscription updated changes status and syncs next amount due" do
     @subscription.update!(stripe_subscription_id: "sub_123", status: "active")
 
     stripe_sub = OpenStruct.new(
@@ -53,11 +54,14 @@ class Stripe::WebhooksControllerTest < ActionDispatch::IntegrationTest
 
     Stripe::Webhook.stubs(:construct_event).returns(event)
     Stripe::Subscription.stubs(:retrieve).returns(stripe_sub)
+    Stripe::Invoice.stubs(:create_preview).returns(OpenStruct.new(amount_due: 1999))
 
     post stripe_webhooks_path
 
     assert_response :ok
-    assert_equal "past_due", @subscription.reload.status
+    @subscription.reload
+    assert_equal "past_due", @subscription.status
+    assert_equal 1999, @subscription.next_amount_due_in_cents
   end
 
   test "subscription deleted cancels subscription" do
@@ -82,6 +86,7 @@ class Stripe::WebhooksControllerTest < ActionDispatch::IntegrationTest
     @subscription.reload
     assert_equal "canceled", @subscription.status
     assert_nil @subscription.stripe_subscription_id
+    assert_nil @subscription.next_amount_due_in_cents
   end
 
   private

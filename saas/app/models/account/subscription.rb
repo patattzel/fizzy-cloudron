@@ -14,4 +14,8 @@ class Account::Subscription < SaasRecord
   def to_be_canceled?
     active? && cancel_at.present?
   end
+
+  def next_amount_due
+    next_amount_due_in_cents ? next_amount_due_in_cents / 100.0 : plan.price
+  end
 end

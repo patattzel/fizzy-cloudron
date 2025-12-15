@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_15_160000) do
+ActiveRecord::Schema[8.2].define(version: 2025_12_15_170000) do
   create_table "account_billing_waivers", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_15_160000) do
     t.datetime "cancel_at"
     t.datetime "created_at", null: false
     t.datetime "current_period_end"
+    t.integer "next_amount_due_in_cents"
     t.string "plan_key"
     t.string "status"
     t.string "stripe_customer_id", null: false
