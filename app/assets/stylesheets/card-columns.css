@@ -2,23 +2,26 @@
   /* Layout adjustments for contained scrolling
   /* ------------------------------------------------------------------------ */
 
-  body.contained-scrolling {
-    block-size: 100dvh;
-    grid-template-rows: 1fr var(--footer-height);
+  /* Scroll columns individually on mobile */
+  @media (max-width: 639px) {
+    body.contained-scrolling {
+      block-size: 100dvh;
+      grid-template-rows: 1fr var(--footer-height);
 
-    #global-container,
-    #main {
-      display: grid;
-      grid-template-rows: auto 1fr;
-    }
+      #global-container,
+      #main {
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
 
-    #global-container {
-      overflow: hidden;
-    }
+      #global-container {
+        overflow: hidden;
+      }
 
-    #main {
-      overflow: auto;
-      padding: 0;
+      #main {
+        overflow: auto;
+        padding: 0;
+      }
     }
   }
 
@@ -51,7 +54,6 @@
     outline: none;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-block-end: var(--column-width-collapsed);
     position: relative;
 
     /* When it has something expanded */
@@ -76,6 +78,10 @@
       &:not(:has(.is-expanded)) {
         grid-template-columns: auto var(--column-width-collapsed) auto;
       }
+    }
+
+    @media (min-width: 640px) {
+      padding-block-end: var(--column-width-collapsed);
     }
   }
 
@@ -112,6 +118,7 @@
     scroll-snap-align: start;
 
     @media (max-width: 639px) {
+      overflow-x: hidden;
       overflow-y: auto;
       scroll-snap-align: center;
     }
@@ -198,13 +205,13 @@
   /* The wrapper around the cards used to clip overflow while transitioning.
    * Also, don't resize cards while transitioning to avoid reflow. */
   .cards__list {
-    align-items: flex-end; /* use flex-start to wipe from left */
     display: flex;
     flex-direction: column;
     gap: var(--cards-gap);
     margin-block-start: -1ch;
     margin-inline: -1ch;
     overflow: hidden;
+    overflow-y: auto;
 
     .cards:not(.is-collapsed) & {
       padding: 1ch;
