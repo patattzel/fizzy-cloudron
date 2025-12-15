@@ -12,7 +12,10 @@ class Account::SubscriptionsController < ApplicationController
       line_items: [ { price: Plan.paid.stripe_price_id, quantity: 1 } ],
       success_url: account_subscription_url + "?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: account_subscription_url,
-      metadata: { account_id: Current.account.id, plan_key: Plan.paid.key }
+      metadata: { account_id: Current.account.id, plan_key: Plan.paid.key },
+      automatic_tax: { enabled: true },
+      billing_address_collection: "required",
+      customer_update: { address: "auto" }
 
     redirect_to session.url, allow_other_host: true
   end
