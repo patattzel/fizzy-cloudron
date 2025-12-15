@@ -72,7 +72,7 @@
     @media (max-width: 639px) {
       --column-width-expanded: calc(100vw - var(--column-gap) * 4);
 
-      scroll-snap-type: inline mandatory;
+      scroll-snap-type: inline;
 
       &:not(:has(.is-expanded)) {
         grid-template-columns: auto var(--column-width-collapsed) auto;
