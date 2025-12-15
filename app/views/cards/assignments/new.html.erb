@@ -21,14 +21,15 @@
         <span class="visually-hidden"><%= Current.user.name %></span>
       <% end %>
       <%= render collection: @assigned_to, partial: "user", locals: { card: @card } %>
-      <li class="popup__item txt-small color-tint" hidden data-assignment-limit-target="limitMessage">
-        You can't have more than <%= Assignment::LIMIT %> assignees
-      </li>
       <% @users.each do |user| %>
         <span data-assignment-limit-target="unassigned">
           <%= render "user", card: @card, user: user %>
         </span>
       <% end %>
     </ul>
+
+    <div class="popup__footer" hidden data-assignment-limit-target="limitMessage">
+      Maxium <%= Assignment::LIMIT %> assignees
+    </div>
   <% end %>
 <% end %>
