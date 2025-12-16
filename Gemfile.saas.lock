@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/basecamp/fizzy-saas
-  revision: f0bc5d811ff80b45dc44b88a13a0a17a3e823143
+  revision: 8eaa692316bb27ed73bd628b4735082585498ca0
   specs:
     fizzy-saas (0.1.0)
       audits1984
@@ -558,6 +558,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.9)
+    stripe (18.0.1)
     thor (1.4.0)
     thruster (0.1.17)
     thruster (0.1.17-aarch64-linux)
@@ -684,6 +685,7 @@ DEPENDENCIES
   solid_queue (~> 1.2)
   sqlite3 (>= 2.0)
   stimulus-rails
+  stripe (~> 18.0)
   thruster
   trilogy (~> 2.9)
   turbo-rails
