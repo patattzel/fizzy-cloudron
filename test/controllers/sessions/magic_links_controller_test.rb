@@ -79,4 +79,72 @@ class Sessions::MagicLinksControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect, "Expired magic link should redirect"
     assert MagicLink.exists?(expired_link.id), "Expired magic link should not be consumed"
   end
+
+  test "create via JSON" do
+    identity = identities(:david)
+    magic_link = identity.send_magic_link
+    pending_token = pending_authentication_token_for(identity.email_address)
+
+    untenanted do
+      post session_magic_link_path(format: :json), params: { code: magic_link.code, pending_authentication_token: pending_token }
+      assert_response :success
+      assert @response.parsed_body["session_token"].present?
+    end
+  end
+
+  test "create via JSON without pending_authentication_token" do
+    identity = identities(:david)
+    magic_link = identity.send_magic_link
+
+    untenanted do
+      post session_magic_link_path(format: :json), params: { code: magic_link.code }
+      assert_response :unauthorized
+      assert_equal "Enter your email address to sign in.", @response.parsed_body["message"]
+    end
+  end
+
+  test "create via JSON with invalid code" do
+    identity = identities(:david)
+    pending_token = pending_authentication_token_for(identity.email_address)
+
+    untenanted do
+      post session_magic_link_path(format: :json), params: { code: "INVALID", pending_authentication_token: pending_token }
+      assert_response :unauthorized
+      assert_equal "Try another code.", @response.parsed_body["message"]
+    end
+  end
+
+  test "create via JSON with cross-user code" do
+    identity = identities(:david)
+    other_identity = identities(:jason)
+    magic_link = other_identity.send_magic_link
+    pending_token = pending_authentication_token_for(identity.email_address)
+
+    untenanted do
+      post session_magic_link_path(format: :json), params: { code: magic_link.code, pending_authentication_token: pending_token }
+      assert_response :unauthorized
+      assert_equal "Something went wrong. Please try again.", @response.parsed_body["message"]
+    end
+  end
+
+  test "create via JSON with expired pending_authentication_token" do
+    identity = identities(:david)
+    magic_link = identity.send_magic_link
+
+    expired_token = nil
+    travel_to 15.minutes.ago do
+      expired_token = pending_authentication_token_for(identity.email_address)
+    end
+
+    untenanted do
+      post session_magic_link_path(format: :json), params: { code: magic_link.code, pending_authentication_token: expired_token }
+      assert_response :unauthorized
+      assert_equal "Enter your email address to sign in.", @response.parsed_body["message"]
+    end
+  end
+
+  private
+    def pending_authentication_token_for(email_address)
+      Sessions::MagicLinksController.new.send(:pending_authentication_token_verifier).generate(email_address, expires_in: 10.minutes)
+    end
 end
