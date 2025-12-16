@@ -35,7 +35,7 @@ if [ "$USE_TAILSCALE" = "1" ]; then
   stop_tailscale() { tailscale serve --https=$TS_PORT off >/dev/null 2>&1; }
   trap stop_tailscale EXIT INT TERM
 
-  tailscale serve --bg --https=$TS_PORT "http://fizzy.localhost:$PORT" >/dev/null 2>&1
+  sudo tailscale serve --bg --https=$TS_PORT "http://fizzy.localhost:$PORT" >/dev/null 2>&1
   echo "Login with david@example.com to: https://$TS_HOSTNAME:$TS_PORT/"
 else
   echo "Login with david@example.com to: http://fizzy.localhost:$PORT/"
