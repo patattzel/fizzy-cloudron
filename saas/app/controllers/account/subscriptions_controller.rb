@@ -23,7 +23,7 @@ class Account::SubscriptionsController < ApplicationController
 
   private
     def set_stripe_session
-      @session = Stripe::Checkout::Session.retrieve(params[:session_id]) if params[:session_id]
+      @stripe_session = Stripe::Checkout::Session.retrieve(params[:session_id]) if params[:session_id]
     end
 
     def find_or_create_stripe_customer
