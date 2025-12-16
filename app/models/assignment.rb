@@ -1,5 +1,5 @@
 class Assignment < ApplicationRecord
-  LIMIT = 10
+  LIMIT = 100
 
   belongs_to :account, default: -> { card.account }
   belongs_to :card, touch: true
