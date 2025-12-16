@@ -27,10 +27,10 @@ export default class extends Controller {
     localStorage.setItem("theme", theme)
 
     const currentTheme = document.documentElement.getAttribute("data-theme") || "auto"
-    const isInitialLoad = currentTheme === theme
+    const hasChanged = currentTheme !== theme
 
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
-    const animate = !isInitialLoad && !prefersReducedMotion
+    const animate = hasChanged && !prefersReducedMotion
 
     const applyTheme = () => {
       if (theme === "auto") {
