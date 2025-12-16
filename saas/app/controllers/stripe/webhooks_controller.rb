@@ -43,7 +43,7 @@ class Stripe::WebhooksController < ApplicationController
     def sync_subscription(stripe_subscription_id)
       stripe_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
 
-      if subscription = find_subscription_by_customer(stripe_subscription.customer)
+      if subscription = find_subscription_by_stripe_customer(stripe_subscription.customer)
         subscription_properties = {
           stripe_subscription_id: stripe_subscription.id,
           status: stripe_subscription.status,
@@ -59,8 +59,8 @@ class Stripe::WebhooksController < ApplicationController
       end
     end
 
-    def find_subscription_by_customer(customer_id)
-      Account::Subscription.find_by(stripe_customer_id: customer_id)
+    def find_subscription_by_stripe_customer(id)
+      Account::Subscription.find_by(stripe_customer_id: id)
     end
 
     def current_period_end_for(stripe_subscription)
