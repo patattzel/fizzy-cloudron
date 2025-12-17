@@ -47,6 +47,7 @@
     .card__body {
       @media (max-width: 639px) {
         flex-direction: column;
+        padding-block-end: calc(var(--card-padding-block) * 1.5);
       }
     }
 
@@ -151,7 +152,12 @@
     grid-area: card;
     padding: clamp(2rem, 4vw, var(--padding-block));
 
-    @media (max-width: 799px) {
+    @media (max-width: 639px) {
+      padding: clamp(0.25rem, 2vw, var(--padding-block));
+      padding-block-end: clamp(2.5rem, 4vw, var(--padding-block));
+    }
+
+    @media (min-width: 640px) and (max-width: 799px) {
       padding-inline: var(--padding-inline);
     }
   }
