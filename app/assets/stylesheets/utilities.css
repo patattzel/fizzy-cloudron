@@ -270,7 +270,9 @@
   }
 
   .show-on-native {
-    display: none;
+    body:not([data-platform~=native]) & {
+      display: none;
+    }
   }
 
   .hide-scrollbar {
