@@ -1,7 +1,12 @@
-<%= turbo_frame_tag "bar_content" do %>
-  <% if @card %>
-    <%= auto_submit_form_with url: card_path(@card), method: :get, data: { turbo_action: "advance", turbo_frame: "_top", search_redirect: true } %>
-  <% else %>
-    <%= render "results", page: @page %>
+<% @page_title = params.has_key?(:q) ? "Search results for \"#{params[:q]}\"" : "Search" %>
+
+<div class="search-perma">
+  <%= render "form", query_terms: params[:q] %>
+  <%= turbo_frame_tag "bar_content" do %>
+    <% if @card %>
+      <%= auto_submit_form_with url: card_path(@card), method: :get, data: { turbo_action: "advance", turbo_frame: "_top", search_redirect: true } %>
+    <% else %>
+      <%= render "results", page: @page %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
