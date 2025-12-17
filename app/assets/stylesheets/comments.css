@@ -162,13 +162,13 @@
     display: none;
 
     .comments--system-expanded & {
-      display: flex;
+      display: contents;
     }
   }
 
   /* Show the last system comment */
   :nth-last-child(1 of .comment-wrapper--system) {
-    display: flex;
+    display: contents;
 
     .comment__history {
       display: grid;
