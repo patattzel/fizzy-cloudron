@@ -50,6 +50,6 @@ class Plan
   end
 
   def limit_cards?
-    card_limit != Float::INFINITY
+    !card_limit.infinite?
   end
 end
