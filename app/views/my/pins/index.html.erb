@@ -1,3 +1,5 @@
 <%= turbo_frame_tag "pins" do %>
-  <%= render partial: "my/pins/pin", collection: @pins %>
+  <div class="pins-list panel panel--wide center borderless unpad flex-column gap-half">
+    <%= render partial: "my/pins/pin", collection: @pins %>
+  </div>
 <% end %>
