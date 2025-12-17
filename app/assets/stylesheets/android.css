@@ -1,0 +1,7 @@
+@layer native {
+  [data-platform~=android] {
+    .hide-on-android {
+      display: none;
+    }
+  }
+}
