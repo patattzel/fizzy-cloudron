@@ -341,10 +341,6 @@
     inset-inline: var(--tray-margin) auto;
     view-transition-name: tray-pins;
 
-    .pins-list {
-      display: contents;
-    }
-
     #footer:has(.bar__placeholder[hidden]) & {
       inset-inline-start: -100%;
     }
