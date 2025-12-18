@@ -80,6 +80,6 @@ class Stripe::WebhooksController < ApplicationController
 
     def plan_key_for(stripe_subscription)
       price_id = stripe_subscription.items.data.first&.price&.id
-      Plan.all.find { |plan| plan.stripe_price_id == price_id }&.key
+      Plan.find_by_price_id(price_id)&.key
     end
 end
