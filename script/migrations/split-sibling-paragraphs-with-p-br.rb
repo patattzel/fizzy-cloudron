@@ -119,6 +119,10 @@ class SeparateSiblingParagraphs
     def wrapping_attachment?(node)
       node.children.first&.name == "action-text-attachment"
     end
+
+    def demo_card?(record)
+      record.is_a?(Card) && record.number <= 8
+    end
 end
 
 SeparateSiblingParagraphs.new(..BACKFILL_TIMESTAMP, account_id: ACCOUNT_ID).run
