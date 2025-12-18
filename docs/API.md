@@ -178,10 +178,11 @@ curl -X POST \
       "content_type": "image/png"
     }
   }' \
-  https://app.fizzy.do/rails/active_storage/direct_uploads
+  https://app.fizzy.do/123456/rails/active_storage/direct_uploads
 ```
 
 The `checksum` is a Base64-encoded MD5 hash of the file content.
+The direct upload endpoint is scoped to your account (replace `/123456` with your account slug).
 
 __Response:__
 
@@ -494,6 +495,8 @@ Creates a new card in a board.
 | `status` | string | No | Initial status: `published` (default), `drafted` |
 | `image` | file | No | Header image for the card |
 | `tag_ids` | array | No | Array of tag IDs to apply to the card |
+| `created_at` | datetime | No | Override creation timestamp (ISO 8601 format) |
+| `last_active_at` | datetime | No | Override last activity timestamp (ISO 8601 format) |
 
 __Request:__
 
@@ -521,6 +524,7 @@ Updates a card.
 | `status` | string | No | Card status: `drafted`, `published` |
 | `image` | file | No | Header image for the card |
 | `tag_ids` | array | No | Array of tag IDs to apply to the card |
+| `last_active_at` | datetime | No | Override last activity timestamp (ISO 8601 format) |
 
 __Request:__
 
@@ -699,6 +703,7 @@ Creates a new comment on a card.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `body` | string | Yes | The comment body (supports rich text) |
+| `created_at` | datetime | No | Override creation timestamp (ISO 8601 format) |
 
 __Request:__
 
