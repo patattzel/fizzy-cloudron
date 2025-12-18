@@ -96,9 +96,12 @@
         max-inline-size: 100%;
         padding: 0;
         position: relative;
+        white-space: nowrap;
 
         & > form {
+          flex-grow: 1;
           max-inline-size: 25ch;
+          min-block-size: 2.5em;
         }
 
         & > form + form:not(:has(.card__column-name--current)) {
@@ -110,6 +113,7 @@
     .card__column-name {
       @media (max-width: 639px) {
         --btn-border-radius: 0;
+        justify-content: center;
       }
     }
 
