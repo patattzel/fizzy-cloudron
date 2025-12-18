@@ -73,6 +73,13 @@ bin/rails test   # run tests
 
 SQLite is default; MySQL supported via `DATABASE_ADAPTER=mysql`.
 
+You are welcome -- and encouraged -- to modify Fizzy to your liking.
+Please see our [Development guide](docs/development.md) for how to get Fizzy set up for local development.
+
+## Contributing
+
+We welcome contributions! Please read our [style guide](STYLE.md) before submitting code.
+
 ## License
 
 Fizzy is released under the [O'Saasy License](LICENSE.md).

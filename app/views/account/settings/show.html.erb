@@ -24,3 +24,5 @@
     <%= render "account/settings/tags", tags: @tags %>
   </div>
 </section>
+
+<%= render "account/settings/subscription_panel" if Fizzy.saas? %>
