@@ -4,16 +4,11 @@ require "ostruct"
 class Account::Subscriptions::DowngradesControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
-    accounts(:"37s").subscription.update!(
-      stripe_subscription_id: "sub_123",
-      plan: Plan.paid_with_extra_storage
-    )
+    accounts(:"37s").subscription.update!(stripe_subscription_id: "sub_123", plan: Plan.paid_with_extra_storage)
   end
 
   test "downgrade redirects to stripe billing portal" do
-    stripe_subscription = OpenStruct.new(
-      items: OpenStruct.new(data: [ OpenStruct.new(id: "si_123") ])
-    )
+    stripe_subscription = OpenStruct.new(items: OpenStruct.new(data: [ OpenStruct.new(id: "si_123") ]))
     portal_session = OpenStruct.new(url: "https://billing.stripe.com/session/abc123")
 
     Stripe::Subscription.stubs(:retrieve).with("sub_123").returns(stripe_subscription)
