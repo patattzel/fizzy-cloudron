@@ -73,7 +73,7 @@ class SeparateSiblingParagraphs
           next unless fragment
 
           fragment.find_all("p + p").each do |node|
-            unless ineligible?(node) || ineligible?(node.previous_sibling)
+            unless empty_node?(node) || empty_node?(node.previous_sibling)
               node.add_previous_sibling empty_node_markup
               edited = true
               insertions += 1
@@ -104,20 +104,12 @@ class SeparateSiblingParagraphs
       { batch_size: 20, order: :desc }
     end
 
-    def ineligible?(node)
-      empty_node?(node) || wrapping_attachment?(node)
-    end
-
     def empty_node?(node)
       node.to_html == empty_node_markup
     end
 
     def empty_node_markup
       "<p><br></p>"
-    end
-
-    def wrapping_attachment?(node)
-      node.children.first&.name == "action-text-attachment"
     end
 
     def demo_card?(record)
