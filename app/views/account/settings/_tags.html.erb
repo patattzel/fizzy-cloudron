@@ -1,0 +1,12 @@
+<header>
+  <h2 class="divider txt-large">Tags</h2>
+  <p class="margin-none-block-start">Review, rename, or delete tags for this account. Tags are created automatically when you add them to cards.</p>
+</header>
+
+<% if tags.any? %>
+  <ul class="settings__tag-list" role="list">
+    <%= render partial: "account/settings/tag", collection: tags, as: :tag, locals: { allow_changes: Current.user.admin? } %>
+  </ul>
+<% else %>
+  <p class="txt-ink-medium margin-none-block">No tags yet. Add tags to cards and they will appear here.</p>
+<% end %>

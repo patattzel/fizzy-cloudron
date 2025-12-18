@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resource :settings
     resource :entropy
     resources :exports, only: [ :create, :show ]
+    resources :tags, only: %i[ update destroy ]
   end
 
   resources :users do

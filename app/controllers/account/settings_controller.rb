@@ -4,6 +4,7 @@ class Account::SettingsController < ApplicationController
 
   def show
     @users = @account.users.active.alphabetically.includes(:identity)
+    @tags = @account.tags.alphabetically
   end
 
   def update
