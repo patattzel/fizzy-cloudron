@@ -22,7 +22,7 @@ class Account::Subscriptions::CardCreationTest < ActionDispatch::IntegrationTest
     get card_path(cards(:unfinished_thoughts), script_name: accounts(:initech).slug)
 
     assert_response :success
-    assert_match /upgrade for more/i, response.body
+    assert_match /upgrade to get more/i, response.body
   end
 
   # Exceeding limits - shown instead of create buttons
@@ -35,7 +35,7 @@ class Account::Subscriptions::CardCreationTest < ActionDispatch::IntegrationTest
     get card_path(cards(:unfinished_thoughts), script_name: accounts(:initech).slug)
 
     assert_response :success
-    assert_match /you've used your.*free cards/i, response.body
+    assert_match /you’ve used your.*free cards/i, response.body
   end
 
   test "admin sees exceeding storage limit notice" do
@@ -46,7 +46,7 @@ class Account::Subscriptions::CardCreationTest < ActionDispatch::IntegrationTest
     get card_path(cards(:unfinished_thoughts), script_name: accounts(:initech).slug)
 
     assert_response :success
-    assert_match /you've used your.*free storage/i, response.body
+    assert_match /you’ve run out of.*free storage/i, response.body
   end
 
   # Paid accounts under limits - no notices
@@ -60,7 +60,7 @@ class Account::Subscriptions::CardCreationTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_no_match /upgrade/i, response.body
-    assert_no_match /you've used your/i, response.body
+    assert_no_match /you’ve used your/i, response.body
   end
 
   # Comped accounts under limits - no notices
@@ -74,6 +74,6 @@ class Account::Subscriptions::CardCreationTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_no_match /upgrade/i, response.body
-    assert_no_match /you've used your/i, response.body
+    assert_no_match /you’ve used your/i, response.body
   end
 end

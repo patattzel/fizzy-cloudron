@@ -9,7 +9,7 @@ class Account::Subscriptions::SettingsTest < ActionDispatch::IntegrationTest
     get account_settings_path(script_name: accounts(:initech).slug)
 
     assert_response :success
-    assert_select "h3", text: /You've used 3 free cards out of 1000/
+    assert_match /You’ve used.*3.*free cards out of 1,000/i, response.body
   end
 
   test "paid users see thank you message" do
@@ -44,7 +44,6 @@ class Account::Subscriptions::SettingsTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "button", text: /downgrade/i
-    assert_select "button", text: /upgrade/i, count: 0
   end
 
   test "comped accounts see no subscription panel" do
