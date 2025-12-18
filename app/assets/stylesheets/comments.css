@@ -98,8 +98,6 @@
 
     max-inline-size: var(--comment-max);
     text-align: center;
-    transition: var(--dialog-duration) allow-discrete;
-    transition-property: display;
 
     .comments--system-expanded & {
       display: flex;
@@ -160,6 +158,8 @@
 
   .comment-wrapper--system {
     display: none;
+    transition: var(--dialog-duration) allow-discrete;
+    transition-property: display;
 
     .comments--system-expanded & {
       display: contents;
