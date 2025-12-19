@@ -9,22 +9,12 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if identity = Identity.find_by_email_address(email_address)
-      magic_link = identity.send_magic_link
+    if identity = Identity.find_by(email_address: email_address)
+      handle_sign_in_for identity
     elsif Account.accepting_signups?
-      signup = Signup.new(email_address: email_address)
-      magic_link = signup.create_identity if signup.valid?(:identity_creation)
-    end
-
-    if magic_link
-      redirect_to_session_magic_link magic_link
-    elsif !Account.accepting_signups?
-      redirect_to_session_magic_link nil, email_address: email_address
+      handle_sign_up
     else
-      respond_to do |format|
-        format.html { redirect_to new_session_path, alert: "Something went wrong" }
-        format.json { render json: { message: "Something went wrong" }, status: :unprocessable_entity }
-      end
+      redirect_to_fake_session_magic_link email_address
     end
   end
 
@@ -53,6 +43,24 @@ class SessionsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to new_session_path, alert: rate_limit_exceeded_message }
         format.json { render json: { message: rate_limit_exceeded_message }, status: :too_many_requests }
+      end
+    end
+
+    def handle_sign_in_for(identity)
+      redirect_to_session_magic_link identity.send_magic_link
+    end
+
+    def handle_sign_up
+      signup = Signup.new(email_address: email_address)
+
+      if signup.valid?(:identity_creation)
+        magic_link = signup.create_identity
+        redirect_to_session_magic_link magic_link
+      else
+        respond_to do |format|
+          format.html { redirect_to new_session_path, alert: "Something went wrong" }
+          format.json { render json: { message: "Something went wrong" }, status: :unprocessable_entity }
+        end
       end
     end
 end

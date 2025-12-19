@@ -11,9 +11,9 @@ class Sessions::MagicLinksController < ApplicationController
 
   def create
     if magic_link = MagicLink.consume(code)
-      respond_to_valid_code_from magic_link
+      handle_valid_code_for magic_link
     else
-      respond_to_invalid_code
+      handle_invalid_code
     end
   end
 
@@ -32,38 +32,38 @@ class Sessions::MagicLinksController < ApplicationController
       params.expect(:code)
     end
 
-    def respond_to_valid_code_from(magic_link)
+    def handle_valid_code_for(magic_link)
       if ActiveSupport::SecurityUtils.secure_compare(email_address_pending_authentication || "", magic_link.identity.email_address)
-        clear_pending_authentication_token
-        start_new_session_for magic_link.identity
-
-        respond_to do |format|
-          format.html { redirect_to after_sign_in_url(magic_link) }
-          format.json { render json: { session_token: cookies[:session_token] } }
-        end
+        handle_sign_in_with magic_link
       else
-        clear_pending_authentication_token
-        alert_message = "Something went wrong. Please try again."
-
-        respond_to do |format|
-          format.html { redirect_to new_session_path, alert: alert_message }
-          format.json { render json: { message: alert_message }, status: :unauthorized }
-        end
+        handle_email_address_mismatch
       end
     end
 
-    def respond_to_invalid_code
+    def handle_sign_in_with(magic_link)
+      clear_pending_authentication_token
+      start_new_session_for magic_link.identity
+
+      respond_to do |format|
+        format.html { redirect_to after_sign_in_url(magic_link) }
+        format.json { render json: { session_token: cookies[:session_token] } }
+      end
+    end
+
+    def handle_email_address_mismatch
+      clear_pending_authentication_token
+      alert_message = "Something went wrong. Please try again."
+
+      respond_to do |format|
+        format.html { redirect_to new_session_path, alert: alert_message }
+        format.json { render json: { message: alert_message }, status: :unauthorized }
+      end
+    end
+
+    def handle_invalid_code
       respond_to do |format|
         format.html { redirect_to session_magic_link_path, flash: { shake: true } }
         format.json { render json: { message: "Try another code." }, status: :unauthorized }
-      end
-    end
-
-    def pending_authentication_token
-      if request.format.json?
-        params[:pending_authentication_token]
-      else
-        super
       end
     end
 
