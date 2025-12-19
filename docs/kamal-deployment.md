@@ -10,8 +10,9 @@ This repo contains a starter deployment file that you can modify for your own sp
 The steps to configure your very own Fizzy are:
 
 1. Fork the repo
-2. Edit few things in config/deploy.yml and .kamal/secrets
-3. Run `kamal setup` to do your first deploy.
+2. Initialize Kamal by running `kamal init`. This command generates the `.kamal` directory along with the required configuration files, including `.kamal/secrets`.
+3. Edit few things in config/deploy.yml and .kamal/secrets
+4. Run `kamal setup` to do your first deploy.
 
 We'll go through each of these in turn.
 
@@ -32,6 +33,7 @@ We've added comments to that file to highlight what each setting needs to be, bu
 - `servers/web`: Enter the hostname of the server you're deploying to here. This should be an address that you can access via `ssh`.
 - `ssh/user`: If you access your server a `root` you can leave this alone; if you use a different user, set it here.
 - `proxy/ssl` and `proxy/host`: Kamal can set up SSL certificates for you automatically. To enable that, set the hostname again as `host`. If you don't want SSL for some reason, you can set `ssl: false` to turn it off.
+- `env/clear/BASE_URL`: The public URL of your Fizzy instance (e.g., `https://fizzy.example.com`). Used when generating links.
 - `env/clear/MAILER_FROM_ADDRESS`: This is the email address that Fizzy will send emails from. It should usually be an address from the same domain where you're running Fizzy.
 - `env/clear/SMTP_ADDRESS`: The address of an SMTP server that you can send email through. You can use a 3rd-party service for this, like Sendgrid or Postmark, in which case their documentation will tell you what to use for this.
 - `env/clear/MULTI_TENANT`: Set to `true` if you want to allow multiple accounts to sign up on your server (by default, Fizzy will allow you to create a single account).

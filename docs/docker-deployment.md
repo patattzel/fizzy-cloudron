@@ -78,16 +78,26 @@ You can then plug all your SMTP settings from that provider into Fizzy via the f
 
 - `MAILER_FROM_ADDRESS` - the "from" address that Fizzy should use to send email
 - `SMTP_ADDRESS` - the address of the SMTP server you'll send through
-- `SMTP_PORT` - the port number you use to connect to that SMTP server (the default is 587)
+- `SMTP_PORT` - the port number (defaults to 465 when `SMTP_TLS` is set, 587 otherwise)
 - `SMTP_USERNAME`/`SMTP_PASSWORD` - the credentials for logging in to the SMTP server
 
 Less commonly, you might also need to set some of the following:
 
+- `SMTP_TLS` - set to `true` only for servers requiring implicit TLS (SMTPS on port 465); STARTTLS is used automatically by default so most servers don't need this
 - `SMTP_DOMAIN` - the domain name advertised to the server when connecting
 - `SMTP_AUTHENTICATION` - if you need an authentication method other than the default `plain`
-- `SMTP_ENABLE_STARTTLS_AUTO` - if you need to disable TLS on the SMTP connection
+- `SMTP_SSL_VERIFY_MODE` - set to `none` to skip certificate verification (for self-signed certs)
 
 You can find out more about all these settings in the [Rails Action Mailer documentation](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration).
+
+#### Base URL
+
+Fizzy needs to know the public URL of your instance so it can generate correct links in certain situations (like when sending emails).
+Set `BASE_URL` to the full URL where your Fizzy instance is accessible:
+
+```sh
+docker run --environment BASE_URL=https://fizzy.example.com ...
+```
 
 #### VAPID keys
 
@@ -113,7 +123,7 @@ Set those in the `VAPID_PRIVATE_KEY` and `VAPID_PUBLIC_KEY` environment variable
 
 #### S3 storage (optional)
 
-If you're rather that uploaded files were stored in an S3 bucket, rather than your mounted volume, you can set that up.
+If you'd prefer that uploaded files were stored in an S3 bucket rather than in your mounted volume, you can set that up.
 
 First set `ACTIVE_STORAGE_SERVICE` to `s3`.
 Then set the following as appropriate for your S3 bucket:
@@ -152,6 +162,7 @@ services:
     environment:
       - SECRET_KEY_BASE=abcdefabcdef
       - TLS_DOMAIN=fizzy.example.com
+      - BASE_URL=https://fizzy.example.com
       - MAILER_FROM_ADDRESS=fizzy@example.com
       - SMTP_ADDRESS=mail.example.com
       - SMTP_USERNAME=user
