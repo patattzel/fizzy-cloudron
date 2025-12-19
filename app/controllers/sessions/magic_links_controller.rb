@@ -46,7 +46,7 @@ class Sessions::MagicLinksController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to after_sign_in_url(magic_link) }
-        format.json { render json: { session_token: cookies[:session_token] } }
+        format.json { render json: { session_token: session_token } }
       end
     end
 

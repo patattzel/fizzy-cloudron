@@ -100,4 +100,8 @@ module Authentication
       Current.session.destroy
       cookies.delete(:session_token)
     end
+
+    def session_token
+      cookies[:session_token]
+    end
 end
