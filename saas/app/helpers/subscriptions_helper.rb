@@ -12,4 +12,8 @@ module SubscriptionsHelper
       "Your next payment is <b>#{ currency(subscription.next_amount_due) }</b> on".html_safe
     end
   end
+
+  def currency(amount)
+    number_to_currency(amount, precision: (amount % 1).zero? ? 0 : 2)
+  end
 end
