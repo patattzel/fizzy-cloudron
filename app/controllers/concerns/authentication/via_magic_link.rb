@@ -1,21 +1,6 @@
 module Authentication::ViaMagicLink
   extend ActiveSupport::Concern
 
-  FakeIdentity = Data.define(:email_address)
-  FakeMagicLink = Data.define(:email_address) do
-    def identity
-      FakeIdentity.new(email_address)
-    end
-
-    def code
-      "XPHONY"
-    end
-
-    def expires_at
-      MagicLink::EXPIRATION_TIME.from_now
-    end
-  end
-
   included do
     after_action :ensure_development_magic_link_not_leaked
   end
@@ -28,7 +13,13 @@ module Authentication::ViaMagicLink
     end
 
     def redirect_to_fake_session_magic_link(email_address, **options)
-      redirect_to_session_magic_link FakeMagicLink.new(email_address), **options
+      fake_magic_link = MagicLink.new(
+        identity: Identity.new(email_address: email_address),
+        code: SecureRandom.base32(6),
+        expires_at: 15.minutes.from_now
+      )
+
+      redirect_to_session_magic_link fake_magic_link, **options
     end
 
     def redirect_to_session_magic_link(magic_link, return_to: nil)
