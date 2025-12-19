@@ -11,9 +11,9 @@ class Sessions::MagicLinksController < ApplicationController
 
   def create
     if magic_link = MagicLink.consume(code)
-      handle_valid_code_for magic_link
+      authenticate magic_link
     else
-      handle_invalid_code
+      invalid_code
     end
   end
 
@@ -32,15 +32,15 @@ class Sessions::MagicLinksController < ApplicationController
       params.expect(:code)
     end
 
-    def handle_valid_code_for(magic_link)
+    def authenticate(magic_link)
       if ActiveSupport::SecurityUtils.secure_compare(email_address_pending_authentication || "", magic_link.identity.email_address)
-        handle_sign_in_with magic_link
+        sign_in magic_link
       else
-        handle_email_address_mismatch
+        email_address_mismatch
       end
     end
 
-    def handle_sign_in_with(magic_link)
+    def sign_in(magic_link)
       clear_pending_authentication_token
       start_new_session_for magic_link.identity
 
@@ -50,7 +50,7 @@ class Sessions::MagicLinksController < ApplicationController
       end
     end
 
-    def handle_email_address_mismatch
+    def email_address_mismatch
       clear_pending_authentication_token
       alert_message = "Something went wrong. Please try again."
 
@@ -60,7 +60,7 @@ class Sessions::MagicLinksController < ApplicationController
       end
     end
 
-    def handle_invalid_code
+    def invalid_code
       respond_to do |format|
         format.html { redirect_to session_magic_link_path, flash: { shake: true } }
         format.json { render json: { message: "Try another code." }, status: :unauthorized }

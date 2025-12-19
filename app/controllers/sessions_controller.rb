@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
 
   def create
     if identity = Identity.find_by(email_address: email_address)
-      handle_sign_in_for identity
+      sign_in identity
     elsif Account.accepting_signups?
-      handle_sign_up
+      sign_up
     else
       redirect_to_fake_session_magic_link email_address
     end
@@ -46,11 +46,11 @@ class SessionsController < ApplicationController
       end
     end
 
-    def handle_sign_in_for(identity)
+    def sign_in(identity)
       redirect_to_session_magic_link identity.send_magic_link
     end
 
-    def handle_sign_up
+    def sign_up
       signup = Signup.new(email_address: email_address)
 
       if signup.valid?(:identity_creation)
