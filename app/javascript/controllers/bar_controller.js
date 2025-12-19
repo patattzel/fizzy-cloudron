@@ -34,11 +34,7 @@ export default class extends Controller {
   showModalAndSubmit(event) {
     this.showModal()
     this.formTarget.requestSubmit()
-    
-    // Restore focus to search input after turbo frame loads
-    this.turboFrameTarget.addEventListener("turbo:frame-load", () => {
-      this.searchInputTarget.focus()
-    }, { once: true })
+    this.#restoreFocusAfterTurboFrameLoads()
   }
 
   showModal() {
@@ -54,6 +50,12 @@ export default class extends Controller {
     } else {
       this.#loadTurboFrame()
     }
+  }
+
+  #restoreFocusAfterTurboFrameLoads() {
+    this.turboFrameTarget.addEventListener("turbo:frame-load", () => {
+      this.searchInputTarget.focus()
+    }, { once: true })
   }
 
   #loadTurboFrame() {
