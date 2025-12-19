@@ -16,7 +16,7 @@ module Authentication::ViaMagicLink
       fake_magic_link = MagicLink.new(
         identity: Identity.new(email_address: email_address),
         code: SecureRandom.base32(6),
-        expires_at: 15.minutes.from_now
+        expires_at: MagicLink::EXPIRATION_TIME.from_now
       )
 
       redirect_to_session_magic_link fake_magic_link, **options
