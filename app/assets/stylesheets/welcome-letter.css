@@ -2,6 +2,10 @@
   .welcome-letter {
     position: relative;
     z-index: 99;
+
+    h2, p {
+      text-wrap: pretty;
+    }
   }
 
   .welcome-letter__close {
