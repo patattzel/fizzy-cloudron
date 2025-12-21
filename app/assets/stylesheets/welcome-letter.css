@@ -2,7 +2,7 @@
   .welcome-letter {
     position: relative;
     view-transition-name: welcome-letter;
-    z-index: 99;
+    z-index: var(--z-welcome);
 
     h2, p {
       text-wrap: pretty;
