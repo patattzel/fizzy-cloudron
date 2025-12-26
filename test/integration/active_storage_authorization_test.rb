@@ -134,6 +134,22 @@ class ActiveStorageAuthorizationTest < ActionDispatch::IntegrationTest
     assert_match %r{rails/active_storage}, response.location
   end
 
+  test "unauthenticated user can view avatar" do
+    blob = attach_avatar_to(users(:david))
+
+    get rails_blob_path(blob, disposition: :inline)
+    assert_response :redirect
+    assert_match %r{rails/active_storage}, response.location
+  end
+
+  test "unauthenticated user can view avatar thumbnail" do
+    blob = attach_avatar_to(users(:david))
+
+    get rails_representation_path(blob.representation(resize_to_fill: [ 256, 256 ]))
+    assert_response :redirect
+    assert_match %r{rails/active_storage}, response.location
+  end
+
   # Account exports
 
   test "export owner can download their export" do
@@ -193,5 +209,12 @@ class ActiveStorageAuthorizationTest < ActionDispatch::IntegrationTest
       export = Account::Export.create!(account: @account, user: user)
       export.file.attach io: StringIO.new("test export content"), filename: "export.zip", content_type: "application/zip"
       export.file.blob
+    end
+
+    def attach_avatar_to(user)
+      Current.with(account: @account, session: sessions(:david)) do
+        user.avatar.attach io: file_fixture("moon.jpg").open, filename: "avatar.jpg", content_type: "image/jpeg"
+        user.avatar.blob
+      end
     end
 end
