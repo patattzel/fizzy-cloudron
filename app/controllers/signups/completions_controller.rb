@@ -12,6 +12,7 @@ class Signups::CompletionsController < ApplicationController
     @signup = Signup.new(signup_params)
 
     if @signup.complete
+      flash[:welcome_letter] = true
       redirect_to landing_url(script_name: @signup.account.slug)
     else
       render :new, status: :unprocessable_entity
