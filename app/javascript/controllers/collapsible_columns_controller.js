@@ -112,7 +112,7 @@ export default class extends Controller {
     localStorage.setItem(key, true)
 
     if (window.matchMedia('(max-width: 639px)').matches) {
-      column.scrollIntoView({ behavior: "smooth", inline: "nearest" })
+      column.scrollIntoView({ behavior: "smooth", inline: "center" })
     }
   }
 

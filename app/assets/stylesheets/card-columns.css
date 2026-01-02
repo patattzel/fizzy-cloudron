@@ -117,12 +117,11 @@
     inline-size: var(--column-width-expanded);
     outline: none;
     position: relative;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
 
     &.is-expanded {
       @media (max-width: 639px) {
         overflow: hidden;
-        scroll-snap-align: center;
       }
     }
 
