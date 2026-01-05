@@ -18,7 +18,7 @@ class User::AccessorTest < ActiveSupport::TestCase
     board = boards(:writebook)
 
     freeze_time do
-      card = user.draft_new_card_at(board)
+      card = user.draft_new_card_in(board)
 
       assert card.persisted?
       assert card.drafted?
@@ -36,7 +36,7 @@ class User::AccessorTest < ActiveSupport::TestCase
     board = existing_draft.board
 
     freeze_time do
-      card = user.draft_new_card_at(board)
+      card = user.draft_new_card_in(board)
 
       assert_equal existing_draft, card
       assert_equal Time.current, card.created_at

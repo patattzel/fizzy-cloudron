@@ -12,7 +12,7 @@ class CardsController < ApplicationController
   def create
     respond_to do |format|
       format.html do
-        card = Current.user.draft_new_card_at(@board)
+        card = Current.user.draft_new_card_in(@board)
         redirect_to card
       end
 
