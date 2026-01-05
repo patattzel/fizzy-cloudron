@@ -320,7 +320,6 @@
       display: grid;
       grid-template-areas: "menu expander maximize";
       grid-template-columns: var(--column-width-collapsed) 1fr var(--column-width-collapsed);
-      margin-block-end: calc(0.5 * var(--cards-gap));
       padding-inline: var(--column-padding);
     }
   }
@@ -364,6 +363,7 @@
     font-weight: 600;
     gap: 0.5ch;
     grid-area: expander;
+    outline: none;
     outline-offset: -2px;
     position: relative;
     text-transform: uppercase;
@@ -414,7 +414,7 @@
         block-size: 100%;
         content: "";
         inline-size: 1px;
-        inset: 0 auto;
+        inset-block: calc(var(--column-width-collapsed) + var(--card-count) * var(--progress-increment)) 0;
         position: absolute;
         z-index: -2;
       }
@@ -639,7 +639,7 @@
     text-align: center;
 
     @media (min-width: 800px) {
-      margin-inline: var(--column-padding);
+      margin: var(--column-padding) var(--column-padding) 0;
     }
 
     &:has(dialog[open]) {

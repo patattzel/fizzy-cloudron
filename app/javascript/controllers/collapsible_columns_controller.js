@@ -103,13 +103,15 @@ export default class extends Controller {
     localStorage.removeItem(key)
   }
 
-  #expand(column) {
-    const key = this.#localStorageKeyFor(column)
-
+  #expand(column, saveState = true) {
     this.#buttonFor(column)?.setAttribute("aria-expanded", "true")
     column.classList.remove(this.collapsedClass)
     column.classList.add(this.expandedClass)
-    localStorage.setItem(key, true)
+
+    if (saveState) {
+      const key = this.#localStorageKeyFor(column)
+      localStorage.setItem(key, true)
+    }
 
     if (window.matchMedia('(max-width: 639px)').matches) {
       column.scrollIntoView({ behavior: "smooth", inline: "center" })
@@ -129,6 +131,7 @@ export default class extends Controller {
   #restoreColumn(column) {
     const key = this.#localStorageKeyFor(column)
     if (localStorage.getItem(key)) {
+      this.#collapseAllExcept(column)
       this.#expand(column)
     }
   }
@@ -165,15 +168,20 @@ export default class extends Controller {
   }
 
   async #handleDesktopMode() {
-    this.#expand(this.maybeColumnTarget)
+    this.#expand(this.maybeColumnTarget, false)
     this.#maybeButton.setAttribute("disabled", true)
   }
 
   #handleMobileMode() {
     this.#maybeButton.removeAttribute("disabled")
-    this.columnTargets.forEach(column => {
-      this.#collapse(column)
-    })
+
+    const expandedColumn = this.columnTargets.find(column => column !== this.maybeColumnTarget && !this.#isCollapsed(column))
+
+    if (expandedColumn) {
+      this.#collapseAllExcept(expandedColumn)
+    } else {
+      this.#collapseAllExcept(this.maybeColumnTarget)
+    }
   }
 
   get #maybeButton() {
