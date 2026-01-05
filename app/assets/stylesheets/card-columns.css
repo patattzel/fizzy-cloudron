@@ -91,6 +91,10 @@
     display: flex;
     gap: var(--column-gap);
     position: relative;
+
+    @media (max-width: 639px) {
+      min-block-size: 0;
+    }
   }
 
   .card-columns__left {
