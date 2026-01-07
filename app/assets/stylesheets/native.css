@@ -34,6 +34,11 @@
       margin-block-start: 0;
     }
 
+    .card-perma__bg {
+      border-start-start-radius: calc(0.2em + clamp(0.25rem, 2vw, var(--padding-block)));
+      border-start-end-radius: calc(0.2em + clamp(0.25rem, 2vw, var(--padding-block)));
+    }
+
     /* Search
     /* ------------------------------------------------------------------------ */
 
