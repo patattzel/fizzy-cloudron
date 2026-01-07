@@ -13,7 +13,12 @@
       :not(:has(.header__title, .header__actions)),
       :not(:has(.header__title, .header__actions--end)):has(.header__actions--start .btn--back:only-child)
     ) {
-      display: none;
+      block-size: var(--custom-safe-inset-top);
+      padding: unset;
+
+      * {
+        display: none;
+      }
     }
 
     .header__actions {
