@@ -6,10 +6,12 @@ class My::PinsController < ApplicationController
 
   private
     def pins_for_request
+      pins = Current.user.pins.includes(:card).ordered
+
       if request.format.json?
-        Current.user.pins.includes(:card).ordered
+        pins.limit(100)
       else
-        Current.user.pins.includes(:card).ordered.limit(20)
+        pins.limit(20)
       end
     end
 end
