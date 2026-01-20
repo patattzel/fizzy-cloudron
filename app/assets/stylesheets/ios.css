@@ -1,4 +1,12 @@
 @layer platform {
+  :root[data-text-size=xsmall]:has([data-platform~=ios]) { font-size: 14px; }
+  :root[data-text-size=small]:has([data-platform~=ios]) { font-size: 15px; }
+  :root[data-text-size=medium]:has([data-platform~=ios]) { font-size: 16px; }
+  :root[data-text-size=large]:has([data-platform~=ios]) { font-size: 17px; }
+  :root[data-text-size=xlarge]:has([data-platform~=ios]) { font-size: 19px; }
+  :root[data-text-size=xxlarge]:has([data-platform~=ios]) { font-size: 21px; }
+  :root[data-text-size=xxxlarge]:has([data-platform~=ios]) { font-size: 23px; }
+
   [data-platform~=ios] {
     .hide-on-ios {
       display: none;
