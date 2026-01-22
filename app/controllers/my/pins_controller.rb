@@ -1,17 +1,15 @@
 class My::PinsController < ApplicationController
   def index
-    @pins = pins_for_request
+    @pins = user_pins
     fresh_when etag: [ @pins, @pins.collect(&:card) ]
   end
 
   private
-    def pins_for_request
-      pins = Current.user.pins.includes(:card).ordered
+    def user_pins
+      Current.user.pins.includes(:card).ordered.limit(pins_limit)
+    end
 
-      if request.format.json?
-        pins.limit(100)
-      else
-        pins.limit(20)
-      end
+    def pins_limit
+      request.format.json? ? 100 : 20
     end
 end
