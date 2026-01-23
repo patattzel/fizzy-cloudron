@@ -1,6 +1,10 @@
 require "test_helper"
 
 class Card::CommentableTest < ActiveSupport::TestCase
+  setup do
+    Current.session = sessions(:david)
+  end
+
   test "capturing comments" do
     assert_difference -> { cards(:logo).comments.count }, +1 do
       cards(:logo).comments.create!(body: "Agreed.")
@@ -18,5 +22,10 @@ class Card::CommentableTest < ActiveSupport::TestCase
     end
 
     assert cards(:text).watched_by?(users(:kevin))
+  end
+
+  test "commentable is true for published cards, false for drafts" do
+    assert cards(:logo).commentable?
+    assert_not cards(:unfinished_thoughts).commentable?
   end
 end

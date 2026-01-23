@@ -5,6 +5,10 @@ module Card::Commentable
     has_many :comments, dependent: :destroy
   end
 
+  def commentable?
+    published?
+  end
+
   private
     STORAGE_BATCH_SIZE = 1000
 
