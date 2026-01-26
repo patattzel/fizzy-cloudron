@@ -39,7 +39,7 @@
         <span>Get QR code</span>
       <% end %>
 
-      <dialog class="dialog panel shadow" data-dialog-target="dialog">
+      <dialog class="dialog panel shadow" data-dialog-target="dialog" style="--panel-size: 50ch;">
         <p class="margin-none-block-start"><strong>Scan this code with the camera on your mobile device</strong></p>
 
         <%= qr_code_image(url) %>

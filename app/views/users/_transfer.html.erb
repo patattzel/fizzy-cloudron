@@ -18,7 +18,7 @@
         <span class="for-screen-reader">Display auto-login QR code</span>
       <% end %>
 
-      <dialog class="dialog panel shadow" data-dialog-target="dialog">
+      <dialog class="dialog panel shadow" data-dialog-target="dialog" style="--panel-size: 50ch;">
         <%= qr_code_image(url) %>
 
         <form method="dialog" class="margin-block-start flex justify-center">
