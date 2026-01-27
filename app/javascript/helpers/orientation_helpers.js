@@ -8,16 +8,26 @@ export function orient({ target, anchor = null, reset = false }) {
 
   const targetGeometry = geometry(target)
   const anchorGeometry = geometry(anchor)
+  const shouldOrientLeft = targetGeometry.spaceOnRight < EDGE_THRESHOLD && targetGeometry.spaceOnRight < targetGeometry.spaceOnLeft
+  const shouldOrientRight = targetGeometry.spaceOnLeft < EDGE_THRESHOLD && targetGeometry.spaceOnLeft < targetGeometry.spaceOnRight
 
-  if (targetGeometry.spaceOnRight < EDGE_THRESHOLD && targetGeometry.spaceOnRight < targetGeometry.spaceOnLeft) {
-    const offset = Math.min(0, anchorGeometry.spaceOnLeft + anchorGeometry.width - targetGeometry.width) * -1
-    target.classList.add("orient-left")
-    target.style.setProperty("--orient-offset", `${offset}px`)
-  } else if (targetGeometry.spaceOnLeft < EDGE_THRESHOLD && targetGeometry.spaceOnLeft < targetGeometry.spaceOnRight) {
-    const offset = Math.max(0, anchorGeometry.spaceOnLeft + targetGeometry.width - window.innerWidth) * -1
-    target.classList.add("orient-right")
-    target.style.setProperty("--orient-offset", `${offset}px`)
+  if (shouldOrientLeft) {
+    orientLeft({ el: target, targetGeometry, anchorGeometry })
+  } else if (shouldOrientRight) {
+    orientRight({ el: target, targetGeometry, anchorGeometry })
   }
+}
+
+function orientLeft({ el, targetGeometry, anchorGeometry }) {
+  const offset = Math.min(0, anchorGeometry.spaceOnLeft + anchorGeometry.width - targetGeometry.width) * -1
+  el.classList.add("orient-left")
+  el.style.setProperty("--orient-offset", `${offset}px`)
+}
+
+function orientRight({ el, targetGeometry, anchorGeometry }) {
+  const offset = Math.max(0, anchorGeometry.spaceOnLeft + targetGeometry.width - window.innerWidth) * -1
+  el.classList.add("orient-right")
+  el.style.setProperty("--orient-offset", `${offset}px`)
 }
 
 function geometry(el) {
