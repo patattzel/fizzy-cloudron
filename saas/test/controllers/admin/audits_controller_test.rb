@@ -38,4 +38,38 @@ class Admin::AuditsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unauthorized
   end
+
+  test "valid bearer token is allowed" do
+    token = Audits1984::AuditorToken.generate_for(identities(:david))
+
+    untenanted do
+      get saas.admin_audits1984_path, headers: { "Authorization" => "Bearer #{token}" }
+    end
+
+    assert_response :success
+  end
+
+  test "expired bearer token is forbidden" do
+    token = Audits1984::AuditorToken.generate_for(identities(:david))
+    Audits1984::AuditorToken.update_all(expires_at: 1.day.ago)
+
+    untenanted do
+      get saas.admin_audits1984_path, headers: { "Authorization" => "Bearer #{token}" }
+    end
+
+    assert_response :unauthorized
+  end
+
+  test "bearer token for non-staff user is forbidden" do
+    # Even with a valid token, non-staff users should be denied access.
+    # This handles the case where a user's staff privileges are revoked
+    # after a token was issued.
+    token = Audits1984::AuditorToken.generate_for(identities(:jz))
+
+    untenanted do
+      get saas.admin_audits1984_path, headers: { "Authorization" => "Bearer #{token}" }
+    end
+
+    assert_response :forbidden
+  end
 end
