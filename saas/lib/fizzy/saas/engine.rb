@@ -124,6 +124,7 @@ module Fizzy
         config.console1984.protected_environments = %i[ production beta staging ]
         config.console1984.ask_for_username_if_empty = true
         config.console1984.base_record_class = "::SaasRecord"
+        config.console1984.incinerate_after = 60.days
 
         config.audits1984.base_controller_class = "::SaasAdminController"
         config.audits1984.auditor_class = "::Identity"
