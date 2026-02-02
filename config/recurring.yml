@@ -27,6 +27,9 @@ production: &production
   cleanup_exports:
     command: "Export.cleanup"
     schedule: every hour at minute 20
+  cleanup_imports:
+    command: "Account::Import.cleanup"
+    schedule: every hour at minute 25
   incineration:
     class: "Account::IncinerateDueJob"
     schedule: every 8 hours at minute 16

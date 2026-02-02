@@ -8,6 +8,12 @@ class Account::Import < ApplicationRecord
 
   enum :status, %w[ pending processing completed failed ].index_by(&:itself), default: :pending
 
+  scope :expired, -> { where(completed_at: ...24.hours.ago) }
+
+  def self.cleanup
+    expired.destroy_all
+  end
+
   def process_later
     ImportAccountDataJob.perform_later(self)
   end
@@ -39,7 +45,7 @@ class Account::Import < ApplicationRecord
 
   private
     def mark_completed
-      completed!
+      update!(status: :completed, completed_at: Time.current)
       ImportMailer.completed(identity, account).deliver_later
     end
 
