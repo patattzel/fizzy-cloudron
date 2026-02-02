@@ -8,7 +8,7 @@ class Users::DataExportsControllerTest < ActionDispatch::IntegrationTest
 
   test "create creates an export record and enqueues job" do
     assert_difference -> { User::DataExport.count }, 1 do
-      assert_enqueued_with(job: ExportDataJob) do
+      assert_enqueued_with(job: DataExportJob) do
         post user_data_exports_path(@user)
       end
     end

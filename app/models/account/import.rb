@@ -15,7 +15,7 @@ class Account::Import < ApplicationRecord
   end
 
   def process_later
-    ImportAccountDataJob.perform_later(self)
+    Account::DataImportJob.perform_later(self)
   end
 
   def check(start: nil, callback: nil)

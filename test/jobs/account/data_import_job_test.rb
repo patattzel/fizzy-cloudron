@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ImportAccountDataJobTest < ActiveJob::TestCase
+class Account::DataImportJobTest < ActiveJob::TestCase
   test "performs import via continuable steps" do
     source_account = accounts("37s")
     exporter = users(:david)
@@ -20,7 +20,7 @@ class ImportAccountDataJobTest < ActiveJob::TestCase
       import.file.attach(io: File.open(export_tempfile.path), filename: "export.zip", content_type: "application/zip")
     end
 
-    ImportAccountDataJob.perform_now(import)
+    Account::DataImportJob.perform_now(import)
 
     assert import.reload.completed?
   ensure

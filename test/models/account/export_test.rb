@@ -1,10 +1,10 @@
 require "test_helper"
 
 class Account::ExportTest < ActiveSupport::TestCase
-  test "build_later enqueues ExportDataJob" do
+  test "build_later enqueues DataExportJob" do
     export = Account::Export.create!(account: Current.account, user: users(:david))
 
-    assert_enqueued_with(job: ExportDataJob, args: [ export ]) do
+    assert_enqueued_with(job: DataExportJob, args: [ export ]) do
       export.build_later
     end
   end

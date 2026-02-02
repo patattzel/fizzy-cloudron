@@ -14,7 +14,7 @@ class Export < ApplicationRecord
   end
 
   def build_later
-    ExportDataJob.perform_later(self)
+    DataExportJob.perform_later(self)
   end
 
   def build

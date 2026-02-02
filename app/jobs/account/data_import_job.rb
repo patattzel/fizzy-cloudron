@@ -1,4 +1,4 @@
-class ImportAccountDataJob < ApplicationJob
+class Account::DataImportJob < ApplicationJob
   include ActiveJob::Continuable
 
   queue_as :backend
