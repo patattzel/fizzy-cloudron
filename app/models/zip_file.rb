@@ -45,6 +45,7 @@ class ZipFile
         # needs a write-based stream. The TransferManager's upload_stream
         # yields a writable IO that we can stream directly to.
         service.send(:upload_stream, key: blob.key, part_size: 100.megabytes) do |write_stream|
+          write_stream.binmode
           writer.stream_to(write_stream)
           yield writer
           writer.close
