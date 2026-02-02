@@ -27,4 +27,8 @@ class ZipFile::Reader::ExtractorIO
     @extractor = @entry.extractor_from(@io)
     0
   end
+
+  def size
+    @entry.uncompressed_size
+  end
 end
