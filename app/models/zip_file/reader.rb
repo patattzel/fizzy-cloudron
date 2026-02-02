@@ -9,12 +9,10 @@ class ZipFile::Reader
     raise ArgumentError, "File not found in zip: #{file_path}" unless entry
     raise ArgumentError, "Cannot read directory entry: #{file_path}" if entry.filename.end_with?("/")
 
-    extractor = entry.extractor_from(@io)
-
     if block_given?
-      yield ZipFile::Reader::ExtractorIO.new(extractor)
+      yield ZipFile::Reader::ExtractorIO.new(entry, @io)
     else
-      extractor.extract
+      entry.extractor_from(@io).extract
     end
   end
 

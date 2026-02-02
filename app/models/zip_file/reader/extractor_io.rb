@@ -1,6 +1,8 @@
 class ZipFile::Reader::ExtractorIO
-  def initialize(extractor)
-    @extractor = extractor
+  def initialize(entry, io)
+    @entry = entry
+    @io = io
+    @extractor = @entry.extractor_from(@io)
   end
 
   def read(length = nil, buffer = nil)
@@ -19,5 +21,10 @@ class ZipFile::Reader::ExtractorIO
 
   def eof?
     @extractor.eof?
+  end
+
+  def rewind
+    @extractor = @entry.extractor_from(@io)
+    0
   end
 end
