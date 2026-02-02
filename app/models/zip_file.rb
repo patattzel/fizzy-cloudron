@@ -65,7 +65,7 @@ class ZipFile
 
       def read_from_s3(blob)
         url = blob.url(expires_in: 6.hour)
-        remote_io = ZipKit::RemoteIO.new(url)
+        remote_io = RemoteIO.new(url)
         reader = Reader.new(remote_io)
         yield reader
       end
