@@ -11,7 +11,7 @@ class Account::Import < ApplicationRecord
   scope :expired, -> { where(completed_at: ...24.hours.ago).or(where(status: :failed, created_at: ...7.days.ago)) }
 
   def self.cleanup
-    expired.destroy_all
+    expired.each(&:cleanup)
   end
 
   def process_later
@@ -47,6 +47,11 @@ class Account::Import < ApplicationRecord
   rescue => e
     mark_as_failed
     raise e
+  end
+
+  def cleanup
+    destroy
+    account.destroy if failed?
   end
 
   private

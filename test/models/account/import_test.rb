@@ -1,6 +1,32 @@
 require "test_helper"
 
 class Account::ImportTest < ActiveSupport::TestCase
+  test "cleanup deletes completed imports older than 24 hours" do
+    identity = identities(:david)
+    old_completed = Account::Import.create!(account: Current.account, identity: identity, status: :completed, completed_at: 25.hours.ago)
+    recent_completed = Account::Import.create!(account: Current.account, identity: identity, status: :completed, completed_at: 23.hours.ago)
+
+    Account::Import.cleanup
+
+    assert_not Account::Import.exists?(old_completed.id)
+    assert Account::Import.exists?(recent_completed.id)
+  end
+
+  test "cleanup destroys accounts for failed imports older than 7 days" do
+    identity = identities(:david)
+    old_failed_account = Account.create!(name: "Old Failed Import")
+    old_failed = Account::Import.create!(account: old_failed_account, identity: identity, status: :failed, created_at: 8.days.ago)
+    recent_failed_account = Account.create!(name: "Recent Failed Import")
+    recent_failed = Account::Import.create!(account: recent_failed_account, identity: identity, status: :failed, created_at: 6.days.ago)
+
+    Account::Import.cleanup
+
+    assert_not Account::Import.exists?(old_failed.id)
+    assert_not Account.exists?(old_failed_account.id)
+    assert Account::Import.exists?(recent_failed.id)
+    assert Account.exists?(recent_failed_account.id)
+  end
+
   test "export and import round-trip preserves account data" do
     source_account = accounts("37s")
     exporter = users(:david)
