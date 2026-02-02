@@ -33,9 +33,10 @@ class Account::DataTransfer::Manifest
           ::Assignment, ::Tagging, ::Closure, ::Card::Goldness, ::Card::NotNow,
           ::Card::ActivitySpike, ::Watch, ::Pin, ::Reaction, ::Mention,
           ::Filter, ::Webhook::DelinquencyTracker, ::Event,
-          ::Notification, ::Notification::Bundle, ::Webhook::Delivery,
-          ::ActiveStorage::Blob, ::ActiveStorage::Attachment
+          ::Notification, ::Notification::Bundle, ::Webhook::Delivery
         ),
+        Account::DataTransfer::ActiveStorageBlobRecordSet.new(account),
+        *build_record_sets(::ActiveStorage::Attachment),
         Account::DataTransfer::ActionTextRichTextRecordSet.new(account),
         Account::DataTransfer::BlobFileRecordSet.new(account)
       ]

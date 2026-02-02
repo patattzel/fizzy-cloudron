@@ -40,6 +40,9 @@ class Account::Import < ApplicationRecord
       end
     end
 
+    add_importer_to_all_access_boards
+    reconcile_account_storage
+
     mark_completed
   rescue => e
     mark_as_failed
@@ -55,5 +58,19 @@ class Account::Import < ApplicationRecord
     def mark_as_failed
       failed!
       ImportMailer.failed(identity).deliver_later
+    end
+
+    def add_importer_to_all_access_boards
+      importer = account.users.find_by!(identity: identity)
+
+      account.boards.all_access.find_each do |board|
+        board.accesses.grant_to(importer)
+      end
+    end
+
+    def reconcile_account_storage
+      account.boards.each(&:reconcile_storage)
+      account.reconcile_storage
+      account.materialize_storage
     end
 end
