@@ -85,6 +85,8 @@ Rails.application.routes.draw do
       resource :reading
       resource :triage
       resource :watch
+      resource :self_assignment, only: :create
+      resources :reactions, only: %i[ index new create destroy ]
       resource :reading
 
       resources :assignments
