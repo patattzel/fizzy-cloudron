@@ -1,6 +1,6 @@
 # Fizzy on Cloudron
 
-This repo is configured to run Fizzy as a Cloudron app using the supplied `Dockerfile.cloudron`, `CloudronManifest.json`, and `cloudron/start.sh`.
+This repo is configured to run Fizzy as a Cloudron app using the supplied `Dockerfile`, `CloudronManifest.json`, and `cloudron/start.sh`.
 
 ## Build & install on Cloudron
 
@@ -8,7 +8,7 @@ The CLI option `cloudron build` with a custom Dockerfile is not available everyw
 
 1) Build and push (bump `version` in `CloudronManifest.json` when updating):
 ```sh
-docker build -f Dockerfile.cloudron -t <registry>/fizzy-cloudron:<tag> .
+docker build -f Dockerfile -t <registry>/fizzy-cloudron:<tag> .
 docker push <registry>/fizzy-cloudron:<tag>
 ```
 
