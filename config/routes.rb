@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resource :avatar
       resource :role
       resource :events
+      resources :data_exports, only: %i[ show create ]
 
       resources :push_subscriptions
 
