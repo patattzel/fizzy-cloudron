@@ -138,7 +138,6 @@
             "avatars-assignees text-assignees";
 
           .card__meta-text--assignees {
-            margin-inline-end: calc(var(--btn-size) + var(--meta-spacer-block));
             margin-block-start: unset;
           }
 
@@ -168,6 +167,16 @@
 
         .card__meta-avatars--assignees .avatar {
           display: grid;
+        }
+      }
+    }
+
+    @media (max-width: 639px) {
+      &:not(:has(.reactions .reaction)) {
+        .card__meta:not(:has(.card__meta-avatars--assignees .avatar)) {
+          .card__meta-text--assignees {
+            margin-inline-end: calc(var(--btn-size) + var(--meta-spacer-block));
+          }
         }
       }
     }
