@@ -228,6 +228,12 @@
       &:hover {
         scale: 1.3;
       }
+
+      @media (any-hover: none) {
+        --btn-size: calc(1.6rem * 1.3);
+
+        font-size: 1.6rem;
+      }
     }
   }
 }
