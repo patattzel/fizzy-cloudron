@@ -172,12 +172,17 @@
     }
 
     @media (max-width: 639px) {
-      &:not(:has(.reactions .reaction)) {
-        .card__meta:not(:has(.card__meta-avatars--assignees .avatar)) {
-          .card__meta-text--assignees {
-            margin-inline-end: calc(var(--btn-size) + var(--meta-spacer-block));
-          }
+      &:not(:has(.reactions .reaction)):is(
+        :not(:has(.card__meta-avatars--assignees .avatar)),
+        :has(.card__closed)
+      ) {
+        .card__meta-text--assignees {
+          margin-inline-end: calc(var(--btn-size) + var(--meta-spacer-block));
         }
+      }
+
+      &:has(.card__closed) {
+        padding-block-start: 2rem;
       }
     }
 
