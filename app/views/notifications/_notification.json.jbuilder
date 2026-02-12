@@ -12,6 +12,8 @@ json.cache! notification do
   json.card do
     json.(notification.card, :id, :number, :title, :status)
     json.board_name notification.card.board.name
+    json.closed notification.card.closed?
+    json.postponed notification.card.postponed?
     json.url card_url(notification.card)
     json.column notification.card.column, partial: "columns/column", as: :column if notification.card.column
   end
