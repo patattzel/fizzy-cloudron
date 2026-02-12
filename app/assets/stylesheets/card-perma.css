@@ -137,10 +137,6 @@
             "... text-updated"
             "avatars-assignees text-assignees";
 
-          .card__meta-text--assignees {
-            margin-block-start: unset;
-          }
-
           .card__meta-avatars--assignees {
             margin-block-start: calc(var(--meta-spacer-block) * -1);
           }
@@ -183,6 +179,16 @@
 
       &:has(.card__closed) {
         padding-block-start: 2rem;
+
+        .card__meta-text--assignees {
+          margin-block-start: var(--meta-spacer-block);
+        }
+      }
+
+      &:not(:has(.card__closed), :has(.card__meta-avatars--assignees .avatar)) {
+        .card__meta-text--assignees {
+          margin-block-start: unset;
+        }
       }
     }
 
