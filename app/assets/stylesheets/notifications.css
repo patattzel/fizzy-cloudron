@@ -95,12 +95,12 @@
     display: none;
 
     .notifications--on & {
-      display: inline;
+      display: revert;
     }
   }
 
   .notifications__off-message {
-    display: inline;
+    display: revert;
 
     .notifications--on & {
       display: none;
