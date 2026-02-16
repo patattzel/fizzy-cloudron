@@ -9,7 +9,7 @@ class Notification < ApplicationRecord
 
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
-  scope :ordered, -> { order(read_at: :desc, updated_at: :desc, id: :desc) }
+  scope :ordered, -> { order(read_at: :desc, updated_at: :desc) }
   scope :preloaded, -> {
     preload(
       :creator, :account,
