@@ -6,8 +6,8 @@ class BoardsController < ApplicationController
 
   def index
     if request.format.json?
-      @boards = Current.user.boards.ordered_by_recently_accessed
-      fresh_when @boards
+      set_page_and_extract_portion_from Current.user.boards.ordered_by_recently_accessed
+      fresh_when etag: @page.records
     else
       set_page_and_extract_portion_from Current.user.boards
     end
