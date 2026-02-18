@@ -113,6 +113,15 @@ GIT
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
 
+GIT
+  remote: https://github.com/rails/web-console.git
+  revision: bdbb39114348b037a515b2ce75a47457b0e647d1
+  specs:
+    web-console (4.2.1)
+      actionview (>= 8.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 8.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -460,11 +469,6 @@ GEM
     unicode-emoji (4.1.0)
     uri (1.1.1)
     vcr (6.4.0)
-    web-console (4.2.1)
-      actionview (>= 6.0.0)
-      activemodel (>= 6.0.0)
-      bindex (>= 0.4.0)
-      railties (>= 6.0.0)
     web-push (3.1.0)
       jwt (~> 3.0)
       openssl (>= 3.0)
@@ -536,7 +540,7 @@ DEPENDENCIES
   turbo-rails
   useragent!
   vcr
-  web-console
+  web-console!
   web-push
   webmock
   zip_kit
