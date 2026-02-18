@@ -188,6 +188,9 @@ GEM
   specs:
     action_text-trix (2.1.16)
       railties
+    actionpack-xml_parser (2.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
     activemodel-serializers-xml (1.0.3)
       activemodel (>= 5.0.0.a)
       activesupport (>= 5.0.0.a)
@@ -643,6 +646,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  actionpack-xml_parser
   activeresource
   audits1984!
   autotuner
