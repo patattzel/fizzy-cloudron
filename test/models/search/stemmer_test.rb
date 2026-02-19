@@ -18,4 +18,10 @@ class Search::StemmerTest < ActiveSupport::TestCase
 
     assert_equal "bc3 io 1d8b", result
   end
+
+  test "stem words separated by repeated punctuation" do
+    result = Search::Stemmer.stem("foo---bar")
+
+    assert_equal "foo bar", result
+  end
 end
