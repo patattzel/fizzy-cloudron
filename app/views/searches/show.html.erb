@@ -1,4 +1,4 @@
-<% @page_title = !params[:q].blank? ? "Search results for \"#{params[:q]}\"" : "Search" %>
+<% @page_title = @query ? "Search results for \"#{@query}\"" : "Search" %>
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
@@ -8,8 +8,8 @@
   <h1 class="header__title" data-bridge--title-target="header"><%= @page_title %></h1>
 <% end %>
 
-<%= tag.div(class: token_list("search-perma", {"search-perma--empty": params[:q].blank?}, "margin-block-start")) do %>
-  <%= render "form", query_terms: params[:q] %>
+<%= tag.div(class: token_list("search-perma", {"search-perma--empty": !@query}, "margin-block-start")) do %>
+  <%= render "form", query_terms: @query %>
   <%= turbo_frame_tag "bar_content" do %>
     <% if @card %>
       <%= auto_submit_form_with url: card_path(@card), method: :get, data: { turbo_action: "advance", turbo_frame: "_top", search_redirect: true } %>

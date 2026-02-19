@@ -2,6 +2,7 @@ class SearchesController < ApplicationController
   include Turbo::DriveHelper
 
   def show
+    @query = params[:q].blank? ? nil : params[:q]
     if card = Current.user.accessible_cards.find_by_id(params[:q])
       @card = card
     else
