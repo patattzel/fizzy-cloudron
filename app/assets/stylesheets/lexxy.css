@@ -141,7 +141,9 @@
     }
 
     ol, ul {
-      padding-inline-start: 1ch;
+      &:not(.lexxy-prompt-menu) {
+        padding-inline-start: 1ch;
+      }
     }
 
     blockquote {
