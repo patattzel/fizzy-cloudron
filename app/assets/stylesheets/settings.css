@@ -3,13 +3,20 @@
     --settings-spacer: var(--block-space);
     --settings-item-padding-inline: 0.5ch;
 
-    display: grid;
+    align-items: start;
+    display: flex;
     gap: calc(var(--settings-spacer) * 2);
+    flex-direction: column;
+    justify-content: center;
     margin: 0 auto;
     max-inline-size: min(100ch, 100%);
 
     @media (min-width: 960px) {
-      grid-template-columns: repeat(2, 1fr);
+      flex-direction: row;
+
+      .settings__panel {
+        max-inline-size: 50%;
+      }
     }
   }
 
