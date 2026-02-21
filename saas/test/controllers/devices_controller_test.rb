@@ -25,6 +25,14 @@ class DevicesControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", /No devices registered/
   end
 
+  test "show notification settings with registered devices" do
+    @identity.devices.create!(token: "test_token", platform: "apple", name: "iPhone 15 Pro")
+
+    get notifications_settings_path
+
+    assert_response :success
+  end
+
   test "index requires authentication" do
     sign_out
 
