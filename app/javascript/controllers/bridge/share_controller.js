@@ -3,9 +3,9 @@ import { BridgeComponent } from "@hotwired/hotwire-native-bridge"
 export default class extends BridgeComponent {
   static component = "share"
 
-  share() {
+  shareUrl() {
     const description = this.bridgeElement.bridgeAttribute("share-description")
-    this.send("share", {
+    this.send("shareUrl", {
       title: document.title,
       url: window.location.href,
       description
