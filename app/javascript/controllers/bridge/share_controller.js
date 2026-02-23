@@ -8,7 +8,7 @@ export default class extends BridgeComponent {
     this.send("shareUrl", {
       title: document.title,
       url: window.location.href,
-      description
+      description: description
     })
   }
 }
