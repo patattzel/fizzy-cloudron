@@ -154,12 +154,14 @@ class Account::DataTransfer::ActionText::RichTextRecordSetTest < ActiveSupport::
   end
 
   test "relativize_urls is a no-op when host is not configured" do
-    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(accounts(:"37s"))
+    with_default_url_host(nil) do
+      record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(accounts(:"37s"))
 
-    html = %(<p><a href="https://fizzy.example.com/123/cards/42">link</a></p>)
-    result = record_set.send(:relativize_urls, html)
+      html = %(<p><a href="https://fizzy.example.com/123/cards/42">link</a></p>)
+      result = record_set.send(:relativize_urls, html)
 
-    assert_includes result, "https://fizzy.example.com/123/cards/42"
+      assert_includes result, "https://fizzy.example.com/123/cards/42"
+    end
   end
 
   private
