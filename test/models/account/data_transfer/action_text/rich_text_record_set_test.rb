@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Account::DataTransfer::ActionTextRichTextRecordSetTest < ActiveSupport::TestCase
+class Account::DataTransfer::ActionText::RichTextRecordSetTest < ActiveSupport::TestCase
   test "check rejects ActionText record referencing existing card in another account" do
     importing_account = Account.create!(name: "Importing Account", external_account_id: 99999999)
 
@@ -29,7 +29,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSetTest < ActiveSupport::Te
 
     reader = ZipFile::Reader.new(tempfile)
 
-    record_set = Account::DataTransfer::ActionTextRichTextRecordSet.new(importing_account)
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(importing_account)
 
     error = assert_raises(Account::DataTransfer::RecordSet::IntegrityError) do
       record_set.check(from: reader)
@@ -50,7 +50,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSetTest < ActiveSupport::Te
     cross_tenant_gid = victim_tag.to_global_id.to_s
     html = %(<action-text-attachment gid="#{cross_tenant_gid}"></action-text-attachment>)
 
-    record_set = Account::DataTransfer::ActionTextRichTextRecordSet.new(attacker_account)
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(attacker_account)
     result = record_set.send(:convert_gids_to_sgids, html)
 
     assert_no_match(/sgid=/, result, "Cross-tenant GID must not be converted to SGID")
@@ -65,7 +65,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSetTest < ActiveSupport::Te
     same_account_gid = own_tag.to_global_id.to_s
     html = %(<action-text-attachment gid="#{same_account_gid}"></action-text-attachment>)
 
-    record_set = Account::DataTransfer::ActionTextRichTextRecordSet.new(own_account)
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(own_account)
     result = record_set.send(:convert_gids_to_sgids, html)
 
     assert_match(/sgid=/, result, "Same-account GID should be converted to SGID")
@@ -76,7 +76,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSetTest < ActiveSupport::Te
     nonexistent_gid = "gid://fizzy/Tag/00000000000000000000000000"
     html = %(<action-text-attachment gid="#{nonexistent_gid}"></action-text-attachment>)
 
-    record_set = Account::DataTransfer::ActionTextRichTextRecordSet.new(accounts(:"37s"))
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(accounts(:"37s"))
     result = record_set.send(:convert_gids_to_sgids, html)
 
     assert_no_match(/sgid=/, result, "Non-existent record should not produce SGID")

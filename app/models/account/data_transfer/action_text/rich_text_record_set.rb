@@ -1,4 +1,4 @@
-class Account::DataTransfer::ActionTextRichTextRecordSet < Account::DataTransfer::RecordSet
+class Account::DataTransfer::ActionText::RichTextRecordSet < Account::DataTransfer::RecordSet
   ATTRIBUTES = %w[
     account_id
     body
@@ -11,12 +11,12 @@ class Account::DataTransfer::ActionTextRichTextRecordSet < Account::DataTransfer
   ].freeze
 
   def initialize(account)
-    super(account: account, model: ActionText::RichText)
+    super(account: account, model: ::ActionText::RichText)
   end
 
   private
     def records
-      ActionText::RichText.where(account: account)
+      ::ActionText::RichText.where(account: account)
     end
 
     def export_record(rich_text)
@@ -35,7 +35,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSet < Account::DataTransfer
         data.slice(*ATTRIBUTES).merge("account_id" => account.id)
       end
 
-      ActionText::RichText.insert_all!(batch_data)
+      ::ActionText::RichText.insert_all!(batch_data)
     end
 
     def check_record(file_path)
@@ -58,7 +58,7 @@ class Account::DataTransfer::ActionTextRichTextRecordSet < Account::DataTransfer
       return nil if content.blank?
 
       content.send(:attachment_nodes).each do |node|
-        sgid = SignedGlobalID.parse(node["sgid"], for: ActionText::Attachable::LOCATOR_NAME)
+        sgid = SignedGlobalID.parse(node["sgid"], for: ::ActionText::Attachable::LOCATOR_NAME)
 
         record = begin
           sgid&.find
