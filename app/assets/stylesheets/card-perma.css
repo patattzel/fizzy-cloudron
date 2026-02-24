@@ -36,7 +36,11 @@
 
     @media (max-width: 639px) {
       &:has(.card__closed) {
-        padding-block-start: 2rem;
+        padding-block-start: 4.5rem;
+
+        .card-perma__bg {
+          box-shadow: 0 -2rem 0 0 var(--color-container);
+        }
       }
     }
 
@@ -96,6 +100,7 @@
       @media (max-width: 639px) {
         flex-direction: column;
         padding-block: var(--card-padding-block) calc(var(--card-padding-block) * 1.5);
+        position: static;
       }
     }
 
@@ -220,8 +225,8 @@
 
     .card__closed {
       @media (max-width: 639px) {
-        inset: auto calc(var(--card-padding-inline) * -0.5) 100% auto;
-        translate: 0 40%;
+        inset: auto 0 100% auto;
+        translate: 0 30%;
         scale: 75%;
       }
     }
