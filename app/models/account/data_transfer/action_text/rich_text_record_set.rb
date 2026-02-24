@@ -31,7 +31,7 @@ class Account::DataTransfer::ActionText::RichTextRecordSet < Account::DataTransf
     def import_batch(files)
       batch_data = files.map do |file|
         data = load(file)
-        data["body"] = convert_gids_to_sgids(data["body"])
+        data["body"] = transform_body_for_import(data["body"])
         data.slice(*ATTRIBUTES).merge("account_id" => account.id)
       end
 
@@ -75,11 +75,16 @@ class Account::DataTransfer::ActionText::RichTextRecordSet < Account::DataTransf
       content.fragment.source.to_html
     end
 
-    def convert_gids_to_sgids(html)
-      return html if html.blank?
+    def transform_body_for_import(body)
+      return body if body.blank?
 
-      fragment = Nokogiri::HTML.fragment(html)
+      Nokogiri::HTML.fragment(body)
+        .then { convert_gids_to_sgids(it) }
+        .then { replace_account_slugs(it) }
+        .to_html
+    end
 
+    def convert_gids_to_sgids(fragment)
       fragment.css("action-text-attachment[gid]").each do |node|
         gid = GlobalID.parse(node["gid"])
 
@@ -97,6 +102,20 @@ class Account::DataTransfer::ActionText::RichTextRecordSet < Account::DataTransf
         end
       end
 
-      fragment.to_html
+      fragment
+    end
+
+    def replace_account_slugs(fragment)
+      fragment.css("a[href]").each do |link|
+        match = link["href"].match(AccountSlug::PATH_INFO_MATCH)
+
+        if match
+          path = match.post_match.presence || "/"
+          valid_path = Rails.application.routes.recognize_path(path) rescue nil
+          link["href"] = "#{account.slug}#{remaining_path}" if valid_path
+        end
+      end
+
+      fragment
     end
 end

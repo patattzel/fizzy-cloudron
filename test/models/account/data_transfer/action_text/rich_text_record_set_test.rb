@@ -42,7 +42,7 @@ class Account::DataTransfer::ActionText::RichTextRecordSetTest < ActiveSupport::
     importing_account&.destroy
   end
 
-  test "convert_gids_to_sgids skips GIDs belonging to another account" do
+  test "transform_body_for_import skips GIDs belonging to another account" do
     victim_tag = tags(:web)
     attacker_account = accounts(:initech)
     assert_not_equal attacker_account.id, victim_tag.account_id
@@ -51,13 +51,13 @@ class Account::DataTransfer::ActionText::RichTextRecordSetTest < ActiveSupport::
     html = %(<action-text-attachment gid="#{cross_tenant_gid}"></action-text-attachment>)
 
     record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(attacker_account)
-    result = record_set.send(:convert_gids_to_sgids, html)
+    result = record_set.send(:transform_body_for_import, html)
 
     assert_no_match(/sgid=/, result, "Cross-tenant GID must not be converted to SGID")
     assert_match(/gid=/, result, "Original GID should remain unconverted")
   end
 
-  test "convert_gids_to_sgids converts GIDs belonging to the same account" do
+  test "transform_body_for_import converts GIDs belonging to the same account" do
     own_tag = tags(:web)
     own_account = accounts(:"37s")
     assert_equal own_account.id, own_tag.account_id
@@ -66,19 +66,55 @@ class Account::DataTransfer::ActionText::RichTextRecordSetTest < ActiveSupport::
     html = %(<action-text-attachment gid="#{same_account_gid}"></action-text-attachment>)
 
     record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(own_account)
-    result = record_set.send(:convert_gids_to_sgids, html)
+    result = record_set.send(:transform_body_for_import, html)
 
     assert_match(/sgid=/, result, "Same-account GID should be converted to SGID")
     assert_no_match(/ gid=/, result, "GID should be removed after SGID conversion")
   end
 
-  test "convert_gids_to_sgids handles non-existent record GIDs gracefully" do
+  test "transform_body_for_import handles non-existent record GIDs gracefully" do
     nonexistent_gid = "gid://fizzy/Tag/00000000000000000000000000"
     html = %(<action-text-attachment gid="#{nonexistent_gid}"></action-text-attachment>)
 
     record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(accounts(:"37s"))
-    result = record_set.send(:convert_gids_to_sgids, html)
+    result = record_set.send(:transform_body_for_import, html)
 
     assert_no_match(/sgid=/, result, "Non-existent record should not produce SGID")
+  end
+
+  test "replace_account_slugs rewrites relative URLs with account slug" do
+    target_account = accounts(:"37s")
+    source_slug = "9999999"
+    target_slug = AccountSlug.encode(target_account.external_account_id)
+
+    html = %(<p>See <a href="/#{source_slug}/cards/42">card 42</a></p>)
+
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(target_account)
+    result = record_set.send(:transform_body_for_import, html)
+
+    assert_includes result, "/#{target_slug}/cards/42"
+    assert_not_includes result, source_slug
+  end
+
+  test "replace_account_slugs leaves absolute URLs alone" do
+    target_account = accounts(:"37s")
+
+    html = %(<p>See <a href="https://fizzy.app/9999999/boards/7">board</a></p>)
+
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(target_account)
+    result = record_set.send(:transform_body_for_import, html)
+
+    assert_includes result, "https://fizzy.app/9999999/boards/7"
+  end
+
+  test "replace_account_slugs leaves plain text alone" do
+    target_account = accounts(:"37s")
+
+    html = "<p>Nothing to rewrite here</p>"
+
+    record_set = Account::DataTransfer::ActionText::RichTextRecordSet.new(target_account)
+    result = record_set.send(:transform_body_for_import, html)
+
+    assert_equal html, result
   end
 end
