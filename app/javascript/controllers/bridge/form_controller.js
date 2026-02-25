@@ -6,13 +6,21 @@ export default class extends BridgeComponent {
   static targets = [ "submit", "cancel" ]
   static values = { submitTitle: String }
 
+  connect() {
+    window.addEventListener("beforeunload", this.handleBeforeUnload.bind(this))
+  }
+
+  disconnect() {
+    window.removeEventListener("beforeunload", this.handleBeforeUnload.bind(this))
+  }
+
   submitTargetConnected() {
     this.notifyBridgeOfConnect()
     this.#observeSubmitTarget()
   }
 
   submitTargetDisconnected() {
-    this.notifyBridgeOfDisonnect()
+    this.notifyBridgeOfDisconnect()
     this.submitObserver?.disconnect()
   }
 
@@ -37,7 +45,7 @@ export default class extends BridgeComponent {
     }
   }
 
-  notifyBridgeOfDisonnect() {
+  notifyBridgeOfDisconnect() {
     this.send("disconnect")
   }
 
@@ -47,6 +55,10 @@ export default class extends BridgeComponent {
 
   submitEnd() {
     this.send("submitEnd")
+  }
+
+  handleBeforeUnload() {
+    this.notifyBridgeOfDisconnect()
   }
 
   #observeSubmitTarget() {
