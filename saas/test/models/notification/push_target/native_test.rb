@@ -194,6 +194,15 @@ class Notification::PushTarget::NativeTest < ActiveSupport::TestCase
     assert_equal @notification.creator.name, native.data[:creator_name]
   end
 
+  test "native notification includes base_url without account slug" do
+    @identity.devices.create!(token: "test123", platform: "apple", name: "Test iPhone")
+
+    push = Notification::PushTarget::Native.new(@notification)
+    native = push.send(:native_notification)
+
+    assert_equal "http://example.com", native.data[:base_url]
+  end
+
   private
     def assert_native_push_delivery(count: 1, &block)
       assert_enqueued_jobs count, only: ApplicationPushNotificationJob do

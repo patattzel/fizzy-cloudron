@@ -31,6 +31,10 @@ class Notification::DefaultPayload
     false
   end
 
+  def base_url
+    Rails.application.routes.url_helpers.root_url(**url_options.except(:script_name)).chomp("/")
+  end
+
   def avatar_url
     Rails.application.routes.url_helpers.user_avatar_url(notification.creator, **url_options)
   end
