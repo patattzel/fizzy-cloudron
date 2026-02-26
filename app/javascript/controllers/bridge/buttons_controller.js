@@ -21,6 +21,8 @@ export default class extends BridgeComponent {
     if (this.beforeUnloadHandler) {
       window.removeEventListener("beforeunload", this.beforeUnloadHandler)
     }
+
+    this.notifyBridgeOfDisconnect()
   }
 
   buttonTargetConnected() {
