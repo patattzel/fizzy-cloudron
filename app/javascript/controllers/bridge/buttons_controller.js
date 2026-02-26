@@ -7,10 +7,12 @@ export default class extends BridgeComponent {
 
   connect() {
     window.addEventListener("beforeunload", this.handleBeforeUnload.bind(this))
+    window.addEventListener("turbo:before-visit", this.handleBeforeVisit.bind(this))
   }
 
   disconnect() {
     window.removeEventListener("beforeunload", this.handleBeforeUnload.bind(this))
+    window.removeEventListener("turbo:before-visit", this.handleBeforeVisit.bind(this))
   }
 
   buttonTargetConnected() {
@@ -40,6 +42,10 @@ export default class extends BridgeComponent {
   }
 
   handleBeforeUnload() {
+    this.notifyBridgeOfDisconnect()
+  }
+
+  handleBeforeVisit() {
     this.notifyBridgeOfDisconnect()
   }
 
