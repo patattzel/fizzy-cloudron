@@ -7,7 +7,6 @@ BridgeElement.prototype.getButton = function() {
     displayTitle: this.getDisplayTitle(),
     isMainAction: this.getIsMainAction()
   }
-  console.log(button)
   return button
 }
 
