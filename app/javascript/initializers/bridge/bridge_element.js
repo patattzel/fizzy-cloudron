@@ -5,7 +5,7 @@ BridgeElement.prototype.getButton = function() {
     title: this.title,
     icon: this.getIcon(),
     displayTitle: this.getDisplayTitle(),
-    isMainAction: this.getIsMainAction()
+    displayAsPrimaryAction: this.getDisplayAsPrimaryAction()
   }
   return button
 }
@@ -24,6 +24,6 @@ BridgeElement.prototype.getDisplayTitle = function() {
   return !!this.bridgeAttribute(`display-title`)
 }
 
-BridgeElement.prototype.getIsMainAction = function() {
-  return !!this.bridgeAttribute(`main-action`)
+BridgeElement.prototype.getDisplayAsPrimaryAction = function() {
+  return !!this.bridgeAttribute(`display-as-primary-action`)
 }
