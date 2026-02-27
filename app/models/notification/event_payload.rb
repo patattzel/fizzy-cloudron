@@ -43,7 +43,7 @@ class Notification::EventPayload < Notification::DefaultPayload
     when "card_auto_postponed"
       "Moved to Not Now due to inactivity"
     else
-      event.creator.name
+      "Updated by #{event.creator.name}"
     end
   end
 
