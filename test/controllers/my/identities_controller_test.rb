@@ -7,7 +7,7 @@ class My::IdentitiesControllerTest < ActionDispatch::IntegrationTest
 
   test "show as JSON" do
     identity = identities(:kevin)
-    expected_count = identity.users.active.joins(:account).merge(Account.active).count
+    expected_count = identity.users_with_active_accounts.count
 
     untenanted do
       get my_identity_path, as: :json
@@ -17,20 +17,16 @@ class My::IdentitiesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "show as JSON includes active users from active accounts only" do
+  test "show as JSON includes users from active accounts only" do
     identity = identities(:kevin)
 
     active_account = Account.create!(external_account_id: 9999981, name: "Active Account")
     cancelled_account = Account.create!(external_account_id: 9999982, name: "Cancelled Account")
-    inactive_user_account = Account.create!(external_account_id: 9999983, name: "Inactive User Account")
 
     identity.users.create!(account: active_account, name: "Kevin", role: :owner)
 
     cancelling_user = identity.users.create!(account: cancelled_account, name: "Kevin", role: :owner)
     cancelled_account.cancel(initiated_by: cancelling_user)
-
-    inactive_user = identity.users.create!(account: inactive_user_account, name: "Kevin", role: :owner)
-    inactive_user.update!(active: false)
 
     untenanted do
       get my_identity_path, as: :json
@@ -40,7 +36,6 @@ class My::IdentitiesControllerTest < ActionDispatch::IntegrationTest
 
       assert_includes account_ids, active_account.id
       assert_not_includes account_ids, cancelled_account.id
-      assert_not_includes account_ids, inactive_user_account.id
     end
   end
 end
