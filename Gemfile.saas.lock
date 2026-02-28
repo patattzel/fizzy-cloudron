@@ -164,7 +164,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/web-console.git
-  revision: bdbb39114348b037a515b2ce75a47457b0e647d1
+  revision: 90e3474306f2367cfeaf2875e91e2bc2d71b5f0f
   specs:
     web-console (4.3.0)
       actionview (>= 8.0.0)
@@ -382,6 +382,7 @@ GEM
       logger
     mini_mime (1.1.5)
     minitest (6.0.2)
+      drb (~> 2.0)
       prism (~> 1.5)
     mission_control-jobs (1.1.0)
       actioncable (>= 7.1)
@@ -509,7 +510,7 @@ GEM
       minitest
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.7.0)
-      loofah (~> 2.21)
+      loofah (~> 2.25)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rainbow (3.1.1)
     rake (13.3.1)
