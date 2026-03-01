@@ -1,83 +1,71 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-# This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t fizzy .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name fizzy fizzy
-
-# For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
-
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
+# Cloudron image for Fizzy
 ARG RUBY_VERSION=3.4.7
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
-# Rails app lives here
-WORKDIR /rails
+WORKDIR /app/code
 
-# Install base packages
+# Runtime dependencies
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 libssl-dev && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 libssl-dev gosu default-mysql-client && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Set production environment variables and enable jemalloc for reduced memory usage and latency.
+# Baseline env
 ENV RAILS_ENV="production" \
+    NODE_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
-    LD_PRELOAD="/usr/local/lib/libjemalloc.so"
+    LD_PRELOAD="/usr/local/lib/libjemalloc.so" \
+    DATABASE_ADAPTER="mysql" \
+    RAILS_SERVE_STATIC_FILES="1" \
+    RAILS_LOG_TO_STDOUT="1"
 
-# Throw-away build stage to reduce size of final image
+
+# Build stage
 FROM base AS build
 
-# Install packages needed to build gems
+# Build dependencies
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Install application gems
+# Install gems
 COPY Gemfile Gemfile.lock vendor ./
-
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
     bundle exec bootsnap precompile -j 1 --gemfile
 
-# Copy application code
+# Copy app
 COPY . .
 
-# Precompile bootsnap code for faster boot times.
-# -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
+# Precompile bootsnap and assets
 RUN bundle exec bootsnap precompile -j 1 app/ lib/
-
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 DATABASE_ADAPTER=sqlite ./bin/rails assets:precompile
 
 
-
-
-# Final stage for app image
+# Final stage
 FROM base
 
-# Image metadata
-ARG OCI_DESCRIPTION
-LABEL org.opencontainers.image.description="${OCI_DESCRIPTION}"
-ARG OCI_SOURCE
-LABEL org.opencontainers.image.source="${OCI_SOURCE}"
-LABEL org.opencontainers.image.licenses="O'Saasy"
+# Create Cloudron user but keep root to chown mounted volume at runtime; start.sh drops to cloudron via gosu.
+RUN groupadd --system --gid 8000 cloudron && \
+    useradd cloudron --uid 8000 --gid 8000 --create-home --shell /bin/bash
+ENV HOME="/app/data"
 
-# Run and own only the runtime files as a non-root user for security
-RUN groupadd --system --gid 1000 rails && \
-    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
-USER 1000:1000
+COPY --chown=cloudron:cloudron --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --chown=cloudron:cloudron --from=build /app/code /app/code
 
-# Copy built artifacts: gems, application
-COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --chown=rails:rails --from=build /rails /rails
+# Prepare writable dirs pointing at /app/data (mounted by Cloudron)
+RUN mkdir -p /app/data/tmp /app/data/log /app/data/storage && \
+    rm -rf /app/code/tmp /app/code/log /app/code/storage && \
+    ln -s /app/data/tmp /app/code/tmp && \
+    ln -s /app/data/log /app/code/log && \
+    ln -s /app/data/storage /app/code/storage && \
+    chown -h cloudron:cloudron /app/code/tmp /app/code/log /app/code/storage
 
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+EXPOSE 3000
 
-# Start server via Thruster by default, this can be overwritten at runtime
-EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+CMD ["/app/code/cloudron/start.sh"]
