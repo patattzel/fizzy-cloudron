@@ -1,5 +1,8 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV.fetch("MAILER_FROM_ADDRESS", "Fizzy <support@fizzy.do>")
+  default from: ENV["MAILER_FROM_ADDRESS"] ||
+                ENV["MAIL_FROM"] ||
+                ENV["MAIL_SMTP_USERNAME"] ||
+                "Fizzy <support@fizzy.do>"
 
   layout "mailer"
   append_view_path Rails.root.join("app/views/mailers")

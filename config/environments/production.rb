@@ -68,9 +68,16 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Mount Action Cable outside main process or domain.
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  cable_host = ENV["ACTION_CABLE_HOST"] || ENV["APP_HOST"]
+  cable_origin = ENV["ACTION_CABLE_ORIGIN"] || ENV["APP_ORIGIN"]
+  if cable_host.present?
+    config.action_cable.url = ENV["ACTION_CABLE_URL"] || "wss://#{cable_host}/cable"
+    config.action_cable.allowed_request_origins = [
+      cable_origin.presence,
+      "https://#{cable_host}",
+      "http://#{cable_host}"
+    ].compact
+  end
 
   # Set DISABLE_SSL=true to disable all SSL options, rather than specify each individually
   ssl_enabled = "true" unless ENV["DISABLE_SSL"] == "true"
@@ -87,6 +94,8 @@ Rails.application.configure do
                                        .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
+  # Respect LOG_LEVEL env (default info) so Cloudron logs include useful context.
+  config.log_level = ENV.fetch("LOG_LEVEL", "info").downcase.to_sym
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
@@ -102,6 +111,9 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
   # config.active_job.queue_name_prefix = "fizzy_production"
+
+  # Active Storage: default to disk unless overridden (Cloudron uses shared volume).
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
   config.action_mailer.perform_caching = false
 

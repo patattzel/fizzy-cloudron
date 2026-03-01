@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resource :join_code
     resource :settings
     resources :exports, only: [ :create, :show ]
-    resources :imports, only: [ :new, :create, :show ]
+    resources :tags, only: %i[ update destroy ]
   end
 
   resources :users do
@@ -15,14 +15,13 @@ Rails.application.routes.draw do
       resource :avatar
       resource :role
       resource :events
+      resources :data_exports, only: %i[ show create ]
 
       resources :push_subscriptions
 
       resources :email_addresses, param: :token do
         resource :confirmation, module: :email_addresses
       end
-
-      resources :data_exports, only: [ :create, :show ]
     end
   end
 
@@ -87,12 +86,11 @@ Rails.application.routes.draw do
       resource :reading
       resource :triage
       resource :watch
+      resource :self_assignment, only: :create
+      resources :reactions, only: %i[ index new create destroy ]
       resource :reading
 
-      resources :reactions
-
       resources :assignments
-      resource :self_assignment, only: :create
       resources :steps
       resources :taggings
 
@@ -159,12 +157,14 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/signup", to: redirect("/signup/new")
+  if SignupToggle.allowed?
+    get "/signup", to: redirect("/signup/new")
 
-  resource :signup, only: %i[ new create ] do
-    collection do
-      scope module: :signups, as: :signup do
-        resource :completion, only: %i[ new create ]
+    resource :signup, only: %i[ new create ] do
+      collection do
+        scope module: :signups, as: :signup do
+          resource :completion, only: %i[ new create ]
+        end
       end
     end
   end

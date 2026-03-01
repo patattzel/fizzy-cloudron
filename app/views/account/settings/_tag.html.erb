@@ -1,0 +1,27 @@
+<li class="settings__tag-item">
+  <div class="flex flex-column gap-half flex-item-grow">
+    <%= form_with model: tag, url: account_tag_path(tag), method: :patch, class: "flex align-center gap-half" do |form| %>
+      <%= form.label :title, "Tag name", class: "for-screen-reader" %>
+
+      <div class="flex align-center gap-half flex-item-grow">
+        <span aria-hidden="true" class="txt-ink-medium">#</span>
+        <%= form.text_field :title, value: tag.title, required: true,
+              class: "input input--transparent full-width settings__tag-name",
+              readonly: !allow_changes %>
+      </div>
+
+      <%= form.button class: "btn btn--circle btn--link", title: "Rename #{tag.hashtag}", disabled: !allow_changes do %>
+        <%= icon_tag "arrow-right" %>
+        <span class="for-screen-reader">Rename tag</span>
+      <% end %>
+    <% end %>
+
+    <div class="txt-x-small txt-ink-medium"><%= pluralize(tag.cards_count, "open card") %></div>
+  </div>
+
+  <%= button_to account_tag_path(tag), method: :delete, class: "btn btn--circle btn--negative",
+        disabled: !allow_changes, data: { turbo_confirm: "Delete this tag from all cards?" } do %>
+    <%= icon_tag "remove" %>
+    <span class="for-screen-reader">Delete <%= tag.hashtag %></span>
+  <% end %>
+</li>
