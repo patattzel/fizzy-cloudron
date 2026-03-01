@@ -8,9 +8,9 @@ This repo now ships a Cloudron manifest so you can package and run Fizzy on a Cl
 - MySQL add-on, local storage, and outbound mail are provisioned automatically by Cloudron (see `CloudronManifest.json`)
 
 ## Build and install
-1. Build the image from the repo root **using the Cloudron Dockerfile**:
+1. Build the image from the repo root **using the Cloudron Dockerfile (Dockerfile.cloudron)**:
    ```sh
-   cloudron build --dockerfile Dockerfile --image fizzy-cloudron
+   cloudron build --dockerfile Dockerfile.cloudron --image fizzy-cloudron
    ```
 2. Install it (choose a subdomain for the app, e.g. `fizzy`):
    ```sh
