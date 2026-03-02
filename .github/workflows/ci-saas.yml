@@ -1,7 +1,9 @@
-name: CI (SaaS)
+name: CI (SaaS, manual only)
 
 on:
-  push:
+  # This fork depends on Basecamp's private queenbee-plugin for SaaS tests.
+  # Keep this workflow manual unless valid private repo credentials are available.
+  workflow_dispatch:
 
 permissions:
   contents: read
