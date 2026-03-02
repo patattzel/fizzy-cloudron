@@ -148,5 +148,7 @@ fi
 
 # Prepare the databases (primary + secondary schemas) and start the app.
 gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:prepare
+# db:prepare loads schema on first boot but can skip newer migrations; ensure they run.
+gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:migrate
 gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:migrate:cable db:migrate:queue db:migrate:cache
 exec gosu "${APP_USER}":"${APP_USER}" ./bin/thrust ./bin/rails server -b 0.0.0.0 -p "${PORT}"
