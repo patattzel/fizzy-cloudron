@@ -23,9 +23,14 @@ The package currently targets Cloudron `9.1.0` and newer.
 
 The primary supported installation path is the Cloudron 9.1 community app flow:
 
-1. Add this public GitHub repository as a community package source in Cloudron.
-2. Let Cloudron read `CloudronManifest.json` and `CloudronVersions.json`.
-3. Install the latest published version exposed by `CloudronVersions.json`.
+1. In the Cloudron dashboard, open Community apps.
+2. Enter this public `CloudronVersions.json` URL:
+
+```text
+https://raw.githubusercontent.com/patattzel/fizzy-cloudron/refs/heads/main/CloudronVersions.json
+```
+
+3. Let Cloudron read the version catalog and install the latest published version.
 
 This package is not documented as an official Cloudron App Store app.
 

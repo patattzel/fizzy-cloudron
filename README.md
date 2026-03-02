@@ -13,7 +13,15 @@ Cloudron recommends keeping package metadata in a dedicated public repository. T
 
 ## Install on Cloudron 9.1+
 
-The primary supported path is the Cloudron 9.1 community app flow: use this public GitHub repository as the package source so Cloudron can read `CloudronManifest.json` and `CloudronVersions.json`.
+The primary supported path is the Cloudron 9.1 community app flow.
+
+In the Cloudron dashboard, open Community apps and enter:
+
+```text
+https://raw.githubusercontent.com/patattzel/fizzy-cloudron/refs/heads/main/CloudronVersions.json
+```
+
+Cloudron reads the package metadata from that public `CloudronVersions.json` URL and offers updates automatically.
 
 For manual fallback installs, you can still install the stable package image directly:
 
