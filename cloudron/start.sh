@@ -148,6 +148,17 @@ fi
 
 # Prepare the databases (primary + secondary schemas) and start the app.
 gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:prepare
+# When Cloudron uses a single MySQL database, db:prepare loads only db/schema.rb.
+# Seed the secondary schemas into that same database on fresh installs.
+if [ -z "${MYSQL_QUEUE_DATABASE:-}" ] || [ "${MYSQL_QUEUE_DATABASE}" = "${MYSQL_DATABASE:-}" ]; then
+  gosu "${APP_USER}":"${APP_USER}" bundle exec rails runner "load Rails.root.join('db/queue_schema.rb') unless ActiveRecord::Base.connection.data_source_exists?('solid_queue_recurring_tasks')"
+fi
+if [ -z "${MYSQL_CABLE_DATABASE:-}" ] || [ "${MYSQL_CABLE_DATABASE}" = "${MYSQL_DATABASE:-}" ]; then
+  gosu "${APP_USER}":"${APP_USER}" bundle exec rails runner "load Rails.root.join('db/cable_schema.rb') unless ActiveRecord::Base.connection.data_source_exists?('solid_cable_messages')"
+fi
+if [ -z "${MYSQL_CACHE_DATABASE:-}" ] || [ "${MYSQL_CACHE_DATABASE}" = "${MYSQL_DATABASE:-}" ]; then
+  gosu "${APP_USER}":"${APP_USER}" bundle exec rails runner "load Rails.root.join('db/cache_schema.rb') unless ActiveRecord::Base.connection.data_source_exists?('solid_cache_entries')"
+fi
 # db:prepare loads schema on first boot but can skip newer migrations; ensure they run.
 gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:migrate
 gosu "${APP_USER}":"${APP_USER}" bundle exec rails db:migrate:cable db:migrate:queue db:migrate:cache
