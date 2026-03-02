@@ -4,17 +4,13 @@
   "author": "37signals",
   "description": "Fizzy is a collaborative kanban-style project management app for planning, discussing, and shipping work.",
   "tagline": "Plan, discuss, and deliver work together.",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "website": "https://fizzy.do",
   "contactEmail": "patattzel@users.noreply.github.com",
   "forumUrl": "https://github.com/patattzel/fizzy-cloudron/issues",
   "healthCheckPath": "/up",
   "httpPort": 3000,
   "documentationUrl": "https://github.com/patattzel/fizzy-cloudron/blob/main/docs/cloudron.md",
-  "iconUrl": "https://raw.githubusercontent.com/patattzel/fizzy-cloudron/main/public/app-icon.png",
-  "packagerName": "patattzel",
-  "packagerUrl": "https://github.com/patattzel/fizzy-cloudron",
-  "upstreamLicense": "O'Saasy",
   "dockerImage": "ghcr.io/patattzel/fizzy-cloudron:stable",
   "addons": {
     "localstorage": {},
@@ -23,7 +19,7 @@
   },
   "manifestVersion": 2,
   "memoryLimit": 2147483648,
-  "minBoxVersion": "9.1.0",
+  "minBoxVersion": "7.6.0",
   "icon": "public/app-icon.png",
   "tags": [
     "project",
@@ -33,6 +29,6 @@
   "mediaLinks": [
     "https://raw.githubusercontent.com/patattzel/fizzy-cloudron/main/public/app-icon.png"
   ],
-  "changelog": "Cloudron 9.1 community package metadata, release index, and publishing workflow",
+  "changelog": "Direct install manifest compatibility and Cloudron community package updates",
   "postInstallMessage": "Fizzy is ready. Open the app URL to create the first account, then review docs/cloudron.md in this repository for runtime configuration and release details."
 }
