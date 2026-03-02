@@ -1,11 +1,11 @@
-name: Build and publish container image to GHCR
+name: Publish Cloudron package image to GHCR
 
 on:
   push:
     branches:
       - main
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 concurrency:
@@ -15,16 +15,99 @@ concurrency:
 permissions:
   contents: read
   packages: write
-  id-token: write
-  attestations: write
 
 env:
-  IMAGE_DESCRIPTION: Fizzy is Kanban as it should be. Not as it has been.
+  IMAGE_DESCRIPTION: Fizzy packaged for Cloudron community app publishing.
   SOURCE_URL: https://github.com/${{ github.repository }}
 
 jobs:
+  validate:
+    name: Validate Cloudron package metadata
+    runs-on: ubuntu-latest
+    outputs:
+      package_version: ${{ steps.validate.outputs.package_version }}
+      is_release: ${{ steps.validate.outputs.is_release }}
+      canonical_image: ${{ steps.validate.outputs.canonical_image }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate manifest and versions file
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          CANONICAL_IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          IS_RELEASE=false
+          RELEASE_VERSION=""
+
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            IS_RELEASE=true
+            RELEASE_VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+
+          CANONICAL_IMAGE="${CANONICAL_IMAGE}" IS_RELEASE="${IS_RELEASE}" RELEASE_VERSION="${RELEASE_VERSION}" node <<'NODE'
+          const fs = require("fs");
+
+          const manifest = JSON.parse(fs.readFileSync("CloudronManifest.json", "utf8"));
+          const versionsRoot = JSON.parse(fs.readFileSync("CloudronVersions.json", "utf8"));
+
+          const packageVersion = manifest.version;
+          const canonicalImage = process.env.CANONICAL_IMAGE;
+          const expectedStable = `${canonicalImage}:stable`;
+          const expectedVersion = `${canonicalImage}:${packageVersion}`;
+
+          function compareCoreVersions(left, right) {
+            const lhs = left.split("-")[0].split(".").map(Number);
+            const rhs = right.split("-")[0].split(".").map(Number);
+            const width = Math.max(lhs.length, rhs.length);
+
+            for (let index = 0; index < width; index += 1) {
+              const a = lhs[index] || 0;
+              const b = rhs[index] || 0;
+              if (a > b) return 1;
+              if (a < b) return -1;
+            }
+
+            return 0;
+          }
+
+          function fail(message) {
+            throw new Error(message);
+          }
+
+          if (compareCoreVersions(manifest.minBoxVersion, "9.1.0") < 0) fail("CloudronManifest.json must target Cloudron 9.1+");
+          if (manifest.dockerImage !== expectedStable) fail(`CloudronManifest.json dockerImage must be ${expectedStable}`);
+          if (typeof versionsRoot.stable !== "boolean") fail("CloudronVersions.json stable must be a boolean");
+
+          const entry = versionsRoot.versions && versionsRoot.versions[packageVersion];
+          if (!entry) fail(`CloudronVersions.json is missing version ${packageVersion}`);
+          if (!entry.manifest) fail(`CloudronVersions.json version ${packageVersion} is missing manifest`);
+
+          if (entry.manifest.version !== packageVersion) fail(`Version entry manifest.version must match ${packageVersion}`);
+          if (entry.manifest.dockerImage !== expectedVersion) fail(`Version entry dockerImage must be ${expectedVersion}`);
+          if (entry.manifest.id !== manifest.id) fail("Package id mismatch between files");
+          if (!["published", "testing", "revoked"].includes(entry.publishState)) fail("Version entry publishState must be published, testing, or revoked");
+
+          for (const field of ["creationDate", "ts"]) {
+            if (Number.isNaN(Date.parse(entry[field]))) fail(`Version entry ${field} must be a valid HTTP date`);
+          }
+
+          if (process.env.IS_RELEASE === "true" && process.env.RELEASE_VERSION !== packageVersion) {
+            fail(`Git tag version ${process.env.RELEASE_VERSION} must match CloudronManifest.json version ${packageVersion}`);
+          }
+
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `package_version=${packageVersion}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `is_release=${process.env.IS_RELEASE}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `canonical_image=${canonicalImage}\n`);
+
+          console.log(`Validated Cloudron package ${packageVersion}`);
+          NODE
+
   build:
     name: Build and push image (${{ matrix.arch }})
+    needs: validate
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 45
     strategy:
@@ -37,9 +120,6 @@ jobs:
           - runner: ubuntu-24.04-arm
             platform: linux/arm64
             arch: arm64
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -50,152 +130,86 @@ jobs:
       - name: Log in to GHCR
         uses: docker/login-action@v3.7.0
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compute canonical image name (lowercase)
-        id: vars
+      - name: Compute tags
+        id: tags
         shell: bash
+        env:
+          CANONICAL_IMAGE: ${{ needs.validate.outputs.canonical_image }}
+          PACKAGE_VERSION: ${{ needs.validate.outputs.package_version }}
+          IS_RELEASE: ${{ needs.validate.outputs.is_release }}
         run: |
-          set -eu
-          IMAGE_REF="${IMAGE_NAME:-$GITHUB_REPOSITORY}"
-          CANONICAL_IMAGE="${REGISTRY}/${IMAGE_REF,,}"
-          echo "canonical=${CANONICAL_IMAGE}" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
 
-      - name: Extract Docker metadata (tags, labels) with arch suffix
-        id: meta
-        uses: docker/metadata-action@v5.10.0
-        with:
-          images: ${{ steps.vars.outputs.canonical }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=tag
-            type=sha,format=short,prefix=sha-
-            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=semver,pattern={{major}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-          flavor: |
-            latest=false
-            suffix=-${{ matrix.arch }}
-          labels: |
-            org.opencontainers.image.source=${{ env.SOURCE_URL }}
+          tags=("${CANONICAL_IMAGE}:stable-${{ matrix.arch }}")
+          if [[ "${IS_RELEASE}" == "true" ]]; then
+            tags+=("${CANONICAL_IMAGE}:${PACKAGE_VERSION}-${{ matrix.arch }}")
+          fi
+
+          {
+            echo "tags<<EOF"
+            printf '%s\n' "${tags[@]}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
 
       - name: Build and push (${{ matrix.platform }})
-        id: build
         uses: docker/build-push-action@v6.19.2
         with:
           context: .
-          file: Dockerfile
+          file: Dockerfile.cloudron
           build-args: |
             OCI_SOURCE=${{ env.SOURCE_URL }}
             OCI_DESCRIPTION=${{ env.IMAGE_DESCRIPTION }}
           platforms: ${{ matrix.platform }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ env.SOURCE_URL }}
+            org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
           cache-from: type=gha,scope=${{ matrix.platform }}
           cache-to: type=gha,scope=${{ matrix.platform }},mode=max
           sbom: false
           provenance: false
 
-      - name: Attest image provenance (per-arch)
-        if: github.event_name != 'pull_request'
-        uses: actions/attest-build-provenance@v3.2.0
-        with:
-          subject-name: ${{ steps.vars.outputs.canonical }}
-          subject-digest: ${{ steps.build.outputs.digest }}
-          push-to-registry: false
-
   manifest:
-    name: Create multi-arch manifest and sign
-    needs: build
-    if: github.event_name != 'pull_request'
+    name: Create multi-arch manifests
+    needs:
+      - validate
+      - build
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
     steps:
-      - name: Set up Docker Buildx (for imagetools)
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.12.0
 
       - name: Log in to GHCR
         uses: docker/login-action@v3.7.0
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compute canonical image name (lowercase)
-        id: vars
-        shell: bash
-        run: |
-          set -eu
-          IMAGE_REF="${IMAGE_NAME:-$GITHUB_REPOSITORY}"
-          CANONICAL_IMAGE="${REGISTRY}/${IMAGE_REF,,}"
-          echo "canonical=${CANONICAL_IMAGE}" >> "$GITHUB_OUTPUT"
-
-      - name: Compute base tags (no suffix)
-        id: meta
-        uses: docker/metadata-action@v5.10.0
-        with:
-          images: ${{ steps.vars.outputs.canonical }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=tag
-            type=sha,format=short,prefix=sha-
-            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=semver,pattern={{major}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
-          flavor: |
-            latest=false
-          labels: |
-            org.opencontainers.image.source=${{ env.SOURCE_URL }}
-
       - name: Create multi-arch manifests
         shell: bash
+        env:
+          CANONICAL_IMAGE: ${{ needs.validate.outputs.canonical_image }}
+          PACKAGE_VERSION: ${{ needs.validate.outputs.package_version }}
+          IS_RELEASE: ${{ needs.validate.outputs.is_release }}
         run: |
-          set -eu
-          tags="${{ steps.meta.outputs.tags }}"
-          echo "Creating manifests for tags:"
-          printf '%s\n' "$tags"
-          while IFS= read -r tag; do
-            [ -z "$tag" ] && continue
-            echo "Creating manifest for $tag"
-            src_tag="$tag"
-            if [[ "$tag" == *:latest && "${GITHUB_REF}" == refs/tags/* ]]; then
-              ref="${GITHUB_REF#refs/tags/}"
-              src_tag="${tag%:latest}:$ref"
-            fi
-            if [ -n "${IMAGE_DESCRIPTION:-}" ]; then
-              docker buildx imagetools create \
-                --tag "$tag" \
-                --annotation "index:org.opencontainers.image.description=${IMAGE_DESCRIPTION}" \
-                "${src_tag}-amd64" \
-                "${src_tag}-arm64"
-            else
-              docker buildx imagetools create \
-                --tag "$tag" \
-                "${src_tag}-amd64" \
-                "${src_tag}-arm64"
-            fi
-          done <<< "$tags"
+          set -euo pipefail
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.0.0
+          tags=("${CANONICAL_IMAGE}:stable")
+          if [[ "${IS_RELEASE}" == "true" ]]; then
+            tags+=("${CANONICAL_IMAGE}:${PACKAGE_VERSION}")
+          fi
 
-      - name: Cosign sign all tags (keyless OIDC)
-        shell: bash
-        run: |
-          set -eu
-          tags="${{ steps.meta.outputs.tags }}"
-          printf '%s\n' "$tags"
-          while IFS= read -r tag; do
-            [ -z "$tag" ] && continue
-            echo "Signing $tag"
-            cosign sign --yes "$tag"
-          done <<< "$tags"
-
-
+          for tag in "${tags[@]}"; do
+            docker buildx imagetools create \
+              --tag "${tag}" \
+              --annotation "index:org.opencontainers.image.description=${IMAGE_DESCRIPTION}" \
+              "${tag}-amd64" \
+              "${tag}-arm64"
+          done
