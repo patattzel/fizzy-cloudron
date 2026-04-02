@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resource :join_code
     resource :settings
     resources :exports, only: [ :create, :show ]
+    resources :imports, only: [ :new, :create, :show ]
     resources :tags, only: %i[ update destroy ]
   end
 
@@ -15,13 +16,13 @@ Rails.application.routes.draw do
       resource :avatar
       resource :role
       resource :events
-      resources :data_exports, only: %i[ show create ]
-
       resources :push_subscriptions
 
       resources :email_addresses, param: :token do
         resource :confirmation, module: :email_addresses
       end
+
+      resources :data_exports, only: [ :create, :show ]
     end
   end
 
@@ -87,8 +88,8 @@ Rails.application.routes.draw do
       resource :triage
       resource :watch
       resource :self_assignment, only: :create
-      resources :reactions, only: %i[ index new create destroy ]
       resource :reading
+      resources :reactions
 
       resources :assignments
       resources :steps
@@ -154,6 +155,7 @@ Rails.application.routes.draw do
       resources :transfers
       resource :magic_link
       resource :menu
+      resource :passkey, only: :create
     end
   end
 
@@ -172,8 +174,10 @@ Rails.application.routes.draw do
   resource :landing
 
   namespace :my do
+    resource :passkey_challenge, only: :create
     resource :identity, only: :show
     resources :access_tokens
+    resources :passkeys, except: %i[ show new ]
     resources :pins
     resource :timezone
     resource :menu

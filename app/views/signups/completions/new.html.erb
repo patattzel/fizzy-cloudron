@@ -25,13 +25,11 @@
     </button>
   <% end %>
 
-  <% if defined?(new_account_import_path) %>
-    <p>
-      <%= link_to new_account_import_path, class: "btn btn--plain txt-link center txt-small", data: { turbo_prefetch: false } do %>
-        <span>Or import an exported account</span>
-      <% end %>
-    </p>
-  <% end %>
+  <p>
+    <%= link_to new_account_import_path, class: "btn btn--plain txt-link center txt-small", data: { turbo_prefetch: false } do %>
+      <span>Or import a Fizzy account</span>
+    <% end %>
+  </p>
 </div>
 
 <% content_for :footer do %>
