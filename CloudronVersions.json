@@ -252,6 +252,48 @@
             "creationDate": "Thu, 02 Apr 2026 19:44:38 GMT",
             "ts": "Thu, 02 Apr 2026 19:44:38 GMT",
             "publishState": "published"
+        },
+        "1.2.4": {
+            "manifest": {
+                "id": "do.fizzy.cloudron",
+                "title": "Fizzy",
+                "author": "37signals",
+                "description": "Fizzy is a collaborative kanban-style project management app for planning, discussing, and shipping work.",
+                "tagline": "Plan, discuss, and deliver work together.",
+                "version": "1.2.4",
+                "website": "https://fizzy.do",
+                "contactEmail": "patattzel@users.noreply.github.com",
+                "forumUrl": "https://github.com/patattzel/fizzy-cloudron/issues",
+                "healthCheckPath": "/up",
+                "httpPort": 3000,
+                "documentationUrl": "https://github.com/patattzel/fizzy-cloudron/blob/main/docs/cloudron.md",
+                "dockerImage": "ghcr.io/patattzel/fizzy-cloudron:1.2.4",
+                "addons": {
+                    "localstorage": {},
+                    "mysql": {},
+                    "sendmail": {}
+                },
+                "manifestVersion": 2,
+                "memoryLimit": 2147483648,
+                "minBoxVersion": "9.1.0",
+                "icon": "public/app-icon.png",
+                "tags": [
+                    "project",
+                    "notes",
+                    "collaboration"
+                ],
+                "mediaLinks": [
+                    "https://raw.githubusercontent.com/patattzel/fizzy-cloudron/main/public/app-icon.png"
+                ],
+                "changelog": "Corrective Cloudron release 1.2.4 republishing the supported stable and versioned package images",
+                "postInstallMessage": "Fizzy is ready. Open the app URL to create the first account, then review docs/cloudron.md in this repository for runtime configuration and release details.",
+                "iconUrl": "https://raw.githubusercontent.com/patattzel/fizzy-cloudron/main/public/app-icon.png",
+                "packagerName": "patattzel",
+                "packagerUrl": "https://github.com/patattzel/fizzy-cloudron"
+            },
+            "creationDate": "Thu, 02 Apr 2026 20:16:03 GMT",
+            "ts": "Thu, 02 Apr 2026 20:16:03 GMT",
+            "publishState": "published"
         }
     }
 }

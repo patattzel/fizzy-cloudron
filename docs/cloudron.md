@@ -49,6 +49,7 @@ cloudron update --image ghcr.io/patattzel/fizzy-cloudron:stable --app fizzy.your
 ```
 
 The manual image flow is secondary. The authoritative package metadata remains `CloudronManifest.json` plus `CloudronVersions.json`.
+Use `stable` or an explicit package version such as `ghcr.io/patattzel/fizzy-cloudron:1.2.4`. Do not use `latest`.
 
 ## Runtime configuration
 

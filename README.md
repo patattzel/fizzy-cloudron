@@ -29,6 +29,8 @@ For manual fallback installs, you can still install the stable package image dir
 cloudron install --image ghcr.io/patattzel/fizzy-cloudron:stable --location fizzy
 ```
 
+Use `stable` or an explicit package version such as `ghcr.io/patattzel/fizzy-cloudron:1.2.4`. Do not use `latest`.
+
 ## Maintainer release flow
 
 1. Update `CloudronManifest.json` and bump the package `version`.
