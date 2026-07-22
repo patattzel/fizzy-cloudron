@@ -1,15 +1,15 @@
-defaults: &defaults
+cable: &cable
   adapter: solid_cable
   connects_to:
     database:
-      writing: primary
-      reading: primary
+      writing: cable
+      reading: cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
 
-development: *defaults
+development: *cable
 test:
   adapter: test
-beta: *defaults
-staging: *defaults
-production: *defaults
+beta: *cable
+staging: *cable
+production: *cable

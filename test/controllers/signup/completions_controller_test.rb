@@ -17,6 +17,14 @@ class Signup::CompletionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "new when signups are disabled" do
+    SignupToggle.stubs(:allowed?).returns(false)
+
+    untenanted { get new_signup_completion_path }
+
+    assert_response :not_found
+  end
+
   test "create" do
     untenanted do
       post signup_completion_path, params: {

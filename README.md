@@ -29,7 +29,7 @@ For manual fallback installs, you can still install the stable package image dir
 cloudron install --image ghcr.io/patattzel/fizzy-cloudron:stable --location fizzy
 ```
 
-Use `stable` or an explicit package version such as `ghcr.io/patattzel/fizzy-cloudron:1.2.4`. Do not use `latest`.
+Use `stable` or an explicit package version such as `ghcr.io/patattzel/fizzy-cloudron:1.2.5`. Do not use `latest`.
 
 ## Maintainer release flow
 
@@ -38,7 +38,7 @@ Use `stable` or an explicit package version such as `ghcr.io/patattzel/fizzy-clo
 3. Push the commit to `main`.
 4. Push a matching Git tag in the form `v<version>` to publish the immutable Cloudron image tag and refresh `stable`.
 
-The existing GitHub CI workflows remain useful for the Rails app. Only `.github/workflows/publish-image.yml` is Cloudron-specific, and it now publishes the Cloudron package image from `Dockerfile.cloudron`.
+The fork’s OSS CI validates the Rails app, while `.github/workflows/publish-image.yml` validates and publishes the Cloudron package image from `Dockerfile.cloudron`.
 
 ## Runtime notes
 

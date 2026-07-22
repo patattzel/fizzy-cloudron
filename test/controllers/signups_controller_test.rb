@@ -9,6 +9,14 @@ class SignupsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "new when signups are disabled" do
+    SignupToggle.stubs(:allowed?).returns(false)
+
+    untenanted { get new_signup_path }
+
+    assert_response :not_found
+  end
+
   test "new for an authenticated user" do
     identity = identities(:kevin)
     sign_in_as identity

@@ -9,7 +9,7 @@ class Identity < ApplicationRecord
   has_many :users, dependent: :nullify
   has_many :accounts, through: :users
 
-  has_one_attached :avatar
+  has_one_attached :avatar, dependent: :purge_later
 
   before_destroy :deactivate_users, prepend: true
 
@@ -41,7 +41,7 @@ class Identity < ApplicationRecord
       users.find_each(&:deactivate)
     end
 
-    # First created identity becomes staff so admins exist even ohne SMTP/Setup.
+    # Give self-hosted installations an initial staff administrator.
     def ensure_first_staff
       return if staff?
       return if self.class.where(staff: true).exists?

@@ -1,0 +1,7 @@
+rules:
+  excessive-permissions:
+    ignore:
+      # The existing Cloudron publisher grants packages:write at workflow level.
+      # Keep this exception scoped to that exact finding until permissions can
+      # be moved to the image build and manifest jobs.
+      - publish-image.yml:17
