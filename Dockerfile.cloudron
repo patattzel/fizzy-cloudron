@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-# Cloudron image for Fizzy
-ARG RUBY_VERSION=3.4.7
+# Cloudron image for Fizzy. Keep this in sync with .ruby-version and Dockerfile.
+ARG RUBY_VERSION=3.4.8
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 WORKDIR /app/code
@@ -49,6 +49,13 @@ RUN SECRET_KEY_BASE_DUMMY=1 DATABASE_ADAPTER=sqlite ./bin/rails assets:precompil
 
 # Final stage
 FROM base
+
+# Image metadata
+ARG OCI_DESCRIPTION
+LABEL org.opencontainers.image.description="${OCI_DESCRIPTION}"
+ARG OCI_SOURCE
+LABEL org.opencontainers.image.source="${OCI_SOURCE}"
+LABEL org.opencontainers.image.licenses="O'Saasy"
 
 # Create Cloudron user but keep root to chown mounted volume at runtime; start.sh drops to cloudron via gosu.
 RUN groupadd --system --gid 8000 cloudron && \

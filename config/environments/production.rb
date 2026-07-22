@@ -94,8 +94,6 @@ Rails.application.configure do
                                        .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-  # Respect LOG_LEVEL env (default info) so Cloudron logs include useful context.
-  config.log_level = ENV.fetch("LOG_LEVEL", "info").downcase.to_sym
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
@@ -111,9 +109,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue, reading: :queue } }
   # config.active_job.queue_name_prefix = "fizzy_production"
-
-  # Active Storage: default to disk unless overridden (Cloudron uses shared volume).
-  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
   config.action_mailer.perform_caching = false
 

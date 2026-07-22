@@ -10,7 +10,9 @@ export DATABASE_ADAPTER="${DATABASE_ADAPTER:-mysql}"
 export RAILS_SERVE_STATIC_FILES="${RAILS_SERVE_STATIC_FILES:-1}"
 export RAILS_LOG_TO_STDOUT="${RAILS_LOG_TO_STDOUT:-1}"
 export LOG_LEVEL="${LOG_LEVEL:-info}"
+export RAILS_LOG_LEVEL="${RAILS_LOG_LEVEL:-${LOG_LEVEL}}"
 export SOLID_QUEUE_IN_PUMA="${SOLID_QUEUE_IN_PUMA:-1}"
+export JOB_CONCURRENCY="${JOB_CONCURRENCY:-1}"
 export RAILS_MAX_THREADS="${RAILS_MAX_THREADS:-5}"
 export PUMA_MIN_THREADS="${PUMA_MIN_THREADS:-${RAILS_MAX_THREADS}}"
 export RUBY_GC_HEAP_GROWTH_FACTOR="${RUBY_GC_HEAP_GROWTH_FACTOR:-1.1}"
@@ -70,8 +72,15 @@ fi
 if [ -n "${CLOUDRON_APP_ORIGIN:-}" ] && [ -z "${APP_ORIGIN:-}" ]; then
   export APP_ORIGIN="${CLOUDRON_APP_ORIGIN}"
 fi
+if [ -z "${BASE_URL:-}" ]; then
+  if [ -n "${APP_ORIGIN:-}" ]; then
+    export BASE_URL="${APP_ORIGIN}"
+  elif [ -n "${APP_HOST:-}" ]; then
+    export BASE_URL="https://${APP_HOST}"
+  fi
+fi
 
-# Map Cloudron sendmail addon vars into the names our initializer uses.
+# Map Cloudron sendmail addon vars into the names Fizzy expects.
 if [ -n "${CLOUDRON_MAIL_SMTP_SERVER:-}" ] && [ -z "${MAIL_SMTP_SERVER:-}" ]; then
   export MAIL_SMTP_SERVER="${CLOUDRON_MAIL_SMTP_SERVER}"
 fi
@@ -85,8 +94,12 @@ if [ -n "${CLOUDRON_MAIL_SMTP_PASSWORD:-}" ] && [ -z "${MAIL_SMTP_PASSWORD:-}" ]
   export MAIL_SMTP_PASSWORD="${CLOUDRON_MAIL_SMTP_PASSWORD}"
 fi
 
-if [ -n "${MAIL_SMTP_SERVER:-}" ] && [ -z "${SMTP_ADDRESS:-}${SMTP_HOST:-}" ]; then
-  export SMTP_ADDRESS="${MAIL_SMTP_SERVER}"
+if [ -z "${SMTP_ADDRESS:-}" ]; then
+  if [ -n "${SMTP_HOST:-}" ]; then
+    export SMTP_ADDRESS="${SMTP_HOST}"
+  elif [ -n "${MAIL_SMTP_SERVER:-}" ]; then
+    export SMTP_ADDRESS="${MAIL_SMTP_SERVER}"
+  fi
 fi
 if [ -n "${MAIL_SMTP_PORT:-}" ] && [ -z "${SMTP_PORT:-}" ]; then
   export SMTP_PORT="${MAIL_SMTP_PORT}"
@@ -106,7 +119,11 @@ if [ -n "${CLOUDRON_MAIL_FROM_DISPLAY_NAME:-}" ] && [ -z "${MAIL_FROM_DISPLAY_NA
   export MAIL_FROM_DISPLAY_NAME="${CLOUDRON_MAIL_FROM_DISPLAY_NAME}"
 fi
 if [ -n "${MAIL_FROM:-}" ] && [ -z "${MAILER_FROM_ADDRESS:-}" ]; then
-  export MAILER_FROM_ADDRESS="${MAIL_FROM}"
+  if [ -n "${MAIL_FROM_DISPLAY_NAME:-}" ]; then
+    export MAILER_FROM_ADDRESS="${MAIL_FROM_DISPLAY_NAME} <${MAIL_FROM}>"
+  else
+    export MAILER_FROM_ADDRESS="${MAIL_FROM}"
+  fi
 fi
 if [ -n "${CLOUDRON_MAIL_SMTP_USERNAME:-}" ] && [ -z "${MAIL_FROM:-}${MAILER_FROM_ADDRESS:-}" ]; then
   export MAIL_FROM="${CLOUDRON_MAIL_SMTP_USERNAME}"
@@ -134,10 +151,17 @@ if [ -z "${SECRET_KEY_BASE:-}" ]; then
     gosu "${APP_USER}":"${APP_USER}" bundle exec ruby -e "require 'securerandom'; File.write('/app/data/secret_key_base', SecureRandom.hex(64))"
     chown "${APP_USER}:${APP_USER}" /app/data/secret_key_base
   fi
-  export SECRET_KEY_BASE="$(cat /app/data/secret_key_base)"
+  SECRET_KEY_BASE="$(cat /app/data/secret_key_base)"
+  export SECRET_KEY_BASE
 fi
 
-if [ -z "${VAPID_PUBLIC_KEY:-}" ] || [ -z "${VAPID_PRIVATE_KEY:-}" ]; then
+if { [ -n "${VAPID_PUBLIC_KEY:-}" ] && [ -z "${VAPID_PRIVATE_KEY:-}" ]; } ||
+   { [ -z "${VAPID_PUBLIC_KEY:-}" ] && [ -n "${VAPID_PRIVATE_KEY:-}" ]; }; then
+  echo "VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY must be configured together" >&2
+  exit 1
+fi
+
+if [ -z "${VAPID_PUBLIC_KEY:-}" ]; then
   if [ ! -f /app/data/vapid.keys ]; then
     gosu "${APP_USER}":"${APP_USER}" bundle exec ruby -e "require 'web-push'; key = WebPush.generate_key; File.write('/app/data/vapid.keys', \"PUBLIC=#{key.public_key}\nPRIVATE=#{key.private_key}\n\")"
     chown "${APP_USER}:${APP_USER}" /app/data/vapid.keys

@@ -20,6 +20,9 @@
     }
   }
 
+  /* Sections & Panels
+  /* -------------------------------------------------------------------------- */
+
   .settings__panel {
     --panel-size: 100%;
     --panel-padding: calc(var(--settings-spacer) / 1);
@@ -63,6 +66,20 @@
 
   .settings__tag-name {
     min-width: 0;
+  }
+
+  .settings__section {
+    h2 {
+      font-size: var(--text-large);
+    }
+
+    > * + * {
+      margin-block-start: calc(var(--panel-padding) / 2);
+    }
+
+    &:is(:first-child):has(h2) {
+      margin-top: -0.33lh; /* Align h2 letters caps with panel padding */
+    }
   }
 
   .settings__section--negative {

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :boards do
     scope module: :boards do
+      resources :accesses, only: :index
       resource :subscriptions
       resource :involvement
       resource :publication
@@ -39,7 +40,11 @@ Rails.application.routes.draw do
         resource :closed
       end
 
-      resources :columns
+      resources :columns do
+        scope module: :columns do
+          resources :cards, only: :index
+        end
+      end
     end
 
     resources :cards, only: :create
@@ -47,6 +52,7 @@ Rails.application.routes.draw do
     resources :webhooks do
       scope module: :webhooks do
         resource :activation, only: :create
+        resources :deliveries, only: :index, defaults: { format: :json }
       end
     end
   end
@@ -88,7 +94,6 @@ Rails.application.routes.draw do
       resource :triage
       resource :watch
       resource :self_assignment, only: :create
-      resource :reading
       resources :reactions
 
       resources :assignments
@@ -132,6 +137,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :activities, only: :index
   resources :events, only: :index
   namespace :events do
     resources :days
@@ -159,14 +165,12 @@ Rails.application.routes.draw do
     end
   end
 
-  if SignupToggle.allowed?
-    get "/signup", to: redirect("/signup/new")
+  get "/signup", to: redirect("/signup/new")
 
-    resource :signup, only: %i[ new create ] do
-      collection do
-        scope module: :signups, as: :signup do
-          resource :completion, only: %i[ new create ]
-        end
+  resource :signup, only: %i[ new create ] do
+    collection do
+      scope module: :signups, as: :signup do
+        resource :completion, only: %i[ new create ]
       end
     end
   end
@@ -185,7 +189,6 @@ Rails.application.routes.draw do
 
   namespace :prompts do
     resources :cards
-    resources :tags
     resources :users
 
     resources :boards do

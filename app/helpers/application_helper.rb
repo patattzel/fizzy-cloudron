@@ -1,16 +1,4 @@
 module ApplicationHelper
-  def support_email
-    ENV["SUPPORT_EMAIL"] ||
-      ENV["MAIL_FROM"] ||
-      ENV["MAILER_FROM_ADDRESS"] ||
-      ENV["MAIL_SMTP_USERNAME"] ||
-      "support@example.com"
-  end
-
-  def marketing_url
-    ENV["MARKETING_URL"] || root_url
-  end
-
   def signups_allowed?
     defined?(SignupToggle) ? SignupToggle.allowed? : true
   end
